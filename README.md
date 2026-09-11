@@ -18,7 +18,7 @@ Automatisch bewässernder Topf für eine Cannabis-Pflanze, gesteuert über einen
         Wulst seitlich: Pumpe, PCB, XIAO, Akku, Schlauch-/Kabelkanal
 ```
 
-**Gesamthöhe 278 mm**, Grundriss Ø 140 mm (mit Wulst ≈ 170 mm breit).
+**Gesamthöhe 278 mm**, Grundriss Ø 140 mm (mit Wulst ≈ 180 mm breit).
 
 **Regelkreis:**
 1. Kapazitiver Sensor (analog, **invertiert**: trocken = hoher ADC) misst die Substratfeuchte.
@@ -54,7 +54,7 @@ cannabis-autopot/
 - [x] Projektordner + Anforderungen + 4 Recherchen (10.09.2026)
 - [x] **Entscheidungen 11.09.2026:** Topf Ø140×150 (Erde) + 1 L Tank darunter · XIAO ESP32-C6 als Modul auf PCB · Wulst mit Kanal · Top-Drip-Ring · Sensor von oben · Telegram final · nur Wasser
 - [x] **Höhen-/Volumenberechnung** → Gesamthöhe 278 mm, Tank 1,0 L, Erdvolumen 1,9 L (`docs/02_...`)
-- [ ] BOM-Preis-/Verfügbarkeitscheck (läuft)
+- [x] **BOM-Entscheidung** (11.09.2026): XIAO C6 6,99 € · Adafruit-3910-Pumpe 24,50 € · Sensor v1.2 4,99 € · EFASO-Akku 14,90 € → **≈ 62–65 €** gesamt (`hardware/bom_entscheidung.md`)
 - [ ] Gehäuse-CAD (parametrisch) + PCB-Design
 - [ ] Firmware (State-Machine)
 

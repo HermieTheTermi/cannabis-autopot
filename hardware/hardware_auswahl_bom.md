@@ -1,7 +1,8 @@
 # Hardware-Auswahl & BOM — Smart Grow Topf (V1)
 
 Stand: 11.09.2026 · Konzept: **Top-Drip mit Rücklauf** (Pumpe fördert auf einen Verteilerring auf der Erdoberfläche), eigene PCB, Akku, peristaltische Pumpe (Schlauch quetschen), kapazitiver Sensor (analog), Telegram-Alarm.
-Aktueller Preis-/Verfügbarkeitscheck: `../research/bom-check/` · Verbindliche Maße: `../docs/02_architektur-und-geometrie.md`
+➡️ **Finale Auswahl mit geprüften Preisen: [`bom_entscheidung.md`](bom_entscheidung.md)** · Preisrecherchen: `../research/bom-check/` · Verbindliche Maße: `../docs/02_architektur-und-geometrie.md`
+Dieses Dokument ist die Recherche-/Ideenebene (inkl. Alternativen und Ausschlussgründen) und wird nicht mehr als Bestellgrundlage verwendet.
 
 ---
 
