@@ -1,0 +1,105 @@
+Netz,Bauteil,Pin,Bemerkung
+VBUS,J5,VBUS (A4/B9),USB-Eingang 5 V
+VBUS,U3,4 VDD,Ladereingang
+VBUS,C7,1,4,7 µF nach GND
+VBUS,U6,5 VBUS,ESD-Referenz
+VBUS,R_LEDCHG,1,Vorwiderstand Lade-LED
+VBUS,D4,Anode,optional DNP, Bruecke auf VBAT
+CC1,J5,A5 CC1,
+CC1,R5a,1,5,1 kOhm nach GND
+CC2,J5,B5 CC2,
+CC2,R5b,1,5,1 kOhm nach GND
+VBAT,J1,1,Akku + (Polung im Layout pruefen)
+VBAT,U3,3 VBAT,Ladeausgang
+VBAT,C8,1,4,7 µF nach GND
+VBAT,C3,+,100 µF Elko
+VBAT,J4,1,Pumpe +
+VBAT,D1,Kathode,Freilaufdiode
+VBAT,U7,3 VCC,Unterspannungswaechter
+VBAT,U4,1 VIN,LDO-Eingang
+VBAT,C5,1,1 µF nach GND
+VBAT,R3a,1,Teiler oben
+VBAT,D4,Kathode,optional DNP
++3V3,U4,5 VOUT,LDO-Ausgang
++3V3,C6,1,1 µF nach GND
++3V3,U1,3 3V3,Modulversorgung
++3V3,U1,VDD33 (alle),mehrere Pins, siehe Espressif Pin-Layout
++3V3,C2,1,22 µF Bulk
++3V3,C1a,1,100 nF
++3V3,C1b,1,100 nF
++3V3,R_EN,1,10 kOhm Pull-up
++3V3,R_BOOT,1,10 kOhm Pull-up GPIO9
++3V3,R_GPIO8,1,10 kOhm Pull-up GPIO8 (eigene Auslegung)
++3V3,U4,3 EN,LDO dauerhaft aktiv
+EN,U1,8 EN,Reset
+EN,R_EN,2,
+EN,C4,1,1 µF RC-Glied
+EN,SW1,1,Taster gegen GND
+BOOT,U1,23 IO9,Strapping, KEIN grosser C
+BOOT,R_BOOT,2,
+BOOT,SW2,1,Taster gegen GND
+GPIO8_STRAP,U1,22 IO8,Strapping-Pin
+GPIO8_STRAP,R_GPIO8,2,
+PUMP_EN,U1,5 IO2,Pumpen-PWM
+PUMP_EN,R1,1,1 kOhm Gate-Serie
+GATE,R1,2,
+GATE,R2,1,10 kOhm Pulldown
+GATE,Q1,1 Gate,
+GATE,D3,Anode,Klemmzweig
+PUMP_N,Q1,3 Drain,Low-Side-Schalter
+PUMP_N,J4,2,Pumpe -
+PUMP_N,D1,Anode,
+RESET_UV,U7,2 RESET,aktiv low unter 3,08 V
+RESET_UV,D3,Kathode,
+SENSOR_AOUT,J2,2,Sensor analog out
+SENSOR_AOUT,U1,12 IO0,ADC1_CH0
+SENSOR_AOUT,C9,1,100 nF Filter
+SENSOR_PWR,U1,6 IO3,schaltet Sensor-VCC
+SENSOR_PWR,J2,1,Sensor VCC
+VBAT_SENSE,R3a,2,
+VBAT_SENSE,R3b,1,
+VBAT_SENSE,U1,13 IO1,ADC1_CH1
+VBAT_SENSE,C10,1,100 nF Filter
+USB_DM,J5,D- (A7/B7),
+USB_DM,U6,3 I/O2,ESD
+USB_DM,U6,4 I/O2,ESD durchgeschleift
+USB_DM,U1,17 IO12,USB_D-
+USB_DP,J5,D+ (A6/B6),
+USB_DP,U6,1 I/O1,ESD
+USB_DP,U6,6 I/O1,ESD durchgeschleift
+USB_DP,U1,18 IO13,USB_D+
+LED_STAT,U1,9 IO4,Status-LED
+LED_STAT,R4,1,1 kOhm
+LED_CHG,R_LEDCHG,2,
+LED_CHG,D_LEDCHG,Anode,Kathode an U3 STAT
+UART_TX,U1,31 TXD0,optional DNP
+UART_TX,R_UART,1,499 Ohm
+GND,U1,1/2/11/14/36-53,alle GND-Pins
+GND,U3,2 VSS,
+GND,U4,2 GND,
+GND,U6,2 GND,
+GND,U7,1 GND,
+GND,Q1,2 Source,
+GND,R2,2,
+GND,R3b,2,
+GND,R5a,2,
+GND,R5b,2,
+GND,C4,2,
+GND,C9,2,
+GND,C10,2,
+GND,C1a,2,
+GND,C1b,2,
+GND,C2,2,
+GND,C3,-,Elko-Minus
+GND,C5,2,
+GND,C6,2,
+GND,C7,2,
+GND,C8,2,
+GND,D2,Kathode,
+GND,D_LEDCHG,Kathode,
+GND,R4,2,
+GND,SW1,2,
+GND,SW2,2,
+GND,J1,2,Akku -
+GND,J2,3,Sensor GND
+GND,J5,GND + Schirm,

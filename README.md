@@ -50,7 +50,12 @@ cannabis-autopot/
 │   ├── 04_bildkonzepte-prompts.md       ← KI-Image-Prompts (+ generierte .txt)
 │   └── img/                             ← KI-Konzeptbilder
 ├── hardware/
-│   └── hardware_auswahl_bom.md          ← BOM, Pumpe, ESP32, MOSFET, Akku
+│   ├── bom_entscheidung.md              ← BESTELLGRUNDLAGE: Bauteile, Preise, Links
+│   ├── schaltplan_v1.md                 ← VERBINDUNGSVORGABE: Netze, Werte, Pinbelegungen
+│   ├── schaltplan_v1_netzliste.csv      ← dieselben Verbindungen maschinenlesbar (Netz, Bauteil, Pin)
+│   ├── pcba_bom_jlc.csv                 ← BOM im JLCPCB-Upload-Format (LCSC-Codes)
+│   ├── pcba_verfuegbarkeit_jlc.md       ← JLC-Verfügbarkeitsprüfung je Position
+│   └── hardware_auswahl_bom.md          ← Recherche-/Ideenebene (nicht Bestellgrundlage)
 ├── research/
 │   ├── bom-check/                       ← aktueller Preis-/Verfügbarkeitscheck je Bauteilgruppe
 │   ├── kapazitiver-bodenfeuchtesensor-esp32-recherche.md
