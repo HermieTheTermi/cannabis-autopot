@@ -92,7 +92,10 @@ mit Balancer + Buck auf 5 V, und der Onboard-Lader des XIAO wird nicht mehr genu
 - **EFASO 503759**: ~**59 × 37 × 5 mm** (Typcode; Maße am Listing **nicht** bestätigt → vor Bestellung
   Specblock prüfen), mit **PCM** (Über-/Tiefentladung, Kurzschluss) und **JST PH2.0-2P**.
 - **Laden:** über den **Onboard-Lader des XIAO** (BAT-Pads) + USB-C-Durchbruch — kein Lade-IC nötig,
-  keine Zusatzplatine. (Beim späteren Aufbau mit nacktem ESP32-Modul muss ein eigener 1S-Lader
+  keine Zusatzplatine. Auf dem XIAO sitzt laut Seeed-Schaltplan (Rev V1.0, Sheet 03 Power) ein
+  **SGM40567-4.2** — also 4,2 V Ladeschluss und damit **1S**; ein 2S-Ladebetrieb ist dort nicht
+  vorgesehen (Beleg: https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32C6/XIAO_ESP32_C6_v1.0_SCH_260114.pdf,
+  SGM40567-Datenblatt noch als Zusatzbeleg offen). (Beim späteren Aufbau mit nacktem ESP32-Modul muss ein eigener 1S-Lader
   vorgesehen werden, z. B. MCP73831.)
 - **Laufzeit neu gerechnet** (Pumpe @3,7 V: 1,67 W, ~154 ml/min): ein Dosiervorgang von 300 ml
   braucht ~1,9 min und **0,052 Wh**. Aus 1500 mAh @ 3,7 V (5,55 Wh brutto, ~4,44 Wh nutzbar) →
@@ -127,6 +130,11 @@ Die Wulst selbst (60 × 40 × 160) bleibt gültig.
 2. **JST PH2.0-Buchse** für die Zelle, Ladepfad an die XIAO-BAT-Pads.
 3. Pumpe: AO3400A Low-Side, Gate 220 Ω, Pulldown 10 kΩ, 1N5819 antiparallel, **100 µF Pufferelko**.
    Pumpe hängt **direkt an VBAT** — kein Wandler, kein Boost-Layout.
+3b. **Zellspannung überwachen (neu, kostet nur einen Widerstand):** Seeed-Wiki dokumentiert dafür
+   wörtlich „solder a 200k resistor in a 1:2 configuration … connected to the A0 port", Auswertung
+   per `Vbatt = 2 * analogReadMilliVolts(A0)`. Damit kann die Firmware den Ladezustand per Telegram
+   melden. Der 3V3-Pin des XIAO liefert laut Seeed bis **700 mA** („regulated output from the onboard
+   regulator") — reicht für Sensor + Reserve.
 4. Sensor: 3-poliger JST-XH, **VCC über GPIO schaltbar** (nur während der Messung), AOUT auf ADC1.
 5. Taster Reset/Boot, Status-LED sichtbar durch das LED-Fenster.
 6. **V2 (nacktes ESP32-C6-Modul auf eigener Platine):** zusätzlich eigener **1S-Lader** (MCP73831 o. ä.)
