@@ -106,6 +106,37 @@ mit Balancer + Buck auf 5 V, und der Onboard-Lader des XIAO wird nicht mehr genu
 
 ---
 
+## 4b. Unterspannungsschutz — die Zelle nicht töten
+
+Der Lader schützt **nicht** vor Tiefentladung. Belegt aus dem MCP73831-Datenblatt: der Chip hat
+„Reverse Discharge Protection" (verhindert nur Rückstrom in den Lader) und eine UVLO von
+**3,45 V Start / 3,38 V Stop** — die regelt aber nur, wann das *Laden* beginnt. Entladeschutz ist
+nicht Teil des Chips. Deshalb vier Ebenen, von harmlos bis Notabschaltung:
+
+| Ebene | Schwelle | Wirkt | Bauteil |
+|---|---|---|---|
+| 1 · Firmware | ~3,5 V Warnung, ~3,4 V Pumpstopp | normaler Betrieb, Telegram-Meldung | 200-k-Teiler + ADC (§6.3b) |
+| 2 · Hardware | **3,08 V** (Datenblatt VTH 3,04/3,08/3,11 V) | sperrt die Pumpe **unabhängig von der Firmware** | **MAX809TEUR+T** `C16711` + Schottky |
+| 3 · MCU tot | – | Gate-Pulldown 10 kΩ: hängender/gebrannter MCU = Pumpe AUS | R2 |
+| 4 · Zelle | ~2,5 V (**nicht dokumentiert**) | letzte Notabschaltung | PCM in der EFASO-Zelle |
+
+**Verschaltung von Ebene 2:** der RESET-Ausgang des MAX809 (aktiv low, push-pull, 12 µA) liegt über
+eine Schottky-Diode am Gate-Knoten des Pumpen-MOSFET (Anode am Gate, Kathode an RESET). Fällt VBAT
+unter 3,08 V, zieht RESET low und klemmt das Gate auf ~0,3 V — unter der Schwellenspannung des
+AO3400A (0,65–1,45 V) → Pumpe aus, egal was die Firmware tut. Über 3,08 V liegt RESET auf VBAT,
+die Diode sperrt, und der GPIO steuert normal.
+
+→ kostet **ein zusätzliches Bauteil** (MAX809, 0,56 $, 13.783 lagernd) plus eine Diode, die wir
+ohnehin im BOM haben. Den Gate-Widerstand R1 dafür von 220 Ω auf **1 kΩ** erhöhen: im Fehlerfall
+(MCU will pumpen, Hardware sperrt) fließen dann 3 mA statt 14 mA durch den Klemmzweig; bei
+Qg 6 nC bleibt das Schalten mit 20 kHz PWM unkritisch.
+
+**Nicht doppelt bauen:** ein eigenes DW01A + FS8205A Schutzpaar ist bei JLC für 0,09 $ zu haben,
+schaltet aber erst bei ~2,5 V ab — unterhalb unserer Hardware-Schwelle. Es dupliziert nur den
+PCM der Zelle.
+
+---
+
 ## 5. Wulst-Maße (aus den finalen Bauteilen abgeleitet)
 
 | Innenmaß | Wert | Bestimmt durch |
@@ -151,5 +182,6 @@ Die Wulst selbst (60 × 40 × 160) bleibt gültig.
 - **Elektrodenlänge des Sensor v1.2** nicht belegt → am realen Board messen (Messebene liegt 75 mm tief).
 - **LDO-Bestückung** des AZ-Boards nur im Foto prüfbar (nicht im Text).
 - **Maße der EFASO-Zelle** am Listing nicht bestätigt.
+- **Abschaltspannung des EFASO-PCM** nicht dokumentiert → beim Hersteller erfragen oder am Prototyp messen (Ebene 4 in §4b).
 - Versandkosten der übrigen Shops nicht geprüft (AZ-Delivery versandkostenfrei ab 25 €).
 - Amazon-Preise von Agenten im Browser gesehen, nicht selbst nachprüfbar (Amazon blockt Skript-Abrufe).

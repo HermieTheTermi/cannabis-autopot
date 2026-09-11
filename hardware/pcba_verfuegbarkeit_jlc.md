@@ -22,6 +22,8 @@ Handling-Gebühr) · `expand` = Extended (**+3 USD pro Position**).
 | J1 | Akku **JST PH 2,0 mm** 2-pol | `C54582899` | SMD 2 mm, gewinkelt | expand | 2.308 | $0,0466 | ⚠️ Original `S2B-PH-SM4-TB` **nicht** im Sortiment → generisches PH-Äquivalent; Alternative: `C173752` (THT gewinkelt, 29.680) |
 | J2 | Sensor **JST-XH 2,5 mm** 3-pol | `C157928` | THT gewinkelt | expand | 146.324 | $0,0745 | ✅ |
 | J4 | Pumpe **JST-XH 2,5 mm** 2-pol | `C157931` | THT gewinkelt | expand | 50.464 | $0,1014 | ✅ |
+| U7 | **MAX809TEUR+T** Spannungsdetektor 3,08 V | `C16711` | SOT-23 | expand | 13.783 | $0,5628 | ✅ Unterspannungsschutz, siehe `bom_entscheidung.md` §4b |
+| D3 | Schottky (Klemmzweig) | `C191023` | SOD-323 | **base** | 5.648.846 | $0,0137 | ✅ gleicher Typ wie D1 |
 | U1 | **XIAO ESP32-C6** | – | – | – | – | – | ❌ **nicht bestückbar**, siehe §2 |
 | J3 | Buchsenleiste 2,54 1×7 | – | – | – | – | – | ❌ **nicht im Sortiment**, siehe §2 |
 

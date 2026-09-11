@@ -56,7 +56,8 @@ die Wulst den Platz hergibt.
 | Ladepfad | XIAO-Schaltplan: SGM40567-**4.2** → 1S | ✅ passt zur Zelle, kein Lade-IC nötig |
 | Gate-Beschaltung | 220 Ω Serie, 10 kΩ Pulldown | ✅ Pumpe sicher AUS beim Boot |
 | Sensor-Versorgung | VCC über GPIO, AOUT auf ADC1 | ✅ spart Strom, kein ADC2-Stolperstein |
-| Zellüberwachung | 200 kΩ in 1:2 auf A0 (Seeed-Doku, wörtlich) | ✅ optional, ein Widerstand |
+| Zellüberwachung | 200 kΩ in 1:2 auf A0 (Seeed-Doku, wörtlich) | ✅ Firmware-Ebene, ein Widerstand |
+| **Tiefentladeschutz** | MCP73831-Datenblatt: nur „Reverse Discharge Protection" + Lade-UVLO 3,45/3,38 V → **kein Entladeschutz im Lader** | ✅ vier Ebenen ergänzt: Firmware 3,4 V · **MAX809TEUR+T bei 3,08 V** (Datenblatt VTH) · Gate-Pulldown · Zell-PCM — siehe `bom_entscheidung.md` §4b |
 | Laufzeit | 0,052 Wh pro 300-ml-Dosis, 4,44 Wh nutzbar | ✅ ~85 Dosen pro Ladung |
 
 ## 4. ✅ Fertigung — PCBA machbar
