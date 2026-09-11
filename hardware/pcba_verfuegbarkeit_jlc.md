@@ -44,6 +44,8 @@ Seit der Umstellung auf das nackte **ESP32-C6-MINI-1** gibt es **keine Lücke me
 | R_BTN | 10 kΩ (Taster-Pull-up) | `C17414` | 0805 | **base** | 54.370.181 | $0,0039 |
 | C_BTN | 100 nF (Entprellung) | `C49678` | 0805 | **base** | 18.966.887 | $0,0196 |
 | D5 | LED rot (Tank leer) | `C84256` | 0805 | **base** | 6.141.918 | $0,0134 |
+| D2 | LED **grün** (Status, 525 nm) | `C2297` | 0805 | **base** | 1.627.076 | $0,0163 |
+| R4 | **220 Ω** (Status-LED grün) | `C17557` | 0805 | **base** | 1.195.891 | $0,0058 |
 | J6 | 2 Lötpads/Bohrungen für den externen Taster | – | – | – | – | **keine Bestückung, kein JLC-Kostenpunkt** |
 | D2 | LED rot | `C84256` | 0805 | **base** | 6.142.311 | $0,0134 |
 | SW1/2 | Taster (Reset + Boot) | `C318884` | SMD-4P 5,1×5,1 | **base** | 769.000 | $0,0205 |

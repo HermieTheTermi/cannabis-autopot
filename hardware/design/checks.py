@@ -21,6 +21,14 @@ LP_GPIO_MIN, LP_GPIO_MAX = 0, 7
 # "GPIO15". MTMS = GPIO4, MTDI = GPIO5, dazu GPIO8, GPIO9 und GPIO15.
 STRAPPING_GPIOS = frozenset({4, 5, 8, 9, 15})
 
+# Typische Flussspannung der 0805-LEDs je LCSC-Code (Datenblattwerte).
+# C84256: NATIONSTAR NCD0805R1, rot, 615-630 nm -> Vf ca. 2,0 V
+# C2297:  KENTO KT-0805G, gruen, 525 nm (InGaN) -> Vf ca. 2,85 V
+LED_VF_BY_LCSC = {
+    "C84256": 2.0,
+    "C2297": 2.85,
+}
+
 
 def _f(value, decimals, unit=""):
     text = ("%%.%df" % decimals) % value
@@ -29,6 +37,23 @@ def _f(value, decimals, unit=""):
 
 def _err(designator):
     return circuit.CircuitError("fehlender Designator: %s" % designator)
+
+
+def led_vf(designator):
+    """Typische Flussspannung einer LED aus ihrem LCSC-Code in schaltplan_v1.md.
+
+    Unbekannte Codes sind ein harter Fehler, damit nicht stillschweigend eine
+    falsche Flussspannung angenommen wird.
+    """
+    lcsc = circuit.part(designator).get("lcsc")
+    if not lcsc:
+        raise circuit.CircuitError(
+            "kein LCSC-Code fuer %s in schaltplan_v1.md" % designator)
+    if lcsc not in LED_VF_BY_LCSC:
+        raise circuit.CircuitError(
+            "unbekannter LCSC-Code %r fuer %s: Flussspannung in "
+            "LED_VF_BY_LCSC ergaenzen" % (lcsc, designator))
+    return LED_VF_BY_LCSC[lcsc]
 
 
 def _nets_of(designator):
@@ -244,28 +269,33 @@ def check_adc_filter():
 
 
 def check_led_stroeme():
-    """LED-Stroeme von Status- und Lade-LED."""
+    """LED-Stroeme von Status- und Lade-LED, je LED mit eigener Vf."""
     sys = circuit.load_system()
     r4 = circuit.parse_ohm(circuit.part("R4")["value"])
     r_chg = circuit.parse_ohm(circuit.part("R_LEDCHG")["value"])
-    vf = 2.0        # rote 0805-LED, typische Flussspannung (Datenblatt)
-    vbus = 5.0      # USB-C-VBUS
-    i_stat = (sys["rail_3v3"] - vf) / r4
-    i_chg = (vbus - vf) / r_chg
+    vf_stat = led_vf("D2")            # gruene Status-LED, C2297
+    vf_chg = led_vf("D_LEDCHG")       # rote Lade-LED, C84256
+    vbus = 5.0                        # USB-C-VBUS
+    i_stat = (sys["rail_3v3"] - vf_stat) / r4
+    i_chg = (vbus - vf_chg) / r_chg
     ok = i_stat <= 5e-3 and i_chg <= 5e-3
     return CheckResult(
         "LED-Stroeme", ok,
-        "Status %s, Laden %s"
-        % (_f(i_stat * 1000.0, 2, "mA"), _f(i_chg * 1000.0, 2, "mA")),
+        "Status (Vf %s, R4 %s) %s, Laden (Vf %s, R_LEDCHG %s) %s"
+        % (_f(vf_stat, 2, "V"), _f(r4, 0, "Ω"),
+           _f(i_stat * 1000.0, 2, "mA"),
+           _f(vf_chg, 2, "V"), _f(r_chg / 1000.0, 1, "kΩ"),
+           _f(i_chg * 1000.0, 2, "mA")),
         "Status- und Lade-LED <= 5 mA",
-        "LED-Vorwiderstaende R4 bzw. R_LEDCHG; Vf rot ca. 2,0 V")
+        "I = (U - Vf)/R; D2 gruen Vf 2,85 V ueber R4, "
+        "D_LEDCHG rot Vf 2,0 V ueber R_LEDCHG")
 
 
 def check_tank_led():
     """Tank-LED D5 mit Vorwiderstand R_TANK."""
     sys = circuit.load_system()
     r_tank = circuit.parse_ohm(circuit.part("R_TANK")["value"])
-    vf = 2.0        # rote 0805-LED, typische Flussspannung (Datenblatt)
+    vf = led_vf("D5")                 # rote Tank-LED, C84256
     i = (sys["rail_3v3"] - vf) / r_tank
     return CheckResult(
         "Tank-LED", i <= 5e-3,
@@ -273,8 +303,44 @@ def check_tank_led():
         % (_f(i * 1000.0, 2, "mA"), _f(vf, 1, "V"),
            _f(r_tank / 1000.0, 1, "kΩ")),
         "I <= 5 mA, Vf rot ca. 2,0 V",
-        "LED-Vorwiderstand R_TANK; D5 ist eine rote 0805-LED wie D2, "
-        "Vf ca. 2,0 V")
+        "LED-Vorwiderstand R_TANK; D5 und D_LEDCHG sind die roten "
+        "0805-LEDs (Vf 2,0 V), D2 ist die gruene")
+
+
+def check_led_headroom():
+    """Headroom am 3,3-V-Rail und nutzbares Stromfenster je LED."""
+    sys = circuit.load_system()
+    rail = sys["rail_3v3"]
+    vbus = 5.0                        # USB-C-VBUS an D_LEDCHG
+    specs = (
+        ("D2", "R4", rail),
+        ("D_LEDCHG", "R_LEDCHG", vbus),
+        ("D5", "R_TANK", rail),
+    )
+    headroom_min = 0.3
+    i_min, i_max = 0.5e-3, 5.0e-3
+    teile = []
+    ok = True
+    for led, r_des, supply in specs:
+        vf = led_vf(led)
+        r = circuit.parse_ohm(circuit.part(r_des)["value"])
+        headroom = rail - vf
+        i = (supply - vf) / r
+        head_ok = headroom >= headroom_min
+        strom_ok = i_min <= i <= i_max
+        ok = ok and head_ok and strom_ok
+        teile.append(
+            "%s (Vf %s): Headroom %s %s, %s %s"
+            % (led, _f(vf, 2, "V"), _f(headroom, 2, "V"),
+               "OK" if head_ok else "FEHLER", _f(i * 1000.0, 2, "mA"),
+               "OK" if strom_ok else "FEHLER"))
+    return CheckResult(
+        "LED-Headroom", ok,
+        "; ".join(teile),
+        "je LED 3,3 V - Vf >= 0,3 V und 0,5-5 mA",
+        "3,3-V-Rail-Headroom und Stromfenster je LED; Headroom gegen "
+        "die 3,3-V-Schiene, Strom aus der jeweiligen Versorgung "
+        "(D_LEDCHG an 5 V VBUS)")
 
 
 def check_btn_pullup():
@@ -396,6 +462,7 @@ def run_all():
         check_adc_filter,
         check_led_stroeme,
         check_tank_led,
+        check_led_headroom,
         check_btn_pullup,
         check_btn_wake,
         check_en_rc,

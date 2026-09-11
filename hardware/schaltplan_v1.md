@@ -54,7 +54,7 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 | **VBAT_SENSE** | R3a 200 kΩ (von VBAT) ↔ Knoten ↔ R3b 200 kΩ → GND · Knoten ↔ U1 **Pin 13 (IO1, ADC1_CH1)** ↔ C10 100 nF → GND | Zellspannung für Pumpstopp/Warnung (§4b BOM) |
 | **USB_DM** | J5 D− ↔ U6 Pin 3 → U6 Pin 4 ↔ [R 22 Ω optional] ↔ U1 **Pin 17 (IO12)** | USB-Daten, nativ |
 | **USB_DP** | J5 D+ ↔ U6 Pin 1 → U6 Pin 6 ↔ [R 22 Ω optional] ↔ U1 **Pin 18 (IO13)** | USB-Daten, nativ |
-| **LED_STAT** | U1 **Pin 19 (IO14)** → R4 1 kΩ → D2 → GND | Status; **nicht IO4/IO5** (MTMS/MTDI = Strapping) |
+| **LED_STAT** | U1 **Pin 19 (IO14)** → R4 **220 Ω** → D2 **grün** → GND | Status/Betrieb; **nicht IO4/IO5** (MTMS/MTDI = Strapping) |
 | **LED_CHG / STAT_CHG** | VBUS → R_LEDCHG 1 kΩ → D_LEDCHG **Anode** · D_LEDCHG **Kathode** → U3 Pin 1 (STAT) | Ladestatus (STAT ist Tri-State, senkt Strom). **Achtung:** die LED-Kathode gehört an STAT, **nicht** an GND — sonst leuchtet sie dauerhaft |
 | **BTN** | U1 **Pin 15 (IO6)** ↔ R_BTN 10 kΩ → +3V3 · C_BTN 100 nF → GND · J6 Pin 1 | **Nachfüll-Bestätigung.** Externer Taster schließt auf GND; IO6 ist **LP_GPIO6** → weckt aus dem Deep-Sleep (EXT1, ANY_LOW) |
 | **LED_TANK** | U1 **Pin 16 (IO7)** → R_TANK 1 kΩ → D5 **Anode** · D5 **Kathode** → GND | **Tank-leer-Anzeige (rot).** IO7 ist LP_GPIO7; D2 bleibt die Status-LED |
@@ -76,7 +76,7 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 | Q1 | AO3400A | N-MOSFET SOT-23 | `C20917` | Pumpentreiber; RDS(on) < 48 mΩ @ VGS 2,5 V |
 | D1 | 1N5819WS | 40 V / 1 A | `C191023` | Freilaufdiode der Pumpe (Kathode an VBAT) |
 | D3 | 1N5819WS | 40 V / 1 A | `C191023` | Klemmzweig: Anode am Gate, Kathode an U7-RESET |
-| D2 | LED rot | 0805 | `C84256` | Status-LED |
+| D2 | **LED grün** (525 nm) | 0805 | `C2297` | **Farbe geändert 11.09.2026** (vorher rot wie D5). Grün = Status/Betrieb, **rot bleibt der Warnung „Tank leer" vorbehalten**. Vf **2,85 V** (InGaN) → am 3,3-V-Rail nur **0,45 V Reserve**, deshalb R4 = 220 Ω. JLC: **basic**, 1.627.076 auf Lager. *Blau* wäre möglich, ist bei JLC aber nur **extended** (+3 $) und hätte dasselbe Vf-Problem |
 | D5 | LED rot, **gleicher Typ wie D2** | 0805 | `C84256` | **neu:** Anzeige „Tank leer". Kein neues JLC-Bauteil nötig — identischer 0805-Typ, **6.141.918 auf Lager** (basic) |
 | D_LEDCHG | LED rot, **gleicher Typ wie D2** | 0805 | `C84256` | Ladestatus. **Grund für rot:** bei JLC ist **keine** grüne 0805-LED mit Bestand verfügbar (geprüft) → derselbe Basic-Typ spart eine Extended-Position. Alternative: STAT (U3 Pin 1) auf einen freien GPIO legen und den Ladestatus per Telegram melden |
 | ~~D4~~ | **entfernt** | – | – | **Gefunden in Review 3:** eine bestückte Schottky-Brücke VBUS → VBAT würde die Zelle **ungeregelt über 5 V laden** (nur Diodenabfall) → Überladung/Schaden. Option ersatzlos gestrichen; für Reprogrammierung ohne Akku ein Labornetzteil auf VBAT oder die Zelle stecken |
@@ -110,7 +110,7 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 | R_GPIO8 | 10 kΩ | Pull-up an GPIO8 | **eigene Auslegung** (Strapping-Pin nicht floaten) |
 | R_PROG | **3,9 kΩ** | Ladestrom | MCP73831: RPROG = 2 kΩ → 500 mA, 10 kΩ → 100 mA ⇒ 3,9 kΩ ≈ **256 mA** (≈0,17 C der 1500-mAh-Zelle). 3,9 kΩ gewählt, weil es ein **Basic**-Teil ist (4,02 kΩ wäre Extended +3 $) |
 | R_LEDCHG | **1 kΩ** | Lade-LED | **vereinfacht:** statt der 470 Ω aus dem Datenblatt-Applikationsbild derselbe 1-kΩ-Basic-Typ wie R4 → 3 mA LED-Strom reichen, eine Position weniger |
-| R4 | 1 kΩ | Status-LED | eigene Auslegung |
+| R4 | **220 Ω** | Status-LED (grün) | **Rechenweg:** 3,3 V − 2,85 V = 0,45 V → mit 220 Ω fließen **1,4–2,7 mA** über die Vf-Streuung (2,7–3,0 V) und bis 3,2 mA im Worst Case — weit unter den 25 mA der LED. Mit 1 kΩ wären es nur 0,3–0,6 mA (zu dunkel und stark Vf-abhängig) |
 | **R_BTN** | 10 kΩ | Pull-up für den externen Taster | Hält IO6 auf High; Tastendruck zieht auf GND (weckt per EXT1 ANY_LOW). Ruhestrom **0 µA**, gedrückt 330 µA |
 | **R_TANK** | 1 kΩ | Vorwiderstand Tank-LED | 1,3 mA bei Vf ≈ 2,0 V. **Option zum Stromsparen:** 2,2 kΩ → 0,6 mA |
 | R3a, R3b | 2 × 200 kΩ | VBAT-Teiler 1:2 | Prinzip aus der Seeed-Doku (200 k in 1:2); ADC sieht max. 2,1 V |
@@ -249,8 +249,9 @@ Was **auf** der Platine bleibt (weil es dazugehört):
 
 - **D5** (rot, gleicher 0805-Typ wie D2) an **IO7 (Pin 16, LP_GPIO7)** über **R_TANK 1 kΩ**
   → **1,3 mA** bei Vf ≈ 2,0 V.
-- **D2 bleibt die Status-LED** (IO14). Damit sind beide Anzeigen unabhängig:
-  D2 = Status/Betrieb, **D5 = Tank leer**.
+- **D2 ist die Status-LED** (IO14) — seit 11.09.2026 **grün** (C2297), damit sie nicht mit der roten
+  Warnung verwechselt wird. Die drei LEDs sind klar getrennt: **D2 grün = Status/Betrieb**,
+  **D5 rot = Tank leer**, **D_LEDCHG rot = Ladestatus** (vom Lader selbst gesteuert).
 - **Stromspar-Hinweis für die Firmware (wichtig):** D5 dauerhaft an würde **1,3 mA** ziehen —
   das ist das **19-fache** des gesamten Standby-Budgets (69,5 µA) und entspricht **31 mAh/Tag**;
   die Zelle wäre in ~48 Tagen leer. Richtig ist **Blinken**, z. B. 3 × 50 ms alle 5 s
@@ -273,7 +274,9 @@ Was **auf** der Platine bleibt (weil es dazugehört):
 
 | Position | LCSC | Typ | Bestand | Preis |
 |---|---|---|---|---|
-| D5 (LED rot 0805) | `C84256` | **basic** | 6.141.918 | $0,0134 |
+| D5 + D_LEDCHG (LED **rot** 0805) | `C84256` | **basic** | 6.141.918 | $0,0134 |
+| D2 (LED **grün** 0805, 525 nm) | `C2297` | **basic** | 1.627.076 | $0,0163 |
+| R4 (**220 Ω** 0805) | `C17557` | **basic** | 1.195.891 | $0,0058 |
 | R_BTN (10 kΩ 0805) | `C17414` | **basic** | 54.370.181 | $0,0039 |
 | R_TANK (1 kΩ 0805) | `C17513` | **basic** | 30.777.288 | $0,0042 |
 | C_BTN (100 nF 0805) | `C49678` | **basic** | 18.966.887 | $0,0196 |

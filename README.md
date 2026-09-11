@@ -53,7 +53,7 @@ cannabis-autopot/
 │   ├── check_netlist.py                 ← Lint der Netzliste (exit 0 vor dem Layout nötig)
 │   └── check_bom_consistency.py         ← Querabgleich Schaltplan ↔ JLCPCB-BOM
 ├── hardware/
-│   ├── design/                          ← Schaltplan als Python-Modell: 19 Prüfungen + Simulationen
+│   ├── design/                          ← Schaltplan als Python-Modell: 20 Prüfungen + Simulationen
 │   │   └── MUTATIONSTEST.md             ← Nachweis, dass jede Prüfung bei Fehlern anschlägt
 │   ├── bom_entscheidung.md              ← BESTELLGRUNDLAGE: Bauteile, Preise, Links
 │   ├── schaltplan_v1.md                 ← VERBINDUNGSVORGABE: Netze, Werte, Pinbelegungen
@@ -80,9 +80,11 @@ cannabis-autopot/
 - [x] **PCBA geprüft:** alle Bauteile bei JLCPCB verfügbar (LCSC-Codes in `hardware/pcba_bom_jlc.csv`)
 - [x] **Schaltplan V1 + Netzliste** (`hardware/schaltplan_v1.md`, `..._netzliste.csv`, 30 Netze / 48 bestückte Positionen)
 - [x] **Design als Python-Modell + Prüfungen** (`hardware/design/`): 16 Design-Regelprüfungen gegen die
-      Datenblattgrenzen, 5 Simulationen, Mutationsabdeckung 19/19 (`hardware/design/MUTATIONSTEST.md`)
-- [x] **Taster + 2 LEDs** (11.09.2026): externer Nachfüll-Taster an IO6 (weckt aus dem Deep-Sleep),
-      nur 2 Lötpads auf der Platine; rote Tank-leer-LED D5 an IO7 — alles bei JLC auf Lager, keine neue Position
+      Datenblattgrenzen, 5 Simulationen, Mutationsabdeckung 20/20 (`hardware/design/MUTATIONSTEST.md`)
+- [x] **Taster + 3 LEDs** (11.09.2026): externer Nachfüll-Taster an IO6 (weckt aus dem Deep-Sleep), nur
+      2 Lötpads auf der Platine · **D5 rot = Tank leer** (IO7, R_TANK 1 kΩ, Firmware blinkt) ·
+      **D2 grün = Status** (IO14, C2297, R4 **220 Ω** — grün hat Vf 2,85 V, am 3,3-V-Rail bleiben nur 0,45 V
+      Reserve) · D_LEDCHG rot = Ladestatus. Neue Positionen sind **basic** (kein Extended-Aufpreis)
 - [ ] Gehäuse-CAD (parametrisch) + PCB-Design
 - [ ] Firmware (State-Machine)
 

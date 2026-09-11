@@ -2,7 +2,7 @@
 
 Stand: 11.09.2026 · Verifikation des Prüfpakets `hardware/design/` durch den Koordinator
 (**nicht** durch den Code-Autor). Ein Test, der immer besteht, ist wertlos — deshalb wurde
-**jede der 19 Prüfungen einzeln sabotiert** (16 im ersten Durchgang, 3 für Taster/Tank-LED im Nachtrag) und geprüft, ob der Test rot wird.
+**jede der 20 Prüfungen einzeln sabotiert** (16 im ersten Durchgang, 3 für Taster/Tank-LED, 1 für den LED-Headroom) und geprüft, ob der Test rot wird.
 
 ## Aufbau
 
@@ -29,22 +29,39 @@ Zusammenfassung am Ende der Ausgabe plus der Exit-Code.
 | 15 | EN-RC | C4 1 µF → 1 nF | ✅ 10 µs < 1 ms → FEHLER |
 | 16 | Netzstruktur | R6 in der Netzliste umbenannt (nur ein Netz) | ✅ Befund erkannt → FEHLER |
 
-**Ergebnis: 19 von 19 Prüfungen sind nachweislich wirksam.** Der Exit-Code ist im Fehlerfall
+**Ergebnis: 20 von 20 Prüfungen sind nachweislich wirksam.** Der Exit-Code ist im Fehlerfall
 1, im Gutfall 0 — die Prüfungen sind damit als Gate einsetzbar.
 
-### Nachtrag 11.09.2026 — Taster und Tank-LED (Prüfungen 15–17)
+### Nachtrag 11.09.2026 — Taster und Tank-LED (Nummern nach dem heutigen Stand: 15, 17, 18)
 
 | # | Prüfung | Mutation | Ergebnis |
 |---|---|---|---|
 | 15 | Tank-LED | R_TANK 1 kΩ → 100 Ω | ✅ 13 mA > 5 mA → FEHLER |
-| 16 | Taster-Pullup | C_BTN 100 nF → 1 nF (RC 10 µs) | ✅ RC < 0,5 ms → FEHLER |
-| 16 | Taster-Pullup | R_BTN von +3V3 auf GND umgehängt | ✅ harter Fehler, Exit 1: „Tasternetz nicht eindeutig" |
-| 17 | Taster-Weckquelle | Taster auf IO18 (kein LP-GPIO) | ✅ „nicht LP-fähig" → FEHLER |
-| 17 | Taster-Weckquelle | Taster auf IO5 (= MTDI, Strapping) | ✅ „Strapping-Pin" → FEHLER |
+| 17 | Taster-Pullup | C_BTN 100 nF → 1 nF (RC 10 µs) | ✅ RC < 0,5 ms → FEHLER |
+| 17 | Taster-Pullup | R_BTN von +3V3 auf GND umgehängt | ✅ harter Fehler, Exit 1: „Tasternetz nicht eindeutig" |
+| 18 | Taster-Weckquelle | Taster auf IO18 (kein LP-GPIO) | ✅ „nicht LP-fähig" → FEHLER |
+| 18 | Taster-Weckquelle | Taster auf IO5 (= MTDI, Strapping) | ✅ „Strapping-Pin" → FEHLER |
 
 Besonders wichtig ist der letzte Fall: **IO5 liegt zwar im LP-Bereich (IO0–IO7), ist aber
 Strapping-Pin** — genau die Falle, die beim Wecken aus dem Deep-Sleep sonst übersehen wird.
 Die Prüfung unterscheidet beide Bedingungen.
+
+### Nachtrag 2 — LED-Farbe (Prüfung 16 „LED-Headroom")
+
+Anlass: D2 wurde von rot auf **grün** umgestellt (C2297, Vf 2,85 V statt 2,0 V).
+
+| Prüfung | Mutation | Ergebnis |
+|---|---|---|
+| LED-Headroom | **R4 zurück auf 1 kΩ** (grün, aber roter Widerstand) | ✅ 0,45 mA < 0,5 mA → FEHLER |
+| LED-Headroom | Tank-LED auf grün, R_TANK bleibt 1 kΩ | ✅ 0,45 mA → FEHLER |
+| LED-Stroeme | D2-Code auf rot bei R4 = 220 Ω | ✅ 5,91 mA > 5 mA → FEHLER |
+| (Eingabe) | D2 bekommt einen **unbekannten** LCSC-Code | ✅ harter Fehler: „unbekannter LCSC-Code 'C12345' für D2: Flussspannung in LED_VF_BY_LCSC ergänzen" |
+
+Der erste Fall ist der wichtigste: **eine Farbänderung ohne Anpassung des Vorwiderstands fällt
+jetzt auf.** Genau das war bei dieser Änderung real passiert — die alte Prüfung rechnete D2 noch
+mit Vf 2,0 V und meldete 5,91 mA, obwohl die LED korrekt mit 2,05 mA lief. Umgekehrt hätte die
+LED mit 1 kΩ nur 0,45 mA bekommen (zu dunkel und stark Vf-abhängig). Der vierte Fall zeigt,
+dass unbekannte LEDs nicht mehr stillschweigend als „rot, 2,0 V" durchgehen.
 
 Die Prüfungen 15–17 lesen ihre Werte aus Netzliste und Schaltplan (Pull-up-Verschaltung,
 Entprellzeit, IO-Nummer am Tasterpin, LED-Vorwiderstand); hart verdrahtet sind nur die
@@ -85,7 +102,7 @@ Datenblatt-Fakten (LP-GPIOs = IO0–IO7, Strapping = IO4/IO5/IO8/IO9/IO15, Vf ro
 
 ```bash
 cd hardware
-python3 design/report.py            # 19 Prüfungen, Exit 0 = alles im Rahmen
+python3 design/report.py            # 20 Prüfungen, Exit 0 = alles im Rahmen
 python3 ../scripts/check_netlist.py         # Netzlisten-Struktur
 python3 ../scripts/check_bom_consistency.py # Schaltplan ↔ JLCPCB-BOM
 ```

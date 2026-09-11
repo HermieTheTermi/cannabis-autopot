@@ -53,7 +53,7 @@ Stand: 11.09.2026 (Projektstart) · Geometrie-Details: [`02_architektur-und-geom
 - **Sensor:** analoger Ausgang direkt an ADC1, VCC per GPIO schalten (nur während der Messung an); invertierte Kennlinie (trocken ≈ 2100–2600, nass ≈ 1200–1500).
 - **Akku:** Zelle mit Schutz-PCB, Laden über **MCP73831T-2 auf unserer Platine** (USB-C-Durchbruch in der Wulst).
 - **Bedienung:** **externer Taster** am Gehäuse (Nachfüllen quittieren). Auf der Platine nur zwei Lötpads/Bohrungen (J6) + Pull-up 10 kΩ + 100 nF — der Taster sitzt **nicht** auf der Platine. Der Taster hängt an **IO6 (LP_GPIO6)** und **weckt das Gerät aus dem Deep-Sleep** (EXT1).
-- **Anzeige:** **rote LED D5 „Tank leer"** an IO7 auf der Platine (1 kΩ, 1,3 mA — Firmware soll blinken statt dauerleuchten, siehe `hardware/schaltplan_v1.md` §7.4); Status-LED D2 an IO14; Ladestatus zeigt der Lader selbst.
+- **Anzeige:** **rote LED D5 „Tank leer"** an IO7 auf der Platine (1 kΩ, 1,3 mA — Firmware soll blinken statt dauerleuchten, siehe `hardware/schaltplan_v1.md` §7.4); **grüne Status-LED D2** an IO14 (R4 220 Ω, Vf 2,85 V — grün = Betrieb, **rot bleibt der Warnung vorbehalten**); Ladestatus zeigt der Lader selbst.
 - **Strombudget:** Deep-Sleep µA-Bereich, Pumpe nur Minuten pro Zyklus → Versorgung für Wochen.
 
 ## Offene Punkte
