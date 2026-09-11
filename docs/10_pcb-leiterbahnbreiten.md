@@ -110,7 +110,36 @@ easyeda pcb drc
 Deshalb beim Verdrahten `--width 20` (0,5 mm) mitgeben oder die Strecke als
 Fuellfläche legen — die Automatik allein legt sie zu dünn.
 
-## 5. Offene Punkte
+## 5. Wo die Breiten definiert sind (für die nächste Sitzung)
+
+Die Sollbreiten liegen **nicht** in EasyEDA, sondern im Projekt — dort, wo sie
+prüfbar und versioniert sind:
+
+| Datei | Rolle |
+|---|---|
+| `hardware/easyeda/netclass_spec.json` | **die Definition**: je Netz Rolle, Sollbreite, Minimum, Strom, Erwärmung, Spannungsabfall (alle 30 Netze) |
+| `hardware/easyeda/scripts/netclass_spec.py` | rechnet die Definition nach IPC-2221A aus (reproduzierbar) |
+| `hardware/easyeda/scripts/pcb_widths.py` | **setzt sie auf der Platine durch**: `--check` (Rückgabewert 1 bei Verstoß, gate-fähig), `--apply` (zu dünne Bahnen nachziehen), `--route-plan` (Verdrahtungsbefehle ausgeben) |
+| `hardware/easyeda/s0_spec.json` → `netClasses` | Kurzfassung für den P-Phasen-Import |
+
+**EasyEDA selbst kann nur eine einzige Standardbreite.** Ausgelesen aus dem
+vorhandenen PCB-Dokument (`easyeda pcb drc-rules`, Regelkatalog `Physics.Track`):
+
+```
+copperThickness1oz:  default 0,254 mm   min 0,127 mm   max 2,54 mm
+```
+
+Netzklassen gibt es im Regelsatz dieser Version **nicht** (`Spacing` enthält nur
+Creepage/Safe-Spacing, keine Klassen) — deshalb lässt sich „Akku dick, Signal dünn"
+nicht über die EasyEDA-Regeln definieren. Genau diese Lücke schließt die
+Projekt-Definition oben plus die Durchsetzung per Skript.
+
+**Stand der Prüfung:** `pcb_widths.py --selftest` grün (Vergleichslogik),
+`--check` läuft gegen das vorhandene, noch leere PCB-Dokument `PCB1`
+(UUID `18b1cf4334ae3b53`) und meldet 0 Leiterbahnen — die Platine ist bewusst noch
+nicht aufgebaut. Sobald der Import läuft, prüft derselbe Aufruf die echten Bahnen.
+
+## 6. Offene Punkte
 
 - **Anlaufstrom der Pumpe messen** (Prototyp, Oszilloskop mit Stromzange über
   R2/Q1) und die 0,5 mm gegen den gemessenen Wert prüfen. 1,5 A = 10,9 K Erwärmung: in Ordnung.

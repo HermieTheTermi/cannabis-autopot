@@ -17,6 +17,8 @@
     "signal": {"widthMm": 0.25, "minMm": 0.15},
     "gnd": "keine Leiterbahn, sondern Flaeche auf der Unterseite (pcb power-pour) + Via-Stitching",
     "powerDistribution": "pcb power-pour (GND beidseitig + lokale Schienen-Fuellflaechen), danach pcb route-critical fuer Fuellflaechen + USB-Diff-Paar + Lock",
+    "enforcement": "scripts/pcb_widths.py --check (Rueckgabewert 1 bei Verstoss) / --apply (zu duenne Bahnen nachziehen) / --route-plan; PCB-Dokument: PCB1 = 18b1cf4334ae3b53",
+    "easyedaRegel": "PCB1 drc-rules: Physics.Track.copperThickness1oz default 0.254 mm, min 0.127 mm; Netzklassen gibt es in diesem Regelkatalog nicht",
     "warnung": "PUMP_N traegt den vollen Pumpenstrom, wird vom easyeda-agent-Namensheuristik aber als SIGNAL eingestuft -> beim Verdrahten explizit 'pcb track --width 20' (0,5 mm) setzen"
   },
   "assembly": {
