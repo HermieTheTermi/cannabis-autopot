@@ -7,11 +7,19 @@ jeweils in der Begruendung.
 """
 from __future__ import annotations
 
+import re
 from collections import defaultdict, namedtuple
 
 from . import circuit
 
 CheckResult = namedtuple("CheckResult", "name bestanden ist soll begruendung")
+
+# Datenblatt-Fakten zum ESP32-C6 (als Konstanten mit Quelle hart verdrahtet).
+# Espressif ESP32-C6-Datenblatt: LP-/RTC-GPIOs sind GPIO0 bis GPIO7.
+LP_GPIO_MIN, LP_GPIO_MAX = 0, 7
+# Espressif-Modul-Datenblatt: "Strapping pin: GPIO8 and GPIO9 · MTMS and MTDI",
+# "GPIO15". MTMS = GPIO4, MTDI = GPIO5, dazu GPIO8, GPIO9 und GPIO15.
+STRAPPING_GPIOS = frozenset({4, 5, 8, 9, 15})
 
 
 def _f(value, decimals, unit=""):
@@ -21,6 +29,28 @@ def _f(value, decimals, unit=""):
 
 def _err(designator):
     return circuit.CircuitError("fehlender Designator: %s" % designator)
+
+
+def _nets_of(designator):
+    """Netz -> Pin fuer alle Pins eines Bauteils aus der Netzliste."""
+    result = {}
+    for net, nodes in circuit.load_netlist().items():
+        for comp, pin in nodes:
+            if comp == designator:
+                result.setdefault(net, pin)
+    return result
+
+
+def _btn_net():
+    """Name des Tasternetzes, auf dem R_BTN und C_BTN gemeinsam liegen."""
+    r_nets = _nets_of("R_BTN")
+    c_nets = _nets_of("C_BTN")
+    shared = sorted(set(r_nets) & set(c_nets))
+    if len(shared) != 1:
+        raise circuit.CircuitError(
+            "Tasternetz nicht eindeutig: R_BTN auf %s, C_BTN auf %s"
+            % (sorted(r_nets), sorted(c_nets)))
+    return shared[0]
 
 
 def check_ladestrom():
@@ -231,6 +261,83 @@ def check_led_stroeme():
         "LED-Vorwiderstaende R4 bzw. R_LEDCHG; Vf rot ca. 2,0 V")
 
 
+def check_tank_led():
+    """Tank-LED D5 mit Vorwiderstand R_TANK."""
+    sys = circuit.load_system()
+    r_tank = circuit.parse_ohm(circuit.part("R_TANK")["value"])
+    vf = 2.0        # rote 0805-LED, typische Flussspannung (Datenblatt)
+    i = (sys["rail_3v3"] - vf) / r_tank
+    return CheckResult(
+        "Tank-LED", i <= 5e-3,
+        "%s bei Vf %s (R_TANK %s)"
+        % (_f(i * 1000.0, 2, "mA"), _f(vf, 1, "V"),
+           _f(r_tank / 1000.0, 1, "kΩ")),
+        "I <= 5 mA, Vf rot ca. 2,0 V",
+        "LED-Vorwiderstand R_TANK; D5 ist eine rote 0805-LED wie D2, "
+        "Vf ca. 2,0 V")
+
+
+def check_btn_pullup():
+    """Externer Taster: Pull-up R_BTN nach +3V3, C_BTN nach GND, RC-Zeit."""
+    btn = _btn_net()
+    r_nets = _nets_of("R_BTN")
+    c_nets = _nets_of("C_BTN")
+    r_other = sorted(n for n in r_nets if n != btn)
+    c_other = sorted(n for n in c_nets if n != btn)
+    r_ok = r_other == ["+3V3"]
+    c_ok = c_other == ["GND"]
+    r = circuit.parse_ohm(circuit.part("R_BTN")["value"])
+    c = circuit.parse_farad(circuit.part("C_BTN")["value"])
+    tau = r * c
+    tau_ok = 0.5e-3 <= tau <= 20e-3
+    return CheckResult(
+        "Taster-Pullup", r_ok and c_ok and tau_ok,
+        "%s: R_BTN %s %s-%s, C_BTN %s %s-%s, R·C %s"
+        % (btn, _f(r / 1000.0, 1, "kΩ"), "+3V3", btn,
+           _f(c * 1e6, 1, "µF"), btn, "GND",
+           _f(tau * 1000.0, 2, "ms")),
+        "R_BTN an +3V3/BTN, C_BTN an BTN/GND, 0,5-20 ms",
+        "R_BTN zieht den offenen Taster auf High, C_BTN entprellt; "
+        "Zeitkonstante lang genug zum Entprellen, kurz genug zum Wecken")
+
+
+def check_btn_wake():
+    """Der Taster-Pin muss ein LP-GPIO ohne Strapping-Funktion sein."""
+    btn = _btn_net()
+    pin_raw = None
+    for comp, pin in circuit.load_netlist()[btn]:
+        if comp == "U1":
+            pin_raw = pin
+            break
+    if pin_raw is None:
+        raise circuit.CircuitError("kein U1-Pin auf dem Tasternetz %s" % btn)
+    m_io = re.search(r"IO([0-9]+)", pin_raw)
+    if m_io is None:
+        raise circuit.CircuitError("kein IO-Name am U1-Pin %r" % pin_raw)
+    io_num = int(m_io.group(1))
+    io_name = "IO%d" % io_num
+    m_pin = re.match(r"\s*([0-9]+)", pin_raw)
+    pin_no = m_pin.group(1) if m_pin else "?"
+    lp = LP_GPIO_MIN <= io_num <= LP_GPIO_MAX
+    strapping = io_num in STRAPPING_GPIOS
+    ok = lp and not strapping
+    if ok:
+        grund = ("Espressif ESP32-C6: LP-GPIOs IO0-IO7 wecken per EXT1; "
+                 "%s ist kein Strapping-Pin" % io_name)
+    else:
+        teile = []
+        if not lp:
+            teile.append("%s liegt ausserhalb der LP-GPIOs IO0-IO7" % io_name)
+        if strapping:
+            teile.append("%s ist Strapping-Pin" % io_name)
+        grund = "; ".join(teile)
+    return CheckResult(
+        "Taster-Weckquelle", ok,
+        "U1 Pin %s = %s" % (pin_no, io_name),
+        "LP-GPIO (IO0-IO7) und kein Strapping-Pin",
+        grund)
+
+
 def check_en_rc():
     """EN-RC-Glied laut Espressif (10 kΩ + 1 µF, tSTBL 50 µs)."""
     r_en = circuit.parse_ohm(circuit.part("R_EN")["value"])
@@ -288,6 +395,9 @@ def run_all():
         check_standby_budget,
         check_adc_filter,
         check_led_stroeme,
+        check_tank_led,
+        check_btn_pullup,
+        check_btn_wake,
         check_en_rc,
         check_netzstruktur,
     ]

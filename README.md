@@ -53,6 +53,8 @@ cannabis-autopot/
 │   ├── check_netlist.py                 ← Lint der Netzliste (exit 0 vor dem Layout nötig)
 │   └── check_bom_consistency.py         ← Querabgleich Schaltplan ↔ JLCPCB-BOM
 ├── hardware/
+│   ├── design/                          ← Schaltplan als Python-Modell: 19 Prüfungen + Simulationen
+│   │   └── MUTATIONSTEST.md             ← Nachweis, dass jede Prüfung bei Fehlern anschlägt
 │   ├── bom_entscheidung.md              ← BESTELLGRUNDLAGE: Bauteile, Preise, Links
 │   ├── schaltplan_v1.md                 ← VERBINDUNGSVORGABE: Netze, Werte, Pinbelegungen
 │   ├── schaltplan_v1_netzliste.csv      ← dieselben Verbindungen maschinenlesbar (Netz, Bauteil, Pin)
@@ -76,11 +78,16 @@ cannabis-autopot/
 - [x] **Versorgung festgelegt:** 1S direkt, kein Boost/Buck (Pumpe ab 3 V dokumentiert); eigener Lader **MCP73831T-2** + LDO **ME6211** auf der Platine
 - [x] **MCU festgelegt:** **ESP32-C6-MINI-1** auf eigener PCB (kein Dev-Board) — Pflichtbeschaltung und Antennenregeln aus den Espressif-Docs übernommen
 - [x] **PCBA geprüft:** alle Bauteile bei JLCPCB verfügbar (LCSC-Codes in `hardware/pcba_bom_jlc.csv`)
+- [x] **Schaltplan V1 + Netzliste** (`hardware/schaltplan_v1.md`, `..._netzliste.csv`, 30 Netze / 48 bestückte Positionen)
+- [x] **Design als Python-Modell + Prüfungen** (`hardware/design/`): 16 Design-Regelprüfungen gegen die
+      Datenblattgrenzen, 5 Simulationen, Mutationsabdeckung 19/19 (`hardware/design/MUTATIONSTEST.md`)
+- [x] **Taster + 2 LEDs** (11.09.2026): externer Nachfüll-Taster an IO6 (weckt aus dem Deep-Sleep),
+      nur 2 Lötpads auf der Platine; rote Tank-leer-LED D5 an IO7 — alles bei JLC auf Lager, keine neue Position
 - [ ] Gehäuse-CAD (parametrisch) + PCB-Design
 - [ ] Firmware (State-Machine)
 
 ## Nächste Schritte
 1. BOM finalisieren (Preise, Links, Verfügbarkeit) → `research/bom-check/`
 2. Gehäuse-CAD (OpenSCAD, parametrisch) aus `docs/02_architektur-und-geometrie.md`
-3. PCB: ESP32-C6-Modul, MCP73831-Lader, ME6211-LDO, MOSFET-Treiber, Sensor-ADC, USB-C — Netzliste `hardware/schaltplan_v1_netzliste.csv`
+3. PCB: ESP32-C6-Modul, MCP73831-Lader, ME6211-LDO, MOSFET-Treiber, Sensor-ADC, USB-C, Taster-Lötpads, 3 LEDs — Netzliste `hardware/schaltplan_v1_netzliste.csv`
 4. Firmware: State-Machine, Kalibrierroutine, Telegram-Alarm

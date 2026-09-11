@@ -2,7 +2,7 @@
 
 Stand: 11.09.2026 · Verifikation des Prüfpakets `hardware/design/` durch den Koordinator
 (**nicht** durch den Code-Autor). Ein Test, der immer besteht, ist wertlos — deshalb wurde
-**jede der 16 Prüfungen einzeln sabotiert** und geprüft, ob der Test rot wird.
+**jede der 19 Prüfungen einzeln sabotiert** (16 im ersten Durchgang, 3 für Taster/Tank-LED im Nachtrag) und geprüft, ob der Test rot wird.
 
 ## Aufbau
 
@@ -29,8 +29,26 @@ Zusammenfassung am Ende der Ausgabe plus der Exit-Code.
 | 15 | EN-RC | C4 1 µF → 1 nF | ✅ 10 µs < 1 ms → FEHLER |
 | 16 | Netzstruktur | R6 in der Netzliste umbenannt (nur ein Netz) | ✅ Befund erkannt → FEHLER |
 
-**Ergebnis: 16 von 16 Prüfungen sind nachweislich wirksam.** Der Exit-Code ist im Fehlerfall
+**Ergebnis: 19 von 19 Prüfungen sind nachweislich wirksam.** Der Exit-Code ist im Fehlerfall
 1, im Gutfall 0 — die Prüfungen sind damit als Gate einsetzbar.
+
+### Nachtrag 11.09.2026 — Taster und Tank-LED (Prüfungen 15–17)
+
+| # | Prüfung | Mutation | Ergebnis |
+|---|---|---|---|
+| 15 | Tank-LED | R_TANK 1 kΩ → 100 Ω | ✅ 13 mA > 5 mA → FEHLER |
+| 16 | Taster-Pullup | C_BTN 100 nF → 1 nF (RC 10 µs) | ✅ RC < 0,5 ms → FEHLER |
+| 16 | Taster-Pullup | R_BTN von +3V3 auf GND umgehängt | ✅ harter Fehler, Exit 1: „Tasternetz nicht eindeutig" |
+| 17 | Taster-Weckquelle | Taster auf IO18 (kein LP-GPIO) | ✅ „nicht LP-fähig" → FEHLER |
+| 17 | Taster-Weckquelle | Taster auf IO5 (= MTDI, Strapping) | ✅ „Strapping-Pin" → FEHLER |
+
+Besonders wichtig ist der letzte Fall: **IO5 liegt zwar im LP-Bereich (IO0–IO7), ist aber
+Strapping-Pin** — genau die Falle, die beim Wecken aus dem Deep-Sleep sonst übersehen wird.
+Die Prüfung unterscheidet beide Bedingungen.
+
+Die Prüfungen 15–17 lesen ihre Werte aus Netzliste und Schaltplan (Pull-up-Verschaltung,
+Entprellzeit, IO-Nummer am Tasterpin, LED-Vorwiderstand); hart verdrahtet sind nur die
+Datenblatt-Fakten (LP-GPIOs = IO0–IO7, Strapping = IO4/IO5/IO8/IO9/IO15, Vf rot ≈ 2,0 V).
 
 ## Erkenntnisse aus dem Mutationstest
 
@@ -67,7 +85,7 @@ Zusammenfassung am Ende der Ausgabe plus der Exit-Code.
 
 ```bash
 cd hardware
-python3 design/report.py            # 16 Prüfungen, Exit 0 = alles im Rahmen
+python3 design/report.py            # 19 Prüfungen, Exit 0 = alles im Rahmen
 python3 ../scripts/check_netlist.py         # Netzlisten-Struktur
 python3 ../scripts/check_bom_consistency.py # Schaltplan ↔ JLCPCB-BOM
 ```

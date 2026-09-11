@@ -71,6 +71,16 @@ def print_sims(data):
           % _f(circuit.load_system()["tx_peak_ma"], 0, "mA"))
     print("   P = (VBAT - 3,3 V) · I: %s bei VBAT 4,2 V, %s bei VBAT 3,7 V"
           % (_f(data["heat_max_w"], 4, "W"), _f(data["heat_nom_w"], 4, "W")))
+    tank = data["tank"]
+    print("Tank-LED-Blinken (D5, R_TANK %s): %d x %s alle %s "
+          "(Tastverhaeltnis %s):"
+          % (_f(data["rb"]["R_TANK"] / 1000.0, 1, "kΩ"), tank["pulse"],
+             _f(tank["t_on_ms"], 0, "ms"), _f(tank["periode_s"], 0, "s"),
+             _f(tank["tastverhaeltnis_prozent"], 1, "%")))
+    print("   Dauerbetrieb %s, Mittel %s -> %s/Tag statt %s/Tag"
+          % (_f(tank["i_dauer_ma"], 2, "mA"), _f(tank["i_mittel_ma"], 2, "mA"),
+             _f(tank["mittel_mah_pro_tag"], 2, "mAh"),
+             _f(tank["dauer_mah_pro_tag"], 1, "mAh")))
     print("-" * 96)
 
 

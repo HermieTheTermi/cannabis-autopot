@@ -40,6 +40,11 @@ Seit der Umstellung auf das nackte **ESP32-C6-MINI-1** gibt es **keine Lücke me
 | R3 | 200 kΩ (VBAT-Teiler) | `C17539` | 0805 | **base** | 772.897 | $0,0064 |
 | R5 | 5,1 kΩ (USB-C CC) | `C27834` | 0805 | **base** | 4.029.051 | $0,0064 |
 | R4 | LED-Widerstand | `C17513` | 0805 | **base** | 30.777.601 | $0,0042 |
+| R_TANK | 1 kΩ (Tank-LED) | `C17513` | 0805 | **base** | 30.777.288 | $0,0042 |
+| R_BTN | 10 kΩ (Taster-Pull-up) | `C17414` | 0805 | **base** | 54.370.181 | $0,0039 |
+| C_BTN | 100 nF (Entprellung) | `C49678` | 0805 | **base** | 18.966.887 | $0,0196 |
+| D5 | LED rot (Tank leer) | `C84256` | 0805 | **base** | 6.141.918 | $0,0134 |
+| J6 | 2 Lötpads/Bohrungen für den externen Taster | – | – | – | – | **keine Bestückung, kein JLC-Kostenpunkt** |
 | D2 | LED rot | `C84256` | 0805 | **base** | 6.142.311 | $0,0134 |
 | SW1/2 | Taster (Reset + Boot) | `C318884` | SMD-4P 5,1×5,1 | **base** | 769.000 | $0,0205 |
 | J1 | Akku JST PH 2,0 mm 2-pol | `C54582899` | SMD 2 mm gewinkelt | expand | 2.308 | $0,0466 |

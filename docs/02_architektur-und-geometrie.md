@@ -53,9 +53,9 @@ Die Wulst sitzt seitlich am Mantel und **vollständig über dem Wasserstand** (k
 | Höhe | y = 90–250 mm (160 mm) |
 | Breite (tangential) | **60 mm** |
 | Tiefe (radial) | **40 mm** → Gesamtbreite an dieser Stelle ≈ **180 mm** |
-| Inhalt | ESP32-C6-MINI-1 (13,2 × 16,6 mm) + Lader/LDO/USB auf eigener PCB (Zielgröße ≤ 38 mm breit), LiPo-Zelle 59 × 37 × 5 mm, Pumpe Ø 32 × 44 mm (OEM ABC-12527), Taster, LED |
+| Inhalt | ESP32-C6-MINI-1 (13,2 × 16,6 mm) + Lader/LDO/USB auf eigener PCB (Zielgröße ≤ 38 mm breit) + 2 Lötpads für den externen Taster, LiPo-Zelle 59 × 37 × 5 mm, Pumpe Ø 32 × 44 mm (OEM ABC-12527), Taster, LED |
 | Kanäle | **2 getrennte Schlitze**: Kabelkanal (Ø 4 mm) für den Sensor, Schlauchkanal (6 × 6 mm) für Saug- und Druckschlauch |
-| Öffnungen | USB-C-Durchbruch (Laden), LED-Fenster, Deckel mit Dichtung |
+| Öffnungen | USB-C-Durchbruch (Laden), **LED-Fenster (muss D2 und D5 abdecken)**, **Bohrung für den externen Taster** in der Außenwand, Deckel mit Dichtung |
 
 **Einbau von unten nach oben (Innenmaß):** Pumpe y 92–136 (44 mm Bauhöhe) · Platine darüber · Zelle hochkant dahinter (59 mm Höhe, 5 mm Bautiefe). Maße stammen aus den final gewählten Bauteilen — siehe `../hardware/bom_entscheidung.md`. Die Pumpenparameter in `case/params.scad` (Ø32 / 44 mm) sind noch nachzuziehen.
 
@@ -115,3 +115,6 @@ Faustwert für 1,9-L-Topf: 0,15–0,35 L pro Gießvorgang, im Wachstum alle 3–
 - [ ] Sensor-Länge real messen (Clone-Streuung ±5 mm) vor dem Einbau
 - [ ] Optionale Tanküberwachung: float switch / Drucksensor am Tankboden (Redundanz zum Feuchte-Kriterium) — V2-Thema
 - [ ] Kalibrierwerte `dry`/`wet` am echten Substrat aufnehmen (nach erstem Bewässerungsdurchlauf)
+- [ ] **Taster-Bohrung** in der Außenwand festlegen (Position so, dass der Taster **ohne Öffnen** erreichbar ist) + Kabelweg für das zweiadrige Tasterkabel zur Platine
+- [ ] **LED-Fenster für zwei LEDs:** D2 (Status) und D5 (Tank leer) — ein gemeinsames Fenster oder zwei kleine Lichtleiter; beide Plätze müssen **außerhalb** des antennenfreien Bereichs oben liegen
+- [ ] Firmware-Regel für D5 aufnehmen (blinken statt dauerleuchten: 1,3 mA dauerhaft wären 31 mAh/Tag und damit das 19-fache des Standby-Budgets)

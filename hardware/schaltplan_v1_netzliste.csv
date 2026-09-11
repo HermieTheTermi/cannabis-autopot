@@ -35,6 +35,7 @@ PROG,R_PROG,1,3.9 kOhm -> 256 mA
 +3V3,R_BOOT,1,10 kOhm Pull-up GPIO9
 +3V3,R_GPIO8,1,10 kOhm Pull-up GPIO8 (eigene Auslegung)
 +3V3,TP5,1,Testpad +3V3
++3V3,R_BTN,1,10 kOhm Pull-up fuer den externen Taster
 EN,U1,8 EN,Reset
 EN,R_EN,2,
 EN,C4,1,1 uF RC-Glied
@@ -84,6 +85,14 @@ STAT_CHG,D_LEDCHG,Kathode,Lade-LED Kathode an STAT
 STAT_CHG,U3,1 STAT,Tri-State-Ausgang
 LED_CHG,R_LEDCHG,2,1 kOhm
 LED_CHG,D_LEDCHG,Anode,
+BTN,U1,15 IO6,LP_GPIO6 - weckt aus dem Deep-Sleep (EXT1 ANY_LOW)
+BTN,R_BTN,2,
+BTN,C_BTN,1,100 nF Entprellung
+BTN,J6,1,Lotpad/Bohrung fuer den externen Taster (sitzt im Gehaeuse)
+LED_TANK,U1,16 IO7,LP_GPIO7 - Tank-leer-Anzeige
+LED_TANK,R_TANK,1,1 kOhm
+LED_TANK_A,R_TANK,2,
+LED_TANK_A,D5,Anode,LED rot
 UART_TX,U1,31 TXD0,optional DNP
 UART_TX,R_UART,1,499 Ohm
 UART_TP,R_UART,2,
@@ -121,3 +130,6 @@ GND,J2,3,Sensor GND
 GND,TP3,1,Testpad GND
 GND,C12,2,
 GND,J5,GND (A1/A12/B1/B12) + Schirm,
+GND,C_BTN,2,
+GND,D5,Kathode,
+GND,J6,2,Lotpad/Bohrung - Taster-Rueckleitung

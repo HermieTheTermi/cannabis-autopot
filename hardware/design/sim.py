@@ -4,6 +4,8 @@ Keine externen Solver.  Alle Eingangswerte kommen aus :mod:`design.circuit`.
 """
 from __future__ import annotations
 
+import re
+
 from . import circuit
 
 
@@ -75,6 +77,37 @@ def ldo_heat(vbat, vout, current_a):
     return (vbat - vout) * current_a
 
 
+def tank_led_blink(i_continuous, pulses, on_time_s, period_s):
+    """Mittlerer Strom der Tank-LED im Blinkbetrieb und Tagesverbrauch.
+
+    Tastverhaeltnis = pulses · on_time_s / period_s; der Mittelwert wird dem
+    Dauerbetrieb gegenuebergestellt.
+    """
+    duty = pulses * on_time_s / period_s
+    i_mean = i_continuous * duty
+    return {
+        "pulse": pulses,
+        "t_on_ms": on_time_s * 1000.0,
+        "periode_s": period_s,
+        "tastverhaeltnis_prozent": duty * 100.0,
+        "i_dauer_ma": i_continuous * 1000.0,
+        "i_mittel_ma": i_mean * 1000.0,
+        "dauer_mah_pro_tag": i_continuous * 1000.0 * 24.0,
+        "mittel_mah_pro_tag": i_mean * 1000.0 * 24.0,
+    }
+
+
+def _blinkmuster():
+    """Liest das dokumentierte Blinkmuster aus schaltplan_v1.md (Abschnitt 7.4)."""
+    text = circuit.SCHEMATIC_PATH.read_text(encoding="utf-8")
+    m = re.search(r"([0-9]+)\s*[\u00d7x]\s*([0-9]+)\s*ms\s*alle\s*([0-9]+)\s*s",
+                  text)
+    if m is None:
+        raise circuit.CircuitError(
+            "Blinkmuster '3 x 50 ms alle 5 s' nicht gefunden")
+    return int(m.group(1)), float(m.group(2)) / 1000.0, float(m.group(3))
+
+
 def run_all():
     """Fuehrt alle Simulationen mit den echten Schaltplandaten aus."""
     sys = circuit.load_system()
@@ -97,13 +130,20 @@ def run_all():
     heat_nom = ldo_heat(sys["battery_voltage"], sys["rail_3v3"],
                         sys["tx_peak_ma"] / 1000.0)
 
+    vf_led = 2.0  # rote 0805-LED, typische Flussspannung (Datenblatt)
+    r_tank = circuit.parse_ohm(circuit.part("R_TANK")["value"])
+    i_tank = (sys["rail_3v3"] - vf_led) / r_tank
+    pulses, on_time_s, period_s = _blinkmuster()
+    tank = tank_led_blink(i_tank, pulses, on_time_s, period_s)
+
     return {
         "gate": gate,
         "inrush": inrush,
         "runtime": runtime,
         "heat_max_w": heat_max,
         "heat_nom_w": heat_nom,
-        "rb": {"R1": r1, "R2": r2, "C3": c3, "Ciss": ciss},
+        "tank": tank,
+        "rb": {"R1": r1, "R2": r2, "C3": c3, "Ciss": ciss, "R_TANK": r_tank},
     }
 
 
