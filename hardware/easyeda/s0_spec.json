@@ -3,10 +3,21 @@
     "outline": "compact",
     "widthMm": 38
   },
-  "sheet": "A4",
+  "sheet": "A2",
   "stackup": {
     "layers": 2,
     "groundStrategy": "GND-Flaeche auf der Unterseite, durchgehend unter MCU/Antenne"
+  },
+  "netClasses": {
+    "specFile": "netclass_spec.json",
+    "doc": "docs/10_pcb-leiterbahnbreiten.md",
+    "basis": "IPC-2221A aussen, 1 oz Kupfer (35 um), dT = 10 K, 2 Lagen",
+    "highCurrent": {"widthMm": 0.5, "minMm": 0.4, "nets": ["VBAT", "PUMP_N", "VBUS"]},
+    "powerTrunk": {"widthMm": 0.4, "minMm": 0.25, "nets": ["+3V3"]},
+    "signal": {"widthMm": 0.25, "minMm": 0.15},
+    "gnd": "keine Leiterbahn, sondern Flaeche auf der Unterseite (pcb power-pour) + Via-Stitching",
+    "powerDistribution": "pcb power-pour (GND beidseitig + lokale Schienen-Fuellflaechen), danach pcb route-critical fuer Fuellflaechen + USB-Diff-Paar + Lock",
+    "warnung": "PUMP_N traegt den vollen Pumpenstrom, wird vom easyeda-agent-Namensheuristik aber als SIGNAL eingestuft -> beim Verdrahten explizit 'pcb track --width 20' (0,5 mm) setzen"
   },
   "assembly": {
     "profile": "reflow",
@@ -41,7 +52,7 @@
      "parts": ["R16", "TP1"]}
   ],
   "pages": [
-    {"name": "Systemuebersicht", "sheet": "A4", "modules": ["USB-C Eingang & ESD", "Laden (MCP73831)",
+    {"name": "Systemuebersicht", "sheet": "A2", "modules": ["USB-C Eingang & ESD", "Laden (MCP73831)",
       "Akku & Puffer", "Unterspannungswaechter (MAX809)", "3V3-LDO (ME6211)", "ESP32-C6-MCU + Beschaltung",
       "Taster & LEDs", "Pumpentreiber (Low-Side)", "Sensor-Eingang", "UART-Debug-Pads (DNP)"]}
   ],

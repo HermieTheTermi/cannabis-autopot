@@ -88,6 +88,7 @@ rechtes Panel „Drawing" → Feld `Size`. Danach mit `sch sheet-geometry` gegen
 | `scripts/build_layout_input.py` | Eingabe für den Solver `sch lib-layout` (verworfen, s. u.) |
 | `scripts/repair_pins.py` | Wiederherstellung der Verdrahtung nach dem Marker-Vorfall |
 | `scripts/fix_overlaps_safe.py` | kosmetische Marker-Korrektur (nur `disconnect --flag-id`) |
+| `scripts/netclass_spec.py` | Leiterbahnbreiten für die PCB-Phase (IPC-2221A) → `netclass_spec.json` |
 | `raw/` | IR (numeriert), Module, Symbole, Autoconnect-Specs, Platzierungsskript |
 | `s1/` `s3/` `s4/` `s6/` | Zwischenstände (Seitenzustand, Verdrahtung, Titelblock) |
 | `s5/FINAL_*` | **Abnahme-Belege** (gate, gate strict, check, bridge, drc, lint, read, Gruppen, Status) |
@@ -114,3 +115,7 @@ rechtes Panel „Drawing" → Feld `Size`. Danach mit `sch sheet-geometry` gegen
 
 PCB-Phase: `easyeda pcb import-changes` (Layout-Import aus dieser Seite), Stackup/Board aus
 `s0_spec.json` (38 mm, 2 Lagen, Massefläche auf der Unterseite).
+**Leiterbahnbreiten sind vorab festgelegt** (`netclass_spec.json`, Erklärung in
+`docs/10_pcb-leiterbahnbreiten.md`): VBAT / PUMP_N / VBUS 0,5 mm, +3V3 0,4 mm, Signale
+0,25 mm, Masse als Fläche. `PUMP_N` muss dabei explizit mit `pcb track --width 20`
+gelegt werden — die Namensheuristik des Tools hält es für ein Signal.
