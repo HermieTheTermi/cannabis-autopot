@@ -1,6 +1,6 @@
 # Smart Grow Topf
 
-Automatisch bewässernder Topf für eine Cannabis-Pflanze, gesteuert über einen ESP32 (XIAO ESP32-C6 auf eigener PCB), Akkubetrieb. **Eigenes Projekt** (unabhängig vom GrowTower).
+Automatisch bewässernder Topf für eine Cannabis-Pflanze, gesteuert über ein **ESP32-C6-Modul direkt auf der eigenen PCB** (eigener 1S-Lader, eigener 3,3-V-Regler), Akkubetrieb. **Eigenes Projekt** (unabhängig vom GrowTower).
 
 ![Smart Grow Topf – KI-Konzeptbild im Stand V1](docs/img/konzeptbild-v1-ki.jpg)
 
@@ -65,7 +65,9 @@ cannabis-autopot/
 - [x] **Entscheidungen 11.09.2026:** Topf Ø140×150 (Erde) + 1 L Tank darunter · XIAO ESP32-C6 als Modul auf PCB · Wulst mit Kanal · Top-Drip-Ring · Sensor von oben · Telegram final · nur Wasser
 - [x] **Höhen-/Volumenberechnung** → Gesamthöhe 278 mm, Tank 1,0 L, Erdvolumen 1,9 L (`docs/02_...`)
 - [x] **BOM-Entscheidung** (11.09.2026): XIAO C6 6,99 € · OEM-Peristaltikpumpe ABC-12527 (3,7–6 V) 7,74 € · Sensor v1.2 4,99 € · EFASO-Akku 14,90 € → **≈ 45–50 €** gesamt (`hardware/bom_entscheidung.md`)
-- [x] **Versorgung festgelegt:** 1S direkt, kein Boost/Buck (Pumpe ab 3 V dokumentiert), Laden über den XIAO-Onboard-Lader
+- [x] **Versorgung festgelegt:** 1S direkt, kein Boost/Buck (Pumpe ab 3 V dokumentiert); eigener Lader **MCP73831T-2** + LDO **ME6211** auf der Platine
+- [x] **MCU festgelegt:** **ESP32-C6-MINI-1** auf eigener PCB (kein Dev-Board) — Pflichtbeschaltung und Antennenregeln aus den Espressif-Docs übernommen
+- [x] **PCBA geprüft:** alle Bauteile bei JLCPCB verfügbar (LCSC-Codes in `hardware/pcba_bom_jlc.csv`)
 - [ ] Gehäuse-CAD (parametrisch) + PCB-Design
 - [ ] Firmware (State-Machine)
 

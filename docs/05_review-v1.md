@@ -8,7 +8,7 @@ Gehäusekammer: die geplante Platine passt dort nicht hinein.** Details unten.
 
 ---
 
-## 1. 🔴 Blockierend: Platine 42 mm breit, Kammer nur 40 mm
+## 1. ✅ War blockierend, ist durch das Modul gelöst: Platine vs. Kammer
 
 Aus `case/params.scad`:
 
@@ -21,9 +21,13 @@ Aus `case/params.scad`:
 
 Gegen die deklarierten Bauteil-Footprints: `pcb_l` **52 mm**, `pcb_w` **42 mm**, `pcb_t` 1,6 mm.
 
-- **42 mm > 40 mm** → die Platine passt in der Breite nicht in die Kammer. Die 52 mm können nur
-  entlang der Höhe laufen (152 mm vorhanden, unkritisch), aber die zweite Kante muss durch die
-  40-mm-Kammer.
+- **42 mm > 40 mm** → die *früher angenommene* Platine (52 × 42 mm, dimensioniert um XIAO + dessen
+  USB-Buchse) passt in der Breite nicht in die Kammer. Die 52 mm könnten nur entlang der Höhe laufen
+  (152 mm vorhanden), die zweite Kante muss aber durch die 40-mm-Kammer.
+- **Gelöst durch den Wechsel auf das ESP32-C6-MINI-1:** das Modul ist mit 13,2 × 16,6 mm deutlich
+  kleiner als der XIAO (21 × 17,8 mm), und dessen USB-Buchse samt Randabstand fällt weg. Damit ist
+  eine Platine **≤ 38 mm breit** realistisch → passt mit Luft in die 40-mm-Kammer. Die alten
+  `pcb_l`/`pcb_w`-Werte (52 × 42) in `case/params.scad` sind damit überholt und nachzuziehen.
 - Auffällig: die Wulst ist außen 60 mm breit mit 6 mm Wandung, das ergäbe **48 mm** Innenbreite —
   `wc_x = 20` verschenkt davon 8 mm. Das sieht nach einem Parameterfehler aus, nicht nach Absicht.
 
@@ -58,13 +62,18 @@ die Wulst den Platz hergibt.
 | Sensor-Versorgung | VCC über GPIO, AOUT auf ADC1 | ✅ spart Strom, kein ADC2-Stolperstein |
 | Zellüberwachung | 200 kΩ in 1:2 auf A0 (Seeed-Doku, wörtlich) | ✅ Firmware-Ebene, ein Widerstand |
 | **Tiefentladeschutz** | MCP73831-Datenblatt: nur „Reverse Discharge Protection" + Lade-UVLO 3,45/3,38 V → **kein Entladeschutz im Lader** | ✅ vier Ebenen ergänzt: Firmware 3,4 V · **MAX809TEUR+T bei 3,08 V** (Datenblatt VTH) · Gate-Pulldown · Zell-PCM — siehe `bom_entscheidung.md` §4b |
+| **MCU-Modul** | ESP32-C6-MINI-1: EN-RC 10 kΩ/1 µF, GPIO9-Pull-up, keine großen Cs an GPIO9, 3V3 = 22 µF + 2 × 0,1 µF (Espressif) | ✅ Beschaltung übernommen, `bom_entscheidung.md` §6 |
+| **3,3-V-Schiene** | ESP32-C6 TX-Peak **382 mA** (Espressif Tab. 6-4, selbst geprüft) | ✅ LDO **ME6211 (500 mA)** statt 250-mA-Typ — sonst Brownout bei TX |
+| **USB** | ESP32-C6 hat USB Serial/JTAG nativ: D− = GPIO12, D+ = GPIO13 | ✅ kein USB-UART-Chip nötig; CC-Widerstände 5,1 kΩ + USBLC6-ESD ergänzt (USB-C-Vorgabe, nicht von Espressif dokumentiert) |
+| **RF** | Antennen-Freistellung: Espressif fordert ≥ 15 mm in alle Richtungen im Gehäuse | ⚠️ offen — erfordert bauteilfreien oberen Kammerbereich + dünnere Wulstwand, **plus RF-Endtest** |
 | Laufzeit | 0,052 Wh pro 300-ml-Dosis, 4,44 Wh nutzbar | ✅ ~85 Dosen pro Ladung |
 
 ## 4. ✅ Fertigung — PCBA machbar
 
-Alles außer dem XIAO-Modul ist bei JLCPCB lagernd (Basic/Extended) — Details und LCSC-Codes in
-`hardware/pcba_verfuegbarkeit_jlc.md`. Der XIAO ist dort **nicht** im Sortiment → selbst auflöten
-(Castellated Pads), im BOM als „nicht bestücken" markieren. Damit entfällt auch die Buchsenleiste.
+**Die Platine ist jetzt vollständig bestückbar** — mit dem nackten Modul gibt es keine Lücke mehr
+(der XIAO war bei JLC nicht bestückbar, das MINI-1 ist es). Alle Bauteile haben LCSC-Codes und
+Lagerbestand, siehe `hardware/pcba_verfuegbarkeit_jlc.md`. Handling: **10 Extended-Positionen
+≈ 30 USD** Aufpreis, weil Lader, LDO und USB jetzt auf unserer Platine sitzen statt im XIAO-Modul.
 
 ## 5. ❓ Was noch fehlt (Vollständigkeitsprüfung)
 
@@ -78,7 +87,9 @@ Alles außer dem XIAO-Modul ist bei JLCPCB lagernd (Basic/Extended) — Details 
 | 6 | **Förderrate bei 3,7 V** unbekannt | Dosierzeit im Code muss kalibriert werden |
 | 7 | **PCB-/PCBA-Preis** | noch kein JLC-Angebot eingeholt |
 | 8 | **Firmware-Aufgaben**: WLAN-Provisioning, Telegram-Token, Kalibrierroutine | noch nicht begonnen |
-| 9 | **Gehäuse-Parameter** `pump_d`/`pump_l`/`pump_mount_*` + `wc_x` | Kollisionen, siehe §1/§2 |
+| 9 | **Gehäuse-Parameter** `pump_d`/`pump_l`/`pump_mount_*` + `wc_x` + `pcb_*` | Kollisionen, siehe §1/§2 |
+| 10 | **Antennenbereich** im Gehäuse (obere ~25 mm frei, Wand über der Antenne ~2 mm) | ohne das ist die WLAN-Reichweite unbelegt |
+| 11 | **RF-Endtest** am fertigen Aufbau (Espressif-Vorgabe) | Durchsatz/Reichweite messen, sonst ggf. auf MINI-1U mit externer Antenne |
 
 ## 6. Reihenfolge bis zur bestellbaren Platine
 

@@ -1,88 +1,76 @@
-# PCBA-Verfügbarkeit bei JLCPCB — Smart Grow Topf V1
+# PCBA-Verfügbarkeit bei JLCPCB — Smart Grow Topf V1 (Modul-Variante)
 
 Stand: 11.09.2026 · Methode: JLCPCB-Parts-API (`selectSmtComponentList/v2`, Skill `jlcpcb-parts-check`),
 jede Zeile ein echter API-Treffer. Preise = 1-Stück-Staffel in USD. `base` = Basic (keine
 Handling-Gebühr) · `expand` = Extended (**+3 USD pro Position**).
 
-## 1. Ergebnis: PCB bestückbar — mit drei Lücken
+## 1. Ergebnis: die Platine ist vollständig bestückbar
 
-| Pos | Bauteil | LCSC | Paket | Typ | Bestand | Preis | Bewertung |
-|---|---|---|---|---|---|---|---|
-| Q1 | MOSFET **AO3400A** | `C20917` | SOT-23 | **base** | 901.401 | $0,0846 | ✅ Basic |
-| D1 | Schottky **1N5819WS** | `C191023` | SOD-323 | **base** | 5.648.846 | $0,0137 | ✅ Basic |
-| C1 | 100 nF 50 V | `C49678` | 0805 | **base** | 18.879.051 | $0,0196 | ✅ Basic |
-| C2 | 10 µF 25 V | `C15850` | 0805 | **base** | 7.091.278 | $0,0841 | ✅ Basic |
-| C3 | 100 µF 16 V | `C970684` | SMD D6,3×5,4 | expand | 33.972 | $0,0358 | ✅ (keramisch 1210 `C2840614` = **0 Bestand**) |
-| R1 | 220 Ω ±1 % | `C17557` | 0805 | **base** | 1.195.891 | $0,0058 | ✅ Basic |
-| R2 | 10 kΩ ±1 % | `C17414` | 0805 | **base** | 54.371.929 | $0,0039 | ✅ Basic |
-| R3 | 200 kΩ ±1 % | `C17539` | 0805 | **base** | 772.897 | $0,0064 | ✅ Basic (VBAT-Teiler) |
-| R4 | 1 kΩ ±1 % | `C17513` | 0805 | **base** | 30.777.601 | $0,0042 | ✅ Basic (LED) |
-| D2 | LED rot | `C84256` | 0805 | **base** | 6.142.311 | $0,0134 | ✅ Basic |
-| SW1/2 | Taster 5,1×5,1×1,5 | `C318884` | SMD-4P | **base** | 769.000 | $0,0205 | ✅ Basic (Reset + Boot) |
-| J1 | Akku **JST PH 2,0 mm** 2-pol | `C54582899` | SMD 2 mm, gewinkelt | expand | 2.308 | $0,0466 | ⚠️ Original `S2B-PH-SM4-TB` **nicht** im Sortiment → generisches PH-Äquivalent; Alternative: `C173752` (THT gewinkelt, 29.680) |
-| J2 | Sensor **JST-XH 2,5 mm** 3-pol | `C157928` | THT gewinkelt | expand | 146.324 | $0,0745 | ✅ |
-| J4 | Pumpe **JST-XH 2,5 mm** 2-pol | `C157931` | THT gewinkelt | expand | 50.464 | $0,1014 | ✅ |
-| U7 | **MAX809TEUR+T** Spannungsdetektor 3,08 V | `C16711` | SOT-23 | expand | 13.783 | $0,5628 | ✅ Unterspannungsschutz, siehe `bom_entscheidung.md` §4b |
-| D3 | Schottky (Klemmzweig) | `C191023` | SOD-323 | **base** | 5.648.846 | $0,0137 | ✅ gleicher Typ wie D1 |
-| U1 | **XIAO ESP32-C6** | – | – | – | – | – | ❌ **nicht bestückbar**, siehe §2 |
-| J3 | Buchsenleiste 2,54 1×7 | – | – | – | – | – | ❌ **nicht im Sortiment**, siehe §2 |
-
-**Für V1 (XIAO-Variante) heißt das:** 4 Extended-Positionen (C3, J1, J2, J4) = **12 USD Handling**,
-alles andere ist Basic. Ohne die Steckverbinder wären es 3 USD.
-
-## 2. Die drei Lücken — und wie wir sie sauber lösen
-
-**(a) XIAO ESP32-C6 ist bei JLCPCB nicht bestückbar.** Die Suche liefert nur Platzhalter
-(`C9900124963`, LCC-14, „邮寄专用" = *nur Versand*, 0 Bestand, kein Preis). Andere XIAO-Modelle
-sind dagegen im Sortiment (ESP32-S3 `C20467913`, ESP32-C5 `C54119401`, nRF52840) — nur die C6-Variante
-fehlt.
-→ **Lösung:** XIAO selbst flach auflöten (Castellated Pads, dafür ist das Modul gemacht). Er wird
-dann nicht von JLC bestückt und im BOM als „nicht bestücken / DNP" markiert — Standardvorgehen.
-**Kein Buchsenleisten-Sockel nötig**, dadurch entfällt J3 komplett (und die Höhe über der Platine
-bleibt klein).
-
-**(b) Buchsenleiste 2,54 mm 1×7: „not in JLCPCB parts library".** Fällt mit (a) weg — direkt auflöten
-statt sockeln.
-
-**(c) Original-JST `S2B-PH-SM4-TB` fehlt** (nur Platzhalter, 0 Bestand). Es gibt aber ein
-funktionsgleiches PH-2,0-mm-SMD-Äquivalent (`C54582899`, 2.308 Stück). Engpass: nur 2.308 Stück —
-für ein Einzelstück irrelevant.
-
-## 3. Kernteile am Herstellerdatenblatt gegengeprüft
-
-**AO3400A** (Alpha & Omega, Quelle `aosmd.com/pdfs/datasheet/AO3400A.pdf`):
-`VDS 30 V` · `ID 5,7 A` · `RDS(on) < 48 mΩ bei VGS = 2,5 V`, `< 32 mΩ bei 4,5 V` · `VGS(th) 0,65–1,45 V`
-· `QG 6–7 nC` · `VGS max ±12 V`.
-→ Für die Pumpe: bei 3,3 V Gate-Spannung liegt RDS(on) zwischen 32 und 48 mΩ; bei 0,45 A sind das
-**< 10 mW** Verlustleistung. Logic-Level bestätigt, PWM-fähig, Tore nicht gefährdet. ✅
-
-**1N5819WS** (Herstellerdatenblatt Heketai, über LCSC): `VRRM 40 V` · `IF(AV) 1,0 A` · `IFSM 25 A` ·
-`VF max 0,60 V bei 1 A` · SOD-323.
-→ Als Freilaufdiode an 0,45 A reichlich dimensioniert (5× Reserve beim Surge). ✅
-
-## 4. Für die V2-Platine (nacktes ESP32-C6-Modul) — alles vorhanden
+Seit der Umstellung auf das nackte **ESP32-C6-MINI-1** gibt es **keine Lücke mehr** — der XIAO
+(dessen C6-Variante bei JLCPCB komplett fehlt) ist aus dem Design raus.
 
 | Pos | Bauteil | LCSC | Paket | Typ | Bestand | Preis |
 |---|---|---|---|---|---|---|
-| U2 | **ESP32-C6-MINI-1** | `C5736265` | SMD-53P | expand | 2.824 | $3,8871 |
-| U2b | ESP32-C6-MINI-1-H4 | `C6553337` | SMD 16,6×13,2 | expand | 779 | $4,5588 |
-| U3 | **MCP73831** 1S-Lader | `C424093` | SOT-23-5 | expand | 3.172 | $0,8181 |
-| U3b | MCP73831 (Alt.) | `C14879` | SOT-23-5 | expand | 1.639 | $1,2589 |
-| U4 | **HT7333-A** 3,3 V LDO (250 mA) | `C21583` | SOT-89-3 | expand | 15.949 | $0,2414 |
-| U5 | SS34 (Verpol-/Schutzdiode) | `C8678` | SMA | **base** | 5.064.497 | $0,0349 |
-| Q2 | Si2301 P-MOSFET (High-Side optional) | `C10487` | SOT-23 | **base** | 163.319 | $0,1032 |
+| U1 | **ESP32-C6-MINI-1** (MCU) | `C5736265` | SMD-53P | expand | 2.794 | $3,8871 |
+| U1b | ESP32-C6-MINI-1**U** (IPEX, ext. Antenne) | `C20627095` | SMD 13,2×12,5 | expand | 1.352 | $4,3051 |
+| U3 | **MCP73831T-2ACI/OT** (1S-Lader, 4,20 V) | `C424093` | SOT-23-5 | expand | 3.172 | $0,8181 |
+| U3b | MCP73831T-2ATI/OT (Alt.) | `C14879` | SOT-23-5 | expand | 1.639 | $1,2589 |
+| U4 | **ME6211C33M5G** (LDO 3,3 V, 500 mA) | `C82942` | SOT-23-5 | expand | 277.913 | $0,0597 |
+| U4b | AP2112K-3.3 (LDO 600 mA, Alt.) | `C51118` | SOT-25-5 | expand | 68.369 | $0,1711 |
+| U4c | RT9013-33 (LDO 500 mA, Alt.) | `C47773` | SOT-23-5 | expand | 237.796 | $0,1399 |
+| U6 | **USBLC6-2SC6** (ESD USB) | `C7519` | SOT-23-6L | expand | 35.445 | $0,1827 |
+| U7 | **MAX809TEUR+T** (Unterspannung 3,08 V) | `C16711` | SOT-23 | expand | 13.783 | $0,5628 |
 | J5 | USB-C Buchse 16-pol | `C165948` | SMD | expand | 245.957 | $0,1858 |
+| Q1 | MOSFET **AO3400A** | `C20917` | SOT-23 | **base** | 901.401 | $0,0846 |
+| Q2 | Si2301 P-MOSFET (High-Side optional) | `C10487` | SOT-23 | **base** | 163.319 | $0,1032 |
+| D1 | Schottky **1N5819WS** (Freilauf) | `C191023` | SOD-323 | **base** | 5.648.846 | $0,0137 |
+| D3 | Schottky (Klemmzweig MAX809) | `C191023` | SOD-323 | **base** | 5.648.846 | $0,0137 |
+| U5 | SS34 (Verpolschutz, optional) | `C8678` | SMA | **base** | 5.064.497 | $0,0349 |
+| C1 | 100 nF 50 V | `C49678` | 0805 | **base** | 18.879.051 | $0,0196 |
+| C2 | 10 µF 25 V | `C15850` | 0805 | **base** | 7.091.278 | $0,0841 |
+| C3 | 100 µF 16 V (Puffer) | `C970684` | SMD D6,3×5,4 | expand | 33.972 | $0,0358 |
+| C5 | 22 µF 25 V (Modul-Bulk) | `C45783` | 0805 | **base** | 4.922.447 | $0,2456 |
+| C4 | 1 µF (EN-RC, LDO) | `C15849` | 0603 | **base** | 8.282.371 | $0,0175 |
+| R1 | 1 kΩ (Gate-Serie, §4b) | `C17513` | 0805 | **base** | 30.777.601 | $0,0042 |
+| R2 | 10 kΩ (Gate-Pulldown, EN-RC, GPIO9) | `C17414` | 0805 | **base** | 54.371.929 | $0,0039 |
+| R3 | 200 kΩ (VBAT-Teiler) | `C17539` | 0805 | **base** | 772.897 | $0,0064 |
+| R5 | 5,1 kΩ (USB-C CC) | `C27834` | 0805 | **base** | 4.029.051 | $0,0064 |
+| R4 | LED-Widerstand | `C17513` | 0805 | **base** | 30.777.601 | $0,0042 |
+| D2 | LED rot | `C84256` | 0805 | **base** | 6.142.311 | $0,0134 |
+| SW1/2 | Taster (Reset + Boot) | `C318884` | SMD-4P 5,1×5,1 | **base** | 769.000 | $0,0205 |
+| J1 | Akku JST PH 2,0 mm 2-pol | `C54582899` | SMD 2 mm gewinkelt | expand | 2.308 | $0,0466 |
+| J2 | Sensor JST-XH 2,5 mm 3-pol | `C157928` | THT gewinkelt | expand | 146.324 | $0,0745 |
+| J4 | Pumpe JST-XH 2,5 mm 2-pol | `C157931` | THT gewinkelt | expand | 50.464 | $0,1014 |
 
-**Wichtig zu V2:** der Lade-IC **SGM40567** (der auf dem XIAO sitzt) ist bei JLC **nicht verfügbar**
-(WLCSP, 0 Bestand) — für die eigene Platine also **MCP73831** verwenden.
-Und: HT7333 statt AMS1117-3.3. Der AMS1117 ist bei JLC Basic und billiger, hat aber hohen Dropout und
-mehrere mA Eigenverbrauch — bei Akkubetrieb mit Deep-Sleep wäre das der größte Dauerposten. Der
-HT7333 (250 mA) passt zum Verbrauch: ESP32 + Sensor, kein Pumpenstrom über den LDO.
+**Handling-Kosten:** 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 = **10 Extended-Positionen ≈ 30 USD**
+(U1, U3, U4, U6, U7, J5, C3, J1, J2, J4). Alles andere ist Basic. Das ist der Preis dafür, dass
+Lader, LDO und USB jetzt auf unserer Platine sitzen statt im XIAO-Modul. Sparoptionen:
+RT9013-33 statt ME6211 ändert nichts (beide Extended), ein Basic-Äquivalent für den 100-µF-Puffer
+wäre noch zu suchen.
 
-## 5. Nicht geprüft / offen
+## 2. Der XIAO ist raus — und warum das die Platine *kleiner* macht
 
-- **Stückpreise in EUR** inkl. Zoll/Umsatzsteuer und **Versandkosten** der JLC-Bestellung nicht geprüft.
-- **Mindestbestückungsmenge (leastPatchNumber)** und MOQ je Position nicht ausgewertet.
-- **Alternative Basic-Positionen** für die 4 Extended-Teile (spart 9 USD) nicht gesucht: möglich wäre
-  z. B. ein Basic-100-µF oder Pin-Header statt JST. Lohnt erst, wenn das Layout steht.
-- **Pumpe/Sensor/Akku** kommen nicht von JLC, sondern wie in `bom_entscheidung.md` beschrieben.
+Beim XIAO ESP32-C6 gab es bei JLCPCB nur „Nur-Versand"-Platzhalter (`C9900124963`, LCC-14, 0 Bestand)
+— er wäre nie mitbestückt worden. Das nackte Modul ist dagegen regulär lagernd und mit
+**13,2 × 16,6 mm kleiner als der XIAO (21 × 17,8 mm)**; es fällt zusätzlich dessen USB-Buchse weg,
+die eine Gehäuseöffnung und Randabstand erzwungen hätte. Damit lässt sich die Platine in die
+40-mm-Kammer legen, ohne die Wulst aufzuweiten (siehe `docs/05_review-v1.md` §1).
+
+## 3. Kernteile am Herstellerdatenblatt gegengeprüft
+
+| Bauteil | Quelle | Kernwerte |
+|---|---|---|
+| AO3400A | `aosmd.com/pdfs/datasheet/AO3400A.pdf` | VDS 30 V · ID 5,7 A · RDS(on) < 48 mΩ @ VGS 2,5 V · VGS(th) 0,65–1,45 V |
+| 1N5819WS | LCSC-Datenblatt (Heketai) | VRRM 40 V · IF 1,0 A · IFSM 25 A · VF ≤ 0,60 V @ 1 A |
+| MAX809T | LCSC-Datenblatt | VTH 3,04/3,08/3,11 V · ICC 12 µA · push-pull aktiv-low |
+| MCP73831T-2 | LCSC-Datenblatt | **4,20 V** Ladeschluss (die -2-Variante) · 15–500 mA · UVLO 3,45/3,38 V |
+| ME6211C33 | LCSC-Datenblatt | 500 mA · Dropout 100 mV @ 100 mA · Iq 40 µA |
+| ESP32-C6-MINI-1 | Espressif-Datasheet v1.5 (HTML) | TX-Peak **382 mA** @ 20,5 dBm · Deep-Sleep 7 µA · USB_D− GPIO12 / USB_D+ GPIO13 |
+
+## 4. Nicht geprüft / offen
+
+- **Stückpreise in EUR** inkl. Zoll/USt und **Versandkosten** der JLC-Bestellung nicht geprüft;
+  USD→EUR hier grob mit ~0,92 gerechnet.
+- **MOQ / Mindestbestückungsmenge** je Position nicht ausgewertet.
+- **Basic-Alternativen** für die 10 Extended-Positionen nicht gesucht (Sparpotenzial ~30 USD).
+- Pumpe, Sensor, Akku, Schlauch kommen nicht von JLC (siehe `bom_entscheidung.md`).

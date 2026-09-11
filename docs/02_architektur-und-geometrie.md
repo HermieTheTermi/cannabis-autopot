@@ -11,7 +11,7 @@ Dieses Dokument ist die **verbindliche Geometrie- und Architekturvorgabe** für 
 | # | Frage | Entscheidung | Konsequenz |
 |---|---|---|---|
 | 1 | Topfgröße | **Ø 140 mm bleibt**, Erdbehälterhöhe **150 mm** (nur der Erdebehälter) | Wassertank liegt **darunter** im gleichen Ø 140-Grundriss → Höhe rechnerisch bestimmt (§2) |
-| 2 | MCU-Referenzdesign | **XIAO ESP32-C6 als Modul** (Castellated Pads) auf der eigenen PCB | Keine HF-Antennen-/Quarz-Beschaltung nötig; USB-C-Buchse des XIAO bleibt durch Gehäuseöffnung erreichbar; onboard-LiPo-Lader wird mitgenutzt |
+| 2 | MCU | **ESP32-C6-MINI-1 direkt auf der eigenen PCB** (kein Dev-Board) | Antenne/Quarz/Flash stecken im Modul, alles andere stellen wir selbst: LDO 3,3 V (ME6211, 500 mA), 1S-Lader (MCP73831T-2), USB-C nativ über GPIO12/13. **Antennen-Freistellung ≥ 15 mm im Gehäuse** und bauteilfreier Bereich im oberen Kammerteil sind Pflicht (siehe §5.4) |
 | 3 | Topf-Innengeometrie | Unten Wassertank · **seitliche Wulst** für Akku + Controller + Schlauchkanal · Pumpe fördert nach **oben** auf einen **3D-gedruckten Verteilerring auf der Erdoberfläche** · kapazitiver Sensor **von oben eingesteckt**, seitlich am Controller angeschlossen | Neue Architektur: **Top-Drip statt Bottom-Watering** (siehe §5 – das ändert Regelkreis, Luftspalt-Begründung und Salzthema) |
 | 4 | Alarm-Weg | **Telegram final** | ntfy.sh entfällt; WLAN nur für Ereignismeldungen |
 | 5 | Nährlösung | **Nur Wasser** im Tank, ein Behälter, keine automatische Düngerdosierung | Dünger ausschließlich ins Substrat (Top-Dressing / Einmischen). **Nie Flüssigdünger in den Tank** (§5.3) |
@@ -53,7 +53,7 @@ Die Wulst sitzt seitlich am Mantel und **vollständig über dem Wasserstand** (k
 | Höhe | y = 90–250 mm (160 mm) |
 | Breite (tangential) | **60 mm** |
 | Tiefe (radial) | **40 mm** → Gesamtbreite an dieser Stelle ≈ **180 mm** |
-| Inhalt | XIAO ESP32-C6 auf PCB (~52 × 42 mm), LiPo-Zelle 59 × 37 × 5 mm, Pumpe Ø 32 × 44 mm (OEM ABC-12527), Taster, LED |
+| Inhalt | ESP32-C6-MINI-1 (13,2 × 16,6 mm) + Lader/LDO/USB auf eigener PCB (Zielgröße ≤ 38 mm breit), LiPo-Zelle 59 × 37 × 5 mm, Pumpe Ø 32 × 44 mm (OEM ABC-12527), Taster, LED |
 | Kanäle | **2 getrennte Schlitze**: Kabelkanal (Ø 4 mm) für den Sensor, Schlauchkanal (6 × 6 mm) für Saug- und Druckschlauch |
 | Öffnungen | USB-C-Durchbruch (Laden), LED-Fenster, Deckel mit Dichtung |
 
@@ -103,7 +103,7 @@ Faustwert für 1,9-L-Topf: 0,15–0,35 L pro Gießvorgang, im Wachstum alle 3–
 - **Kein Flüssigdünger in den Tank** — bei einem Rezirkulationssystem konzentriert er sich auf. Düngen ausschließlich über das Substrat (Einmischen beim Topfen, Top-Dressing, gelegentlich von oben mit klarem Wasser nachspülen).
 
 ### 5.4 HF / Elektronik
-- XIAO-Antenne im oberen Wulstbereich halten, **≥ 10 mm Abstand** zu Akku und Metallteilen; Substrat (feucht, εr hoch) wirkt bedämpfend → Wulst nach außen, nicht innen.
+- **Antenne des ESP32-C6-MINI-1** im obersten Wulstbereich halten, damit sie nach oben/außen frei strahlen kann: Espressif fordert wörtlich **≥ 15 mm Freistellung in alle Richtungen** innerhalb des Gehäuses, Modul möglichst am Platinenrand bzw. Platine unter/hinter der Antenne freigeschnitten. Die Wulstwand über der Antenne ist dünner auszuführen (Ziel ~2 mm statt 6 mm), obere ~25 mm der Kammer bauteilfrei. Abstand zu Akku/Metall: **≥ 10 mm** (eigene Auslegung, von Espressif nicht beziffert); Substrat (feucht, εr hoch) bedämpft → Wulst nach außen, nicht innen. **RF-Endtest am fertigen Gehäuse ist vorgeschrieben und noch offen.**
 - Elektronikkammer dicht (Deckel + Dichtung, Kabeldurchführung als Tropfschlaufe) — sie sitzt zwar über dem Wasser, aber das Mikroklima am Topf ist feucht.
 
 ---

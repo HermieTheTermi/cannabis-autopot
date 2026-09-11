@@ -9,7 +9,12 @@ Grundlage: `../research/bom-check/01…04` · Geometrie: `../docs/02_architektur
 
 | # | Bauteil | Wahl | Preis | Bezug / Link | Prüfung |
 |---|---|---|---|---|---|
-| 1 | **MCU** | Seeed **XIAO ESP32-C6** | **6,99 €** | Reichelt, ab Lager — https://www.reichelt.de/de/de/shop/produkt/xiao_esp32c6_wifi_6_bt5_0_zigbee_thread-379732 | ✅ selbst (itemprop 6.99, „ab Lager") |
+| 1 | **MCU** | **ESP32-C6-MINI-1** (nacktes Modul auf eigener PCB) | **≈ 3,60 €** (3,8871 $) | JLCPCB `C5736265` | ✅ API + Espressif-Datasheet |
+| 1b | MCU-Alternative | ESP32-C6-MINI-1**U** (IPEX, externe Antenne) | ≈ 3,99 € (4,3051 $) | JLCPCB `C20627095` | ✅ API (1.352 lagernd) |
+| 1c | **1S-Lader** | **MCP73831T-2ACI/OT**, 4,20 V | ≈ 0,76 € (0,8181 $) | JLCPCB `C424093` | ✅ MPN + Datenblatt (4,20-V-Variante geprüft) |
+| 1d | **3,3-V-LDO** | **ME6211C33M5G**, 500 mA, 40 µA | ≈ 0,06 € | JLCPCB `C82942` | ✅ Datenblatt (500 mA / 100 mV @100 mA / 40 µA) |
+| 1e | **USB-C + Schutz** | Buchse 16-pol `C165948` + USBLC6-2SC6 `C7519` + 2 × 5,1 kΩ `C27834` | ≈ 0,40 € | JLCPCB | ✅ API |
+| 1f | **Unterspannungswächter** | **MAX809TEUR+T**, Schwelle 3,08 V | ≈ 0,52 € (0,5628 $) | JLCPCB `C16711` | ✅ Datenblatt VTH 3,04/3,08/3,11 V |
 | 2 | **Pumpe** | **OEM-Peristaltik ABC-12527**, 3,7–6 V, Ø32 × 44 mm | **7,74 €** | anodas.lt (EU/Litauen, lagernd) — https://anodas.lt/en/peristaltic-liquid-pump-with-silicone-tubing-3-7-6vdc | ✅ selbst (Spec-Block + Preis auf der Seite) |
 | 3 | **Sensor** | Kapazitiv **v1.2**, analog | **4,99 €** | AZ-Delivery — https://www.az-delivery.de/products/bodenfeuchte-sensor-modul-v1-2 | ✅ selbst (JSON-LD 4.99, V1.2 kapazitiv) |
 | 4 | **Akku** | **EFASO 503759** 3,7 V ~1500 mAh, **PCM**, JST PH2.0 | **14,90 €** | efaso.de (Kassel) — https://efaso.de/produkt/503759-3-7v-1500-mah-pcm-jst-ph2-0-2p/ | ✅ selbst (14,90 €, PCM + JST bestätigt) |
@@ -17,10 +22,10 @@ Grundlage: `../research/bom-check/01…04` · Geometrie: `../docs/02_architektur
 | 6 | **Freilaufdiode** | 1N5819 (DO-41), 10 St | ~1,00 € | Reichelt | ⚠️ Subagent, nicht selbst geprüft |
 | 7 | **Sensor-Stecker** | JST-XH 2,54 3-pol Buchse, 10 St | 3,00 € | Funduinoshop | ⚠️ Subagent |
 | 8 | **Schlauch** | Silikon 3 × 5 mm, ~1 m (**neu: nicht mehr im Lieferumfang**) | ~3–5 € | offen | ❌ Preis/Link offen |
-| | **Zwischensumme** | | **≈ 45,30 €** | | |
+| | **Zwischensumme** | | **≈ 42,85 €** | | |
 | 9 | Widerstände 220 Ω/10 kΩ, Kondensatoren 100 nF/10 µF/100 µF, Taster, Stiftleisten | ~5 € | überwiegend LCSC (PCBA) oder Reichelt | ❌ Preise DE nicht belegt |
 | 10 | Ansaugfilter/-gewicht | optional | Badshop/Aquaristik, Preis offen | ❌ |
-| | **Gesamt (realistisch)** | | **≈ 45–50 €** | | |
+| | **Gesamt (realistisch)** | | **≈ 43–48 €** | | |
 
 **Was die Pumpenwahl geändert hat:** Die frühere Adafruit 3910 (24,50 €) ist entfallen, weil die
 OEM-Pumpe im Datenblatt **3,7–6 V** abdeckt — und in der Praxis besser fördert (siehe §2/§3).
@@ -91,11 +96,11 @@ mit Balancer + Buck auf 5 V, und der Onboard-Lader des XIAO wird nicht mehr genu
 
 - **EFASO 503759**: ~**59 × 37 × 5 mm** (Typcode; Maße am Listing **nicht** bestätigt → vor Bestellung
   Specblock prüfen), mit **PCM** (Über-/Tiefentladung, Kurzschluss) und **JST PH2.0-2P**.
-- **Laden:** über den **Onboard-Lader des XIAO** (BAT-Pads) + USB-C-Durchbruch — kein Lade-IC nötig,
-  keine Zusatzplatine. Auf dem XIAO sitzt laut Seeed-Schaltplan (Rev V1.0, Sheet 03 Power) ein
-  **SGM40567-4.2** — also 4,2 V Ladeschluss und damit **1S**; ein 2S-Ladebetrieb ist dort nicht
-  vorgesehen (Beleg: https://files.seeedstudio.com/wiki/SeeedStudio-XIAO-ESP32C6/XIAO_ESP32_C6_v1.0_SCH_260114.pdf,
-  SGM40567-Datenblatt noch als Zusatzbeleg offen). (Beim späteren Aufbau mit nacktem ESP32-Modul muss ein eigener 1S-Lader
+- **Laden:** eigener **MCP73831T-2** auf der Platine, USB-C-Buchse direkt daneben. Die **-2-Variante**
+  ist die 4,20-V-Ausführung (aus dem Datenblatt geprüft); die Familie hat auch 4,35/4,40/4,50 V,
+  die unsere Zelle zerstören würden. Ladestrom über einen Widerstand programmierbar (15–500 mA),
+  sinnvoll ~250 mA für die 1500-mAh-Zelle. Lade-LED am Tri-State-Statusausgang.
+  Der XIAO ist nicht mehr im Design — sein Onboard-Lader (SGM40567-4.2) wäre bei JLC ohnehin nicht beschaffbar. (Beim späteren Aufbau mit nacktem ESP32-Modul muss ein eigener 1S-Lader
   vorgesehen werden, z. B. MCP73831.)
 - **Laufzeit neu gerechnet** (Pumpe @3,7 V: 1,67 W, ~154 ml/min): ein Dosiervorgang von 300 ml
   braucht ~1,9 min und **0,052 Wh**. Aus 1500 mAh @ 3,7 V (5,55 Wh brutto, ~4,44 Wh nutzbar) →
@@ -157,19 +162,42 @@ Die Wulst selbst (60 × 40 × 160) bleibt gültig.
 
 ## 6. Konsequenzen für die PCB
 
-1. XIAO ESP32-C6 als Modul (Castellated Pads), USB-C-Stirnseite zur Gehäuseöffnung.
-2. **JST PH2.0-Buchse** für die Zelle, Ladepfad an die XIAO-BAT-Pads.
+1. **ESP32-C6-MINI-1** direkt auf der Platine (13,2 × 16,6 mm, `C5736265`), **Antenne am
+   Platinenrand** (Punkt 6). Pflichtbeschaltung laut Espressif: **EN über RC-Glied 10 kΩ + 1 µF**,
+   EN nie floaten lassen, Leitung kurz halten; **GPIO9 mit Pull-up** (Boot), **keine großen
+   Kondensatoren an GPIO9** (sonst Download-Modus); am 3V3-Netz **22 µF Bulk + 2 × 0,1 µF**; am
+   Stromeingang **≥ 10 µF + ESD-Diode** (Espressif Hardware Design Guidelines).
+2. **Versorgung:** LDO **ME6211C33** (500 mA) — Pflicht, weil der ESP32-C6 im WLAN-TX **382 mA Peak**
+   zieht (Espressif-Datasheet Tab. 6-4, selbst nachgeprüft) und Espressif ≥ 500 mA Ausgangsstrom
+   verlangt. 200–250-mA-Regler (XC6206, HT7333, MCP1700) brownen bei TX aus; ein Pufferkondensator
+   deckt nur sehr kurze Bursts.
+2b. **Zelle + Laden:** **JST PH2.0-Buchse** + **MCP73831T-2** (4,20 V) + USB-C-Buchse mit
+   2 × 5,1 kΩ (CC, USB-C-Pflicht) und USBLC6-2SC6 (ESD). USB-Daten gehen **nativ** auf
+   **GPIO12 = D−** und **GPIO13 = D+** (Espressif) — kein USB-UART-Brückenchip nötig; optional
+   22/33-Ω-Serienwiderstände vorsehen.
 3. Pumpe: AO3400A Low-Side, Gate 220 Ω, Pulldown 10 kΩ, 1N5819 antiparallel, **100 µF Pufferelko**.
    Pumpe hängt **direkt an VBAT** — kein Wandler, kein Boost-Layout.
-3b. **Zellspannung überwachen (neu, kostet nur einen Widerstand):** Seeed-Wiki dokumentiert dafür
-   wörtlich „solder a 200k resistor in a 1:2 configuration … connected to the A0 port", Auswertung
-   per `Vbatt = 2 * analogReadMilliVolts(A0)`. Damit kann die Firmware den Ladezustand per Telegram
-   melden. Der 3V3-Pin des XIAO liefert laut Seeed bis **700 mA** („regulated output from the onboard
-   regulator") — reicht für Sensor + Reserve.
+3b. **Zellspannung überwachen:** 200-k-Widerstand in 1:2-Beschaltung auf einen **ADC1**-Pin, plus
+   **0,1 µF Filterkondensator** am ADC-Pin (Espressif-Empfehlung für ADC-Genauigkeit). Grundlage für
+   Pumpstopp und Warnung in §4b. Der ADC des ESP32-C6 ist verrauscht → im Code vielfach mitteln und
+   die Schwelle erst **im Ruhezustand** auswerten (während des Pumpens sackt die Spannung ab).
 4. Sensor: 3-poliger JST-XH, **VCC über GPIO schaltbar** (nur während der Messung), AOUT auf ADC1.
 5. Taster Reset/Boot, Status-LED sichtbar durch das LED-Fenster.
-6. **V2 (nacktes ESP32-C6-Modul auf eigener Platine):** zusätzlich eigener **1S-Lader** (MCP73831 o. ä.)
-   und eine eigene **3,3-V-Schiene**; die Sensor-/Pumpenbeschaltung bleibt unverändert.
+6. **Antenne — der Punkt, der die Mechanik betrifft.** Espressif wörtlich: „Ensure that the PCB
+   antenna on the base board also has a sufficiently large clearance area inside the housing.
+   A clearance of at least **15 mm** is recommended in all directions." Dazu: Antenne möglichst über
+   den Platinenrand hinaus, sonst die Platine **beidseitig und unter der Antenne freischneiden**
+   (nicht in der Mitte der Platine „freihöhlen"), Kupfer + dichte GND-Vias in Antennennähe, USB- und
+   UART-Leitungen weit weg von der Antenne.
+   → Für uns heißt das: **obere ~25 mm der Kammer bausteilfrei**, Modul mit der Antenne nach oben,
+   und die **Wulstwand über der Antenne dünner** (6 mm → ~2 mm). Das ist eine Geometrie-Änderung in
+   `case/params.scad`. Espressif schreibt außerdem vor, das **Endprodukt zu testen** (Durchsatz +
+   Reichweite); fällt der Test schlecht aus, ist die Alternative das Modul **-1U** (`C20627095`) mit
+   IPEX-Buchse und externer Antenne.
+6b. **Espressif empfiehlt bei Akkubetrieb ausdrücklich einen Power-Monitor-Chip mit ~3,0-V-Schwelle** —
+   genau das ist unser MAX809TEUR+T (3,08 V, §4b). Zwei unabhängige Quellen treffen sich hier.
+7. **Kein XIAO mehr:** Lader, LDO und USB sind komplett durch eigene Bauteile ersetzt, die geplante
+   V1/V2-Unterscheidung entfällt — es gibt **eine** Platine.
 
 ---
 
@@ -183,5 +211,8 @@ Die Wulst selbst (60 × 40 × 160) bleibt gültig.
 - **LDO-Bestückung** des AZ-Boards nur im Foto prüfbar (nicht im Text).
 - **Maße der EFASO-Zelle** am Listing nicht bestätigt.
 - **Abschaltspannung des EFASO-PCM** nicht dokumentiert → beim Hersteller erfragen oder am Prototyp messen (Ebene 4 in §4b).
+- **RF-Endtest** am fertigen Gehäuse (Espressif-Vorgabe) — ohne Test ist die Antennenperformance unbelegt.
+- **Ruhestrom des ME6211** (40 µA) kostet ~29 mAh/Monat; Alternative TPS7A02 (25 nA) fällt weg, weil er
+  nur 200 mA kann und der TX-Peak 382 mA ist.
 - Versandkosten der übrigen Shops nicht geprüft (AZ-Delivery versandkostenfrei ab 25 €).
 - Amazon-Preise von Agenten im Browser gesehen, nicht selbst nachprüfbar (Amazon blockt Skript-Abrufe).
