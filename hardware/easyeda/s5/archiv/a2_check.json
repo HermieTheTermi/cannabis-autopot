@@ -1,0 +1,439 @@
+{
+  "id": "req_11523",
+  "ok": true,
+  "result": {
+    "passed": false,
+    "summary": {
+      "floatingPins": 25,
+      "componentsWithFloating": 6,
+      "geomNetMismatches": 0,
+      "netMarkerMismatches": 0,
+      "multiNetWires": 0,
+      "wireCrossings": 0,
+      "wireOverPins": 0,
+      "zeroLengthWires": 0,
+      "danglingWires": 0,
+      "duplicateNetMarkers": 0,
+      "titleblockOverlaps": 0,
+      "markerOverlaps": 5,
+      "missingPartitions": 1,
+      "redundantNetMarkers": 0,
+      "foldedNetLabels": 0,
+      "reversedNetFlags": 0,
+      "polarityConventionOutliers": 0,
+      "total": 12
+    },
+    "findings": [
+      {
+        "type": "floating-pin",
+        "level": "warn",
+        "designator": "J5",
+        "primitiveId": "ca1195c141c6c3ce",
+        "pins": [
+          "B8",
+          "A8"
+        ],
+        "pinDetails": [
+          {
+            "number": "B8",
+            "name": "SBU2",
+            "x": 100,
+            "y": 1500
+          },
+          {
+            "number": "A8",
+            "name": "SBU1",
+            "x": 100,
+            "y": 1440
+          }
+        ],
+        "count": 2,
+        "message": "2 个引脚悬空(无导线连接,未打 NC 标识)"
+      },
+      {
+        "type": "floating-pin",
+        "level": "warn",
+        "designator": "U1",
+        "primitiveId": "101e68e385a695e5",
+        "pins": [
+          "4",
+          "7",
+          "9",
+          "10",
+          "20",
+          "21",
+          "24",
+          "25",
+          "26",
+          "27",
+          "28",
+          "29",
+          "32",
+          "33",
+          "34",
+          "35"
+        ],
+        "pinDetails": [
+          {
+            "number": "4",
+            "name": "NC",
+            "x": 100,
+            "y": 1120
+          },
+          {
+            "number": "7",
+            "name": "NC",
+            "x": 100,
+            "y": 1090
+          },
+          {
+            "number": "9",
+            "name": "IO4",
+            "x": 100,
+            "y": 1070
+          },
+          {
+            "number": "10",
+            "name": "IO5",
+            "x": 100,
+            "y": 1060
+          },
+          {
+            "number": "20",
+            "name": "IO15",
+            "x": 100,
+            "y": 960
+          },
+          {
+            "number": "21",
+            "name": "NC",
+            "x": 100,
+            "y": 950
+          },
+          {
+            "number": "24",
+            "name": "IO18",
+            "x": 100,
+            "y": 920
+          },
+          {
+            "number": "25",
+            "name": "IO19",
+            "x": 100,
+            "y": 910
+          },
+          {
+            "number": "26",
+            "name": "IO20",
+            "x": 100,
+            "y": 900
+          },
+          {
+            "number": "27",
+            "name": "IO21",
+            "x": 100,
+            "y": 890
+          },
+          {
+            "number": "28",
+            "name": "IO22",
+            "x": 190,
+            "y": 895
+          },
+          {
+            "number": "29",
+            "name": "IO23",
+            "x": 190,
+            "y": 905
+          },
+          {
+            "number": "32",
+            "name": "NC",
+            "x": 190,
+            "y": 935
+          },
+          {
+            "number": "33",
+            "name": "NC",
+            "x": 190,
+            "y": 945
+          },
+          {
+            "number": "34",
+            "name": "NC",
+            "x": 190,
+            "y": 955
+          },
+          {
+            "number": "35",
+            "name": "NC",
+            "x": 190,
+            "y": 965
+          }
+        ],
+        "count": 16,
+        "message": "16 个引脚悬空(无导线连接,未打 NC 标识)"
+      },
+      {
+        "type": "floating-pin",
+        "level": "warn",
+        "designator": "SW1",
+        "primitiveId": "51394d9936148acb",
+        "pins": [
+          "4",
+          "3"
+        ],
+        "pinDetails": [
+          {
+            "number": "4",
+            "name": "D",
+            "x": 280,
+            "y": 1130
+          },
+          {
+            "number": "3",
+            "name": "C",
+            "x": 240,
+            "y": 1130
+          }
+        ],
+        "count": 2,
+        "message": "2 个引脚悬空(无导线连接,未打 NC 标识)"
+      },
+      {
+        "type": "floating-pin",
+        "level": "warn",
+        "designator": "SW2",
+        "primitiveId": "15900fc65ece11a8",
+        "pins": [
+          "4",
+          "3"
+        ],
+        "pinDetails": [
+          {
+            "number": "4",
+            "name": "D",
+            "x": 370,
+            "y": 1130
+          },
+          {
+            "number": "3",
+            "name": "C",
+            "x": 330,
+            "y": 1130
+          }
+        ],
+        "count": 2,
+        "message": "2 个引脚悬空(无导线连接,未打 NC 标识)"
+      },
+      {
+        "type": "floating-pin",
+        "level": "warn",
+        "designator": "U4",
+        "primitiveId": "5df372a761427e9b",
+        "pins": [
+          "4"
+        ],
+        "pinDetails": [
+          {
+            "number": "4",
+            "name": "NC",
+            "x": 2010,
+            "y": 1130
+          }
+        ],
+        "count": 1,
+        "message": "1 个引脚悬空(无导线连接,未打 NC 标识)"
+      },
+      {
+        "type": "floating-pin",
+        "level": "warn",
+        "designator": "J1",
+        "primitiveId": "a8b4cab6fde34c4e",
+        "pins": [
+          "3",
+          "4"
+        ],
+        "pinDetails": [
+          {
+            "number": "3",
+            "name": "3",
+            "x": 1435,
+            "y": 790
+          },
+          {
+            "number": "4",
+            "name": "4",
+            "x": 1435,
+            "y": 840
+          }
+        ],
+        "count": 2,
+        "message": "2 个引脚悬空(无导线连接,未打 NC 标识)"
+      },
+      {
+        "type": "marker-overlap",
+        "level": "warn",
+        "primitiveId": "52927d96d41acb05",
+        "markerNet": "GND",
+        "message": "GND(netflag) 与 GND(netflag) 视觉重叠 37.50×12.50 — 换方向/offset 或 stagger",
+        "componentType": "netflag",
+        "primitiveIds": [
+          "52927d96d41acb05",
+          "693dd33e509017d7"
+        ],
+        "bbox": {
+          "minX": 172,
+          "minY": 1409.5,
+          "maxX": 209.5,
+          "maxY": 1432
+        },
+        "other": {
+          "primitiveId": "693dd33e509017d7",
+          "componentType": "netflag",
+          "net": "GND",
+          "bbox": {
+            "minX": 172,
+            "minY": 1419.5,
+            "maxX": 209.5,
+            "maxY": 1442
+          }
+        },
+        "overlapX": 37.5,
+        "overlapY": 12.5
+      },
+      {
+        "type": "marker-overlap",
+        "level": "warn",
+        "primitiveId": "52927d96d41acb05",
+        "markerNet": "GND",
+        "message": "GND(netflag) 与 GND(netflag) 视觉重叠 37.50×12.50 — 换方向/offset 或 stagger",
+        "componentType": "netflag",
+        "primitiveIds": [
+          "52927d96d41acb05",
+          "a42823effb01b9f4"
+        ],
+        "bbox": {
+          "minX": 172,
+          "minY": 1409.5,
+          "maxX": 209.5,
+          "maxY": 1432
+        },
+        "other": {
+          "primitiveId": "a42823effb01b9f4",
+          "componentType": "netflag",
+          "net": "GND",
+          "bbox": {
+            "minX": 172,
+            "minY": 1399.5,
+            "maxX": 209.5,
+            "maxY": 1422
+          }
+        },
+        "overlapX": 37.5,
+        "overlapY": 12.5
+      },
+      {
+        "type": "marker-overlap",
+        "level": "warn",
+        "primitiveId": "565c10edf77a02c5",
+        "markerNet": "GATE",
+        "message": "GATE(netport) 与 BTN(netport) 视觉重叠 9.00×11.00 — 换方向/offset 或 stagger",
+        "componentType": "netport",
+        "primitiveIds": [
+          "565c10edf77a02c5",
+          "b1a5bf2c3977797e"
+        ],
+        "bbox": {
+          "minX": 1859.5,
+          "minY": 484.5,
+          "maxX": 1922.5,
+          "maxY": 495.5
+        },
+        "other": {
+          "primitiveId": "b1a5bf2c3977797e",
+          "componentType": "netport",
+          "net": "BTN",
+          "bbox": {
+            "minX": 1913.5,
+            "minY": 484.5,
+            "maxX": 1970.5,
+            "maxY": 495.5
+          }
+        },
+        "overlapX": 9,
+        "overlapY": 11
+      },
+      {
+        "type": "marker-overlap",
+        "level": "warn",
+        "primitiveId": "693dd33e509017d7",
+        "markerNet": "GND",
+        "message": "GND(netflag) 与 GND(netflag) 视觉重叠 37.50×2.50 — 换方向/offset 或 stagger",
+        "componentType": "netflag",
+        "primitiveIds": [
+          "693dd33e509017d7",
+          "a42823effb01b9f4"
+        ],
+        "bbox": {
+          "minX": 172,
+          "minY": 1419.5,
+          "maxX": 209.5,
+          "maxY": 1442
+        },
+        "other": {
+          "primitiveId": "a42823effb01b9f4",
+          "componentType": "netflag",
+          "net": "GND",
+          "bbox": {
+            "minX": 172,
+            "minY": 1399.5,
+            "maxX": 209.5,
+            "maxY": 1422
+          }
+        },
+        "overlapX": 37.5,
+        "overlapY": 2.5
+      },
+      {
+        "type": "marker-overlap",
+        "level": "warn",
+        "primitiveId": "a9e45ff346b04377",
+        "markerNet": "GND",
+        "message": "GND(netflag) 与 SENSOR_RAW(netport) 视觉重叠 10.00×7.50 — 换方向/offset 或 stagger",
+        "componentType": "netflag",
+        "primitiveIds": [
+          "a9e45ff346b04377",
+          "f5bbd3e0b2dcb33d"
+        ],
+        "bbox": {
+          "minX": 1870.5,
+          "minY": 789.5,
+          "maxX": 1908,
+          "maxY": 812
+        },
+        "other": {
+          "primitiveId": "f5bbd3e0b2dcb33d",
+          "componentType": "netport",
+          "net": "SENSOR_RAW",
+          "bbox": {
+            "minX": 1781.5,
+            "minY": 804.5,
+            "maxX": 1880.5,
+            "maxY": 815.5
+          }
+        },
+        "overlapX": 10,
+        "overlapY": 7.5
+      },
+      {
+        "type": "missing-titleblock",
+        "level": "warn",
+        "count": 1,
+        "message": "图签未填:Drawed(设计者) — 交付图必须能认领(`sch titleblock --data '{\"Name\":\"…\",\"Drawed\":\"…\"}'`)"
+      }
+    ]
+  },
+  "type": "response",
+  "version": "v1"
+}

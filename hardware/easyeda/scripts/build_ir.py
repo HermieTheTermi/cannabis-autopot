@@ -1,0 +1,337 @@
+#!/usr/bin/env python3
+"""SmartGrowTopf_V1 — S0/S1-Datenschicht.
+
+Baut aus der Netzliste (hardware/schaltplan_v1_netzliste.csv) und den am lebenden
+EasyEDA-Symbol gemessenen Pin-Tabellen die kanonische Connectivity-IR (schemaVersion 1.4)
+für den easyeda CLI-Designflow S0-S6.
+
+Quellen (unveraendert gelesen):
+  - hardware/schaltplan_v1_netzliste.csv   (Netz, Bauteil, Pin, Bemerkung)
+  - hardware/pcba_bom_jlc.csv              (Werte, LCSC-Codes)
+  - raw/lib_by_lcsc.json                   (Device-Identitaet, per easyeda lib by-lcsc)
+  - raw/probe*.json                        (echte Pin-Tabellen aus easyeda sch list --include-pins)
+
+Aufruf:
+  python3 scripts/build_ir.py            -> raw/ir_draft.json, raw/ir_report.txt
+"""
+import csv
+import hashlib
+import json
+import os
+import re
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(HERE)          # hardware/easyeda
+REPO = os.path.dirname(os.path.dirname(ROOT))  # repo root
+RAW = os.path.join(ROOT, 'raw')
+
+# --- Bauteile: Originalbezeichnung -> (LCSC, Modul, Rolle/Beschreibung) -------
+# Die Originalbezeichnungen sind die funktionalen Namen aus dem Projekt (R_EN, C_BTN, ...).
+# Nicht-nummerierte Namen sind laut Design-Flow S2 ungueltige Refdes -> sie werden per
+# `sch designators allocate` auf offizielle Library-Praefixe umbenannt; der funktionale
+# Name wandert in `role`.
+COMPS = [
+    # --- Stromversorgung / Lader ---
+    ("U3", "C424093", "LADER", "1S-LiPo-Lader 4,20 V"),
+    ("U4", "C82942", "LDO", "LDO 3,3 V / 500 mA"),
+    ("U7", "C16711", "WAEChTER", "Unterspannungswaechter 3,08 V"),
+    ("U1", "C5736265", "MCU", "ESP32-C6-MINI-1 WLAN-Modul"),
+    ("U6", "C7519", "USB", "USB-ESD-Schutz USBLC6-2SC6"),
+    ("Q1", "C20917", "PUMPE", "N-MOSFET Pumpentreiber"),
+    ("D1", "C191023", "PUMPE", "Freilaufdiode Pumpe"),
+    ("D3", "C191023", "PUMPE", "Klemmzweig Gate"),
+    ("D2", "C2297", "MCU", "Status-LED gruen 525 nm"),
+    ("D5", "C84256", "MCU", "Tank-leer-LED rot"),
+    ("D_LEDCHG", "C84256", "LADER", "Ladestatus-LED rot"),
+    ("C1a", "C49678", "MCU", "Decoupling Modul 100 nF"),
+    ("C1b", "C49678", "MCU", "Decoupling Modul 100 nF"),
+    ("C2", "C45783", "MCU", "Bulk 22 uF am Modul-3V3"),
+    ("C3", "C970684", "AKKU", "Elko 100 uF Pumpenpuffer"),
+    ("C4", "C15849", "MCU", "EN-RC 1 uF"),
+    ("C5", "C15850", "LDO", "LDO-Eingang 10 uF"),
+    ("C6", "C15849", "LDO", "LDO-Ausgang 1 uF"),
+    ("C7", "C1779", "LADER", "Lader-Eingang 4,7 uF"),
+    ("C8", "C1779", "LADER", "Lader-Ausgang 4,7 uF"),
+    ("C9", "C49678", "MCU", "ADC-Filter Sensor 100 nF"),
+    ("C10", "C49678", "MCU", "ADC-Filter VBAT 100 nF"),
+    ("C11", "C49678", "PUMPE", "EMI an Pumpenklemmen 100 nF"),
+    ("C12", "C49678", "WAEChTER", "Decoupling MAX809 100 nF"),
+    ("C_BTN", "C49678", "TASTER", "Taster-Entprellung 100 nF"),
+    ("R1", "C17673", "PUMPE", "Gate-Serie 4,7 k"),
+    ("R2", "C17713", "PUMPE", "Gate-Pulldown 47 k"),
+    ("R3a", "C17539", "WAEChTER", "VBAT-Teiler oben 200 k"),
+    ("R3b", "C17539", "WAEChTER", "VBAT-Teiler unten 200 k"),
+    ("R4", "C17557", "MCU", "Status-LED 220 R"),
+    ("R5a", "C27834", "USB", "CC1-Pulldown 5,1 k"),
+    ("R5b", "C27834", "USB", "CC2-Pulldown 5,1 k"),
+    ("R6", "C17513", "SENSOR", "Sensor-AOUT Serie 1 k"),
+    ("R_EN", "C17414", "MCU", "EN-Pull-up 10 k"),
+    ("R_BOOT", "C17414", "MCU", "GPIO9-Pull-up 10 k"),
+    ("R_GPIO8", "C17414", "MCU", "GPIO8-Strap-Pull-up 10 k"),
+    ("R_BTN", "C17414", "TASTER", "Taster-Pull-up 10 k"),
+    ("R_PROG", "C17614", "LADER", "Ladestrom 3,9 k -> 256 mA"),
+    ("R_LEDCHG", "C17513", "LADER", "Lade-LED 1 k"),
+    ("R_TANK", "C17513", "MCU", "Tank-LED 1 k"),
+    ("R_UART", "C17722", "DEBUG", "TXD0-Serie 499 R (DNP)"),
+    ("J1", "C54582899", "AKKU", "Akku JST-PH 2P"),
+    ("J2", "C157928", "SENSOR", "Sensor JST-XH 3P"),
+    ("J4", "C157931", "PUMPE", "Pumpe JST-XH 2P"),
+    ("J5", "C165948", "USB", "USB-C 16P Buchse"),
+    ("SW1", "C318884", "MCU", "Reset-Taster"),
+    ("SW2", "C318884", "MCU", "Boot-Taster"),
+    ("J6", "NO_LCSC_J6", "TASTER", "2 Loetpads externer Taster"),
+    ("TP1", "NO_LCSC_TP", "DEBUG", "Testpad TXD0"),
+    ("TP2", "NO_LCSC_TP", "MCU", "Testpad RXD0"),
+    ("TP3", "NO_LCSC_TP", "AKKU", "Testpad GND"),
+    ("TP4", "NO_LCSC_TP", "AKKU", "Testpad VBAT"),
+    ("TP5", "NO_LCSC_TP", "LDO", "Testpad +3V3"),
+    ("TP6", "NO_LCSC_TP", "SENSOR", "Testpad SENSOR_AOUT"),
+]
+
+# Bauteile ohne LCSC-Code (keine JLC-Bestueckung): ueber eigene Geraete abgedeckt.
+EXTRA_DEVICES = {
+    # HDR-TH 2P 2,54 mm als Symbol fuer die zwei Loetbohrungen J6 (keine BOM-Position)
+    "NO_LCSC_J6": ("0819f05c4eef4c71ace90d822a990e87", "72b9be21f4ad4d53a42178e79731ea2a", "HDR-TH 2P 2,54 mm"),
+    # 5010-Testpad TH (Messspitze)
+    "NO_LCSC_TP": ("0819f05c4eef4c71ace90d822a990e87", "1d9ad61565194f66a2bb1c832c938c3d", "5010-Testpoint"),
+}
+
+# Netze: Name -> (scope, role)
+NET_META = {
+    "GND": ("global", "ground"),
+    "VBAT": ("global", "power"),
+    "+3V3": ("global", "power"),
+    "VBUS": ("global", "power"),
+}
+
+# --- Pin-Spezifikationen aus der Netzliste aufloesen --------------------------
+# Sonderfaelle, die sich nicht rein numerisch aufloesen lassen (Pin-Namen des
+# offiziellen Symbols statt Nummern).
+NAME_SPECS = {
+    # (Bauteil, Text) -> Liste von Pin-Namen (Praefix-Wildcard moeglich)
+    ("J5", "VBUS (A4/A9/B4/B9)"): ["VBUS"],
+    ("U1", "VDD33 (alle)"): [],
+}
+
+RANGE_RE = re.compile(r'^(\d+)\s*-\s*(\d+)$')
+
+
+def load_pin_tables():
+    """Echte Pin-Tabellen je Device-UUID aus den Live-Messungen (probe*.json)."""
+    tables = {}
+    for name in sorted(os.listdir(RAW)):
+        if not name.startswith('probe') or not name.endswith('.json'):
+            continue
+        data = json.load(open(os.path.join(RAW, name)))
+        for c in data['result']['components']:
+            dev = c.get('device') or {}
+            # --include-device-identity liefert die 32-stellige Device-Library-UUID in
+            # device.libraryUuid; device.uuid bleibt die 16-stellige Instanz-ID.
+            uuid = dev.get('libraryUuid')
+            if not uuid or len(uuid) != 32 or not c.get('pins'):
+                continue
+            tables.setdefault(uuid, [
+                {"number": p["pinNumber"], "name": p["pinName"]}
+                for p in c["pins"]
+            ])
+    return tables
+
+
+def resolve(spec, comp, pins):
+    """Pin-Spezifikation -> Liste von Pin-Nummern des echten Symbols."""
+    spec = spec.strip()
+    numbers = {p['number'] for p in pins}
+    by_name = {}
+    for p in pins:
+        by_name.setdefault(p['name'], []).append(p['number'])
+
+    # 1) explizite Namensspezifikation
+    if (comp, spec) in NAME_SPECS:
+        out = []
+        for want in NAME_SPECS[(comp, spec)]:
+            hits = by_name.get(want, []) if not want.endswith('*') else [
+                n for nm, nums in by_name.items() if nm.startswith(want[:-1]) for n in nums]
+            if not hits:
+                raise KeyError(f"{comp}: kein Pin mit Name {want!r}")
+            out += hits
+        return sorted(set(out))
+
+    # 2) 'N Name' oder reine Zahl
+    m = re.match(r'^(\d+)(?:\s+\S.*)?$', spec)
+    if m:
+        if m.group(1) not in numbers:
+            raise KeyError(f"{comp}: Pin {m.group(1)} existiert nicht")
+        return [m.group(1)]
+
+    # 3) Bereich 1/2/11/14/36-53
+    if '/' in spec and '(' not in spec:
+        out = []
+        for part in spec.split('/'):
+            part = part.strip()
+            rng = RANGE_RE.match(part)
+            if rng:
+                lo, hi = int(rng.group(1)), int(rng.group(2))
+                out += [str(n) for n in range(lo, hi + 1) if str(n) in numbers]
+            elif part in numbers:
+                out.append(part)
+            else:
+                raise KeyError(f"{comp}: Pin {part!r} existiert nicht")
+        return sorted(set(out), key=lambda x: int(x) if x.isdigit() else 0)
+
+    # 4) Text mit Klammer: 'D- (A7/B7)', 'GND (A1/A12/B1/B12) + Schirm', 'EPAD (Pin 49)'
+    def add_name(nm):
+        hits = [n for name, nums in by_name.items() if name == nm for n in nums]
+        if not hits:
+            raise KeyError(f"{comp}: kein Pin mit Name {nm!r}")
+        return hits
+
+    if spec.startswith('D- '):
+        return sorted(set(add_name('DN1') + add_name('DN2')))
+    if spec.startswith('D+ '):
+        return sorted(set(add_name('DP1') + add_name('DP2')))
+    if spec.startswith('GND '):
+        out = add_name('GND')
+        if 'Schirm' in spec:
+            out += add_name('EH')
+        return sorted(set(out))
+    if spec.startswith('EPAD'):
+        num = re.search(r'(\d+)', spec).group(1)
+        if num not in numbers:
+            raise KeyError(f"{comp}: Pin {num} existiert nicht")
+        return [num]
+
+    # 5) Funktionsnamen (Anode/Kathode/Gate/Drain/Source/+/-, CC1/CC2)
+    alias = {
+        'Anode': ['A', '+'],
+        'Kathode': ['K', '-'],
+        'Gate': ['G'],
+        'Drain': ['D'],
+        'Source': ['S'],
+    }
+    for key, names in alias.items():
+        if spec.startswith(key):
+            for nm in names:
+                if nm in by_name:
+                    return by_name[nm]
+    # Elektrolyt-Kondensator ohne Polaritaets-Pin-Namen: + ist Pin 1, - ist Pin 2
+    # (Polaritaet ist im Symbol nicht abgebildet, nur im Footprint).
+    if comp == 'C3' and spec in ('+', '-'):
+        return ['1'] if spec == '+' else ['2']
+    if spec in ('A5 CC1', 'B5 CC2'):
+        return [spec.split()[0]]
+    raise KeyError(f"{comp}: Spezifikation {spec!r} nicht aufloesbar")
+
+
+def main():
+    tables = load_pin_tables()
+    lcsc_map = json.load(open(os.path.join(RAW, 'lcsc_map.json')))
+
+    comps, conns, problems = [], [], []
+    notes = []
+    by_name = {}
+    for name, lcsc, module, desc in COMPS:
+        if lcsc in EXTRA_DEVICES:
+            lib, uuid, devname = EXTRA_DEVICES[lcsc]
+        else:
+            rec = lcsc_map.get(lcsc)
+            if not rec:
+                problems.append(f"{name}: LCSC {lcsc} nicht aufgeloest")
+                continue
+            lib, uuid, devname = rec['libraryUuid'], rec['uuid'], rec.get('manufacturerId') or rec.get('value', '')
+        pins = tables.get(uuid)
+        if pins is None:
+            problems.append(f"{name}: keine gemessene Pin-Tabelle fuer device {uuid}")
+            continue
+        comp = {
+            "id": f"cmp-{name}",
+            "ref": name,
+            "role": f"{name} — {desc}",
+            "device": {"libraryUuid": lib, "deviceUuid": uuid, "name": devname},
+            "pins": [dict(p) for p in pins],
+            "pageId": "4f6771a27edec75b",
+            "_module": module,
+            "_lcsc": lcsc,
+            "_desc": desc,
+        }
+        comps.append(comp)
+        by_name[name] = comp
+
+    nets = {}
+    with open(os.path.join(REPO, 'hardware', 'schaltplan_v1_netzliste.csv'), newline='', encoding='utf-8') as fh:
+        for row in csv.DictReader(fh):
+            net, comp_ref, spec = row['Netz'].strip(), row['Bauteil'].strip(), row['Pin'].strip()
+            comp = by_name.get(comp_ref)
+            if comp is None:
+                problems.append(f"Netz {net}: unbekanntes Bauteil {comp_ref!r}")
+                continue
+            pins = comp['pins']
+            try:
+                nums = resolve(spec, comp_ref, pins)
+            except KeyError as exc:
+                problems.append(str(exc))
+                continue
+            if not nums:
+                if (comp_ref, spec) in NAME_SPECS:
+                    notes.append(f"{net}: {comp_ref} {spec!r} — das offizielle Symbol fuehrt keine "
+                                 f"separaten VDD33-Pins (nur Pin 3 = 3V3); laut Datenblatt sind sie "
+                                 f"modulintern verbunden, im Schaltplan daher nicht separat anschliessbar")
+                else:
+                    problems.append(f"Netz {net}: {comp_ref} {spec!r} -> keine Pins (Symbol hat diese Pins nicht)")
+                continue
+            nets.setdefault(net, [])
+            for num in nums:
+                key = (comp['id'], num)
+                if any(c['componentId'] == comp['id'] and c['pinNumber'] == num for c in conns):
+                    prev = next(c['netId'] for c in conns if c['componentId'] == comp['id'] and c['pinNumber'] == num)
+                    if prev != net_id(net):
+                        problems.append(f"{comp_ref}:{num} doppelt vergeben ({net})")
+                    continue
+                conns.append({"componentId": comp['id'], "pinNumber": num, "netId": net_id(net), "kind": "netlist"})
+
+    # NC / unconnected: alles, was in keiner Verbindung steht
+    connected = {(c['componentId'], c['pinNumber']) for c in conns}
+    for comp in comps:
+        for pin in comp['pins']:
+            if (comp['id'], pin['number']) not in connected:
+                pin['noConnected'] = True
+
+    doc = {
+        "schemaVersion": "1.4",
+        "projectId": "51deea9fc24745be915d72e65813fa8b",
+        "documentId": "4f6771a27edec75b",
+        "components": [{k: v for k, v in c.items() if not k.startswith('_')} for c in comps],
+        "nets": [{"id": net_id(n), "name": n,
+                  "scope": NET_META.get(n, ("local", "signal"))[0],
+                  "role": NET_META.get(n, ("local", "signal"))[1]}
+                 for n in sorted(nets, key=lambda x: (x not in NET_META, x))],
+        "connections": sorted(conns, key=lambda c: (c['componentId'], c['pinNumber'])),
+    }
+    out = os.path.join(RAW, 'ir_draft.json')
+    json.dump(doc, open(out, 'w'), ensure_ascii=False, indent=1)
+
+    # Bericht
+    lines = [f"Bauteile: {len(comps)}  Netze: {len(doc['nets'])}  Verbindungen: {len(conns)}"]
+    nc = sum(1 for c in comps for p in c['pins'] if p.get('noConnected'))
+    lines.append(f"NC-Pins: {nc}")
+    single = [n for n in nets if len({c['componentId'] for c in conns if c['netId'] == net_id(n)}) < 2]
+    if single:
+        lines.append("Netze mit <2 Bauteilen: " + ", ".join(single))
+    lines.append("PROBLEME:" if problems else "keine Probleme")
+    lines += ["  " + p for p in problems]
+    if notes:
+        lines.append("HINWEISE:")
+        lines += ["  " + n for n in notes]
+    open(os.path.join(RAW, 'ir_report.txt'), 'w').write("\n".join(lines) + "\n")
+    print("\n".join(lines))
+    # Zuordnung Bauteil -> Modul fuer die Layout-Planung mitschreiben
+    json.dump({c['ref']: c['_module'] for c in comps}, open(os.path.join(RAW, 'modules.json'), 'w'), indent=1)
+    return 0
+
+
+def net_id(name):
+    return "net-" + hashlib.sha1(("SmartGrowTopf_V1/" + name).encode()).hexdigest()
+
+
+if __name__ == '__main__':
+    sys.exit(main())

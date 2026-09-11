@@ -1,0 +1,89 @@
+{
+ "connections": [
+  {
+   "pin": "C11:2",
+   "kind": "power",
+   "net": "VBAT"
+  },
+  {
+   "pin": "D1:1",
+   "kind": "power",
+   "net": "VBAT"
+  },
+  {
+   "pin": "J4:1",
+   "kind": "power",
+   "net": "VBAT"
+  },
+  {
+   "pin": "Q1:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "R2:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "C11:1",
+   "kind": "netport",
+   "net": "PUMP_N"
+  },
+  {
+   "pin": "D1:2",
+   "kind": "netport",
+   "net": "PUMP_N"
+  },
+  {
+   "pin": "D3:1",
+   "kind": "netport",
+   "net": "RESET_UV"
+  },
+  {
+   "pin": "D3:2",
+   "kind": "netport",
+   "net": "GATE"
+  },
+  {
+   "pin": "J4:2",
+   "kind": "netport",
+   "net": "PUMP_N"
+  },
+  {
+   "pin": "Q1:1",
+   "kind": "netport",
+   "net": "GATE"
+  },
+  {
+   "pin": "Q1:3",
+   "kind": "netport",
+   "net": "PUMP_N"
+  },
+  {
+   "pin": "R1:1",
+   "kind": "netport",
+   "net": "PUMP_EN"
+  },
+  {
+   "pin": "R1:2",
+   "kind": "netport",
+   "net": "GATE"
+  },
+  {
+   "pin": "R2:1",
+   "kind": "netport",
+   "net": "GATE"
+  }
+ ],
+ "rules": {
+  "avoidTitleBlock": true,
+  "avoidPinFanout": true,
+  "staggerLabels": true,
+  "offsetRange": [
+   18,
+   150
+  ],
+  "offsetStep": 6
+ }
+}

@@ -1,0 +1,477 @@
+{
+  "ok": true,
+  "succeeded": [
+    "C12:1",
+    "C12:2",
+    "R3:1",
+    "R5:2",
+    "U7:1",
+    "U7:3",
+    "R3:2",
+    "R5:1",
+    "U7:2"
+  ],
+  "connections": [
+    {
+      "pin": "C12:1",
+      "net": "VBAT",
+      "kind": "power",
+      "pinX": 940,
+      "pinY": 405,
+      "selected": {
+        "direction": "up",
+        "offset": 30,
+        "endPoint": {
+          "x": 940,
+          "y": 435
+        },
+        "score": -7,
+        "reasons": [
+          {
+            "cost": 3,
+            "desc": "offset cost"
+          },
+          {
+            "cost": -10,
+            "desc": "matches kind default direction"
+          }
+        ]
+      },
+      "rejected": [
+        {
+          "direction": "down",
+          "offset": 18,
+          "score": 1.8,
+          "reason": "offset cost"
+        },
+        {
+          "direction": "left",
+          "offset": 18,
+          "score": 9981.8,
+          "reason": "label overlaps a text note (电路说明)"
+        },
+        {
+          "direction": "right",
+          "offset": 18,
+          "score": 70501.8,
+          "reason": "引出方向与引脚朝外方向相反 —— 桩线要穿过/绕过器件本体"
+        }
+      ],
+      "wirePrimitiveId": "24530e182453c1a6",
+      "flagPrimitiveId": "502e83b3f65f5972",
+      "state": "new"
+    },
+    {
+      "pin": "C12:2",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 980,
+      "pinY": 405,
+      "selected": {
+        "direction": "down",
+        "offset": 18,
+        "endPoint": {
+          "x": 980,
+          "y": 385
+        },
+        "score": -8.2,
+        "reasons": [
+          {
+            "cost": 1.8,
+            "desc": "offset cost"
+          },
+          {
+            "cost": -10,
+            "desc": "matches kind default direction"
+          }
+        ]
+      },
+      "rejected": [
+        {
+          "direction": "up",
+          "offset": 24,
+          "score": 2.4,
+          "reason": "offset cost"
+        },
+        {
+          "direction": "right",
+          "offset": 72,
+          "score": 10087.2,
+          "reason": "label overlaps a text note (电路说明)"
+        },
+        {
+          "direction": "left",
+          "offset": 18,
+          "score": 70501.8,
+          "reason": "引出方向与引脚朝外方向相反 —— 桩线要穿过/绕过器件本体"
+        }
+      ],
+      "wirePrimitiveId": "5023f183f50ddae2",
+      "flagPrimitiveId": "cc8c9b5b6dc892e3",
+      "state": "new"
+    },
+    {
+      "pin": "R3:1",
+      "net": "VBAT",
+      "kind": "power",
+      "pinX": 1000,
+      "pinY": 410,
+      "selected": {
+        "direction": "up",
+        "offset": 24,
+        "endPoint": {
+          "x": 1000,
+          "y": 435
+        },
+        "score": -7.6,
+        "reasons": [
+          {
+            "cost": 2.4,
+            "desc": "offset cost"
+          },
+          {
+            "cost": -10,
+            "desc": "matches kind default direction"
+          }
+        ]
+      },
+      "rejected": [
+        {
+          "direction": "down",
+          "offset": 54,
+          "score": 5.4,
+          "reason": "offset cost"
+        },
+        {
+          "direction": "left",
+          "offset": 78,
+          "score": 10587.8,
+          "reason": "label overlaps a text note (电路说明)"
+        },
+        {
+          "direction": "right",
+          "offset": 18,
+          "score": 70501.8,
+          "reason": "引出方向与引脚朝外方向相反 —— 桩线要穿过/绕过器件本体"
+        }
+      ],
+      "wirePrimitiveId": "b74c33e2e6da27eb",
+      "flagPrimitiveId": "6357d20e512930b8",
+      "state": "new"
+    },
+    {
+      "pin": "R5:2",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 895,
+      "pinY": 330,
+      "selected": {
+        "direction": "right",
+        "offset": 18,
+        "endPoint": {
+          "x": 915,
+          "y": 330
+        },
+        "score": -18.2,
+        "reasons": [
+          {
+            "cost": 1.8,
+            "desc": "offset cost"
+          },
+          {
+            "cost": -20,
+            "desc": "matches pin outward side"
+          }
+        ]
+      },
+      "rejected": [
+        {
+          "direction": "down",
+          "offset": 18,
+          "score": -8.2,
+          "reason": "offset cost"
+        },
+        {
+          "direction": "up",
+          "offset": 102,
+          "score": 610.2,
+          "reason": "stub passes through a component bbox"
+        },
+        {
+          "direction": "left",
+          "offset": 18,
+          "score": 60501.8,
+          "reason": "引出方向与引脚朝外方向相反 —— 桩线要穿过/绕过器件本体"
+        }
+      ],
+      "wirePrimitiveId": "9175e80f7398f479",
+      "flagPrimitiveId": "6c8cebcb36a72412",
+      "state": "new"
+    },
+    {
+      "pin": "U7:1",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 905,
+      "pinY": 385,
+      "selected": {
+        "direction": "right",
+        "offset": 18,
+        "endPoint": {
+          "x": 925,
+          "y": 385
+        },
+        "score": 81.8,
+        "reasons": [
+          {
+            "cost": 100,
+            "desc": "stub runs close to a pin fanout channel"
+          },
+          {
+            "cost": 1.8,
+            "desc": "offset cost"
+          },
+          {
+            "cost": -20,
+            "desc": "matches pin outward side"
+          }
+        ]
+      },
+      "rejected": [
+        {
+          "direction": "down",
+          "offset": 60,
+          "score": 96,
+          "reason": "stub runs close to a pin fanout channel"
+        },
+        {
+          "direction": "left",
+          "offset": 78,
+          "score": 50607.8,
+          "reason": "引出方向与引脚朝外方向相反 —— 桩线要穿过/绕过器件本体"
+        },
+        {
+          "direction": "up",
+          "offset": 48,
+          "score": 1000000004.8,
+          "reason": "stub crosses a non-target pin (hard reject)"
+        }
+      ],
+      "wirePrimitiveId": "d79c310bd40cea98",
+      "flagPrimitiveId": "bfbe1ff07b7a8300",
+      "state": "new"
+    },
+    {
+      "pin": "U7:3",
+      "net": "VBAT",
+      "kind": "power",
+      "pinX": 905,
+      "pinY": 405,
+      "selected": {
+        "direction": "up",
+        "offset": 30,
+        "endPoint": {
+          "x": 905,
+          "y": 435
+        },
+        "score": 93,
+        "reasons": [
+          {
+            "cost": 100,
+            "desc": "stub runs close to a pin fanout channel"
+          },
+          {
+            "cost": 3,
+            "desc": "offset cost"
+          },
+          {
+            "cost": -10,
+            "desc": "matches kind default direction"
+          }
+        ]
+      },
+      "rejected": [
+        {
+          "direction": "right",
+          "offset": 18,
+          "score": 10081.8,
+          "reason": "label overlaps a text note (电路说明)"
+        },
+        {
+          "direction": "left",
+          "offset": 78,
+          "score": 50607.8,
+          "reason": "引出方向与引脚朝外方向相反 —— 桩线要穿过/绕过器件本体"
+        },
+        {
+          "direction": "down",
+          "offset": 30,
+          "score": 2000000003,
+          "reason": "stub crosses a non-target pin (hard reject)"
+        }
+      ],
+      "wirePrimitiveId": "e1a5d4f82b307ea9",
+      "flagPrimitiveId": "6d9b857e06f29f61",
+      "state": "new"
+    },
+    {
+      "pin": "R3:2",
+      "net": "VBAT_SENSE",
+      "kind": "netport",
+      "pinX": 1040,
+      "pinY": 410,
+      "selected": {
+        "direction": "right",
+        "offset": 18,
+        "endPoint": {
+          "x": 1060,
+          "y": 410
+        },
+        "score": -28.2,
+        "reasons": [
+          {
+            "cost": 1.8,
+            "desc": "offset cost"
+          },
+          {
+            "cost": -20,
+            "desc": "matches pin outward side"
+          },
+          {
+            "cost": -10,
+            "desc": "matches kind default direction"
+          }
+        ]
+      },
+      "rejected": [
+        {
+          "direction": "down",
+          "offset": 18,
+          "score": 151.8,
+          "reason": "netport folded vertical — label reads sideways"
+        },
+        {
+          "direction": "up",
+          "offset": 18,
+          "score": 151.8,
+          "reason": "netport folded vertical — label reads sideways"
+        },
+        {
+          "direction": "left",
+          "offset": 18,
+          "score": 60501.8,
+          "reason": "引出方向与引脚朝外方向相反 —— 桩线要穿过/绕过器件本体"
+        }
+      ],
+      "wirePrimitiveId": "c0a1720d9735a231",
+      "flagPrimitiveId": "c4c411288eac0ae2",
+      "state": "new"
+    },
+    {
+      "pin": "R5:1",
+      "net": "VBAT_SENSE",
+      "kind": "netport",
+      "pinX": 855,
+      "pinY": 330,
+      "selected": {
+        "direction": "left",
+        "offset": 18,
+        "endPoint": {
+          "x": 835,
+          "y": 330
+        },
+        "score": -18.2,
+        "reasons": [
+          {
+            "cost": 1.8,
+            "desc": "offset cost"
+          },
+          {
+            "cost": -20,
+            "desc": "matches pin outward side"
+          }
+        ]
+      },
+      "rejected": [
+        {
+          "direction": "down",
+          "offset": 18,
+          "score": 151.8,
+          "reason": "netport folded vertical — label reads sideways"
+        },
+        {
+          "direction": "up",
+          "offset": 78,
+          "score": 657.8,
+          "reason": "stub passes through a component bbox"
+        },
+        {
+          "direction": "right",
+          "offset": 24,
+          "score": 51492.4,
+          "reason": "引出方向与引脚朝外方向相反 —— 桩线要穿过/绕过器件本体"
+        }
+      ],
+      "wirePrimitiveId": "66df63ca38cdb7a7",
+      "flagPrimitiveId": "1e7486173067d1f1",
+      "state": "new"
+    },
+    {
+      "pin": "U7:2",
+      "net": "RESET_UV",
+      "kind": "netport",
+      "pinX": 905,
+      "pinY": 395,
+      "selected": {
+        "direction": "right",
+        "offset": 60,
+        "endPoint": {
+          "x": 965,
+          "y": 395
+        },
+        "score": 76,
+        "reasons": [
+          {
+            "cost": 100,
+            "desc": "stub runs close to a pin fanout channel"
+          },
+          {
+            "cost": 6,
+            "desc": "offset cost"
+          },
+          {
+            "cost": -20,
+            "desc": "matches pin outward side"
+          },
+          {
+            "cost": -10,
+            "desc": "matches kind default direction"
+          }
+        ]
+      },
+      "rejected": [
+        {
+          "direction": "left",
+          "offset": 48,
+          "score": 50604.8,
+          "reason": "引出方向与引脚朝外方向相反 —— 桩线要穿过/绕过器件本体"
+        },
+        {
+          "direction": "down",
+          "offset": 72,
+          "score": 2000000257.2,
+          "reason": "stub crosses a non-target pin (hard reject)"
+        },
+        {
+          "direction": "up",
+          "offset": 36,
+          "score": 2000001253.6,
+          "reason": "stub crosses a non-target pin (hard reject)"
+        }
+      ],
+      "wirePrimitiveId": "010f7930f4e56f80",
+      "flagPrimitiveId": "c2ed097e43c107ee",
+      "state": "new"
+    }
+  ]
+}

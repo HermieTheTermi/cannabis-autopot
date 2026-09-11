@@ -1,0 +1,162 @@
+{
+  "ok": true,
+  "succeeded": [
+    "R16:1",
+    "R16:2",
+    "TP1:1"
+  ],
+  "connections": [
+    {
+      "pin": "R16:1",
+      "net": "UART_TX",
+      "kind": "netport",
+      "pinX": 1830,
+      "pinY": 1525,
+      "selected": {
+        "direction": "down",
+        "offset": 18,
+        "endPoint": {
+          "x": 1830,
+          "y": 1505
+        },
+        "score": 151.8,
+        "reasons": [
+          {
+            "cost": 150,
+            "desc": "netport folded vertical — label reads sideways"
+          },
+          {
+            "cost": 1.8,
+            "desc": "offset cost"
+          }
+        ]
+      },
+      "rejected": [
+        {
+          "direction": "up",
+          "offset": 18,
+          "score": 151.8,
+          "reason": "netport folded vertical — label reads sideways"
+        },
+        {
+          "direction": "left",
+          "offset": 78,
+          "score": 587.8,
+          "reason": "stub passes through a component bbox"
+        },
+        {
+          "direction": "right",
+          "offset": 24,
+          "score": 50492.4,
+          "reason": "引出方向与引脚朝外方向相反 —— 桩线要穿过/绕过器件本体"
+        }
+      ],
+      "wirePrimitiveId": "964dab78d26c51c2",
+      "flagPrimitiveId": "a569ba6251ab9844",
+      "warning": "落点带痕(score=152):netport folded vertical — label reads sideways; offset cost —— 建议挪件腾位后重连",
+      "state": "new"
+    },
+    {
+      "pin": "R16:2",
+      "net": "UART_TP",
+      "kind": "netport",
+      "pinX": 1870,
+      "pinY": 1525,
+      "selected": {
+        "direction": "right",
+        "offset": 18,
+        "endPoint": {
+          "x": 1890,
+          "y": 1525
+        },
+        "score": -28.2,
+        "reasons": [
+          {
+            "cost": 1.8,
+            "desc": "offset cost"
+          },
+          {
+            "cost": -20,
+            "desc": "matches pin outward side"
+          },
+          {
+            "cost": -10,
+            "desc": "matches kind default direction"
+          }
+        ]
+      },
+      "rejected": [
+        {
+          "direction": "down",
+          "offset": 18,
+          "score": 151.8,
+          "reason": "netport folded vertical — label reads sideways"
+        },
+        {
+          "direction": "up",
+          "offset": 18,
+          "score": 151.8,
+          "reason": "netport folded vertical — label reads sideways"
+        },
+        {
+          "direction": "left",
+          "offset": 18,
+          "score": 60501.8,
+          "reason": "引出方向与引脚朝外方向相反 —— 桩线要穿过/绕过器件本体"
+        }
+      ],
+      "wirePrimitiveId": "728ef80cfc93eaaf",
+      "flagPrimitiveId": "19e94a990702308e",
+      "state": "new"
+    },
+    {
+      "pin": "TP1:1",
+      "net": "UART_TP",
+      "kind": "netport",
+      "pinX": 1740,
+      "pinY": 1520,
+      "selected": {
+        "direction": "left",
+        "offset": 18,
+        "endPoint": {
+          "x": 1720,
+          "y": 1520
+        },
+        "score": -18.2,
+        "reasons": [
+          {
+            "cost": 1.8,
+            "desc": "offset cost"
+          },
+          {
+            "cost": -20,
+            "desc": "matches pin outward side"
+          }
+        ]
+      },
+      "rejected": [
+        {
+          "direction": "down",
+          "offset": 18,
+          "score": 151.8,
+          "reason": "netport folded vertical — label reads sideways"
+        },
+        {
+          "direction": "up",
+          "offset": 18,
+          "score": 151.8,
+          "reason": "netport folded vertical — label reads sideways"
+        },
+        {
+          "direction": "right",
+          "offset": 18,
+          "score": 60491.8,
+          "reason": "引出方向与引脚朝外方向相反 —— 桩线要穿过/绕过器件本体"
+        }
+      ],
+      "wirePrimitiveId": "f2e922f9e3cafb2f",
+      "flagPrimitiveId": "c245b212b93f2868",
+      "state": "new"
+    }
+  ]
+}

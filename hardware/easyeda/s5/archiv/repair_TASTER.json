@@ -1,0 +1,67 @@
+{
+  "ok": true,
+  "succeeded": [
+    "C14:2",
+    "J6:2",
+    "R12:1",
+    "C14:1",
+    "J6:1",
+    "R12:2"
+  ],
+  "connections": [
+    {
+      "pin": "C14:2",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 125,
+      "pinY": 315,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "J6:2",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 64.99999999999999,
+      "pinY": 315,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "R12:1",
+      "net": "+3V3",
+      "kind": "power",
+      "pinX": 150,
+      "pinY": 320,
+      "state": "already-connected",
+      "currentNet": "+3V3"
+    },
+    {
+      "pin": "C14:1",
+      "net": "BTN",
+      "kind": "netport",
+      "pinX": 85,
+      "pinY": 315,
+      "state": "already-connected",
+      "currentNet": "BTN"
+    },
+    {
+      "pin": "J6:1",
+      "net": "BTN",
+      "kind": "netport",
+      "pinX": 64.99999999999999,
+      "pinY": 305,
+      "state": "already-connected",
+      "currentNet": "BTN"
+    },
+    {
+      "pin": "R12:2",
+      "net": "BTN",
+      "kind": "netport",
+      "pinX": 190,
+      "pinY": 320,
+      "state": "already-connected",
+      "currentNet": "BTN"
+    }
+  ]
+}

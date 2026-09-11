@@ -1,0 +1,90 @@
+{
+  "id": "req_270",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:11:47.541944Z",
+  "ok": true,
+  "result": {
+    "device": {
+      "association": {
+        "footprint": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "uuid": "66c88f730aeb4a8a9d7664529f05f5f8"
+        },
+        "footprintUuid": "66c88f730aeb4a8a9d7664529f05f5f8",
+        "images": [
+          "https://alimg.szlcsc.com/upload/public/product/middle/20251211/19546E9277539B3E6B2508729FFF7392.jpg"
+        ],
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "type": 2,
+          "uuid": "cb86c5f6047d495e892d767418563508"
+        },
+        "symbolType": 2,
+        "symbolUuid": "cb86c5f6047d495e892d767418563508"
+      },
+      "classification": {
+        "libraryType": "3",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "primaryClassificationUuid": "b1cff9cfcdde4d0ab4aaf40521e40c4a",
+        "secondaryClassificationUuid": "2e125fe90a1e4bb0972151173c983308"
+      },
+      "description": "Capacitance:100uF Tolerance:±20% Tolerance:±20% Voltage Rating:16V Ripple Current:63mA@120Hz Equivalent Series Resistance(ESR):- Diameter:6.3mm Height - Seated (Max):5.4mm Lifetime:2800hrs@105℃ Operating Temperature:-55℃~+105℃ Operating Temperature:-55℃~+",
+      "libraryType": "3",
+      "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+      "name": "RVT1C101M0605 100UF 16V",
+      "property": {
+        "addIntoBom": "yes",
+        "addIntoPcb": "yes",
+        "designator": "C?",
+        "manufacturer": "DMBJ(振宝佳)",
+        "manufacturerId": "RVT1C101M0605 100UF 16V",
+        "name": "RVT1C101M0605 100UF 16V",
+        "otherProperty": {
+          "3D Model": "5c4e13b0cf104364b4378aad028dce69",
+          "3D Model Title": "CAP-SMD_BD6.3-L6.6-W6.6-LS7.2-FD",
+          "3D Model Transform": "283.464,259.842,0,180,0,0,0,0,0",
+          "Add into BOM": "yes",
+          "Convert to PCB": "yes",
+          "Datasheet": "https://item.szlcsc.com/datasheet/RVT1C101M0605%2520100UF%252016V/1060412.html",
+          "Description": "Capacitance:100uF Tolerance:±20% Tolerance:±20% Voltage Rating:16V Ripple Current:63mA@120Hz Equivalent Series Resistance(ESR):- Diameter:6.3mm Height - Seated (Max):5.4mm Lifetime:2800hrs@105℃ Operating Temperature:-55℃~+105℃ Operating Temperature:-55℃~+",
+          "Designator": "C?",
+          "Diameter": "6.3mm",
+          "Equivalent Series Resistance(ESR)": "-",
+          "Footprint": "66c88f730aeb4a8a9d7664529f05f5f8",
+          "Height - Seated (Max)": "5.4mm",
+          "JLCPCB Part Class": "Extended Part",
+          "LCSC Part Name": "100uF ±20% 16V",
+          "Lifetime": "2800hrs@105℃",
+          "Manufacturer": "DMBJ(振宝佳)",
+          "Manufacturer Part": "RVT1C101M0605 100UF 16V",
+          "Name": "={Value}",
+          "Operating Temperature": "-55℃~+105℃",
+          "Ripple Current": "63mA@120Hz",
+          "Supplier": "LCSC",
+          "Supplier Footprint": "SMD,D6.3xL5.4mm",
+          "Supplier Part": "C970684",
+          "Symbol": "cb86c5f6047d495e892d767418563508",
+          "Tolerance": "±20%",
+          "Value": "100uF",
+          "Voltage Rating": "16V"
+        },
+        "supplier": "LCSC",
+        "supplierId": "C970684"
+      },
+      "subPartNames": [
+        "RVT1C101M0605_C970684.1"
+      ],
+      "uuid": "fd9b819453c943d9b25639f63ee16ae3"
+    }
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 176,
+  "seqAbandoned": 0
+}

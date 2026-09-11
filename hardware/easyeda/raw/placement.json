@@ -1,0 +1,1027 @@
+{
+ "sheet": [
+  0,
+  0,
+  2338,
+  1652
+ ],
+ "keepout": [
+  1636,
+  0,
+  2338,
+  198
+ ],
+ "blocks": [
+  {
+   "module": "USB",
+   "title": "USB-C Eingang & ESD",
+   "x0": 50,
+   "y1": 1590,
+   "x1": 750,
+   "y0": 1250,
+   "content_bottom": 1339.0
+  },
+  {
+   "module": "LADER",
+   "title": "Laden (MCP73831)",
+   "x0": 830,
+   "y1": 1590,
+   "x1": 1630,
+   "y0": 1250,
+   "content_bottom": 1429.0
+  },
+  {
+   "module": "DEBUG",
+   "title": "UART-Debug-Pads (DNP)",
+   "x0": 1690,
+   "y1": 1590,
+   "x1": 2250,
+   "y0": 1250,
+   "content_bottom": 1449.0
+  },
+  {
+   "module": "MCU",
+   "title": "ESP32-C6-MCU + Beschaltung",
+   "x0": 50,
+   "y1": 1220,
+   "x1": 1300,
+   "y0": 600,
+   "content_bottom": 732.0
+  },
+  {
+   "module": "WAEChTER",
+   "title": "Unterspannungswaechter (MAX809)",
+   "x0": 1420,
+   "y1": 1220,
+   "x1": 1890,
+   "y0": 920,
+   "content_bottom": 1057.0
+  },
+  {
+   "module": "LDO",
+   "title": "3V3-LDO (ME6211)",
+   "x0": 1880,
+   "y1": 1220,
+   "x1": 2280,
+   "y0": 920,
+   "content_bottom": 968.0
+  },
+  {
+   "module": "AKKU",
+   "title": "Akku & Puffer",
+   "x0": 1360,
+   "y1": 890,
+   "x1": 1830,
+   "y0": 590,
+   "content_bottom": 739.0
+  },
+  {
+   "module": "SENSOR",
+   "title": "Sensor-Eingang",
+   "x0": 1880,
+   "y1": 890,
+   "x1": 2280,
+   "y0": 590,
+   "content_bottom": 729.0
+  },
+  {
+   "module": "PUMPE",
+   "title": "Pumpentreiber (Low-Side)",
+   "x0": 1310,
+   "y1": 560,
+   "x1": 1870,
+   "y0": 230,
+   "content_bottom": 330.0
+  },
+  {
+   "module": "TASTER",
+   "title": "Taster & LEDs",
+   "x0": 1960,
+   "y1": 560,
+   "x1": 2280,
+   "y0": 230,
+   "content_bottom": 330.0
+  }
+ ],
+ "placements": [
+  {
+   "ref": "J5",
+   "role": "J5",
+   "module": "USB",
+   "id": "cmp-J5",
+   "deviceUuid": "730e76758f9742ca9ca85c73f4ec0ecd",
+   "x": 265,
+   "y": 1465,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    240,
+    1400,
+    290,
+    1530
+   ]
+  },
+  {
+   "ref": "U6",
+   "role": "U6",
+   "module": "USB",
+   "id": "cmp-U6",
+   "deviceUuid": "5f9a995bc73746278024add8c7b330e3",
+   "x": 405,
+   "y": 1480,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    360,
+    1430,
+    450,
+    1530
+   ]
+  },
+  {
+   "ref": "R7",
+   "role": "R5a",
+   "module": "USB",
+   "id": "cmp-R5a",
+   "deviceUuid": "228f8e23038b4563bc5cde7c8409a6b9",
+   "x": 530,
+   "y": 1525,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    520,
+    1520,
+    540,
+    1530
+   ]
+  },
+  {
+   "ref": "R8",
+   "role": "R5b",
+   "module": "USB",
+   "id": "cmp-R5b",
+   "deviceUuid": "228f8e23038b4563bc5cde7c8409a6b9",
+   "x": 625,
+   "y": 1525,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    615,
+    1520,
+    635,
+    1530
+   ]
+  },
+  {
+   "ref": "U3",
+   "role": "U3",
+   "module": "LADER",
+   "id": "cmp-U3",
+   "deviceUuid": "78f39a8c3fa54027bfc13d0a0eefd7c2",
+   "x": 925,
+   "y": 1510,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    890,
+    1490,
+    960,
+    1530
+   ]
+  },
+  {
+   "ref": "LED1",
+   "role": "D_LEDCHG",
+   "module": "LADER",
+   "id": "cmp-D_LEDCHG",
+   "deviceUuid": "6073168119a941bda41c330f8b8e9152",
+   "x": 1045,
+   "y": 1510,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1030,
+    1500,
+    1050,
+    1530
+   ]
+  },
+  {
+   "ref": "C7",
+   "role": "C7",
+   "module": "LADER",
+   "id": "cmp-C7",
+   "deviceUuid": "cffcb18c2c544b879332d01f596fbfaf",
+   "x": 1130,
+   "y": 1520,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1125,
+    1510,
+    1135,
+    1530
+   ]
+  },
+  {
+   "ref": "C8",
+   "role": "C8",
+   "module": "LADER",
+   "id": "cmp-C8",
+   "deviceUuid": "cffcb18c2c544b879332d01f596fbfaf",
+   "x": 1210,
+   "y": 1520,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1205,
+    1510,
+    1215,
+    1530
+   ]
+  },
+  {
+   "ref": "R13",
+   "role": "R_PROG",
+   "module": "LADER",
+   "id": "cmp-R_PROG",
+   "deviceUuid": "eb3a002498064638b42a7b04b4029852",
+   "x": 1295,
+   "y": 1525,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1285,
+    1520,
+    1305,
+    1530
+   ]
+  },
+  {
+   "ref": "R14",
+   "role": "R_LEDCHG",
+   "module": "LADER",
+   "id": "cmp-R_LEDCHG",
+   "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+   "x": 1385,
+   "y": 1525,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1375,
+    1520,
+    1395,
+    1530
+   ]
+  },
+  {
+   "ref": "TP1",
+   "role": "TP1",
+   "module": "DEBUG",
+   "id": "cmp-TP1",
+   "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
+   "x": 1750,
+   "y": 1520,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1750,
+    1510,
+    1770,
+    1530
+   ]
+  },
+  {
+   "ref": "R16",
+   "role": "R_UART",
+   "module": "DEBUG",
+   "id": "cmp-R_UART",
+   "deviceUuid": "68e77fee64a84125bdea1b394c2e5985",
+   "x": 1850,
+   "y": 1525,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1840,
+    1520,
+    1860,
+    1530
+   ]
+  },
+  {
+   "ref": "U1",
+   "role": "U1",
+   "module": "MCU",
+   "id": "cmp-U1",
+   "deviceUuid": "6f51ffdaaf4d45a3acac6e54a529f9e1",
+   "x": 445,
+   "y": 1020,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    410,
+    880,
+    480,
+    1160
+   ]
+  },
+  {
+   "ref": "SW1",
+   "role": "SW1",
+   "module": "MCU",
+   "id": "cmp-SW1",
+   "deviceUuid": "38630614a58f4650bd5eefe9a5f79d9a",
+   "x": 560,
+   "y": 1150,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    550,
+    1130,
+    570,
+    1160
+   ]
+  },
+  {
+   "ref": "SW2",
+   "role": "SW2",
+   "module": "MCU",
+   "id": "cmp-SW2",
+   "deviceUuid": "38630614a58f4650bd5eefe9a5f79d9a",
+   "x": 650,
+   "y": 1150,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    640,
+    1130,
+    660,
+    1160
+   ]
+  },
+  {
+   "ref": "D2",
+   "role": "D2",
+   "module": "MCU",
+   "id": "cmp-D2",
+   "deviceUuid": "cabe1100a18642cca4b0bdb071599cef",
+   "x": 750,
+   "y": 1140,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    735,
+    1130,
+    755,
+    1160
+   ]
+  },
+  {
+   "ref": "D5",
+   "role": "D5",
+   "module": "MCU",
+   "id": "cmp-D5",
+   "deviceUuid": "6073168119a941bda41c330f8b8e9152",
+   "x": 840,
+   "y": 1140,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    825,
+    1130,
+    845,
+    1160
+   ]
+  },
+  {
+   "ref": "TP2",
+   "role": "TP2",
+   "module": "MCU",
+   "id": "cmp-TP2",
+   "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
+   "x": 915,
+   "y": 1150,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    915,
+    1140,
+    935,
+    1160
+   ]
+  },
+  {
+   "ref": "C1",
+   "role": "C1a",
+   "module": "MCU",
+   "id": "cmp-C1a",
+   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+   "x": 1020,
+   "y": 1150,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1010,
+    1140,
+    1030,
+    1160
+   ]
+  },
+  {
+   "ref": "C10",
+   "role": "C10",
+   "module": "MCU",
+   "id": "cmp-C10",
+   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+   "x": 1110,
+   "y": 1150,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1100,
+    1140,
+    1120,
+    1160
+   ]
+  },
+  {
+   "ref": "C13",
+   "role": "C1b",
+   "module": "MCU",
+   "id": "cmp-C1b",
+   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+   "x": 1200,
+   "y": 1150,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1190,
+    1140,
+    1210,
+    1160
+   ]
+  },
+  {
+   "ref": "C2",
+   "role": "C2",
+   "module": "MCU",
+   "id": "cmp-C2",
+   "deviceUuid": "9583d53cf848486a9d523fcaf153a729",
+   "x": 420,
+   "y": 800,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    410,
+    790,
+    430,
+    810
+   ]
+  },
+  {
+   "ref": "C4",
+   "role": "C4",
+   "module": "MCU",
+   "id": "cmp-C4",
+   "deviceUuid": "af2e25dc8e174a11bab66129be592f4d",
+   "x": 510,
+   "y": 800,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    500,
+    790,
+    520,
+    810
+   ]
+  },
+  {
+   "ref": "C9",
+   "role": "C9",
+   "module": "MCU",
+   "id": "cmp-C9",
+   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+   "x": 600,
+   "y": 800,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    590,
+    790,
+    610,
+    810
+   ]
+  },
+  {
+   "ref": "R10",
+   "role": "R_BOOT",
+   "module": "MCU",
+   "id": "cmp-R_BOOT",
+   "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
+   "x": 695,
+   "y": 805,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    685,
+    800,
+    705,
+    810
+   ]
+  },
+  {
+   "ref": "R11",
+   "role": "R_GPIO8",
+   "module": "MCU",
+   "id": "cmp-R_GPIO8",
+   "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
+   "x": 785,
+   "y": 805,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    775,
+    800,
+    795,
+    810
+   ]
+  },
+  {
+   "ref": "R15",
+   "role": "R_TANK",
+   "module": "MCU",
+   "id": "cmp-R_TANK",
+   "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+   "x": 875,
+   "y": 805,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    865,
+    800,
+    885,
+    810
+   ]
+  },
+  {
+   "ref": "R4",
+   "role": "R4",
+   "module": "MCU",
+   "id": "cmp-R4",
+   "deviceUuid": "760339a7f6b44f119a4df4dbb5478cf2",
+   "x": 965,
+   "y": 805,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    955,
+    800,
+    975,
+    810
+   ]
+  },
+  {
+   "ref": "R9",
+   "role": "R_EN",
+   "module": "MCU",
+   "id": "cmp-R_EN",
+   "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
+   "x": 1060,
+   "y": 805,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1050,
+    800,
+    1070,
+    810
+   ]
+  },
+  {
+   "ref": "U7",
+   "role": "U7",
+   "module": "WAEChTER",
+   "id": "cmp-U7",
+   "deviceUuid": "d7cdf9114eff4110bc187d388e4df2e5",
+   "x": 1435,
+   "y": 1140,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1420,
+    1120,
+    1465,
+    1160
+   ]
+  },
+  {
+   "ref": "C12",
+   "role": "C12",
+   "module": "WAEChTER",
+   "id": "cmp-C12",
+   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+   "x": 1545,
+   "y": 1150,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1535,
+    1140,
+    1555,
+    1160
+   ]
+  },
+  {
+   "ref": "R3",
+   "role": "R3a",
+   "module": "WAEChTER",
+   "id": "cmp-R3a",
+   "deviceUuid": "d437a4e518b341d7a6ddadaf8d14b1f6",
+   "x": 1635,
+   "y": 1155,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1625,
+    1150,
+    1645,
+    1160
+   ]
+  },
+  {
+   "ref": "R5",
+   "role": "R3b",
+   "module": "WAEChTER",
+   "id": "cmp-R3b",
+   "deviceUuid": "d437a4e518b341d7a6ddadaf8d14b1f6",
+   "x": 1725,
+   "y": 1155,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1715,
+    1150,
+    1735,
+    1160
+   ]
+  },
+  {
+   "ref": "U4",
+   "role": "U4",
+   "module": "LDO",
+   "id": "cmp-U4",
+   "deviceUuid": "0c60a448115c435b947647a7222a5ab0",
+   "x": 1980,
+   "y": 1140,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1940,
+    1120,
+    2020,
+    1160
+   ]
+  },
+  {
+   "ref": "TP5",
+   "role": "TP5",
+   "module": "LDO",
+   "id": "cmp-TP5",
+   "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
+   "x": 2090,
+   "y": 1150,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2090,
+    1140,
+    2110,
+    1160
+   ]
+  },
+  {
+   "ref": "C5",
+   "role": "C5",
+   "module": "LDO",
+   "id": "cmp-C5",
+   "deviceUuid": "e10bc30d72324129a5b7daae4e75f56f",
+   "x": 2190,
+   "y": 1150,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2180,
+    1140,
+    2200,
+    1160
+   ]
+  },
+  {
+   "ref": "C6",
+   "role": "C6",
+   "module": "LDO",
+   "id": "cmp-C6",
+   "deviceUuid": "af2e25dc8e174a11bab66129be592f4d",
+   "x": 1950,
+   "y": 1035,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1940,
+    1025,
+    1960,
+    1045
+   ]
+  },
+  {
+   "ref": "J1",
+   "role": "J1",
+   "module": "AKKU",
+   "id": "cmp-J1",
+   "deviceUuid": "8ecae1aa1e8a426b83dc915400438c28",
+   "x": 1430,
+   "y": 815,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1420,
+    800,
+    1440,
+    830
+   ]
+  },
+  {
+   "ref": "TP3",
+   "role": "TP3",
+   "module": "AKKU",
+   "id": "cmp-TP3",
+   "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
+   "x": 1510,
+   "y": 820,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1510,
+    810,
+    1530,
+    830
+   ]
+  },
+  {
+   "ref": "TP4",
+   "role": "TP4",
+   "module": "AKKU",
+   "id": "cmp-TP4",
+   "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
+   "x": 1600,
+   "y": 820,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1600,
+    810,
+    1620,
+    830
+   ]
+  },
+  {
+   "ref": "C3",
+   "role": "C3",
+   "module": "AKKU",
+   "id": "cmp-C3",
+   "deviceUuid": "fd9b819453c943d9b25639f63ee16ae3",
+   "x": 1705,
+   "y": 820,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1695,
+    810,
+    1715,
+    830
+   ]
+  },
+  {
+   "ref": "J2",
+   "role": "J2",
+   "module": "SENSOR",
+   "id": "cmp-J2",
+   "deviceUuid": "c1af4305cbb2420986031de4cb5eed74",
+   "x": 1955,
+   "y": 810,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1940,
+    790,
+    1980,
+    830
+   ]
+  },
+  {
+   "ref": "TP6",
+   "role": "TP6",
+   "module": "SENSOR",
+   "id": "cmp-TP6",
+   "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
+   "x": 2050,
+   "y": 820,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2050,
+    810,
+    2070,
+    830
+   ]
+  },
+  {
+   "ref": "R6",
+   "role": "R6",
+   "module": "SENSOR",
+   "id": "cmp-R6",
+   "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+   "x": 2150,
+   "y": 825,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2140,
+    820,
+    2160,
+    830
+   ]
+  },
+  {
+   "ref": "J4",
+   "role": "J4",
+   "module": "PUMPE",
+   "id": "cmp-J4",
+   "deviceUuid": "06158f0aee2546dd80e7a951e2e5ed6b",
+   "x": 1380,
+   "y": 485,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1370,
+    470,
+    1400,
+    500
+   ]
+  },
+  {
+   "ref": "Q1",
+   "role": "Q1",
+   "module": "PUMPE",
+   "id": "cmp-Q1",
+   "deviceUuid": "1c95a10b7c4a4095b426799cbca7b1b2",
+   "x": 1480,
+   "y": 490,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1470,
+    480,
+    1505,
+    500
+   ]
+  },
+  {
+   "ref": "C11",
+   "role": "C11",
+   "module": "PUMPE",
+   "id": "cmp-C11",
+   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+   "x": 1585,
+   "y": 490,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1575,
+    480,
+    1595,
+    500
+   ]
+  },
+  {
+   "ref": "D1",
+   "role": "D1",
+   "module": "PUMPE",
+   "id": "cmp-D1",
+   "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
+   "x": 1675,
+   "y": 490,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1670,
+    480,
+    1680,
+    500
+   ]
+  },
+  {
+   "ref": "D3",
+   "role": "D3",
+   "module": "PUMPE",
+   "id": "cmp-D3",
+   "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
+   "x": 1760,
+   "y": 490,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1750,
+    480,
+    1765,
+    500
+   ]
+  },
+  {
+   "ref": "R1",
+   "role": "R1",
+   "module": "PUMPE",
+   "id": "cmp-R1",
+   "deviceUuid": "611ee85922f4491584738b3ecdf137f4",
+   "x": 1380,
+   "y": 395,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1370,
+    390,
+    1390,
+    400
+   ]
+  },
+  {
+   "ref": "R2",
+   "role": "R2",
+   "module": "PUMPE",
+   "id": "cmp-R2",
+   "deviceUuid": "91f8acf5ccc04a77aed714589966c8f5",
+   "x": 1470,
+   "y": 395,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1460,
+    390,
+    1480,
+    400
+   ]
+  },
+  {
+   "ref": "J6",
+   "role": "J6",
+   "module": "TASTER",
+   "id": "cmp-J6",
+   "deviceUuid": "72b9be21f4ad4d53a42178e79731ea2a",
+   "x": 2030,
+   "y": 485,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2020,
+    470,
+    2040,
+    500
+   ]
+  },
+  {
+   "ref": "C14",
+   "role": "C_BTN",
+   "module": "TASTER",
+   "id": "cmp-C_BTN",
+   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+   "x": 2120,
+   "y": 490,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2110,
+    480,
+    2130,
+    500
+   ]
+  },
+  {
+   "ref": "R12",
+   "role": "R_BTN",
+   "module": "TASTER",
+   "id": "cmp-R_BTN",
+   "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
+   "x": 2030,
+   "y": 395,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2020,
+    390,
+    2040,
+    400
+   ]
+  }
+ ],
+ "problems": []
+}

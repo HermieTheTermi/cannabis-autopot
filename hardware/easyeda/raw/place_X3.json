@@ -1,0 +1,101 @@
+{
+  "id": "req_77",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:08:35.382657Z",
+  "ok": true,
+  "result": {
+    "component": {
+      "addIntoBom": true,
+      "addIntoPcb": true,
+      "component": {
+        "libraryUuid": "78f39a8c3fa54027bfc13d0a0eefd7c2",
+        "name": "mcp73831t-2aci/ot",
+        "uuid": "bc75cf9c0636472e"
+      },
+      "componentType": "part",
+      "designator": "X3",
+      "device": {
+        "libraryUuid": "78f39a8c3fa54027bfc13d0a0eefd7c2",
+        "name": "={Manufacturer Part}",
+        "uuid": "bc75cf9c0636472e"
+      },
+      "footprint": {
+        "libraryUuid": "f2785a7a800f4327acd4dfdd25d8d5e3",
+        "name": "sot-23-5_l3.0-w1.7-p0.95-ls2.8-bl",
+        "uuid": "163a38a7de2eef76"
+      },
+      "manufacturer": "MICROCHIP(美国微芯)",
+      "manufacturerId": "MCP73831T-2ACI/OT",
+      "mirror": false,
+      "name": "={Manufacturer Part}",
+      "net": "",
+      "otherProperty": {
+        "0V Battery Charge": "-",
+        "Balance Current": "-",
+        "Battery Temperature Detection": "Not supported",
+        "Charge Current - Max": "550mA",
+        "Charging Saturation Voltage": "4.2V",
+        "Datasheet": "https://item.szlcsc.com/datasheet/MCP73831T-2ACI%252FOT/417116.html",
+        "Description": "The Chip Type:Charging IC Voltage - Supply:3.75V~6V Voltage - Supply:3.75V~6V Charge Current - Max:550mA Charging Saturation Voltage:4.2V End-Off Voltage:- Type of Battery:Lithium Battery Number of Cells:1 Number of Cells:1 Operating Temperature:-40℃~+85℃",
+        "End-Off Voltage": "-",
+        "Features": "Constant voltage charging；Constant current charging；Automatic recharge；Charge termination；Programmable charging current；Reverse current blocking；Under-voltage lockout；Trickle charging",
+        "Interface": "-",
+        "JLCPCB Part Class": "Extended Part",
+        "LCSC Part Name": "单节锂离子/锂聚合物充电管理控制器",
+        "Number of Cells": "1",
+        "Operating Temperature": "-40℃~+85℃",
+        "Supplier Footprint": "SOT-23-5",
+        "Supply Current (Iq)": "53uA",
+        "The Chip Type": "Charging IC",
+        "Type of Battery": "Lithium Battery",
+        "Voltage - Supply": "3.75V~6V"
+      },
+      "primitiveId": "0fd4ce749cbdc79a",
+      "rotation": 0,
+      "subPartName": "MCP73831T-2ACI/OT.1",
+      "supplier": "LCSC",
+      "supplierId": "C424093",
+      "symbol": {
+        "libraryUuid": "fbd7d95681a24acbab8e57580d2db965",
+        "name": "mcp73831t-2aci/ot",
+        "uuid": "9fc53378d9cbad76"
+      },
+      "uniqueId": "",
+      "x": 620,
+      "y": 780
+    },
+    "otherPropertyBackfilled": [
+      "0V Battery Charge",
+      "Balance Current",
+      "Battery Temperature Detection",
+      "Charge Current - Max",
+      "Charging Saturation Voltage",
+      "Datasheet",
+      "Description",
+      "End-Off Voltage",
+      "Features",
+      "Interface",
+      "JLCPCB Part Class",
+      "LCSC Part Name",
+      "Number of Cells",
+      "Operating Temperature",
+      "Supplier Footprint",
+      "Supply Current (Iq)",
+      "The Chip Type",
+      "Type of Battery",
+      "Voltage - Supply"
+    ],
+    "primitiveId": "0fd4ce749cbdc79a",
+    "supplierIdBackfilled": "C424093"
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 51,
+  "seqAbandoned": 0
+}

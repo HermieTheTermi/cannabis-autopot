@@ -1,0 +1,290 @@
+{
+  "id": "req_13",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:06:52.861642Z",
+  "ok": true,
+  "result": {
+    "components": [
+      {
+        "footprintName": "CONN-TH_S3B-XH-A-LF-SN",
+        "lcsc": "C157928",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "JST",
+        "manufacturerId": "S3B-XH-A(LF)(SN)",
+        "uuid": "c1af4305cbb2420986031de4cb5eed74"
+      },
+      {
+        "footprintName": "CONN-TH_S2B-XH-A-LF-SN",
+        "lcsc": "C157931",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "JST",
+        "manufacturerId": "S2B-XH-A(LF)(SN)",
+        "uuid": "06158f0aee2546dd80e7a951e2e5ed6b"
+      },
+      {
+        "footprintName": "C0603",
+        "lcsc": "C15849",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "SAMSUNG(三星)",
+        "manufacturerId": "CL10A105KB8NNNC",
+        "uuid": "af2e25dc8e174a11bab66129be592f4d",
+        "value": "1uF"
+      },
+      {
+        "footprintName": "C0805",
+        "lcsc": "C15850",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "SAMSUNG(三星)",
+        "manufacturerId": "CL21A106KAYNNNE",
+        "uuid": "e10bc30d72324129a5b7daae4e75f56f",
+        "value": "10uF"
+      },
+      {
+        "footprintName": "USB-C_SMD-TYPE-C-31-M-12_1",
+        "lcsc": "C165948",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "韩国韩荣",
+        "manufacturerId": "TYPE-C-31-M-12",
+        "uuid": "730e76758f9742ca9ca85c73f4ec0ecd"
+      },
+      {
+        "footprintName": "SOT-23-3_L2.9-W1.6-P1.90-LS2.8-BR",
+        "lcsc": "C16711",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "ADI(亚德诺)/MAXIM(美信)",
+        "manufacturerId": "MAX809TEUR+T",
+        "uuid": "d7cdf9114eff4110bc187d388e4df2e5"
+      },
+      {
+        "footprintName": "R0805",
+        "lcsc": "C17414",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "UNI-ROYAL(厚声)",
+        "manufacturerId": "0805W8F1002T5E",
+        "uuid": "3ab167b4ae354ce18482658b15d1ec96",
+        "value": "10kΩ"
+      },
+      {
+        "footprintName": "R0805",
+        "lcsc": "C17513",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "UNI-ROYAL(厚声)",
+        "manufacturerId": "0805W8F1001T5E",
+        "uuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+        "value": "1kΩ"
+      },
+      {
+        "footprintName": "R0805",
+        "lcsc": "C17539",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "UNI-ROYAL(厚声)",
+        "manufacturerId": "0805W8F2003T5E",
+        "uuid": "d437a4e518b341d7a6ddadaf8d14b1f6",
+        "value": "200kΩ"
+      },
+      {
+        "footprintName": "R0805",
+        "lcsc": "C17557",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "UNI-ROYAL(厚声)",
+        "manufacturerId": "0805W8F2200T5E",
+        "uuid": "760339a7f6b44f119a4df4dbb5478cf2",
+        "value": "220Ω"
+      },
+      {
+        "footprintName": "R0805",
+        "lcsc": "C17614",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "UNI-ROYAL(厚声)",
+        "manufacturerId": "0805W8F3901T5E",
+        "uuid": "eb3a002498064638b42a7b04b4029852",
+        "value": "3.9kΩ"
+      },
+      {
+        "footprintName": "R0805",
+        "lcsc": "C17673",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "UNI-ROYAL(厚声)",
+        "manufacturerId": "0805W8F4701T5E",
+        "uuid": "611ee85922f4491584738b3ecdf137f4",
+        "value": "4.7kΩ"
+      },
+      {
+        "footprintName": "R0805",
+        "lcsc": "C17713",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "UNI-ROYAL(厚声)",
+        "manufacturerId": "0805W8F4702T5E",
+        "uuid": "91f8acf5ccc04a77aed714589966c8f5",
+        "value": "47kΩ"
+      },
+      {
+        "footprintName": "C0805",
+        "lcsc": "C1779",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "SAMSUNG(三星)",
+        "manufacturerId": "CL21A475KAQNNNE",
+        "uuid": "cffcb18c2c544b879332d01f596fbfaf",
+        "value": "4.7uF"
+      },
+      {
+        "footprintName": "SOD-323_L1.8-W1.3-LS2.5-RD",
+        "lcsc": "C191023",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "Hottech(合科泰)",
+        "manufacturerId": "1N5819WS",
+        "uuid": "9a107e95a08b43bdbb34d4a2cf04c92c"
+      },
+      {
+        "footprintName": "SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR",
+        "lcsc": "C20917",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "AOS",
+        "manufacturerId": "AO3400A",
+        "uuid": "1c95a10b7c4a4095b426799cbca7b1b2"
+      },
+      {
+        "footprintName": "LED0805-R-RD",
+        "lcsc": "C2297",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "KENTO",
+        "manufacturerId": "KT-0805G",
+        "uuid": "cabe1100a18642cca4b0bdb071599cef"
+      },
+      {
+        "footprintName": "R0805",
+        "lcsc": "C27834",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "UNI-ROYAL(厚声)",
+        "manufacturerId": "0805W8F5101T5E",
+        "uuid": "228f8e23038b4563bc5cde7c8409a6b9",
+        "value": "5.1kΩ"
+      },
+      {
+        "footprintName": "SW-SMD_4P-L5.1-W5.1-P3.70-LS6.5-TL_H1.5",
+        "lcsc": "C318884",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "XKB Connection(中国星坤)",
+        "manufacturerId": "TS-1187A-B-A-B",
+        "uuid": "38630614a58f4650bd5eefe9a5f79d9a"
+      },
+      {
+        "footprintName": "SOT-23-5_L3.0-W1.7-P0.95-LS2.8-BL",
+        "lcsc": "C424093",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "MICROCHIP(美国微芯)",
+        "manufacturerId": "MCP73831T-2ACI/OT",
+        "uuid": "78f39a8c3fa54027bfc13d0a0eefd7c2"
+      },
+      {
+        "footprintName": "C0805",
+        "lcsc": "C45783",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "SAMSUNG(三星)",
+        "manufacturerId": "CL21A226MAQNNNE",
+        "uuid": "9583d53cf848486a9d523fcaf153a729",
+        "value": "22uF"
+      },
+      {
+        "footprintName": "C0805",
+        "lcsc": "C49678",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "YAGEO(国巨)",
+        "manufacturerId": "CC0805KRX7R9BB104",
+        "uuid": "1fcffeacebec4bcab600894243e1bb8c",
+        "value": "100nF"
+      },
+      {
+        "footprintName": "CONN-SMD_P2.00_S2B-PH-SM4-TB-LF-SN",
+        "lcsc": "C54582899",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "XYECONN(辛译)",
+        "manufacturerId": "XY-S2B-PH-SM4-TB",
+        "uuid": "8ecae1aa1e8a426b83dc915400438c28"
+      },
+      {
+        "footprintName": "WIFIM-SMD_61P-L16.6-W13.2-P0.80-ESP32-C6-MINI-1-N4",
+        "lcsc": "C5736265",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "ESPRESSIF(乐鑫)",
+        "manufacturerId": "ESP32-C6-MINI-1-N4",
+        "uuid": "6f51ffdaaf4d45a3acac6e54a529f9e1",
+        "value": "2.4GHz"
+      },
+      {
+        "footprintName": "SOT-23-6_L2.9-W1.6-P0.95-LS2.8-BL",
+        "lcsc": "C7519",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "ST(意法半导体)",
+        "manufacturerId": "USBLC6-2SC6",
+        "uuid": "5f9a995bc73746278024add8c7b330e3"
+      },
+      {
+        "footprintName": "SOT-23-5_L3.0-W1.7-P0.95-LS2.8-BL",
+        "lcsc": "C82942",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "MICRONE(南京微盟)",
+        "manufacturerId": "ME6211C33M5G-N",
+        "uuid": "0c60a448115c435b947647a7222a5ab0"
+      },
+      {
+        "footprintName": "LED0805-RD",
+        "lcsc": "C84256",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "国星光电",
+        "manufacturerId": "NCD0805R1",
+        "uuid": "6073168119a941bda41c330f8b8e9152"
+      },
+      {
+        "footprintName": "CAP-SMD_BD6.3-L6.6-W6.6-LS7.2-FD",
+        "lcsc": "C970684",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "DMBJ(振宝佳)",
+        "manufacturerId": "RVT1C101M0605 100UF 16V",
+        "uuid": "fd9b819453c943d9b25639f63ee16ae3",
+        "value": "100uF"
+      }
+    ],
+    "count": 28,
+    "requested": [
+      "C5736265",
+      "C424093",
+      "C82942",
+      "C7519",
+      "C16711",
+      "C165948",
+      "C970684",
+      "C54582899",
+      "C157928",
+      "C157931",
+      "C20917",
+      "C191023",
+      "C84256",
+      "C2297",
+      "C49678",
+      "C45783",
+      "C15850",
+      "C1779",
+      "C15849",
+      "C17673",
+      "C17713",
+      "C17414",
+      "C17614",
+      "C17513",
+      "C17557",
+      "C17539",
+      "C27834",
+      "C318884"
+    ]
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 10,
+  "seqAbandoned": 0
+}

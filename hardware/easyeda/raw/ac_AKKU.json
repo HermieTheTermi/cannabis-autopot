@@ -1,0 +1,44 @@
+{
+ "connections": [
+  {
+   "pin": "C3:1",
+   "kind": "power",
+   "net": "VBAT"
+  },
+  {
+   "pin": "C3:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "J1:1",
+   "kind": "power",
+   "net": "VBAT"
+  },
+  {
+   "pin": "J1:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "TP3:1",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "TP4:1",
+   "kind": "power",
+   "net": "VBAT"
+  }
+ ],
+ "rules": {
+  "avoidTitleBlock": true,
+  "avoidPinFanout": true,
+  "staggerLabels": true,
+  "offsetRange": [
+   18,
+   150
+  ],
+  "offsetStep": 6
+ }
+}

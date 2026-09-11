@@ -1,0 +1,97 @@
+{
+  "id": "req_9159",
+  "ok": true,
+  "result": {
+    "passed": false,
+    "summary": {
+      "trees": 2,
+      "bridges": 2,
+      "orphans": 0,
+      "orphanFlags": 0,
+      "orphanTrees": 0,
+      "wireTreesTotal": 135
+    },
+    "trees": [
+      {
+        "kind": "BRIDGE",
+        "type": "wire-bridge",
+        "level": "error",
+        "wireIds": [
+          "ffba0bae728e5571"
+        ],
+        "flagIds": [
+          "946034402a3c7510",
+          "00d3ef7df8054245",
+          "ba3ebd654bdb534a",
+          "8d642783423099ea",
+          "baf89424300fa4cd",
+          "a3d7d230e84501cb",
+          "5b013367105510f3",
+          "855aae199d79504e",
+          "8b97334401da3c0b",
+          "ad2527fb1d97319a",
+          "998772570b36e302",
+          "373a7b6f49df533d",
+          "886aa495b3fc96fb"
+        ],
+        "pins": [
+          "J1:1",
+          "J1:2",
+          "TP3:1",
+          "TP4:1"
+        ],
+        "nets": [
+          "VBAT",
+          "GND"
+        ]
+      },
+      {
+        "kind": "BRIDGE",
+        "type": "wire-bridge",
+        "level": "error",
+        "wireIds": [
+          "14b5c578948758ca"
+        ],
+        "flagIds": [
+          "d6a04daf659979b4",
+          "33de48bbc8303329",
+          "6d18d61cf5856c8a",
+          "6175dbf8be909fd0",
+          "4624bf57d6da7725",
+          "29df635e4494dbe8",
+          "7234c0860664faac",
+          "5c22a6d2c90a0377",
+          "ae8f58fe726c977f",
+          "7129f9e6188f7a66",
+          "20109138d042cb3e",
+          "c8841c3453442587",
+          "9789bbba0ed9ec30",
+          "b1ed47481497bbcd",
+          "a36600d20679eb7f",
+          "f1465b9640a749b5",
+          "aca26619821f6291",
+          "15374dcd5fcbfbed",
+          "3fd401aa2455bcb5",
+          "bd410a19dafdd489",
+          "aad30387b487d9c7",
+          "a5dff1f8ca34324a",
+          "5b48c0af94e54353"
+        ],
+        "pins": [
+          "R7:2",
+          "R7:1",
+          "R8:2",
+          "R8:1"
+        ],
+        "nets": [
+          "GND",
+          "CC1",
+          "CC2"
+        ]
+      }
+    ]
+  },
+  "type": "response",
+  "version": "v1"
+}
+sch bridge-check: 2 bridge(s) — real short(s) (net-vs-copper mismatch)

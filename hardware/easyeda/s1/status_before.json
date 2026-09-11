@@ -1,0 +1,61 @@
+{
+  "gate": {
+    "ran": false,
+    "passed": 0,
+    "total": 0
+  },
+  "next": "easyeda sch page-rename --page 4f6771a27edec75b --name \u003c功能名\u003e",
+  "nextReason": "S1 未完:\"P1\" 的页名要等于它的功能",
+  "pages": [
+    {
+      "name": "P1",
+      "docUuid": "4f6771a27edec75b",
+      "reachable": true,
+      "hasSheet": true,
+      "namedWell": false,
+      "parts": 0,
+      "wires": 0,
+      "groups": 0,
+      "frames": 0
+    }
+  ],
+  "project": "SmartGrowTopf_V1",
+  "stages": [
+    {
+      "stage": "S1",
+      "title": "图纸/分页",
+      "state": "partial",
+      "detail": "1/1 页图纸就绪,但 \"P1\" 页名无功能语义(`sch page-rename`)"
+    },
+    {
+      "stage": "S2",
+      "title": "编组/分区",
+      "state": "todo",
+      "detail": "没有虚拟组 —— `sch block-apply` 落块自动归组,手工页 `sch group create`"
+    },
+    {
+      "stage": "S3",
+      "title": "摆放",
+      "state": "todo",
+      "detail": "画布上没有器件"
+    },
+    {
+      "stage": "S4",
+      "title": "布线",
+      "state": "todo",
+      "detail": "还没放件"
+    },
+    {
+      "stage": "S5",
+      "title": "校验门",
+      "state": "unknown",
+      "detail": "未验 —— status 只报进度;逐页 `sch gate --strict --doc \u003c页\u003e`(或本命令加 --gate)"
+    },
+    {
+      "stage": "S6",
+      "title": "存盘",
+      "state": "unknown",
+      "detail": "平台不暴露脏标记,无法从活体判定 —— daemon 防抖 autosave 已开(默认 3s),交付前显式 `sch save --doc \u003c页\u003e` 并确认 saved:true"
+    }
+  ]
+}

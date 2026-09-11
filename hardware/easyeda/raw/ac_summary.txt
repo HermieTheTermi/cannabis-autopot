@@ -1,0 +1,11 @@
+Verbindungen gesamt: 143 (uebersprungen: 18 U1-GND-Pins fuer den Bus)
+USB        24 Verbindungen  {'ground': 9, 'power': 3, 'netport': 12}
+LADER      15 Verbindungen  {'power': 5, 'ground': 4, 'netport': 6}
+AKKU        6 Verbindungen  {'power': 3, 'ground': 3}
+WAEChTER    9 Verbindungen  {'power': 3, 'ground': 3, 'netport': 3}
+LDO         9 Verbindungen  {'power': 6, 'ground': 3}
+MCU        50 Verbindungen  {'ground': 14, 'power': 7, 'netport': 29}
+TASTER      6 Verbindungen  {'ground': 2, 'power': 1, 'netport': 3}
+PUMPE      15 Verbindungen  {'power': 3, 'ground': 2, 'netport': 10}
+SENSOR      6 Verbindungen  {'ground': 1, 'netport': 5}
+DEBUG       3 Verbindungen  {'netport': 3}

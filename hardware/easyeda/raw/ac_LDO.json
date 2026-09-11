@@ -1,0 +1,59 @@
+{
+ "connections": [
+  {
+   "pin": "C5:1",
+   "kind": "power",
+   "net": "VBAT"
+  },
+  {
+   "pin": "C5:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "C6:1",
+   "kind": "power",
+   "net": "+3V3"
+  },
+  {
+   "pin": "C6:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "TP5:1",
+   "kind": "power",
+   "net": "+3V3"
+  },
+  {
+   "pin": "U4:1",
+   "kind": "power",
+   "net": "VBAT"
+  },
+  {
+   "pin": "U4:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U4:3",
+   "kind": "power",
+   "net": "VBAT"
+  },
+  {
+   "pin": "U4:5",
+   "kind": "power",
+   "net": "+3V3"
+  }
+ ],
+ "rules": {
+  "avoidTitleBlock": true,
+  "avoidPinFanout": true,
+  "staggerLabels": true,
+  "offsetRange": [
+   18,
+   150
+  ],
+  "offsetStep": 6
+ }
+}

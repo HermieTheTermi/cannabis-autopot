@@ -1,0 +1,85 @@
+{
+  "id": "req_67",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:08:33.7722Z",
+  "ok": true,
+  "result": {
+    "component": {
+      "addIntoBom": true,
+      "addIntoPcb": true,
+      "component": {
+        "libraryUuid": "611ee85922f4491584738b3ecdf137f4",
+        "name": "0805w8f4701t5e",
+        "uuid": "20f226a52945ef32"
+      },
+      "componentType": "part",
+      "designator": "X1",
+      "device": {
+        "libraryUuid": "611ee85922f4491584738b3ecdf137f4",
+        "name": "={Value}",
+        "uuid": "20f226a52945ef32"
+      },
+      "footprint": {
+        "libraryUuid": "ccc4e0b0d3734ba393745f2774fd8d65",
+        "name": "r0805",
+        "uuid": "a81147225a760300"
+      },
+      "manufacturer": "UNI-ROYAL(厚声)",
+      "manufacturerId": "0805W8F4701T5E",
+      "mirror": false,
+      "name": "={Value}",
+      "net": "",
+      "otherProperty": {
+        "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20200306/C422600_1E6D84923E4A46A82E41ADD87F860B5C.pdf",
+        "Description": "Type:Thick Film Resistors Resistance:4.7kΩ Tolerance:±1% Tolerance:±1% Power(Watts): Overload Voltage (Max): Temperature Coefficient:±100ppm/℃ Temperature Coefficient:±100ppm/℃ Operating Temperature Range:-55℃~+155℃ Operating Temperature Range:-55℃~+155℃",
+        "JLCPCB Part Class": "Basic Part",
+        "LCSC Part Name": "4.7kΩ ±1% 125mW 厚膜电阻",
+        "Operating Temperature Range": "-55℃~+155℃",
+        "Overload Voltage (Max)": "",
+        "Power(Watts)": "",
+        "Supplier Footprint": "0805",
+        "Temperature Coefficient": "±100ppm/℃",
+        "Tolerance": "±1%",
+        "Type": "Thick Film Resistors",
+        "Value": "4.7kΩ"
+      },
+      "primitiveId": "c67715caf260892d",
+      "rotation": 0,
+      "subPartName": "0805W8F4701T5E.1",
+      "supplier": "LCSC",
+      "supplierId": "C17673",
+      "symbol": {
+        "libraryUuid": "ed860fbbe279401698f59fb94b88e229",
+        "name": "0805w8f4701t5e",
+        "uuid": "15bd2407487d5cbf"
+      },
+      "uniqueId": "",
+      "x": 100,
+      "y": 780
+    },
+    "otherPropertyBackfilled": [
+      "Datasheet",
+      "Description",
+      "JLCPCB Part Class",
+      "LCSC Part Name",
+      "Operating Temperature Range",
+      "Supplier Footprint",
+      "Temperature Coefficient",
+      "Tolerance",
+      "Type",
+      "Value"
+    ],
+    "primitiveId": "c67715caf260892d",
+    "supplierIdBackfilled": "C17673"
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 45,
+  "seqAbandoned": 0
+}

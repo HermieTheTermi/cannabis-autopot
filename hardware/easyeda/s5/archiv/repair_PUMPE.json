@@ -1,0 +1,482 @@
+⚠ connector looks DEGRADED under load (recent EFFECT failure rate 5%, 1 consecutive failures) — this write may have LANDED despite the failure (假失败定律): verify with a light read before resending, and do NOT blind-retry. Worst road(s): schematic.pin.disconnect
+{
+  "ok": false,
+  "partial": true,
+  "succeeded": [
+    "J4:1",
+    "Q1:2",
+    "R2:2",
+    "C11:1",
+    "D3:1",
+    "D3:2",
+    "J4:2",
+    "Q1:3",
+    "R1:1",
+    "R1:2"
+  ],
+  "failed": [
+    "C11:2",
+    "D1:1",
+    "D1:2",
+    "Q1:1",
+    "R2:1"
+  ],
+  "connections": [
+    {
+      "pin": "C11:2",
+      "net": "VBAT",
+      "kind": "power",
+      "pinX": 1040,
+      "pinY": 555,
+      "error": "replace: failed to disconnect old net \"GND\": schematic.pin.disconnect failed: No stub wire found on the target pin — nothing to disconnect (already clean?).",
+      "state": "conflict",
+      "currentNet": "GND",
+      "replaced": true
+    },
+    {
+      "pin": "D1:1",
+      "net": "VBAT",
+      "kind": "power",
+      "pinX": 1060,
+      "pinY": 555,
+      "error": "replace: failed to disconnect old net \"GND\": schematic.pin.disconnect failed: No stub wire found on the target pin — nothing to disconnect (already clean?).",
+      "state": "conflict",
+      "currentNet": "GND",
+      "replaced": true
+    },
+    {
+      "pin": "J4:1",
+      "net": "VBAT",
+      "kind": "power",
+      "pinX": 855,
+      "pinY": 555,
+      "selected": {
+        "direction": "right",
+        "offset": 18,
+        "endPoint": {
+          "x": 875,
+          "y": 555
+        },
+        "score": 71601.8,
+        "reasons": [
+          {
+            "cost": 10000,
+            "desc": "label overlaps a part bbox"
+          },
+          {
+            "cost": 10000,
+            "desc": "label overlaps a text note (电路说明)"
+          },
+          {
+            "cost": 1000,
+            "desc": "label collides with an existing flag/port/label"
+          },
+          {
+            "cost": 500,
+            "desc": "stub passes through a component bbox"
+          },
+          {
+            "cost": 100,
+            "desc": "stub runs close to a pin fanout channel"
+          },
+          {
+            "cost": 1.8,
+            "desc": "offset cost"
+          },
+          {
+            "cost": 50000,
+            "desc": "引出方向与引脚朝外方向相反 —— 桩线要穿过/绕过器件本体"
+          }
+        ]
+      },
+      "rejected": [
+        {
+          "direction": "left",
+          "offset": 90,
+          "score": 1000000089,
+          "reason": "stub touches an existing (foreign-net) wire (hard reject)"
+        },
+        {
+          "direction": "up",
+          "offset": 18,
+          "score": 1000010091.8,
+          "reason": "stub touches an existing (foreign-net) wire (hard reject)"
+        },
+        {
+          "direction": "down",
+          "offset": 78,
+          "score": 2000000107.8,
+          "reason": "stub crosses a non-target pin (hard reject)"
+        }
+      ],
+      "wirePrimitiveId": "33b6dafa41806c74",
+      "flagPrimitiveId": "f5860e34643b133d",
+      "warning": "落点带痕(score=71602):label overlaps a part bbox; label overlaps a text note (电路说明); label collides with an existing flag/port/label; stub passes through a component bbox; 引出方向与引脚朝外方向相反 —— 桩线要穿过/绕过器件本体 —— 建议挪件腾位后重连",
+      "state": "conflict",
+      "currentNet": "GND",
+      "replaced": true
+    },
+    {
+      "pin": "Q1:2",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 955,
+      "pinY": 535,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "R2:2",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 1010,
+      "pinY": 490,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "C11:1",
+      "net": "PUMP_N",
+      "kind": "netport",
+      "pinX": 1000,
+      "pinY": 555,
+      "selected": {
+        "direction": "down",
+        "offset": 18,
+        "endPoint": {
+          "x": 1000,
+          "y": 535
+        },
+        "score": 10151.8,
+        "reasons": [
+          {
+            "cost": 10000,
+            "desc": "label overlaps a part bbox"
+          },
+          {
+            "cost": 150,
+            "desc": "netport folded vertical — label reads sideways"
+          },
+          {
+            "cost": 1.8,
+            "desc": "offset cost"
+          }
+        ]
+      },
+      "rejected": [
+        {
+          "direction": "up",
+          "offset": 267,
+          "score": 1000000676.7,
+          "reason": "stub touches an existing (foreign-net) wire (hard reject)"
+        },
+        {
+          "direction": "left",
+          "offset": 18,
+          "score": 1000010981.8,
+          "reason": "stub touches an existing (foreign-net) wire (hard reject)"
+        },
+        {
+          "direction": "right",
+          "offset": 18,
+          "score": 1000061491.8,
+          "reason": "stub touches an existing (foreign-net) wire (hard reject)"
+        }
+      ],
+      "wirePrimitiveId": "229f41ec136f3f18",
+      "flagPrimitiveId": "96038e45d77b444b",
+      "warning": "落点带痕(score=10152):label overlaps a part bbox —— 建议挪件腾位后重连",
+      "state": "conflict",
+      "currentNet": "GND",
+      "replaced": true
+    },
+    {
+      "pin": "D1:2",
+      "net": "PUMP_N",
+      "kind": "netport",
+      "pinX": 1100,
+      "pinY": 555,
+      "error": "replace: failed to disconnect old net \"GND\": schematic.pin.disconnect failed: No stub wire found on the target pin — nothing to disconnect (already clean?).",
+      "state": "conflict",
+      "currentNet": "GND",
+      "replaced": true
+    },
+    {
+      "pin": "D3:1",
+      "net": "RESET_UV",
+      "kind": "netport",
+      "pinX": 850,
+      "pinY": 485,
+      "state": "already-connected",
+      "currentNet": "RESET_UV"
+    },
+    {
+      "pin": "D3:2",
+      "net": "GATE",
+      "kind": "netport",
+      "pinX": 890,
+      "pinY": 485,
+      "selected": {
+        "direction": "down",
+        "offset": 60,
+        "endPoint": {
+          "x": 890,
+          "y": 425
+        },
+        "score": 10156,
+        "reasons": [
+          {
+            "cost": 10000,
+            "desc": "label overlaps a part bbox"
+          },
+          {
+            "cost": 150,
+            "desc": "netport folded vertical — label reads sideways"
+          },
+          {
+            "cost": 6,
+            "desc": "offset cost"
+          }
+        ]
+      },
+      "rejected": [
+        {
+          "direction": "up",
+          "offset": 18,
+          "score": 21151.8,
+          "reason": "label overlaps a part bbox"
+        },
+        {
+          "direction": "left",
+          "offset": 18,
+          "score": 51501.8,
+          "reason": "引出方向与引脚朝外方向相反 —— 桩线要穿过/绕过器件本体"
+        },
+        {
+          "direction": "right",
+          "offset": 231,
+          "score": 1000000093.1,
+          "reason": "stub touches an existing (foreign-net) wire (hard reject)"
+        }
+      ],
+      "wirePrimitiveId": "26158d87994fc895",
+      "flagPrimitiveId": "20b50d677992a4b6",
+      "warning": "落点带痕(score=10156):label overlaps a part bbox —— 建议挪件腾位后重连",
+      "state": "conflict",
+      "currentNet": "GND",
+      "replaced": true
+    },
+    {
+      "pin": "J4:2",
+      "net": "PUMP_N",
+      "kind": "netport",
+      "pinX": 855,
+      "pinY": 545,
+      "selected": {
+        "direction": "down",
+        "offset": 24,
+        "endPoint": {
+          "x": 855,
+          "y": 520
+        },
+        "score": 252.4,
+        "reasons": [
+          {
+            "cost": 100,
+            "desc": "stub runs close to a pin fanout channel"
+          },
+          {
+            "cost": 150,
+            "desc": "netport folded vertical — label reads sideways"
+          },
+          {
+            "cost": 2.4,
+            "desc": "offset cost"
+          }
+        ]
+      },
+      "rejected": [
+        {
+          "direction": "right",
+          "offset": 18,
+          "score": 61591.8,
+          "reason": "引出方向与引脚朝外方向相反 —— 桩线要穿过/绕过器件本体"
+        },
+        {
+          "direction": "left",
+          "offset": 60,
+          "score": 1000000086,
+          "reason": "stub touches an existing (foreign-net) wire (hard reject)"
+        },
+        {
+          "direction": "up",
+          "offset": 267,
+          "score": 2000000176.7,
+          "reason": "stub crosses a non-target pin (hard reject)"
+        }
+      ],
+      "wirePrimitiveId": "89c137c91170a443",
+      "flagPrimitiveId": "5885bd651560e053",
+      "warning": "落点带痕(score=252):stub runs close to a pin fanout channel; netport folded vertical — label reads sideways; offset cost —— 建议挪件腾位后重连",
+      "state": "conflict",
+      "currentNet": "GND",
+      "replaced": true
+    },
+    {
+      "pin": "Q1:1",
+      "net": "GATE",
+      "kind": "netport",
+      "pinX": 925,
+      "pinY": 555,
+      "error": "replace: failed to disconnect old net \"GND\": schematic.pin.disconnect failed: No stub wire found on the target pin — nothing to disconnect (already clean?).",
+      "state": "conflict",
+      "currentNet": "GND",
+      "replaced": true
+    },
+    {
+      "pin": "Q1:3",
+      "net": "PUMP_N",
+      "kind": "netport",
+      "pinX": 955,
+      "pinY": 575,
+      "selected": {
+        "direction": "right",
+        "offset": 18,
+        "endPoint": {
+          "x": 975,
+          "y": 575
+        },
+        "score": 10991.8,
+        "reasons": [
+          {
+            "cost": 10000,
+            "desc": "label overlaps a text note (电路说明)"
+          },
+          {
+            "cost": 1000,
+            "desc": "label collides with an existing flag/port/label"
+          },
+          {
+            "cost": 1.8,
+            "desc": "offset cost"
+          },
+          {
+            "cost": -10,
+            "desc": "matches kind default direction"
+          }
+        ]
+      },
+      "rejected": [
+        {
+          "direction": "left",
+          "offset": 144,
+          "score": 1000000014.4,
+          "reason": "stub touches an existing (foreign-net) wire (hard reject)"
+        },
+        {
+          "direction": "up",
+          "offset": 18,
+          "score": 1000001131.8,
+          "reason": "stub touches an existing (foreign-net) wire (hard reject)"
+        },
+        {
+          "direction": "down",
+          "offset": 24,
+          "score": 1000051652.4,
+          "reason": "stub touches an existing (foreign-net) wire (hard reject)"
+        }
+      ],
+      "wirePrimitiveId": "dae4f5339171ea62",
+      "flagPrimitiveId": "5ee57c0629b05d48",
+      "warning": "落点带痕(score=10992):label overlaps a text note (电路说明); label collides with an existing flag/port/label —— 建议挪件腾位后重连",
+      "state": "conflict",
+      "currentNet": "GND",
+      "replaced": true
+    },
+    {
+      "pin": "R1:1",
+      "net": "PUMP_EN",
+      "kind": "netport",
+      "pinX": 910,
+      "pinY": 490,
+      "state": "already-connected",
+      "currentNet": "PUMP_EN"
+    },
+    {
+      "pin": "R1:2",
+      "net": "GATE",
+      "kind": "netport",
+      "pinX": 950,
+      "pinY": 490,
+      "selected": {
+        "direction": "up",
+        "offset": 18,
+        "endPoint": {
+          "x": 950,
+          "y": 510
+        },
+        "score": 21151.8,
+        "reasons": [
+          {
+            "cost": 10000,
+            "desc": "label overlaps a part bbox"
+          },
+          {
+            "cost": 10000,
+            "desc": "label overlaps a text note (电路说明)"
+          },
+          {
+            "cost": 1000,
+            "desc": "label collides with an existing flag/port/label"
+          },
+          {
+            "cost": 150,
+            "desc": "netport folded vertical — label reads sideways"
+          },
+          {
+            "cost": 1.8,
+            "desc": "offset cost"
+          }
+        ]
+      },
+      "rejected": [
+        {
+          "direction": "left",
+          "offset": 18,
+          "score": 61501.8,
+          "reason": "引出方向与引脚朝外方向相反 —— 桩线要穿过/绕过器件本体"
+        },
+        {
+          "direction": "down",
+          "offset": 120,
+          "score": 1000000762,
+          "reason": "stub touches an existing (foreign-net) wire (hard reject)"
+        },
+        {
+          "direction": "right",
+          "offset": 126,
+          "score": 2000000482.6,
+          "reason": "stub crosses a non-target pin (hard reject)"
+        }
+      ],
+      "wirePrimitiveId": "1eb969b4bf82ee07",
+      "flagPrimitiveId": "9d6fd0e5c0b98843",
+      "warning": "落点带痕(score=21152):label overlaps a part bbox; label overlaps a text note (电路说明); label collides with an existing flag/port/label —— 建议挪件腾位后重连",
+      "state": "conflict",
+      "currentNet": "GND",
+      "replaced": true
+    },
+    {
+      "pin": "R2:1",
+      "net": "GATE",
+      "kind": "netport",
+      "pinX": 970,
+      "pinY": 490,
+      "error": "replace: failed to disconnect old net \"GND\": schematic.pin.disconnect failed: No stub wire found on the target pin — nothing to disconnect (already clean?).",
+      "state": "conflict",
+      "currentNet": "GND",
+      "replaced": true
+    }
+  ]
+}
+autoconnect: 5 connection(s) failed

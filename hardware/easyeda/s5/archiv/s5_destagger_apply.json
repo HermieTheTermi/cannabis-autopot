@@ -1,0 +1,314 @@
+round 1: marker-overlap 12 条 → 计划搬迁 10 个 marker,跳过 5 个(本轮落地 1 个)
+  清扫:删除 28 个旧桩线/旗/残段(整树,回读证实)
+  重连:13 只 pin 按移动前桩线几何原样重建(刚体平移不改桩长)
+✓ destagger 对账:网表逐引脚一致、无新增 bridge(0 移动 / 0 no-op)
+  清扫:删除 26 个旧桩线/旗/残段(整树,回读证实)
+  重连:13 只 pin 按移动前桩线几何原样重建(刚体平移不改桩长)
+✓ destagger-restore 对账:网表逐引脚一致、无新增 bridge(0 移动 / 0 no-op)
+{
+  "applied": true,
+  "rounds": 1,
+  "plan": {
+    "moves": [
+      {
+        "flagId": "12d81cb53dd00a94",
+        "net": "GND",
+        "componentType": "netflag",
+        "kind": "ground",
+        "hostX": 855,
+        "hostY": 765,
+        "fromDir": "left",
+        "fromOffset": 40,
+        "toDir": "down",
+        "toOffset": 130,
+        "clearedWith": [
+          "6dcdca52ea121c58",
+          "d23cd576fe2cbab2"
+        ],
+        "newBBox": {
+          "minX": 844.5,
+          "minY": 603.5,
+          "maxX": 865.5,
+          "maxY": 635
+        }
+      },
+      {
+        "flagId": "244f8eeddeceb43f",
+        "net": "+3V3",
+        "componentType": "netflag",
+        "kind": "power",
+        "hostX": 330,
+        "hostY": 460,
+        "fromDir": "up",
+        "fromOffset": 35,
+        "toDir": "up",
+        "toOffset": 120,
+        "clearedWith": [
+          "ee216ffc0ccfb75b"
+        ],
+        "newBBox": {
+          "minX": 318,
+          "minY": 580,
+          "maxX": 342,
+          "maxY": 602.5
+        }
+      },
+      {
+        "flagId": "26c7b66509e93c0e",
+        "net": "LED_CHG",
+        "componentType": "netport",
+        "kind": "net_port_bi",
+        "hostX": 650,
+        "hostY": 700,
+        "fromDir": "right",
+        "fromOffset": 20,
+        "toDir": "up",
+        "toOffset": 20,
+        "clearedWith": [
+          "b630da357b8b3507"
+        ],
+        "newBBox": {
+          "minX": 644.5,
+          "minY": 720,
+          "maxX": 655.5,
+          "maxY": 801
+        }
+      },
+      {
+        "flagId": "6b90e41de9fa0d01",
+        "net": "GND",
+        "componentType": "netflag",
+        "kind": "ground",
+        "hostX": 755,
+        "hostY": 775,
+        "fromDir": "down",
+        "fromOffset": 20,
+        "toDir": "down",
+        "toOffset": 110,
+        "clearedWith": [
+          "cf20b1903e9bb60a"
+        ],
+        "newBBox": {
+          "minX": 744.5,
+          "minY": 633.5,
+          "maxX": 765.5,
+          "maxY": 665
+        }
+      },
+      {
+        "flagId": "943b5a445de21a88",
+        "net": "VBUS",
+        "componentType": "netflag",
+        "kind": "power",
+        "hostX": 640,
+        "hostY": 755,
+        "fromDir": "right",
+        "fromOffset": 80,
+        "toDir": "down",
+        "toOffset": 195,
+        "clearedWith": [
+          "5f5190efa1a4a591"
+        ],
+        "newBBox": {
+          "minX": 628,
+          "minY": 537.5,
+          "maxX": 652,
+          "maxY": 560
+        }
+      },
+      {
+        "flagId": "9f934335dbb2795a",
+        "net": "PUMP_EN",
+        "componentType": "netport",
+        "kind": "net_port_bi",
+        "hostX": 910,
+        "hostY": 490,
+        "fromDir": "up",
+        "fromOffset": 20,
+        "toDir": "down",
+        "toOffset": 185,
+        "clearedWith": [
+          "6d18d61cf5856c8a"
+        ],
+        "newBBox": {
+          "minX": 904.5,
+          "minY": 224,
+          "maxX": 915.5,
+          "maxY": 305
+        }
+      },
+      {
+        "flagId": "af4a68a12b0015e7",
+        "net": "VBAT",
+        "componentType": "netflag",
+        "kind": "power",
+        "hostX": 855,
+        "hostY": 555,
+        "fromDir": "left",
+        "fromOffset": 20,
+        "toDir": "down",
+        "toOffset": 80,
+        "clearedWith": [
+          "514941bac06ada7f"
+        ],
+        "newBBox": {
+          "minX": 843,
+          "minY": 452.5,
+          "maxX": 867,
+          "maxY": 475
+        }
+      },
+      {
+        "flagId": "d23cd576fe2cbab2",
+        "net": "GND",
+        "componentType": "netflag",
+        "kind": "ground",
+        "hostX": 805,
+        "hostY": 775,
+        "fromDir": "right",
+        "fromOffset": 20,
+        "toDir": "down",
+        "toOffset": 65,
+        "clearedWith": [
+          "12d81cb53dd00a94",
+          "6dcdca52ea121c58"
+        ],
+        "newBBox": {
+          "minX": 794.5,
+          "minY": 678.5,
+          "maxX": 815.5,
+          "maxY": 710
+        }
+      },
+      {
+        "flagId": "d705ddc1d6115a87",
+        "net": "GND",
+        "componentType": "netflag",
+        "kind": "ground",
+        "hostX": 895,
+        "hostY": 610,
+        "fromDir": "down",
+        "fromOffset": 20,
+        "toDir": "down",
+        "toOffset": 90,
+        "clearedWith": [
+          "49155e66e71ecf33"
+        ],
+        "newBBox": {
+          "minX": 884.5,
+          "minY": 488.5,
+          "maxX": 905.5,
+          "maxY": 520
+        }
+      },
+      {
+        "flagId": "f6c5d67075b99e78",
+        "net": "GND",
+        "componentType": "netflag",
+        "kind": "ground",
+        "hostX": 590,
+        "hostY": 535,
+        "fromDir": "right",
+        "fromOffset": 20,
+        "toDir": "up",
+        "toOffset": 20,
+        "clearedWith": [
+          "0b3f2982d729d5f1"
+        ],
+        "newBBox": {
+          "minX": 579.5,
+          "minY": 555,
+          "maxX": 600.5,
+          "maxY": 586.5
+        }
+      }
+    ],
+    "skips": [
+      {
+        "flagId": "0b3f2982d729d5f1",
+        "net": "GND",
+        "componentType": "netflag",
+        "reason": "no-free-slot"
+      },
+      {
+        "flagId": "5f5190efa1a4a591",
+        "net": "GND",
+        "componentType": "netflag",
+        "reason": "no-free-slot"
+      },
+      {
+        "flagId": "6d18d61cf5856c8a",
+        "net": "CC2",
+        "componentType": "netport",
+        "reason": "no-free-slot"
+      },
+      {
+        "flagId": "6dcdca52ea121c58",
+        "net": "GND",
+        "componentType": "netflag",
+        "reason": "no-free-slot"
+      },
+      {
+        "flagId": "9548f7de5398ed79",
+        "net": "VBUS",
+        "componentType": "netflag",
+        "reason": "no-free-slot"
+      }
+    ],
+    "overlapsBefore": 12
+  },
+  "moved": [
+    {
+      "flagId": "12d81cb53dd00a94",
+      "net": "GND",
+      "componentType": "netflag",
+      "kind": "ground",
+      "hostX": 855,
+      "hostY": 765,
+      "fromDir": "left",
+      "fromOffset": 40,
+      "toDir": "down",
+      "toOffset": 130,
+      "clearedWith": [
+        "6dcdca52ea121c58",
+        "d23cd576fe2cbab2"
+      ],
+      "newBBox": {
+        "minX": 844.5,
+        "minY": 603.5,
+        "maxX": 865.5,
+        "maxY": 635
+      }
+    }
+  ],
+  "before": {
+    "floatingPins": 0,
+    "geomNetMismatches": 0,
+    "netMarkerMismatches": 0,
+    "multiNetWires": 0,
+    "wireCrossings": 3,
+    "wireOverPins": 0,
+    "zeroLengthWires": 0,
+    "danglingWires": 0,
+    "markerOverlaps": 12
+  },
+  "after": {
+    "floatingPins": 0,
+    "geomNetMismatches": 0,
+    "netMarkerMismatches": 0,
+    "multiNetWires": 0,
+    "wireCrossings": 5,
+    "wireOverPins": 0,
+    "zeroLengthWires": 0,
+    "danglingWires": 0,
+    "markerOverlaps": 10
+  },
+  "regressions": [
+    "wireCrossings 3→5"
+  ],
+  "rolledBack": true,
+  "overlapsBefore": 12,
+  "overlapsAfter": 0,
+  "converged": false
+}
+电气项恶化([wireCrossings 3→5]),已用内核按原方向/桩长还原本轮 1 个搬迁(内核对账绿)

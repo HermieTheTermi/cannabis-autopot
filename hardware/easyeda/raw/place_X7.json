@@ -1,0 +1,95 @@
+{
+  "id": "req_97",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:08:38.526664Z",
+  "ok": true,
+  "result": {
+    "component": {
+      "addIntoBom": true,
+      "addIntoPcb": true,
+      "component": {
+        "libraryUuid": "5f9a995bc73746278024add8c7b330e3",
+        "name": "usblc6-2sc6_c7519",
+        "uuid": "f63b24d030141642"
+      },
+      "componentType": "part",
+      "designator": "X7",
+      "device": {
+        "libraryUuid": "5f9a995bc73746278024add8c7b330e3",
+        "name": "={Manufacturer Part}",
+        "uuid": "f63b24d030141642"
+      },
+      "footprint": {
+        "libraryUuid": "136db59d42184a44ac8441e35d752b13",
+        "name": "sot-23-6_l2.9-w1.6-p0.95-ls2.8-bl",
+        "uuid": "b642d3ad32e31bc6"
+      },
+      "manufacturer": "ST(意法半导体)",
+      "manufacturerId": "USBLC6-2SC6",
+      "mirror": false,
+      "name": "={Manufacturer Part}",
+      "net": "",
+      "otherProperty": {
+        "Clamping Voltage": "17V",
+        "Datasheet": "https://item.szlcsc.com/datasheet/USBLC6-2SC6/7996.html",
+        "Description": "Polarity:Unidirectional Reverse Stand-Off Voltage (Vrwm):5.25V Clamping Voltage:17V Peak Pulse Current (Ipp):5A Voltage - Breakdown:6V Reverse Leakage Current (Ir):150nA Number of Channels:2 Operating Temperature:-40℃~+125℃ Operating Temperature:-40℃~+125",
+        "JLCPCB Part Class": "Extended Part",
+        "Junction Capacitance": "3.5pF",
+        "LCSC Part Name": "单向ESD 5.25V截止 峰值脉冲电流：5A",
+        "Number of Channels": "2",
+        "Operating Temperature": "-40℃~+125℃",
+        "Peak Pulse Current (Ipp)": "5A",
+        "Polarity": "Unidirectional",
+        "Reverse Leakage Current (Ir)": "150nA",
+        "Reverse Stand-Off Voltage (Vrwm)": "5.25V",
+        "Supplier Footprint": "SOT-23-6L",
+        "Type": "ESD",
+        "Voltage - Breakdown": "6V",
+        "level of protection": "IEC 61000-4-2"
+      },
+      "primitiveId": "94b343593c42205d",
+      "rotation": 0,
+      "subPartName": "USBLC6-2SC6.1",
+      "supplier": "LCSC",
+      "supplierId": "C7519",
+      "symbol": {
+        "libraryUuid": "a1ce4cdfd8c34673b2774988c19b159e",
+        "name": "usblc6-2sc6",
+        "uuid": "352f23276d2c5a42"
+      },
+      "uniqueId": "",
+      "x": 620,
+      "y": 580
+    },
+    "otherPropertyBackfilled": [
+      "Clamping Voltage",
+      "Datasheet",
+      "Description",
+      "JLCPCB Part Class",
+      "Junction Capacitance",
+      "LCSC Part Name",
+      "Number of Channels",
+      "Operating Temperature",
+      "Peak Pulse Current (Ipp)",
+      "Polarity",
+      "Reverse Leakage Current (Ir)",
+      "Reverse Stand-Off Voltage (Vrwm)",
+      "Supplier Footprint",
+      "Type",
+      "Voltage - Breakdown",
+      "level of protection"
+    ],
+    "primitiveId": "94b343593c42205d",
+    "supplierIdBackfilled": "C7519"
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 63,
+  "seqAbandoned": 0
+}

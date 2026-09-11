@@ -1,0 +1,91 @@
+{
+  "id": "req_112",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:08:40.859378Z",
+  "ok": true,
+  "result": {
+    "component": {
+      "addIntoBom": true,
+      "addIntoPcb": true,
+      "component": {
+        "libraryUuid": "fd9b819453c943d9b25639f63ee16ae3",
+        "name": "rvt1c101m0605 100uf 16v",
+        "uuid": "8dcf8cd15a4f0b66"
+      },
+      "componentType": "part",
+      "designator": "X10",
+      "device": {
+        "libraryUuid": "fd9b819453c943d9b25639f63ee16ae3",
+        "name": "={Value}",
+        "uuid": "8dcf8cd15a4f0b66"
+      },
+      "footprint": {
+        "libraryUuid": "66c88f730aeb4a8a9d7664529f05f5f8",
+        "name": "cap-smd_bd6.3-l6.6-w6.6-ls7.2-fd",
+        "uuid": "b45ae1d7d8f5ed28"
+      },
+      "manufacturer": "DMBJ(振宝佳)",
+      "manufacturerId": "RVT1C101M0605 100UF 16V",
+      "mirror": false,
+      "name": "={Value}",
+      "net": "",
+      "otherProperty": {
+        "Datasheet": "https://item.szlcsc.com/datasheet/RVT1C101M0605%2520100UF%252016V/1060412.html",
+        "Description": "Capacitance:100uF Tolerance:±20% Tolerance:±20% Voltage Rating:16V Ripple Current:63mA@120Hz Equivalent Series Resistance(ESR):- Diameter:6.3mm Height - Seated (Max):5.4mm Lifetime:2800hrs@105℃ Operating Temperature:-55℃~+105℃ Operating Temperature:-55℃~+",
+        "Diameter": "6.3mm",
+        "Equivalent Series Resistance(ESR)": "-",
+        "Height - Seated (Max)": "5.4mm",
+        "JLCPCB Part Class": "Extended Part",
+        "LCSC Part Name": "100uF ±20% 16V",
+        "Lifetime": "2800hrs@105℃",
+        "Operating Temperature": "-55℃~+105℃",
+        "Ripple Current": "63mA@120Hz",
+        "Supplier Footprint": "SMD,D6.3xL5.4mm",
+        "Tolerance": "±20%",
+        "Value": "100uF",
+        "Voltage Rating": "16V"
+      },
+      "primitiveId": "64a1bb31e2aeef31",
+      "rotation": 0,
+      "subPartName": "RVT1C101M0605_C970684.1",
+      "supplier": "LCSC",
+      "supplierId": "C970684",
+      "symbol": {
+        "libraryUuid": "cb86c5f6047d495e892d767418563508",
+        "name": "rvt1c101m0605_c970684",
+        "uuid": "29cc0bbb1a2714bd"
+      },
+      "uniqueId": "",
+      "x": 360,
+      "y": 380
+    },
+    "otherPropertyBackfilled": [
+      "Datasheet",
+      "Description",
+      "Diameter",
+      "Equivalent Series Resistance(ESR)",
+      "Height - Seated (Max)",
+      "JLCPCB Part Class",
+      "LCSC Part Name",
+      "Lifetime",
+      "Operating Temperature",
+      "Ripple Current",
+      "Supplier Footprint",
+      "Tolerance",
+      "Value",
+      "Voltage Rating"
+    ],
+    "primitiveId": "64a1bb31e2aeef31",
+    "supplierIdBackfilled": "C970684"
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 72,
+  "seqAbandoned": 0
+}

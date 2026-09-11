@@ -1,0 +1,95 @@
+{
+  "id": "req_142",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:08:45.995796Z",
+  "ok": true,
+  "result": {
+    "component": {
+      "addIntoBom": true,
+      "addIntoPcb": true,
+      "component": {
+        "libraryUuid": "6f51ffdaaf4d45a3acac6e54a529f9e1",
+        "name": "esp32-c6-mini-1-n4",
+        "uuid": "64294b44cb5faec7"
+      },
+      "componentType": "part",
+      "designator": "X16",
+      "device": {
+        "libraryUuid": "6f51ffdaaf4d45a3acac6e54a529f9e1",
+        "name": "={Value}",
+        "uuid": "64294b44cb5faec7"
+      },
+      "footprint": {
+        "libraryUuid": "4dd3b3d0de6644e198878ab5f6f8e377",
+        "name": "wifim-smd_61p-l16.6-w13.2-p0.80-esp32-c6-mini-1-n4",
+        "uuid": "8c7995619952cb29"
+      },
+      "manufacturer": "ESPRESSIF(乐鑫)",
+      "manufacturerId": "ESP32-C6-MINI-1-N4",
+      "mirror": false,
+      "name": "={Value}",
+      "net": "",
+      "otherProperty": {
+        "Antenna Type": "On-board PCB Antenna",
+        "Datasheet": "https://item.szlcsc.com/datasheet/ESP32-C6-MINI-1-N4/6661848.html",
+        "Description": "Utilized IC / Part:ESP32-C6FH4 Interface Type:I2C；GPIO；UART；SPI；I2S Frequency:2.4GHz Antenna Type:On-board PCB Antenna Output Power:21dBm Output Power:21dBm Voltage - Supply:3V~3.6V Voltage - Supply:3V~3.6V Receive  Current:71mA Send  Current:354mA Sensit",
+        "Features": "Integrated Bluetooth function；Integrated Zigbee function",
+        "Interface Type": "I2C；GPIO；UART；SPI；I2S",
+        "JLCPCB Part Class": "Extended Part",
+        "LCSC Part Name": "不带固件 2.4 GHz Wi-Fi 6、蓝牙 5、Zigbee 及 Thread 模组",
+        "Operating Temperature": "-40℃~+85℃",
+        "Output Power": "21dBm",
+        "Receive  Current": "71mA",
+        "Send  Current": "354mA",
+        "Sensitivity": "-106dBm",
+        "Supplier Footprint": "SMD-53P",
+        "Utilized IC / Part": "ESP32-C6FH4",
+        "Value": "2.4GHz",
+        "Voltage - Supply": "3V~3.6V"
+      },
+      "primitiveId": "92b70b9b79c41f46",
+      "rotation": 0,
+      "subPartName": "ESP32-C6-MINI-1-N4.1",
+      "supplier": "LCSC",
+      "supplierId": "C5736265",
+      "symbol": {
+        "libraryUuid": "820514aa0cf1477c95c3318c7e29a437",
+        "name": "esp32-c6-mini-1-n4",
+        "uuid": "c4f2aee73726fd99"
+      },
+      "uniqueId": "",
+      "x": 880,
+      "y": 180
+    },
+    "otherPropertyBackfilled": [
+      "Antenna Type",
+      "Datasheet",
+      "Description",
+      "Features",
+      "Interface Type",
+      "JLCPCB Part Class",
+      "LCSC Part Name",
+      "Operating Temperature",
+      "Output Power",
+      "Receive  Current",
+      "Send  Current",
+      "Sensitivity",
+      "Supplier Footprint",
+      "Utilized IC / Part",
+      "Value",
+      "Voltage - Supply"
+    ],
+    "primitiveId": "92b70b9b79c41f46",
+    "supplierIdBackfilled": "C5736265"
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 90,
+  "seqAbandoned": 0
+}

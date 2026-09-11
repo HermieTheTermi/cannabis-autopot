@@ -1,0 +1,97 @@
+{
+  "id": "req_82",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:08:36.094293Z",
+  "ok": true,
+  "result": {
+    "component": {
+      "addIntoBom": true,
+      "addIntoPcb": true,
+      "component": {
+        "libraryUuid": "0c60a448115c435b947647a7222a5ab0",
+        "name": "me6211c33m5g-n",
+        "uuid": "1207ac688e6c05fd"
+      },
+      "componentType": "part",
+      "designator": "X4",
+      "device": {
+        "libraryUuid": "0c60a448115c435b947647a7222a5ab0",
+        "name": "={Manufacturer Part}",
+        "uuid": "1207ac688e6c05fd"
+      },
+      "footprint": {
+        "libraryUuid": "f2785a7a800f4327acd4dfdd25d8d5e3",
+        "name": "sot-23-5_l3.0-w1.7-p0.95-ls2.8-bl",
+        "uuid": "163a38a7de2eef76"
+      },
+      "manufacturer": "MICRONE(南京微盟)",
+      "manufacturerId": "ME6211C33M5G-N",
+      "mirror": false,
+      "name": "={Manufacturer Part}",
+      "net": "",
+      "otherProperty": {
+        "Datasheet": "https://item.szlcsc.com/datasheet/ME6211C33M5G-N/84106.html",
+        "Description": "Output Configuration:Positive Voltage - Supply:6V Output Voltage:3.3V Output Voltage:3.3V Output Current:500mA Power Supply Rejection Ratio (PSRR):70dB@(1kHz) Voltage Dropout:120mV@(100mA) standby current:60uA Noise:50uVrms Features:Enable control；Short C",
+        "Features": "Enable control；Short Circuit Protection；Over Current Protection",
+        "JLCPCB Part Class": "Extended Part",
+        "LCSC Part Name": "3.3V 500mA 6V",
+        "Noise": "50uVrms",
+        "Number of Outputs": "1",
+        "Operating Temperature": "-40℃~+150℃",
+        "Output Configuration": "Positive",
+        "Output Current": "500mA",
+        "Output Type": "Fixed",
+        "Output Voltage": "3.3V",
+        "Power Supply Rejection Ratio (PSRR)": "70dB@(1kHz)",
+        "Supplier Footprint": "SOT-23-5",
+        "Voltage - Supply": "6V",
+        "Voltage Dropout": "120mV@(100mA)",
+        "standby current": "60uA"
+      },
+      "primitiveId": "e57e8a63b11675fc",
+      "rotation": 0,
+      "subPartName": "ME6211C33M5G-N.1",
+      "supplier": "LCSC",
+      "supplierId": "C82942",
+      "symbol": {
+        "libraryUuid": "050d65d2959c41f0ba83c66c7ef5825f",
+        "name": "me6211c33m5g-n",
+        "uuid": "ca19005bffce7c34"
+      },
+      "uniqueId": "",
+      "x": 880,
+      "y": 780
+    },
+    "otherPropertyBackfilled": [
+      "Datasheet",
+      "Description",
+      "Features",
+      "JLCPCB Part Class",
+      "LCSC Part Name",
+      "Noise",
+      "Number of Outputs",
+      "Operating Temperature",
+      "Output Configuration",
+      "Output Current",
+      "Output Type",
+      "Output Voltage",
+      "Power Supply Rejection Ratio (PSRR)",
+      "Supplier Footprint",
+      "Voltage - Supply",
+      "Voltage Dropout",
+      "standby current"
+    ],
+    "primitiveId": "e57e8a63b11675fc",
+    "supplierIdBackfilled": "C82942"
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 54,
+  "seqAbandoned": 0
+}

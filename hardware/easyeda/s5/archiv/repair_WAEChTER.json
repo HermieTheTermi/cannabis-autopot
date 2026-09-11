@@ -1,0 +1,233 @@
+{
+  "ok": true,
+  "succeeded": [
+    "C12:1",
+    "C12:2",
+    "R3:1",
+    "R5:2",
+    "U7:1",
+    "U7:3",
+    "R3:2",
+    "R5:1",
+    "U7:2"
+  ],
+  "connections": [
+    {
+      "pin": "C12:1",
+      "net": "VBAT",
+      "kind": "power",
+      "pinX": 940,
+      "pinY": 405,
+      "selected": {
+        "direction": "up",
+        "offset": 30,
+        "endPoint": {
+          "x": 940,
+          "y": 435
+        },
+        "score": 993,
+        "reasons": [
+          {
+            "cost": 1000,
+            "desc": "label collides with an existing flag/port/label"
+          },
+          {
+            "cost": 3,
+            "desc": "offset cost"
+          },
+          {
+            "cost": -10,
+            "desc": "matches kind default direction"
+          }
+        ]
+      },
+      "rejected": [
+        {
+          "direction": "down",
+          "offset": 42,
+          "score": 1000000004.2,
+          "reason": "stub touches an existing (foreign-net) wire (hard reject)"
+        },
+        {
+          "direction": "left",
+          "offset": 18,
+          "score": 1000010981.8,
+          "reason": "stub touches an existing (foreign-net) wire (hard reject)"
+        },
+        {
+          "direction": "right",
+          "offset": 18,
+          "score": 1000070501.8,
+          "reason": "stub touches an existing (foreign-net) wire (hard reject)"
+        }
+      ],
+      "wirePrimitiveId": "fd3dc862bd79d562",
+      "flagPrimitiveId": "d29eaabb7d190eb6",
+      "warning": "落点带痕(score=993):label collides with an existing flag/port/label —— 建议挪件腾位后重连",
+      "state": "conflict",
+      "currentNet": "GND",
+      "replaced": true
+    },
+    {
+      "pin": "C12:2",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 980,
+      "pinY": 405,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "R3:1",
+      "net": "VBAT",
+      "kind": "power",
+      "pinX": 1000,
+      "pinY": 410,
+      "selected": {
+        "direction": "down",
+        "offset": 42,
+        "endPoint": {
+          "x": 1000,
+          "y": 370
+        },
+        "score": 4.2,
+        "reasons": [
+          {
+            "cost": 4.2,
+            "desc": "offset cost"
+          }
+        ]
+      },
+      "rejected": [
+        {
+          "direction": "left",
+          "offset": 18,
+          "score": 20081.8,
+          "reason": "label overlaps a part bbox"
+        },
+        {
+          "direction": "right",
+          "offset": 18,
+          "score": 70501.8,
+          "reason": "引出方向与引脚朝外方向相反 —— 桩线要穿过/绕过器件本体"
+        },
+        {
+          "direction": "up",
+          "offset": 30,
+          "score": 999999993,
+          "reason": "stub touches an existing (foreign-net) wire (hard reject)"
+        }
+      ],
+      "wirePrimitiveId": "eb0c235ae1288c8d",
+      "flagPrimitiveId": "badc84ae58e090b3",
+      "state": "conflict",
+      "currentNet": "GND",
+      "replaced": true
+    },
+    {
+      "pin": "R5:2",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 895,
+      "pinY": 330,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "U7:1",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 905,
+      "pinY": 385,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "U7:3",
+      "net": "VBAT",
+      "kind": "power",
+      "pinX": 905,
+      "pinY": 405,
+      "selected": {
+        "direction": "left",
+        "offset": 78,
+        "endPoint": {
+          "x": 825,
+          "y": 405
+        },
+        "score": 50607.8,
+        "reasons": [
+          {
+            "cost": 500,
+            "desc": "stub passes through a component bbox"
+          },
+          {
+            "cost": 100,
+            "desc": "stub runs close to a pin fanout channel"
+          },
+          {
+            "cost": 7.8,
+            "desc": "offset cost"
+          },
+          {
+            "cost": 50000,
+            "desc": "引出方向与引脚朝外方向相反 —— 桩线要穿过/绕过器件本体"
+          }
+        ]
+      },
+      "rejected": [
+        {
+          "direction": "up",
+          "offset": 30,
+          "score": 1000000093,
+          "reason": "stub touches an existing (foreign-net) wire (hard reject)"
+        },
+        {
+          "direction": "right",
+          "offset": 18,
+          "score": 1000011081.8,
+          "reason": "stub touches an existing (foreign-net) wire (hard reject)"
+        },
+        {
+          "direction": "down",
+          "offset": 30,
+          "score": 2000000003,
+          "reason": "stub crosses a non-target pin (hard reject)"
+        }
+      ],
+      "wirePrimitiveId": "ff1edde9ec400642",
+      "flagPrimitiveId": "356615792e53a282",
+      "warning": "落点带痕(score=50608):stub passes through a component bbox; 引出方向与引脚朝外方向相反 —— 桩线要穿过/绕过器件本体 —— 建议挪件腾位后重连",
+      "state": "conflict",
+      "currentNet": "GND",
+      "replaced": true
+    },
+    {
+      "pin": "R3:2",
+      "net": "VBAT_SENSE",
+      "kind": "netport",
+      "pinX": 1040,
+      "pinY": 410,
+      "state": "already-connected",
+      "currentNet": "VBAT_SENSE"
+    },
+    {
+      "pin": "R5:1",
+      "net": "VBAT_SENSE",
+      "kind": "netport",
+      "pinX": 855,
+      "pinY": 330,
+      "state": "already-connected",
+      "currentNet": "VBAT_SENSE"
+    },
+    {
+      "pin": "U7:2",
+      "net": "RESET_UV",
+      "kind": "netport",
+      "pinX": 905,
+      "pinY": 395,
+      "state": "already-connected",
+      "currentNet": "RESET_UV"
+    }
+  ]
+}

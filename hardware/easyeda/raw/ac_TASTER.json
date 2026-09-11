@@ -1,0 +1,44 @@
+{
+ "connections": [
+  {
+   "pin": "C14:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "J6:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "R12:1",
+   "kind": "power",
+   "net": "+3V3"
+  },
+  {
+   "pin": "C14:1",
+   "kind": "netport",
+   "net": "BTN"
+  },
+  {
+   "pin": "J6:1",
+   "kind": "netport",
+   "net": "BTN"
+  },
+  {
+   "pin": "R12:2",
+   "kind": "netport",
+   "net": "BTN"
+  }
+ ],
+ "rules": {
+  "avoidTitleBlock": true,
+  "avoidPinFanout": true,
+  "staggerLabels": true,
+  "offsetRange": [
+   18,
+   150
+  ],
+  "offsetStep": 6
+ }
+}

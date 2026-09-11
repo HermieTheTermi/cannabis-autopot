@@ -1,0 +1,161 @@
+{
+  "id": "req_15416",
+  "ok": true,
+  "result": {
+    "passed": false,
+    "summary": {
+      "floatingPins": 0,
+      "componentsWithFloating": 0,
+      "geomNetMismatches": 0,
+      "netMarkerMismatches": 0,
+      "multiNetWires": 0,
+      "wireCrossings": 0,
+      "wireOverPins": 0,
+      "zeroLengthWires": 0,
+      "danglingWires": 0,
+      "duplicateNetMarkers": 0,
+      "titleblockOverlaps": 0,
+      "markerOverlaps": 4,
+      "missingPartitions": 1,
+      "redundantNetMarkers": 0,
+      "foldedNetLabels": 0,
+      "reversedNetFlags": 0,
+      "polarityConventionOutliers": 0,
+      "total": 5
+    },
+    "findings": [
+      {
+        "type": "marker-overlap",
+        "level": "warn",
+        "primitiveId": "032720db73639c17",
+        "markerNet": "CC1",
+        "message": "CC1(netport) 与 U6(part) 视觉重叠 6.00×57.00 — 换方向/offset 或 stagger",
+        "componentType": "netport",
+        "primitiveIds": [
+          "032720db73639c17",
+          "e129251a4584e8ac"
+        ],
+        "bbox": {
+          "minX": 504.5,
+          "minY": 1438.5,
+          "maxX": 515.5,
+          "maxY": 1495.5
+        },
+        "other": {
+          "primitiveId": "e129251a4584e8ac",
+          "componentType": "part",
+          "designator": "U6",
+          "bbox": {
+            "minX": 419.5,
+            "minY": 1429.5,
+            "maxX": 510.5,
+            "maxY": 1530.5
+          }
+        },
+        "overlapX": 6,
+        "overlapY": 57
+      },
+      {
+        "type": "marker-overlap",
+        "level": "warn",
+        "primitiveId": "548cc41c409b1dd6",
+        "markerNet": "USB_DM",
+        "message": "USB_DM(netport) 与 CC2(netport) 视觉重叠 11.00×11.00 — 换方向/offset 或 stagger",
+        "componentType": "netport",
+        "primitiveIds": [
+          "548cc41c409b1dd6",
+          "83ae6a7414750955"
+        ],
+        "bbox": {
+          "minX": 559.5,
+          "minY": 1444.5,
+          "maxX": 634.5,
+          "maxY": 1455.5
+        },
+        "other": {
+          "primitiveId": "83ae6a7414750955",
+          "componentType": "netport",
+          "net": "CC2",
+          "bbox": {
+            "minX": 599.5,
+            "minY": 1438.5,
+            "maxX": 610.5,
+            "maxY": 1495.5
+          }
+        },
+        "overlapX": 11,
+        "overlapY": 11
+      },
+      {
+        "type": "marker-overlap",
+        "level": "warn",
+        "primitiveId": "8562d345774f8516",
+        "markerNet": "GND",
+        "message": "GND(netflag) 与 GND(netflag) 视觉重叠 37.50×12.50 — 换方向/offset 或 stagger",
+        "componentType": "netflag",
+        "primitiveIds": [
+          "8562d345774f8516",
+          "9179f6d376e5dfb4"
+        ],
+        "bbox": {
+          "minX": 302,
+          "minY": 1409.5,
+          "maxX": 339.5,
+          "maxY": 1432
+        },
+        "other": {
+          "primitiveId": "9179f6d376e5dfb4",
+          "componentType": "netflag",
+          "net": "GND",
+          "bbox": {
+            "minX": 302,
+            "minY": 1419.5,
+            "maxX": 339.5,
+            "maxY": 1442
+          }
+        },
+        "overlapX": 37.5,
+        "overlapY": 12.5
+      },
+      {
+        "type": "marker-overlap",
+        "level": "warn",
+        "primitiveId": "ab6d1a4eaebc0952",
+        "markerNet": "GND",
+        "message": "GND(netflag) 与 SENSOR_RAW(netport) 视觉重叠 37.50×7.50 — 换方向/offset 或 stagger",
+        "componentType": "netflag",
+        "primitiveIds": [
+          "ab6d1a4eaebc0952",
+          "b55bc3cfcae59c32"
+        ],
+        "bbox": {
+          "minX": 1830.5,
+          "minY": 789.5,
+          "maxX": 1868,
+          "maxY": 812
+        },
+        "other": {
+          "primitiveId": "b55bc3cfcae59c32",
+          "componentType": "netport",
+          "net": "SENSOR_RAW",
+          "bbox": {
+            "minX": 1801.5,
+            "minY": 804.5,
+            "maxX": 1900.5,
+            "maxY": 815.5
+          }
+        },
+        "overlapX": 37.5,
+        "overlapY": 7.5
+      },
+      {
+        "type": "missing-titleblock",
+        "level": "warn",
+        "count": 1,
+        "message": "图签未填:Drawed(设计者) — 交付图必须能认领(`sch titleblock --data '{\"Name\":\"…\",\"Drawed\":\"…\"}'`)"
+      }
+    ]
+  },
+  "type": "response",
+  "version": "v1"
+}

@@ -1,0 +1,11 @@
+groups — project "SmartGrowTopf_V1", page 4f6771a27edec75b
+  g1   "USB-C Eingang & ESD"  4 member(s): J5,R7,R8,U6
+  g2   "Laden (MCP73831)"  6 member(s): C7,C8,LED1,R13,R14,U3
+  g3   "Akku & Puffer"  4 member(s): C3,J1,TP3,TP4
+  g4   "Unterspannungswaechter (MAX809)"  4 member(s): C12,R3,R5,U7
+  g5   "3V3-LDO (ME6211)"  4 member(s): C5,C6,TP5,U4
+  g6   "ESP32-C6-MCU + Beschaltung"  17 member(s): C1,C10,C13,C2,C4,C9,D2,D5,R10,R11,R15,R4,R9,SW1,SW2,TP2,U1
+  g7   "Taster & LEDs"  3 member(s): C14,J6,R12
+  g8   "Pumpentreiber (Low-Side)"  7 member(s): C11,D1,D3,J4,Q1,R1,R2
+  g9   "Sensor-Eingang"  3 member(s): J2,R6,TP6
+  g10  "UART-Debug-Pads (DNP)"  2 member(s): R16,TP1

@@ -1,0 +1,91 @@
+{
+  "id": "req_92",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:08:37.743682Z",
+  "ok": true,
+  "result": {
+    "component": {
+      "addIntoBom": true,
+      "addIntoPcb": true,
+      "component": {
+        "libraryUuid": "d7cdf9114eff4110bc187d388e4df2e5",
+        "name": "max809teur+t",
+        "uuid": "8d6b38aeb6bfbce5"
+      },
+      "componentType": "part",
+      "designator": "X6",
+      "device": {
+        "libraryUuid": "d7cdf9114eff4110bc187d388e4df2e5",
+        "name": "={Manufacturer Part}",
+        "uuid": "8d6b38aeb6bfbce5"
+      },
+      "footprint": {
+        "libraryUuid": "400c969e1cc94bd38770939828bdc8f4",
+        "name": "sot-23-3_l2.9-w1.6-p1.90-ls2.8-br",
+        "uuid": "a5de013584620f11"
+      },
+      "manufacturer": "ADI(亚德诺)/MAXIM(美信)",
+      "manufacturerId": "MAX809TEUR+T",
+      "mirror": false,
+      "name": "={Manufacturer Part}",
+      "net": "",
+      "otherProperty": {
+        "ChipType": "Voltage monitor",
+        "Datasheet": "https://item.szlcsc.com/datasheet/MAX809TEUR%252BT/17394.html",
+        "Description": "ChipType:Voltage monitor Output Type:Push-pull Voltage - Supply:1.2V~5.5V Voltage - Supply:1.2V~5.5V Reset Active Level:Active Low Threshold Voltage:3.08V Number of Voltages Monitored:1 Reset Timeout:140ms Operating Temperature:-40℃~+105℃@(TA) Operating T",
+        "JLCPCB Part Class": "Extended Part",
+        "LCSC Part Name": "3引脚微处理器复位电路",
+        "Number of Voltages Monitored": "1",
+        "Operating Temperature": "-40℃~+105℃@(TA)",
+        "Output Type": "Push-pull",
+        "Quiescent Current": "50uA",
+        "Reset Active Level": "Active Low",
+        "Reset Timeout": "140ms",
+        "Supplier Footprint": "SOT-23",
+        "Threshold Voltage": "3.08V",
+        "Voltage - Supply": "1.2V~5.5V"
+      },
+      "primitiveId": "7f1e631550504352",
+      "rotation": 0,
+      "subPartName": "MAX809TEUR+T.1",
+      "supplier": "LCSC",
+      "supplierId": "C16711",
+      "symbol": {
+        "libraryUuid": "326fee920f14462f9ea71cc68fc18ff7",
+        "name": "max809teur+t",
+        "uuid": "46b73e562148f1ce"
+      },
+      "uniqueId": "",
+      "x": 360,
+      "y": 580
+    },
+    "otherPropertyBackfilled": [
+      "ChipType",
+      "Datasheet",
+      "Description",
+      "JLCPCB Part Class",
+      "LCSC Part Name",
+      "Number of Voltages Monitored",
+      "Operating Temperature",
+      "Output Type",
+      "Quiescent Current",
+      "Reset Active Level",
+      "Reset Timeout",
+      "Supplier Footprint",
+      "Threshold Voltage",
+      "Voltage - Supply"
+    ],
+    "primitiveId": "7f1e631550504352",
+    "supplierIdBackfilled": "C16711"
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 60,
+  "seqAbandoned": 0
+}

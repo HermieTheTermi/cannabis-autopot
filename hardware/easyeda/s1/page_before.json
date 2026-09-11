@@ -1,0 +1,61 @@
+{
+  "id": "req_62",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:07:46.34842Z",
+  "ok": true,
+  "result": {
+    "components": [
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "bbox": {
+          "maxX": 1170,
+          "maxY": 825,
+          "minX": 0,
+          "minY": 0
+        },
+        "component": {
+          "libraryUuid": "754952feec9e48d6afd574513e1ca00b",
+          "name": "drawing-symbol_a4",
+          "uuid": "fe2bf9015d96f85c"
+        },
+        "componentType": "sheet",
+        "device": {
+          "libraryUuid": "754952feec9e48d6afd574513e1ca00b",
+          "name": "",
+          "uuid": "fe2bf9015d96f85c"
+        },
+        "mirror": false,
+        "net": "",
+        "pins": [],
+        "pinsAvailable": true,
+        "primitiveId": "f0badbcad483b3c5",
+        "rotation": 0,
+        "subPartName": "pid8a0e77bacb214e",
+        "x": 0,
+        "y": 0
+      }
+    ],
+    "connectivitySummary": {
+      "buses": 0,
+      "netflags": 0,
+      "netlabels": 0,
+      "netports": 0,
+      "scope": "activePage",
+      "shortSymbols": 0,
+      "wires": 0
+    },
+    "count": 1,
+    "wires": []
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 42,
+  "seqAbandoned": 0
+}

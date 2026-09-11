@@ -1,0 +1,562 @@
+{
+  "ok": true,
+  "succeeded": [
+    "C10:2",
+    "C13:1",
+    "C13:2",
+    "C1:1",
+    "C1:2",
+    "C2:1",
+    "C2:2",
+    "C4:2",
+    "C9:2",
+    "D2:2",
+    "D5:1",
+    "R10:1",
+    "R11:1",
+    "R9:1",
+    "SW1:2",
+    "SW2:2",
+    "U1:1",
+    "U1:11",
+    "U1:14",
+    "U1:2",
+    "U1:3",
+    "C10:1",
+    "C4:1",
+    "C9:1",
+    "D2:1",
+    "D5:2",
+    "R10:2",
+    "R11:2",
+    "R15:1",
+    "R15:2",
+    "R4:1",
+    "R4:2",
+    "R9:2",
+    "SW1:1",
+    "SW2:1",
+    "TP2:1",
+    "U1:12",
+    "U1:13",
+    "U1:15",
+    "U1:16",
+    "U1:17",
+    "U1:18",
+    "U1:19",
+    "U1:22",
+    "U1:23",
+    "U1:30",
+    "U1:31",
+    "U1:5",
+    "U1:6",
+    "U1:8"
+  ],
+  "connections": [
+    {
+      "pin": "C10:2",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 1130,
+      "pinY": 1150,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "C13:1",
+      "net": "+3V3",
+      "kind": "power",
+      "pinX": 490,
+      "pinY": 850,
+      "state": "already-connected",
+      "currentNet": "+3V3"
+    },
+    {
+      "pin": "C13:2",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 530,
+      "pinY": 850,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "C1:1",
+      "net": "+3V3",
+      "kind": "power",
+      "pinX": 1000,
+      "pinY": 1150,
+      "state": "already-connected",
+      "currentNet": "+3V3"
+    },
+    {
+      "pin": "C1:2",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 1040,
+      "pinY": 1150,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "C2:1",
+      "net": "+3V3",
+      "kind": "power",
+      "pinX": 400,
+      "pinY": 800,
+      "state": "already-connected",
+      "currentNet": "+3V3"
+    },
+    {
+      "pin": "C2:2",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 440,
+      "pinY": 800,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "C4:2",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 530,
+      "pinY": 800,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "C9:2",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 620,
+      "pinY": 800,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "D2:2",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 730,
+      "pinY": 1140,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "D5:1",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 820,
+      "pinY": 1140,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "R10:1",
+      "net": "+3V3",
+      "kind": "power",
+      "pinX": 675,
+      "pinY": 805,
+      "state": "already-connected",
+      "currentNet": "+3V3"
+    },
+    {
+      "pin": "R11:1",
+      "net": "+3V3",
+      "kind": "power",
+      "pinX": 765,
+      "pinY": 805,
+      "state": "already-connected",
+      "currentNet": "+3V3"
+    },
+    {
+      "pin": "R9:1",
+      "net": "+3V3",
+      "kind": "power",
+      "pinX": 1040,
+      "pinY": 805,
+      "state": "already-connected",
+      "currentNet": "+3V3"
+    },
+    {
+      "pin": "SW1:2",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 580,
+      "pinY": 1160,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "SW2:2",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 670,
+      "pinY": 1160,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "U1:1",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 400,
+      "pinY": 1150,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "U1:11",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 400,
+      "pinY": 1050,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "U1:14",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 400,
+      "pinY": 1020,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "U1:2",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 400,
+      "pinY": 1140,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "U1:3",
+      "net": "+3V3",
+      "kind": "power",
+      "pinX": 400,
+      "pinY": 1130,
+      "state": "already-connected",
+      "currentNet": "+3V3"
+    },
+    {
+      "pin": "C10:1",
+      "net": "VBAT_SENSE",
+      "kind": "netport",
+      "pinX": 1090,
+      "pinY": 1150,
+      "state": "already-connected",
+      "currentNet": "VBAT_SENSE"
+    },
+    {
+      "pin": "C4:1",
+      "net": "EN",
+      "kind": "netport",
+      "pinX": 490,
+      "pinY": 800,
+      "state": "already-connected",
+      "currentNet": "EN"
+    },
+    {
+      "pin": "C9:1",
+      "net": "SENSOR_AOUT",
+      "kind": "netport",
+      "pinX": 580,
+      "pinY": 800,
+      "state": "already-connected",
+      "currentNet": "SENSOR_AOUT"
+    },
+    {
+      "pin": "D2:1",
+      "net": "LED_STAT_A",
+      "kind": "netport",
+      "pinX": 770,
+      "pinY": 1140,
+      "state": "already-connected",
+      "currentNet": "LED_STAT_A"
+    },
+    {
+      "pin": "D5:2",
+      "net": "LED_TANK_A",
+      "kind": "netport",
+      "pinX": 860,
+      "pinY": 1140,
+      "state": "already-connected",
+      "currentNet": "LED_TANK_A"
+    },
+    {
+      "pin": "R10:2",
+      "net": "BOOT",
+      "kind": "netport",
+      "pinX": 715,
+      "pinY": 805,
+      "state": "already-connected",
+      "currentNet": "BOOT"
+    },
+    {
+      "pin": "R11:2",
+      "net": "GPIO8_STRAP",
+      "kind": "netport",
+      "pinX": 805,
+      "pinY": 805,
+      "state": "already-connected",
+      "currentNet": "GPIO8_STRAP"
+    },
+    {
+      "pin": "R15:1",
+      "net": "LED_TANK",
+      "kind": "netport",
+      "pinX": 855,
+      "pinY": 805,
+      "state": "already-connected",
+      "currentNet": "LED_TANK"
+    },
+    {
+      "pin": "R15:2",
+      "net": "LED_TANK_A",
+      "kind": "netport",
+      "pinX": 895,
+      "pinY": 805,
+      "state": "already-connected",
+      "currentNet": "LED_TANK_A"
+    },
+    {
+      "pin": "R4:1",
+      "net": "LED_STAT",
+      "kind": "netport",
+      "pinX": 945,
+      "pinY": 805,
+      "state": "already-connected",
+      "currentNet": "LED_STAT"
+    },
+    {
+      "pin": "R4:2",
+      "net": "LED_STAT_A",
+      "kind": "netport",
+      "pinX": 985,
+      "pinY": 805,
+      "state": "already-connected",
+      "currentNet": "LED_STAT_A"
+    },
+    {
+      "pin": "R9:2",
+      "net": "EN",
+      "kind": "netport",
+      "pinX": 1080,
+      "pinY": 805,
+      "state": "already-connected",
+      "currentNet": "EN"
+    },
+    {
+      "pin": "SW1:1",
+      "net": "EN",
+      "kind": "netport",
+      "pinX": 540,
+      "pinY": 1160,
+      "state": "already-connected",
+      "currentNet": "EN"
+    },
+    {
+      "pin": "SW2:1",
+      "net": "BOOT",
+      "kind": "netport",
+      "pinX": 630,
+      "pinY": 1160,
+      "state": "already-connected",
+      "currentNet": "BOOT"
+    },
+    {
+      "pin": "TP2:1",
+      "net": "UART_RX",
+      "kind": "netport",
+      "pinX": 905,
+      "pinY": 1150,
+      "state": "already-connected",
+      "currentNet": "UART_RX"
+    },
+    {
+      "pin": "U1:12",
+      "net": "SENSOR_AOUT",
+      "kind": "netport",
+      "pinX": 400,
+      "pinY": 1040,
+      "state": "already-connected",
+      "currentNet": "SENSOR_AOUT"
+    },
+    {
+      "pin": "U1:13",
+      "net": "VBAT_SENSE",
+      "kind": "netport",
+      "pinX": 400,
+      "pinY": 1030,
+      "state": "already-connected",
+      "currentNet": "VBAT_SENSE"
+    },
+    {
+      "pin": "U1:15",
+      "net": "BTN",
+      "kind": "netport",
+      "pinX": 400,
+      "pinY": 1010,
+      "state": "already-connected",
+      "currentNet": "BTN"
+    },
+    {
+      "pin": "U1:16",
+      "net": "LED_TANK",
+      "kind": "netport",
+      "pinX": 400,
+      "pinY": 1000,
+      "state": "already-connected",
+      "currentNet": "LED_TANK"
+    },
+    {
+      "pin": "U1:17",
+      "net": "USB_DM",
+      "kind": "netport",
+      "pinX": 400,
+      "pinY": 990,
+      "state": "already-connected",
+      "currentNet": "USB_DM"
+    },
+    {
+      "pin": "U1:18",
+      "net": "USB_DP",
+      "kind": "netport",
+      "pinX": 400,
+      "pinY": 980,
+      "state": "already-connected",
+      "currentNet": "USB_DP"
+    },
+    {
+      "pin": "U1:19",
+      "net": "LED_STAT",
+      "kind": "netport",
+      "pinX": 400,
+      "pinY": 970,
+      "state": "already-connected",
+      "currentNet": "LED_STAT"
+    },
+    {
+      "pin": "U1:22",
+      "net": "GPIO8_STRAP",
+      "kind": "netport",
+      "pinX": 400,
+      "pinY": 940,
+      "state": "already-connected",
+      "currentNet": "GPIO8_STRAP"
+    },
+    {
+      "pin": "U1:23",
+      "net": "BOOT",
+      "kind": "netport",
+      "pinX": 400,
+      "pinY": 930,
+      "state": "already-connected",
+      "currentNet": "BOOT"
+    },
+    {
+      "pin": "U1:30",
+      "net": "UART_RX",
+      "kind": "netport",
+      "pinX": 490,
+      "pinY": 915,
+      "state": "already-connected",
+      "currentNet": "UART_RX"
+    },
+    {
+      "pin": "U1:31",
+      "net": "UART_TX",
+      "kind": "netport",
+      "pinX": 490,
+      "pinY": 925,
+      "state": "already-connected",
+      "currentNet": "UART_TX"
+    },
+    {
+      "pin": "U1:5",
+      "net": "PUMP_EN",
+      "kind": "netport",
+      "pinX": 400,
+      "pinY": 1110,
+      "state": "already-connected",
+      "currentNet": "PUMP_EN"
+    },
+    {
+      "pin": "U1:6",
+      "net": "SENSOR_PWR",
+      "kind": "netport",
+      "pinX": 400,
+      "pinY": 1100,
+      "selected": {
+        "direction": "right",
+        "offset": 78,
+        "endPoint": {
+          "x": 480,
+          "y": 1100
+        },
+        "score": 50597.8,
+        "reasons": [
+          {
+            "cost": 500,
+            "desc": "stub passes through a component bbox"
+          },
+          {
+            "cost": 100,
+            "desc": "stub runs close to a pin fanout channel"
+          },
+          {
+            "cost": 7.8,
+            "desc": "offset cost"
+          },
+          {
+            "cost": 50000,
+            "desc": "引出方向与引脚朝外方向相反 —— 桩线要穿过/绕过器件本体"
+          },
+          {
+            "cost": -10,
+            "desc": "matches kind default direction"
+          }
+        ]
+      },
+      "rejected": [
+        {
+          "direction": "left",
+          "offset": 144,
+          "score": 1000000094.4,
+          "reason": "stub touches an existing (foreign-net) wire (hard reject)"
+        },
+        {
+          "direction": "down",
+          "offset": 18,
+          "score": 2000000251.8,
+          "reason": "stub crosses a non-target pin (hard reject)"
+        },
+        {
+          "direction": "up",
+          "offset": 120,
+          "score": 2000000262,
+          "reason": "stub crosses a non-target pin (hard reject)"
+        }
+      ],
+      "wirePrimitiveId": "34da9c7dd5c5e299",
+      "flagPrimitiveId": "4106f103a0a065bc",
+      "warning": "落点带痕(score=50598):stub passes through a component bbox; 引出方向与引脚朝外方向相反 —— 桩线要穿过/绕过器件本体 —— 建议挪件腾位后重连",
+      "state": "conflict",
+      "currentNet": "GND",
+      "replaced": true
+    },
+    {
+      "pin": "U1:8",
+      "net": "EN",
+      "kind": "netport",
+      "pinX": 400,
+      "pinY": 1080,
+      "state": "already-connected",
+      "currentNet": "EN"
+    }
+  ]
+}

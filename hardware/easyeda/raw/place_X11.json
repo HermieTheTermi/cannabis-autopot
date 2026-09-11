@@ -1,0 +1,109 @@
+{
+  "id": "req_117",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:08:41.837031Z",
+  "ok": true,
+  "result": {
+    "component": {
+      "addIntoBom": true,
+      "addIntoPcb": true,
+      "component": {
+        "libraryUuid": "8ecae1aa1e8a426b83dc915400438c28",
+        "name": "xy-s2b-ph-sm4-tb",
+        "uuid": "a6817419eab12f02"
+      },
+      "componentType": "part",
+      "designator": "X11",
+      "device": {
+        "libraryUuid": "8ecae1aa1e8a426b83dc915400438c28",
+        "name": "={Manufacturer Part}",
+        "uuid": "a6817419eab12f02"
+      },
+      "footprint": {
+        "libraryUuid": "09ed7394b5f04eccb36be7738c45b2ef",
+        "name": "conn-smd_p2.00_s2b-ph-sm4-tb-lf-sn",
+        "uuid": "9d34ec48cb229695"
+      },
+      "manufacturer": "XYECONN(辛译)",
+      "manufacturerId": "XY-S2B-PH-SM4-TB",
+      "mirror": false,
+      "name": "={Manufacturer Part}",
+      "net": "",
+      "otherProperty": {
+        "Color": "Beige",
+        "Contact Material": "Brass",
+        "Contact Plating": "Tin",
+        "Current Rating": "2A",
+        "Datasheet": "https://item.szlcsc.com/datasheet/XY-S2B-PH-SM4-TB/57972444.html",
+        "Description": "Pins Structure:1x2P Pitch:2mm Mounting Type:Surface Mount, Right Angle Reference Series:PH Number of Pins:2P Number of Rows:1 Number of PINs Per Row:2 Current Rating:2A Contact Material:Brass Contact Plating:Tin Operating Temperature:-25℃~+85℃ Operating T",
+        "JLCPCB Part Class": "Extended Part",
+        "LCSC Part Name": "1x2P 间距:2mm 卧贴 系列:PH",
+        "Mounting Type": "Surface Mount, Right Angle",
+        "Number of PINs Per Row": "2",
+        "Number of Pins": "2P",
+        "Number of Rows": "1",
+        "Operating Temperature": "-25℃~+85℃",
+        "Pins Structure": "1x2P",
+        "Pitch": "2mm",
+        "Plastic Material": "LCP",
+        "Reference Series": "PH",
+        "Supplementary Features": "Auxiliary Solder Pin",
+        "Supplier Footprint": "SMD,P=2mm,卧贴",
+        "Voltage Rating": "250V",
+        "X-Length of Bottom Edge on Board (Spacing Line)": "8mm",
+        "Y-Width of Bottom Edge on Board": "7.59mm",
+        "Z-Height of the Board": "5.6mm"
+      },
+      "primitiveId": "dc101238fcbdf32a",
+      "rotation": 0,
+      "subPartName": "XY-S2B-PH-SM4-TB.1",
+      "supplier": "LCSC",
+      "supplierId": "C54582899",
+      "symbol": {
+        "libraryUuid": "7dcbf536a1d84313972432774fbb2f6f",
+        "name": "xy-s2b-ph-sm4-tb",
+        "uuid": "ab6c647b57a7ea28"
+      },
+      "uniqueId": "",
+      "x": 620,
+      "y": 380
+    },
+    "otherPropertyBackfilled": [
+      "Color",
+      "Contact Material",
+      "Contact Plating",
+      "Current Rating",
+      "Datasheet",
+      "Description",
+      "JLCPCB Part Class",
+      "LCSC Part Name",
+      "Mounting Type",
+      "Number of PINs Per Row",
+      "Number of Pins",
+      "Number of Rows",
+      "Operating Temperature",
+      "Pins Structure",
+      "Pitch",
+      "Plastic Material",
+      "Reference Series",
+      "Supplementary Features",
+      "Supplier Footprint",
+      "Voltage Rating",
+      "X-Length of Bottom Edge on Board (Spacing Line)",
+      "Y-Width of Bottom Edge on Board",
+      "Z-Height of the Board"
+    ],
+    "primitiveId": "dc101238fcbdf32a",
+    "supplierIdBackfilled": "C54582899"
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 75,
+  "seqAbandoned": 0
+}

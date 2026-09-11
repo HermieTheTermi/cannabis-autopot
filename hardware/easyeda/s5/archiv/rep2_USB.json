@@ -1,0 +1,340 @@
+{
+  "ok": true,
+  "succeeded": [
+    "J5:1",
+    "J5:2",
+    "J5:3",
+    "J5:4",
+    "J5:A1B12",
+    "J5:A4B9",
+    "J5:B1A12",
+    "J5:B4A9",
+    "R7:2",
+    "R8:2",
+    "U6:2",
+    "U6:5",
+    "J5:A5",
+    "J5:A6",
+    "J5:A7",
+    "J5:B5",
+    "J5:B6",
+    "J5:B7",
+    "R7:1",
+    "R8:1",
+    "U6:1",
+    "U6:3",
+    "U6:4",
+    "U6:6"
+  ],
+  "connections": [
+    {
+      "pin": "J5:1",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 300,
+      "pinY": 1410,
+      "selected": {
+        "direction": "down",
+        "offset": 18,
+        "endPoint": {
+          "x": 300,
+          "y": 1390
+        },
+        "score": 91.8,
+        "reasons": [
+          {
+            "cost": 100,
+            "desc": "stub runs close to a pin fanout channel"
+          },
+          {
+            "cost": 1.8,
+            "desc": "offset cost"
+          },
+          {
+            "cost": -10,
+            "desc": "matches kind default direction"
+          }
+        ]
+      },
+      "rejected": [
+        {
+          "direction": "right",
+          "offset": 18,
+          "score": 1081.8,
+          "reason": "label collides with an existing flag/port/label"
+        },
+        {
+          "direction": "left",
+          "offset": 18,
+          "score": 60601.8,
+          "reason": "引出方向与引脚朝外方向相反 —— 桩线要穿过/绕过器件本体"
+        },
+        {
+          "direction": "up",
+          "offset": 114,
+          "score": 2000000011.4,
+          "reason": "stub crosses a non-target pin (hard reject)"
+        }
+      ],
+      "wirePrimitiveId": "f6a0cc0bc78c0f07",
+      "flagPrimitiveId": "1d3aaadae054e95a",
+      "state": "new"
+    },
+    {
+      "pin": "J5:2",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 300,
+      "pinY": 1420,
+      "selected": {
+        "direction": "right",
+        "offset": 18,
+        "endPoint": {
+          "x": 320,
+          "y": 1420
+        },
+        "score": 1081.8,
+        "reasons": [
+          {
+            "cost": 1000,
+            "desc": "label collides with an existing flag/port/label"
+          },
+          {
+            "cost": 100,
+            "desc": "stub runs close to a pin fanout channel"
+          },
+          {
+            "cost": 1.8,
+            "desc": "offset cost"
+          },
+          {
+            "cost": -20,
+            "desc": "matches pin outward side"
+          }
+        ]
+      },
+      "rejected": [
+        {
+          "direction": "left",
+          "offset": 18,
+          "score": 60601.8,
+          "reason": "引出方向与引脚朝外方向相反 —— 桩线要穿过/绕过器件本体"
+        },
+        {
+          "direction": "down",
+          "offset": 54,
+          "score": 1000000095.4,
+          "reason": "stub crosses a non-target pin (hard reject)"
+        },
+        {
+          "direction": "up",
+          "offset": 108,
+          "score": 2000000110.8,
+          "reason": "stub crosses a non-target pin (hard reject)"
+        }
+      ],
+      "wirePrimitiveId": "1c5724fd0f8b124c",
+      "flagPrimitiveId": "8562d345774f8516",
+      "warning": "落点带痕(score=1082):label collides with an existing flag/port/label —— 建议挪件腾位后重连",
+      "state": "new"
+    },
+    {
+      "pin": "J5:3",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 300,
+      "pinY": 1430,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "J5:4",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 300,
+      "pinY": 1440,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "J5:A1B12",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 230,
+      "pinY": 1520,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "J5:A4B9",
+      "net": "VBUS",
+      "kind": "power",
+      "pinX": 230,
+      "pinY": 1510,
+      "state": "already-connected",
+      "currentNet": "VBUS"
+    },
+    {
+      "pin": "J5:B1A12",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 230,
+      "pinY": 1410,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "J5:B4A9",
+      "net": "VBUS",
+      "kind": "power",
+      "pinX": 230,
+      "pinY": 1420,
+      "state": "already-connected",
+      "currentNet": "VBUS"
+    },
+    {
+      "pin": "R7:2",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 550,
+      "pinY": 1525,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "R8:2",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 645,
+      "pinY": 1525,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "U6:2",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 340,
+      "pinY": 1480,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "U6:5",
+      "net": "VBUS",
+      "kind": "power",
+      "pinX": 470,
+      "pinY": 1480,
+      "state": "already-connected",
+      "currentNet": "VBUS"
+    },
+    {
+      "pin": "J5:A5",
+      "net": "CC1",
+      "kind": "netport",
+      "pinX": 230,
+      "pinY": 1490,
+      "state": "already-connected",
+      "currentNet": "CC1"
+    },
+    {
+      "pin": "J5:A6",
+      "net": "USB_DP",
+      "kind": "netport",
+      "pinX": 230,
+      "pinY": 1470,
+      "state": "already-connected",
+      "currentNet": "USB_DP"
+    },
+    {
+      "pin": "J5:A7",
+      "net": "USB_DM",
+      "kind": "netport",
+      "pinX": 230,
+      "pinY": 1460,
+      "state": "already-connected",
+      "currentNet": "USB_DM"
+    },
+    {
+      "pin": "J5:B5",
+      "net": "CC2",
+      "kind": "netport",
+      "pinX": 230,
+      "pinY": 1430,
+      "state": "already-connected",
+      "currentNet": "CC2"
+    },
+    {
+      "pin": "J5:B6",
+      "net": "USB_DP",
+      "kind": "netport",
+      "pinX": 230,
+      "pinY": 1450,
+      "state": "already-connected",
+      "currentNet": "USB_DP"
+    },
+    {
+      "pin": "J5:B7",
+      "net": "USB_DM",
+      "kind": "netport",
+      "pinX": 230,
+      "pinY": 1480,
+      "state": "already-connected",
+      "currentNet": "USB_DM"
+    },
+    {
+      "pin": "R7:1",
+      "net": "CC1",
+      "kind": "netport",
+      "pinX": 510,
+      "pinY": 1525,
+      "state": "already-connected",
+      "currentNet": "CC1"
+    },
+    {
+      "pin": "R8:1",
+      "net": "CC2",
+      "kind": "netport",
+      "pinX": 605,
+      "pinY": 1525,
+      "state": "already-connected",
+      "currentNet": "CC2"
+    },
+    {
+      "pin": "U6:1",
+      "net": "USB_DP",
+      "kind": "netport",
+      "pinX": 340,
+      "pinY": 1510,
+      "state": "already-connected",
+      "currentNet": "USB_DP"
+    },
+    {
+      "pin": "U6:3",
+      "net": "USB_DM",
+      "kind": "netport",
+      "pinX": 340,
+      "pinY": 1450,
+      "state": "already-connected",
+      "currentNet": "USB_DM"
+    },
+    {
+      "pin": "U6:4",
+      "net": "USB_DM",
+      "kind": "netport",
+      "pinX": 470,
+      "pinY": 1450,
+      "state": "already-connected",
+      "currentNet": "USB_DM"
+    },
+    {
+      "pin": "U6:6",
+      "net": "USB_DP",
+      "kind": "netport",
+      "pinX": 470,
+      "pinY": 1510,
+      "state": "already-connected",
+      "currentNet": "USB_DP"
+    }
+  ]
+}

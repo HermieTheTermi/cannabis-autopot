@@ -1,0 +1,101 @@
+{
+  "id": "req_107",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:08:40.143064Z",
+  "ok": true,
+  "result": {
+    "component": {
+      "addIntoBom": true,
+      "addIntoPcb": true,
+      "component": {
+        "libraryUuid": "cabe1100a18642cca4b0bdb071599cef",
+        "name": "kt-0805g",
+        "uuid": "2d49d0959b76692d"
+      },
+      "componentType": "part",
+      "designator": "X9",
+      "device": {
+        "libraryUuid": "cabe1100a18642cca4b0bdb071599cef",
+        "name": "={Manufacturer Part}",
+        "uuid": "2d49d0959b76692d"
+      },
+      "footprint": {
+        "libraryUuid": "313092bfa732442d84c889daad09de95",
+        "name": "led0805-r-rd",
+        "uuid": "09a4fb095debba35"
+      },
+      "manufacturer": "KENTO",
+      "manufacturerId": "KT-0805G",
+      "mirror": false,
+      "name": "={Manufacturer Part}",
+      "net": "",
+      "otherProperty": {
+        "Color Temperature": "-",
+        "Datasheet": "https://item.szlcsc.com/datasheet/KT-0805G/2670.html",
+        "Description": "Lamp Holder Type:2mm x 1.25mm square LED Illumination Color:Emerald Green Voltage - Forward(Vf):2.6V~3.1V Voltage - Forward(Vf):2.6V~3.1V Power(Watts):100mW Forward Current:5mA Wavelength - Dominant:513nm~528nm Wavelength - Dominant:513nm~528nm Peak Wavel",
+        "Diode Configuration": "Discrete Diode",
+        "Forward Current": "5mA",
+        "Illumination Color": "Emerald Green",
+        "JLCPCB Part Class": "Basic Part",
+        "LCSC Part Name": "0805 翠绿 高亮",
+        "Lamp Holder Type": "2mm x 1.25mm square LED",
+        "Lens Color": "Water Clear",
+        "Luminous Intensity": "430mcd",
+        "Mounting Style": "-",
+        "Operating Temperature": "-40℃~+85℃",
+        "Peak Wavelength": "525nm",
+        "Power(Watts)": "100mW",
+        "Supplier Footprint": "0805",
+        "Viewing Angle": "120°",
+        "Voltage - Forward(Vf)": "2.6V~3.1V",
+        "Wavelength - Dominant": "513nm~528nm"
+      },
+      "primitiveId": "e65e00fea1435d3f",
+      "rotation": 0,
+      "subPartName": "0805G (Green).1",
+      "supplier": "LCSC",
+      "supplierId": "C2297",
+      "symbol": {
+        "libraryUuid": "61440457c4b144d9880964a2d2a3271b",
+        "name": "0805g (green)",
+        "uuid": "be4870fe8c511b0f"
+      },
+      "uniqueId": "",
+      "x": 100,
+      "y": 380
+    },
+    "otherPropertyBackfilled": [
+      "Color Temperature",
+      "Datasheet",
+      "Description",
+      "Diode Configuration",
+      "Forward Current",
+      "Illumination Color",
+      "JLCPCB Part Class",
+      "LCSC Part Name",
+      "Lamp Holder Type",
+      "Lens Color",
+      "Luminous Intensity",
+      "Mounting Style",
+      "Operating Temperature",
+      "Peak Wavelength",
+      "Power(Watts)",
+      "Supplier Footprint",
+      "Viewing Angle",
+      "Voltage - Forward(Vf)",
+      "Wavelength - Dominant"
+    ],
+    "primitiveId": "e65e00fea1435d3f",
+    "supplierIdBackfilled": "C2297"
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 69,
+  "seqAbandoned": 0
+}

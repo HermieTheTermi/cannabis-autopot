@@ -1,0 +1,90 @@
+{
+  "id": "req_261",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:11:46.066295Z",
+  "ok": true,
+  "result": {
+    "device": {
+      "association": {
+        "footprint": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "uuid": "400c969e1cc94bd38770939828bdc8f4"
+        },
+        "footprintUuid": "400c969e1cc94bd38770939828bdc8f4",
+        "images": [
+          "https://alimg.szlcsc.com/upload/public/product/middle/20230330/D67381975E0DE30EE4FDA283EB8A92CC.jpg"
+        ],
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "type": 2,
+          "uuid": "326fee920f14462f9ea71cc68fc18ff7"
+        },
+        "symbolType": 2,
+        "symbolUuid": "326fee920f14462f9ea71cc68fc18ff7"
+      },
+      "classification": {
+        "libraryType": "3",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "primaryClassificationUuid": "f18b2c28b041451fb63f4b1ff9d90083",
+        "secondaryClassificationUuid": "6a162d21f3be43a0b744a454b1851020"
+      },
+      "description": "ChipType:Voltage monitor Output Type:Push-pull Voltage - Supply:1.2V~5.5V Voltage - Supply:1.2V~5.5V Reset Active Level:Active Low Threshold Voltage:3.08V Number of Voltages Monitored:1 Reset Timeout:140ms Operating Temperature:-40℃~+105℃@(TA) Operating T",
+      "libraryType": "3",
+      "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+      "name": "MAX809TEUR+T",
+      "property": {
+        "addIntoBom": "yes",
+        "addIntoPcb": "yes",
+        "designator": "U?",
+        "manufacturer": "ADI(亚德诺)/MAXIM(美信)",
+        "manufacturerId": "MAX809TEUR+T",
+        "name": "MAX809TEUR+T",
+        "otherProperty": {
+          "3D Model": "4eed685bb9f4439b846746bc2193f3c0",
+          "3D Model Title": "SOT-23-3L_L2.9-W1.6-H1.1-LS2.8-P0.95",
+          "3D Model Transform": "114.173,110.236,0,90,0,0,0,0,0",
+          "Add into BOM": "yes",
+          "ChipType": "Voltage monitor",
+          "Convert to PCB": "yes",
+          "Datasheet": "https://item.szlcsc.com/datasheet/MAX809TEUR%252BT/17394.html",
+          "Description": "ChipType:Voltage monitor Output Type:Push-pull Voltage - Supply:1.2V~5.5V Voltage - Supply:1.2V~5.5V Reset Active Level:Active Low Threshold Voltage:3.08V Number of Voltages Monitored:1 Reset Timeout:140ms Operating Temperature:-40℃~+105℃@(TA) Operating T",
+          "Designator": "U?",
+          "Footprint": "400c969e1cc94bd38770939828bdc8f4",
+          "JLCPCB Part Class": "Extended Part",
+          "LCSC Part Name": "3引脚微处理器复位电路",
+          "Manufacturer": "ADI(亚德诺)/MAXIM(美信)",
+          "Manufacturer Part": "MAX809TEUR+T",
+          "Name": "={Manufacturer Part}",
+          "Number of Voltages Monitored": "1",
+          "Operating Temperature": "-40℃~+105℃@(TA)",
+          "Output Type": "Push-pull",
+          "Quiescent Current": "50uA",
+          "Reset Active Level": "Active Low",
+          "Reset Timeout": "140ms",
+          "Supplier": "LCSC",
+          "Supplier Footprint": "SOT-23",
+          "Supplier Part": "C16711",
+          "Symbol": "326fee920f14462f9ea71cc68fc18ff7",
+          "Threshold Voltage": "3.08V",
+          "Voltage - Supply": "1.2V~5.5V"
+        },
+        "supplier": "LCSC",
+        "supplierId": "C16711"
+      },
+      "subPartNames": [
+        "MAX809TEUR+T.1"
+      ],
+      "uuid": "d7cdf9114eff4110bc187d388e4df2e5"
+    }
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 167,
+  "seqAbandoned": 0
+}

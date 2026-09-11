@@ -1,0 +1,95 @@
+{
+  "id": "req_264",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:11:46.55393Z",
+  "ok": true,
+  "result": {
+    "device": {
+      "association": {
+        "footprint": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "uuid": "18f92042a8ba46109ed61a02a6753de7"
+        },
+        "footprintUuid": "18f92042a8ba46109ed61a02a6753de7",
+        "images": [
+          "https://alimg.szlcsc.com/upload/public/product/middle/20221228/B2A9B82BA2CC6EA0E599C36D8250DBA5.jpg"
+        ],
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "type": 2,
+          "uuid": "e96036e5de0642239b7b7711a094281e"
+        },
+        "symbolType": 2,
+        "symbolUuid": "e96036e5de0642239b7b7711a094281e"
+      },
+      "classification": {
+        "libraryType": "3",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "primaryClassificationUuid": "2e6da90e9fe04c48873a84f15f4007c2",
+        "secondaryClassificationUuid": "7af6e3f192ab43dd876af2a013ebb749"
+      },
+      "description": "Number:1 N-channel Drain to Source Voltage:30V Current - Continuous Drain(Id):5.7A RDS(on):48mΩ@2.5V Pd - Power Dissipation:1.4W Gate Threshold Voltage (Vgs(th)):1.45V Gate Charge(Qg):7nC@10V Input Capacitance(Ciss):630pF Reverse Transfer Capacitance (Crs",
+      "libraryType": "3",
+      "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+      "name": "AO3400A_C20917",
+      "property": {
+        "addIntoBom": "yes",
+        "addIntoPcb": "yes",
+        "designator": "Q?",
+        "manufacturer": "AOS",
+        "manufacturerId": "AO3400A",
+        "name": "AO3400A_C20917",
+        "otherProperty": {
+          "3D Model": "62a57c6760504a01965db6419a6d07df",
+          "3D Model Title": "SOT-23-3P_L2.9-W1.3-H1.0-LS2.4-P0.95",
+          "3D Model Transform": "98.425,114.173,0,180,0,0,0.0005,-0.0005,0",
+          "Add into BOM": "yes",
+          "Configuration": "-",
+          "Convert to PCB": "yes",
+          "Current - Continuous Drain(Id)": "5.7A",
+          "Datasheet": "https://item.szlcsc.com/datasheet/AO3400A/21629.html",
+          "Description": "Number:1 N-channel Drain to Source Voltage:30V Current - Continuous Drain(Id):5.7A RDS(on):48mΩ@2.5V Pd - Power Dissipation:1.4W Gate Threshold Voltage (Vgs(th)):1.45V Gate Charge(Qg):7nC@10V Input Capacitance(Ciss):630pF Reverse Transfer Capacitance (Crs",
+          "Designator": "Q?",
+          "Drain to Source Voltage": "30V",
+          "Footprint": "18f92042a8ba46109ed61a02a6753de7",
+          "Gate Charge(Qg)": "7nC@10V",
+          "Gate Threshold Voltage (Vgs(th))": "1.45V",
+          "Input Capacitance(Ciss)": "630pF",
+          "JLCPCB Part Class": "Basic Part",
+          "LCSC Part Name": "N沟道 耐压:30V",
+          "Manufacturer": "AOS",
+          "Manufacturer Part": "AO3400A",
+          "Name": "={Manufacturer Part}",
+          "Number": "1 N-channel",
+          "Operating Temperature": "-55℃~+150℃",
+          "Output Capacitance(Coss)": "75pF",
+          "Pd - Power Dissipation": "1.4W",
+          "RDS(on)": "48mΩ@2.5V",
+          "Reverse Transfer Capacitance (Crss@Vds)": "50pF",
+          "Supplier": "LCSC",
+          "Supplier Footprint": "SOT-23",
+          "Supplier Part": "C20917",
+          "Symbol": "e96036e5de0642239b7b7711a094281e",
+          "Type": "N-Channel",
+          "Vgs": "±12V"
+        },
+        "supplier": "LCSC",
+        "supplierId": "C20917"
+      },
+      "subPartNames": [
+        "AO3400A.1"
+      ],
+      "uuid": "1c95a10b7c4a4095b426799cbca7b1b2"
+    }
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 170,
+  "seqAbandoned": 0
+}

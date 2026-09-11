@@ -1,0 +1,114 @@
+⚠ connector looks DEGRADED under load (recent EFFECT failure rate 10%, 1 consecutive failures) — this write may have LANDED despite the failure (假失败定律): verify with a light read before resending, and do NOT blind-retry. Worst road(s): schematic.pin.disconnect
+{
+  "ok": false,
+  "partial": true,
+  "succeeded": [
+    "C3:1",
+    "C3:2",
+    "J1:2",
+    "TP3:1"
+  ],
+  "failed": [
+    "J1:1",
+    "TP4:1"
+  ],
+  "connections": [
+    {
+      "pin": "C3:1",
+      "net": "VBAT",
+      "kind": "power",
+      "pinX": 735,
+      "pinY": 480,
+      "selected": {
+        "direction": "down",
+        "offset": 18,
+        "endPoint": {
+          "x": 735,
+          "y": 460
+        },
+        "score": 1.8,
+        "reasons": [
+          {
+            "cost": 1.8,
+            "desc": "offset cost"
+          }
+        ]
+      },
+      "rejected": [
+        {
+          "direction": "left",
+          "offset": 18,
+          "score": 981.8,
+          "reason": "label collides with an existing flag/port/label"
+        },
+        {
+          "direction": "right",
+          "offset": 18,
+          "score": 60501.8,
+          "reason": "引出方向与引脚朝外方向相反 —— 桩线要穿过/绕过器件本体"
+        },
+        {
+          "direction": "up",
+          "offset": 42,
+          "score": 999999994.2,
+          "reason": "stub touches an existing (foreign-net) wire (hard reject)"
+        }
+      ],
+      "wirePrimitiveId": "1303fb62751d24e0",
+      "flagPrimitiveId": "f678049f53e9ed03",
+      "state": "conflict",
+      "currentNet": "GND",
+      "replaced": true
+    },
+    {
+      "pin": "C3:2",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 775,
+      "pinY": 480,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "J1:1",
+      "net": "VBAT",
+      "kind": "power",
+      "pinX": 589.9999999999999,
+      "pinY": 465.00000000000006,
+      "error": "replace: failed to disconnect old net \"GND\": schematic.pin.disconnect failed: No stub wire found on the target pin — nothing to disconnect (already clean?).",
+      "state": "conflict",
+      "currentNet": "GND",
+      "replaced": true
+    },
+    {
+      "pin": "J1:2",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 589.9999999999999,
+      "pinY": 475.00000000000006,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "TP3:1",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 610,
+      "pinY": 475,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "TP4:1",
+      "net": "VBAT",
+      "kind": "power",
+      "pinX": 670,
+      "pinY": 475,
+      "error": "replace: failed to disconnect old net \"GND\": schematic.pin.disconnect failed: No stub wire found on the target pin — nothing to disconnect (already clean?).",
+      "state": "conflict",
+      "currentNet": "GND",
+      "replaced": true
+    }
+  ]
+}
+autoconnect: 2 connection(s) failed

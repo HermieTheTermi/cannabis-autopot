@@ -1,0 +1,101 @@
+{
+  "id": "req_127",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:08:43.546377Z",
+  "ok": true,
+  "result": {
+    "component": {
+      "addIntoBom": true,
+      "addIntoPcb": true,
+      "component": {
+        "libraryUuid": "38630614a58f4650bd5eefe9a5f79d9a",
+        "name": "ts-1187a-b-a-b",
+        "uuid": "54b18fda5f26d7af"
+      },
+      "componentType": "part",
+      "designator": "X13",
+      "device": {
+        "libraryUuid": "38630614a58f4650bd5eefe9a5f79d9a",
+        "name": "={Manufacturer Part}",
+        "uuid": "54b18fda5f26d7af"
+      },
+      "footprint": {
+        "libraryUuid": "5ec794aa49f14c93bb742d529d134e8a",
+        "name": "sw-smd_4p-l5.1-w5.1-p3.70-ls6.5-tl_h1.5",
+        "uuid": "9c35f4d8c9e7cd42"
+      },
+      "manufacturer": "XKB Connection(中国星坤)",
+      "manufacturerId": "TS-1187A-B-A-B",
+      "mirror": false,
+      "name": "={Manufacturer Part}",
+      "net": "",
+      "otherProperty": {
+        "Actuator Style": "Round Button",
+        "Actuator/Cap Color": "Gold",
+        "Circuit": "SPST",
+        "Contact Current": "50mA",
+        "Datasheet": "https://item.szlcsc.com/datasheet/TS-1187A-B-A-B/299976.html",
+        "Description": "Circuit:SPST Actuator Style:Round Button Operating Force:1.6N Mounting Type:Surface Mount,Vertical Length:5.1mm Width:5.1mm Switch Height:1.5mm with Bracket:Without Bracket Contact Current:50mA Voltage Rating:12V Actuator/Cap Color:Gold With Lamp:No Life:",
+        "JLCPCB Part Class": "Basic Part",
+        "LCSC Part Name": "5.1*5.1*1.5mm 立贴 轻触开关",
+        "Length": "5.1mm",
+        "Life": "100,000 cycles",
+        "Mounting Type": "Surface Mount,Vertical",
+        "Operating Force": "1.6N",
+        "Operating Temperature": "-30℃~+85℃",
+        "Supplier Footprint": "SMD-4P,5.1x5.1mm",
+        "Switch Height": "1.5mm",
+        "Voltage Rating": "12V",
+        "Width": "5.1mm",
+        "With Lamp": "No",
+        "with Bracket": "Without Bracket"
+      },
+      "primitiveId": "68991fedd09d1102",
+      "rotation": 0,
+      "subPartName": "TS-1187A-B-A-B.1",
+      "supplier": "LCSC",
+      "supplierId": "C318884",
+      "symbol": {
+        "libraryUuid": "49fadfc6e4e3470797c0ab1a98d3bec7",
+        "name": "ts-1187a-b-a-b",
+        "uuid": "e8af885cba799555"
+      },
+      "uniqueId": "",
+      "x": 100,
+      "y": 180
+    },
+    "otherPropertyBackfilled": [
+      "Actuator Style",
+      "Actuator/Cap Color",
+      "Circuit",
+      "Contact Current",
+      "Datasheet",
+      "Description",
+      "JLCPCB Part Class",
+      "LCSC Part Name",
+      "Length",
+      "Life",
+      "Mounting Type",
+      "Operating Force",
+      "Operating Temperature",
+      "Supplier Footprint",
+      "Switch Height",
+      "Voltage Rating",
+      "Width",
+      "With Lamp",
+      "with Bracket"
+    ],
+    "primitiveId": "68991fedd09d1102",
+    "supplierIdBackfilled": "C318884"
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 81,
+  "seqAbandoned": 0
+}

@@ -1,0 +1,82 @@
+[
+  {
+    "componentId": "cmp-D_LEDCHG",
+    "before": "D_LEDCHG",
+    "after": "LED1"
+  },
+  {
+    "componentId": "cmp-C1a",
+    "before": "C1a",
+    "after": "C1"
+  },
+  {
+    "componentId": "cmp-C1b",
+    "before": "C1b",
+    "after": "C13"
+  },
+  {
+    "componentId": "cmp-C_BTN",
+    "before": "C_BTN",
+    "after": "C14"
+  },
+  {
+    "componentId": "cmp-R3a",
+    "before": "R3a",
+    "after": "R3"
+  },
+  {
+    "componentId": "cmp-R3b",
+    "before": "R3b",
+    "after": "R5"
+  },
+  {
+    "componentId": "cmp-R5a",
+    "before": "R5a",
+    "after": "R7"
+  },
+  {
+    "componentId": "cmp-R5b",
+    "before": "R5b",
+    "after": "R8"
+  },
+  {
+    "componentId": "cmp-R_EN",
+    "before": "R_EN",
+    "after": "R9"
+  },
+  {
+    "componentId": "cmp-R_BOOT",
+    "before": "R_BOOT",
+    "after": "R10"
+  },
+  {
+    "componentId": "cmp-R_GPIO8",
+    "before": "R_GPIO8",
+    "after": "R11"
+  },
+  {
+    "componentId": "cmp-R_BTN",
+    "before": "R_BTN",
+    "after": "R12"
+  },
+  {
+    "componentId": "cmp-R_PROG",
+    "before": "R_PROG",
+    "after": "R13"
+  },
+  {
+    "componentId": "cmp-R_LEDCHG",
+    "before": "R_LEDCHG",
+    "after": "R14"
+  },
+  {
+    "componentId": "cmp-R_TANK",
+    "before": "R_TANK",
+    "after": "R15"
+  },
+  {
+    "componentId": "cmp-R_UART",
+    "before": "R_UART",
+    "after": "R16"
+  }
+]

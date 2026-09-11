@@ -1,0 +1,95 @@
+{
+  "id": "req_137",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:08:45.245058Z",
+  "ok": true,
+  "result": {
+    "component": {
+      "addIntoBom": true,
+      "addIntoPcb": true,
+      "component": {
+        "libraryUuid": "730e76758f9742ca9ca85c73f4ec0ecd",
+        "name": "type-c-31-m-12",
+        "uuid": "d0654f68417d0c34"
+      },
+      "componentType": "part",
+      "designator": "X15",
+      "device": {
+        "libraryUuid": "730e76758f9742ca9ca85c73f4ec0ecd",
+        "name": "={Manufacturer Part}",
+        "uuid": "d0654f68417d0c34"
+      },
+      "footprint": {
+        "libraryUuid": "45d257a27a304edd865bdb43b1945b61",
+        "name": "usb-c_smd-type-c-31-m-12_1",
+        "uuid": "0610adbf23c062ec"
+      },
+      "manufacturer": "韩国韩荣",
+      "manufacturerId": "TYPE-C-31-M-12",
+      "mirror": false,
+      "name": "={Manufacturer Part}",
+      "net": "",
+      "otherProperty": {
+        "Connect-Disconnect Life": "10,000 cycles",
+        "Connector Type": "Type-C",
+        "Current Rating-Power": "5A",
+        "Datasheet": "https://item.szlcsc.com/datasheet/TYPE-C-31-M-12/177331.html",
+        "Description": "Connector Type:Type-C Protocol Standard:- Gender:Female Mounting Type:Surface Mount, Right Angle Number of Contacts:16P Number of Ports:1 Current Rating-Power:5A Voltage Rating:20V Connect-Disconnect Life:10,000 cycles Length:7.35mm Operating Temperature:",
+        "Gender": "Female",
+        "JLCPCB Part Class": "Extended Part",
+        "LCSC Part Name": "Type-C 母 卧贴",
+        "Length": "7.35mm",
+        "Mounting Type": "Surface Mount, Right Angle",
+        "Number of Contacts": "16P",
+        "Number of Ports": "1",
+        "Operating Temperature": "-30℃~+80℃",
+        "Protocol Standard": "-",
+        "Supplier Footprint": "SMD",
+        "Voltage Rating": "20V"
+      },
+      "primitiveId": "c786f2dcc024408f",
+      "rotation": 0,
+      "subPartName": "TYPE-C-31-M-12.1",
+      "supplier": "LCSC",
+      "supplierId": "C165948",
+      "symbol": {
+        "libraryUuid": "e30d694d838e433dbe5423a6e817759e",
+        "name": "type-c-31-m-12",
+        "uuid": "568e96c2135a5939"
+      },
+      "uniqueId": "",
+      "x": 620,
+      "y": 180
+    },
+    "otherPropertyBackfilled": [
+      "Connect-Disconnect Life",
+      "Connector Type",
+      "Current Rating-Power",
+      "Datasheet",
+      "Description",
+      "Gender",
+      "JLCPCB Part Class",
+      "LCSC Part Name",
+      "Length",
+      "Mounting Type",
+      "Number of Contacts",
+      "Number of Ports",
+      "Operating Temperature",
+      "Protocol Standard",
+      "Supplier Footprint",
+      "Voltage Rating"
+    ],
+    "primitiveId": "c786f2dcc024408f",
+    "supplierIdBackfilled": "C165948"
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 87,
+  "seqAbandoned": 0
+}

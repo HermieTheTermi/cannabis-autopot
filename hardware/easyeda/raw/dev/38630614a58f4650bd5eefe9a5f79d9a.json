@@ -1,0 +1,95 @@
+{
+  "id": "req_287",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:11:50.130242Z",
+  "ok": true,
+  "result": {
+    "device": {
+      "association": {
+        "footprint": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "uuid": "5ec794aa49f14c93bb742d529d134e8a"
+        },
+        "footprintUuid": "5ec794aa49f14c93bb742d529d134e8a",
+        "images": [
+          "https://alimg.szlcsc.com/upload/public/product/middle/20230108/88172F1E1FCBE40FF10527789D18E309.jpg"
+        ],
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "type": 2,
+          "uuid": "49fadfc6e4e3470797c0ab1a98d3bec7"
+        },
+        "symbolType": 2,
+        "symbolUuid": "49fadfc6e4e3470797c0ab1a98d3bec7"
+      },
+      "classification": {
+        "libraryType": "3",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "primaryClassificationUuid": "a9df415b8cf84021b9c78933af83098d",
+        "secondaryClassificationUuid": "b627f1e88fad4dc0a2871114f948b46f"
+      },
+      "description": "Circuit:SPST Actuator Style:Round Button Operating Force:1.6N Mounting Type:Surface Mount,Vertical Length:5.1mm Width:5.1mm Switch Height:1.5mm with Bracket:Without Bracket Contact Current:50mA Voltage Rating:12V Actuator/Cap Color:Gold With Lamp:No Life:",
+      "libraryType": "3",
+      "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+      "name": "TS-1187A-B-A-B",
+      "property": {
+        "addIntoBom": "yes",
+        "addIntoPcb": "yes",
+        "designator": "SW?",
+        "manufacturer": "XKB Connection(中国星坤)",
+        "manufacturerId": "TS-1187A-B-A-B",
+        "name": "TS-1187A-B-A-B",
+        "otherProperty": {
+          "3D Model": "297e93217c8a461096f3cf9cc3d4db3d",
+          "3D Model Title": "SW-SMD_4P-L5.1-W5.1-P3.70-LS6.5-TL_H1.5",
+          "3D Model Transform": "255.905,204.76337,0,0,0,0,0,0,0",
+          "Actuator Style": "Round Button",
+          "Actuator/Cap Color": "Gold",
+          "Add into BOM": "yes",
+          "Circuit": "SPST",
+          "Contact Current": "50mA",
+          "Convert to PCB": "yes",
+          "Datasheet": "https://item.szlcsc.com/datasheet/TS-1187A-B-A-B/299976.html",
+          "Description": "Circuit:SPST Actuator Style:Round Button Operating Force:1.6N Mounting Type:Surface Mount,Vertical Length:5.1mm Width:5.1mm Switch Height:1.5mm with Bracket:Without Bracket Contact Current:50mA Voltage Rating:12V Actuator/Cap Color:Gold With Lamp:No Life:",
+          "Designator": "SW?",
+          "Footprint": "5ec794aa49f14c93bb742d529d134e8a",
+          "JLCPCB Part Class": "Basic Part",
+          "LCSC Part Name": "5.1*5.1*1.5mm 立贴 轻触开关",
+          "Length": "5.1mm",
+          "Life": "100,000 cycles",
+          "Manufacturer": "XKB Connection(中国星坤)",
+          "Manufacturer Part": "TS-1187A-B-A-B",
+          "Mounting Type": "Surface Mount,Vertical",
+          "Name": "={Manufacturer Part}",
+          "Operating Force": "1.6N",
+          "Operating Temperature": "-30℃~+85℃",
+          "Supplier": "LCSC",
+          "Supplier Footprint": "SMD-4P,5.1x5.1mm",
+          "Supplier Part": "C318884",
+          "Switch Height": "1.5mm",
+          "Symbol": "49fadfc6e4e3470797c0ab1a98d3bec7",
+          "Voltage Rating": "12V",
+          "Width": "5.1mm",
+          "With Lamp": "No",
+          "with Bracket": "Without Bracket"
+        },
+        "supplier": "LCSC",
+        "supplierId": "C318884"
+      },
+      "subPartNames": [
+        "TS-1187A-B-A-B.1"
+      ],
+      "uuid": "38630614a58f4650bd5eefe9a5f79d9a"
+    }
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 193,
+  "seqAbandoned": 0
+}

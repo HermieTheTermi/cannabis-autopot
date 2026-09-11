@@ -1,0 +1,37 @@
+{
+  "ok": true,
+  "succeeded": [
+    "R16:1",
+    "R16:2",
+    "TP1:1"
+  ],
+  "connections": [
+    {
+      "pin": "R16:1",
+      "net": "UART_TX",
+      "kind": "netport",
+      "pinX": 670,
+      "pinY": 335,
+      "state": "already-connected",
+      "currentNet": "UART_TX"
+    },
+    {
+      "pin": "R16:2",
+      "net": "UART_TP",
+      "kind": "netport",
+      "pinX": 710,
+      "pinY": 335,
+      "state": "already-connected",
+      "currentNet": "UART_TP"
+    },
+    {
+      "pin": "TP1:1",
+      "net": "UART_TP",
+      "kind": "netport",
+      "pinX": 550,
+      "pinY": 330,
+      "state": "already-connected",
+      "currentNet": "UART_TP"
+    }
+  ]
+}

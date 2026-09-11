@@ -1,0 +1,81 @@
+{
+  "id": "req_102",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:08:39.405834Z",
+  "ok": true,
+  "result": {
+    "component": {
+      "addIntoBom": true,
+      "addIntoPcb": true,
+      "component": {
+        "libraryUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
+        "name": "1n5819ws_c191023",
+        "uuid": "28a06b8f2f40a373"
+      },
+      "componentType": "part",
+      "designator": "X8",
+      "device": {
+        "libraryUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
+        "name": "={Manufacturer Part}",
+        "uuid": "28a06b8f2f40a373"
+      },
+      "footprint": {
+        "libraryUuid": "44e5852d27764c769b9700e1581fea84",
+        "name": "sod-323_l1.8-w1.3-ls2.5-rd",
+        "uuid": "2263a60f23e76b46"
+      },
+      "manufacturer": "Hottech(合科泰)",
+      "manufacturerId": "1N5819WS",
+      "mirror": false,
+      "name": "={Manufacturer Part}",
+      "net": "",
+      "otherProperty": {
+        "Current - Rectified": "1A",
+        "Datasheet": "https://item.szlcsc.com/datasheet/1N5819WS/213850.html",
+        "Description": "Voltage - Forward(Vf@If):600mV@1A Voltage - DC Reverse(Vr):40V Current - Rectified:1A Non-Repetitive Peak Forward Surge Current:25A",
+        "JLCPCB Part Class": "Basic Part",
+        "LCSC Part Name": "电压:40V 电流:1A",
+        "Non-Repetitive Peak Forward Surge Current": "25A",
+        "Supplier Footprint": "SOD-323",
+        "Voltage - DC Reverse(Vr)": "40V",
+        "Voltage - Forward(Vf@If)": "600mV@1A"
+      },
+      "primitiveId": "f8bdd3dac7a809ab",
+      "rotation": 0,
+      "subPartName": "1N5819WS.1",
+      "supplier": "LCSC",
+      "supplierId": "C191023",
+      "symbol": {
+        "libraryUuid": "f2978e2adf4340499ec13753928b885a",
+        "name": "1n5819ws",
+        "uuid": "311fdc12f420dc23"
+      },
+      "uniqueId": "",
+      "x": 880,
+      "y": 580
+    },
+    "otherPropertyBackfilled": [
+      "Current - Rectified",
+      "Datasheet",
+      "Description",
+      "JLCPCB Part Class",
+      "LCSC Part Name",
+      "Non-Repetitive Peak Forward Surge Current",
+      "Supplier Footprint",
+      "Voltage - DC Reverse(Vr)",
+      "Voltage - Forward(Vf@If)"
+    ],
+    "primitiveId": "f8bdd3dac7a809ab",
+    "supplierIdBackfilled": "C191023"
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 66,
+  "seqAbandoned": 0
+}

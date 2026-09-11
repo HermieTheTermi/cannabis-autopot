@@ -1,0 +1,29 @@
+{
+ "connections": [
+  {
+   "pin": "R16:1",
+   "kind": "netport",
+   "net": "UART_TX"
+  },
+  {
+   "pin": "R16:2",
+   "kind": "netport",
+   "net": "UART_TP"
+  },
+  {
+   "pin": "TP1:1",
+   "kind": "netport",
+   "net": "UART_TP"
+  }
+ ],
+ "rules": {
+  "avoidTitleBlock": true,
+  "avoidPinFanout": true,
+  "staggerLabels": true,
+  "offsetRange": [
+   18,
+   150
+  ],
+  "offsetStep": 6
+ }
+}

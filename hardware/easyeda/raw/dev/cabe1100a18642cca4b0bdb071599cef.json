@@ -1,0 +1,95 @@
+{
+  "id": "req_266",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:11:46.852701Z",
+  "ok": true,
+  "result": {
+    "device": {
+      "association": {
+        "footprint": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "uuid": "313092bfa732442d84c889daad09de95"
+        },
+        "footprintUuid": "313092bfa732442d84c889daad09de95",
+        "images": [
+          "https://alimg.szlcsc.com/upload/public/product/middle/20230108/B58BEC54318D0B0D5C32FCC692440138.jpg"
+        ],
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "type": 2,
+          "uuid": "61440457c4b144d9880964a2d2a3271b"
+        },
+        "symbolType": 2,
+        "symbolUuid": "61440457c4b144d9880964a2d2a3271b"
+      },
+      "classification": {
+        "libraryType": "3",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "primaryClassificationUuid": "e7e6f38cd74b464cb0208cde99f16ea2",
+        "secondaryClassificationUuid": "a45525ce80f14ddcaaa0722412e7bd0f"
+      },
+      "description": "Lamp Holder Type:2mm x 1.25mm square LED Illumination Color:Emerald Green Voltage - Forward(Vf):2.6V~3.1V Voltage - Forward(Vf):2.6V~3.1V Power(Watts):100mW Forward Current:5mA Wavelength - Dominant:513nm~528nm Wavelength - Dominant:513nm~528nm Peak Wavel",
+      "libraryType": "3",
+      "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+      "name": "KT-0805G",
+      "property": {
+        "addIntoBom": "yes",
+        "addIntoPcb": "yes",
+        "designator": "LED?",
+        "manufacturer": "KENTO",
+        "manufacturerId": "KT-0805G",
+        "name": "KT-0805G",
+        "otherProperty": {
+          "3D Model": "167045bb0eae412b9d5564860e113a91",
+          "3D Model Title": "LED0805-RD",
+          "3D Model Transform": "79.527,49.2125,0,0,0,0,0,0,0",
+          "Add into BOM": "yes",
+          "Color Temperature": "-",
+          "Convert to PCB": "yes",
+          "Datasheet": "https://item.szlcsc.com/datasheet/KT-0805G/2670.html",
+          "Description": "Lamp Holder Type:2mm x 1.25mm square LED Illumination Color:Emerald Green Voltage - Forward(Vf):2.6V~3.1V Voltage - Forward(Vf):2.6V~3.1V Power(Watts):100mW Forward Current:5mA Wavelength - Dominant:513nm~528nm Wavelength - Dominant:513nm~528nm Peak Wavel",
+          "Designator": "LED?",
+          "Diode Configuration": "Discrete Diode",
+          "Footprint": "313092bfa732442d84c889daad09de95",
+          "Forward Current": "5mA",
+          "Illumination Color": "Emerald Green",
+          "JLCPCB Part Class": "Basic Part",
+          "LCSC Part Name": "0805 翠绿 高亮",
+          "Lamp Holder Type": "2mm x 1.25mm square LED",
+          "Lens Color": "Water Clear",
+          "Luminous Intensity": "430mcd",
+          "Manufacturer": "KENTO",
+          "Manufacturer Part": "KT-0805G",
+          "Mounting Style": "-",
+          "Name": "={Manufacturer Part}",
+          "Operating Temperature": "-40℃~+85℃",
+          "Peak Wavelength": "525nm",
+          "Power(Watts)": "100mW",
+          "Supplier": "LCSC",
+          "Supplier Footprint": "0805",
+          "Supplier Part": "C2297",
+          "Symbol": "61440457c4b144d9880964a2d2a3271b",
+          "Viewing Angle": "120°",
+          "Voltage - Forward(Vf)": "2.6V~3.1V",
+          "Wavelength - Dominant": "513nm~528nm"
+        },
+        "supplier": "LCSC",
+        "supplierId": "C2297"
+      },
+      "subPartNames": [
+        "0805G (Green).1"
+      ],
+      "uuid": "cabe1100a18642cca4b0bdb071599cef"
+    }
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 172,
+  "seqAbandoned": 0
+}

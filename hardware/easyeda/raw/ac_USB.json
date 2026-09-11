@@ -1,0 +1,134 @@
+{
+ "connections": [
+  {
+   "pin": "J5:1",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "J5:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "J5:3",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "J5:4",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "J5:A1B12",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "J5:A4B9",
+   "kind": "power",
+   "net": "VBUS"
+  },
+  {
+   "pin": "J5:B1A12",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "J5:B4A9",
+   "kind": "power",
+   "net": "VBUS"
+  },
+  {
+   "pin": "R7:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "R8:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U6:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U6:5",
+   "kind": "power",
+   "net": "VBUS"
+  },
+  {
+   "pin": "J5:A5",
+   "kind": "netport",
+   "net": "CC1"
+  },
+  {
+   "pin": "J5:A6",
+   "kind": "netport",
+   "net": "USB_DP"
+  },
+  {
+   "pin": "J5:A7",
+   "kind": "netport",
+   "net": "USB_DM"
+  },
+  {
+   "pin": "J5:B5",
+   "kind": "netport",
+   "net": "CC2"
+  },
+  {
+   "pin": "J5:B6",
+   "kind": "netport",
+   "net": "USB_DP"
+  },
+  {
+   "pin": "J5:B7",
+   "kind": "netport",
+   "net": "USB_DM"
+  },
+  {
+   "pin": "R7:1",
+   "kind": "netport",
+   "net": "CC1"
+  },
+  {
+   "pin": "R8:1",
+   "kind": "netport",
+   "net": "CC2"
+  },
+  {
+   "pin": "U6:1",
+   "kind": "netport",
+   "net": "USB_DP"
+  },
+  {
+   "pin": "U6:3",
+   "kind": "netport",
+   "net": "USB_DM"
+  },
+  {
+   "pin": "U6:4",
+   "kind": "netport",
+   "net": "USB_DM"
+  },
+  {
+   "pin": "U6:6",
+   "kind": "netport",
+   "net": "USB_DP"
+  }
+ ],
+ "rules": {
+  "avoidTitleBlock": true,
+  "avoidPinFanout": true,
+  "staggerLabels": true,
+  "offsetRange": [
+   18,
+   150
+  ],
+  "offsetStep": 6
+ }
+}

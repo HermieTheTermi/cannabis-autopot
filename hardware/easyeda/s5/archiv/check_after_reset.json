@@ -1,0 +1,377 @@
+{
+  "id": "req_10097",
+  "ok": true,
+  "result": {
+    "passed": false,
+    "summary": {
+      "floatingPins": 0,
+      "componentsWithFloating": 0,
+      "geomNetMismatches": 0,
+      "netMarkerMismatches": 0,
+      "multiNetWires": 0,
+      "wireCrossings": 3,
+      "wireOverPins": 0,
+      "zeroLengthWires": 0,
+      "danglingWires": 0,
+      "duplicateNetMarkers": 0,
+      "titleblockOverlaps": 0,
+      "markerOverlaps": 10,
+      "missingPartitions": 1,
+      "redundantNetMarkers": 0,
+      "foldedNetLabels": 0,
+      "reversedNetFlags": 0,
+      "polarityConventionOutliers": 0,
+      "total": 14
+    },
+    "findings": [
+      {
+        "type": "wire-crossing",
+        "level": "warn",
+        "count": 1,
+        "message": "两条导线交叉(走线打结;改走通道/换 L 形拐点避开)",
+        "at": {
+          "x": 85,
+          "y": 305
+        }
+      },
+      {
+        "type": "wire-crossing",
+        "level": "warn",
+        "count": 1,
+        "message": "两条导线交叉(走线打结;改走通道/换 L 形拐点避开)",
+        "at": {
+          "x": 950,
+          "y": 485
+        }
+      },
+      {
+        "type": "wire-crossing",
+        "level": "warn",
+        "count": 1,
+        "message": "两条导线交叉(走线打结;改走通道/换 L 形拐点避开)",
+        "at": {
+          "x": 410,
+          "y": 315
+        }
+      },
+      {
+        "type": "marker-overlap",
+        "level": "warn",
+        "designator": "J5",
+        "primitiveId": "0cfd6b1e10ee5ddb",
+        "message": "J5(part) 与 VBUS(netflag) 视觉重叠 21.00×17.50 — 换方向/offset 或 stagger",
+        "componentType": "part",
+        "primitiveIds": [
+          "0cfd6b1e10ee5ddb",
+          "27c2706957a39258"
+        ],
+        "bbox": {
+          "minX": 864.4999999999999,
+          "minY": 654.5000000000001,
+          "maxX": 915.4999999999999,
+          "maxY": 785.5000000000001
+        },
+        "other": {
+          "primitiveId": "27c2706957a39258",
+          "componentType": "netflag",
+          "net": "VBUS",
+          "bbox": {
+            "minX": 894.5,
+            "minY": 759.5,
+            "maxX": 929,
+            "maxY": 777
+          }
+        },
+        "overlapX": 21,
+        "overlapY": 17.5
+      },
+      {
+        "type": "marker-overlap",
+        "level": "warn",
+        "designator": "U4",
+        "primitiveId": "1ae82cbe1e4b3ff0",
+        "message": "U4(part) 与 +3V3(netflag) 视觉重叠 31.00×17.50 — 换方向/offset 或 stagger",
+        "componentType": "part",
+        "primitiveIds": [
+          "1ae82cbe1e4b3ff0",
+          "872e0224804f03bc"
+        ],
+        "bbox": {
+          "minX": 559.5,
+          "minY": 587.5,
+          "maxX": 640.5,
+          "maxY": 632.5
+        },
+        "other": {
+          "primitiveId": "872e0224804f03bc",
+          "componentType": "netflag",
+          "net": "+3V3",
+          "bbox": {
+            "minX": 609.5,
+            "minY": 614.5,
+            "maxX": 644,
+            "maxY": 632
+          }
+        },
+        "overlapX": 31,
+        "overlapY": 17.5
+      },
+      {
+        "type": "marker-overlap",
+        "level": "warn",
+        "primitiveId": "2ad52e3f315f1926",
+        "markerNet": "PUMP_EN",
+        "message": "PUMP_EN(netport) 与 GND(netflag) 视觉重叠 35.00×7.50 — 换方向/offset 或 stagger",
+        "componentType": "netport",
+        "primitiveIds": [
+          "2ad52e3f315f1926",
+          "966bdfbab035cb74"
+        ],
+        "bbox": {
+          "minX": 779.5,
+          "minY": 484.5,
+          "maxX": 860.5,
+          "maxY": 495.5
+        },
+        "other": {
+          "primitiveId": "966bdfbab035cb74",
+          "componentType": "netflag",
+          "net": "GND",
+          "bbox": {
+            "minX": 777,
+            "minY": 469.5,
+            "maxX": 814.5,
+            "maxY": 492
+          }
+        },
+        "overlapX": 35,
+        "overlapY": 7.5
+      },
+      {
+        "type": "marker-overlap",
+        "level": "warn",
+        "primitiveId": "3e058e4969b79ca4",
+        "markerNet": "SENSOR_AOUT",
+        "message": "SENSOR_AOUT(netport) 与 +3V3(netflag) 视觉重叠 2.50×18.00 — 换方向/offset 或 stagger",
+        "componentType": "netport",
+        "primitiveIds": [
+          "3e058e4969b79ca4",
+          "db05180be235cebc"
+        ],
+        "bbox": {
+          "minX": 339.5,
+          "minY": 464.5,
+          "maxX": 350.5,
+          "maxY": 569.5
+        },
+        "other": {
+          "primitiveId": "db05180be235cebc",
+          "componentType": "netflag",
+          "net": "+3V3",
+          "bbox": {
+            "minX": 318,
+            "minY": 484.5,
+            "maxX": 342,
+            "maxY": 502.5
+          }
+        },
+        "overlapX": 2.5,
+        "overlapY": 18
+      },
+      {
+        "type": "marker-overlap",
+        "level": "warn",
+        "primitiveId": "58ed0e9641af8556",
+        "markerNet": "GND",
+        "message": "GND(netflag) 与 GND(netflag) 视觉重叠 8.50×2.00 — 换方向/offset 或 stagger",
+        "componentType": "netflag",
+        "primitiveIds": [
+          "58ed0e9641af8556",
+          "dfc74776a7bd54d6"
+        ],
+        "bbox": {
+          "minX": 592,
+          "minY": 524.5,
+          "maxX": 629.5,
+          "maxY": 547
+        },
+        "other": {
+          "primitiveId": "dfc74776a7bd54d6",
+          "componentType": "netflag",
+          "net": "GND",
+          "bbox": {
+            "minX": 579.5,
+            "minY": 504.5,
+            "maxX": 600.5,
+            "maxY": 526.5
+          }
+        },
+        "overlapX": 8.5,
+        "overlapY": 2
+      },
+      {
+        "type": "marker-overlap",
+        "level": "warn",
+        "primitiveId": "7ffe6e48713dfc38",
+        "markerNet": "GATE",
+        "message": "GATE(netport) 与 GND(netflag) 视觉重叠 11.00×22.50 — 换方向/offset 或 stagger",
+        "componentType": "netport",
+        "primitiveIds": [
+          "7ffe6e48713dfc38",
+          "d17b6e544903336a"
+        ],
+        "bbox": {
+          "minX": 964.5,
+          "minY": 589.5,
+          "maxX": 975.5,
+          "maxY": 652.5
+        },
+        "other": {
+          "primitiveId": "d17b6e544903336a",
+          "componentType": "netflag",
+          "net": "GND",
+          "bbox": {
+            "minX": 957,
+            "minY": 599.5,
+            "maxX": 994.5,
+            "maxY": 622
+          }
+        },
+        "overlapX": 11,
+        "overlapY": 22.5
+      },
+      {
+        "type": "marker-overlap",
+        "level": "warn",
+        "primitiveId": "b2a81c387bcfc620",
+        "markerNet": "PUMP_N",
+        "message": "PUMP_N(netport) 与 GND(netflag) 视觉重叠 3.50×17.50 — 换方向/offset 或 stagger",
+        "componentType": "netport",
+        "primitiveIds": [
+          "b2a81c387bcfc620",
+          "d17b6e544903336a"
+        ],
+        "bbox": {
+          "minX": 949.5,
+          "minY": 604.5,
+          "maxX": 960.5,
+          "maxY": 679.5
+        },
+        "other": {
+          "primitiveId": "d17b6e544903336a",
+          "componentType": "netflag",
+          "net": "GND",
+          "bbox": {
+            "minX": 957,
+            "minY": 599.5,
+            "maxX": 994.5,
+            "maxY": 622
+          }
+        },
+        "overlapX": 3.5,
+        "overlapY": 17.5
+      },
+      {
+        "type": "marker-overlap",
+        "level": "warn",
+        "primitiveId": "b2a81c387bcfc620",
+        "markerNet": "PUMP_N",
+        "message": "PUMP_N(netport) 与 GND(netflag) 视觉重叠 11.00×22.50 — 换方向/offset 或 stagger",
+        "componentType": "netport",
+        "primitiveIds": [
+          "b2a81c387bcfc620",
+          "dff329c1fa2a2a5b"
+        ],
+        "bbox": {
+          "minX": 949.5,
+          "minY": 604.5,
+          "maxX": 960.5,
+          "maxY": 679.5
+        },
+        "other": {
+          "primitiveId": "dff329c1fa2a2a5b",
+          "componentType": "netflag",
+          "net": "GND",
+          "bbox": {
+            "minX": 927,
+            "minY": 654.5,
+            "maxX": 964.5,
+            "maxY": 677
+          }
+        },
+        "overlapX": 11,
+        "overlapY": 22.5
+      },
+      {
+        "type": "marker-overlap",
+        "level": "warn",
+        "primitiveId": "d45e854c1c0a3c02",
+        "markerNet": "GATE",
+        "message": "GATE(netport) 与 GND(netflag) 视觉重叠 3.50×22.50 — 换方向/offset 或 stagger",
+        "componentType": "netport",
+        "primitiveIds": [
+          "d45e854c1c0a3c02",
+          "dff329c1fa2a2a5b"
+        ],
+        "bbox": {
+          "minX": 919.5,
+          "minY": 614.5,
+          "maxX": 930.5,
+          "maxY": 677.5
+        },
+        "other": {
+          "primitiveId": "dff329c1fa2a2a5b",
+          "componentType": "netflag",
+          "net": "GND",
+          "bbox": {
+            "minX": 927,
+            "minY": 654.5,
+            "maxX": 964.5,
+            "maxY": 677
+          }
+        },
+        "overlapX": 3.5,
+        "overlapY": 22.5
+      },
+      {
+        "type": "marker-overlap",
+        "level": "warn",
+        "primitiveId": "e70718e3c688c46b",
+        "markerNet": "GND",
+        "message": "GND(netflag) 与 BOOT(netport) 视觉重叠 11.00×14.00 — 换方向/offset 或 stagger",
+        "componentType": "netflag",
+        "primitiveIds": [
+          "e70718e3c688c46b",
+          "f8802e19cb01adad"
+        ],
+        "bbox": {
+          "minX": 304.5,
+          "minY": 359.5,
+          "maxX": 325.5,
+          "maxY": 381.5
+        },
+        "other": {
+          "primitiveId": "f8802e19cb01adad",
+          "componentType": "netport",
+          "net": "BOOT",
+          "bbox": {
+            "minX": 304.5,
+            "minY": 367.5,
+            "maxX": 315.5,
+            "maxY": 430.5
+          }
+        },
+        "overlapX": 11,
+        "overlapY": 14
+      },
+      {
+        "type": "missing-titleblock",
+        "level": "warn",
+        "count": 1,
+        "message": "图签未填:Drawed(设计者) — 交付图必须能认领(`sch titleblock --data '{\"Name\":\"…\",\"Drawed\":\"…\"}'`)"
+      }
+    ]
+  },
+  "type": "response",
+  "version": "v1"
+}

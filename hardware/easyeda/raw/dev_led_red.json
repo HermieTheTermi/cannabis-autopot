@@ -1,0 +1,99 @@
+{
+  "id": "req_150",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:09:13.900918Z",
+  "ok": true,
+  "result": {
+    "device": {
+      "association": {
+        "footprint": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "uuid": "b88985f9c8ba44eab11d45cb6fc286fa"
+        },
+        "footprintUuid": "b88985f9c8ba44eab11d45cb6fc286fa",
+        "images": [
+          "https://alimg.szlcsc.com/upload/public/product/middle/20221231/21C97868DBDEE640E7C1EF76BF956B5F.jpg"
+        ],
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "type": 2,
+          "uuid": "410f2f7295d3402bb51c8b4c9b7ec614"
+        },
+        "symbolType": 2,
+        "symbolUuid": "410f2f7295d3402bb51c8b4c9b7ec614"
+      },
+      "classification": {
+        "libraryType": "3",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "primaryClassificationUuid": "e7e6f38cd74b464cb0208cde99f16ea2",
+        "secondaryClassificationUuid": "a45525ce80f14ddcaaa0722412e7bd0f"
+      },
+      "description": "Lamp Holder Type:- Illumination Color:Red Voltage - Forward(Vf):1.6V~2.6V Voltage - Forward(Vf):1.6V~2.6V Power(Watts):65mW Test Current:25mA Wavelength - Dominant:615nm~630nm Wavelength - Dominant:615nm~630nm Peak Wavelength:630nm Peak Wavelength:630nm D",
+      "libraryType": "3",
+      "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+      "name": "NCD0805R1_C84256",
+      "property": {
+        "addIntoBom": "yes",
+        "addIntoPcb": "yes",
+        "designator": "LED?",
+        "manufacturer": "国星光电",
+        "manufacturerId": "NCD0805R1",
+        "name": "NCD0805R1_C84256",
+        "otherProperty": {
+          "3D Model": "23093642268545519703b953fc993978",
+          "3D Model Title": "LED0805-RD",
+          "3D Model Transform": "79.527,49.2125,0,0,0,0,0,0,0",
+          "Add into BOM": "yes",
+          "Color Temperature": "-",
+          "Convert to PCB": "yes",
+          "Datasheet": "https://item.szlcsc.com/datasheet/NCD0805R1/85425.html",
+          "Description": "Lamp Holder Type:- Illumination Color:Red Voltage - Forward(Vf):1.6V~2.6V Voltage - Forward(Vf):1.6V~2.6V Power(Watts):65mW Test Current:25mA Wavelength - Dominant:615nm~630nm Wavelength - Dominant:615nm~630nm Peak Wavelength:630nm Peak Wavelength:630nm D",
+          "Designator": "LED?",
+          "Diode Configuration": "Discrete Diode",
+          "ESD Withstand Voltage": "-",
+          "Emitting Material": "-",
+          "Footprint": "b88985f9c8ba44eab11d45cb6fc286fa",
+          "Half wave width": "15nm",
+          "Illumination Color": "Red",
+          "JLCPCB Part Class": "Basic Part",
+          "LCSC Part Name": "片式发光二极管",
+          "Lamp Holder Type": "-",
+          "Lens Color": "-",
+          "Lumens": "-",
+          "Luminous Intensity": "195mcd",
+          "Manufacturer": "国星光电",
+          "Manufacturer Part": "NCD0805R1",
+          "Mounting Style": "Top-mount",
+          "Name": "={Manufacturer Part}",
+          "Operating Temperature": "-30℃~+85℃",
+          "Peak Wavelength": "630nm",
+          "Power(Watts)": "65mW",
+          "Supplier": "LCSC",
+          "Supplier Footprint": "0805",
+          "Supplier Part": "C84256",
+          "Symbol": "410f2f7295d3402bb51c8b4c9b7ec614",
+          "Test Current": "25mA",
+          "Viewing Angle": "130°",
+          "Voltage - Forward(Vf)": "1.6V~2.6V",
+          "Wavelength - Dominant": "615nm~630nm"
+        },
+        "supplier": "LCSC",
+        "supplierId": "C84256"
+      },
+      "subPartNames": [
+        "FC-2012HRK-620D.1"
+      ],
+      "uuid": "6073168119a941bda41c330f8b8e9152"
+    }
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 96,
+  "seqAbandoned": 0
+}

@@ -1,0 +1,95 @@
+{
+  "id": "req_259",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:11:45.750657Z",
+  "ok": true,
+  "result": {
+    "device": {
+      "association": {
+        "footprint": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "uuid": "f2785a7a800f4327acd4dfdd25d8d5e3"
+        },
+        "footprintUuid": "f2785a7a800f4327acd4dfdd25d8d5e3",
+        "images": [
+          "https://alimg.szlcsc.com/upload/public/product/middle/20230109/AD28661C2C2B4763103AA7443DB37CEF.jpg"
+        ],
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "type": 2,
+          "uuid": "fbd7d95681a24acbab8e57580d2db965"
+        },
+        "symbolType": 2,
+        "symbolUuid": "fbd7d95681a24acbab8e57580d2db965"
+      },
+      "classification": {
+        "libraryType": "3",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "primaryClassificationUuid": "f18b2c28b041451fb63f4b1ff9d90083",
+        "secondaryClassificationUuid": "dccb64cdde7e48d6a2f0c71da8edc719"
+      },
+      "description": "The Chip Type:Charging IC Voltage - Supply:3.75V~6V Voltage - Supply:3.75V~6V Charge Current - Max:550mA Charging Saturation Voltage:4.2V End-Off Voltage:- Type of Battery:Lithium Battery Number of Cells:1 Number of Cells:1 Operating Temperature:-40℃~+85℃",
+      "libraryType": "3",
+      "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+      "name": "MCP73831T-2ACI/OT",
+      "property": {
+        "addIntoBom": "yes",
+        "addIntoPcb": "yes",
+        "designator": "U?",
+        "manufacturer": "MICROCHIP(美国微芯)",
+        "manufacturerId": "MCP73831T-2ACI/OT",
+        "name": "MCP73831T-2ACI/OT",
+        "otherProperty": {
+          "0V Battery Charge": "-",
+          "3D Model": "3168b22659ce4998ae232d44bb704e0a",
+          "3D Model Title": "SOT-23-5_L2.9-W1.6-H1.1-LS2.8-P0.95",
+          "3D Model Transform": "118.60433,114.173,0,90,0,0,0.0005,0.0005,0",
+          "Add into BOM": "yes",
+          "Balance Current": "-",
+          "Battery Temperature Detection": "Not supported",
+          "Charge Current - Max": "550mA",
+          "Charging Saturation Voltage": "4.2V",
+          "Convert to PCB": "yes",
+          "Datasheet": "https://item.szlcsc.com/datasheet/MCP73831T-2ACI%252FOT/417116.html",
+          "Description": "The Chip Type:Charging IC Voltage - Supply:3.75V~6V Voltage - Supply:3.75V~6V Charge Current - Max:550mA Charging Saturation Voltage:4.2V End-Off Voltage:- Type of Battery:Lithium Battery Number of Cells:1 Number of Cells:1 Operating Temperature:-40℃~+85℃",
+          "Designator": "U?",
+          "End-Off Voltage": "-",
+          "Features": "Constant voltage charging；Constant current charging；Automatic recharge；Charge termination；Programmable charging current；Reverse current blocking；Under-voltage lockout；Trickle charging",
+          "Footprint": "f2785a7a800f4327acd4dfdd25d8d5e3",
+          "Interface": "-",
+          "JLCPCB Part Class": "Extended Part",
+          "LCSC Part Name": "单节锂离子/锂聚合物充电管理控制器",
+          "Manufacturer": "MICROCHIP(美国微芯)",
+          "Manufacturer Part": "MCP73831T-2ACI/OT",
+          "Name": "={Manufacturer Part}",
+          "Number of Cells": "1",
+          "Operating Temperature": "-40℃~+85℃",
+          "Supplier": "LCSC",
+          "Supplier Footprint": "SOT-23-5",
+          "Supplier Part": "C424093",
+          "Supply Current (Iq)": "53uA",
+          "Symbol": "fbd7d95681a24acbab8e57580d2db965",
+          "The Chip Type": "Charging IC",
+          "Type of Battery": "Lithium Battery",
+          "Voltage - Supply": "3.75V~6V"
+        },
+        "supplier": "LCSC",
+        "supplierId": "C424093"
+      },
+      "subPartNames": [
+        "MCP73831T-2ACI/OT.1"
+      ],
+      "uuid": "78f39a8c3fa54027bfc13d0a0eefd7c2"
+    }
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 165,
+  "seqAbandoned": 0
+}

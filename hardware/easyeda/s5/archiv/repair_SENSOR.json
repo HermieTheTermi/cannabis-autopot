@@ -1,0 +1,67 @@
+{
+  "ok": true,
+  "succeeded": [
+    "J2:3",
+    "J2:1",
+    "J2:2",
+    "R6:1",
+    "R6:2",
+    "TP6:1"
+  ],
+  "connections": [
+    {
+      "pin": "J2:3",
+      "net": "GND",
+      "kind": "ground",
+      "pinX": 314.99999999999994,
+      "pinY": 325.00000000000006,
+      "state": "already-connected",
+      "currentNet": "GND"
+    },
+    {
+      "pin": "J2:1",
+      "net": "SENSOR_PWR",
+      "kind": "netport",
+      "pinX": 314.99999999999994,
+      "pinY": 305.00000000000006,
+      "state": "already-connected",
+      "currentNet": "SENSOR_PWR"
+    },
+    {
+      "pin": "J2:2",
+      "net": "SENSOR_RAW",
+      "kind": "netport",
+      "pinX": 314.99999999999994,
+      "pinY": 315.00000000000006,
+      "state": "already-connected",
+      "currentNet": "SENSOR_RAW"
+    },
+    {
+      "pin": "R6:1",
+      "net": "SENSOR_RAW",
+      "kind": "netport",
+      "pinX": 410,
+      "pinY": 330,
+      "state": "already-connected",
+      "currentNet": "SENSOR_RAW"
+    },
+    {
+      "pin": "R6:2",
+      "net": "SENSOR_AOUT",
+      "kind": "netport",
+      "pinX": 450,
+      "pinY": 330,
+      "state": "already-connected",
+      "currentNet": "SENSOR_AOUT"
+    },
+    {
+      "pin": "TP6:1",
+      "net": "SENSOR_AOUT",
+      "kind": "netport",
+      "pinX": 345,
+      "pinY": 325,
+      "state": "already-connected",
+      "currentNet": "SENSOR_AOUT"
+    }
+  ]
+}

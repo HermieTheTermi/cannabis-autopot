@@ -1,0 +1,113 @@
+{
+  "id": "req_122",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:08:42.551327Z",
+  "ok": true,
+  "result": {
+    "component": {
+      "addIntoBom": true,
+      "addIntoPcb": true,
+      "component": {
+        "libraryUuid": "c1af4305cbb2420986031de4cb5eed74",
+        "name": "s3b-xh-a(lf)(sn)",
+        "uuid": "8607bc3f31bac53f"
+      },
+      "componentType": "part",
+      "designator": "X12",
+      "device": {
+        "libraryUuid": "c1af4305cbb2420986031de4cb5eed74",
+        "name": "={Manufacturer Part}",
+        "uuid": "8607bc3f31bac53f"
+      },
+      "footprint": {
+        "libraryUuid": "da546bdee49b47bd852f0d3d099a7238",
+        "name": "conn-th_s3b-xh-a-lf-sn",
+        "uuid": "ad1dcdcfc7f43b54"
+      },
+      "manufacturer": "JST",
+      "manufacturerId": "S3B-XH-A(LF)(SN)",
+      "mirror": false,
+      "name": "={Manufacturer Part}",
+      "net": "",
+      "otherProperty": {
+        "Colour": "White",
+        "Contact Material": "Brass",
+        "Contact Plating": "Tin",
+        "Current Rating (Max)": "3A",
+        "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20180928/C265283_F9DFEEBDB2CF642B6BDFAB4B77BD2680.pdf",
+        "Description": "Pins Structure:1x3P Pitch:2.5mm Mounting Style:Bend insert Reference Series:XH Number of Pins:3P Number of Rows:1 Number of PINs Per Row:3 Row Spacing:- Current Rating (Max):3A Contact Material:Brass Contact Plating:Tin Operating Temperature Range:-25℃~+8",
+        "Flame Retardant Rating": "UL94V-0",
+        "JLCPCB Part Class": "Extended Part",
+        "LCSC Part Name": "1x3P 间距:2.5mm 弯插 系列:XH",
+        "Mounting Style": "Bend insert",
+        "Number of PINs Per Row": "3",
+        "Number of Pins": "3P",
+        "Number of Rows": "1",
+        "Operating Temperature Range": "-25℃~+85℃",
+        "Pins Structure": "1x3P",
+        "Pitch": "2.5mm",
+        "Plastic Material": "PA66",
+        "Rated Voltage (Max)": "250V",
+        "Reference Series": "XH",
+        "Row Spacing": "-",
+        "Supplementary Features": "K-leg punch",
+        "Supplier Footprint": "弯插,P=2.5mm",
+        "X-Length of Bottom Edge on Board (Spacing Line)": "9.9mm",
+        "Y-Width of Bottom Edge on Board": "11.5mm",
+        "Z-Height of the Board": "6.1mm"
+      },
+      "primitiveId": "1b2861587089a71b",
+      "rotation": 0,
+      "subPartName": "S3B-XH-A (LF)(SN).1",
+      "supplier": "LCSC",
+      "supplierId": "C157928",
+      "symbol": {
+        "libraryUuid": "b11bed56e0bb4deeb92cd2e3702804c2",
+        "name": "s3b-xh-a (lf)(sn)",
+        "uuid": "7bdbaa4de9444bd0"
+      },
+      "uniqueId": "",
+      "x": 880,
+      "y": 380
+    },
+    "otherPropertyBackfilled": [
+      "Colour",
+      "Contact Material",
+      "Contact Plating",
+      "Current Rating (Max)",
+      "Datasheet",
+      "Description",
+      "Flame Retardant Rating",
+      "JLCPCB Part Class",
+      "LCSC Part Name",
+      "Mounting Style",
+      "Number of PINs Per Row",
+      "Number of Pins",
+      "Number of Rows",
+      "Operating Temperature Range",
+      "Pins Structure",
+      "Pitch",
+      "Plastic Material",
+      "Rated Voltage (Max)",
+      "Reference Series",
+      "Row Spacing",
+      "Supplementary Features",
+      "Supplier Footprint",
+      "X-Length of Bottom Edge on Board (Spacing Line)",
+      "Y-Width of Bottom Edge on Board",
+      "Z-Height of the Board"
+    ],
+    "primitiveId": "1b2861587089a71b",
+    "supplierIdBackfilled": "C157928"
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 78,
+  "seqAbandoned": 0
+}

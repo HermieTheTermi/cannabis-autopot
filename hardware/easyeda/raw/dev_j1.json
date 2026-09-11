@@ -1,0 +1,99 @@
+{
+  "id": "req_151",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:09:14.106481Z",
+  "ok": true,
+  "result": {
+    "device": {
+      "association": {
+        "footprint": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "uuid": "09ed7394b5f04eccb36be7738c45b2ef"
+        },
+        "footprintUuid": "09ed7394b5f04eccb36be7738c45b2ef",
+        "images": [
+          "https://alimg.szlcsc.com/upload/public/product/middle/20260421/14D3EB83BC6F087DE13D80EE7D1D97F4.jpg"
+        ],
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "type": 2,
+          "uuid": "7dcbf536a1d84313972432774fbb2f6f"
+        },
+        "symbolType": 2,
+        "symbolUuid": "7dcbf536a1d84313972432774fbb2f6f"
+      },
+      "classification": {
+        "libraryType": "3",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "primaryClassificationUuid": "94725d407df54b2eaf6e9a8449ac9c87",
+        "secondaryClassificationUuid": "6c249d7027064878b078d8e368382862"
+      },
+      "description": "Pins Structure:1x2P Pitch:2mm Mounting Type:Surface Mount, Right Angle Reference Series:PH Number of Pins:2P Number of Rows:1 Number of PINs Per Row:2 Current Rating:2A Contact Material:Brass Contact Plating:Tin Operating Temperature:-25℃~+85℃ Operating T",
+      "libraryType": "3",
+      "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+      "name": "XY-S2B-PH-SM4-TB",
+      "property": {
+        "addIntoBom": "yes",
+        "addIntoPcb": "yes",
+        "designator": "CN?",
+        "manufacturer": "XYECONN(辛译)",
+        "manufacturerId": "XY-S2B-PH-SM4-TB",
+        "name": "XY-S2B-PH-SM4-TB",
+        "otherProperty": {
+          "3D Model": "a87767e8e50145d0ae2259dc5bf5dade",
+          "3D Model Title": "CONN-SMD_P2.00_S2B-PH-SM4-TB-LF-SN",
+          "3D Model Transform": "311.023,338.582,0,0,0,0,0,-3.937,0",
+          "Add into BOM": "yes",
+          "Color": "Beige",
+          "Contact Material": "Brass",
+          "Contact Plating": "Tin",
+          "Convert to PCB": "yes",
+          "Current Rating": "2A",
+          "Datasheet": "https://item.szlcsc.com/datasheet/XY-S2B-PH-SM4-TB/57972444.html",
+          "Description": "Pins Structure:1x2P Pitch:2mm Mounting Type:Surface Mount, Right Angle Reference Series:PH Number of Pins:2P Number of Rows:1 Number of PINs Per Row:2 Current Rating:2A Contact Material:Brass Contact Plating:Tin Operating Temperature:-25℃~+85℃ Operating T",
+          "Designator": "CN?",
+          "Footprint": "09ed7394b5f04eccb36be7738c45b2ef",
+          "JLCPCB Part Class": "Extended Part",
+          "LCSC Part Name": "1x2P 间距:2mm 卧贴 系列:PH",
+          "Manufacturer": "XYECONN(辛译)",
+          "Manufacturer Part": "XY-S2B-PH-SM4-TB",
+          "Mounting Type": "Surface Mount, Right Angle",
+          "Name": "={Manufacturer Part}",
+          "Number of PINs Per Row": "2",
+          "Number of Pins": "2P",
+          "Number of Rows": "1",
+          "Operating Temperature": "-25℃~+85℃",
+          "Pins Structure": "1x2P",
+          "Pitch": "2mm",
+          "Plastic Material": "LCP",
+          "Reference Series": "PH",
+          "Supplementary Features": "Auxiliary Solder Pin",
+          "Supplier": "LCSC",
+          "Supplier Footprint": "SMD,P=2mm,卧贴",
+          "Supplier Part": "C54582899",
+          "Symbol": "7dcbf536a1d84313972432774fbb2f6f",
+          "Voltage Rating": "250V",
+          "X-Length of Bottom Edge on Board (Spacing Line)": "8mm",
+          "Y-Width of Bottom Edge on Board": "7.59mm",
+          "Z-Height of the Board": "5.6mm"
+        },
+        "supplier": "LCSC",
+        "supplierId": "C54582899"
+      },
+      "subPartNames": [
+        "XY-S2B-PH-SM4-TB.1"
+      ],
+      "uuid": "8ecae1aa1e8a426b83dc915400438c28"
+    }
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 97,
+  "seqAbandoned": 0
+}

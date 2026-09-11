@@ -1,0 +1,71 @@
+{
+  "id": "req_132",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:08:44.245503Z",
+  "ok": true,
+  "result": {
+    "component": {
+      "addIntoBom": true,
+      "addIntoPcb": true,
+      "component": {
+        "libraryUuid": "1d9ad61565194f66a2bb1c832c938c3d",
+        "name": "5010-testpointred",
+        "uuid": "d3b71649e8a076f2"
+      },
+      "componentType": "part",
+      "designator": "X14",
+      "device": {
+        "libraryUuid": "1d9ad61565194f66a2bb1c832c938c3d",
+        "name": "={Manufacturer Part}",
+        "uuid": "d3b71649e8a076f2"
+      },
+      "footprint": {
+        "libraryUuid": "4cc65e260ba048028172d7746e48db7c",
+        "name": "testpoint-th_bd3.2",
+        "uuid": "d87bb8c5a3317ae8"
+      },
+      "manufacturer": "",
+      "manufacturerId": "5010-Testpointred",
+      "mirror": false,
+      "name": "={Manufacturer Part}",
+      "net": "",
+      "otherProperty": {
+        "Datasheet": "",
+        "Description": "",
+        "JLCPCB Part Class": "Extended Part",
+        "LCSC Part Name": "5010-Testpointred",
+        "Supplier Footprint": "插件"
+      },
+      "primitiveId": "34c33a8ca4904d56",
+      "rotation": 0,
+      "subPartName": "5010-TESTPOINTRED.1",
+      "supplier": "LCSC",
+      "supplierId": "C9900015875",
+      "symbol": {
+        "libraryUuid": "5f6cbaa5656049b1981cbf080b144902",
+        "name": "5010-testpointred",
+        "uuid": "fb7408a44c07c144"
+      },
+      "uniqueId": "",
+      "x": 360,
+      "y": 180
+    },
+    "otherPropertyBackfilled": [
+      "JLCPCB Part Class",
+      "LCSC Part Name",
+      "Supplier Footprint"
+    ],
+    "primitiveId": "34c33a8ca4904d56",
+    "supplierIdBackfilled": "C9900015875"
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 84,
+  "seqAbandoned": 0
+}

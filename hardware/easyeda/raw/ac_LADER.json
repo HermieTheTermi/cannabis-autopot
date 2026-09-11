@@ -1,0 +1,89 @@
+{
+ "connections": [
+  {
+   "pin": "C7:1",
+   "kind": "power",
+   "net": "VBUS"
+  },
+  {
+   "pin": "C7:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "C8:1",
+   "kind": "power",
+   "net": "VBAT"
+  },
+  {
+   "pin": "C8:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "R13:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "R14:1",
+   "kind": "power",
+   "net": "VBUS"
+  },
+  {
+   "pin": "U3:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U3:3",
+   "kind": "power",
+   "net": "VBAT"
+  },
+  {
+   "pin": "U3:4",
+   "kind": "power",
+   "net": "VBUS"
+  },
+  {
+   "pin": "LED1:1",
+   "kind": "netport",
+   "net": "STAT_CHG"
+  },
+  {
+   "pin": "LED1:2",
+   "kind": "netport",
+   "net": "LED_CHG"
+  },
+  {
+   "pin": "R13:1",
+   "kind": "netport",
+   "net": "PROG"
+  },
+  {
+   "pin": "R14:2",
+   "kind": "netport",
+   "net": "LED_CHG"
+  },
+  {
+   "pin": "U3:1",
+   "kind": "netport",
+   "net": "STAT_CHG"
+  },
+  {
+   "pin": "U3:5",
+   "kind": "netport",
+   "net": "PROG"
+  }
+ ],
+ "rules": {
+  "avoidTitleBlock": true,
+  "avoidPinFanout": true,
+  "staggerLabels": true,
+  "offsetRange": [
+   18,
+   150
+  ],
+  "offsetStep": 6
+ }
+}

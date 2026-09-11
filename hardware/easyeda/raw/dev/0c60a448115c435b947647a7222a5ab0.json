@@ -1,0 +1,93 @@
+{
+  "id": "req_260",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:11:45.905258Z",
+  "ok": true,
+  "result": {
+    "device": {
+      "association": {
+        "footprint": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "uuid": "f2785a7a800f4327acd4dfdd25d8d5e3"
+        },
+        "footprintUuid": "f2785a7a800f4327acd4dfdd25d8d5e3",
+        "images": [
+          "https://alimg.szlcsc.com/upload/public/product/middle/20221231/AABADD18C0F3035BE4EA87C09068C305.jpg"
+        ],
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "type": 2,
+          "uuid": "050d65d2959c41f0ba83c66c7ef5825f"
+        },
+        "symbolType": 2,
+        "symbolUuid": "050d65d2959c41f0ba83c66c7ef5825f"
+      },
+      "classification": {
+        "libraryType": "3",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "primaryClassificationUuid": "f18b2c28b041451fb63f4b1ff9d90083",
+        "secondaryClassificationUuid": "c96475e976c54340852772bb01f2902b"
+      },
+      "description": "Output Configuration:Positive Voltage - Supply:6V Output Voltage:3.3V Output Voltage:3.3V Output Current:500mA Power Supply Rejection Ratio (PSRR):70dB@(1kHz) Voltage Dropout:120mV@(100mA) standby current:60uA Noise:50uVrms Features:Enable control；Short C",
+      "libraryType": "3",
+      "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+      "name": "ME6211C33M5G-N",
+      "property": {
+        "addIntoBom": "yes",
+        "addIntoPcb": "yes",
+        "designator": "LDO?",
+        "manufacturer": "MICRONE(南京微盟)",
+        "manufacturerId": "ME6211C33M5G-N",
+        "name": "ME6211C33M5G-N",
+        "otherProperty": {
+          "3D Model": "3168b22659ce4998ae232d44bb704e0a",
+          "3D Model Title": "SOT-23-5_L2.9-W1.6-H1.1-LS2.8-P0.95",
+          "3D Model Transform": "118.60433,114.173,0,90,0,0,0.0005,0.0005,0",
+          "Add into BOM": "yes",
+          "Convert to PCB": "yes",
+          "Datasheet": "https://item.szlcsc.com/datasheet/ME6211C33M5G-N/84106.html",
+          "Description": "Output Configuration:Positive Voltage - Supply:6V Output Voltage:3.3V Output Voltage:3.3V Output Current:500mA Power Supply Rejection Ratio (PSRR):70dB@(1kHz) Voltage Dropout:120mV@(100mA) standby current:60uA Noise:50uVrms Features:Enable control；Short C",
+          "Designator": "LDO?",
+          "Features": "Enable control；Short Circuit Protection；Over Current Protection",
+          "Footprint": "f2785a7a800f4327acd4dfdd25d8d5e3",
+          "JLCPCB Part Class": "Extended Part",
+          "LCSC Part Name": "3.3V 500mA 6V",
+          "Manufacturer": "MICRONE(南京微盟)",
+          "Manufacturer Part": "ME6211C33M5G-N",
+          "Name": "={Manufacturer Part}",
+          "Noise": "50uVrms",
+          "Number of Outputs": "1",
+          "Operating Temperature": "-40℃~+150℃",
+          "Output Configuration": "Positive",
+          "Output Current": "500mA",
+          "Output Type": "Fixed",
+          "Output Voltage": "3.3V",
+          "Power Supply Rejection Ratio (PSRR)": "70dB@(1kHz)",
+          "Supplier": "LCSC",
+          "Supplier Footprint": "SOT-23-5",
+          "Supplier Part": "C82942",
+          "Symbol": "050d65d2959c41f0ba83c66c7ef5825f",
+          "Voltage - Supply": "6V",
+          "Voltage Dropout": "120mV@(100mA)",
+          "standby current": "60uA"
+        },
+        "supplier": "LCSC",
+        "supplierId": "C82942"
+      },
+      "subPartNames": [
+        "ME6211C33M5G-N.1"
+      ],
+      "uuid": "0c60a448115c435b947647a7222a5ab0"
+    }
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 166,
+  "seqAbandoned": 0
+}

@@ -1,0 +1,81 @@
+{
+  "id": "req_72",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-11T18:08:34.663249Z",
+  "ok": true,
+  "result": {
+    "component": {
+      "addIntoBom": true,
+      "addIntoPcb": true,
+      "component": {
+        "libraryUuid": "1fcffeacebec4bcab600894243e1bb8c",
+        "name": "cc0805krx7r9bb104",
+        "uuid": "0f2cccf1a6cfce50"
+      },
+      "componentType": "part",
+      "designator": "X2",
+      "device": {
+        "libraryUuid": "1fcffeacebec4bcab600894243e1bb8c",
+        "name": "={Value}",
+        "uuid": "0f2cccf1a6cfce50"
+      },
+      "footprint": {
+        "libraryUuid": "9376364c15854e01b3fabcf032810a22",
+        "name": "c0805",
+        "uuid": "a6018619e71f2eea"
+      },
+      "manufacturer": "YAGEO(国巨)",
+      "manufacturerId": "CC0805KRX7R9BB104",
+      "mirror": false,
+      "name": "={Value}",
+      "net": "",
+      "otherProperty": {
+        "Datasheet": "https://item.szlcsc.com/datasheet/CC0805KRX7R9BB104/50686.html",
+        "Description": "Capacitance:100nF Tolerance:±10% Tolerance:±10% Voltage Rating:50V Temperature Coefficient:X7R",
+        "JLCPCB Part Class": "Basic Part",
+        "LCSC Part Name": "100nF ±10% 50V",
+        "Supplier Footprint": "0805",
+        "Temperature Coefficient": "X7R",
+        "Tolerance": "±10%",
+        "Value": "100nF",
+        "Voltage Rating": "50V"
+      },
+      "primitiveId": "9e285bd9a4111eec",
+      "rotation": 0,
+      "subPartName": "CC0805KRX7R9BB104.1",
+      "supplier": "LCSC",
+      "supplierId": "C49678",
+      "symbol": {
+        "libraryUuid": "8a0b353904254bef8e7eeef92cd06282",
+        "name": "cc0805krx7r9bb104",
+        "uuid": "20b3e6007144f90e"
+      },
+      "uniqueId": "",
+      "x": 360,
+      "y": 780
+    },
+    "otherPropertyBackfilled": [
+      "Datasheet",
+      "Description",
+      "JLCPCB Part Class",
+      "LCSC Part Name",
+      "Supplier Footprint",
+      "Temperature Coefficient",
+      "Tolerance",
+      "Value",
+      "Voltage Rating"
+    ],
+    "primitiveId": "9e285bd9a4111eec",
+    "supplierIdBackfilled": "C49678"
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 48,
+  "seqAbandoned": 0
+}

@@ -1,0 +1,59 @@
+{
+ "connections": [
+  {
+   "pin": "C12:1",
+   "kind": "power",
+   "net": "VBAT"
+  },
+  {
+   "pin": "C12:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "R3:1",
+   "kind": "power",
+   "net": "VBAT"
+  },
+  {
+   "pin": "R5:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U7:1",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U7:3",
+   "kind": "power",
+   "net": "VBAT"
+  },
+  {
+   "pin": "R3:2",
+   "kind": "netport",
+   "net": "VBAT_SENSE"
+  },
+  {
+   "pin": "R5:1",
+   "kind": "netport",
+   "net": "VBAT_SENSE"
+  },
+  {
+   "pin": "U7:2",
+   "kind": "netport",
+   "net": "RESET_UV"
+  }
+ ],
+ "rules": {
+  "avoidTitleBlock": true,
+  "avoidPinFanout": true,
+  "staggerLabels": true,
+  "offsetRange": [
+   18,
+   150
+  ],
+  "offsetStep": 6
+ }
+}
