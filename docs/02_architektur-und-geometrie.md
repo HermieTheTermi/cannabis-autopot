@@ -53,13 +53,13 @@ Die Wulst sitzt seitlich am Mantel und **vollständig über dem Wasserstand** (k
 | Höhe | y = 90–250 mm (160 mm) |
 | Breite (tangential) | **60 mm** |
 | Tiefe (radial) | **40 mm** → Gesamtbreite an dieser Stelle ≈ **180 mm** |
-| Inhalt | XIAO ESP32-C6 auf PCB (~52 × 42 mm), LiPo-Zelle 59 × 37 × 5 mm, Pumpe Ø 27,8 × 66,8 mm, Taster, LED |
+| Inhalt | XIAO ESP32-C6 auf PCB (~52 × 42 mm), LiPo-Zelle 59 × 37 × 5 mm, Pumpe Ø 32 × 44 mm (OEM ABC-12527), Taster, LED |
 | Kanäle | **2 getrennte Schlitze**: Kabelkanal (Ø 4 mm) für den Sensor, Schlauchkanal (6 × 6 mm) für Saug- und Druckschlauch |
 | Öffnungen | USB-C-Durchbruch (Laden), LED-Fenster, Deckel mit Dichtung |
 
-**Einbau von unten nach oben (Innenmaß):** Pumpe y 92–159 · Platine y 162–205 · Zelle hochkant dahinter (59 mm Höhe, 5 mm Bautiefe). Maße stammen aus den final gewählten Bauteilen — siehe `../hardware/bom_entscheidung.md`.
+**Einbau von unten nach oben (Innenmaß):** Pumpe y 92–136 (44 mm Bauhöhe) · Platine darüber · Zelle hochkant dahinter (59 mm Höhe, 5 mm Bautiefe). Maße stammen aus den final gewählten Bauteilen — siehe `../hardware/bom_entscheidung.md`. Die Pumpenparameter in `case/params.scad` (Ø32 / 44 mm) sind noch nachzuziehen.
 
-**Pumpenposition:** Pumpe in der Wulst (oberhalb des Wassers), **Saugschlauch** durch den Kanal bis auf den Tankboden (y ≈ 8 mm, Ansaugkorb/Gewicht), **Druckschlauch** nach oben zum Verteilerring. Peristaltik ist selbstansaugend → Position unkritisch, Förderhöhe ~200 mm ist irrelevant.
+**Pumpenposition:** Pumpe in der Wulst (oberhalb des Wassers), **Saugschlauch** durch den Kanal bis auf den Tankboden (y ≈ 8 mm, Ansaugkorb/Gewicht), **Druckschlauch** nach oben zum Verteilerring. Peristaltik ist selbstansaugend (Eigenschaft der Bauart; für diese Pumpe nicht ausdrücklich zugesichert → im Aufbau prüfen) → Position unkritisch, Förderhöhe ~200 mm ist irrelevant. **Betrieb ohne Wandler direkt an der 1S-Zelle** (Pumpe ist für 3,7–6 V spezifiziert, siehe `../hardware/bom_entscheidung.md` §3).
 
 ---
 

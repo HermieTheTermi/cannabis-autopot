@@ -64,7 +64,8 @@ cannabis-autopot/
 - [x] Projektordner + Anforderungen + 4 Recherchen (10.09.2026)
 - [x] **Entscheidungen 11.09.2026:** Topf Ø140×150 (Erde) + 1 L Tank darunter · XIAO ESP32-C6 als Modul auf PCB · Wulst mit Kanal · Top-Drip-Ring · Sensor von oben · Telegram final · nur Wasser
 - [x] **Höhen-/Volumenberechnung** → Gesamthöhe 278 mm, Tank 1,0 L, Erdvolumen 1,9 L (`docs/02_...`)
-- [x] **BOM-Entscheidung** (11.09.2026): XIAO C6 6,99 € · Adafruit-3910-Pumpe 24,50 € · Sensor v1.2 4,99 € · EFASO-Akku 14,90 € → **≈ 62–65 €** gesamt (`hardware/bom_entscheidung.md`)
+- [x] **BOM-Entscheidung** (11.09.2026): XIAO C6 6,99 € · OEM-Peristaltikpumpe ABC-12527 (3,7–6 V) 7,74 € · Sensor v1.2 4,99 € · EFASO-Akku 14,90 € → **≈ 45–50 €** gesamt (`hardware/bom_entscheidung.md`)
+- [x] **Versorgung festgelegt:** 1S direkt, kein Boost/Buck (Pumpe ab 3 V dokumentiert), Laden über den XIAO-Onboard-Lader
 - [ ] Gehäuse-CAD (parametrisch) + PCB-Design
 - [ ] Firmware (State-Machine)
 

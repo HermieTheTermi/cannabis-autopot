@@ -1,6 +1,6 @@
 # BOM-Entscheidung V1 — Smart Grow Topf
 
-Stand: 11.09.2026 · Preise von mir am 11.09.2026 direkt auf der Produktseite nachgeprüft (Spalte „Prüfung")
+Stand: 11.09.2026 · Preise am 11.09.2026 direkt auf der Produktseite geprüft (Spalte „Prüfung")
 Grundlage: `../research/bom-check/01…04` · Geometrie: `../docs/02_architektur-und-geometrie.md`
 
 ---
@@ -10,55 +10,96 @@ Grundlage: `../research/bom-check/01…04` · Geometrie: `../docs/02_architektur
 | # | Bauteil | Wahl | Preis | Bezug / Link | Prüfung |
 |---|---|---|---|---|---|
 | 1 | **MCU** | Seeed **XIAO ESP32-C6** | **6,99 €** | Reichelt, ab Lager — https://www.reichelt.de/de/de/shop/produkt/xiao_esp32c6_wifi_6_bt5_0_zigbee_thread-379732 | ✅ selbst (itemprop 6.99, „ab Lager") |
-| 2 | **Pumpe** | **Adafruit 3910** Peristaltik, 5–6 V | **24,50 €** | BerryBase, 8 Stück, 1–3 Tage — https://berrybase.de/en/adafruit-peristaltic-liquid-pump-with-silicone-tube-5v-to-6v-dc | ✅ selbst (JSON-LD 24.5, „Available") |
+| 2 | **Pumpe** | **OEM-Peristaltik ABC-12527**, 3,7–6 V, Ø32 × 44 mm | **7,74 €** | anodas.lt (EU/Litauen, lagernd) — https://anodas.lt/en/peristaltic-liquid-pump-with-silicone-tubing-3-7-6vdc | ✅ selbst (Spec-Block + Preis auf der Seite) |
 | 3 | **Sensor** | Kapazitiv **v1.2**, analog | **4,99 €** | AZ-Delivery — https://www.az-delivery.de/products/bodenfeuchte-sensor-modul-v1-2 | ✅ selbst (JSON-LD 4.99, V1.2 kapazitiv) |
 | 4 | **Akku** | **EFASO 503759** 3,7 V ~1500 mAh, **PCM**, JST PH2.0 | **14,90 €** | efaso.de (Kassel) — https://efaso.de/produkt/503759-3-7v-1500-mah-pcm-jst-ph2-0-2p/ | ✅ selbst (14,90 €, PCM + JST bestätigt) |
 | 5 | **MOSFET** | **AO3400A** (SOT-23), 10 St | **1,67 €** | Reichelt, ab Lager — https://www.reichelt.de/de/de/shop/produkt/mosfet_n-ch_30v_5_7a_0_018r_sot-23-166490 | ✅ selbst (0,167 €/St ab 10) |
 | 6 | **Freilaufdiode** | 1N5819 (DO-41), 10 St | ~1,00 € | Reichelt | ⚠️ Subagent, nicht selbst geprüft |
 | 7 | **Sensor-Stecker** | JST-XH 2,54 3-pol Buchse, 10 St | 3,00 € | Funduinoshop | ⚠️ Subagent |
-| | **Zwischensumme** | | **≈ 57,15 €** | | |
-| 8 | Widerstände 220 Ω/10 kΩ, Kondensatoren 100 nF/10 µF/100 µF, Taster, Stiftleisten | ~5 € | überwiegend LCSC (PCBA) oder Reichelt | ❌ Preise DE nicht belegt |
-| 9 | Schlauch 3,5 × 5 mm | **0 €** | **im Pumpenlieferumfang: 530 mm + 2 Anschlüsse** | ✅ Hersteller |
+| 8 | **Schlauch** | Silikon 3 × 5 mm, ~1 m (**neu: nicht mehr im Lieferumfang**) | ~3–5 € | offen | ❌ Preis/Link offen |
+| | **Zwischensumme** | | **≈ 45,30 €** | | |
+| 9 | Widerstände 220 Ω/10 kΩ, Kondensatoren 100 nF/10 µF/100 µF, Taster, Stiftleisten | ~5 € | überwiegend LCSC (PCBA) oder Reichelt | ❌ Preise DE nicht belegt |
 | 10 | Ansaugfilter/-gewicht | optional | Badshop/Aquaristik, Preis offen | ❌ |
-| | **Gesamt (realistisch)** | | **≈ 62–65 €** | |
+| | **Gesamt (realistisch)** | | **≈ 45–50 €** | | |
 
-**Budget-Abhängigkeit:** Position 2 ist mit 24,50 € der größte Einzelposten. Sparvariante: Funduino 0–90 ml/min, **9,11 €** (Amazon B0DT1JCFNV, laut Subagent live geprüft, ~45 ml/min bei 6 V, Lieferung 18.09.) → Gesamt ≈ 47 €. Nachteile: 60 × 40 × 40 mm Block (braucht die volle Wulsttiefe), **Stromaufnahme nicht dokumentiert**, Förderrate bei 6 V nur geschätzt. Der Aufpreis von 15 € kauft dokumentierte 500 mA, schlanke Ø27,8 mm Bauform und den mitgelieferten Schlauch.
-
----
-
-## 2. Warum die Pumpe die Adafruit ist
-
-Herstellerangaben (adafruit.com/product/3910, heute geprüft):
-- **Motorstrom 500 mA**, Förderrate **bis 100 ml/min** bei 5–6 V — der Einzige im Feld mit belastbarer Stromangabe (nötig für Akku-Auslegung und Booster-Dimensionierung).
-- **Ø 27,8 mm × 66,8 mm** — schlank, passt in die Wulst; die China-Blöcke sind 40 mm tief.
-- Getriebemotor mit hohem Drehmoment, selbstansaugend (0,5 m), **PWM-drehzahlsteuerbar**, Montagebohrungen Ø3,7 mm / 50 mm Abstand → direkt auf eine 3D-Druck-Halterung oder die Platine schraubbar.
-- **530 mm Silikonschlauch 3,5 × 5 mm + 2 Anschlüsse inklusive** → Position 9 entfällt.
-- Ausschlüsse: Whadda WPM447 nur 39 ml/min; Gravity DFR0523 zieht 1,8 A Dauerstrom (akku-ungünstig); Mini-Pumpen 5,87/6,69 € ohne Förderratenangabe, Lieferung erst Ende September.
-
-**Dosierung:** 100 ml/min × 10 min = 1 L = ganzer Tank. Deshalb ist PWM-Drosselung Pflicht: Ziel ~40–60 ml/min, Gabe in 2–3 Portionen mit 2 min Pause dazwischen (bessere Verteilung, kein Durchlaufen).
+**Was die Pumpenwahl geändert hat:** Die frühere Adafruit 3910 (24,50 €) ist entfallen, weil die
+OEM-Pumpe im Datenblatt **3,7–6 V** abdeckt — und in der Praxis besser fördert (siehe §2/§3).
+Ersparnis 16,76 € bei besserer Energiebilanz. Der Schlauch ist jetzt **kostenpflichtig**, weil die
+OEM-Pumpe nur ca. 5 cm Schlauch mitbringt (die Adafruit brachte 530 mm mit).
 
 ---
 
-## 3. Betriebsspannung der Pumpe — offener Punkt mit Testplan
+## 2. Warum diese Pumpe — die Kennzahl ist Wh pro Liter
 
-Die Pumpe ist für **5–6 V** spezifiziert, die Zelle liefert 3,0–4,2 V. Zwei Wege:
+Für ein Akkugerät entscheidet nicht der Preis allein, sondern die Energie pro gefördertem Liter.
+Alle Werte aus Produktseiten/Datenblättern, Umrechnung in Wh/L aus Leistung und Förderrate:
 
-- **(A) Boost auf stabil 5 V** (MT3608 o. ä.): Dosierung wird spannungsunabhängig und reproduzierbar; braucht ~1 A Eingangsstrom bei leerer Zelle (2,5 W / 0,85 / 3,0 V) → der MT3608 (2 A) reicht.
-- **(B) Direkt aus der Zelle** (3,0–4,2 V): einfacher, keine Verluste, aber die Förderrate schwankt mit dem Ladezustand (±25 %) und ob der Motor bei 3,0 V überhaupt sicher anläuft, ist **nicht belegt**.
+| Pumpe | Preis | Leistung | Förderrate | **Wh/L** | Quelle |
+|---|---|---|---|---|---|
+| **OEM ABC-12527** @3,7 V | **7,74 €** | 1,67 W | ~154 ml/min* | **0,18** | anodas.lt (Spannung + Strom dokumentiert) |
+| OEM ABC-12527 @6 V | 7,74 € | 3,24 W | ~250 ml/min* | 0,22 | anodas.lt |
+| Adafruit 3910 @5 V | 24,50 € | 2,50 W | 100 ml/min | 0,42 | adafruit.com/product/3910 |
+| Whadda WPM447 @6 V | 12,90 € | 5,00 W | 39 ml/min | 2,14 | whadda.com + electrokit.se |
 
-**Entscheidung:** Erst messen, dann festlegen. Test im Prototyp: Pumpe direkt an die Zelle, 60 s in einen Messbecher pumpen, Spannung dabei messen. Ergebnis entscheidet:
-- läuft an und liefert > 40 ml/min bei 3,4 V → Weg (B), im Code Spannungskompensation (ADC auf VBAT, Laufzeit anpassen),
-- sonst Weg (A) — der Boost wird dann auf der eigenen PCB integriert (MT3608, SOT23-6, LCSC-Code beim Layout verifizieren), kein extra Modul nötig.
+\* Förderrate der OEM-Pumpe skaliert nicht linear mit der Spannung — die Linearskalierung ist meine
+Annahme, die Seite nennt nur „1L – 4 min" ohne Spannungsbezug. **Vor dem Einbau messen.**
+
+Nicht gewählt: **Funduino „0-90 ml/min, 3-12 V"** (7,92 €) — im Titel 3–12 V, in den Produktdetails aber „Betriebsspannung 12 V DC" und **keine Stromangabe**, damit ist die Akku-Auslegung nicht belegbar. **Adafruit 3910**: dreifacher Preis bei halber Förderrate. **Whadda WPM447**: fünffache Energie pro Liter.
+
+Verifizierter Spec-Block der OEM-Pumpe (Wortlaut der Produktseite):
+> „Rated voltage: 3.7V to 6V · Current: 3V – 400mA, 6V – 540mA · Engine: DC with pinion ·
+> Number of satellites: 3 · Productivity: 1L – 4 min · Dimensions: Diameter: 32 mm. Height: 44 mm ·
+> Mounting holes diameter: 2.5 mm · Mounting hole layout 44mm · Silicone tube: inner 3 mm / outer 5 mm"
+
+**Einschränkung:** kein deutscher Shop — EU-Versand aus Litauen (Vilnius/Kaunas lagernd), Versand
+nach DE laut Seite „auf Anfrage". Das ist der Preis für 17 € Ersparnis; Lieferzeit und Versandkosten
+vor der Bestellung klären.
+
+---
+
+## 3. Betriebsspannung — der frühere offene Punkt ist geschlossen
+
+**Entscheidung: 1S-Akku (3,7 V) direkt an der Pumpe, kein Boost, kein Buck.**
+
+Der Grund ist der Wechsel der Pumpe. Die frühere Planung stand auf der Prämisse, dass die Pumpe
+5–6 V braucht (Adafruit 3910, Herstellerangabe „Motor voltage: 5 to 6 VDC") und der Direktbetrieb an
+einer 1S-Zelle damit undokumentiert war — zusätzlich liefert der XIAO im Akkubetrieb **keine 5 V**
+(Seeed-Wiki, wörtlich: „When using battery power, no voltage will be present on the 5V pin"), es
+hätte also zwingend einen Wandler gebraucht.
+
+Diese Prämisse ist mit der OEM-Pumpe weg: sie ist **ab 3 V dokumentiert** (3 V – 400 mA) und für
+**3,7–6 V** ausgelegt. Eine 1S-Zelle liefert 3,0–4,2 V — die Pumpe läuft damit **innerhalb** ihres
+Datenblattbereichs, über den ganzen Entladezyklus.
+
+**Das 2S-Konzept (2 Zellen + Step-Down) wurde geprüft und verworfen:**
+- **Wirkungsgrad bringt nichts:** Buck aus 2S (η 0,90) gegen Boost aus 1S (η 0,88) — Laufzeit
+  praktisch identisch (32 vs. 31 Tage gerechnet). Und mit der neuen Pumpe entfällt die Wandlung
+  komplett, das ist besser als jede Wandlung.
+- **Kosten:** 2S braucht einen **eigenen Lader plus Balancer**, weil der Onboard-Lader des XIAO für
+  eine Zelle (3,7 V / 4,2 V Ladeschluss) ausgelegt ist. Das sind zusätzliche Bauteile und
+  Platinenfläche — bei einem Konzept, dessen Ziel „günstig" ist, der falsche Hebel.
+- **Kapazität wird nicht gebraucht:** siehe §4 — die 1S-Zelle reicht für ~85 Dosiervorgänge.
+- **Sicherheit:** Reihenschaltung ohne sauberes Balancing ist in einem feuchten Gehäuse ein
+  echtes Risiko, nicht nur ein Schönheitsfehler.
+
+Wenn 2S später doch gewünscht wird (z. B. für mehr Reserven), ist der Weg dokumentiert: 2S-Lader
+mit Balancer + Buck auf 5 V, und der Onboard-Lader des XIAO wird nicht mehr genutzt.
 
 ---
 
 ## 4. Akku und Laufzeit
 
-- **EFASO 503759**: ~**59 × 37 × 5 mm** (Typcode; Maße am Listing **nicht** bestätigt → vor Bestellung Specblock prüfen), mit **PCM** (Über-/Tiefentladung, Kurzschluss) und **JST PH2.0-2P** → auf der PCB eine PH2.0-Buchse, Zelle steckbar.
-- 1500 mAh @ 3,7 V = **5,55 Wh**. Rechnung: Pumpe 2,5 W × 3 min/Tag = 0,125 Wh, mit Boostverlusten ~0,15 Wh/Tag, plus ESP32-Deep-Sleep (µA) und WiFi nur bei Ereignis → **≈ 4 Wochen pro Ladung**. Bei 6 min/Tag noch ~2,5 Wochen.
-- **Warum keine 18650:** geschützte 18650 ist Ø18,85 × 69 mm (stärkste, robusteste Zelle, ~10,35 € mit Halter) — passt nur mit deutlich tieferer Wulst. Die 5-mm-Pouchzelle ist die einzige Option, die die flache Wulst erlaubt.
-- **Laden:** über den onboard-Lader des XIAO (BAT-Pads) + USB-C-Durchbruch — kein Lade-IC nötig. Zelle lieber **nicht** per JST-Direktstecker an die BAT-Pads, sondern über die PCB-Buchse, damit das Löten am Board entfällt.
-- XIAO C6 hat **Lötpads, keinen Stecker** → Anschluss läuft über die eigene PCB.
+- **EFASO 503759**: ~**59 × 37 × 5 mm** (Typcode; Maße am Listing **nicht** bestätigt → vor Bestellung
+  Specblock prüfen), mit **PCM** (Über-/Tiefentladung, Kurzschluss) und **JST PH2.0-2P**.
+- **Laden:** über den **Onboard-Lader des XIAO** (BAT-Pads) + USB-C-Durchbruch — kein Lade-IC nötig,
+  keine Zusatzplatine. (Beim späteren Aufbau mit nacktem ESP32-Modul muss ein eigener 1S-Lader
+  vorgesehen werden, z. B. MCP73831.)
+- **Laufzeit neu gerechnet** (Pumpe @3,7 V: 1,67 W, ~154 ml/min): ein Dosiervorgang von 300 ml
+  braucht ~1,9 min und **0,052 Wh**. Aus 1500 mAh @ 3,7 V (5,55 Wh brutto, ~4,44 Wh nutzbar) →
+  **≈ 85 Dosiervorgänge pro Ladung**, bei 1× täglich also rund **3 Monate**. Die alte „4 Wochen\"-Angabe
+  galt für die Adafruit-Pumpe mit 2,5 W bei 100 ml/min — die neue Pumpe ist der Grund für den Sprung.
+- **Warum keine 18650:** geschützte 18650 ist Ø18,85 × 69 mm und passt in die Wulst (40 mm tief),
+  bringt aber ~3× Kapazität, die bei 85 Dosen pro Ladung niemand braucht. Option für später.
 
 ---
 
@@ -66,12 +107,17 @@ Die Pumpe ist für **5–6 V** spezifiziert, die Zelle liefert 3,0–4,2 V. Zwei
 
 | Innenmaß | Wert | Bestimmt durch |
 |---|---|---|
-| Breite | **60 mm** | Pumpe Ø27,8 + Wandungen, PCB ~52 mm, Zelle 37 mm |
-| Tiefe (radial) | **40 mm** | Pumpe Ø27,8 + 2 × 2,5 mm Wand + Montagefreiheit |
-| Höhe | **160 mm** (y = 90–250) | Pumpe 66,8 mm unten, darüber Platine + Zelle |
+| Breite | **60 mm** | Pumpe Ø32 + Wandungen, PCB ~52 mm, Zelle 37 mm |
+| Tiefe (radial) | **40 mm** | Pumpe Ø32 + 2 × 2,5 mm Wand + Montagefreiheit |
+| Höhe | **160 mm** (y = 90–250) | Pumpe 44 mm (+ Halterung), darüber Platine + Zelle |
 | Gesamtbreite Topf an der Wulst | **≈ 180 mm** | 140 mm + 40 mm |
 
-Einbau von unten nach oben: **Pumpe** (y 92–159) → **Platine** (y 162–205) → **Zelle hochkant** (y 168–227, hinter/über der Platine). Alle Maße in `docs/02_architektur-und-geometrie.md` als Parameter hinterlegt.
+Einbau von unten nach oben: **Pumpe** (44 mm Bauhöhe, dadurch deutlich mehr Luft als vorher mit
+66,8 mm) → **Platine** → **Zelle** hinter/über der Platine.
+
+**Parameter nachzuziehen (OpenSCAD, `case/params.scad`):**
+`pump_d` 27.8 → **32** · `pump_l` 66.8 → **44** · `pump_mount_cc` 50 → **44** · `pump_mount_d` 3.7 → **2.5**.
+Die Wulst selbst (60 × 40 × 160) bleibt gültig.
 
 ---
 
@@ -79,17 +125,23 @@ Einbau von unten nach oben: **Pumpe** (y 92–159) → **Platine** (y 162–205)
 
 1. XIAO ESP32-C6 als Modul (Castellated Pads), USB-C-Stirnseite zur Gehäuseöffnung.
 2. **JST PH2.0-Buchse** für die Zelle, Ladepfad an die XIAO-BAT-Pads.
-3. Pumpe: AO3400A Low-Side, Gate 220 Ω, Pulldown 10 kΩ, 1N5819 antiparallel, **100 µF Pufferelko** auf der 5-V-Schiene; PWM-tauglich (~20 kHz, Anlaufstrom beachten).
+3. Pumpe: AO3400A Low-Side, Gate 220 Ω, Pulldown 10 kΩ, 1N5819 antiparallel, **100 µF Pufferelko**.
+   Pumpe hängt **direkt an VBAT** — kein Wandler, kein Boost-Layout.
 4. Sensor: 3-poliger JST-XH, **VCC über GPIO schaltbar** (nur während der Messung), AOUT auf ADC1.
 5. Taster Reset/Boot, Status-LED sichtbar durch das LED-Fenster.
-6. Boost-Stufe (MT3608) nur, falls der Pumpentest Weg (A) ergibt — Layout dafür vorsehen.
+6. **V2 (nacktes ESP32-C6-Modul auf eigener Platine):** zusätzlich eigener **1S-Lader** (MCP73831 o. ä.)
+   und eine eigene **3,3-V-Schiene**; die Sensor-/Pumpenbeschaltung bleibt unverändert.
 
 ---
 
 ## 7. Noch offen / bewusst nicht behauptet
 
-- **Elektrodenlänge des v1.2** (AZ-Delivery) nicht belegt → am realen Board messen, weil die Messebene 75 mm tief liegt.
+- **Förderrate der OEM-Pumpe bei 3,7 V** nicht dokumentiert (Seite nennt nur „1L – 4 min" ohne
+  Spannung) → nach dem Aufbau 60 s in den Messbecher pumpen und auf ml/min umrechnen.
+- **Versandkosten/Lieferzeit** der OEM-Pumpe nach DE (anodas.lt: „negotiated individually").
+- **Schlauch** muss beschafft werden (3 × 5 mm Silikon, ~1 m) — Position 8.
+- **Elektrodenlänge des Sensor v1.2** nicht belegt → am realen Board messen (Messebene liegt 75 mm tief).
 - **LDO-Bestückung** des AZ-Boards nur im Foto prüfbar (nicht im Text).
-- **Versandkosten** aller Shops nicht geprüft (→ Schwelle: AZ-Delivery versandkostenfrei ab 25 €, sonst 4,99 €-Posten mit anderer Bestellung bündeln).
-- **Amazon-Preise** (Funduino-Pumpe, Zubehör) von Agenten im Browser gesehen, von mir nicht nachprüfbar (Amazon blockt Skript-Abrufe).
-- Maße der EFASO-Zelle, XIAO-Ladestrom, Boost-Modul-Quelle in DE.
+- **Maße der EFASO-Zelle** am Listing nicht bestätigt.
+- Versandkosten der übrigen Shops nicht geprüft (AZ-Delivery versandkostenfrei ab 25 €).
+- Amazon-Preise von Agenten im Browser gesehen, nicht selbst nachprüfbar (Amazon blockt Skript-Abrufe).
