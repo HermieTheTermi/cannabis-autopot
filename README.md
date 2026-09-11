@@ -2,6 +2,10 @@
 
 Automatisch bewässernder Topf für eine Cannabis-Pflanze, gesteuert über einen ESP32 (XIAO ESP32-C6 auf eigener PCB), Akkubetrieb. **Eigenes Projekt** (unabhängig vom GrowTower).
 
+![Smart Grow Topf – KI-Konzeptbild im Stand V1](docs/img/konzeptbild-v1-ki.jpg)
+
+*KI-generiertes Konzeptbild (Prompts: [`docs/04_bildkonzepte-prompts.md`](docs/04_bildkonzepte-prompts.md)) — zeigt Wulst mit Deckel und USB-C, Verteilerring auf dem Substrat, Kragen. Keine CAD-Ableitung: verbindliche Maße stehen in [`docs/02_architektur-und-geometrie.md`](docs/02_architektur-und-geometrie.md).*
+
 ## Konzept (Top-Drip mit Rücklauf)
 
 ```
@@ -38,7 +42,9 @@ cannabis-autopot/
 ├── README.md
 ├── docs/
 │   ├── 01_anforderungen.md              ← Festlegungen des Users
-│   └── 02_architektur-und-geometrie.md  ← verbindliche Maße (CAD/PCB-Grundlage)
+│   ├── 02_architektur-und-geometrie.md  ← verbindliche Maße (CAD/PCB-Grundlage)
+│   ├── 04_bildkonzepte-prompts.md       ← KI-Image-Prompts (+ generierte .txt)
+│   └── img/                             ← KI-Konzeptbilder
 ├── hardware/
 │   └── hardware_auswahl_bom.md          ← BOM, Pumpe, ESP32, MOSFET, Akku
 ├── research/
