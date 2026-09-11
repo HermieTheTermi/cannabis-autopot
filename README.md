@@ -8,6 +8,10 @@ Automatisch bewässernder Topf für eine Cannabis-Pflanze, gesteuert über einen
 
 ## Konzept (Top-Drip mit Rücklauf)
 
+![Funktionsbild Smart Grow Topf – Weg des Wassers im Schnitt](docs/img/funktionsbild-v1-ki.jpg)
+
+*KI-generiertes Funktionsbild (Prompt 3 aus [`docs/04_bildkonzepte-prompts.md`](docs/04_bildkonzepte-prompts.md)) — Weg des Wassers: Peristaltikpumpe in der Wulst → Druckleitung über den Kragen → Gießring → Tropfen ins Substrat → Drainage-Sieb → zurück in den Sammeltank. Bild und Beschriftung sind KI-generiert und nicht maßhaltig. Was im Bild fehlt: der kapazitive Sensor (bei r ≈ 55 mm, Messebene 75 mm tief) und die 25 mm Blähton-Drainageschicht über dem Sieb; „Suctionshöhe" ist ein KI-Sprachfehler (gemeint: Saughöhe). Verbindlich bleibt [`docs/02_architektur-und-geometrie.md`](docs/02_architektur-und-geometrie.md).*
+
 ```
         Verteilerring (3D-Druck)          ← Wasser von oben
    ┌──────────────────────────────┐
