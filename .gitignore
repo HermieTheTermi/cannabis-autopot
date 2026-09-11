@@ -1,0 +1,25 @@
+# macOS
+.DS_Store
+
+# Build-Artefakte CAD
+case/build/
+case/export/
+*.stl
+*.3mf
+*.gcode
+
+# KiCad
+*.kicad_prl
+*-backups/
+fp-info-cache
+*.bak
+*.kicad_pcb-bak
+
+# Python / Tooling
+__pycache__/
+.venv/
+*.pyc
+.env
+
+# Logs
+*.log
