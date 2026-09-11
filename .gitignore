@@ -4,6 +4,8 @@
 # Build-Artefakte CAD
 case/build/
 case/export/
+tools/**/node_modules/
+node_modules/
 *.stl
 *.3mf
 *.gcode

@@ -1,0 +1,14 @@
+{
+  "name": "oscad-render",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Headless OpenSCAD-Renderer (WebAssembly) — verifiziert .scad-Quellen ohne GUI-Installation und ohne Gatekeeper",
+  "bin": { "oscad-render": "./render.mjs" },
+  "scripts": {
+    "render": "node render.mjs"
+  },
+  "dependencies": {
+    "openscad-wasm-prebuilt": "^1.2.0"
+  }
+}
