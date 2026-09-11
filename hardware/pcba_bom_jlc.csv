@@ -1,0 +1,16 @@
+Comment,Designator,Footprint,LCSC Part #,Menge,Hinweis
+AO3400A,Q1,SOT-23,C20917,1,basic - Pumpentreiber Low-Side
+1N5819WS,D1,SOD-323,C191023,1,basic - Freilaufdiode
+100nF,C1_1 C1_2,0805,C49678,2,basic - Decoupling
+10uF,C2_1 C2_2,0805,C15850,2,basic - Decoupling
+100uF,C3,SMD D6.3x5.4,C970684,1,extended - Puffer an VBAT; Polaritaet beachten
+220R,R1,0805,C17557,1,basic - Gate-Serie
+10k,R2,0805,C17414,1,basic - Gate-Pulldown
+200k,R3_1 R3_2,0805,C17539,2,basic - VBAT-Teiler 1:2 auf A0
+1k,R4,0805,C17513,1,basic - LED-Vorwiderstand
+LED-RED,D2,0805,C84256,1,basic - Status
+SW-SMD,SW1 SW2,SMD-4P 5.1x5.1,C318884,2,basic - Reset + Boot
+JST-PH-2P,J1,SMD P2.0 gewinkelt,C54582899,1,extended - Akku (Original S2B-PH-SM4-TB nicht verfuegbar)
+JST-XH-3P,J2,THT P2.5 gewinkelt,C157928,1,extended - Sensor
+JST-XH-2P,J4,THT P2.5 gewinkelt,C157931,1,extended - Pumpe
+XIAO-ESP32-C6,U1,LCC-14,,1,NICHT BESTUECKEN - von Hand aufloeten (nicht im JLC-Sortiment)
