@@ -33,7 +33,8 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 
 | Netz | Verbindungen | Zweck |
 |---|---|---|
-| **VBUS** | J5 VBUS ↔ U3 Pin 4 (VDD) ↔ C7 4,7 µF ↔ U6 Pin 5 ↔ C_LEDCHG/R_LEDCHG (Lade-LED) | 5-V-Eingang, Ladestrom, LED-Versorgung |
+| **VBUS** | J5 VBUS ↔ U3 Pin 4 (VDD) ↔ C7 4,7 µF ↔ U6 Pin 5 ↔ R_LEDCHG (Lade-LED) | 5-V-Eingang, Ladestrom, LED-Versorgung |
+| **PROG** | U3 Pin 5 (PROG) ↔ R_PROG 3,9 kΩ ↔ GND | Ladestrom-Programmierung (256 mA) |
 | **VBAT** | U3 Pin 3 (VBAT) ↔ C8 4,7 µF ↔ J1 Pin 1 (Akku +) ↔ C3 100 µF ↔ J4 Pin 1 (Pumpe +) ↔ D1 Kathode ↔ U7 Pin 3 (VCC) ↔ U4 VIN ↔ C5 10 µF ↔ R3a | Energiebus, alles außer Logik |
 | **+3V3** | U4 VOUT ↔ C6 1 µF ↔ U1 Pin 3 **und alle VDD33-Pins** ↔ C2 22 µF ↔ C1a/C1b 100 nF ↔ R_EN ↔ R_BOOT ↔ R_GPIO8 | Logikversorgung |
 | **GND** | U1 (alle GND-Pins), U3 Pin 2, U4 GND, U6 Pin 2, U7 Pin 1, Q1 Source, C1–C10, R2, R3b, R5a/R5b, R4/D2, SW1/SW2, J1 Pin 2, J2 Pin 3, J4 Pin 2, J5 GND + Schirm | Masse |
@@ -44,13 +45,13 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 | **GATE** | Q1 Gate ↔ R1 4,7 kΩ ↔ R2 **47 kΩ** → GND ↔ D3 **Anode** | Abschaltung bei MCU-Tod (Pull-down) bzw. Unterspannung (D3 → MAX809) |
 | **PUMP_N** | Q1 Drain ↔ J4 Pin 2 (Pumpe −) ↔ D1 **Anode** | geschaltete Pumpenmasse (Low-Side) |
 | **RESET_UV** | U7 Pin 2 (RESET) ↔ D3 **Kathode** | zieht bei VBAT < 3,08 V den Gate-Knoten auf ~0,3 V |
-| **SENSOR_AOUT** | J2 Pin 2 → R6 1 kΩ → U1 **Pin 12 (IO0, ADC1_CH0)** ↔ C9 100 nF → GND | Bodenfeuchte; R6 begrenzt den Strom, wenn der Sensor unbversorgt ist und über den ADC-Pin gezogen wird |
+| **SENSOR_RAW → SENSOR_AOUT** | J2 Pin 2 → R6 1 kΩ → U1 **Pin 12 (IO0, ADC1_CH0)** ↔ C9 100 nF → GND | Bodenfeuchte. Zwei getrennte Netze: R6 liegt **in Reihe**, nicht parallel |
 | **SENSOR_PWR** | U1 **Pin 6 (IO3)** → J2 Pin 1 (Sensor-VCC) | Sensor nur während der Messung versorgen |
 | **VBAT_SENSE** | R3a 200 kΩ (von VBAT) ↔ Knoten ↔ R3b 200 kΩ → GND · Knoten ↔ U1 **Pin 13 (IO1, ADC1_CH1)** ↔ C10 100 nF → GND | Zellspannung für Pumpstopp/Warnung (§4b BOM) |
 | **USB_DM** | J5 D− ↔ U6 Pin 3 → U6 Pin 4 ↔ [R 22 Ω optional] ↔ U1 **Pin 17 (IO12)** | USB-Daten, nativ |
 | **USB_DP** | J5 D+ ↔ U6 Pin 1 → U6 Pin 6 ↔ [R 22 Ω optional] ↔ U1 **Pin 18 (IO13)** | USB-Daten, nativ |
 | **LED_STAT** | U1 **Pin 19 (IO14)** → R4 1 kΩ → D2 → GND | Status; **nicht IO4/IO5** (MTMS/MTDI = Strapping) |
-| **LED_CHG** | VBUS → R_LEDCHG 1 kΩ → D_LEDCHG → U3 Pin 1 (STAT) | Ladestatus (STAT ist Tri-State, senkt Strom) |
+| **LED_CHG / STAT_CHG** | VBUS → R_LEDCHG 1 kΩ → D_LEDCHG **Anode** · D_LEDCHG **Kathode** → U3 Pin 1 (STAT) | Ladestatus (STAT ist Tri-State, senkt Strom). **Achtung:** die LED-Kathode gehört an STAT, **nicht** an GND — sonst leuchtet sie dauerhaft |
 | **UART_DBG** (optional, DNP) | U1 **Pin 31 (TXD0)** → R_UART 499 Ω → Testpad · U1 **Pin 30 (RXD0)** → Testpad | Notfall-Debug, Espressif empfiehlt den 499-Ω-Widerstand |
 
 ---
@@ -153,13 +154,18 @@ Download-Modus statt in die Anwendung.
 |---|---|---|
 | **USBLC6-2SC6** | 1 = I/O1 · 2 = GND · 3 = I/O2 · 4 = I/O2 · 5 = VBUS · 6 = I/O1 | ✅ aus dem Datenblatttext verifiziert (1/6 und 3/4 sind die Durchschleifpaare) |
 | **MCP73831 (SOT-23-5)** | 1 = STAT · 2 = VSS · 3 = VBAT · 4 = VDD · 5 = PROG | ⚠️ aus dem „Package Types"-Text des Datenblatts abgeleitet; **Pin-Configuration-Bild nicht textlich prüfbar → beim Footprint gegenprüfen** |
-| **ME6211 (SOT-23-5)** | 1 = VIN · 2 = GND · 3 = EN · 4 = NC · 5 = VOUT | ⚠️ **noch gegenprüfen** (Datenblatt zeigt nur Bild) — EN hier an +3V3 bzw. VIN legen |
+| **ME6211 (SOT-23-5)** | 1 = VIN · 2 = GND · 3 = EN · 4 = NC · 5 = VOUT | ⚠️ **noch gegenprüfen** (Datenblatt zeigt nur Bild). **EN an VIN/VBAT** legen — auf +3V3 gelegt könnte der Regler nicht starten |
 | **MAX809 (SOT-23)** | 1 = GND · 2 = RESET · 3 = VCC | ⚠️ **noch gegenprüfen** (Bild) |
 | **AO3400A (SOT-23)** | 1 = Gate · 2 = Source · 3 = Drain | ⚠️ **noch gegenprüfen** (Bild) |
 
 ---
 
 ## 6. Auslegungsnotizen und offene Punkte
+
+0. **Prüfwerkzeug:** `../../scripts/check_netlist.py` prüft die Netzliste auf Strukturfehler
+   (Bauteil nur auf einem Netz, Netz mit nur einem Knoten, Pin auf zwei Netzen, im Schaltplan
+   dokumentierte Bauteile, die in der Netzliste fehlen). Läuft mit `python3 scripts/check_netlist.py`
+   und muss **exit 0** liefern, bevor das Layout beginnt.
 
 1. **Ladestrom:** 249 mA. Zusammen mit der Logik (max. ~80 mA) bleibt man unter den 500 mA, die
    USB 2.0 liefert. Wenn der Sensor aktiv ist und WLAN sendet, kurzzeitig mehr — für die USB-Spec

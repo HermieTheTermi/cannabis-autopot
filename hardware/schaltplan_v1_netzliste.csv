@@ -1,60 +1,66 @@
 Netz,Bauteil,Pin,Bemerkung
 VBUS,J5,VBUS (A4/B9),USB-Eingang 5 V
 VBUS,U3,4 VDD,Ladereingang
-VBUS,C7,1,4,7 µF nach GND
+VBUS,C7,1,4.7 uF nach GND (Datenblatt min. 4.7 uF)
 VBUS,U6,5 VBUS,ESD-Referenz
 VBUS,R_LEDCHG,1,Vorwiderstand Lade-LED
-VBUS,D4,Anode,optional DNP, Bruecke auf VBAT
+VBUS,D4,Anode,optional DNP - Bruecke auf VBAT
 CC1,J5,A5 CC1,
-CC1,R5a,1,5,1 kOhm nach GND
+CC1,R5a,1,5.1 kOhm nach GND
 CC2,J5,B5 CC2,
-CC2,R5b,1,5,1 kOhm nach GND
+CC2,R5b,1,5.1 kOhm nach GND
 VBAT,J1,1,Akku + (Polung im Layout pruefen)
 VBAT,U3,3 VBAT,Ladeausgang
-VBAT,C8,1,4,7 µF nach GND
-VBAT,C3,+,100 µF Elko
+VBAT,C8,1,4.7 uF nach GND
+VBAT,C3,+,100 uF Elko - POLARITAET beachten
 VBAT,J4,1,Pumpe +
 VBAT,D1,Kathode,Freilaufdiode
 VBAT,U7,3 VCC,Unterspannungswaechter
 VBAT,U4,1 VIN,LDO-Eingang
-VBAT,C5,1,10 µF nach GND (Espressif: >=10 uF am Leistungseingang)
+VBAT,U4,3 EN,LDO dauerhaft aktiv - NICHT auf +3V3 (Startproblem)
+VBAT,C5,1,10 uF nach GND (Espressif >=10 uF am Leistungseingang)
 VBAT,R3a,1,Teiler oben
+VBAT,TP4,1,Testpad VBAT
 VBAT,D4,Kathode,optional DNP
+PROG,U3,5 PROG,Ladestrom-Programmierung
+PROG,R_PROG,1,3.9 kOhm -> 256 mA
 +3V3,U4,5 VOUT,LDO-Ausgang
-+3V3,C6,1,1 µF nach GND
++3V3,C6,1,1 uF nach GND
 +3V3,U1,3 3V3,Modulversorgung
-+3V3,U1,VDD33 (alle),mehrere Pins, siehe Espressif Pin-Layout
-+3V3,C2,1,22 µF Bulk
++3V3,U1,VDD33 (alle),mehrere Pins laut Espressif Pin-Layout
++3V3,C2,1,22 uF Bulk
 +3V3,C1a,1,100 nF
 +3V3,C1b,1,100 nF
-+3V3,R_EN,1,10 kOhm Pull-up
++3V3,R_EN,1,10 kOhm Pull-up EN
 +3V3,R_BOOT,1,10 kOhm Pull-up GPIO9
 +3V3,R_GPIO8,1,10 kOhm Pull-up GPIO8 (eigene Auslegung)
-+3V3,U4,3 EN,LDO dauerhaft aktiv
++3V3,TP5,1,Testpad +3V3
 EN,U1,8 EN,Reset
 EN,R_EN,2,
-EN,C4,1,1 µF RC-Glied
+EN,C4,1,1 uF RC-Glied
 EN,SW1,1,Taster gegen GND
-BOOT,U1,23 IO9,Strapping, KEIN grosser C
+BOOT,U1,23 IO9,Strapping - KEIN grosser C
 BOOT,R_BOOT,2,
 BOOT,SW2,1,Taster gegen GND
 GPIO8_STRAP,U1,22 IO8,Strapping-Pin
 GPIO8_STRAP,R_GPIO8,2,
 PUMP_EN,U1,5 IO2,Pumpen-PWM
-PUMP_EN,R1,1,1 kOhm Gate-Serie
+PUMP_EN,R1,1,4.7 kOhm Gate-Serie (Klemmstrom 0.57 mA)
 GATE,R1,2,
-GATE,R2,1,47 kOhm Pulldown (R1/R2-Teiler ergibt 3,0 V Gate-Ansteuerung)
+GATE,R2,1,47 kOhm Pulldown
 GATE,Q1,1 Gate,
 GATE,D3,Anode,Klemmzweig
 PUMP_N,Q1,3 Drain,Low-Side-Schalter
 PUMP_N,J4,2,Pumpe -
 PUMP_N,D1,Anode,
-RESET_UV,U7,2 RESET,aktiv low unter 3,08 V
+RESET_UV,U7,2 RESET,aktiv low unter 3.08 V
 RESET_UV,D3,Kathode,
-SENSOR_AOUT,J2,2,Sensor analog out
-SENSOR_AOUT,R6,1,1 kOhm Serienwiderstand (Schutz bei unbversorgtem Sensor)
+SENSOR_RAW,J2,2,Sensor AOUT unbeschaltet
+SENSOR_RAW,R6,1,1 kOhm Serienwiderstand
+SENSOR_AOUT,R6,2,
 SENSOR_AOUT,U1,12 IO0,ADC1_CH0
 SENSOR_AOUT,C9,1,100 nF Filter
+SENSOR_AOUT,TP6,1,Testpad SENSOR_AOUT
 SENSOR_PWR,U1,6 IO3,schaltet Sensor-VCC
 SENSOR_PWR,J2,1,Sensor VCC
 VBAT_SENSE,R3a,2,
@@ -69,12 +75,20 @@ USB_DP,J5,D+ (A6/B6),
 USB_DP,U6,1 I/O1,ESD
 USB_DP,U6,6 I/O1,ESD durchgeschleift
 USB_DP,U1,18 IO13,USB_D+
-LED_STAT,U1,19 IO14,Status-LED; NICHT IO4 (MTMS/Strapping)
+LED_STAT,U1,19 IO14,Status-LED (NICHT IO4 = MTMS/Strapping)
 LED_STAT,R4,1,1 kOhm
+LED_STAT_A,R4,2,
+LED_STAT_A,D2,Anode,LED rot
+STAT_CHG,D_LEDCHG,Kathode,Lade-LED Kathode an STAT
+STAT_CHG,U3,1 STAT,Tri-State-Ausgang
 LED_CHG,R_LEDCHG,2,1 kOhm
-LED_CHG,D_LEDCHG,Anode,Kathode an U3 STAT
+LED_CHG,D_LEDCHG,Anode,
 UART_TX,U1,31 TXD0,optional DNP
 UART_TX,R_UART,1,499 Ohm
+UART_TP,R_UART,2,
+UART_TP,TP1,1,Testpad TXD0
+UART_RX,U1,30 RXD0,optional DNP
+UART_RX,TP2,1,Testpad RXD0
 GND,U1,1/2/11/14/36-53,alle GND-Pins
 GND,U3,2 VSS,
 GND,U4,2 GND,
@@ -85,6 +99,7 @@ GND,R2,2,
 GND,R3b,2,
 GND,R5a,2,
 GND,R5b,2,
+GND,R_PROG,2,
 GND,C4,2,
 GND,C9,2,
 GND,C10,2,
@@ -97,10 +112,9 @@ GND,C6,2,
 GND,C7,2,
 GND,C8,2,
 GND,D2,Kathode,
-GND,D_LEDCHG,Kathode,
-GND,R4,2,
 GND,SW1,2,
 GND,SW2,2,
 GND,J1,2,Akku -
 GND,J2,3,Sensor GND
+GND,TP3,1,Testpad GND
 GND,J5,GND + Schirm,
