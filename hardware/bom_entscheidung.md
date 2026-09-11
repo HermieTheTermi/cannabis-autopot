@@ -1,7 +1,7 @@
 # BOM-Entscheidung V1 — Smart Grow Topf
 
-Stand: 11.09.2026 · Preise am 11.09.2026 direkt auf der Produktseite geprüft (Spalte „Prüfung")
-Grundlage: `../research/bom-check/01…04` · Geometrie: `../docs/02_architektur-und-geometrie.md`
+Stand: 11.09.2026, nachrecherchiert 12.09.2026 · Preise direkt auf der Produktseite geprüft (Spalte „Prüfung“)
+Grundlage: `../research/bom-check/01…04` · **Nachrecherche 12.09.2026: `../research/bom-check/09_eu-quellen-konsolidiert.md`** (Pumpe/Sensor/Schlauch, EU-Quellen) · Geometrie: `../docs/02_architektur-und-geometrie.md`
 
 ---
 
@@ -15,13 +15,13 @@ Grundlage: `../research/bom-check/01…04` · Geometrie: `../docs/02_architektur
 | 1d | **3,3-V-LDO** | **ME6211C33M5G**, 500 mA, 40 µA | ≈ 0,06 € | JLCPCB `C82942` | ✅ Datenblatt (500 mA / 100 mV @100 mA / 40 µA) |
 | 1e | **USB-C + Schutz** | Buchse 16-pol `C165948` + USBLC6-2SC6 `C7519` + 2 × 5,1 kΩ `C27834` | ≈ 0,40 € | JLCPCB | ✅ API |
 | 1f | **Unterspannungswächter** | **MAX809TEUR+T**, Schwelle 3,08 V | ≈ 0,52 € (0,5628 $) | JLCPCB `C16711` | ✅ Datenblatt VTH 3,04/3,08/3,11 V |
-| 2 | **Pumpe** | **OEM-Peristaltik ABC-12527**, 3,7–6 V, Ø32 × 44 mm | **7,74 €** | anodas.lt (EU/Litauen, lagernd) — https://anodas.lt/en/peristaltic-liquid-pump-with-silicone-tubing-3-7-6vdc | ✅ selbst (Spec-Block + Preis auf der Seite) |
-| 3 | **Sensor** | Kapazitiv **v1.2**, analog | **4,99 €** | AZ-Delivery — https://www.az-delivery.de/products/bodenfeuchte-sensor-modul-v1-2 | ✅ selbst (JSON-LD 4.99, V1.2 kapazitiv) |
+| 2 | **Pumpe** | ⚠️ **Entscheidung offen (12.09.2026)** — OEM-Peristaltik ABC-12527 nur mit **24,20 € Versand** (anodas.lt, Gesamt 31,94 €); baugleiche Pumpe bei abc-rc.pl 4,99 €, liefert aber nicht nach DE. Kandidat: **Funduino 3–12 V, 0–90 ml/min, 250 mA, Schlauch 3 × 5 mm** | 7,74 € anodas · 9,11 € Funduino (Amazon) | anodas.lt https://anodas.lt/en/peristaltic-liquid-pump-with-silicone-tubing-3-7-6vdc · Funduino https://www.amazon.de/dp/B0DT1JCFNV | ✅ Preis+Specs (anodas 12.09. Checkout-Simulation: 24,20 € Versand) · ⚠️ Funduino-Förderrate bei 3,7 V unbelegt → messen |
+| 3 | **Sensor** | Kapazitiv **v1.2**, analog — **AZ-Delivery ausverkauft (12.09.)**, Ersatz: **ARCELI 6er-Pack V1.2 kapazitiv** (1,25 €/St.) | **7,49 €** (6 St.) | Amazon `B0FPRBY7LW` · AZ (falls wieder lieferbar) https://www.az-delivery.de/products/bodenfeuchte-sensor-modul-v1-2 | ✅ selbst 12.09. (7,49 €, ab Lager, Gratislieferung 16.09.) · ⚠️ Elektrodenlänge bleibt unbelegt |
 | 4 | **Akku** | **EFASO 503759** 3,7 V ~1500 mAh, **PCM**, JST PH2.0 | **14,90 €** | efaso.de (Kassel) — https://efaso.de/produkt/503759-3-7v-1500-mah-pcm-jst-ph2-0-2p/ | ✅ selbst (14,90 €, PCM + JST bestätigt) |
 | 5 | **MOSFET** | **AO3400A** (SOT-23), 10 St | **1,67 €** | Reichelt, ab Lager — https://www.reichelt.de/de/de/shop/produkt/mosfet_n-ch_30v_5_7a_0_018r_sot-23-166490 | ✅ selbst (0,167 €/St ab 10) |
 | 6 | **Freilaufdiode** | 1N5819 (DO-41), 10 St | ~1,00 € | Reichelt | ⚠️ Subagent, nicht selbst geprüft |
 | 7 | **Sensor-Stecker** | JST-XH 2,54 3-pol Buchse, 10 St | 3,00 € | Funduinoshop | ⚠️ Subagent |
-| 8 | **Schlauch** | Silikon 3 × 5 mm, ~1 m (**neu: nicht mehr im Lieferumfang**) | ~3–5 € | offen | ❌ Preis/Link offen |
+| 8 | **Schlauch** | Silikon **3 mm ID × 5 mm OD, lebensmittelecht, 3 m** | **6,99 €** | Amazon `B0CMQJDJ2H` (Gratislieferung 16.09.) | ✅ selbst 12.09. |
 | | **Zwischensumme** (Position 1–7) | | **≈ 38.64 €** | | |
 | 9 | **Passive** (Werte jetzt aus dem Schaltplan): R 1 kΩ/3,9 kΩ/4,7 kΩ/10 kΩ/47 kΩ/200 kΩ/5,1 kΩ · C 100 nF/1 µF/4,7 µF/10 µF/22 µF/100 µF · 2 Taster | ~5 € | JLCPCB (PCBA, Basic-Teile) | ✅ LCSC-Codes in `pcba_bom_jlc.csv`; ⚠️ Hinweis: „220 Ω" und „Stiftleisten" aus der alten Zeile sind **entfallen** (Gate-Widerstand jetzt 4,7 kΩ, kein XIAO-Sockel mehr) |
 | 10 | Ansaugfilter/-gewicht | optional | Badshop/Aquaristik, Preis offen | ❌ |
