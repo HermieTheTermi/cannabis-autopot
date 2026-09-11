@@ -34,23 +34,23 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 | Netz | Verbindungen | Zweck |
 |---|---|---|
 | **VBUS** | J5 VBUS ↔ U3 Pin 4 (VDD) ↔ C7 4,7 µF ↔ U6 Pin 5 ↔ C_LEDCHG/R_LEDCHG (Lade-LED) | 5-V-Eingang, Ladestrom, LED-Versorgung |
-| **VBAT** | U3 Pin 3 (VBAT) ↔ C8 4,7 µF ↔ J1 Pin 1 (Akku +) ↔ C3 100 µF ↔ J4 Pin 1 (Pumpe +) ↔ D1 Kathode ↔ U7 Pin 3 (VCC) ↔ U4 VIN ↔ C5 1 µF ↔ R3a | Energiebus, alles außer Logik |
+| **VBAT** | U3 Pin 3 (VBAT) ↔ C8 4,7 µF ↔ J1 Pin 1 (Akku +) ↔ C3 100 µF ↔ J4 Pin 1 (Pumpe +) ↔ D1 Kathode ↔ U7 Pin 3 (VCC) ↔ U4 VIN ↔ C5 10 µF ↔ R3a | Energiebus, alles außer Logik |
 | **+3V3** | U4 VOUT ↔ C6 1 µF ↔ U1 Pin 3 **und alle VDD33-Pins** ↔ C2 22 µF ↔ C1a/C1b 100 nF ↔ R_EN ↔ R_BOOT ↔ R_GPIO8 | Logikversorgung |
 | **GND** | U1 (alle GND-Pins), U3 Pin 2, U4 GND, U6 Pin 2, U7 Pin 1, Q1 Source, C1–C10, R2, R3b, R5a/R5b, R4/D2, SW1/SW2, J1 Pin 2, J2 Pin 3, J4 Pin 2, J5 GND + Schirm | Masse |
 | **EN** | U1 **Pin 8** ↔ R_EN 10 kΩ → +3V3 · C4 1 µF → GND · SW1 → GND | Reset; RC **10 kΩ + 1 µF** (Espressif) |
 | **BOOT** | U1 **Pin 23 (IO9)** ↔ R_BOOT 10 kΩ → +3V3 · SW2 → GND | Download-Modus; **kein großer C** an GPIO9! |
 | **GPIO8_STRAP** | U1 **Pin 22 (IO8)** ↔ R_GPIO8 10 kΩ → +3V3 | Strapping-Pin nicht floaten lassen |
-| **PUMP_EN** | U1 **Pin 5 (IO2)** → R1 1 kΩ → **Gate-Knoten** von Q1 | Pumpensteuerung (PWM-fähig) |
-| **GATE** | Q1 Gate ↔ R1 ↔ R2 10 kΩ → GND ↔ D3 **Anode** | Abschaltung bei MCU-Tod (Pull-down) bzw. Unterspannung (D3 → MAX809) |
+| **PUMP_EN** | U1 **Pin 5 (IO2)** → R1 **4,7 kΩ** → **Gate-Knoten** von Q1 | Pumpensteuerung (PWM-fähig) |
+| **GATE** | Q1 Gate ↔ R1 4,7 kΩ ↔ R2 **47 kΩ** → GND ↔ D3 **Anode** | Abschaltung bei MCU-Tod (Pull-down) bzw. Unterspannung (D3 → MAX809) |
 | **PUMP_N** | Q1 Drain ↔ J4 Pin 2 (Pumpe −) ↔ D1 **Anode** | geschaltete Pumpenmasse (Low-Side) |
 | **RESET_UV** | U7 Pin 2 (RESET) ↔ D3 **Kathode** | zieht bei VBAT < 3,08 V den Gate-Knoten auf ~0,3 V |
-| **SENSOR_AOUT** | J2 Pin 2 ↔ U1 **Pin 12 (IO0, ADC1_CH0)** ↔ C9 100 nF → GND | Bodenfeuchte |
+| **SENSOR_AOUT** | J2 Pin 2 → R6 1 kΩ → U1 **Pin 12 (IO0, ADC1_CH0)** ↔ C9 100 nF → GND | Bodenfeuchte; R6 begrenzt den Strom, wenn der Sensor unbversorgt ist und über den ADC-Pin gezogen wird |
 | **SENSOR_PWR** | U1 **Pin 6 (IO3)** → J2 Pin 1 (Sensor-VCC) | Sensor nur während der Messung versorgen |
 | **VBAT_SENSE** | R3a 200 kΩ (von VBAT) ↔ Knoten ↔ R3b 200 kΩ → GND · Knoten ↔ U1 **Pin 13 (IO1, ADC1_CH1)** ↔ C10 100 nF → GND | Zellspannung für Pumpstopp/Warnung (§4b BOM) |
 | **USB_DM** | J5 D− ↔ U6 Pin 3 → U6 Pin 4 ↔ [R 22 Ω optional] ↔ U1 **Pin 17 (IO12)** | USB-Daten, nativ |
 | **USB_DP** | J5 D+ ↔ U6 Pin 1 → U6 Pin 6 ↔ [R 22 Ω optional] ↔ U1 **Pin 18 (IO13)** | USB-Daten, nativ |
-| **LED_STAT** | U1 **Pin 9 (IO4)** → R4 1 kΩ → D2 → GND | Status |
-| **LED_CHG** | VBUS → R_LEDCHG 470 Ω → D_LEDCHG → U3 Pin 1 (STAT) | Ladestatus (STAT ist Tri-State, senkt Strom) |
+| **LED_STAT** | U1 **Pin 19 (IO14)** → R4 1 kΩ → D2 → GND | Status; **nicht IO4/IO5** (MTMS/MTDI = Strapping) |
+| **LED_CHG** | VBUS → R_LEDCHG 1 kΩ → D_LEDCHG → U3 Pin 1 (STAT) | Ladestatus (STAT ist Tri-State, senkt Strom) |
 | **UART_DBG** (optional, DNP) | U1 **Pin 31 (TXD0)** → R_UART 499 Ω → Testpad · U1 **Pin 30 (RXD0)** → Testpad | Notfall-Debug, Espressif empfiehlt den 499-Ω-Widerstand |
 
 ---
@@ -70,7 +70,7 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 | D1 | 1N5819WS | 40 V / 1 A | `C191023` | Freilaufdiode der Pumpe (Kathode an VBAT) |
 | D3 | 1N5819WS | 40 V / 1 A | `C191023` | Klemmzweig: Anode am Gate, Kathode an U7-RESET |
 | D2 | LED rot | 0805 | `C84256` | Status-LED |
-| D_LEDCHG | LED (z. B. grün) | 0805 | *offen* | Ladestatus — Farbwahl offen |
+| D_LEDCHG | LED rot, **gleicher Typ wie D2** | 0805 | `C84256` | Ladestatus. **Grund für rot:** bei JLC ist **keine** grüne 0805-LED mit Bestand verfügbar (geprüft) → derselbe Basic-Typ spart eine Extended-Position. Alternative: STAT (U3 Pin 1) auf einen freien GPIO legen und den Ladestatus per Telegram melden |
 | D4 | SS34 (**DNP**) | SMA | `C8678` | optionale Brücke VBUS → VBAT für Flashen ohne Akku |
 
 ### Kondensatoren
@@ -81,7 +81,7 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 | C2 | 22 µF | 0805 | Bulk am Modul-3V3 | dito |
 | C3 | 100 µF | Elko 16 V | Puffer für den Pumpenstrom | eigene Auslegung (Motoranlauf) |
 | C4 | 1 µF | 0603 | EN-RC-Glied | Espressif: „R = 10 kΩ and C = 1 µF" |
-| C5 | 1 µF | 0603 | LDO-Eingang (CIN) | ME6211-Datenblatt: CIN = 1 µF Low-ESR |
+| C5 | **10 µF** | 0805 | LDO-Eingang (CIN) | **Erhöht:** ME6211 verlangt min. 1 µF, Espressif dazu ≥ 10 µF am Leistungseingang → Reserve für die 382-mA-TX-Spitzen bei fast leerer Zelle |
 | C6 | 1 µF | 0603 | LDO-Ausgang (COUT) | ME6211-Datenblatt: CL = 1 µF Low-ESR |
 | C7 | 4,7 µF | 0805 | Lader-Eingang | MCP73831-Datenblatt: „Bypass to VSS with a **minimum of 4,7 µF**" |
 | C8 | 4,7 µF | 0805 | Lader-Ausgang/Akku | MCP73831: „4,7 µF … at the output is usually sufficient for up to 500 mA" |
@@ -92,16 +92,17 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 
 | Pos | Wert | Wofür | Quelle |
 |---|---|---|---|
-| R1 | 1 kΩ | Gate-Serie | begrenzt den Klemmstrom auf 3 mA (siehe §4b der BOM) |
-| R2 | 10 kΩ | Gate-Pulldown | Pumpe sicher AUS bei Boot/MCU-Tod |
+| R1 | **4,7 kΩ** | Gate-Serie | **Korrigiert:** der MAX809-T-Ausgang ist für **ISINK = 1,2 mA** spezifiziert (Datenblatt, VOL ≤ 0,3 V). 1 kΩ hätte 3 mA gezogen — über Spec. 4,7 kΩ → **0,57 mA** |
+| R2 | **47 kΩ** | Gate-Pulldown | Größer gewählt, weil R1/R2 sonst einen Spannungsteiler bilden: 3,3 V × 47/51,7 = **3,0 V** Gate-Ansteuerung (über dem 2,5-V-Spec-Punkt des AO3400A). MCU unbestückt → Gate entlädt in ~30 µs |
 | R_EN | 10 kΩ | EN-Pull-up | Espressif: RC-Glied 10 kΩ + 1 µF, EN nie floaten |
 | R_BOOT | 10 kΩ | Pull-up an GPIO9 | Espressif: „It is recommended to place a pull-up resistor at the GPIO9 pin" |
 | R_GPIO8 | 10 kΩ | Pull-up an GPIO8 | **eigene Auslegung** (Strapping-Pin nicht floaten) |
-| R_PROG | **4,02 kΩ** | Ladestrom | MCP73831: RPROG = 2 kΩ → 500 mA, 10 kΩ → 100 mA ⇒ 4,02 kΩ ≈ **249 mA** (≈0,17 C der 1500-mAh-Zelle) |
-| R_LEDCHG | 470 Ω | Lade-LED | Wert aus der typischen Applikation des MCP73831-Datenblatts |
+| R_PROG | **3,9 kΩ** | Ladestrom | MCP73831: RPROG = 2 kΩ → 500 mA, 10 kΩ → 100 mA ⇒ 3,9 kΩ ≈ **256 mA** (≈0,17 C der 1500-mAh-Zelle). 3,9 kΩ gewählt, weil es ein **Basic**-Teil ist (4,02 kΩ wäre Extended +3 $) |
+| R_LEDCHG | **1 kΩ** | Lade-LED | **vereinfacht:** statt der 470 Ω aus dem Datenblatt-Applikationsbild derselbe 1-kΩ-Basic-Typ wie R4 → 3 mA LED-Strom reichen, eine Position weniger |
 | R4 | 1 kΩ | Status-LED | eigene Auslegung |
 | R3a, R3b | 2 × 200 kΩ | VBAT-Teiler 1:2 | Prinzip aus der Seeed-Doku (200 k in 1:2); ADC sieht max. 2,1 V |
 | R5a, R5b | 2 × 5,1 kΩ | USB-C CC1/CC2 → GND | USB-C-Vorgabe (nicht von Espressif dokumentiert) |
+| R6 | 1 kΩ | Sensor-AOUT in Reihe | **neu im Review:** schützt den ADC, wenn der Sensor unbversorgt ist |
 | R_UART | 499 Ω (DNP) | TXD0-Serie | Espressif: „connect a 499 Ω series resistor to the U0TXD line" |
 
 ### Steckverbinder und Schalter
@@ -127,7 +128,7 @@ Herausgeführt sind 22 GPIOs. Verwendet werden:
 | 5 | IO2 | **PUMP_EN** |
 | 6 | IO3 | **SENSOR_PWR** (ADC1_CH3) |
 | 8 | EN | Reset-RC + SW1 |
-| 9 | IO4 | **LED_STAT** (ADC1_CH4) |
+| 19 | IO14 | **LED_STAT** — *korrigiert:* nicht IO4, denn IO4 ist **MTMS** (Strapping-/JTAG-Pin) |
 | 12 | IO0 | **SENSOR_AOUT** (ADC1_CH0) |
 | 13 | IO1 | **VBAT_SENSE** (ADC1_CH1) |
 | 17 | IO12 | **USB_D−** |

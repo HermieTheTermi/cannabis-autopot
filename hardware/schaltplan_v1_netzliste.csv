@@ -17,7 +17,7 @@ VBAT,J4,1,Pumpe +
 VBAT,D1,Kathode,Freilaufdiode
 VBAT,U7,3 VCC,Unterspannungswaechter
 VBAT,U4,1 VIN,LDO-Eingang
-VBAT,C5,1,1 µF nach GND
+VBAT,C5,1,10 µF nach GND (Espressif: >=10 uF am Leistungseingang)
 VBAT,R3a,1,Teiler oben
 VBAT,D4,Kathode,optional DNP
 +3V3,U4,5 VOUT,LDO-Ausgang
@@ -43,7 +43,7 @@ GPIO8_STRAP,R_GPIO8,2,
 PUMP_EN,U1,5 IO2,Pumpen-PWM
 PUMP_EN,R1,1,1 kOhm Gate-Serie
 GATE,R1,2,
-GATE,R2,1,10 kOhm Pulldown
+GATE,R2,1,47 kOhm Pulldown (R1/R2-Teiler ergibt 3,0 V Gate-Ansteuerung)
 GATE,Q1,1 Gate,
 GATE,D3,Anode,Klemmzweig
 PUMP_N,Q1,3 Drain,Low-Side-Schalter
@@ -52,6 +52,7 @@ PUMP_N,D1,Anode,
 RESET_UV,U7,2 RESET,aktiv low unter 3,08 V
 RESET_UV,D3,Kathode,
 SENSOR_AOUT,J2,2,Sensor analog out
+SENSOR_AOUT,R6,1,1 kOhm Serienwiderstand (Schutz bei unbversorgtem Sensor)
 SENSOR_AOUT,U1,12 IO0,ADC1_CH0
 SENSOR_AOUT,C9,1,100 nF Filter
 SENSOR_PWR,U1,6 IO3,schaltet Sensor-VCC
@@ -68,9 +69,9 @@ USB_DP,J5,D+ (A6/B6),
 USB_DP,U6,1 I/O1,ESD
 USB_DP,U6,6 I/O1,ESD durchgeschleift
 USB_DP,U1,18 IO13,USB_D+
-LED_STAT,U1,9 IO4,Status-LED
+LED_STAT,U1,19 IO14,Status-LED; NICHT IO4 (MTMS/Strapping)
 LED_STAT,R4,1,1 kOhm
-LED_CHG,R_LEDCHG,2,
+LED_CHG,R_LEDCHG,2,1 kOhm
 LED_CHG,D_LEDCHG,Anode,Kathode an U3 STAT
 UART_TX,U1,31 TXD0,optional DNP
 UART_TX,R_UART,1,499 Ohm
