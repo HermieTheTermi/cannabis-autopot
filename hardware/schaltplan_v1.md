@@ -259,6 +259,10 @@ Was **auf** der Platine bleibt (weil es dazugehört):
   vertretbar, wenn es sichtbar genug ist.
 - Die Anzeige ist eine **Firmware-Aufgabe**: der leere Tank wird per Sensor erkannt, der Zustand
   wird gehalten (latch), bis der Taster gedrückt wird.
+- **Dasselbe gilt für die Status-LED D2** (2,05 mA): auch sie nur **kurz blinken** lassen.
+  Dauerlicht wären 2,05 mA ≈ **49 mAh/Tag** — rund das 30-fache des Standby-Budgets (69,5 µA).
+  Jede LED im Dauerbetrieb kostet mehr als alles andere im Gerät zusammen; die LEDs sind
+  Anzeigen, keine Beleuchtung.
 
 ### 7.5 Ablauf in der Firmware (Vorschlag)
 
