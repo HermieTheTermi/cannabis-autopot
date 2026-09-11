@@ -72,13 +72,14 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 | D3 | 1N5819WS | 40 V / 1 A | `C191023` | Klemmzweig: Anode am Gate, Kathode an U7-RESET |
 | D2 | LED rot | 0805 | `C84256` | Status-LED |
 | D_LEDCHG | LED rot, **gleicher Typ wie D2** | 0805 | `C84256` | Ladestatus. **Grund für rot:** bei JLC ist **keine** grüne 0805-LED mit Bestand verfügbar (geprüft) → derselbe Basic-Typ spart eine Extended-Position. Alternative: STAT (U3 Pin 1) auf einen freien GPIO legen und den Ladestatus per Telegram melden |
-| D4 | SS34 (**DNP**) | SMA | `C8678` | optionale Brücke VBUS → VBAT für Flashen ohne Akku |
+| ~~D4~~ | **entfernt** | – | – | **Gefunden in Review 3:** eine bestückte Schottky-Brücke VBUS → VBAT würde die Zelle **ungeregelt über 5 V laden** (nur Diodenabfall) → Überladung/Schaden. Option ersatzlos gestrichen; für Reprogrammierung ohne Akku ein Labornetzteil auf VBAT oder die Zelle stecken |
 
 ### Kondensatoren
 
 | Pos | Wert | Typ | Wofür | Quelle |
 |---|---|---|---|---|
 | C1a, C1b | 2 × 100 nF | 0805 | Decoupling am Modul | Sollwerte der Modul-Typenschaltung (22 µF + 2 × 0,1 µF) |
+| C10 | 100 nF | 0805 | ADC-Filter VBAT | Espressif-ADC-Empfehlung; macht zusätzlich die hohe Teiler-Impedanz für den ADC niederohmig |
 | C2 | 22 µF | 0805 | Bulk am Modul-3V3 | dito |
 | C3 | 100 µF | Elko 16 V | Puffer für den Pumpenstrom | eigene Auslegung (Motoranlauf) |
 | C4 | 1 µF | 0603 | EN-RC-Glied | Espressif: „R = 10 kΩ and C = 1 µF" |
@@ -87,6 +88,8 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 | C7 | 4,7 µF | 0805 | Lader-Eingang | MCP73831-Datenblatt: „Bypass to VSS with a **minimum of 4,7 µF**" |
 | C8 | 4,7 µF | 0805 | Lader-Ausgang/Akku | MCP73831: „4,7 µF … at the output is usually sufficient for up to 500 mA" |
 | C9 | 100 nF | 0805 | ADC-Filter Sensor | Espressif: „add a 0,1 µF filter capacitor between ESP pins and ground when using the ADC" |
+| C11 | 100 nF | 0805 | **direkt an den Pumpenklemmen** | **neu (Review 3):** Bürstenstörungen des DC-Motors abfangen, damit sie nicht über VBAT in ADC/LDO einstreuen |
+| C12 | 100 nF | 0805 | Decoupling am Unterspannungswächter | Standardpraxis; der MAX809 selbst braucht laut Datenblatt keine externen Bauteile |
 | C10 | 100 nF | 0805 | ADC-Filter VBAT | dito (zugleich niederohmige Quelle für den ADC) |
 
 ### Widerstände
@@ -138,6 +141,7 @@ Herausgeführt sind 22 GPIOs. Verwendet werden:
 | 23 | IO9 | **BOOT** (Strapping) + Pull-up |
 | 30 / 31 | RXD0 / TXD0 | optional UART-Debug (DNP) |
 | 1, 2, 11, 14, 36–53 | GND | Masse |
+| 49 | EPAD | Thermo-Pad — mit GND verbinden (Espressif: nicht Pflicht, verbessert die Wärmeabfuhr) |
 | div. | VDD33 | **alle** an +3V3, jeweils 100 nF in der Nähe |
 
 **Nicht benutzt:** IO5, IO6, IO7, IO14, IO15, IO18–IO23. Espressif: unbenutzte hochohmige Pins
@@ -167,17 +171,19 @@ Download-Modus statt in die Anwendung.
    dokumentierte Bauteile, die in der Netzliste fehlen). Läuft mit `python3 scripts/check_netlist.py`
    und muss **exit 0** liefern, bevor das Layout beginnt.
 
-1. **Ladestrom:** 249 mA. Zusammen mit der Logik (max. ~80 mA) bleibt man unter den 500 mA, die
+1. **Ladestrom:** 256 mA (R_PROG 3,9 kΩ). Zusammen mit der Logik (max. ~80 mA) bleibt man unter den 500 mA, die
    USB 2.0 liefert. Wenn der Sensor aktiv ist und WLAN sendet, kurzzeitig mehr — für die USB-Spec
    unkritisch, USB-C-Netzteile liefern ohnehin ≥ 1 A.
 2. **Betrieb ohne Akku:** VBUS → Lader → VBAT steigt auf ~4,2 V, die Logik läuft also auch ohne
    Zelle. Das ist **nicht belastbar** (Pumpe zieht 450 mA, der Lader liefert max. 500 mA nur in
-   CC-Phase). Für Reprogrammierung daher Akku stecken oder **D4 (SS34, DNP)** bestücken.
+   CC-Phase). Für Reprogrammierung daher die Zelle stecken oder ein Labornetzteil auf VBAT legen.
+   **Bewusst keine Brücke von VBUS auf VBAT** (siehe Review 3: ungeregelter Ladepfad).
 3. **Standby-Budget:** Modul-Deep-Sleep 7 µA + LDO 40 µA + MAX809 12 µA + Spannungsteiler 10,5 µA
    ≈ **70 µA** → ~1,7 mAh/Tag. Der Teiler dominiert mit 10,5 µA; wenn das stört, Teiler über einen
    GPIO schaltbar machen oder auf 2 × 1 MΩ erhöhen (dann ist C10 zwingend).
-4. **WO kein Schottky in Reihe:** kein Verpolschutz im Hauptpfad — die Zelle hat ein PCM. SS34 als
-   Serienelement würde 0,3 V kosten und die Laufzeit verkürzen; bewusst weggelassen.
+4. **Kein Verpolschutz im Hauptpfad** — die Zelle hat ein PCM, und ein Schottky in Reihe würde 0,3 V
+   kosten. Die früher angedachte SS34 (D4) ist in Review 3 **komplett entfallen** (siehe Bauteiltabelle).
+   Verpolsicherung ist damit allein die mechanische Kodierung der JST-Stecker.
 5. **Testpunkte im Layout vorsehen:** VBAT, +3V3, GND, SENSOR_AOUT, VBAT_SENSE, EN, PUMP_EN.
 6. **Layout-Vorgaben aus Espressif:** EN-Leitung kurz halten; USB als 90-Ω-Differentialpaar mit
    GND-Referenzlage; Antenne → siehe `bom_entscheidung.md` §6 (bauteilfreier Bereich, dünnere

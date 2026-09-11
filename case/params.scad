@@ -50,6 +50,8 @@ foot_w      = 12.0;                  // tangentiale Fussbreite
 foot_d      = 8.0;                   // radiale Fusstiefe
 drain_hole_d = 4.0;
 drain_pitch  = 10.0;
+pot_hose_w   = 6.0;                  // Schlauchdurchlass am Rand oben (Breite X)
+pot_hose_h   = 6.0;                  // Schlauchdurchlass am Rand oben (Tiefe Z)
 
 // ---- Kragen / Ringauflage ---------------------------------------------------
 collar_z0   = pot_z1;                // 266.0
@@ -121,7 +123,8 @@ ring_wall     = 2.2;
 ring_holes    = 10;                  // 8..12
 ring_hole_d   = 2.6;
 ring_hole_r   = ring_ir + 5.0;       // Bohrkreis (innen/ unten)
-ring_barb_len = 12.0;
+ring_barb_len = 7.5;                 // Stutzenlaenge (max. 8, gekuerzt wegen Topfwand)
+ring_barb_dir = 90.0;                // Stutzenrichtung: 0=+X, 90=+Y (Richtung Wulst)
 ring_barb_od  = 5.6;
 ring_barb_id  = 3.8;
 

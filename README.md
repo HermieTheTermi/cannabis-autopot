@@ -23,7 +23,7 @@ Automatisch bewässernder Topf für eine Cannabis-Pflanze, gesteuert über ein *
    ┌──────────────┴───────────────┐
    │  WASSERTANK 1,0 L            │   Ø134 innen, max. 71 mm Wasserstand
    └──────────────────────────────┘
-        Wulst seitlich: Pumpe, PCB, XIAO, Akku, Schlauch-/Kabelkanal
+        Wulst seitlich: Pumpe, PCB (ESP32-C6-Modul), Akku, Schlauch-/Kabelkanal
 ```
 
 **Gesamthöhe 278 mm**, Grundriss Ø 140 mm (mit Wulst ≈ 180 mm breit).
@@ -49,6 +49,9 @@ cannabis-autopot/
 │   ├── 02_architektur-und-geometrie.md  ← verbindliche Maße (CAD/PCB-Grundlage)
 │   ├── 04_bildkonzepte-prompts.md       ← KI-Image-Prompts (+ generierte .txt)
 │   └── img/                             ← KI-Konzeptbilder
+├── scripts/
+│   ├── check_netlist.py                 ← Lint der Netzliste (exit 0 vor dem Layout nötig)
+│   └── check_bom_consistency.py         ← Querabgleich Schaltplan ↔ JLCPCB-BOM
 ├── hardware/
 │   ├── bom_entscheidung.md              ← BESTELLGRUNDLAGE: Bauteile, Preise, Links
 │   ├── schaltplan_v1.md                 ← VERBINDUNGSVORGABE: Netze, Werte, Pinbelegungen
@@ -67,9 +70,9 @@ cannabis-autopot/
 
 ## Status
 - [x] Projektordner + Anforderungen + 4 Recherchen (10.09.2026)
-- [x] **Entscheidungen 11.09.2026:** Topf Ø140×150 (Erde) + 1 L Tank darunter · XIAO ESP32-C6 als Modul auf PCB · Wulst mit Kanal · Top-Drip-Ring · Sensor von oben · Telegram final · nur Wasser
+- [x] **Entscheidungen 11.09.2026:** Topf Ø140×150 (Erde) + 1 L Tank darunter · ESP32-C6-MINI-1 auf eigener PCB · Wulst mit Kanal · Top-Drip-Ring · Sensor von oben · Telegram final · nur Wasser
 - [x] **Höhen-/Volumenberechnung** → Gesamthöhe 278 mm, Tank 1,0 L, Erdvolumen 1,9 L (`docs/02_...`)
-- [x] **BOM-Entscheidung** (11.09.2026): XIAO C6 6,99 € · OEM-Peristaltikpumpe ABC-12527 (3,7–6 V) 7,74 € · Sensor v1.2 4,99 € · EFASO-Akku 14,90 € → **≈ 45–50 €** gesamt (`hardware/bom_entscheidung.md`)
+- [x] **BOM-Entscheidung** (11.09.2026): ESP32-C6-MINI-1 ≈ 3,60 € · OEM-Peristaltikpumpe ABC-12527 (3,7–6 V) 7,74 € · Sensor v1.2 4,99 € · EFASO-Akku 14,90 € → **≈ 47–49 €** gesamt inkl. Schlauch und Passiven (+ ~28 € JLCPCB-Handling) (`hardware/bom_entscheidung.md`)
 - [x] **Versorgung festgelegt:** 1S direkt, kein Boost/Buck (Pumpe ab 3 V dokumentiert); eigener Lader **MCP73831T-2** + LDO **ME6211** auf der Platine
 - [x] **MCU festgelegt:** **ESP32-C6-MINI-1** auf eigener PCB (kein Dev-Board) — Pflichtbeschaltung und Antennenregeln aus den Espressif-Docs übernommen
 - [x] **PCBA geprüft:** alle Bauteile bei JLCPCB verfügbar (LCSC-Codes in `hardware/pcba_bom_jlc.csv`)
@@ -79,5 +82,5 @@ cannabis-autopot/
 ## Nächste Schritte
 1. BOM finalisieren (Preise, Links, Verfügbarkeit) → `research/bom-check/`
 2. Gehäuse-CAD (OpenSCAD, parametrisch) aus `docs/02_architektur-und-geometrie.md`
-3. PCB (KiCad): XIAO als Modul, MOSFET-Treiber, Sensor-ADC, USB-C-Zugang
+3. PCB: ESP32-C6-Modul, MCP73831-Lader, ME6211-LDO, MOSFET-Treiber, Sensor-ADC, USB-C — Netzliste `hardware/schaltplan_v1_netzliste.csv`
 4. Firmware: State-Machine, Kalibrierroutine, Telegram-Alarm

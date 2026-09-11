@@ -192,6 +192,9 @@ module inner_pot() {
         cylinder(r=pot_ir, h=pot_h - pot_floor_t + 1);
       translate([0, 0, -1])
         hole_grid(pot_ir - 6, drain_hole_d, drain_pitch, 0, pot_floor_t + 2);
+      // Schlauchdurchlass am Rand oben (+Y, Richtung Wulst)
+      translate([-pot_hose_w/2, pot_ir - 1, pot_h - pot_hose_h])
+        cube([pot_hose_w, (pot_or - pot_ir) + 2, pot_hose_h + 1]);
     }
     for (i = [0 : n_feet - 1])
       rotate([0, 0, i * 360 / n_feet])
@@ -204,11 +207,12 @@ module inner_pot() {
 // Verteilerring (Top-Drip)
 // ---------------------------------------------------------------------------
 module ring_barb() {
-  translate([ring_or - 1, 0, ring_h/2]) rotate([0, 90, 0]) {
-    cylinder(d=ring_barb_od, h=ring_barb_len + 1);
-    translate([0, 0, ring_barb_len*0.40]) cylinder(d=ring_barb_od + 0.9, h=1.2);
-    translate([0, 0, ring_barb_len*0.70]) cylinder(d=ring_barb_od + 0.9, h=1.2);
-  }
+  rotate([0, 0, ring_barb_dir])
+    translate([ring_or - 1, 0, ring_h/2]) rotate([0, 90, 0]) {
+      cylinder(d=ring_barb_od, h=ring_barb_len + 1);
+      translate([0, 0, ring_barb_len*0.40]) cylinder(d=ring_barb_od + 0.9, h=1.2);
+      translate([0, 0, ring_barb_len*0.70]) cylinder(d=ring_barb_od + 0.9, h=1.2);
+    }
 }
 
 module distribution_ring() {
@@ -227,8 +231,9 @@ module distribution_ring() {
       rotate([0, 0, i * 360 / ring_holes])
         translate([0, ring_hole_r, -1]) cylinder(d=ring_hole_d, h=ring_wall + 2);
     // Schlauchbohrung im Stutzen
-    translate([ring_ir - 1, 0, ring_h/2]) rotate([0, 90, 0])
-      cylinder(d=ring_barb_id, h=ring_barb_len + 6);
+    rotate([0, 0, ring_barb_dir])
+      translate([ring_ir - 1, 0, ring_h/2]) rotate([0, 90, 0])
+        cylinder(d=ring_barb_id, h=(ring_or - ring_ir) + ring_barb_len + 2);
   }
 }
 

@@ -25,14 +25,18 @@ Seit der Umstellung auf das nackte **ESP32-C6-MINI-1** gibt es **keine Lücke me
 | Q2 | Si2301 P-MOSFET (High-Side optional) | `C10487` | SOT-23 | **base** | 163.319 | $0,1032 |
 | D1 | Schottky **1N5819WS** (Freilauf) | `C191023` | SOD-323 | **base** | 5.648.846 | $0,0137 |
 | D3 | Schottky (Klemmzweig MAX809) | `C191023` | SOD-323 | **base** | 5.648.846 | $0,0137 |
-| U5 | SS34 (Verpolschutz, optional) | `C8678` | SMA | **base** | 5.064.497 | $0,0349 |
+| ~~U5~~ | ~~SS34~~ | – | – | – | – | – | **entfallen (Review 3):** die geplante VBUS→VBAT-Brücke würde die Zelle ungeregelt laden. Kein Verpolschutz in Reihe (Zelle hat PCM) |
 | C1 | 100 nF 50 V | `C49678` | 0805 | **base** | 18.879.051 | $0,0196 |
 | C2 | 10 µF 25 V | `C15850` | 0805 | **base** | 7.091.278 | $0,0841 |
-| C3 | 100 µF 16 V (Puffer) | `C970684` | SMD D6,3×5,4 | expand | 33.972 | $0,0358 |
+| C3 | 100 µF 16 V (Puffer, Elko — Polarität!) | `C970684` | SMD D6,3×5,4 | expand | 33.972 | $0,0358 |
+| C11/C12 | 2 × 100 nF (Pumpen-EMI, MAX809) | `C49678` | 0805 | **base** | 18.879.051 | $0,0196 |
 | C5 | 22 µF 25 V (Modul-Bulk) | `C45783` | 0805 | **base** | 4.922.447 | $0,2456 |
-| C4 | 1 µF (EN-RC, LDO) | `C15849` | 0603 | **base** | 8.282.371 | $0,0175 |
-| R1 | 1 kΩ (Gate-Serie, §4b) | `C17513` | 0805 | **base** | 30.777.601 | $0,0042 |
-| R2 | 10 kΩ (Gate-Pulldown, EN-RC, GPIO9) | `C17414` | 0805 | **base** | 54.371.929 | $0,0039 |
+| C4/C6 | 2 × 1 µF (EN-RC, LDO-Ausgang) | `C15849` | 0603 | **base** | 8.282.371 | $0,0175 |
+| C7/C8 | 2 × **4,7 µF** (Lader, Datenblatt min. 4,7 µF) | `C1779` | 0805 | **base** | 2.869.508 | $0,0417 |
+| R1 | **4,7 kΩ** (Gate-Serie, Review 1) | `C17673` | 0805 | **base** | 6.174.232 | $0,0050 |
+| R2 | **47 kΩ** (Gate-Pulldown, Review 1) | `C17713` | 0805 | **base** | 2.124.711 | $0,0073 |
+| R_PROG | **3,9 kΩ** (Ladestrom 256 mA) | `C17614` | 0805 | **base** | 317.160 | $0,0027 |
+| R_EN/R_BOOT/R_GPIO8 | 10 kΩ | `C17414` | 0805 | **base** | 54.371.929 | $0,0039 |
 | R3 | 200 kΩ (VBAT-Teiler) | `C17539` | 0805 | **base** | 772.897 | $0,0064 |
 | R5 | 5,1 kΩ (USB-C CC) | `C27834` | 0805 | **base** | 4.029.051 | $0,0064 |
 | R4 | LED-Widerstand | `C17513` | 0805 | **base** | 30.777.601 | $0,0042 |

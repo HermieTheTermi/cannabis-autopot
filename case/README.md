@@ -18,6 +18,7 @@ Alle Maße stehen zentral in **`params.scad`**; Änderungen nur dort.
 | `wulst_lid.scad` | Wulstdeckel (Dichtungsnut, USB-C, LED) | `wulst_lid.stl` |
 | `cover.scad` | optionale Substrat-Abdeckung | `cover.stl` |
 | `case.scad` | Gesamt-/Drucklayout aller Teile | `gesamt.stl` |
+| `assembly.scad` | Zusammenbau-Ansicht (montiert, inkl. Sensormarker + Schlauch-/Kabelweg) | `assembly.stl` |
 
 ## Segmentierung (Bauraum 220 × 220 × 250 mm)
 
@@ -28,7 +29,7 @@ Gesamthöhe 278 mm > 250 mm → Aussenschale zweigeteilt.
 | shell_upper | 144 × 184 × 188 | ✅ |
 | shell_lower | 140 × 140 × 96 | ✅ |
 | inner_pot | 132 × 132 × 180 | ✅ |
-| distribution_ring | 117 × 105 × 16 | ✅ |
+| distribution_ring | 105 × 113 × 16 (Stutzen +Y) | ✅ |
 | grid | 132 × 132 × 4 | ✅ |
 | wulst_lid | 60 × 160 × 4 | ✅ |
 | cover | 136 × 136 × 3 | ✅ |
@@ -55,8 +56,10 @@ Verbindung: Steckzapfen Ø136 / Sockel Ø137,2 an der Trennebene **z = 90 mm**
    außen zum Verteilerring.
 4. `inner_pot` (Füße nach unten auf den Rost) einsetzen, 25 mm Blähton als
    Drainage, darüber Substrat.
-5. `distribution_ring` auf die Substratoberfläche legen, Druckschlauch am
-   Schlauchstutzen aufstecken.
+5. `distribution_ring` auf die Substratoberfläche legen (Stutzen zeigt nach **+Y**
+   zur Wulst). Druckschlauch von der Ø-6,5-Bohrung der Wulst über den Kragen,
+   durch den 6 × 6-Schlauchdurchlass am Innentopfrand (+Y), zum Schlauchstutzen
+   führen und aufstecken — **nicht** durch den Sensorkabel-Ausschnitt am Kragen.
 6. Sensor bei r ≈ 55 mm auf 75 mm Tiefe stecken, Kabel über die
    Kragenaussparung in den Ø-4,5-Kabelkanal führen (Tropfschlaufe vor dem Eintritt).
 7. Elektronik einlegen (Pumpe unten, PCB darüber, Zelle dahinter), Deckel mit
@@ -77,7 +80,11 @@ Verbindung: Steckzapfen Ø136 / Sockel Ø137,2 an der Trennebene **z = 90 mm**
 - **Rostlochung** Ø4 mm / 9 mm Raster (hält Blähton ≥ 8 mm), ungelochter Rand 4 mm,
   Ø14-Durchlass für den Saugschlauch bei r = 52.
 - **Verteilerring** Ø105 außen, 10 Austrittsbohrungen Ø2,6 senkrecht nach unten/
-  innen (r = 43), Schlauchstutzen 4/6 mm.
+  innen (r = 43), Schlauchstutzen 4/6 mm. Stutzenlänge **7,5 mm** (vorher 12),
+  zeigt nach **+Y** (Richtung Wulst). Gemessener **max. Ringradius 60,1 mm**
+  (Stutzenaußenkante) → **3,4 mm** Luft zur Innentopfwand (r = 63,5). Der
+  Druckschlauch passiert den Kragen oben und den **6 × 6-Schlauchdurchlass**
+  am Innentopfrand (+Y); Sensor- und Schlauchauschnitt bleiben getrennt.
 - Montagehilfen für Pumpe/Akku sind als Footprint-Parameter (`pump_d`, `batt_*`,
   `xiao_*`) hinterlegt; im Gehäuse sind nur die Deckel-Schraubposten (M2,5)
   ausgeführt – die Zelle wird geklemmt/gebändert.
@@ -96,7 +103,8 @@ node render.mjs ../../case/wulst_lid.scad         -o ../../case/export/wulst_lid
 node render.mjs ../../case/cover.scad             -o ../../case/export/cover.stl
 node render.mjs ../../case/outer_shell.scad       -o ../../case/export/outer_shell.stl   # Vorschau
 node render.mjs ../../case/case.scad              -o ../../case/export/gesamt.stl        # Gesamtlayout
+node render.mjs ../../case/assembly.scad          -o ../../case/export/assembly.stl      # Zusammenbau-Ansicht
 ```
 
-Alle neun Renders laufen mit Exit-Code 0. `case/export/` ist per `.gitignore`
+Alle zehn Renders laufen mit Exit-Code 0. `case/export/` ist per `.gitignore`
 ausgenommen, versioniert werden nur die `.scad`-Quellen.

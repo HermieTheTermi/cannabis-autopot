@@ -22,10 +22,11 @@ Grundlage: `../research/bom-check/01…04` · Geometrie: `../docs/02_architektur
 | 6 | **Freilaufdiode** | 1N5819 (DO-41), 10 St | ~1,00 € | Reichelt | ⚠️ Subagent, nicht selbst geprüft |
 | 7 | **Sensor-Stecker** | JST-XH 2,54 3-pol Buchse, 10 St | 3,00 € | Funduinoshop | ⚠️ Subagent |
 | 8 | **Schlauch** | Silikon 3 × 5 mm, ~1 m (**neu: nicht mehr im Lieferumfang**) | ~3–5 € | offen | ❌ Preis/Link offen |
-| | **Zwischensumme** | | **≈ 42,85 €** | | |
-| 9 | Widerstände 220 Ω/10 kΩ, Kondensatoren 100 nF/10 µF/100 µF, Taster, Stiftleisten | ~5 € | überwiegend LCSC (PCBA) oder Reichelt | ❌ Preise DE nicht belegt |
+| | **Zwischensumme** (Position 1–7) | | **≈ 38.64 €** | | |
+| 9 | **Passive** (Werte jetzt aus dem Schaltplan): R 1 kΩ/3,9 kΩ/4,7 kΩ/10 kΩ/47 kΩ/200 kΩ/5,1 kΩ · C 100 nF/1 µF/4,7 µF/10 µF/22 µF/100 µF · 2 Taster | ~5 € | JLCPCB (PCBA, Basic-Teile) | ✅ LCSC-Codes in `pcba_bom_jlc.csv`; ⚠️ Hinweis: „220 Ω" und „Stiftleisten" aus der alten Zeile sind **entfallen** (Gate-Widerstand jetzt 4,7 kΩ, kein XIAO-Sockel mehr) |
 | 10 | Ansaugfilter/-gewicht | optional | Badshop/Aquaristik, Preis offen | ❌ |
-| | **Gesamt (realistisch)** | | **≈ 43–48 €** | | |
+| | **Gesamt (realistisch)** | | **≈ 47–49 €** | inkl. Schlauch (3–5 €) und Passiven (~5 €) | |
+| | **+ JLCPCB-Kosten (nicht in dieser BOM)** | | **≈ 28 € Handling** | 10 Extended-Positionen à 3 $ + Platinenfertigung (noch kein Angebot eingeholt) | |
 
 **Was die Pumpenwahl geändert hat:** Die frühere Adafruit 3910 (24,50 €) ist entfallen, weil die
 OEM-Pumpe im Datenblatt **3,7–6 V** abdeckt — und in der Praxis besser fördert (siehe §2/§3).
@@ -132,7 +133,7 @@ AO3400A (0,65–1,45 V) → Pumpe aus, egal was die Firmware tut. Über 3,08 V l
 die Diode sperrt, und der GPIO steuert normal.
 
 → kostet **ein zusätzliches Bauteil** (MAX809, 0,56 $, 13.783 lagernd) plus eine Diode, die wir
-ohnehin im BOM haben. Den Gate-Widerstand R1 dafür von 220 Ω auf **1 kΩ** erhöhen: im Fehlerfall
+ohnehin im BOM haben. Den Gate-Widerstand R1 dafür von 220 Ω auf **4,7 kΩ** erhöhen: im Fehlerfall
 (MCU will pumpen, Hardware sperrt) fließen dann 3 mA statt 14 mA durch den Klemmzweig; bei
 Qg 6 nC bleibt das Schalten mit 20 kHz PWM unkritisch.
 
@@ -175,7 +176,7 @@ Die Wulst selbst (60 × 40 × 160) bleibt gültig.
    2 × 5,1 kΩ (CC, USB-C-Pflicht) und USBLC6-2SC6 (ESD). USB-Daten gehen **nativ** auf
    **GPIO12 = D−** und **GPIO13 = D+** (Espressif) — kein USB-UART-Brückenchip nötig; optional
    22/33-Ω-Serienwiderstände vorsehen.
-3. Pumpe: AO3400A Low-Side, Gate 220 Ω, Pulldown 10 kΩ, 1N5819 antiparallel, **100 µF Pufferelko**.
+3. Pumpe: AO3400A Low-Side, **Gate 4,7 kΩ, Pulldown 47 kΩ** (Review 1), 1N5819 antiparallel, **100 µF Pufferelko** + 100 nF an den Klemmen (Review 3).
    Pumpe hängt **direkt an VBAT** — kein Wandler, kein Boost-Layout.
 3b. **Zellspannung überwachen:** 200-k-Widerstand in 1:2-Beschaltung auf einen **ADC1**-Pin, plus
    **0,1 µF Filterkondensator** am ADC-Pin (Espressif-Empfehlung für ADC-Genauigkeit). Grundlage für

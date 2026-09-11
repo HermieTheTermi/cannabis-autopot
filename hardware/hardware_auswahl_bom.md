@@ -4,6 +4,10 @@ Stand: 11.09.2026 · Konzept: **Top-Drip mit Rücklauf** (Pumpe fördert auf ein
 ➡️ **Finale Auswahl mit geprüften Preisen: [`bom_entscheidung.md`](bom_entscheidung.md)** · Preisrecherchen: `../research/bom-check/` · Verbindliche Maße: `../docs/02_architektur-und-geometrie.md`
 Dieses Dokument ist die Recherche-/Ideenebene (inkl. Alternativen und Ausschlussgründen) und wird nicht mehr als Bestellgrundlage verwendet.
 
+> ⚠️ **Historisch, Stand 10.09.2026.** Genannt werden hier noch der **XIAO ESP32-C6** (verworfen,
+> jetzt ESP32-C6-MINI-1), die **Adafruit-Pumpe** und der **Gate-Widerstand 220 Ω** (beide verworfen).
+> Verbindlich sind ausschließlich `bom_entscheidung.md` und `schaltplan_v1.md`.
+
 ---
 
 ## 1. Entscheidende Eckpunkte (vom User)

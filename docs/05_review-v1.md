@@ -58,7 +58,7 @@ die Wulst den Platz hergibt.
 | MOSFET am 3,3-V-Gate | AO3400A Datenblatt: RDS(on) < 48 mΩ @ VGS 2,5 V | ✅ < 10 mW Verlust bei 0,45 A, logic-level |
 | Freilaufdiode | 1N5819WS: 40 V / 1 A / 25 A Surge | ✅ 5× Reserve |
 | Ladepfad | XIAO-Schaltplan: SGM40567-**4.2** → 1S | ✅ passt zur Zelle, kein Lade-IC nötig |
-| Gate-Beschaltung | 220 Ω Serie, 10 kΩ Pulldown | ✅ Pumpe sicher AUS beim Boot |
+| Gate-Beschaltung | **4,7 kΩ Serie, 47 kΩ Pulldown** (Review 1 korrigiert: 220 Ω/10 kΩ waren falsch) | ✅ Pumpe sicher AUS beim Boot |
 | Sensor-Versorgung | VCC über GPIO, AOUT auf ADC1 | ✅ spart Strom, kein ADC2-Stolperstein |
 | Zellüberwachung | 200 kΩ in 1:2 auf A0 (Seeed-Doku, wörtlich) | ✅ Firmware-Ebene, ein Widerstand |
 | **Tiefentladeschutz** | MCP73831-Datenblatt: nur „Reverse Discharge Protection" + Lade-UVLO 3,45/3,38 V → **kein Entladeschutz im Lader** | ✅ vier Ebenen ergänzt: Firmware 3,4 V · **MAX809TEUR+T bei 3,08 V** (Datenblatt VTH) · Gate-Pulldown · Zell-PCM — siehe `bom_entscheidung.md` §4b |
@@ -95,7 +95,7 @@ Lagerbestand, siehe `hardware/pcba_verfuegbarkeit_jlc.md`. Handling: **10 Extend
 
 1. `case/params.scad`: `wc_x` 20 → 24, Pumpenwerte (Ø32 / 44 / 44 / 2,5) — **OpenCode**, danach
    Nachrender + Sichtprüfung der Freiräume.
-2. Schaltplan + Layout (eigene PCB): XIAO als auflötbares Modul, Pumpe direkt an VBAT, Sensor-JST,
+2. Schaltplan + Layout (eigene PCB): ESP32-C6-Modul, Pumpe direkt an VBAT, Sensor-JST — erledigt: `hardware/schaltplan_v1.md`,
    Akku-PH-Buchse, VBAT-Teiler optional — Bauteile alle bei JLC verfügbar.
 3. Teile, die nicht von JLC kommen, bestellen: Pumpe, Sensor, Akku, Schlauch, Filter, Schrauben.
 4. Kalibrierlauf am realen Aufbau: Förderrate, Sensor trocken/nass, Tank-leer-Kriterium.

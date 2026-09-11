@@ -11,7 +11,7 @@ Stand: 11.09.2026 (Projektstart) · Geometrie-Details: [`02_architektur-und-geom
 | **Pumpe** | **Peristaltische Dosierpumpe 6 V** (quetscht einen Schlauch) — Medium kommt nie mit der Pumpenmechanik in Kontakt, selbstansaugend, präzise dosierbar |
 | **Energie** | **Akku** (nicht Netz) |
 | **Elektronik** | **Eigene Platine (PCB)**, untergebracht in einer **seitlichen Wulst** am Topf |
-| **MCU** | **XIAO ESP32-C6 als Modul** auf der eigenen PCB (Referenzdesign festgelegt 11.09.2026) |
+| **MCU** | **ESP32-C6-MINI-1** (nacktes Modul) auf der eigenen PCB (korrigiert 11.09.2026, Review 3: XIAO verworfen) |
 | **Feuchte-Sensor** | **Kapazitiv v1.2 (mit LDO), analoger Ausgang**, von oben in die Erde gesteckt, seitlich am Controller angeschlossen |
 | **Bewässerungsweg** | Pumpe fördert nach **oben** auf einen **3D-gedruckten Verteilerring auf der Erdoberfläche** (Top-Drip), Rücklauf tropft in den Tank |
 | **Nährlösung** | **Nur Wasser** — ein Behälter, keine automatische Düngerdosierung. Dünger nur ins Substrat |
@@ -32,7 +32,7 @@ Stand: 11.09.2026 (Projektstart) · Geometrie-Details: [`02_architektur-und-geom
    │      WASSERTANK 1,0 L           │   Ø134 innen, max. Wasserstand 71 mm
    │   ⌄ Saugschlauch → Pumpe ──┐    │
    └────────────────────────────┼────┘
-              Wulst: Pumpe, PCB, XIAO, Akku, Kanal
+              Wulst: Pumpe, PCB, ESP32-C6-Modul, Akku, Kanal
 ```
 
 ## Regelkreis (Firmware-State-Machine)
@@ -47,10 +47,10 @@ Stand: 11.09.2026 (Projektstart) · Geometrie-Details: [`02_architektur-und-geom
 
 ## Technische Eckpunkte
 
-- **MCU:** XIAO ESP32-C6 (WiFi 6, 15 µA Deep-Sleep, ADC1, onboard-LiPo-Lader), 21 × 17,8 mm.
-- **Pumpen-Ansteuerung:** Logic-Level-N-MOSFET (Low-Side) + Freilaufdiode 1N5819, Gate 220 Ω, Pulldown 10 kΩ.
+- **MCU:** ESP32-C6-MINI-1 (WiFi 6, Deep-Sleep 7 µA, ADC1 auf IO0–IO6), 13,2 × 16,6 mm — Lader, LDO und USB sind eigene Bauteile (siehe `hardware/schaltplan_v1.md`).
+- **Pumpen-Ansteuerung:** Logic-Level-N-MOSFET (Low-Side) + Freilaufdiode 1N5819, **Gate 4,7 kΩ, Pulldown 47 kΩ** (Werte aus Review 1 korrigiert — maßgeblich ist `hardware/schaltplan_v1.md`).
 - **Sensor:** analoger Ausgang direkt an ADC1, VCC per GPIO schalten (nur während der Messung an); invertierte Kennlinie (trocken ≈ 2100–2600, nass ≈ 1200–1500).
-- **Akku:** Zelle mit Schutz-PCB, Laden über den XIAO-onboard-Lader (USB-C-Durchbruch in der Wulst).
+- **Akku:** Zelle mit Schutz-PCB, Laden über **MCP73831T-2 auf unserer Platine** (USB-C-Durchbruch in der Wulst).
 - **Strombudget:** Deep-Sleep µA-Bereich, Pumpe nur Minuten pro Zyklus → Versorgung für Wochen.
 
 ## Offene Punkte
