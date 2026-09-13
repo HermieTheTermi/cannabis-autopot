@@ -28,7 +28,7 @@ easyeda doc ls                       # Dokumente + UUIDs
 | Projekt | `SmartGrowTopf_V1` (uuid `51deea9fc24745be915d72e65813fa8b`) |
 | Schaltplan-Seite | `P1` (uuid `4f6771a27edec75b`) — **aktiv** |
 | PCB | `PCB1` (uuid `18b1cf4334ae3b53`) |
-| Connector-Fenster | `windowId 9537c67b-7e3b-4a8f-9e81-46b171012acc` |
+| Connector-Fenster | `windowId` ist **nicht stabil** — pro Sitzung neu bestimmen: `easyeda doc ls --window <id>` und das Fenster nehmen, das die Zieldatei listet |
 
 Immer mit `--project SmartGrowTopf_V1` arbeiten, Mutationen mit `--doc P1`.
 
@@ -36,15 +36,16 @@ Immer mit `--project SmartGrowTopf_V1` arbeiten, Mutationen mit `--doc P1`.
 
 Alle im Repo `~/Projekte/cannabis-autopot`:
 
-- `hardware/schaltplan_v1.md` (Stand 13.09.2026) — **Wahrheit**: Blockbild, Netztabelle,
-  Bauteilwerte, Pinbelegungen, Auslegung. **45 Netze, 64 bestückte Positionen, 11 Testpunkte
-  (TP1–TP11)**. Der eingecheckte EasyEDA-Bau ist älter (30 Netze, 11.09.2026) und muss neu
-  erzeugt werden.
+- `hardware/schaltplan_v1.md` (Stand 14.09.2026) — **Wahrheit**: Blockbild, Netztabelle,
+  Bauteilwerte, Pinbelegungen, Auslegung. **32 Netze, 52 bestückte Positionen, 6 Testpunkte
+  (TP1–TP6)**. Der Live-Bau in EasyEDA wurde am **14.09.2026** auf diesen Stand aufgebaut
+  (58 Bauteile, 32 Netze, 171 Verbindungen, `sch gate` pass) und der PCB-Bau per
+  `pcb import-changes` nachgezogen (58 Bauteile, 32 Netze).
 - `hardware/schaltplan_v1_netzliste.csv` — maschinenlesbare Netzliste (Bauteil, Pin, Netz).
 - `hardware/pcba_bom_jlc.csv` + `hardware/pcba_verfuegbarkeit_jlc.md` — LCSC-Codes,
   basic/extended, Lagerbestand.
-- `hardware/design/` — Python-Designmodell mit **29 mutationsgeprüften** Prüfungen
-  (`python3 hardware/design/report.py` → 29/29) und die Netzlisten-/BOM-Linter unter
+- `hardware/design/` — Python-Designmodell mit **24 mutationsgeprüften** Prüfungen
+  (`python3 hardware/design/report.py` → 24/24) und die Netzlisten-/BOM-Linter unter
   `scripts/`. Diese dienen der Gegenprüfung der EasyEDA-Ausgabe.
 - `docs/02_architektur-und-geometrie.md` — mechanische Wahrheit (Platine ≤ 38 mm breit,
   Antennen-Freistellung, Kammermaße).

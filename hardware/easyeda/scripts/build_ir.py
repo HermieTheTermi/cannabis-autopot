@@ -98,31 +98,12 @@ COMPS = [
     ("R_LIGHT", "C17414", "LICHT", "Licht-Lastwiderstand 10 k nach GND"),
     ("R_LIGHT_S", "C17513", "LICHT", "Licht-Serienschutz 1 k zum ADC"),
     ("C_LIGHT", "C49678", "LICHT", "ADC-Filter Licht 100 nF"),
-    # --- Erweiterung (13.09.2026) ---
-    ("J8", "C157925", "ERWEITERUNG", "I2C JST-XH 4P"),
-    ("Q2", "C15127", "ERWEITERUNG", "P-Kanal-Load-Switch VCC_EXT"),
-    ("R_GATE", "C17713", "ERWEITERUNG", "Gate-Pull-up Load-Switch 47 k"),
-    ("R_SDA_PU", "C17414", "ERWEITERUNG", "I2C SDA Pull-up 10 k an VCC_EXT"),
-    ("R_SCL_PU", "C17414", "ERWEITERUNG", "I2C SCL Pull-up 10 k an VCC_EXT"),
-    ("R_SDA_S", "C17513", "ERWEITERUNG", "I2C SDA Serienschutz 1 k"),
-    ("R_SCL_S", "C17513", "ERWEITERUNG", "I2C SCL Serienschutz 1 k"),
-    ("J9", "C157928", "ERWEITERUNG", "Reserve-Analog JST-XH 3P"),
-    ("R_SPARE_AIN", "C17513", "ERWEITERUNG", "Reserve-AIN Serienschutz 1 k"),
-    ("C_SPARE", "C49678", "ERWEITERUNG", "ADC-Filter Reserve 100 nF"),
-    ("J10", "C157928", "ERWEITERUNG", "Reserve-Digital JST-XH 3P"),
-    ("R_SPARE_IO", "C17513", "ERWEITERUNG", "Reserve-IO Serienschutz 1 k"),
-    ("TP7", "NO_LCSC_TP", "ERWEITERUNG", "Loetpad IO15"),
-    ("TP8", "NO_LCSC_TP", "ERWEITERUNG", "Loetpad IO16 (TXD0)"),
-    ("TP9", "NO_LCSC_TP", "ERWEITERUNG", "Loetpad IO17 (RXD0)"),
-    ("TP10", "NO_LCSC_TP", "ERWEITERUNG", "Loetpad IO22"),
-    ("TP11", "NO_LCSC_TP", "ERWEITERUNG", "Loetpad IO23"),
 ]
 
 # Loetpads/Bohrungen ohne Bestueckungsplatz (Sonderfall): sie stehen in der IR und
-# werden geprueft, aber weder platziert noch verdrahtet. TP7-TP11 waren hier frueher
-# ausgenommen; laut Auftrag sollen sie als echte Loetpads auf der Platine liegen und
-# werden daher wie TP1-TP6 platziert und verdrahtet. Die Ausnahmeliste bleibt fuer
-# kuenftige Sonderfaelle bestehen.
+# werden geprueft, aber weder platziert noch verdrahtet. TP1-TP6 und J6 liegen als
+# echte Loetpads/Bohrungen auf der Platine und werden platziert und verdrahtet.
+# Die Ausnahmeliste bleibt fuer kuenftige Sonderfaelle bestehen.
 NO_PLACE = set()
 
 # Bauteile ohne LCSC-Code (keine JLC-Bestueckung): ueber eigene Geraete abgedeckt.
@@ -131,32 +112,6 @@ EXTRA_DEVICES = {
     "NO_LCSC_J6": ("0819f05c4eef4c71ace90d822a990e87", "72b9be21f4ad4d53a42178e79731ea2a", "HDR-TH 2P 2,54 mm"),
     # 5010-Testpad TH (Messspitze)
     "NO_LCSC_TP": ("0819f05c4eef4c71ace90d822a990e87", "1d9ad61565194f66a2bb1c832c938c3d", "5010-Testpoint"),
-}
-
-# Neue Bibliotheksteile (13.09.2026). Die Device-UUIDs wurden live mit
-# `easyeda lib by-lcsc --lcsc C157925,C15127` in der Bibliothek
-# 0819f05c4eef4c71ace90d822a990e87 aufgeloest (13.09.2026) und haben Vorrang.
-# `_synth_uuid` bleibt als deterministischer Rueckfall fuer kuenftig nachkommende
-# Teile, die noch nicht live gemessen sind. Pin-Namen/-Nummern stammen aus dem
-# Datenblatt bzw. aus der gleichen JST-XH-Serie wie C157928.
-def _synth_uuid(tag):
-    return hashlib.sha1(("SmartGrowTopf_V1/lib/" + tag).encode()).hexdigest()[:32]
-
-
-NEW_PARTS = {
-    "C157925": {
-        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-        "deviceUuid": "a65b5fe9c5534a8fbb37396bd1bbe8a2",   # JST S4B-XH-A(LF)(SN), live
-        "name": "CONN-TH_S4B-XH-A-LF-SN",
-        "pins": [{"number": str(i), "name": str(i)} for i in range(1, 5)],
-    },
-    "C15127": {
-        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-        "deviceUuid": "f58385f66b144586baef3753ba84f65d",   # AOS AO3401A, live
-        "name": "AO3401A",
-        "pins": [{"number": "1", "name": "G"}, {"number": "2", "name": "S"},
-                 {"number": "3", "name": "D"}],
-    },
 }
 
 # Netze: Name -> (scope, role)
@@ -297,10 +252,6 @@ def main():
         if lcsc in EXTRA_DEVICES:
             lib, uuid, devname = EXTRA_DEVICES[lcsc]
             pins = tables.get(uuid)
-        elif lcsc in NEW_PARTS:
-            rec = NEW_PARTS[lcsc]
-            lib, uuid, devname = rec['libraryUuid'], rec['deviceUuid'], rec['name']
-            pins = [dict(p) for p in rec['pins']]
         else:
             rec = lcsc_map.get(lcsc)
             if not rec:

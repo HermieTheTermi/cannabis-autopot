@@ -137,27 +137,6 @@ Hardware-Details: `hardware/schaltplan_v1.md` §8.
 
 ---
 
-## 4c. I²C-Erweiterungsbus (J8, ergänzt 13.09.2026)
-
-Hardware: `hardware/schaltplan_v1.md` §9. Der Stecker J8 führt **GND · SDA (IO18) · SCL (IO19) ·
-VCC_EXT** heraus; die Pull-ups (2 × 10 kΩ) hängen an **VCC_EXT**. VCC_EXT kommt aus dem
-P-Kanal-Load-Switch Q2 und ist **beim Start aus** (Gate-Pull-up 47 kΩ auf +3V3, IO20 mit WPU beim
-Reset). SDA/SCL haben je 1 kΩ in Reihe.
-
-**Firmware-Option (noch nicht implementiert):**
-
-1. **Rail schalten:** `EXT_EN` (IO20) als Ausgang. `LOW` = Rail an (Q2 leitet), `HIGH` bzw.
-   hochohmig = Rail aus. Im Deep-Sleep IO20 hoch ⇒ Rail aus ⇒ kein Standby-Strom über
-   angeschlossene Module und keiner über die Pull-ups.
-2. **Bus-Scan:** mit `Wire.begin(/*SDA=*/18, /*SCL=*/19)` und einem Scan der Adressen 0x08–0x77
-   prüfen, welche Module stecken; Ergebnis im Telegram-Tagesreport / `/status` ausgeben.
-3. **Autarkie:** Module nur während der Messung bestromen (Rail an, 5–10 ms warten, lesen, Rail
-   aus) — analog zum geschalteten SENSOR_PWR der analogen Sensoren.
-4. **Option:** den analogen Lichtsensor auf J7 durch einen digitalen I²C-Lichtsensor ersetzen
-   (dann das Licht-Gate aus 4b auf den digitalen Wert umstellen).
-
----
-
 ## 5. State-Machine (Kern der Firmware)
 
 **Regel:** komplett `millis()`-getrieben, **kein `delay()`** — der Webserver und Telegram-Polling müssen parallel weiterlaufen.

@@ -68,6 +68,8 @@ NETS = {
     "SENSOR_RAW": ("signal",       W_SIGNAL, 0.15, 0.01, "TOP", "Sensor-AOUT"),
     "SENSOR_AOUT":("signal",       W_SIGNAL, 0.15, 0.01, "TOP", "ADC1_CH0, 100 nF Filter"),
     "SENSOR_PWR": ("signal",       W_SIGNAL, 0.15, 0.02, "TOP", "Sensor-VCC geschaltet"),
+    "LIGHT_RAW":  ("signal",       W_SIGNAL, 0.15, 0.001, "TOP", "Lichtsensor-Ausgang J7 (R_LIGHT 10k nach GND)"),
+    "LIGHT_AOUT": ("signal",       W_SIGNAL, 0.15, 0.001, "TOP", "ADC1_CH4 (IO4), 100 nF Filter"),
     "VBAT_SENSE": ("signal",       W_SIGNAL, 0.15, 0.00002, "TOP", "ADC1_CH1, 200k-Teiler"),
     "USB_DP":     ("diff-pair",    W_SIGNAL, 0.15, 0.01, "TOP", "USB D+ (Full Speed), paarweise + laengengleich"),
     "USB_DM":     ("diff-pair",    W_SIGNAL, 0.15, 0.01, "TOP", "USB D- (Full Speed), paarweise + laengengleich"),
@@ -115,7 +117,7 @@ def build():
         nets[name] = entry
     return {
         "project": "SmartGrowTopf_V1",
-        "stand": "2026-09-11",
+        "stand": "2026-09-14",
         "basis": "IPC-2221A (aussen), dT = 10 K, 1 oz Kupfer, 2 Lagen",
         "formula": "A[mil^2] = (I / (k * dT^0.44))^(1/0.725), k=0.048 aussen; Breite = A / 1,378 mil",
         "inputs_a": {

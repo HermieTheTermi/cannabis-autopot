@@ -71,22 +71,14 @@ Stand: 11.09.2026 (Projektstart) · Geometrie-Details: [`02_architektur-und-geom
 - **Pin-Korrektur (13.09.2026):** IO4/IO5 sind **keine boot-kritischen** Strapping-Pins — ihre
   Strap-Funktion ist nur die SDIO-Slave-Flankenneigung (Wert 0 erlaubt/ohne SDIO wirkungslos).
   Boot-kritisch sind ausschließlich **GPIO8, GPIO9, GPIO15**. IO4 ist damit als ADC1_CH4 nutzbar.
-- **Pinordnung (13.09.2026):** Alle 3-poligen Stecker (J2 Feuchte, J7 Licht, J9 Reserve-Analog,
-  J10 Reserve-Digital) haben **GND–VCC–SIG**: Pin 1 = GND, **Pin 2 = VCC** (geschaltetes
+- **Pinordnung (13.09.2026):** Die 3-poligen Stecker (J2 Feuchte, J7 Licht) haben
+  **GND–VCC–SIG**: Pin 1 = GND, **Pin 2 = VCC** (geschaltetes
   SENSOR_PWR), Pin 3 = Signal. Nur der mittlere Pin ist gegen Umdrehen invariant; liegt dort VCC,
   kann ein verkehrt gecrimpter Stecker **nie 3,3 V auf einen MCU-Pin** legen und **nie die
   Sensorversorgung über unsere Masse kurzschließen**. Fehlerfall neu: GND/SIG tauschen, der
   1-kΩ-Serienwiderstand je Signalleitung (zwischen Stecker und MCU) begrenzt den Strom auf ≈ 3 mA
   → **keine Funktion, kein Schaden**. Aderfarben-Empfehlung: schwarz = GND, rot = VCC, gelb = SIG.
-- **Erweiterungsstecker (13.09.2026):** Die freien GPIOs werden herausgeführt, damit später
-  weitere Sensoren möglich sind, **ohne** die 38-mm-Platine neu zu layouten:
-  **J8** = JST-XH 4-pol **I²C** (1 = GND · 2 = SDA/IO18 · 3 = SCL/IO19 · 4 = VCC_EXT) mit
-  **P-Kanal-Load-Switch Q2**; VCC_EXT ist nur auf Anforderung an (Gate-Pull-up = **aus beim Reset**,
-  Fail-safe), die 2 × 10 kΩ Pull-ups hängen an VCC_EXT (nicht +3V3) → kein Busstrom im Aus-Zustand.
-  **J9** = Reserve-Analog an **IO5 (ADC1_CH5)**, **J10** = Reserve-Digital an **IO21** (WPU beim
-  Reset dokumentiert). Die restlichen Pins **IO15, IO16, IO17, IO22, IO23** liegen als **Lötpads
-  TP7–TP11** (keine Stecker, keine BOM-Position). Alle Stecker sind **gerastete JST-XH**
-  (physischer Verpolschutz); Stecker-Typen nicht mischen.
+  Alle Stecker sind **gerastete JST-XH** (physischer Verpolschutz); Stecker-Typen nicht mischen.
 - **Akku:** Zelle mit Schutz-PCB, Laden über **MCP73831T-2 auf unserer Platine** (USB-C-Durchbruch in der Wulst).
 - **Bedienung:** **externer Taster** am Gehäuse (Nachfüllen quittieren). Auf der Platine nur zwei Lötpads/Bohrungen (J6) + Pull-up 10 kΩ + 100 nF — der Taster sitzt **nicht** auf der Platine. Der Taster hängt an **IO6 (LP_GPIO6)** und **weckt das Gerät aus dem Deep-Sleep** (EXT1).
 - **Anzeige:** **rote LED D5 „Tank leer"** an IO7 auf der Platine (1 kΩ, 1,3 mA — Firmware soll blinken statt dauerleuchten, siehe `hardware/schaltplan_v1.md` §7.4); **grüne Status-LED D2** an IO14 (R4 220 Ω, Vf 2,85 V — grün = Betrieb, **rot bleibt der Warnung vorbehalten**); Ladestatus zeigt der Lader selbst.

@@ -1,10 +1,10 @@
 # Mutationstest: beißen die Prüfungen wirklich?
 
-Stand: 13.09.2026 (ergänzt um Erweiterungsstecker und Pinordnung) · Verifikation des Prüfpakets
+Stand: 14.09.2026 (Rückbau der GPIO-Erweiterung; Pinordnung bleibt) · Verifikation des Prüfpakets
 `hardware/design/` durch den Koordinator (**nicht** durch den Code-Autor). Ein Test, der immer
-besteht, ist wertlos — deshalb wurde **jede der 29 Prüfungen einzeln sabotiert** (16 im ersten
-Durchgang, 3 für Taster/Tank-LED, 1 für den LED-Headroom, 4 für den Lichtsensor, 5+ für die
-Pinordnung/Erweiterung) und geprüft, ob der Test rot wird.
+besteht, ist wertlos — deshalb wurde **jede der heute 24 Prüfungen einzeln sabotiert** (16 im ersten
+Durchgang, 3 für Taster/Tank-LED, 1 für den LED-Headroom, 4 für den Lichtsensor; die 5 Mutationen
+der am 14.09.2026 entfernten GPIO-Erweiterung entfallen) und geprüft, ob der Test rot wird.
 
 ## Aufbau
 
@@ -90,33 +90,16 @@ zieht den ADC über R_LIGHT auf 0 V („dunkel"), die Bewässerung bleibt erlaub
 GPIO8/GPIO9/GPIO15 — IO4/IO5 sind nur SDIO-Straps und als ADC nutzbar. Der Taster-Wecktest
 (Prüfung 21) führt IO4/IO5 weiterhin als Strapping und schließt sie für die Weckquelle aus.
 
-### Nachtrag 4 — Pinordnung und Erweiterungsstecker (13.09.2026)
+### Nachtrag 4 — entfallen: Pinordnung/Erweiterungsstecker (13.09.2026, entfernt 14.09.2026)
 
-Anlass: J2/J7 auf GND–VCC–SIG umgestellt, J8 (I²C) mit Load-Switch, J9/J10 und TP7–TP11 ergänzt.
-Alle Mutationen wurden **real in einer Repo-Kopie** ausgeführt (`design/report.py`, Exit-Code und
-Fehlerliste ausgewertet).
+Anlass war der GPIO-Ausbau (J8 I²C mit Load-Switch Q2, J9/J10, TP7–TP11) zusammen mit der
+Pinordnung GND–VCC–SIG. Mit dem Rückbau der GPIO-Erweiterung am 14.09.2026 sind auch die dafür
+eingeführten Prüfungen **Stecker-Pinordnung, Serienwiderstand Signale, Load-Switch-Fail-safe,
+Erweiterungs-Pins** und **I2C-Pull-ups** entfallen; ihre Mutationen entfallen ersatzlos.
 
-| # | Prüfung | Mutation | Ergebnis |
-|---|---|---|---|
-| 23 | Stecker-Pinordnung | J2 zurück auf die alte Ordnung (VCC auf Pin 1) | ✅ Pin 2 ≠ SENSOR_PWR → FEHLER |
-| 24 | Serienwiderstand Signale | R_SDA_S auf beiden Seiten auf SDA_MCU gelegt (umgangen) | ✅ „NICHT-Reihe" → FEHLER |
-| 25 | Load-Switch-Fail-safe | R_GATE von +3V3 auf GND gehängt | ✅ kein Pull-up auf Quellpotential → FEHLER |
-| 26 | Erweiterungs-Pins | IO15 durch IO8 ersetzt (Doppelbelegung + Strapping) | ✅ Strapping/Doppelbelegung → FEHLER |
-| 27 | I2C-Pull-ups | R_SDA_PU von VCC_EXT auf +3V3 gehängt | ✅ Pull-up am Rail → FEHLER |
-| 13 | ADC-Filter (Reserve) | C_SPARE 100 nF → 10 µF | ✅ 10 ms > 5 ms → FEHLER |
-| 16 | Licht-Stecker offen | LIGHT_RAW von J7-3 auf J7-2 | ✅ Signal nicht auf Pin 3 → FEHLER |
-| 12 | Standby-Budget | J7-2 von SENSOR_PWR auf +3V3 | ✅ Sensor dauerhaft versorgt → FEHLER |
-
-**Ergebnis: 8 von 8 Mutationen wurden erkannt (Exit 1).** Die Prüfungen 23–27 lesen die
-Verschaltung aus der Netzliste und die Werte aus `schaltplan_v1.md`; hart verdrahtet sind nur die
-IO-Nummern und die Ordnung GND/VCC/SIG (als Konstante mit Begründung im Code).
-
-**Wichtige Design-Erkenntnis:** Werte, die in **zwei** Tabellen von `schaltplan_v1.md` stehen,
-werden vom Modell aus der **letzten** Tabelle gelesen. Damit eine Änderung an der maßgeblichen
-Bauteiltabelle (§3) nicht von einer späteren Übersichtstabelle maskiert wird, trägt die
-Übersicht in §9.3 **keine** Spalte „Wert" mehr → `design/circuit.py` liest ausschließlich §3.
-Der erste Mutationstest dieser Runde hat genau diese Maskierung aufgedeckt (C_SPARE-Mutation
-überlebte), sie ist jetzt behoben.
+**Ergebnis:** Es verbleiben **24 mutationsgeprüfte Prüfungen**; die noch gültigen Mutationen zu
+Licht-Stecker und Standby-Budget stehen in Nachtrag 3. Die Aussage **GND–VCC–SIG** bleibt als
+Dokumentation für die Stecker J2/J7 erhalten (nicht mehr als eigene Prüfung).
 
 ## Erkenntnisse aus dem Mutationstest
 
@@ -153,7 +136,7 @@ Der erste Mutationstest dieser Runde hat genau diese Maskierung aufgedeckt (C_SP
 
 ```bash
 cd hardware
-python3 design/report.py            # 29 Prüfungen, Exit 0 = alles im Rahmen
+python3 design/report.py            # 24 Prüfungen, Exit 0 = alles im Rahmen
 python3 ../scripts/check_netlist.py         # Netzlisten-Struktur
 python3 ../scripts/check_bom_consistency.py # Schaltplan ↔ JLCPCB-BOM
 ```

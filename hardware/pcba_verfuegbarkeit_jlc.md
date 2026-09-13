@@ -22,7 +22,6 @@ Seit der Umstellung auf das nackte **ESP32-C6-MINI-1** gibt es **keine Lücke me
 | U7 | **MAX809TEUR+T** (Unterspannung 3,08 V) | `C16711` | SOT-23 | expand | 13.783 | $0,5628 |
 | J5 | USB-C Buchse 16-pol | `C165948` | SMD | expand | 245.957 | $0,1858 |
 | Q1 | MOSFET **AO3400A** | `C20917` | SOT-23 | **base** | 901.401 | $0,0846 |
-| Q2 | Si2301 P-MOSFET (High-Side optional) | `C10487` | SOT-23 | **base** | 163.319 | $0,1032 |
 | D1 | Schottky **1N5819WS** (Freilauf) | `C191023` | SOD-323 | **base** | 5.648.846 | $0,0137 |
 | D3 | Schottky (Klemmzweig MAX809) | `C191023` | SOD-323 | **base** | 5.648.846 | $0,0137 |
 | ~~U5~~ | ~~SS34~~ | – | – | – | – | – | **entfallen (Review 3):** die geplante VBUS→VBAT-Brücke würde die Zelle ungeregelt laden. Kein Verpolschutz in Reihe (Zelle hat PCM) |
@@ -52,19 +51,9 @@ Seit der Umstellung auf das nackte **ESP32-C6-MINI-1** gibt es **keine Lücke me
 | J1 | Akku JST PH 2,0 mm 2-pol | `C54582899` | SMD 2 mm gewinkelt | expand | 2.308 | $0,0466 |
 | J2 | Sensor JST-XH 2,5 mm 3-pol | `C157928` | THT gewinkelt | expand | 146.324 | $0,0745 |
 | J4 | Pumpe JST-XH 2,5 mm 2-pol | `C157931` | THT gewinkelt | expand | 50.464 | $0,1014 |
-| J8 | **JST-XH 4-pol** (S4B-XH-A, gewinkelt) | `C157925` | THT 2,5 mm | expand | 89.223 | $0,0863 |
-| Q2 | **AO3401A** (P-Kanal-Load-Switch) | `C15127` | SOT-23 | **base** | 591.277 | $0,0908 |
 
-**Nachtrag 13.09.2026 (J8/Q2, live geprüft):** J8 = JST-XH 4-pol `C157925`, Q2 = AO3401A `C15127`.
-Der **LCSC-Retailbestand** (Einzelhandel, lcsc.com-Produktseite, abgelesen 13.09.2026) weicht vom
-JLC-Bestand ab: **J8 `C157925` 1.831.820** Stück und **Q2 `C15127` 4.435** Stück. Für die PCBA
-zählt ausschließlich der oben genannte **JLC-/SMT-Bestand** (89.223 bzw. 591.277, JLCPCB-Parts-API
-`selectSmtComponentList/v2`, Staffel 10 Stück). Q2 ist **Basic** (keine Extended-Gebühr); der
-J8-Kandidat C144395 (B4B-XH-A, stehend, 93.439 Stück, $0,0587) wurde zugunsten der gewinkelten,
-seriengleichen Bauform verworfen.
-
-**Handling-Kosten:** 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 = **11 Extended-Positionen ≈ 33 USD**
-(U1, U3, U4, U6, U7, J5, C3, J1, J2, J4, J8). Alles andere ist Basic (inkl. Q2). Das ist der Preis dafür, dass
+**Handling-Kosten:** 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 = **10 Extended-Positionen ≈ 30 USD**
+(U1, U3, U4, U6, U7, J5, C3, J1, J2, J4). Alles andere ist Basic. Das ist der Preis dafür, dass
 Lader, LDO und USB jetzt auf unserer Platine sitzen statt im XIAO-Modul. Sparoptionen:
 RT9013-33 statt ME6211 ändert nichts (beide Extended), ein Basic-Äquivalent für den 100-µF-Puffer
 wäre noch zu suchen.
@@ -82,7 +71,6 @@ die eine Gehäuseöffnung und Randabstand erzwungen hätte. Damit lässt sich di
 | Bauteil | Quelle | Kernwerte |
 |---|---|---|
 | AO3400A | `aosmd.com/pdfs/datasheet/AO3400A.pdf` | VDS 30 V · ID 5,7 A · RDS(on) < 48 mΩ @ VGS 2,5 V · VGS(th) 0,65–1,45 V |
-| AO3401A | LCSC-Produktdaten `C15127` | P-Kanal · RDS(on) 47 mΩ @ VGS −10 V · 60 mΩ @ −4,5 V · **85 mΩ @ −2,5 V** |
 | 1N5819WS | LCSC-Datenblatt (Heketai) | VRRM 40 V · IF 1,0 A · IFSM 25 A · VF ≤ 0,60 V @ 1 A |
 | MAX809T | LCSC-Datenblatt | VTH 3,04/3,08/3,11 V · ICC 12 µA · push-pull aktiv-low |
 | MCP73831T-2 | LCSC-Datenblatt | **4,20 V** Ladeschluss (die -2-Variante) · 15–500 mA · UVLO 3,45/3,38 V |

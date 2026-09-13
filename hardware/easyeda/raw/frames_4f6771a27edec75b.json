@@ -153,21 +153,6 @@
    "lineType": 1
   },
   {
-   "id": "frame-erweiterung",
-   "title": "Erweiterung (I2C + Reserve)",
-   "rect": {
-    "minX": 50,
-    "minY": 260,
-    "maxX": 1300,
-    "maxY": 560
-   },
-   "titleX": 62,
-   "titleY": 548,
-   "fontSize": 20,
-   "color": "#AA00AA",
-   "lineType": 1
-  },
-  {
    "id": "frame-licht",
    "title": "Lichtsensor-Eingang",
    "rect": {

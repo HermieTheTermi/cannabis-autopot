@@ -117,7 +117,7 @@ prüfbar und versioniert sind:
 
 | Datei | Rolle |
 |---|---|
-| `hardware/easyeda/netclass_spec.json` | **die Definition**: je Netz Rolle, Sollbreite, Minimum, Strom, Erwärmung, Spannungsabfall (alle **45 Netze** der aktuellen Netzliste, inkl. I²C/VCC_EXT/Reserve) |
+| `hardware/easyeda/netclass_spec.json` | **die Definition**: je Netz Rolle, Sollbreite, Minimum, Strom, Erwärmung, Spannungsabfall (alle **32 Netze** der aktuellen Netzliste) |
 | `hardware/easyeda/scripts/netclass_spec.py` | rechnet die Definition nach IPC-2221A aus (reproduzierbar) |
 | `hardware/easyeda/scripts/pcb_widths.py` | **setzt sie auf der Platine durch**: `--check` (Rückgabewert 1 bei Verstoß, gate-fähig), `--apply` (zu dünne Bahnen nachziehen), `--route-plan` (Verdrahtungsbefehle ausgeben) |
 | `hardware/easyeda/s0_spec.json` → `netClasses` | Kurzfassung für den P-Phasen-Import |

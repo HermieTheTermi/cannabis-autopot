@@ -93,45 +93,5 @@
     "componentId": "cmp-C_LIGHT",
     "before": "C_LIGHT",
     "after": "C15"
-  },
-  {
-    "componentId": "cmp-R_SDA_PU",
-    "before": "R_SDA_PU",
-    "after": "R19"
-  },
-  {
-    "componentId": "cmp-R_SCL_PU",
-    "before": "R_SCL_PU",
-    "after": "R20"
-  },
-  {
-    "componentId": "cmp-R_SDA_S",
-    "before": "R_SDA_S",
-    "after": "R21"
-  },
-  {
-    "componentId": "cmp-R_SCL_S",
-    "before": "R_SCL_S",
-    "after": "R22"
-  },
-  {
-    "componentId": "cmp-R_GATE",
-    "before": "R_GATE",
-    "after": "R23"
-  },
-  {
-    "componentId": "cmp-R_SPARE_AIN",
-    "before": "R_SPARE_AIN",
-    "after": "R24"
-  },
-  {
-    "componentId": "cmp-R_SPARE_IO",
-    "before": "R_SPARE_IO",
-    "after": "R25"
-  },
-  {
-    "componentId": "cmp-C_SPARE",
-    "before": "C_SPARE",
-    "after": "C16"
   }
 ]
