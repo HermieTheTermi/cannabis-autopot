@@ -50,38 +50,47 @@
      "parts": ["Q1", "R1", "R2", "D1", "D3", "C11", "J4"]},
     {"name": "Sensor-Eingang", "kind": "SENSOR", "page": "Systemuebersicht", "zone": "left-bottom",
      "parts": ["J2", "R6", "TP6"]},
+    {"name": "Lichtsensor-Eingang", "kind": "SENSOR", "page": "Systemuebersicht", "zone": "left-bottom",
+     "parts": ["J7", "R17", "R18", "C15"]},
+    {"name": "Erweiterung (I2C + Reserve)", "kind": "IO", "page": "Systemuebersicht", "zone": "left-bottom",
+     "parts": ["J8", "Q2", "R19", "R20", "R21", "R22", "R23", "R24", "R25", "C16", "J9", "J10"]},
     {"name": "UART-Debug-Pads (DNP)", "kind": "DEBUG", "page": "Systemuebersicht", "zone": "left-bottom",
      "parts": ["R16", "TP1"]}
   ],
   "pages": [
     {"name": "Systemuebersicht", "sheet": "A2", "modules": ["USB-C Eingang & ESD", "Laden (MCP73831)",
       "Akku & Puffer", "Unterspannungswaechter (MAX809)", "3V3-LDO (ME6211)", "ESP32-C6-MCU + Beschaltung",
-      "Taster & LEDs", "Pumpentreiber (Low-Side)", "Sensor-Eingang", "UART-Debug-Pads (DNP)"]}
+      "Taster & LEDs", "Pumpentreiber (Low-Side)", "Sensor-Eingang", "Lichtsensor-Eingang",
+      "Erweiterung (I2C + Reserve)", "UART-Debug-Pads (DNP)"]}
   ],
   "interfaces": [
     {"name": "USB-C 5V (Laden)", "ref": "J5", "edge": "top", "facing": "user-facing"},
     {"name": "Akku 1S LiPo", "ref": "J1", "facing": "internal"},
     {"name": "Bodenfeuchte-Sensor", "ref": "J2", "facing": "internal"},
+    {"name": "Lichtsensor (extern)", "ref": "J7", "facing": "internal"},
+    {"name": "I2C-Erweiterung (VCC_EXT)", "ref": "J8", "facing": "internal"},
+    {"name": "Reserve-Analog (IO5)", "ref": "J9", "facing": "internal"},
+    {"name": "Reserve-Digital (IO21)", "ref": "J10", "facing": "internal"},
     {"name": "Pumpe", "ref": "J4", "facing": "internal"},
     {"name": "Externer Taster (Gehaeuse)", "ref": "J6", "facing": "internal"},
     {"name": "Testpads", "ref": "TP1", "facing": "internal"}
   ],
-  "flow": ["USB", "POWER", "PROTECTION", "MCU", "OTHER", "SENSOR"],
+  "flow": ["USB", "POWER", "PROTECTION", "MCU", "OTHER", "SENSOR", "IO"],
   "flowAxis": "x",
   "costTier": "budget",
   "notes": {
     "S0-Quellen": [
-      "hardware/schaltplan_v1.md (Wahrheit: Bloecke, 30 Netze, Werte, Pinbelegungen)",
-      "hardware/schaltplan_v1_netzliste.csv (maschinenlesbare Netzliste)",
+      "hardware/schaltplan_v1.md (Wahrheit: Bloecke, 45 Netze, Werte, Pinbelegungen)",
+      "hardware/schaltplan_v1_netzliste.csv (maschinenlesbare Netzliste, 45 Netze / 64 bestueckte Positionen)",
       "hardware/pcba_bom_jlc.csv + hardware/pcba_verfuegbarkeit_jlc.md (LCSC, basic/extended)",
-      "hardware/design/ (Python-Designmodell, 20/20 Pruefungen)",
+      "hardware/design/ (Python-Designmodell, 29/29 Pruefungen)",
       "docs/02_architektur-und-geometrie.md (Mechanik: Platine <= 38 mm breit, Antennen-Freistellung)"
     ],
     "Versorgungskette": "USB-C 5V -> MCP73831 -> VBAT (3,0-4,2 V) -> { Pumpe, MAX809, Teiler, ME6211 -> 3V3 }",
     "kein_Verpolschutz": "bewusste Entscheidung (Review 3): keine Schottky-Bruecke VBUS->VBAT, D4 ersatzlos entfallen",
     "offen": [
       "Antennen-Freistellung und RF-Endtest am Gehaeuse (docs/02)",
-      "Pinbelegungen der vier mit Warnung markierten ICs gegen das Footprint pruefen (MCP73831, ME6211, MAX809, AO3400A)",
+      "Pinbelegungen der mit Warnung markierten ICs gegen das Footprint pruefen (MCP73831, ME6211, MAX809, AO3400A, AO3401A)",
       "Polaritaet J1 (Akku) im Layout pruefen"
     ]
   }

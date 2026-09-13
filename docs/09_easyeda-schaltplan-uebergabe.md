@@ -36,13 +36,15 @@ Immer mit `--project SmartGrowTopf_V1` arbeiten, Mutationen mit `--doc P1`.
 
 Alle im Repo `~/Projekte/cannabis-autopot`:
 
-- `hardware/schaltplan_v1.md` (23 KB) — **Wahrheit**: Blockbild, Netztabelle, Bauteilwerte,
-  Pinbelegungen, Auslegung. 30 Netze, 48 bestückte Positionen, 6 Testpunkte.
+- `hardware/schaltplan_v1.md` (Stand 13.09.2026) — **Wahrheit**: Blockbild, Netztabelle,
+  Bauteilwerte, Pinbelegungen, Auslegung. **45 Netze, 64 bestückte Positionen, 11 Testpunkte
+  (TP1–TP11)**. Der eingecheckte EasyEDA-Bau ist älter (30 Netze, 11.09.2026) und muss neu
+  erzeugt werden.
 - `hardware/schaltplan_v1_netzliste.csv` — maschinenlesbare Netzliste (Bauteil, Pin, Netz).
 - `hardware/pcba_bom_jlc.csv` + `hardware/pcba_verfuegbarkeit_jlc.md` — LCSC-Codes,
   basic/extended, Lagerbestand.
-- `hardware/design/` — Python-Designmodell mit **20 mutationsgeprüften** Prüfungen
-  (`python3 hardware/design/report.py` → 20/20) und die Netzlisten-/BOM-Linter unter
+- `hardware/design/` — Python-Designmodell mit **29 mutationsgeprüften** Prüfungen
+  (`python3 hardware/design/report.py` → 29/29) und die Netzlisten-/BOM-Linter unter
   `scripts/`. Diese dienen der Gegenprüfung der EasyEDA-Ausgabe.
 - `docs/02_architektur-und-geometrie.md` — mechanische Wahrheit (Platine ≤ 38 mm breit,
   Antennen-Freistellung, Kammermaße).

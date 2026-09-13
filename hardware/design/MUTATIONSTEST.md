@@ -1,8 +1,10 @@
 # Mutationstest: beißen die Prüfungen wirklich?
 
-Stand: 11.09.2026 · Verifikation des Prüfpakets `hardware/design/` durch den Koordinator
-(**nicht** durch den Code-Autor). Ein Test, der immer besteht, ist wertlos — deshalb wurde
-**jede der 20 Prüfungen einzeln sabotiert** (16 im ersten Durchgang, 3 für Taster/Tank-LED, 1 für den LED-Headroom) und geprüft, ob der Test rot wird.
+Stand: 13.09.2026 (ergänzt um Erweiterungsstecker und Pinordnung) · Verifikation des Prüfpakets
+`hardware/design/` durch den Koordinator (**nicht** durch den Code-Autor). Ein Test, der immer
+besteht, ist wertlos — deshalb wurde **jede der 29 Prüfungen einzeln sabotiert** (16 im ersten
+Durchgang, 3 für Taster/Tank-LED, 1 für den LED-Headroom, 4 für den Lichtsensor, 5+ für die
+Pinordnung/Erweiterung) und geprüft, ob der Test rot wird.
 
 ## Aufbau
 
@@ -29,8 +31,8 @@ Zusammenfassung am Ende der Ausgabe plus der Exit-Code.
 | 15 | EN-RC | C4 1 µF → 1 nF | ✅ 10 µs < 1 ms → FEHLER |
 | 16 | Netzstruktur | R6 in der Netzliste umbenannt (nur ein Netz) | ✅ Befund erkannt → FEHLER |
 
-**Ergebnis: 20 von 20 Prüfungen sind nachweislich wirksam.** Der Exit-Code ist im Fehlerfall
-1, im Gutfall 0 — die Prüfungen sind damit als Gate einsetzbar.
+**Ergebnis: 20 von 20 Prüfungen des ersten Pakets sind nachweislich wirksam.** Der Exit-Code ist
+im Fehlerfall 1, im Gutfall 0 — die Prüfungen sind damit als Gate einsetzbar.
 
 ### Nachtrag 11.09.2026 — Taster und Tank-LED (Nummern nach dem heutigen Stand: 15, 17, 18)
 
@@ -67,6 +69,55 @@ Die Prüfungen 15–17 lesen ihre Werte aus Netzliste und Schaltplan (Pull-up-Ve
 Entprellzeit, IO-Nummer am Tasterpin, LED-Vorwiderstand); hart verdrahtet sind nur die
 Datenblatt-Fakten (LP-GPIOs = IO0–IO7, Strapping = IO4/IO5/IO8/IO9/IO15, Vf rot ≈ 2,0 V).
 
+### Nachtrag 3 — Lichtsensor und Licht-Gate (13.09.2026)
+
+Anlass: externer Lichtsensor an J7, ADC auf IO4, vier neue Prüfungen + erweitertes Standby-Budget.
+Alle Mutationen wurden **real in einer Repo-Kopie** ausgeführt (`design/report.py`, Exit-Code und
+Fehlerliste ausgewertet).
+
+| # | Prüfung | Mutation | Ergebnis |
+|---|---|---|---|
+| 14 | Licht-ADC-Filter | C_LIGHT 100 nF → 10 µF | ✅ 10 ms > 5 ms → FEHLER |
+| 15 | Licht-Kontrast | R_LIGHT 10 kΩ → 100 Ω | ✅ hell nur 186 < 3000 Counts → FEHLER |
+| 16 | Licht-Stecker offen | R_LIGHT von GND nach +3V3 | ✅ kein definierter 0-V-Pfad → FEHLER |
+| 12 | Standby-Budget | J7 Pin 1 von SENSOR_PWR auf +3V3 | ✅ Sensor dauerhaft versorgt → FEHLER |
+| 22 | Pin-Disziplin | Licht-AOUT von IO4 auf IO8 | ✅ boot-kritischer Strap-Pin + Pin 22 doppelt → FEHLER |
+| 22 | Pin-Disziplin | Licht-AOUT auf IO2 (wie Pumpe) | ✅ Pin 5 doppelt + falscher ADC-Kanal → FEHLER |
+
+Die Prüfung „Licht-Stecker offen" belegt den **unkritischen Fehlerfall**: Ein abgezogener Sensor
+zieht den ADC über R_LIGHT auf 0 V („dunkel"), die Bewässerung bleibt erlaubt. Die Prüfung
+„Pin-Disziplin" setzt die im Dokument korrigierte Aussage um: boot-kritisch sind nur
+GPIO8/GPIO9/GPIO15 — IO4/IO5 sind nur SDIO-Straps und als ADC nutzbar. Der Taster-Wecktest
+(Prüfung 21) führt IO4/IO5 weiterhin als Strapping und schließt sie für die Weckquelle aus.
+
+### Nachtrag 4 — Pinordnung und Erweiterungsstecker (13.09.2026)
+
+Anlass: J2/J7 auf GND–VCC–SIG umgestellt, J8 (I²C) mit Load-Switch, J9/J10 und TP7–TP11 ergänzt.
+Alle Mutationen wurden **real in einer Repo-Kopie** ausgeführt (`design/report.py`, Exit-Code und
+Fehlerliste ausgewertet).
+
+| # | Prüfung | Mutation | Ergebnis |
+|---|---|---|---|
+| 23 | Stecker-Pinordnung | J2 zurück auf die alte Ordnung (VCC auf Pin 1) | ✅ Pin 2 ≠ SENSOR_PWR → FEHLER |
+| 24 | Serienwiderstand Signale | R_SDA_S auf beiden Seiten auf SDA_MCU gelegt (umgangen) | ✅ „NICHT-Reihe" → FEHLER |
+| 25 | Load-Switch-Fail-safe | R_GATE von +3V3 auf GND gehängt | ✅ kein Pull-up auf Quellpotential → FEHLER |
+| 26 | Erweiterungs-Pins | IO15 durch IO8 ersetzt (Doppelbelegung + Strapping) | ✅ Strapping/Doppelbelegung → FEHLER |
+| 27 | I2C-Pull-ups | R_SDA_PU von VCC_EXT auf +3V3 gehängt | ✅ Pull-up am Rail → FEHLER |
+| 13 | ADC-Filter (Reserve) | C_SPARE 100 nF → 10 µF | ✅ 10 ms > 5 ms → FEHLER |
+| 16 | Licht-Stecker offen | LIGHT_RAW von J7-3 auf J7-2 | ✅ Signal nicht auf Pin 3 → FEHLER |
+| 12 | Standby-Budget | J7-2 von SENSOR_PWR auf +3V3 | ✅ Sensor dauerhaft versorgt → FEHLER |
+
+**Ergebnis: 8 von 8 Mutationen wurden erkannt (Exit 1).** Die Prüfungen 23–27 lesen die
+Verschaltung aus der Netzliste und die Werte aus `schaltplan_v1.md`; hart verdrahtet sind nur die
+IO-Nummern und die Ordnung GND/VCC/SIG (als Konstante mit Begründung im Code).
+
+**Wichtige Design-Erkenntnis:** Werte, die in **zwei** Tabellen von `schaltplan_v1.md` stehen,
+werden vom Modell aus der **letzten** Tabelle gelesen. Damit eine Änderung an der maßgeblichen
+Bauteiltabelle (§3) nicht von einer späteren Übersichtstabelle maskiert wird, trägt die
+Übersicht in §9.3 **keine** Spalte „Wert" mehr → `design/circuit.py` liest ausschließlich §3.
+Der erste Mutationstest dieser Runde hat genau diese Maskierung aufgedeckt (C_SPARE-Mutation
+überlebte), sie ist jetzt behoben.
+
 ## Erkenntnisse aus dem Mutationstest
 
 1. **Prüfung 3 (Klemmstrom) reproduziert genau den Review-1-Fehler.** Mit R1 = 220 Ω zieht die
@@ -102,7 +153,7 @@ Datenblatt-Fakten (LP-GPIOs = IO0–IO7, Strapping = IO4/IO5/IO8/IO9/IO15, Vf ro
 
 ```bash
 cd hardware
-python3 design/report.py            # 20 Prüfungen, Exit 0 = alles im Rahmen
+python3 design/report.py            # 29 Prüfungen, Exit 0 = alles im Rahmen
 python3 ../scripts/check_netlist.py         # Netzlisten-Struktur
 python3 ../scripts/check_bom_consistency.py # Schaltplan ↔ JLCPCB-BOM
 ```

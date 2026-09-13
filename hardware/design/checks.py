@@ -19,7 +19,58 @@ CheckResult = namedtuple("CheckResult", "name bestanden ist soll begruendung")
 LP_GPIO_MIN, LP_GPIO_MAX = 0, 7
 # Espressif-Modul-Datenblatt: "Strapping pin: GPIO8 and GPIO9 · MTMS and MTDI",
 # "GPIO15". MTMS = GPIO4, MTDI = GPIO5, dazu GPIO8, GPIO9 und GPIO15.
+# Achtung: "Strapping" != "boot-kritisch". IO4/IO5 sind nur SDIO-Strap
+# (Flankenneigung) und beeinflussen den Boot NICHT.
 STRAPPING_GPIOS = frozenset({4, 5, 8, 9, 15})
+
+# Boot-kritische Strapping-Pins des ESP32-C6. Nur diese duerfen NICHT fuer
+# Sensor oder Pumpe verwendet werden: GPIO8/GPIO9 bestimmen den Boot-Modus
+# (nur 8=0 UND 9=0 ist ungueltig), GPIO15 waehlt die JTAG-Quelle (mit den
+# Default-eFuses wirkungslos).
+BOOT_CRITICAL_STRAPPING_GPIOS = frozenset({8, 9, 15})
+
+# Modulpin der ESP32-C6-MINI-1 fuer die Erweiterungspins (aus dem Modulsymbol
+# bzw. dem Espressif-Datenblatt, Pin-Tabelle).
+EXT_IO_PIN = {
+    5: 10,   # ADC1_CH5, J9 Reserve-Analog
+    8: 22,   # Strapping (Boot-Modus), nur Pull-up
+    9: 23,   # Strapping (Boot-Modus), Boot-Taster
+    15: 20,  # Strapping (JTAG-Quelle); nur Lotpad TP7
+    18: 24,  # I2C SDA
+    19: 25,  # I2C SCL
+    20: 26,  # Load-Switch-Eingang (WPU beim Reset)
+    21: 27,  # J10 Reserve-Digital
+    22: 28,  # Lotpad TP10
+    23: 29,  # Lotpad TP11
+    16: 31,  # TXD0
+    17: 30,  # RXD0
+}
+
+# 3-polige Sensor-/Reserve-Stecker mit der Ordnung GND-VCC-SIG:
+# Stecker -> Name des Signalnetzes an Pin 3.
+DREIPOL_STECKER = {
+    "J2": "SENSOR_RAW",
+    "J7": "LIGHT_RAW",
+    "J9": "SPARE_AIN_RAW",
+    "J10": "SPARE_IO_RAW",
+}
+
+# Signaleingang am Stecker -> (Stecker, Signalpin, Serien-R, Steckernetz,
+# MCU-Netz, erwartete IO-Nummer). Der Serienwiderstand muss zwischen Stecker
+# und MCU liegen.
+SERIEN_EINGAENGE = (
+    ("J2", "3", "R6", "SENSOR_RAW", "SENSOR_AOUT", 0),
+    ("J7", "3", "R_LIGHT_S", "LIGHT_RAW", "LIGHT_AOUT", 4),
+    ("J9", "3", "R_SPARE_AIN", "SPARE_AIN_RAW", "SPARE_AIN", 5),
+    ("J10", "3", "R_SPARE_IO", "SPARE_IO_RAW", "SPARE_IO", 21),
+    ("J8", "2", "R_SDA_S", "SDA", "SDA_MCU", 18),
+    ("J8", "3", "R_SCL_S", "SCL", "SCL_MCU", 19),
+)
+
+# IO20 soll beim Reset einen internen Weak-Pull-up haben (Espressif
+# ESP32-C6-Datenblatt, Abschnitt Strapping/Reset). Der Wert steht als Konstante
+# hier, damit die Aussage an einer Stelle dokumentiert und pruefbar ist.
+IO20_WPU_AT_RESET = True
 
 # Typische Flussspannung der 0805-LEDs je LCSC-Code (Datenblattwerte).
 # C84256: NATIONSTAR NCD0805R1, rot, 615-630 nm -> Vf ca. 2,0 V
@@ -66,6 +117,23 @@ def _nets_of(designator):
     return result
 
 
+def _pins_of(designator):
+    """Pin -> Netz fuer alle Pins eines Bauteils aus der Netzliste.
+
+    Pin-Nummern werden auf die fuehrende Ziffer reduziert ("3 Drain" -> "3",
+    "24 IO18" -> "24"), damit Stecker- und Halbleiterpins vergleichbar sind.
+    """
+    result = {}
+    for net, nodes in circuit.load_netlist().items():
+        for comp, pin in nodes:
+            if comp != designator:
+                continue
+            m = re.match(r"\s*([0-9]+)\b", pin)
+            key = m.group(1) if m else pin.strip()
+            result.setdefault(key, net)
+    return result
+
+
 def _btn_net():
     """Name des Tasternetzes, auf dem R_BTN und C_BTN gemeinsam liegen."""
     r_nets = _nets_of("R_BTN")
@@ -76,6 +144,29 @@ def _btn_net():
             "Tasternetz nicht eindeutig: R_BTN auf %s, C_BTN auf %s"
             % (sorted(r_nets), sorted(c_nets)))
     return shared[0]
+
+
+def _u1_io_on_net(net):
+    """(IO-Nummer, roher Pinname) des U1-Pins auf einem Netz, sonst Fehler."""
+    for comp, pin in circuit.load_netlist().get(net, []):
+        if comp == "U1":
+            m = re.search(r"IO([0-9]+)", pin)
+            if m:
+                return int(m.group(1)), pin.strip()
+    raise circuit.CircuitError("kein U1-IO-Pin auf Netz %s" % net)
+
+
+def _light_dark_counts(r_load):
+    """ADC-Counts im Dunkeln aus ICEO_max am Lastwiderstand."""
+    v_dark = circuit.LIGHT_SENS_DARK_UA * 1e-6 * r_load
+    return v_dark / (circuit.ADC_VREF_MV_ATTEN12 / 1000.0) * circuit.ADC_COUNTS_12BIT
+
+
+def _light_counts_at(lux, r_load):
+    """ADC-Counts bei einer Beleuchtungsstaerke, gesaettigt auf den Vollausschlag."""
+    vref = circuit.ADC_VREF_MV_ATTEN12 / 1000.0
+    i = circuit.LIGHT_SENS_UA_REF * 1e-6 * (lux / circuit.LIGHT_SENS_LUX_REF)
+    return min(i * r_load, vref) / vref * circuit.ADC_COUNTS_12BIT
 
 
 def check_ladestrom():
@@ -233,39 +324,127 @@ def check_uv_staffelung():
 
 
 def check_standby_budget():
-    """Ruhestrom und Monatsverbrauch im Deep-Sleep."""
+    """Ruhestrom und Monatsverbrauch im Deep-Sleep; Lichtsensor geschaltet."""
     sys = circuit.load_system()
+    # Der Lichtsensor haengt an SENSOR_PWR (IO3, im Deep-Sleep aus) und traegt
+    # deshalb nichts zum Ruhestrom bei. An +3V3 wuerde er das Budget sprengen.
+    # Pinordnung seit 13.09.2026: GND-VCC-SIG, VCC liegt auf Pin 2.
+    j7_net = circuit.net_of("J7", "2")
+    switched = j7_net == "SENSOR_PWR"
+    light_ua = 0.0  # nur waehrend der Messung; SENSOR_PWR ist im Sleep aus
     total_ua = (sys["module_sleep_ua"] + sys["ldo_quiescent_ua"]
-                + sys["max809_quiescent_ua"] + sys["divider_current_ua"])
+                + sys["max809_quiescent_ua"] + sys["divider_current_ua"]
+                + light_ua)
     monthly_mah = total_ua / 1000.0 * 24.0 * 30.0
-    ok = total_ua <= 100.0 and monthly_mah <= 0.05 * sys["battery_mah"]
+    ok = (total_ua <= 100.0 and monthly_mah <= 0.05 * sys["battery_mah"]
+          and switched)
     return CheckResult(
         "Standby-Budget", ok,
-        "%s, %s/Monat (%s der Zelle)"
+        "%s, %s/Monat (%s der Zelle); Lichtsensor an %s %s (+%s)"
         % (_f(total_ua, 1, "µA"), _f(monthly_mah, 1, "mAh"),
-           _f(monthly_mah / sys["battery_mah"] * 100.0, 2, "%")),
-        "<= 100 µA und <= 5 %/Monat von 1500 mAh",
+           _f(monthly_mah / sys["battery_mah"] * 100.0, 2, "%"),
+           j7_net, "geschaltet" if switched else "DAUERHAFT -> FEHLER",
+           _f(light_ua, 1, "µA")),
+        "<= 100 µA und <= 5 %/Monat von 1500 mAh, Sensor an SENSOR_PWR",
         "Summe Modul 7 µA + LDO 40 µA + MAX809 12 µA + Teiler 10,5 µA "
-        "(schaltplan_v1.md 6.3)")
+        "(schaltplan_v1.md 6.3); Lichtsensor an geschaltetem SENSOR_PWR "
+        "=> 0 µA im Deep-Sleep")
 
 
 def check_adc_filter():
-    """RC-Zeitkonstanten der beiden ADC-Kanaele."""
+    """RC-Zeitkonstanten der ADC-Kanaele (Feuchte, VBAT, Reserve-Analog)."""
     r6 = circuit.parse_ohm(circuit.part("R6")["value"])
     c9 = circuit.parse_farad(circuit.part("C9")["value"])
     r3a = circuit.parse_ohm(circuit.part("R3a")["value"])
     r3b = circuit.parse_ohm(circuit.part("R3b")["value"])
     c10 = circuit.parse_farad(circuit.part("C10")["value"])
+    r_spare = circuit.parse_ohm(circuit.part("R_SPARE_AIN")["value"])
+    c_spare = circuit.parse_farad(circuit.part("C_SPARE")["value"])
     t_sensor = r6 * c9
     r_par = 1.0 / (1.0 / r3a + 1.0 / r3b)
     t_vbat = r_par * c10
-    ok = t_sensor <= 5e-3 and t_vbat <= 50e-3
+    t_spare = r_spare * c_spare
+    ok = t_sensor <= 5e-3 and t_vbat <= 50e-3 and t_spare <= 5e-3
     return CheckResult(
         "ADC-Filter", ok,
-        "R6·C9 %s, (R3a||R3b)·C10 %s"
-        % (_f(t_sensor * 1000.0, 2, "ms"), _f(t_vbat * 1000.0, 1, "ms")),
-        "R6·C9 <= 5 ms und (R3a||R3b)·C10 <= 50 ms",
-        "Espressif-ADC: 0,1 µF Filter; Zeitkonstante begrenzt das Einschwingen")
+        "R6·C9 %s, (R3a||R3b)·C10 %s, R_SPARE_AIN·C_SPARE %s"
+        % (_f(t_sensor * 1000.0, 2, "ms"), _f(t_vbat * 1000.0, 1, "ms"),
+           _f(t_spare * 1000.0, 2, "ms")),
+        "R6·C9 <= 5 ms, (R3a||R3b)·C10 <= 50 ms und R_SPARE_AIN·C_SPARE <= 5 ms",
+        "Espressif-ADC: 0,1 µF Filter; Zeitkonstante begrenzt das Einschwingen "
+        "(Reserve-Analog J9 im Muster von SENSOR_AOUT)")
+
+
+def check_light_adc_filter():
+    """RC-Zeitkonstante des Licht-ADC-Kanals (R_LIGHT_S + C_LIGHT)."""
+    r = circuit.parse_ohm(circuit.part("R_LIGHT_S")["value"])
+    c = circuit.parse_farad(circuit.part("C_LIGHT")["value"])
+    tau = r * c
+    return CheckResult(
+        "Licht-ADC-Filter", tau <= 5e-3,
+        "R_LIGHT_S·C_LIGHT %s (R %s, C %s)"
+        % (_f(tau * 1000.0, 3, "ms"), _f(r / 1000.0, 1, "kΩ"),
+           _f(c * 1e9, 0, "nF")),
+        "R_LIGHT_S·C_LIGHT <= 5 ms",
+        "Espressif-ADC: 0,1 µF Filter; die Zeitkonstante begrenzt das "
+        "Einschwingen (gleiche Grenze wie R6·C9)")
+
+
+def check_light_contrast():
+    """Dunkel/Hell-Kontrast des ALS-PT19 am ADC (ADC_ATTEN_DB_12)."""
+    r = circuit.parse_ohm(circuit.part("R_LIGHT")["value"])
+    dark = _light_dark_counts(r)
+    bright = _light_counts_at(circuit.LIGHT_GROW_LUX, r)
+    vref = circuit.ADC_VREF_MV_ATTEN12 / 1000.0
+    lux_full = (vref / r) / (circuit.LIGHT_SENS_UA_REF * 1e-6) * circuit.LIGHT_SENS_LUX_REF
+    span = bright - dark
+    ok = (dark <= circuit.LIGHT_DARK_COUNTS
+          and bright >= circuit.LIGHT_BRIGHT_COUNTS
+          and span > 2.0 * circuit.LIGHT_HYSTERESE_COUNTS)
+    return CheckResult(
+        "Licht-Kontrast", ok,
+        "dunkel %s Counts, bei %s lx %s Counts (Spanne %s, Saettigung ab %s lx)"
+        % (_f(dark, 1, ""), _f(circuit.LIGHT_GROW_LUX, 0, ""),
+           _f(bright, 0, ""), _f(span, 0, ""), _f(lux_full, 0, "")),
+        "dunkel <= %s, hell >= %s, Spanne > 2 x %s Counts"
+        % (_f(circuit.LIGHT_DARK_COUNTS, 0, ""),
+           _f(circuit.LIGHT_BRIGHT_COUNTS, 0, ""),
+           _f(circuit.LIGHT_HYSTERESE_COUNTS, 0, "")),
+        "ALS-PT19-Datenblatt: ICEO <= 0,1 µA (dunkel), 15 µA typ @ 100 lx; "
+        "R_LIGHT 10 kΩ; ADC_ATTEN_DB_12 (0-3300 mV, 12 Bit)")
+
+
+def check_light_open_connector():
+    """Offener Stecker J7 darf den ADC nicht floaten lassen (R_LIGHT nach GND)."""
+    r_light = _nets_of("R_LIGHT")
+    r_series = _nets_of("R_LIGHT_S")
+    c_light = _nets_of("C_LIGHT")
+    j7 = _nets_of("J7")
+    r_ok = set(r_light) == {"LIGHT_RAW", "GND"} and r_light.get("GND") == "2"
+    series_ok = (set(r_series) == {"LIGHT_RAW", "LIGHT_AOUT"}
+                 and r_series.get("LIGHT_RAW") == "1"
+                 and r_series.get("LIGHT_AOUT") == "2")
+    c_ok = set(c_light) == {"LIGHT_AOUT", "GND"}
+    # Pinordnung seit 13.09.2026: GND-VCC-SIG, das Signal liegt auf Pin 3.
+    j7_ok = j7.get("LIGHT_RAW") == "3"
+    io, _pin = _u1_io_on_net("LIGHT_AOUT")
+    adc_ok = io == 4
+    ok = r_ok and series_ok and c_ok and j7_ok and adc_ok
+    r = circuit.parse_ohm(circuit.part("R_LIGHT")["value"])
+    rs = circuit.parse_ohm(circuit.part("R_LIGHT_S")["value"])
+    return CheckResult(
+        "Licht-Stecker offen", ok,
+        "R_LIGHT LIGHT_RAW/GND %s, R_LIGHT_S in Reihe %s, C_LIGHT "
+        "LIGHT_AOUT/GND %s, J7-3 auf LIGHT_RAW %s, ADC IO%d %s (Pfad nach "
+        "GND ueber %s)"
+        % ("OK" if r_ok else "FEHLER", "OK" if series_ok else "FEHLER",
+           "OK" if c_ok else "FEHLER", "OK" if j7_ok else "FEHLER",
+           io, "OK" if adc_ok else "FEHLER",
+           _f((r + rs) / 1000.0, 0, "kΩ")),
+        "R_LIGHT LIGHT_RAW->GND, R_LIGHT_S LIGHT_RAW->LIGHT_AOUT, "
+        "C_LIGHT LIGHT_AOUT->GND, J7 Pin 3 auf LIGHT_RAW, ADC = IO4",
+        "offener Stecker: R_LIGHT zieht LIGHT_RAW auf 0 V, ueber R_LIGHT_S "
+        "liegt der ADC auf 0 V -> kein schwebender Eingang")
 
 
 def check_led_stroeme():
@@ -404,6 +583,210 @@ def check_btn_wake():
         grund)
 
 
+def check_pin_disziplin():
+    """PUMP_EN auf IO2, Lichtsensor auf IO4, kein boot-kritischer Strap-Pin."""
+    light_io, light_pin = _u1_io_on_net("LIGHT_AOUT")
+    pump_io, pump_pin = _u1_io_on_net("PUMP_EN")
+
+    # Doppelbelegung: dieselbe U1-Pin-Nummer auf zwei Netzen. Aggregat-Zeilen
+    # (GND-Bereiche, VDD33, EPAD) tragen keine einzelne Pin-Nummer.
+    pin_nets = defaultdict(set)
+    for net, nodes in circuit.load_netlist().items():
+        for comp, pin in nodes:
+            if comp != "U1":
+                continue
+            raw = pin.strip()
+            if "/" in raw or "alle" in raw or "EPAD" in raw:
+                continue
+            m = re.match(r"([0-9]+)\b", raw)
+            if m:
+                pin_nets[int(m.group(1))].add(net)
+    dupes = sorted(p for p, ns in pin_nets.items() if len(ns) > 1)
+
+    boot = BOOT_CRITICAL_STRAPPING_GPIOS
+    light_boot = light_io in boot
+    pump_boot = pump_io in boot
+    expected = light_io == 4 and pump_io == 2
+    ok = not light_boot and not pump_boot and not dupes and expected
+    return CheckResult(
+        "Pin-Disziplin", ok,
+        "Licht %s, Pumpe %s, boot-kritisch Licht %s/Pumpe %s, "
+        "Doppelbelegung %s"
+        % (light_pin, pump_pin,
+           "JA" if light_boot else "nein", "JA" if pump_boot else "nein",
+           ", ".join("Pin %d" % p for p in dupes) or "keine"),
+        "Licht = IO4 (Pin 9, ADC1_CH4), Pumpe = IO2 (Pin 5), kein "
+        "boot-kritischer Strapping-Pin (GPIO8/9/15), kein Pin doppelt",
+        "ESP32-C6: boot-kritisch nur GPIO8/GPIO9 (Boot-Modus) und GPIO15 "
+        "(JTAG-Quelle); IO4/IO5 sind nur SDIO-Strap und als ADC nutzbar")
+
+
+def check_stecker_pinordnung():
+    """Alle 3-poligen Stecker: Pin 1 = GND, Pin 2 = SENSOR_PWR, Pin 3 = Signal."""
+    teile = []
+    ok = True
+    for ref in sorted(DREIPOL_STECKER):
+        sig_net = DREIPOL_STECKER[ref]
+        n = _pins_of(ref)
+        p1, p2, p3 = n.get("1"), n.get("2"), n.get("3")
+        good = p1 == "GND" and p2 == "SENSOR_PWR" and p3 == sig_net
+        ok = ok and good
+        teile.append("%s: 1=%s 2=%s 3=%s %s"
+                     % (ref, p1, p2, p3, "OK" if good else "FEHLER"))
+    return CheckResult(
+        "Stecker-Pinordnung", ok, "; ".join(teile),
+        "Pin 1 = GND, Pin 2 = SENSOR_PWR (VCC), Pin 3 = Signal (J2/J7/J9/J10)",
+        "3-poliger Stecker: nur der mittlere Pin ist gegen Umdrehen invariant. "
+        "VCC auf Pin 2 kann nie 3,3 V auf einen MCU-Pin legen und nie die "
+        "Sensorversorgung ueber unsere Masse kurzschliessen. Fehlerfall bei "
+        "verkehrtem Stecker: GND/SIG tauschen, der 1-kOhm-Serienwiderstand "
+        "begrenzt den Strom (ca. 3 mA, pin-sicher)")
+
+
+def check_erweiterung_serienwiderstand():
+    """Jeder Signaleingang am Stecker hat einen 1-kOhm-Serienwiderstand."""
+    teile = []
+    ok = True
+    for ref, sig_pin, r_des, conn_net, mcu_net, io_soll in SERIEN_EINGAENGE:
+        r_nets = _nets_of(r_des)
+        series_ok = set(r_nets) == {conn_net, mcu_net}
+        try:
+            r_val = circuit.parse_ohm(circuit.part(r_des)["value"])
+        except circuit.CircuitError:
+            r_val = None
+        val_ok = r_val is not None and abs(r_val - 1000.0) < 1.0
+        conn_ok = _pins_of(ref).get(sig_pin) == conn_net
+        io = None
+        try:
+            io, _ = _u1_io_on_net(mcu_net)
+        except circuit.CircuitError:
+            io = None
+        io_ok = io == io_soll
+        good = series_ok and val_ok and conn_ok and io_ok
+        ok = ok and good
+        teile.append("%s.%s->%s(%s), %s, %s, %s"
+                     % (ref, sig_pin, r_des, mcu_net,
+                        "Reihe" if series_ok else "NICHT-Reihe",
+                        "1k" if val_ok else "Wert?",
+                        "IO%d" % io if io_ok else "IO?"))
+    return CheckResult(
+        "Serienwiderstand Signale", ok, "; ".join(teile),
+        "je Signaleingang ein 1-kOhm-Widerstand zwischen Steckerpin und MCU-Pin",
+        "Steckerkabel koennen Fehlerströme in die Pins treiben; der Serien-R "
+        "begrenzt sie. Gilt auch fuer SDA/SCL und die Reserve-Eingaenge "
+        "(R6, R_LIGHT_S, R_SPARE_AIN, R_SPARE_IO, R_SDA_S, R_SCL_S)")
+
+
+def check_load_switch_failsafe():
+    """VCC_EXT haengt an Q2 (P-Kanal); Gate-Pull-up nach +3V3 => aus beim Reset."""
+    q2 = _pins_of("Q2")
+    r_gate = _nets_of("R_GATE")
+    src_ok = q2.get("2") == "+3V3"
+    drain_ok = q2.get("3") == "VCC_EXT"
+    gate_ok = q2.get("1") == "EXT_EN"
+    r_ok = set(r_gate) == {"+3V3", "EXT_EN"} and r_gate.get("+3V3") == "1"
+    r_val = circuit.parse_ohm(circuit.part("R_GATE")["value"])
+    val_ok = abs(r_val - 47000.0) < 1.0
+    io = None
+    try:
+        io, _ = _u1_io_on_net("EXT_EN")
+    except circuit.CircuitError:
+        io = None
+    io_ok = io == 20
+    # Fail-safe: der Pull-up haelt das Gate ohne aktiven GPIO auf dem
+    # Quellpotential (+3V3) -> VGS = 0 -> Q2 sperrt -> VCC_EXT aus.
+    failsafe = src_ok and gate_ok and r_ok and val_ok and IO20_WPU_AT_RESET
+    ok = src_ok and drain_ok and gate_ok and r_ok and val_ok and io_ok and failsafe
+    return CheckResult(
+        "Load-Switch-Fail-safe", ok,
+        "Q2 S->%s D->%s G->%s, R_GATE an +3V3 %s, IO%d %s, IO20-WPU %s"
+        % (q2.get("2"), q2.get("3"), q2.get("1"),
+           "OK" if r_ok else "FEHLER", io if io is not None else -1,
+           "OK" if io_ok else "FEHLER",
+           "ja" if IO20_WPU_AT_RESET else "nein"),
+        "Source +3V3, Drain VCC_EXT, Gate ueber 47 kOhm auf +3V3, IO20 zieht "
+        "das Gate nach unten, IO20 hat beim Reset WPU",
+        "Load-Switch aus = Fail-safe. Ohne GPIO-Treiber (Reset, Hochohmigkeit, "
+        "Deep-Sleep) liegt das Gate ueber 47 kOhm auf dem Quellpotential "
+        "(VGS = 0) und Q2 sperrt. IO20 hat beim Reset einen internen "
+        "Weak-Pull-up (Espressif ESP32-C6-Datenblatt), der das Gate zusaetzlich "
+        "hoch haelt -> VCC_EXT ist beim Start aus")
+
+
+def check_erweiterung_pins():
+    """Kein U1-Pin doppelt; boot-kritische Strapping-Pins nur wie vorgesehen."""
+    pin_net = defaultdict(set)
+    for net, nodes in circuit.load_netlist().items():
+        for comp, pin in nodes:
+            if comp != "U1":
+                continue
+            raw = pin.strip()
+            if "/" in raw or "alle" in raw or "EPAD" in raw:
+                continue
+            m = re.match(r"([0-9]+)\b", raw)
+            if m:
+                pin_net[int(m.group(1))].add(net)
+    dupes = sorted(p for p, ns in pin_net.items() if len(ns) > 1)
+
+    def io_netze(io):
+        p = EXT_IO_PIN.get(io)
+        return pin_net.get(p, set()) if p is not None else set()
+
+    # Boot-kritisch: GPIO8/GPIO9 (Boot-Modus) und GPIO15 (JTAG-Quelle). GPIO15
+    # ist mit Default-eFuses wirkungslos und hier nur auf einem Lotpad
+    # herausgefuehrt -> kein Stecker, kein Treiber.
+    strap_ok = (io_netze(8) == {"GPIO8_STRAP"}
+                and io_netze(9) == {"BOOT"}
+                and io_netze(15) == {"SPARE_IO15"})
+    io15 = circuit.load_netlist().get("SPARE_IO15", [])
+    pad_ok = len(io15) >= 2 and all(c == "U1" or c.startswith("TP")
+                                    for c, _ in io15)
+    expected = {5: "SPARE_AIN", 18: "SDA_MCU", 19: "SCL_MCU", 20: "EXT_EN",
+                21: "SPARE_IO", 22: "SPARE_IO22", 23: "SPARE_IO23",
+                16: "UART_TX", 17: "UART_RX"}
+    zuord_ok = all(io_netze(io) == {net} for io, net in expected.items())
+    ok = not dupes and strap_ok and pad_ok and zuord_ok
+    return CheckResult(
+        "Erweiterungs-Pins", ok,
+        "Doppelbelegung %s; Strapping %s; IO15 nur Lotpad %s; Zuordnung %s"
+        % (", ".join("Pin %d" % p for p in dupes) or "keine",
+           "OK" if strap_ok else "FEHLER",
+           "OK" if pad_ok else "FEHLER",
+           "OK" if zuord_ok else "FEHLER"),
+        "kein U1-Pin doppelt, GPIO8/GPIO9/GPIO15 nicht funktional belegt, "
+        "IO15 nur als Lotpad, Erweiterungspins wie geplant",
+        "GPIO8/GPIO9 sind boot-kritisch; GPIO15 waehlt nur die JTAG-Quelle "
+        "(Default-eFuses = wirkungslos) und wird bewusst nur als Lotpad "
+        "herausgefuehrt. Mengenpruefung der Netzliste gegen Pin-Doppelbelegung")
+
+
+def check_i2c_pullups():
+    """I2C-Pull-ups 10k an VCC_EXT (nicht +3V3); VCC_EXT ist geschaltet."""
+    sda = _nets_of("R_SDA_PU")
+    scl = _nets_of("R_SCL_PU")
+    r_sda = circuit.parse_ohm(circuit.part("R_SDA_PU")["value"])
+    r_scl = circuit.parse_ohm(circuit.part("R_SCL_PU")["value"])
+    sda_ok = sda.get("SDA") == "1" and sda.get("VCC_EXT") == "2"
+    scl_ok = scl.get("SCL") == "1" and scl.get("VCC_EXT") == "2"
+    val_ok = abs(r_sda - 10000.0) < 1.0 and abs(r_scl - 10000.0) < 1.0
+    q2 = _pins_of("Q2")
+    switched = q2.get("3") == "VCC_EXT" and q2.get("2") == "+3V3"
+    auf_rail = "+3V3" in (set(sda.values()) | set(scl.values()))
+    ok = sda_ok and scl_ok and val_ok and switched and not auf_rail
+    return CheckResult(
+        "I2C-Pull-ups", ok,
+        "R_SDA_PU %s an VCC_EXT (Pin %s), R_SCL_PU %s an VCC_EXT (Pin %s), "
+        "VCC_EXT geschaltet %s"
+        % (_f(r_sda / 1000.0, 1, "kΩ"), sda.get("VCC_EXT"),
+           _f(r_scl / 1000.0, 1, "kΩ"), scl.get("VCC_EXT"),
+           "OK" if switched else "FEHLER"),
+        "beide 10 kOhm, Pull-up-Seite VCC_EXT (nicht +3V3), VCC_EXT geschaltet",
+        "Im ausgeschalteten Zustand zieht der Bus keinen Strom, weil die "
+        "Pull-ups am geschalteten VCC_EXT haengen. 10 kOhm sind fuer kurze "
+        "Kabel (wenige cm bis ca. 30 cm) und die ueblichen 100-kHz/400-kHz-"
+        "I2C-Module plausibel")
+
+
 def check_en_rc():
     """EN-RC-Glied laut Espressif (10 kΩ + 1 µF, tSTBL 50 µs)."""
     r_en = circuit.parse_ohm(circuit.part("R_EN")["value"])
@@ -460,11 +843,20 @@ def run_all():
         check_uv_staffelung,
         check_standby_budget,
         check_adc_filter,
+        check_light_adc_filter,
+        check_light_contrast,
+        check_light_open_connector,
         check_led_stroeme,
         check_tank_led,
         check_led_headroom,
         check_btn_pullup,
         check_btn_wake,
+        check_pin_disziplin,
+        check_stecker_pinordnung,
+        check_erweiterung_serienwiderstand,
+        check_load_switch_failsafe,
+        check_erweiterung_pins,
+        check_i2c_pullups,
         check_en_rc,
         check_netzstruktur,
     ]

@@ -23,6 +23,18 @@ BOM_DECISION_PATH = HARDWARE_DIR / "bom_entscheidung.md"
 # Einpolige Elemente (Testpunkte), die nur auf einem Netz liegen duerfen.
 ONE_PIN_OK_PREFIX = ("TP",)
 
+# Datenblatt-Fakten zum Lichtsensor ALS-PT19-315C/L177/TR8 (LCSC C146233).
+# Der Sensor haengt extern an J7 und ist KEINE BOM-/PCBA-Position.
+LIGHT_SENS_LUX_REF = 100.0        # Bezugsbeleuchtungsstaerke des Datenblatts
+LIGHT_SENS_UA_REF = 15.0          # Kollektorstrom typisch bei 100 lx [µA]
+LIGHT_SENS_DARK_UA = 0.1          # ICEO max. im Dunkeln [µA]
+LIGHT_GROW_LUX = 10000.0          # typische LED-Growlampe am Canopy [lx]
+ADC_VREF_MV_ATTEN12 = 3300.0      # ADC_ATTEN_DB_12 (ATTEN3): 0..3300 mV
+ADC_COUNTS_12BIT = 4095.0         # 12-Bit-Vollausschlag
+LIGHT_DARK_COUNTS = 200.0         # absoluter Notwert "dunkel" [ADC-Counts]
+LIGHT_BRIGHT_COUNTS = 3000.0      # absoluter Notwert "hell" [ADC-Counts]
+LIGHT_HYSTERESE_COUNTS = 300.0    # Mindestabstand dunkel/hell [ADC-Counts]
+
 # SI-Praefixe in Basiseinheiten.
 _SI_PREFIX = {
     "p": 1e-12,

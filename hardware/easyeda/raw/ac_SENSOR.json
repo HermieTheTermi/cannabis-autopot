@@ -1,17 +1,17 @@
 {
  "connections": [
   {
-   "pin": "J2:3",
+   "pin": "J2:1",
    "kind": "ground",
    "net": "GND"
   },
   {
-   "pin": "J2:1",
+   "pin": "J2:2",
    "kind": "netport",
    "net": "SENSOR_PWR"
   },
   {
-   "pin": "J2:2",
+   "pin": "J2:3",
    "kind": "netport",
    "net": "SENSOR_RAW"
   },

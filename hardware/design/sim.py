@@ -97,6 +97,21 @@ def tank_led_blink(i_continuous, pulses, on_time_s, period_s):
     }
 
 
+def light_adc(r_load, vref_v, lux_values):
+    """ADC-Counts des ALS-PT19 am Lastwiderstand R_LIGHT (12 Bit, ATTEN3).
+
+    I(lux) = 15 µA · lux/100 lx; U = I · R_LIGHT, auf den ADC-Vollausschlag
+    begrenzt.  Zeigt, dass Dunkel nahe 0 liegt und Growlicht saettigt.
+    """
+    rows = []
+    for lux in lux_values:
+        i = circuit.LIGHT_SENS_UA_REF * 1e-6 * (lux / circuit.LIGHT_SENS_LUX_REF)
+        v = min(i * r_load, vref_v)
+        rows.append({"lux": lux, "v": v,
+                     "counts": v / vref_v * circuit.ADC_COUNTS_12BIT})
+    return rows
+
+
 def _blinkmuster():
     """Liest das dokumentierte Blinkmuster aus schaltplan_v1.md (Abschnitt 7.4)."""
     text = circuit.SCHEMATIC_PATH.read_text(encoding="utf-8")
@@ -136,6 +151,10 @@ def run_all():
     pulses, on_time_s, period_s = _blinkmuster()
     tank = tank_led_blink(i_tank, pulses, on_time_s, period_s)
 
+    r_light = circuit.parse_ohm(circuit.part("R_LIGHT")["value"])
+    light = light_adc(r_light, circuit.ADC_VREF_MV_ATTEN12 / 1000.0,
+                      [0.0, 100.0, 1000.0, circuit.LIGHT_GROW_LUX])
+
     return {
         "gate": gate,
         "inrush": inrush,
@@ -143,7 +162,9 @@ def run_all():
         "heat_max_w": heat_max,
         "heat_nom_w": heat_nom,
         "tank": tank,
-        "rb": {"R1": r1, "R2": r2, "C3": c3, "Ciss": ciss, "R_TANK": r_tank},
+        "light": light,
+        "rb": {"R1": r1, "R2": r2, "C3": c3, "Ciss": ciss, "R_TANK": r_tank,
+               "R_LIGHT": r_light},
     }
 
 

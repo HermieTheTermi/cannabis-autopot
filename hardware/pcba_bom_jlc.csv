@@ -7,22 +7,24 @@ MAX809TEUR+T,U7,SOT-23,C16711,1,extended - Unterspannungsschutz 3.08V
 USB-C-16P,J5,SMD,C165948,1,extended - Buchse
 100uF,C3,SMD D6.3x5.4,C970684,1,extended - Elko VBAT-Puffer; POLARITAET beachten
 JST-PH-2P,J1,SMD P2.0 gewinkelt,C54582899,1,extended - Akku; Polung im Layout pruefen
-JST-XH-3P,J2,THT P2.5 gewinkelt,C157928,1,extended - Sensor
+JST-XH-3P,J2 J7 J9 J10,THT P2.5 gewinkelt,C157928,4,extended - Sensor Feuchte + Licht + Reserve AIN + Reserve IO (VCC immer Pin 2)
+JST-XH-4P,J8,THT P2.5 gewinkelt,C157925,1,extended - I2C/Erweiterung (JST S4B-XH-A, gleiche Serie wie C157928)
 JST-XH-2P,J4,THT P2.5 gewinkelt,C157931,1,extended - Pumpe
 AO3400A,Q1,SOT-23,C20917,1,basic - Pumpentreiber
+AO3401A,Q2,SOT-23,C15127,1,basic - P-Kanal-Load-Switch fuer VCC_EXT (RDS(on) 85 mOhm @ VGS -2.5V)
 1N5819WS,D1 D3,SOD-323,C191023,2,basic - Freilauf + Klemmzweig MAX809
 LED-RED,D5 D_LEDCHG,0805,C84256,2,basic - Tank leer (Warnung) + Ladestatus
 LED-GREEN,D2,0805,C2297,1,basic - Status; 525nm Vf 2.85V (InGaN, nur 0.45V Reserve an 3V3)
-100nF,C1a C1b C9 C10 C11 C12 C_BTN,0805,C49678,7,basic - Modul-Decoupling, 2x ADC-Filter, Pumpen-EMI, MAX809, Taster-Entprellung
+100nF,C1a C1b C9 C10 C11 C12 C_BTN C_LIGHT C_SPARE,0805,C49678,9,basic - Modul-Decoupling, 4x ADC-Filter, Pumpen-EMI, MAX809, Taster-Entprellung
 22uF,C2,0805,C45783,1,basic - Bulk am Modul
 10uF,C5,0805,C15850,1,basic - LDO-Eingang (Espressif >=10uF)
 4.7uF,C7 C8,0805,C1779,2,basic - Lader Ein-/Ausgang (Datenblatt min. 4.7uF)
 1uF,C4 C6,0603,C15849,2,basic - EN-RC + LDO-Ausgang
 4.7k,R1,0805,C17673,1,basic - Gate-Serie (Klemmstrom 0.57mA)
-47k,R2,0805,C17713,1,basic - Gate-Pulldown
-10k,R_EN R_BOOT R_GPIO8 R_BTN,0805,C17414,4,basic - EN-RC + GPIO9 + GPIO8 + Taster-Pull-up
+47k,R2 R_GATE,0805,C17713,2,basic - Pumpen-Gate-Pulldown + Load-Switch-Gate-Pull-up
+10k,R_EN R_BOOT R_GPIO8 R_BTN R_LIGHT R_SDA_PU R_SCL_PU,0805,C17414,7,basic - EN-RC + GPIO9 + GPIO8 + Taster + Licht-Last + I2C-Pull-ups (VCC_EXT)
 3.9k,R_PROG,0805,C17614,1,basic - Ladestrom 256mA (Basic statt 4.02k/Extended)
-1k,R6 R_LEDCHG R_TANK,0805,C17513,3,basic - Lade-/Tank-LED + Sensor-Serie
+1k,R6 R_LEDCHG R_TANK R_LIGHT_S R_SDA_S R_SCL_S R_SPARE_AIN R_SPARE_IO,0805,C17513,8,basic - Lade-/Tank-LED + Sensor-/Licht-/I2C-/Reserve-Serie
 220R,R4,0805,C17557,1,basic - Status-LED gruen (Vf 2.85V, 0.45V Reserve)
 200k,R3a R3b,0805,C17539,2,basic - VBAT-Teiler 1:2
 5.1k,R5a R5b,0805,C27834,2,basic - USB-C CC

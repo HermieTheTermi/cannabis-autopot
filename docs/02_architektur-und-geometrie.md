@@ -54,8 +54,8 @@ Die Wulst sitzt seitlich am Mantel und **vollständig über dem Wasserstand** (k
 | Breite (tangential) | **60 mm** |
 | Tiefe (radial) | **40 mm** → Gesamtbreite an dieser Stelle ≈ **180 mm** |
 | Inhalt | ESP32-C6-MINI-1 (13,2 × 16,6 mm) + Lader/LDO/USB auf eigener PCB (Zielgröße ≤ 38 mm breit) + 2 Lötpads für den externen Taster, LiPo-Zelle 59 × 37 × 5 mm, Pumpe Ø 32 × 44 mm (OEM ABC-12527), Taster, LED |
-| Kanäle | **2 getrennte Schlitze**: Kabelkanal (Ø 4 mm) für den Sensor, Schlauchkanal (6 × 6 mm) für Saug- und Druckschlauch |
-| Öffnungen | USB-C-Durchbruch (Laden), **LED-Fenster (muss D2 und D5 abdecken)**, **Bohrung für den externen Taster** in der Außenwand, Deckel mit Dichtung |
+| Kanäle | **2 getrennte Schlitze**: Schlauchkanal (6 × 6 mm) für Saug- und Druckschlauch sowie Kabelkanal. Der Kabelkanal war für **1 Sensorleitung (Ø 4 mm)** ausgelegt; ab **13.09.2026** müssen **4 Kabel** (Feuchte J2, Licht J7, I²C J8, Reserve J9/J10) **plus Taster-Rückleitung** durchgeführt werden → **Querschnitt/Austritte sind offener Punkt** (§4 „Erweiterungs-Kabelaustritte") |
+| Öffnungen | USB-C-Durchbruch (Laden), **LED-Fenster (muss D2 und D5 abdecken)**, **Bohrung für den externen Taster** in der Außenwand, **4 Kabelaustritte** (Feuchte, Licht, I²C, Reserve) mit Tropfschlaufe, Deckel mit Dichtung |
 
 **Einbau von unten nach oben (Innenmaß):** Pumpe y 92–136 (44 mm Bauhöhe) · Platine darüber · Zelle hochkant dahinter (59 mm Höhe, 5 mm Bautiefe). Maße stammen aus den final gewählten Bauteilen — siehe `../hardware/bom_entscheidung.md`. Die Pumpenparameter in `case/params.scad` (Ø32 / 44 mm) sind noch nachzuziehen.
 
@@ -77,6 +77,51 @@ Die Wulst sitzt seitlich am Mantel und **vollständig über dem Wasserstand** (k
 - **Radialposition r ≈ 55 mm** (nah an der Innenwand, **außerhalb des Ringkreises**) → kein Tropfwasser auf die Sensor-Elektronik.
 - Kabelabgang oben über den Kragen nach außen, mit **Tropfschlaufe** vor dem Eintritt in die Wulst.
 - Gleiche Seite wie die Wulst (kurze Kabelführung); Ring und Sensor kollidieren nicht, da Ring-Ø ≤ 105 mm.
+
+### Lichtsensor (extern, ergänzt 13.09.2026)
+- **Sitzt nicht auf der Platine**, sondern am Ende eines Kabels: Der Nutzer platziert den Sensor
+  selbst am **Topfrand bzw. im Tent** — dort, wo das Growlicht tatsächlich ankommt (nicht im
+  Schatten der Wulst).
+- **Kabelabgang:** eigener kleiner Durchbruch/Schlitz in der Kragenauflage direkt neben dem
+  Feuchtesensor-Kabel; die ersten ~150 mm zusammen mit diesem im vorhandenen **Kabelkanal (Ø 4 mm)**
+  der Wulst führen und mit derselben **Tropfschlaufe** vor der Platinenkante enden. Der Kanal ist
+  mit zwei dünnen Sensorleitungen nicht überfüllt.
+- **Halteclip am Topfrand:** ein kleiner 3D-gedruckter Clip (Teil von `case/params.scad`) hält den
+  Sensorkopf nach außen/oben zeigend am Kragenrand fest — lösbar, ohne den Sensor zu verkleben.
+- **Kein eigenes Fenster in der Wulst nötig.** Das LED-Fenster im Deckel bleibt unverändert
+  (es deckt weiterhin nur D2 und D5 ab). Der Sensor wird **außerhalb** der geschlossenen
+  Elektronikkammer montiert, sodass auch die Dichtigkeit der Kammer unberührt bleibt.
+- **Leitungslänge:** standardmäßig ~300–500 mm (analoger Spannungsausgang, hochohmig); bei
+  Bedarf verdrillt mit GND führen. Der ADC-Pin ist durch R_LIGHT_S/C_LIGHT gegen Einstreuung
+  geschützt (siehe `hardware/schaltplan_v1.md` §8).
+
+### Erweiterungs-Kabelaustritte (ergänzt 13.09.2026)
+
+Mit dem Lichtsensor (J7) und den neuen Erweiterungssteckern (J8 I²C, J9 Reserve-Analog,
+J10 Reserve-Digital) verlassen **vier Kabel** plus die zweiadrige Taster-Rückleitung die
+Elektronikkammer. Die Wulst sieht heute dafür nur **einen Kabelkanal Ø 4 mm** vor.
+
+| Kabel | Stecker | Adern | Empfohlener Außendurchmesser |
+|---|---|---|---|
+| Feuchtesensor | J2 | 3 | Ø 4 mm (bestehend) |
+| Lichtsensor | J7 | 3 | Ø 4 mm (bestehend) |
+| I²C/Erweiterung | J8 | 4 | Ø 4–5 mm |
+| Reserve (AIN + IO) | J9 + J10 | je 3 (ggf. gemeinsam) | Ø 4 mm |
+| Taster | J6 (Lötpads) | 2 | Ø 2,5–3 mm |
+
+**Kanalquerschnitt:** Die bisherige Annahme „ein Ø-4-mm-Kanal" reicht rechnerisch nicht mehr —
+vier Kabel à Ø 4 mm passen nicht durch eine einzige Ø-4-mm-Bohrung. Vorschlag für das Gehäuse:
+
+- **ein größerer Kabelkanal (Ø 10–12 mm)** direkt neben dem Schlauchkanal oder
+- **vier einzelne Durchbrüche (Ø 4–5 mm)** über die Kragenauflage verteilt, jeder mit
+  Tropfschlaufe und Zugentlastung; der Taster bekommt seinen eigenen Ø-3-mm-Durchbruch
+  (bereits in §6 als offener Punkt geführt).
+
+**Offener Punkt für `case/params.scad` (Gehäuse-OpenSCAD):** Kanalquerschnitt, Anzahl und Lage
+der Austritte sowie die Tropfschlaufen sind im OpenSCAD-Code festzulegen und anhand der realen
+Kabeldurchmesser zu validieren. Solange die Wulst nur den einen Ø-4-mm-Kanal kennt, gilt:
+**nur Feuchte + Licht durchstecken**, die Erweiterungsstecker bis zur Gehäuse-Anpassung
+unbestückt lassen (sie sind ohnehin optional).
 
 ---
 
@@ -117,4 +162,7 @@ Faustwert für 1,9-L-Topf: 0,15–0,35 L pro Gießvorgang, im Wachstum alle 3–
 - [ ] Kalibrierwerte `dry`/`wet` am echten Substrat aufnehmen (nach erstem Bewässerungsdurchlauf)
 - [ ] **Taster-Bohrung** in der Außenwand festlegen (Position so, dass der Taster **ohne Öffnen** erreichbar ist) + Kabelweg für das zweiadrige Tasterkabel zur Platine
 - [ ] **LED-Fenster für zwei LEDs:** D2 (Status) und D5 (Tank leer) — ein gemeinsames Fenster oder zwei kleine Lichtleiter; beide Plätze müssen **außerhalb** des antennenfreien Bereichs oben liegen
+- [ ] **Halteclip + Kabeldurchbruch für den externen Lichtsensor** festlegen (Topfrand/Kragen, außerhalb der dichten Elektronikkammer) → `case/params.scad`
 - [ ] Firmware-Regel für D5 aufnehmen (blinken statt dauerleuchten: 1,3 mA dauerhaft wären 31 mAh/Tag und damit das 19-fache des Standby-Budgets)
+- [ ] **Erweiterungs-Kabelaustritte** festlegen: Kabelkanal von Ø 4 mm auf 4 Kabel + Taster erweitern (größerer Kanal oder vier Einzeldurchbrüche mit Tropfschlaufen) → `case/params.scad`
+- [ ] **J8/J9/J10** im Gehäuse berücksichtigen oder bis zur Gehäuse-Anpassung unbestückt lassen (VCC_EXT ist fail-safe aus, Pull-ups an VCC_EXT)

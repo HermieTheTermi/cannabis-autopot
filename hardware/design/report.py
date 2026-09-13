@@ -81,6 +81,13 @@ def print_sims(data):
           % (_f(tank["i_dauer_ma"], 2, "mA"), _f(tank["i_mittel_ma"], 2, "mA"),
              _f(tank["mittel_mah_pro_tag"], 2, "mAh"),
              _f(tank["dauer_mah_pro_tag"], 1, "mAh")))
+    light = data["light"]
+    print("Licht-ADC (ALS-PT19, R_LIGHT %s, ATTEN3 0-3300 mV, 12 Bit):"
+          % _f(data["rb"]["R_LIGHT"] / 1000.0, 0, "kΩ"))
+    print("   " + "; ".join(
+        "%s lx -> %s Counts (%s V)"
+        % (_f(e["lux"], 0, ""), _f(e["counts"], 0, ""), _f(e["v"], 3, ""))
+        for e in light))
     print("-" * 96)
 
 

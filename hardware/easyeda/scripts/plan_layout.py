@@ -6,14 +6,20 @@ Bounding-Boxen (raw/probe4.json) und rechnet daraus
 
   * raw/placement.json  — Modulblöcke, Bauteilpositionen (5-raw-Raster)
   * raw/place_all.sh    — die `easyeda sch place`-Befehle in Modulreihenfolge
+  * raw/frames.json (+ frames_<docId>.json, frames_P1.json) — Rahmen je Modul
 
 Verfahren: je Modul werden die Bauteile auf einem Regal-Raster (Shelf-Packing) gepackt,
 die Modulblöcke sitzen auf fest vorgegebenen Ankern (x0, y_top) in Leserichtung.
-Regeln: 5-raw-Raster, Ränder 25 raw, Titelblock-Freihaltezone (x>=468, y<=198) bleibt frei,
-Mindestabstand zwischen Bauteilen 40 raw (Platz für Stubs + Netport-Marker).
+Regeln: 5-raw-Raster, Ränder 50 raw, Titelblock-Freihaltezone (x>=1636, y<=198) bleibt frei,
+Mindestabstand zwischen Bauteilen 70 raw (Platz für Stubs + Netport-Marker).
+
+Loetpads aus raw/no_place.json werden nicht platziert; TP7-TP11 stehen dort nicht mehr
+und werden im MCU-Block fest verortet (PLACE_OVERRIDE), mit Abstand zum Pin-Fan von U1.
 """
 import json
 import os
+
+import build_ir
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -39,9 +45,32 @@ MODULES = {
     'SENSOR':   ('Sensor-Eingang',           1880,  890,  400, 300,  0),
     'PUMPE':    ('Pumpentreiber (Low-Side)', 1310,  560,  560, 330,  0),
     'TASTER':   ('Taster & LEDs',            1960,  560,  320, 330,  0),
+    # Erweiterung 13.09.2026: zwei neue Bloecke in der freien Flaeche unter dem MCU
+    'ERWEITERUNG': ('Erweiterung (I2C + Reserve)', 50, 560, 1250, 300, 0),
+    'LICHT':       ('Lichtsensor-Eingang',          50, 240,  700, 180, 0),
 }
 MODULE_ORDER = ['USB', 'LADER', 'DEBUG', 'MCU', 'WAEChTER', 'LDO',
-                'AKKU', 'SENSOR', 'PUMPE', 'TASTER']
+                'AKKU', 'SENSOR', 'PUMPE', 'TASTER', 'ERWEITERUNG', 'LICHT']
+
+# Gemessene Bounding-Boxen fehlen fuer die neuen Bibliotheksteile (keine Live-Messung).
+# Ersatzgeometrie relativ zum Symbolursprung; J8 = JST-XH 4P breiter als das 3P,
+# Q2 = gleiches SOT-23 wie Q1 (AO3400A).
+SYNTH_BBOX = {
+    build_ir.NEW_PARTS['C157925']['deviceUuid']: (-15.5, -20.5, 35.5, 20.5),
+    build_ir.NEW_PARTS['C15127']['deviceUuid']: (-10.5, -10.5, 24.5, 10.5),
+}
+
+# Lötpads TP7-TP11 (freie GPIOs) gehören funktional an den MCU. Sie werden nicht im
+# (weiter entfernten) Erweiterungs-Regal gepackt, sondern im freien Feld unterhalb von
+# U1 auf einer festen Rasterreihe platziert. y=650 hält >150 raw Abstand zum Pin-Fan
+# von U1 (Bounding-Box bis y=880) und zu den übrigen MCU-Bauteilen (ab y~790).
+PLACE_OVERRIDE = {
+    'TP7':  (120, 650),
+    'TP8':  (260, 650),
+    'TP9':  (400, 650),
+    'TP10': (540, 650),
+    'TP11': (680, 650),
+}
 
 
 def snap(v):
@@ -60,17 +89,21 @@ def rel_bboxes():
             continue
         out[uuid] = (bb['minX'] - c['x'], bb['minY'] - c['y'],
                      bb['maxX'] - c['x'], bb['maxY'] - c['y'])
+    out.update(SYNTH_BBOX)
     return out
 
 
 def main():
     ir = json.load(open(os.path.join(RAW, 'ir_numbered.json')))
     modules = json.load(open(os.path.join(RAW, 'modules.json')))   # Originalname -> Modul
+    no_place = set(json.load(open(os.path.join(RAW, 'no_place.json'))))
     rel = rel_bboxes()
 
     comps = []
     for c in ir['components']:
         orig = c['id'][4:]
+        if orig in no_place:            # Loetpads ohne Bestueckungsplatz
+            continue
         mod = modules.get(orig)
         if mod is None:
             raise SystemExit(f"kein Modul fuer {orig}")
@@ -80,6 +113,10 @@ def main():
         comps.append({'ref': c['ref'], 'role': orig, 'module': mod, 'id': c['id'],
                       'deviceUuid': c['device']['deviceUuid'],
                       'w': rb[2] - rb[0], 'h': rb[3] - rb[1], 'rel': rb})
+
+    # Feste Lötpad-Positionen (TP7-TP11) laufen nicht durchs Shelf-Packing.
+    fixed = [c for c in comps if c['role'] in PLACE_OVERRIDE]
+    comps = [c for c in comps if c['role'] not in PLACE_OVERRIDE]
 
     by_mod = {}
     for c in comps:
@@ -121,6 +158,15 @@ def main():
         if ax + aw > SHEET[2] - MARGIN or ay > SHEET[3] - MARGIN:
             problems.append(f"Modul {mod}: Block verlaesst das Blatt")
 
+    # Feste Lötpads im MCU-Block (TP7-TP11) eintragen.
+    for c in fixed:
+        x, y = (snap(v) for v in PLACE_OVERRIDE[c['role']])
+        bbox = [snap(x + c['rel'][0]), snap(y + c['rel'][1]),
+                snap(x + c['rel'][2]), snap(y + c['rel'][3])]
+        placements.append({'ref': c['ref'], 'role': c['role'], 'module': c['module'],
+                           'id': c['id'], 'deviceUuid': c['deviceUuid'], 'x': x, 'y': y,
+                           'rotation': 0, 'mirror': False, 'bbox': bbox})
+
     # Kollisionen / Ränder / Freihaltezone
     for i, a in enumerate(placements):
         ax0, ay0, ax1, ay1 = a['bbox']
@@ -152,6 +198,19 @@ def main():
     path = os.path.join(RAW, 'place_all.sh')
     open(path, 'w').write("\n".join(lines) + "\n")
     os.chmod(path, 0o755)
+
+    # Rahmen je Modulblock (S2, `sch frame apply`)
+    frames = {'schemaVersion': 1, 'documentId': '4f6771a27edec75b', 'frames': []}
+    for b in sorted(blocks, key=lambda b: -b['y1']):
+        frames['frames'].append({
+            'id': 'frame-' + b['module'].lower(),
+            'title': b['title'],
+            'rect': {'minX': b['x0'], 'minY': b['y0'], 'maxX': b['x1'], 'maxY': b['y1']},
+            'titleX': b['x0'] + 12, 'titleY': b['y1'] - 12,
+            'fontSize': 20, 'color': '#AA00AA', 'lineType': 1,
+        })
+    for fn in ('frames.json', 'frames_4f6771a27edec75b.json', 'frames_P1.json'):
+        json.dump(frames, open(os.path.join(RAW, fn), 'w'), ensure_ascii=False, indent=1)
 
     print(f"Bauteile: {len(placements)}  Bloecke: {len(blocks)}")
     for b in sorted(blocks, key=lambda b: -b['y1']):

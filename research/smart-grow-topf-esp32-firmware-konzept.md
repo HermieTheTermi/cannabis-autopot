@@ -90,6 +90,74 @@ Wichtige Punkte:
 
 ---
 
+## 4b. Licht-Gate: Bewässerung nur in der Dunkelphase (ergänzt 13.09.2026)
+
+Der Regelkreis bekommt ein **Licht-Gate**: gepumpt wird nur, wenn das Growlicht aus ist.
+Sensor: **externer analoger Fototransistor an J7** (ADC1_CH4 = **IO4**), Versorgung über
+**SENSOR_PWR (IO3)** nur während der Messung. Der Sensor ist **keine** PCBA-Position.
+Hardware-Details: `hardware/schaltplan_v1.md` §8.
+
+### Messung & Bewertung
+
+1. **Messung:** Lichtwert bei jeder Messung (Median über 10–20 Samples wie der Feuchtekanal),
+   Sensor dabei über SENSOR_PWR versorgt. Danach `light_glatt` = gleitender Mittelwert.
+2. **Adaptive Schwelle statt fester Kalibrierung:** rollierendes **24-h-Fenster**;
+   „dunkel" = Wert unter `LIGHT_DARK_FRACTION` (Default **0,30**) des Tagesmaximums.
+   Zusätzlich **absolute Notwerte** in ADC-Counts, per NVS einstellbar:
+   - `light <= LIGHT_DARK_COUNTS` (Default 200) ⇒ dunkel (fängt auch den abgezogenen Sensor ab),
+   - `light >= LIGHT_BRIGHT_COUNTS` (Default 3000) ⇒ hell/Sättigung,
+   - dazwischen entscheidet die adaptive 30-%-Schwelle.
+3. **Dunkel bestätigt** erst nach `LIGHT_CONFIRM_SAMPLES` (Default **2**) Messungen unter der
+   Schwelle → **erst dann darf die Pumpe laufen**. Ist es zu trocken **und** hell, wird der
+   Bedarf vorgemerkt (`pending_water_ml`) und in der nächsten Dunkelphase ausgeführt.
+4. **Polarität konfigurierbar:** `LIGHT_INVERT` (Default `false`) — fertige Sensormodule liefern
+   teils invertiert (LDR gegen VCC); die Firmware muss beide Verdrahtungen verkraften.
+5. **Plausibilität / Ausfallsicherheit:** Ändert sich der Rohwert über **24 h** nicht (kein
+   Tag/Nacht-Wechsel erkennbar) oder liegt er **dauerhaft an der Sättigung** ⇒ Telegram-Alarm
+   „**Licht-Sensor unplausibel**". Standardverhalten `LIGHT_GATE_FAILSAFE = time_window`:
+   Fallback auf ein per NVS/Telegram gesetztes Zeitfenster (`LIGHT_OFF_START`/`LIGHT_OFF_END`),
+   damit die Pflanze versorgt bleibt; alternativ `block` = strikt sperren.
+   **Wichtig:** ein offener/gebrochener Sensor liefert über R_LIGHT **0 V ⇒ „dunkel"**, das Gate
+   öffnet also — der unkritische Fehler. Ein blockierender Fehler (dauerhaft „hell") würde die
+   Pflanze vertrocknen lassen und wird deshalb erkannt und gemeldet.
+6. **Anzeige/Log:** der erkannte Tag/Nacht-Wechsel wird mitgeloggt und im Telegram-Tagesreport
+   als **Lichtstunden** gemeldet (Plausibilitätskontrolle für den Nutzer).
+
+### Zusätzliche Parameter (Defaults, per NVS/Telegram änderbar)
+
+| Parameter | Default | Erklärung |
+|---|---|---|
+| `LIGHT_DARK_FRACTION` | 0,30 | dunkel = unter 30 % des rollierenden 24-h-Maximums |
+| `LIGHT_DARK_COUNTS` | 200 | absoluter Notwert „dunkel" [ADC-Counts] |
+| `LIGHT_BRIGHT_COUNTS` | 3000 | absoluter Notwert „hell"/Sättigung [ADC-Counts] |
+| `LIGHT_CONFIRM_SAMPLES` | 2 | aufeinanderfolgende Dunkel-Messungen bis zur Freigabe |
+| `LIGHT_INVERT` | false | Sensorpolarität (fertige Module teils invertiert) |
+| `LIGHT_GATE_FAILSAFE` | time_window | `time_window` (Zeitfenster-Fallback) oder `block` |
+| `LIGHT_OFF_START` / `LIGHT_OFF_END` | 20:00 / 08:00 | Zeitfenster-Fallback, wenn der Sensor unplausibel ist |
+
+---
+
+## 4c. I²C-Erweiterungsbus (J8, ergänzt 13.09.2026)
+
+Hardware: `hardware/schaltplan_v1.md` §9. Der Stecker J8 führt **GND · SDA (IO18) · SCL (IO19) ·
+VCC_EXT** heraus; die Pull-ups (2 × 10 kΩ) hängen an **VCC_EXT**. VCC_EXT kommt aus dem
+P-Kanal-Load-Switch Q2 und ist **beim Start aus** (Gate-Pull-up 47 kΩ auf +3V3, IO20 mit WPU beim
+Reset). SDA/SCL haben je 1 kΩ in Reihe.
+
+**Firmware-Option (noch nicht implementiert):**
+
+1. **Rail schalten:** `EXT_EN` (IO20) als Ausgang. `LOW` = Rail an (Q2 leitet), `HIGH` bzw.
+   hochohmig = Rail aus. Im Deep-Sleep IO20 hoch ⇒ Rail aus ⇒ kein Standby-Strom über
+   angeschlossene Module und keiner über die Pull-ups.
+2. **Bus-Scan:** mit `Wire.begin(/*SDA=*/18, /*SCL=*/19)` und einem Scan der Adressen 0x08–0x77
+   prüfen, welche Module stecken; Ergebnis im Telegram-Tagesreport / `/status` ausgeben.
+3. **Autarkie:** Module nur während der Messung bestromen (Rail an, 5–10 ms warten, lesen, Rail
+   aus) — analog zum geschalteten SENSOR_PWR der analogen Sensoren.
+4. **Option:** den analogen Lichtsensor auf J7 durch einen digitalen I²C-Lichtsensor ersetzen
+   (dann das Licht-Gate aus 4b auf den digitalen Wert umstellen).
+
+---
+
 ## 5. State-Machine (Kern der Firmware)
 
 **Regel:** komplett `millis()`-getrieben, **kein `delay()`** — der Webserver und Telegram-Polling müssen parallel weiterlaufen.
@@ -140,12 +208,21 @@ loop():                                  // nie blockieren!
           alle MESS_INTERVALL:
               feuchte = messen()                       // Median+Mittelwert, %
               feuchte_glatt = gleitenderMittelwert(feuchte)
+              licht = messen_licht()                   // Median, ueber SENSOR_PWR
+              licht_glatt = gleitenderMittelwert(licht)
+              licht_fenster_aktualisieren(licht_glatt) // rollierendes 24-h-Maximum
               wenn Sensorwert unplausibel:  state = SENSOR_FEHLER
-              wenn feuchte_glatt < SCHWELLE_TROCKEN
-                 UND now - letztePumpzeit >= COOLDOWN:
-                    feuchte_vor = feuchte_glatt        // Referenz für Delta
-                    pumpe(EIN); pumpStart = now
-                    state = PUMPEN
+              wenn licht_unplausibel():                // 24 h unveraendert / gesaettigt
+                  telegram("Licht-Sensor unplausibel")
+                  // LIGHT_GATE_FAILSAFE: time_window -> Zeitfenster, block -> sperren
+              wenn feuchte_glatt < SCHWELLE_TROCKEN:
+                  wenn dunkel_bestaetigt():            // ═══ Licht-Gate ═══
+                     UND now - letztePumpzeit >= COOLDOWN:
+                        feuchte_vor = feuchte_glatt     // Referenz fuer Delta
+                        pumpe(EIN); pumpStart = now
+                        state = PUMPEN
+                  sonst:
+                     pending_water_ml += fuellmenge()  // merken, in der Dunkelphase ausfuehren
 
       PUMPEN:
           wenn now - pumpStart >= PUMPZEIT
@@ -214,6 +291,7 @@ messen():
 | **Trockenlauf** | Leer-Erkennung sperrt die Pumpe nach `MAX_VERSUCHE` erfolglosen Versuchen dauerhaft — kein sinnloses Weiterpumpen, Pumpe läuft nie lange trocken. |
 | **Boot-Sicherheit** | MOSFET-Gate mit 10 kΩ Pull-down → Pumpe ist AUS, solange der GPIO nicht aktiv HIGH treibt (auch beim Reset). |
 | **Sensor-Fehler** | Plausibilitätsbereich → SENSOR_FEHLER sperrt das Pumpen (verhindert Fluten bei Sensor-Ausfall). |
+| **Licht-Fail-safe** | Sensor unplausibel (24 h keine Änderung oder dauerhafte Sättigung) → Telegram-Alarm + Zeitfenster-Fallback (`LIGHT_GATE_FAILSAFE = time_window`) oder Sperren (`block`). Ein offener/gebrochener Sensor liefert über R_LIGHT **0 V ⇒ „dunkel"** → Bewässerung bleibt erlaubt (Pflanze vertrocknet nicht). |
 | **Hysterese** | `SCHWELLE_TROCKEN` (starten) vs. `SCHWELLE_NASS` (Recovery) — kein Flackern an der Kippgrenze. |
 | **Watchdog gesamt** | Task-Watchdog mit sauberem Restart; Zustand „letzte Bewässerung" in NVS/RTC-RAM halten. |
 

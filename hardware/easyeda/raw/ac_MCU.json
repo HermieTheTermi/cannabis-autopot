@@ -106,6 +106,96 @@
    "net": "+3V3"
   },
   {
+   "pin": "U1:36",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U1:37",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U1:38",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U1:39",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U1:40",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U1:41",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U1:42",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U1:43",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U1:44",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U1:45",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U1:46",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U1:47",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U1:48",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U1:49",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U1:50",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U1:51",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U1:52",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U1:53",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
    "pin": "C10:1",
    "kind": "netport",
    "net": "VBAT_SENSE"
@@ -181,6 +271,11 @@
    "net": "UART_RX"
   },
   {
+   "pin": "U1:10",
+   "kind": "netport",
+   "net": "SPARE_AIN"
+  },
+  {
    "pin": "U1:12",
    "kind": "netport",
    "net": "SENSOR_AOUT"
@@ -216,6 +311,11 @@
    "net": "LED_STAT"
   },
   {
+   "pin": "U1:20",
+   "kind": "netport",
+   "net": "SPARE_IO15"
+  },
+  {
    "pin": "U1:22",
    "kind": "netport",
    "net": "GPIO8_STRAP"
@@ -224,6 +324,36 @@
    "pin": "U1:23",
    "kind": "netport",
    "net": "BOOT"
+  },
+  {
+   "pin": "U1:24",
+   "kind": "netport",
+   "net": "SDA_MCU"
+  },
+  {
+   "pin": "U1:25",
+   "kind": "netport",
+   "net": "SCL_MCU"
+  },
+  {
+   "pin": "U1:26",
+   "kind": "netport",
+   "net": "EXT_EN"
+  },
+  {
+   "pin": "U1:27",
+   "kind": "netport",
+   "net": "SPARE_IO"
+  },
+  {
+   "pin": "U1:28",
+   "kind": "netport",
+   "net": "SPARE_IO22"
+  },
+  {
+   "pin": "U1:29",
+   "kind": "netport",
+   "net": "SPARE_IO23"
   },
   {
    "pin": "U1:30",
@@ -249,6 +379,11 @@
    "pin": "U1:8",
    "kind": "netport",
    "net": "EN"
+  },
+  {
+   "pin": "U1:9",
+   "kind": "netport",
+   "net": "LIGHT_AOUT"
   }
  ],
  "rules": {

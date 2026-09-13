@@ -36,6 +36,8 @@ PROG,R_PROG,1,3.9 kOhm -> 256 mA
 +3V3,R_GPIO8,1,10 kOhm Pull-up GPIO8 (eigene Auslegung)
 +3V3,TP5,1,Testpad +3V3
 +3V3,R_BTN,1,10 kOhm Pull-up fuer den externen Taster
++3V3,R_GATE,1,47 kOhm Gate-Pull-up des Load-Switch (aus = Fail-safe)
++3V3,Q2,2 Source,P-Kanal-Load-Switch Source
 EN,U1,8 EN,Reset
 EN,R_EN,2,
 EN,C4,1,1 uF RC-Glied
@@ -57,14 +59,55 @@ PUMP_N,D1,Anode,
 PUMP_N,C11,1,100 nF direkt an den Pumpenklemmen (Buerstenstoerung)
 RESET_UV,U7,2 RESET,aktiv low unter 3.08 V
 RESET_UV,D3,Kathode,
-SENSOR_RAW,J2,2,Sensor AOUT unbeschaltet
+SENSOR_RAW,J2,3,Sensor AOUT unbeschaltet
 SENSOR_RAW,R6,1,1 kOhm Serienwiderstand
 SENSOR_AOUT,R6,2,
 SENSOR_AOUT,U1,12 IO0,ADC1_CH0
 SENSOR_AOUT,C9,1,100 nF Filter
 SENSOR_AOUT,TP6,1,Testpad SENSOR_AOUT
-SENSOR_PWR,U1,6 IO3,schaltet Sensor-VCC
-SENSOR_PWR,J2,1,Sensor VCC
+SENSOR_PWR,U1,6 IO3,schaltet Sensor-VCC (Feuchte + Licht + Reserve)
+SENSOR_PWR,J2,2,Sensor VCC (Feuchte)
+SENSOR_PWR,J7,2,Lichtsensor VCC (extern, geschaltet)
+SENSOR_PWR,J9,2,Reserve-Analog VCC (geschaltet)
+SENSOR_PWR,J10,2,Reserve-Digital VCC (geschaltet)
+LIGHT_RAW,J7,3,Sensorausgang - definierter Zustand bei offenem Stecker
+LIGHT_RAW,R_LIGHT,1,10 kOhm Lastwiderstand
+LIGHT_RAW,R_LIGHT_S,1,1 kOhm Serienschutz
+LIGHT_AOUT,R_LIGHT_S,2,
+LIGHT_AOUT,U1,9 IO4,ADC1_CH4 - Lichtsensor
+LIGHT_AOUT,C_LIGHT,1,100 nF Filter
+SDA,J8,2,I2C-Daten (Steckerseite)
+SDA,R_SDA_S,2,1 kOhm Serienschutz
+SDA,R_SDA_PU,1,10 kOhm Pull-up nach VCC_EXT
+SDA_MCU,U1,24 IO18,I2C-Daten am Modul
+SDA_MCU,R_SDA_S,1,
+SCL,J8,3,I2C-Takt (Steckerseite)
+SCL,R_SCL_S,2,1 kOhm Serienschutz
+SCL,R_SCL_PU,1,10 kOhm Pull-up nach VCC_EXT
+SCL_MCU,U1,25 IO19,I2C-Takt am Modul
+SCL_MCU,R_SCL_S,1,
+VCC_EXT,J8,4,geschaltete Erweiterungsversorgung
+VCC_EXT,Q2,3 Drain,P-Kanal-Load-Switch
+VCC_EXT,R_SDA_PU,2,
+VCC_EXT,R_SCL_PU,2,
+EXT_EN,U1,26 IO20,Load-Switch-Eingang (interner WPU beim Reset)
+EXT_EN,Q2,1 Gate,
+EXT_EN,R_GATE,2,
+SPARE_AIN_RAW,J9,3,Reserve-Analog am Stecker
+SPARE_AIN_RAW,R_SPARE_AIN,1,
+SPARE_AIN,R_SPARE_AIN,2,
+SPARE_AIN,U1,10 IO5,ADC1_CH5
+SPARE_AIN,C_SPARE,1,100 nF ADC-Filter
+SPARE_IO_RAW,J10,3,Reserve-Digital am Stecker
+SPARE_IO_RAW,R_SPARE_IO,1,
+SPARE_IO,R_SPARE_IO,2,
+SPARE_IO,U1,27 IO21,
+SPARE_IO15,U1,20 IO15,Lotpad - Strapping JTAG-Quelle (Default-eFuses inert)
+SPARE_IO15,TP7,1,Lotpad IO15
+SPARE_IO22,U1,28 IO22,Lotpad
+SPARE_IO22,TP10,1,Lotpad IO22
+SPARE_IO23,U1,29 IO23,Lotpad
+SPARE_IO23,TP11,1,Lotpad IO23
 VBAT_SENSE,R3a,2,
 VBAT_SENSE,R3b,1,
 VBAT_SENSE,U1,13 IO1,ADC1_CH1
@@ -72,11 +115,11 @@ VBAT_SENSE,C10,1,100 nF Filter
 USB_DM,J5,D- (A7/B7),
 USB_DM,U6,3 I/O2,ESD
 USB_DM,U6,4 I/O2,ESD durchgeschleift
-USB_DM,U1,17 IO12,USB_D-
+USB_DM,U1,17 IO12,USB D-
 USB_DP,J5,D+ (A6/B6),
 USB_DP,U6,1 I/O1,ESD
 USB_DP,U6,6 I/O1,ESD durchgeschleift
-USB_DP,U1,18 IO13,USB_D+
+USB_DP,U1,18 IO13,USB D+
 LED_STAT,U1,19 IO14,Status-LED (NICHT IO4 = MTMS/Strapping)
 LED_STAT,R4,1,1 kOhm
 LED_STAT_A,R4,2,
@@ -93,14 +136,37 @@ LED_TANK,U1,16 IO7,LP_GPIO7 - Tank-leer-Anzeige
 LED_TANK,R_TANK,1,1 kOhm
 LED_TANK_A,R_TANK,2,
 LED_TANK_A,D5,Anode,LED rot
-UART_TX,U1,31 TXD0,optional DNP
+UART_TX,U1,31 TXD0,IO16 - optional DNP
 UART_TX,R_UART,1,499 Ohm
 UART_TP,R_UART,2,
 UART_TP,TP1,1,Testpad TXD0
-UART_RX,U1,30 RXD0,optional DNP
+UART_TX,TP8,1,Lotpad IO16 (TXD0)
+UART_RX,U1,30 RXD0,IO17 - optional DNP
 UART_RX,TP2,1,Testpad RXD0
-GND,U1,1/2/11/14/36-53,alle GND-Pins
-GND,U1,EPAD (Pin 49),Espressif: nicht Pflicht, verbessert die Waermeabfuhr - im Layout mit GND verbinden
+UART_RX,TP9,1,Lotpad IO17 (RXD0)
+GND,U1,1,Modul-Masse
+GND,U1,2,Modul-Masse
+GND,U1,11,Modul-Masse
+GND,U1,14,Modul-Masse
+GND,U1,36,Modul-Masse
+GND,U1,37,Modul-Masse
+GND,U1,38,Modul-Masse
+GND,U1,39,Modul-Masse
+GND,U1,40,Modul-Masse
+GND,U1,41,Modul-Masse
+GND,U1,42,Modul-Masse
+GND,U1,43,Modul-Masse
+GND,U1,44,Modul-Masse
+GND,U1,45,Modul-Masse
+GND,U1,46,Modul-Masse
+GND,U1,47,Modul-Masse
+GND,U1,48,Modul-Masse
+GND,U1,49,Modul-Masse
+GND,U1,50,Modul-Masse
+GND,U1,51,Modul-Masse
+GND,U1,52,Modul-Masse
+GND,U1,53,Modul-Masse
+GND,U1,EPAD (Pin 49),# Kommentar: EPAD = Pad 49 und damit in U1 Pin 36-53 enthalten; das Symbol hat keinen eigenen EPAD-Pin - keine eigene Verbindung (kein Phantompin)
 GND,U3,2 VSS,
 GND,U4,2 GND,
 GND,U6,2 GND,
@@ -126,10 +192,17 @@ GND,D2,Kathode,
 GND,SW1,2,
 GND,SW2,2,
 GND,J1,2,Akku -
-GND,J2,3,Sensor GND
+GND,J2,1,Sensor GND
+GND,J7,1,Lichtsensor GND
+GND,R_LIGHT,2,Lastwiderstand Lichtsensor nach GND
+GND,C_LIGHT,2,ADC-Filter Lichtsensor
 GND,TP3,1,Testpad GND
 GND,C12,2,
 GND,J5,GND (A1/A12/B1/B12) + Schirm,
 GND,C_BTN,2,
 GND,D5,Kathode,
 GND,J6,2,Lotpad/Bohrung - Taster-Rueckleitung
+GND,J8,1,I2C GND
+GND,J9,1,Reserve-Analog GND
+GND,J10,1,Reserve-Digital GND
+GND,C_SPARE,2,ADC-Filter Reserve-Analog

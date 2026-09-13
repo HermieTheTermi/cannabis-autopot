@@ -1,33 +1,18 @@
 {
  "schemaVersion": 1,
- "documentId": "P1",
+ "documentId": "4f6771a27edec75b",
  "frames": [
   {
-   "id": "frame-mcu",
-   "title": "ESP32-C6 MCU + Beschaltung",
+   "id": "frame-usb",
+   "title": "USB-C Eingang & ESD",
    "rect": {
-    "minX": 20,
-    "minY": 350,
-    "maxX": 520,
-    "maxY": 800
+    "minX": 50,
+    "minY": 1250,
+    "maxX": 750,
+    "maxY": 1590
    },
-   "titleX": 32,
-   "titleY": 788,
-   "fontSize": 20,
-   "color": "#AA00AA",
-   "lineType": 1
-  },
-  {
-   "id": "frame-taster",
-   "title": "Taster / LEDs",
-   "rect": {
-    "minX": 20,
-    "minY": 200,
-    "maxX": 250,
-    "maxY": 340
-   },
-   "titleX": 32,
-   "titleY": 328,
+   "titleX": 62,
+   "titleY": 1578,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
@@ -36,13 +21,58 @@
    "id": "frame-lader",
    "title": "Laden (MCP73831)",
    "rect": {
-    "minX": 545,
-    "minY": 655,
-    "maxX": 825,
-    "maxY": 800
+    "minX": 830,
+    "minY": 1250,
+    "maxX": 1630,
+    "maxY": 1590
    },
-   "titleX": 557,
-   "titleY": 788,
+   "titleX": 842,
+   "titleY": 1578,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-debug",
+   "title": "UART-Debug-Pads (DNP)",
+   "rect": {
+    "minX": 1690,
+    "minY": 1250,
+    "maxX": 2250,
+    "maxY": 1590
+   },
+   "titleX": 1702,
+   "titleY": 1578,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-mcu",
+   "title": "ESP32-C6-MCU + Beschaltung",
+   "rect": {
+    "minX": 50,
+    "minY": 600,
+    "maxX": 1300,
+    "maxY": 1220
+   },
+   "titleX": 62,
+   "titleY": 1208,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-waechter",
+   "title": "Unterspannungswaechter (MAX809)",
+   "rect": {
+    "minX": 1360,
+    "minY": 920,
+    "maxX": 1830,
+    "maxY": 1220
+   },
+   "titleX": 1372,
+   "titleY": 1208,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
@@ -51,13 +81,13 @@
    "id": "frame-ldo",
    "title": "3V3-LDO (ME6211)",
    "rect": {
-    "minX": 545,
-    "minY": 505,
-    "maxX": 825,
-    "maxY": 645
+    "minX": 1880,
+    "minY": 920,
+    "maxX": 2280,
+    "maxY": 1220
    },
-   "titleX": 557,
-   "titleY": 633,
+   "titleX": 1892,
+   "titleY": 1208,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
@@ -66,73 +96,13 @@
    "id": "frame-akku",
    "title": "Akku & Puffer",
    "rect": {
-    "minX": 545,
-    "minY": 360,
-    "maxX": 825,
-    "maxY": 500
+    "minX": 1360,
+    "minY": 590,
+    "maxX": 1830,
+    "maxY": 890
    },
-   "titleX": 557,
-   "titleY": 488,
-   "fontSize": 20,
-   "color": "#AA00AA",
-   "lineType": 1
-  },
-  {
-   "id": "frame-debug",
-   "title": "UART-Debug (DNP)",
-   "rect": {
-    "minX": 545,
-    "minY": 215,
-    "maxX": 825,
-    "maxY": 355
-   },
-   "titleX": 557,
-   "titleY": 343,
-   "fontSize": 20,
-   "color": "#AA00AA",
-   "lineType": 1
-  },
-  {
-   "id": "frame-usb",
-   "title": "USB-C Eingang & ESD",
-   "rect": {
-    "minX": 850,
-    "minY": 585,
-    "maxX": 1105,
-    "maxY": 800
-   },
-   "titleX": 862,
-   "titleY": 788,
-   "fontSize": 20,
-   "color": "#AA00AA",
-   "lineType": 1
-  },
-  {
-   "id": "frame-pumpe",
-   "title": "Pumpentreiber",
-   "rect": {
-    "minX": 850,
-    "minY": 435,
-    "maxX": 1105,
-    "maxY": 580
-   },
-   "titleX": 862,
-   "titleY": 568,
-   "fontSize": 20,
-   "color": "#AA00AA",
-   "lineType": 1
-  },
-  {
-   "id": "frame-waechter",
-   "title": "Unterspannungswächter",
-   "rect": {
-    "minX": 850,
-    "minY": 285,
-    "maxX": 1105,
-    "maxY": 430
-   },
-   "titleX": 862,
-   "titleY": 418,
+   "titleX": 1372,
+   "titleY": 878,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
@@ -141,13 +111,73 @@
    "id": "frame-sensor",
    "title": "Sensor-Eingang",
    "rect": {
-    "minX": 260,
-    "minY": 200,
-    "maxX": 520,
-    "maxY": 350
+    "minX": 1880,
+    "minY": 590,
+    "maxX": 2280,
+    "maxY": 890
    },
-   "titleX": 272,
-   "titleY": 338,
+   "titleX": 1892,
+   "titleY": 878,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-pumpe",
+   "title": "Pumpentreiber (Low-Side)",
+   "rect": {
+    "minX": 1310,
+    "minY": 230,
+    "maxX": 1870,
+    "maxY": 560
+   },
+   "titleX": 1322,
+   "titleY": 548,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-taster",
+   "title": "Taster & LEDs",
+   "rect": {
+    "minX": 1960,
+    "minY": 230,
+    "maxX": 2280,
+    "maxY": 560
+   },
+   "titleX": 1972,
+   "titleY": 548,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-erweiterung",
+   "title": "Erweiterung (I2C + Reserve)",
+   "rect": {
+    "minX": 50,
+    "minY": 260,
+    "maxX": 1300,
+    "maxY": 560
+   },
+   "titleX": 62,
+   "titleY": 548,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-licht",
+   "title": "Lichtsensor-Eingang",
+   "rect": {
+    "minX": 50,
+    "minY": 60,
+    "maxX": 750,
+    "maxY": 240
+   },
+   "titleX": 62,
+   "titleY": 228,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1

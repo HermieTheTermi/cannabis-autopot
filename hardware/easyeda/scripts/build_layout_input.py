@@ -66,7 +66,7 @@ ATTACH = {
     'R_BTN': ('J6', '1'), 'C_BTN': ('J6', '1'),
     'R1': ('Q1', '1'), 'R2': ('Q1', '1'), 'D3': ('Q1', '1'),
     'D1': ('Q1', '3'), 'C11': ('Q1', '3'), 'J4': ('Q1', '3'),
-    'R6': ('J2', '2'),
+    'R6': ('J2', '3'),        # SENSOR_RAW liegt seit der GND-VCC-SIG-Ordnung auf Pin 3
     'TP6': ('R6', '2'),
     'TP1': ('R_UART', '2'),
 }

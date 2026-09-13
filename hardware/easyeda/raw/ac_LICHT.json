@@ -1,0 +1,59 @@
+{
+ "connections": [
+  {
+   "pin": "C15:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "J7:1",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "R17:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "C15:1",
+   "kind": "netport",
+   "net": "LIGHT_AOUT"
+  },
+  {
+   "pin": "J7:2",
+   "kind": "netport",
+   "net": "SENSOR_PWR"
+  },
+  {
+   "pin": "J7:3",
+   "kind": "netport",
+   "net": "LIGHT_RAW"
+  },
+  {
+   "pin": "R17:1",
+   "kind": "netport",
+   "net": "LIGHT_RAW"
+  },
+  {
+   "pin": "R18:1",
+   "kind": "netport",
+   "net": "LIGHT_RAW"
+  },
+  {
+   "pin": "R18:2",
+   "kind": "netport",
+   "net": "LIGHT_AOUT"
+  }
+ ],
+ "rules": {
+  "avoidTitleBlock": true,
+  "avoidPinFanout": true,
+  "staggerLabels": true,
+  "offsetRange": [
+   18,
+   150
+  ],
+  "offsetStep": 6
+ }
+}
