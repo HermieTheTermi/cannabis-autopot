@@ -54,26 +54,31 @@ Stand des Offline-Aufbaus: **14.09.2026** · Tool: `easyeda-agent` 1.4.8 · Blat
 | Platzierungs-Fit (offline) | `check_plan_fit.py` | **Exit 0** — 80 Volumen im Nutzbereich, kleinster Volumen-Abstand 25,00, kleinster Rahmen-Rand 150, 0 Blocküberlappungen |
 | Autoconnect-Specs | `build_autoconnect.py` | **12** Spec-Dateien, `raw/ac_ERWEITERUNG.json` mit **54** Verbindungen |
 
-**Live-Bau in EasyEDA steht noch auf dem Rückbau-Stand** (58/32/171, `sch gate` pass) und wird
-danach nachgezogen. Offen sind ausschließlich kosmetische Punkte, siehe „Bekannte Restpunkte".
+**Live-Bau in EasyEDA (Stand 14.09.2026, Blatt A1 = 3304 × 2338):** 80 Bauteile, 50 Netze,
+233 Verbindungen, pin-für-pin **0 Abweichungen** zur Netzliste, 12 Modulgruppen, 12 Modulrahmen,
+NC-Marker auf allen 16 freien Pins. `sch gate` = **pass**; `sch gate --strict` = fail
+(einziger Blocker: `missing-titleblock`, Host-Eigenheit). Nachweise:
+`out/schaltplan_2026-09-14_A1.png` / `.svg`, `s5/live_connectivity_2026-09-14_A1.json`,
+`s5/FINAL_gate_2026-09-14_A1.json`.
 
 ---
 
 ## Bekannte Restpunkte (rein kosmetisch)
 
-1. **„Zu eng": `C3` ↔ `J2`** (Abstand 4 Einheiten < `bslPartGap` 20) — `sch clusters` meldet das als
-   WARN, `sch gate --strict` als Blocking. Der einzige Grund, warum `--strict` nicht grün ist.
-2. **6 Marker-Überlappungen** (Netzlabel-Textboxen) — rein visuell; `sch destagger` hat sie
-   bereits durchlaufen, ohne sie aufzulösen.
-3. **`missing-titleblock`** — die Prüfung sucht ein Titelblock-Feld namens `Drawed`; diese
-   EasyEDA-Version kennt nur `Drawn`. Nicht behebbar, Host-Eigenheit.
-4. **6 `floating-pin`-Warnungen** — freie bzw. NC-Pins der Module (IO15/IO16/IO17/IO22/IO23 u. a.);
-   bewusst unbeschaltet, im Schaltplan als `NC` geführt.
-5. **2 DRC-Warnungen** — die API liefert nur die Sammelzahl; Details gibt es nur im DRC-Panel der UI.
-6. **Modulrahmen:** Auf der Seite existiert nur der Rahmen `frame-usb`. Die übrigen 11 Rahmen aus
-   `raw/frames.json` sind **nicht** gezeichnet (Zustand nach dem Neuaufbau vom 13.09.);
-   `sch frame apply` meldet für sie „frame has no complete ownership receipt". Entweder
-   nachziehen (neu anwenden) oder bewusst ohne Rahmen weiterarbeiten.
+1. **`missing-titleblock`** — die Prüfung sucht ein Titelblock-Feld namens `Drawed`; diese
+   EasyEDA-Version kennt nur `Drawn`. Nicht behebbar, Host-Eigenheit. Der **einzige** Grund,
+   warum `sch gate --strict` nicht grün ist (`sch gate` ohne `--strict` ist pass).
+2. **Modulrahmen berühren sich teils** (z. B. LDO/DEBUG, TASTER/AKKU, USB/PUMPE) — erlaubt (nur
+   Überlappung ist verboten), lässt aber keinen Zwischenraum für modulübergreifende Verdrahtung.
+   Bei Bedarf später ein kleiner Zwischenabstand zwischen den Blöcken.
+3. **Offline-Plan kennt nur die Fächer-Größe, nicht die -Richtung.** `plan_layout.py` rechnet je
+   Bauteil die gemessenen Volumen (inkl. eigener Marker/Stiche) und 150 Einheiten Blockrand
+   Reserve ein; ob der Autoconnect-Solver den Fächer live genau dorthin legt, entscheidet erst
+   der Live-Lauf. Auf A2 ist genau daran `clusters` gescheitert (bis −92 out-of-sheet) — der
+   Grund für den Wechsel auf A1.
+4. **PCB** ist bewusst nicht mitgezogen: er steht noch auf dem Stand des Rückbaus (58 Bauteile,
+   32 Netze); `pcb import-changes` folgt, wenn die Platine neu aufgebaut wird.
+
 
 
 ---
