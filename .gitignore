@@ -2,9 +2,12 @@
 .DS_Store
 
 # Build-Artefakte CAD
+# STEP wird versioniert (echte CAD-Austauschdateien, klein),
+# Meshes (STL/3MF) sind aus cad/export_all.py reproduzierbar.
 case/build/
 case/export/
-cad/export/
+cad/export/*.stl
+cad/export/*.3mf
 tools/**/node_modules/
 node_modules/
 *.stl
