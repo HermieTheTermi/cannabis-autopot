@@ -76,8 +76,12 @@ NC-Marker auf allen 16 freien Pins. `sch gate` = **pass**; `sch gate --strict` =
    Reserve ein; ob der Autoconnect-Solver den Fächer live genau dorthin legt, entscheidet erst
    der Live-Lauf. Auf A2 ist genau daran `clusters` gescheitert (bis −92 out-of-sheet) — der
    Grund für den Wechsel auf A1.
-4. **PCB** ist bewusst nicht mitgezogen: er steht noch auf dem Stand des Rückbaus (58 Bauteile,
-   32 Netze); `pcb import-changes` folgt, wenn die Platine neu aufgebaut wird.
+4. **PCB** ist am 14.09.2026 neu aufgesetzt worden (nach dem Blatt-Neuaufbau): `pcb clear`
+   (58 alte Bauteile weg, Blattkontur bleibt) + `pcb import-changes` → **80 Bauteile, 50 Netze,
+   0 Leitungen**; Belege `s5/archiv/pcb_vor_neuaufbau_2026-09-14.json` (Zustand davor) und
+   `s5/pcb_after_import_2026-09-14.json` (danach). Die Bauteile liegen als Streuung außerhalb der
+   Blattkontur und sind **nicht** platziert/geroutet — Platzieren, Verdrahten und Routen macht der
+   Nutzer selbst.
 
 
 
