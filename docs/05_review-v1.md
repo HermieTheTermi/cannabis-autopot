@@ -1,7 +1,7 @@
 # Review V1 — passt alles zusammen?
 
 Stand: 11.09.2026 · Prüfmaßstab: `docs/02_architektur-und-geometrie.md` (Geometrie-Wahrheit),
-`hardware/bom_entscheidung.md` (BOM), `hardware/pcba_verfuegbarkeit_jlc.md` (PCBA), `case/params.scad` (CAD).
+`hardware/bom_entscheidung.md` (BOM), `hardware/pcba_verfuegbarkeit_jlc.md` (PCBA), `cad/params.py` (CAD, build123d; das frühere `case/params.scad` ist am 14.09.2026 abgelöst worden).
 
 **Ergebnis:** Elektrik, Bauteile und Fertigung passen zusammen. **Ein blockierender Punkt ist die
 Gehäusekammer: die geplante Platine passt dort nicht hinein.** Details unten.
@@ -10,7 +10,7 @@ Gehäusekammer: die geplante Platine passt dort nicht hinein.** Details unten.
 
 ## 1. ✅ War blockierend, ist durch das Modul gelöst: Platine vs. Kammer
 
-Aus `case/params.scad`:
+Aus `case/params.scad` (heute `cad/params.py`):
 
 | Größe | Formel | Wert |
 |---|---|---|
@@ -93,7 +93,7 @@ Lagerbestand, siehe `hardware/pcba_verfuegbarkeit_jlc.md`. Handling: **10 Extend
 
 ## 6. Reihenfolge bis zur bestellbaren Platine
 
-1. `case/params.scad`: `wc_x` 20 → 24, Pumpenwerte (Ø32 / 44 / 44 / 2,5) — **OpenCode**, danach
+1. `cad/params.py`: `wc_x` 20 → 24, Pumpenwerte (Ø32 / 44 / 44 / 2,5) — **OpenCode**, danach
    Nachrender + Sichtprüfung der Freiräume.
 2. Schaltplan + Layout (eigene PCB): ESP32-C6-Modul, Pumpe direkt an VBAT, Sensor-JST — erledigt: `hardware/schaltplan_v1.md`,
    Akku-PH-Buchse, VBAT-Teiler optional — Bauteile alle bei JLC verfügbar.

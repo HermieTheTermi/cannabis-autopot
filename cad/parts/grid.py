@@ -3,7 +3,7 @@
 #  Drucklage: z 0 ... grid_t, im Tank spater auf z = grid_z0 verschoben.
 # ============================================================================
 
-from build123d import Align, Cylinder, Pos
+from build123d import Align, Cylinder, Pos, RigidJoint
 from params import *
 from lib import hole_grid, restmaterial
 
@@ -34,6 +34,11 @@ def build():
     )
     body -= _grid_holes()
     body -= _hose_passage()
+
+    # Schnittstellen (RigidJoints): Unterseite auf der Tankauflage, Oberseite
+    # als Auflage fuer die Giessfuesse des Innentopfes.
+    RigidJoint("rostauflage", body, Pos(0, 0, 0))
+    RigidJoint("rostoberseite", body, Pos(0, 0, grid_t))
     return body
 
 

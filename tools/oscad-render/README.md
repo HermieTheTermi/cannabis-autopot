@@ -10,7 +10,10 @@ installiert. Derselbe OpenSCAD-Kern läuft als WebAssembly-Build aber einwandfre
 
 ```bash
 cd tools/oscad-render && npm install     # einmalig
-node render.mjs ../../case/case.scad -o ../../case/export/gehaeuse.stl
+node render.mjs <datei.scad> -o <ausgabe.stl>
+
+Hinweis: Das Gehaeuse-CAD wurde am 14.09.2026 auf build123d umgestellt (`cad/`, siehe
+`cad/README.md`). Dieser Renderer bleibt fuer einzelne SCAD-Dateien nutzbar.
 ```
 
 Optionen:

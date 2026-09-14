@@ -2,12 +2,12 @@
 # ============================================================================
 #  Smart Grow Topf - montierte Baugruppe aus RigidJoints.
 #
-#  Die Teilmodule aus Teil 1/2 definieren (noch) keine Joints; sie werden
-#  daher hier direkt am gebauten Teil nachgetragen. Die Verbindungen folgen
-#  1:1 case/assembly.scad: grid auf grid_z0, inner_pot auf pot_z0,
-#  shell_upper auf split_z, distribution_ring auf pot_z1, Kappe auf der
-#  Mundebene des Einfuellstutzens. Ansichts-Marker (Sensor, Kabel, Schlauch)
-#  gehoeren nicht zur Baugruppe.
+#  Alle Teilmodule definieren ihre Schnittstellen selbst als benannte
+#  RigidJoints; die Montage erfolgt ausschliesslich ueber connect_to()
+#  (verschiebt das jeweils zweite Teil) und folgt 1:1 case/assembly.scad:
+#  grid auf grid_z0, inner_pot auf pot_z0, shell_upper auf split_z,
+#  distribution_ring auf pot_z1, Kappe auf der Mundebene des Einfuellstutzens.
+#  Ansichts-Marker (Sensor, Kabel, Schlauch) gehoeren nicht zur Baugruppe.
 # ============================================================================
 
 import sys
@@ -18,7 +18,6 @@ from build123d import (
     Compound,
     Cylinder,
     Pos,
-    RigidJoint,
     Rot,
     export_step,
     export_stl,
@@ -29,7 +28,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from params import *  # noqa: E402
-from lib import fill_axis, fill_mouth_center, restmaterial  # noqa: E402
+from lib import fill_axis, restmaterial  # noqa: E402
 from parts import (  # noqa: E402
     distribution_ring,
     fill_cap,
@@ -41,12 +40,6 @@ from parts import (  # noqa: E402
 
 EXPORT_DIR = ROOT / "export"
 NAME = "assembly"
-
-
-def _joint(part, label, location):
-    """Traegt einen benannten RigidJoint am gebauten Teil nach."""
-    RigidJoint(label, part, location)
-    return part
 
 
 def build():
@@ -67,36 +60,19 @@ def build():
     ):
         teil.label = label
 
-    # ---- Schnittstellen der Teile (RigidJoints) -----------------------------
-    # shell_lower: Trennebene, Rostauflage, Stutzenmundebene
-    _joint(lower, "split_top", Pos(0, 0, split_z))
-    _joint(lower, "grid_seat", Pos(0, 0, grid_z0))
-    _joint(
-        lower,
-        "fill_mouth",
-        Pos(fill_mouth_center()) * Rot(270 - fill_ang, 0, 0),
-    )
-    # shell_upper liegt in Drucklage (um split_z nach unten verschoben): der
-    # Ursprung z = 0 ist die Trennebene.
-    _joint(upper, "split_bottom", Pos(0, 0, 0))
-    # grid: Unter- und Oberseite
-    _joint(gitter, "bottom", Pos(0, 0, 0))
-    _joint(gitter, "top", Pos(0, 0, grid_t))
-    # inner_pot: Fussboden (unter z = 0) und Oberkante
-    _joint(pot, "feet", Pos(0, 0, -foot_h))
-    _joint(pot, "top", Pos(0, 0, pot_h))
-    # distribution_ring: Auflageflaeche
-    _joint(ring, "bottom", Pos(0, 0, 0))
-
     # ---- Montage ausschliesslich ueber connect_to() -------------------------
-    # connect_to verschiebt das jeweils zweite Teil.
-    lower.joints["split_top"].connect_to(upper.joints["split_bottom"])
-    lower.joints["grid_seat"].connect_to(gitter.joints["bottom"])
-    gitter.joints["top"].connect_to(pot.joints["feet"])
-    pot.joints["top"].connect_to(ring.joints["bottom"])
-    # Kappe: die Joints sind so definiert, dass sich exakt die Lage aus
+    # connect_to verschiebt das jeweils zweite Teil. Die Joint-Namen der
+    # Teilmodule sind: shell_lower deckflaeche/rostauflage/mundebene,
+    # shell_upper deckflaeche/kragen, grid rostauflage/rostoberseite,
+    # inner_pot fussboden/oberkante, distribution_ring auflage,
+    # fill_cap mouth (bereits in Teil 3 definiert).
+    lower.joints["deckflaeche"].connect_to(upper.joints["deckflaeche"])
+    lower.joints["rostauflage"].connect_to(gitter.joints["rostauflage"])
+    gitter.joints["rostoberseite"].connect_to(pot.joints["fussboden"])
+    pot.joints["oberkante"].connect_to(ring.joints["auflage"])
+    # Kappe: der Mund-Joint ist so definiert, dass sich exakt die Lage aus
     # assembly.scad ergibt (Kappe sitzt mit Klemmsitz auf dem Stutzen).
-    lower.joints["fill_mouth"].connect_to(kappe.joints["mouth"])
+    lower.joints["mundebene"].connect_to(kappe.joints["mouth"])
 
     return Compound(children=[lower, upper, gitter, pot, ring, kappe])
 
@@ -118,14 +94,14 @@ def _neck_solid():
 
 
 # Zulaessige Durchdringungen. Der eigentliche Auftrags-Fall ist der Klemmsitz
-# der Kappe auf dem Stutzen (0,2 mm Uebermass). Tankwand, Wulst-Tropfkante und
-# Rostrand ueberlappen in der SCAD-Vorlage ebenso; die Zahlen wurden am
-# gerenderten SCAD gegengeprueft (siehe Kommentar, SCAD-Messwerte).
+# der Kappe auf dem Stutzen (0,2 mm Uebermass, bei 4 mm Nutlaenge ca. 31 mm^3).
+# Die Wulst-Tropfkante und der Kappenrand am Rost sind von der SCAD-Vorlage
+# geerbt; die Zahlen wurden am gerenderten SCAD gegengeprueft.
 AUSNAHMEN = {
     frozenset(("shell_lower", "fill_cap")): (
-        260.0,
-        "Klemmsitz Kappe/Stutzen (0,2 mm Uebermass); zusaetzlich Anlage des "
-        "Kappenrands an der Tankwand (SCAD-Messwert 224,4 mm^3)",
+        80.0,
+        "Klemmsitz Kappe/Stutzen (0,2 mm Uebermass, cap_depth 4 mm); "
+        "keine Anlage des Kappenrands an der Tankwand mehr (fill_len 22 mm)",
     ),
     frozenset(("shell_upper", "inner_pot")): (
         20.0,

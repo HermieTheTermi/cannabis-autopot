@@ -10,10 +10,11 @@ from build123d import (
     Cone,
     Cylinder,
     Pos,
+    RigidJoint,
     Rot,
 )
 from params import *
-from lib import fill_axis, restmaterial
+from lib import fill_axis, fill_mouth_center, restmaterial
 
 NAME = "shell_lower"
 
@@ -89,6 +90,18 @@ def build():
     body = outer - inner
     body += Pos(0, 0, ledge_z0) * _grid_ledge()
     body -= _fill_bore()
+
+    # Schnittstellen (RigidJoints):
+    # deckflaeche  - Trennebene zur oberen Schale (Montagelage z = split_z)
+    # rostauflage  - Auflageflaeche des Rostes im Tank
+    # mundebene    - Mundebene des Einfuellstutzens (Bezug fuer die Kappe)
+    RigidJoint("deckflaeche", body, Pos(0, 0, split_z))
+    RigidJoint("rostauflage", body, Pos(0, 0, grid_z0))
+    RigidJoint(
+        "mundebene",
+        body,
+        Pos(fill_mouth_center()) * Rot(270 - fill_ang, 0, 0),
+    )
     return body
 
 

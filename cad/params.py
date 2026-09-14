@@ -21,7 +21,11 @@ fill_ang = 45.0
 fill_z_wall = 68.0
 fill_bore_d = 16.0
 fill_wall = 4.5
-fill_len = 18.0
+# Stutzenlaenge 18 -> 22 mm: bei 18 mm reichte der Kappenrand entlang der
+# 45-Grad-Achse bis in die Tankwand (r < shell_or, im SCAD geerbt). Mit 22 mm
+# liegt die Mundmitte bei r = 70 + 22*cos45 = 85,6 mm; der innerste Punkt der
+# Kappenrippen liegt damit bei r ~ 72 mm, also frei von der Wand (r = 70).
+fill_len = 22.0
 fill_mouth_d = 22.0
 fill_cs_len = 3.0
 fill_start = 10.0
@@ -152,13 +156,17 @@ cover_t = 3.0
 cover_hole = 45.0
 
 # ---- Kappe fuer den Einfuellstutzen -----------------------------------------
+# Kappe flacher (12 -> 8 mm), Nut kuerzer (9 -> 4 mm) und Rippen duenner
+# (1,5 -> 1,0 mm): nur so bleibt der Kappenrand entlang der 45-Grad-Achse frei
+# von der Tankwand. Der Deckel bleibt 4,0 mm dick (cap_h - cap_depth = 4,0),
+# der Klemmsitz auf dem Stutzen wird dadurch 4,0 mm lang.
 cap_od = 30.0
-cap_h = 12.0
+cap_h = 8.0          # war 12,0
 cap_id = 24.8
-cap_depth = 9.0
+cap_depth = 4.0      # war 9,0
 cap_vent_d = 2.0
 cap_rib_w = 3.0
-cap_rib_t = 1.5
+cap_rib_t = 1.0      # war 1,5 (sonst streifen die Rippen die Wand)
 
 # ---- Segmentierung (Bauraum 220 x 220 x 250) --------------------------------
 split_z = wulst_z0

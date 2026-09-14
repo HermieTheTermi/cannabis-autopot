@@ -1,6 +1,6 @@
 # Bildkonzepte & Prompts für KI-Bildmodelle
 
-Stand: 11.09.2026 · Geometrie-Quelle: `docs/02_architektur-und-geometrie.md` + `case/` (am Modell gerendert und visuell geprüft)
+Stand: 11.09.2026 · Geometrie-Quelle: `docs/02_architektur-und-geometrie.md` + `cad/` (am Modell gerendert und visuell geprüft)
 
 **Jeder der fünf Prompts ist vollständig und self-contained** — reinkopieren, fertig.
 Der Geometrie-Absatz steckt in jedem Prompt drin (identischer Wortlaut), danach folgt der Stil-Teil
@@ -95,7 +95,7 @@ Negative: text, letters, watermark, logo, readable labels, numbers, digital pain
 
 ## Pflege
 
-- Konzept-Änderungen: erst `docs/02_architektur-und-geometrie.md` + `case/params.scad` anpassen,
+- Konzept-Änderungen: erst `docs/02_architektur-und-geometrie.md` + `cad/params.py` anpassen,
   dann den Geometrie-Absatz **in allen fünf Prompts** nachziehen — nie umgekehrt (Bild ist Ableitung,
   nicht Quelle).
 - Nach jeder Änderung: `python3 scripts/split_prompts.py` → erzeugt `04_bildkonzepte-prompts.txt` neu.

@@ -375,7 +375,7 @@ bereits im Design und auf Lager.
    abdecken, oder es braucht ein zweites Fenster (z. B. zwei kleine Lichtleiter).
 3. Antennen-Freistellung bleibt unberührt: die LED-Plätze liegen **nicht** im oberen,
    bauteilfreien Bereich der Kammer.
-4. Diese Punkte gehören in `docs/02_architektur-und-geometrie.md` + `case/params.scad` und
+4. Diese Punkte gehören in `docs/02_architektur-und-geometrie.md` + `cad/params.py` und
    werden über OpenCode geändert (Gehäusecode schreibt OpenCode, nicht der Koordinator).
 
 ---

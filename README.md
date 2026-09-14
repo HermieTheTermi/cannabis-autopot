@@ -67,7 +67,11 @@ cannabis-autopot/
 │   ├── smart-grow-topf_pumpe-bewaesserung.md
 │   ├── smart-grow-topf-esp32-firmware-konzept.md
 │   └── markt-konzept-recherche.md
-└── case/                                ← parametrisches Gehäuse-CAD (OpenSCAD)
+└── cad/                                 ← parametrisches Gehäuse-CAD (build123d/Python)
+    ├── params.py · lib.py                 ← alle Maße + Helfer
+    ├── parts/*.py                         ← ein Modul je Druckteil (build/check)
+    ├── assembly.py                        ← Baugruppe über RigidJoints
+    └── export_all.py                      ← baut, prüft, exportiert STL + STEP
 ```
 
 ## Status
@@ -103,11 +107,11 @@ cannabis-autopot/
       Reset** (Fail-safe). **I²C-Pull-ups an VCC_EXT** (kein Busstrom im Aus-Zustand). **C_SPARE**
       100 nF am Reserve-ADC. Offline-Generatoren: 80 Bauteile / 50 Netze / 233 Verbindungen,
       `check_ir_netlist.py` 0 Abweichungen; Live-Neuaufbau des EasyEDA-Blatts steht aus.
-- [ ] Gehäuse-CAD (parametrisch) + PCB-Design
+- [x] **Gehäuse-CAD parametrisch in build123d** (`cad/`, 14.09.2026): 8 Druckteile + Baugruppe, alle Teile gegen die OpenSCAD-Vorlage geprüft (±0,4 % Volumen, bbox ≤ 0,04 mm), Druckteile als STL + STEP exportierbar
 - [ ] Firmware (State-Machine)
 
 ## Nächste Schritte
 1. BOM finalisieren (Preise, Links, Verfügbarkeit) → `research/bom-check/`
-2. Gehäuse-CAD (OpenSCAD, parametrisch) aus `docs/02_architektur-und-geometrie.md`
+2. Gehäuse-CAD (build123d, `cad/`) aus `docs/02_architektur-und-geometrie.md` — fertig, Teile drucken
 3. PCB: ESP32-C6-Modul, MCP73831-Lader, ME6211-LDO, MOSFET-Treiber, Sensor-ADC, USB-C, Taster-Lötpads, 3 LEDs — Netzliste `hardware/schaltplan_v1_netzliste.csv`
 4. Firmware: State-Machine, Kalibrierroutine, Telegram-Alarm

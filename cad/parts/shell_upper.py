@@ -13,6 +13,7 @@ from build123d import (
     Cylinder,
     Pos,
     RectangleRounded,
+    RigidJoint,
     Rot,
     Vector,
     extrude,
@@ -193,7 +194,14 @@ def build():
             )
     body -= cuts
 
-    return Pos(0, 0, -split_z) * body
+    # Drucklage: um split_z nach unten geschoben, der Ursprung z = 0 ist die
+    # Trennebene. Die Joints stellen daher die Montagelage her:
+    # deckflaeche - Trennebene zur unteren Schale (Montage z = split_z)
+    # kragen      - Kragenoberkante als Auflage der Abdeckung (Montage z = total_h)
+    body = Pos(0, 0, -split_z) * body
+    RigidJoint("deckflaeche", body, Pos(0, 0, 0))
+    RigidJoint("kragen", body, Pos(0, 0, total_h - split_z))
+    return body
 
 
 def _hole_probe(world, z_montage, radius, length):

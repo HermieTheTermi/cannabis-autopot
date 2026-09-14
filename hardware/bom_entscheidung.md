@@ -155,7 +155,7 @@ PCM der Zelle.
 Einbau von unten nach oben: **Pumpe** (44 mm Bauhöhe, dadurch deutlich mehr Luft als vorher mit
 66,8 mm) → **Platine** → **Zelle** hinter/über der Platine.
 
-**Parameter nachzuziehen (OpenSCAD, `case/params.scad`):**
+**Parameter nachzuziehen (CAD, `cad/params.py`):**
 `pump_d` 27.8 → **32** · `pump_l` 66.8 → **44** · `pump_mount_cc` 50 → **44** · `pump_mount_d` 3.7 → **2.5**.
 Die Wulst selbst (60 × 40 × 160) bleibt gültig.
 
@@ -192,7 +192,7 @@ Die Wulst selbst (60 × 40 × 160) bleibt gültig.
    UART-Leitungen weit weg von der Antenne.
    → Für uns heißt das: **obere ~25 mm der Kammer bausteilfrei**, Modul mit der Antenne nach oben,
    und die **Wulstwand über der Antenne dünner** (6 mm → ~2 mm). Das ist eine Geometrie-Änderung in
-   `case/params.scad`. Espressif schreibt außerdem vor, das **Endprodukt zu testen** (Durchsatz +
+   `cad/params.py`. Espressif schreibt außerdem vor, das **Endprodukt zu testen** (Durchsatz +
    Reichweite); fällt der Test schlecht aus, ist die Alternative das Modul **-1U** (`C20627095`) mit
    IPEX-Buchse und externer Antenne.
 6b. **Espressif empfiehlt bei Akkubetrieb ausdrücklich einen Power-Monitor-Chip mit ~3,0-V-Schwelle** —

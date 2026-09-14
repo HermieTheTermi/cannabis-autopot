@@ -12,6 +12,7 @@ from build123d import (
     Box,
     Cylinder,
     Pos,
+    RigidJoint,
     Rot,
 )
 from params import *
@@ -72,6 +73,11 @@ def build():
 
     for foot in _feet():
         body += foot
+
+    # Schnittstellen (RigidJoints): Fussboden (Unterkante der Giessfuesse, lokal
+    # z = -foot_h) auf dem Rost, Oberkante als Auflage des Verteilerrings.
+    RigidJoint("fussboden", body, Pos(0, 0, -foot_h))
+    RigidJoint("oberkante", body, Pos(0, 0, pot_h))
     return body
 
 

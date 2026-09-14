@@ -5,7 +5,7 @@
 #  Zylinder (gleiche Geometrie, identische Massen).
 # ============================================================================
 
-from build123d import Align, Cylinder, Pos, Rot
+from build123d import Align, Cylinder, Pos, RigidJoint, Rot
 from params import *
 from lib import restmaterial
 
@@ -82,6 +82,9 @@ def build():
     body -= _ring_cavity()
     body -= _outlet_holes()
     body -= _hose_bore()
+
+    # Schnittstelle (RigidJoint): Ringauflage auf der Oberkante des Innentopfes.
+    RigidJoint("auflage", body, Pos(0, 0, 0))
     return body
 
 
