@@ -4,6 +4,7 @@
 # Build-Artefakte CAD
 case/build/
 case/export/
+cad/export/
 tools/**/node_modules/
 node_modules/
 *.stl
