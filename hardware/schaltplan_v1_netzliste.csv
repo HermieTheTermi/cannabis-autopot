@@ -36,6 +36,8 @@ PROG,R_PROG,1,3.9 kOhm -> 256 mA
 +3V3,R_GPIO8,1,10 kOhm Pull-up GPIO8 (eigene Auslegung)
 +3V3,TP5,1,Testpad +3V3
 +3V3,R_BTN,1,10 kOhm Pull-up fuer den externen Taster
++3V3,R_GATE,1,47 kOhm Gate-Pull-up des Load-Switch (aus = Fail-safe)
++3V3,Q2,2 Source,P-Kanal-Load-Switch Source
 EN,U1,8 EN,Reset
 EN,R_EN,2,
 EN,C4,1,1 uF RC-Glied
@@ -72,6 +74,56 @@ LIGHT_RAW,R_LIGHT_S,1,1 kOhm Serienschutz
 LIGHT_AOUT,R_LIGHT_S,2,
 LIGHT_AOUT,U1,9 IO4,ADC1_CH4 - Lichtsensor
 LIGHT_AOUT,C_LIGHT,1,100 nF Filter
+# --- Erweiterung/I2C (14.09.2026): freie GPIOs auf 2,54-mm-Stiftleisten, immer GND-VCC-SIG ---
+SDA,J8,3,I2C-Daten (Steckerseite)
+SDA,R_SDA_S,2,1 kOhm Serienschutz
+SDA,R_SDA_PU,1,10 kOhm Pull-up nach VCC_EXT
+SDA_MCU,U1,24 IO18,I2C-Daten am Modul
+SDA_MCU,R_SDA_S,1,
+SCL,J8,4,I2C-Takt (Steckerseite)
+SCL,R_SCL_S,2,1 kOhm Serienschutz
+SCL,R_SCL_PU,1,10 kOhm Pull-up nach VCC_EXT
+SCL_MCU,U1,25 IO19,I2C-Takt am Modul
+SCL_MCU,R_SCL_S,1,
+VCC_EXT,J8,2,geschaltete Erweiterungsversorgung
+VCC_EXT,Q2,3 Drain,P-Kanal-Load-Switch
+VCC_EXT,R_SDA_PU,2,
+VCC_EXT,R_SCL_PU,2,
+VCC_EXT,J9,2,Reserve-Analog VCC (geschaltet)
+VCC_EXT,J10,2,Reserve IO15 VCC (geschaltet)
+VCC_EXT,J11,2,Reserve IO16 VCC (geschaltet)
+VCC_EXT,J12,2,Reserve IO17 VCC (geschaltet)
+VCC_EXT,J13,2,Reserve IO21 VCC (geschaltet)
+VCC_EXT,J14,2,Reserve IO22 VCC (geschaltet)
+VCC_EXT,J15,2,Reserve IO23 VCC (geschaltet)
+EXT_EN,U1,26 IO20,Load-Switch-Eingang (interner WPU beim Reset)
+EXT_EN,Q2,1 Gate,
+EXT_EN,R_GATE,2,
+SPARE_AIN_RAW,J9,3,Reserve-Analog am Stecker
+SPARE_AIN_RAW,R_SPARE_AIN,1,
+SPARE_AIN,R_SPARE_AIN,2,
+SPARE_AIN,U1,10 IO5,ADC1_CH5
+SPARE_AIN,C_SPARE,1,100 nF ADC-Filter
+SPARE_IO15_RAW,J10,3,Reserve IO15 am Stecker
+SPARE_IO15_RAW,R_SPARE_IO15,1,
+SPARE_IO15,R_SPARE_IO15,2,
+SPARE_IO15,U1,20 IO15,Strapping JTAG-Quelle (Default-eFuses inert)
+SPARE_IO16,R_SPARE_IO16,2,Reserve IO16 (TXD0) am Stecker
+SPARE_IO16,J11,3,
+SPARE_IO17,R_SPARE_IO17,2,Reserve IO17 (RXD0) am Stecker
+SPARE_IO17,J12,3,
+SPARE_IO21_RAW,J13,3,Reserve IO21 am Stecker
+SPARE_IO21_RAW,R_SPARE_IO21,1,
+SPARE_IO21,R_SPARE_IO21,2,
+SPARE_IO21,U1,27 IO21,WPU beim Reset (angehaengtes Modul sieht kurz High)
+SPARE_IO22_RAW,J14,3,Reserve IO22 am Stecker
+SPARE_IO22_RAW,R_SPARE_IO22,1,
+SPARE_IO22,R_SPARE_IO22,2,
+SPARE_IO22,U1,28 IO22,
+SPARE_IO23_RAW,J15,3,Reserve IO23 am Stecker
+SPARE_IO23_RAW,R_SPARE_IO23,1,
+SPARE_IO23,R_SPARE_IO23,2,
+SPARE_IO23,U1,29 IO23,
 VBAT_SENSE,R3a,2,
 VBAT_SENSE,R3b,1,
 VBAT_SENSE,U1,13 IO1,ADC1_CH1
@@ -101,10 +153,12 @@ LED_TANK,R_TANK,1,1 kOhm
 LED_TANK_A,R_TANK,2,
 LED_TANK_A,D5,Anode,LED rot
 UART_TX,U1,31 TXD0,IO16 - optional DNP
+UART_TX,R_SPARE_IO16,1,1 kOhm Serienschutz zum Reserve-Stecker
 UART_TX,R_UART,1,499 Ohm
 UART_TP,R_UART,2,
 UART_TP,TP1,1,Testpad TXD0
 UART_RX,U1,30 RXD0,IO17 - optional DNP
+UART_RX,R_SPARE_IO17,1,1 kOhm Serienschutz zum Reserve-Stecker
 UART_RX,TP2,1,Testpad RXD0
 GND,U1,1,Modul-Masse
 GND,U1,2,Modul-Masse
@@ -158,6 +212,15 @@ GND,J2,1,Sensor GND
 GND,J7,1,Lichtsensor GND
 GND,R_LIGHT,2,Lastwiderstand Lichtsensor nach GND
 GND,C_LIGHT,2,ADC-Filter Lichtsensor
+GND,J8,1,I2C GND
+GND,J9,1,Reserve-Analog GND
+GND,J10,1,Reserve IO15 GND
+GND,J11,1,Reserve IO16 GND
+GND,J12,1,Reserve IO17 GND
+GND,J13,1,Reserve IO21 GND
+GND,J14,1,Reserve IO22 GND
+GND,J15,1,Reserve IO23 GND
+GND,C_SPARE,2,ADC-Filter Reserve-Analog
 GND,TP3,1,Testpad GND
 GND,C12,2,
 GND,J5,GND (A1/A12/B1/B12) + Schirm,

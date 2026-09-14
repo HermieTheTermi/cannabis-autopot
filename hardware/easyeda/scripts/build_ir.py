@@ -93,11 +93,34 @@ COMPS = [
     ("TP4", "NO_LCSC_TP", "AKKU", "Testpad VBAT"),
     ("TP5", "NO_LCSC_TP", "LDO", "Testpad +3V3"),
     ("TP6", "NO_LCSC_TP", "SENSOR", "Testpad SENSOR_AOUT"),
-    # --- Lichtsensor (13.09.2026) ---
-    ("J7", "C157928", "LICHT", "Lichtsensor JST-XH 3P (extern)"),
+    # --- Lichtsensor (13.09.2026); J7 seit 14.09.2026 Stiftleiste statt JST-XH ---
+    ("J7", "C2937625", "LICHT", "Lichtsensor Stiftleiste 1x3 2.54 mm (extern)"),
     ("R_LIGHT", "C17414", "LICHT", "Licht-Lastwiderstand 10 k nach GND"),
     ("R_LIGHT_S", "C17513", "LICHT", "Licht-Serienschutz 1 k zum ADC"),
     ("C_LIGHT", "C49678", "LICHT", "ADC-Filter Licht 100 nF"),
+    # --- Erweiterung (14.09.2026): freie GPIOs + I2C auf 2,54-mm-Stiftleisten ---
+    ("J8", "C2691448", "ERWEITERUNG", "I2C Stiftleiste 1x4 (GND-VCC-SDA-SCL)"),
+    ("J9", "C2937625", "ERWEITERUNG", "Reserve-Analog Stiftleiste 1x3 (IO5)"),
+    ("J10", "C2937625", "ERWEITERUNG", "Reserve IO15 Stiftleiste 1x3"),
+    ("J11", "C2937625", "ERWEITERUNG", "Reserve IO16 (TXD0) Stiftleiste 1x3"),
+    ("J12", "C2937625", "ERWEITERUNG", "Reserve IO17 (RXD0) Stiftleiste 1x3"),
+    ("J13", "C2937625", "ERWEITERUNG", "Reserve IO21 Stiftleiste 1x3"),
+    ("J14", "C2937625", "ERWEITERUNG", "Reserve IO22 Stiftleiste 1x3"),
+    ("J15", "C2937625", "ERWEITERUNG", "Reserve IO23 Stiftleiste 1x3"),
+    ("Q2", "C15127", "ERWEITERUNG", "P-Kanal-Load-Switch VCC_EXT"),
+    ("R_GATE", "C17713", "ERWEITERUNG", "Gate-Pull-up Load-Switch 47 k"),
+    ("R_SDA_PU", "C17414", "ERWEITERUNG", "I2C SDA Pull-up 10 k an VCC_EXT"),
+    ("R_SCL_PU", "C17414", "ERWEITERUNG", "I2C SCL Pull-up 10 k an VCC_EXT"),
+    ("R_SDA_S", "C17513", "ERWEITERUNG", "I2C SDA Serienschutz 1 k"),
+    ("R_SCL_S", "C17513", "ERWEITERUNG", "I2C SCL Serienschutz 1 k"),
+    ("R_SPARE_AIN", "C17513", "ERWEITERUNG", "Reserve-AIN Serienschutz 1 k"),
+    ("R_SPARE_IO15", "C17513", "ERWEITERUNG", "Reserve IO15 Serienschutz 1 k"),
+    ("R_SPARE_IO16", "C17513", "ERWEITERUNG", "Reserve IO16 Serienschutz 1 k"),
+    ("R_SPARE_IO17", "C17513", "ERWEITERUNG", "Reserve IO17 Serienschutz 1 k"),
+    ("R_SPARE_IO21", "C17513", "ERWEITERUNG", "Reserve IO21 Serienschutz 1 k"),
+    ("R_SPARE_IO22", "C17513", "ERWEITERUNG", "Reserve IO22 Serienschutz 1 k"),
+    ("R_SPARE_IO23", "C17513", "ERWEITERUNG", "Reserve IO23 Serienschutz 1 k"),
+    ("C_SPARE", "C49678", "ERWEITERUNG", "ADC-Filter Reserve-Analog 100 nF"),
 ]
 
 # Loetpads/Bohrungen ohne Bestueckungsplatz (Sonderfall): sie stehen in der IR und
@@ -109,9 +132,41 @@ NO_PLACE = set()
 # Bauteile ohne LCSC-Code (keine JLC-Bestueckung): ueber eigene Geraete abgedeckt.
 EXTRA_DEVICES = {
     # HDR-TH 2P 2,54 mm als Symbol fuer die zwei Loetbohrungen J6 (keine BOM-Position)
-    "NO_LCSC_J6": ("0819f05c4eef4c71ace90d822a990e87", "72b9be21f4ad4d53a42178e79731ea2a", "HDR-TH 2P 2,54 mm"),
+    "NO_LCSC_J6": ("0819f05c4eef4c71ace90d822a990e87", "72b9be21f4ad4d53a42178e79731ea2a", "HDR-TH 2P, 2,54 mm"),
     # 5010-Testpad TH (Messspitze)
     "NO_LCSC_TP": ("0819f05c4eef4c71ace90d822a990e87", "1d9ad61565194f66a2bb1c832c938c3d", "5010-Testpoint"),
+}
+
+# Neue Bibliotheksteile der Erweiterung (14.09.2026). Die Device-Identitaeten wurden live mit
+# `easyeda lib by-lcsc --lcsc C2937625,C2691448,C15127 --include-device-identity` in der
+# Bibliothek 0819f05c4eef4c71ace90d822a990e87 aufgeloest (14.09.2026) und haben Vorrang.
+# Die Pin-Tabellen sind fuer die Steckverbinder trivial (1..N) und fuer Q2 die Standard-
+# SOT-23-Belegung des AO3401A (1=Gate, 2=Source, 3=Drain, wie AO3400A).
+#
+# Gemessenes Library-Praefix (property.designator):
+#   C2937625 / C2691448 -> "H?" (Stiftleiste), C15127 -> "Q?".
+# Der Auftrag will die Stecker als J8-J15 fuehren; das Projekt vergibt die funktionalen
+# J-Designatoren bewusst selbst (wie schon J2/J7, deren JST-Geraet "CN?" als Praefix hat).
+NEW_PARTS = {
+    "C2937625": {
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",   # XFCN PZ254V-11-03P (1x3 Stiftleiste)
+        "name": "HDR-TH_3P-P2.54-V-M_PZ254V-11-03P",
+        "pins": [{"number": str(i), "name": str(i)} for i in range(1, 4)],
+    },
+    "C2691448": {
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "deviceUuid": "f70eda5267b34d9799800488a27be0c6",   # XFCN PZ254V-11-04P (1x4 Stiftleiste)
+        "name": "HDR-TH_4P-P2.54-V-M",
+        "pins": [{"number": str(i), "name": str(i)} for i in range(1, 5)],
+    },
+    "C15127": {
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "deviceUuid": "f58385f66b144586baef3753ba84f65d",   # AOS AO3401A (P-Kanal SOT-23)
+        "name": "AO3401A",
+        "pins": [{"number": "1", "name": "G"}, {"number": "2", "name": "S"},
+                 {"number": "3", "name": "D"}],
+    },
 }
 
 # Netze: Name -> (scope, role)
@@ -252,6 +307,10 @@ def main():
         if lcsc in EXTRA_DEVICES:
             lib, uuid, devname = EXTRA_DEVICES[lcsc]
             pins = tables.get(uuid)
+        elif lcsc in NEW_PARTS:
+            rec = NEW_PARTS[lcsc]
+            lib, uuid, devname = rec['libraryUuid'], rec['deviceUuid'], rec['name']
+            pins = [dict(p) for p in rec['pins']]
         else:
             rec = lcsc_map.get(lcsc)
             if not rec:
@@ -280,9 +339,9 @@ def main():
     with open(os.path.join(REPO, 'hardware', 'schaltplan_v1_netzliste.csv'), newline='', encoding='utf-8') as fh:
         for row in csv.DictReader(fh):
             net, comp_ref, spec = row['Netz'].strip(), row['Bauteil'].strip(), row['Pin'].strip()
-            # Kommentarzeilen (Bemerkung beginnt mit '#') sind reine Doku und werden nicht
-            # als Verbindung aufgeloest -> kein Phantompin (z. B. U1 "EPAD (Pin 49)").
-            if row.get('Bemerkung', '').strip().startswith('#'):
+            # Kommentarzeilen (Netzname beginnt mit '#') sind reine Doku und werden nicht
+            # als Verbindung aufgeloest. Ebenso Bemerkungs-Kommentare (z. B. U1 "EPAD (Pin 49)").
+            if net.startswith('#') or row.get('Bemerkung', '').strip().startswith('#'):
                 continue
             comp = by_name.get(comp_ref)
             if comp is None:

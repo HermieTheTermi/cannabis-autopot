@@ -1,6 +1,6 @@
 # Schaltplan V1 — Smart Grow Topf
 
-Stand: 13.09.2026 · **Diese Datei ist die Verbindungsvorgabe für das Layout.**
+Stand: 14.09.2026 · **Diese Datei ist die Verbindungsvorgabe für das Layout.**
 Alle Bauteilwerte sind aus den Herstellerdatenblättern abgeleitet (Quelle jeweils in der Spalte
 „Warum"). Bauteile, deren Pinbelegung nur als Bild im Datenblatt vorliegt, sind unten als
 **„noch gegenprüfen"** markiert — dort steht die Standardbelegung, nicht ein Beleg.
@@ -21,13 +21,16 @@ Maschinenlesbare Fassung derselben Verbindungen: **`schaltplan_v1_netzliste.csv`
    +3V3 ◄── U4 ME6211 (500 mA) ◄──VBAT────────────────────┤         ├── R3a/R3b Teiler → ADC
              │                                             │         └── C3 100 µF (Pumpenpuffer)
              ├── U1 ESP32-C6-MINI-1 (Pin 3 + VDD33-Pins)
-             └── Sensor-VCC (über GPIO3 geschaltet, J2/J7)
+             ├── Sensor-VCC (über GPIO3 geschaltet, J2/J7)
+             └── VCC_EXT (über Q2/IO20 geschaltet, J8 I²C + J9–J15 Reserve)
 ```
 
 **Logik-Ein-/Ausgänge:** IO0 Feuchte-ADC · IO1 Zellspannung · IO2 Pumpe · IO3 Sensor-Versorgung ·
-**IO4 Lichtsensor-ADC (ADC1_CH4)** ·
+**IO4 Lichtsensor-ADC (ADC1_CH4)** · **IO5 Reserve-ADC (ADC1_CH5, J9)** ·
 **IO6 externer Taster (LP_GPIO6, weckt aus dem Deep-Sleep)** · **IO7 Tank-LED (rot, LP_GPIO7)** ·
-IO14 Status-LED · IO9 Boot · IO12/13 USB.
+IO14 Status-LED · IO9 Boot · IO12/13 USB ·
+**IO15–IO17, IO21–IO23 Reserve (J10–J15, je über 1 kΩ in Reihe)** ·
+**IO18/IO19 I²C (J8, je über 1 kΩ in Reihe)** · **IO20 Load-Switch VCC_EXT (intern)**.
 
 **Versorgungskette:** USB-C 5 V → Lader → **VBAT** (3,0–4,2 V) → { Pumpe direkt, MAX809, Teiler,
 LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entscheidung.md` §3.
@@ -42,7 +45,7 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 | **PROG** | U3 Pin 5 (PROG) ↔ R_PROG 3,9 kΩ ↔ GND | Ladestrom-Programmierung (256 mA) |
 | **VBAT** | U3 Pin 3 (VBAT) ↔ C8 4,7 µF ↔ J1 Pin 1 (Akku +) ↔ C3 100 µF ↔ J4 Pin 1 (Pumpe +) ↔ D1 Kathode ↔ U7 Pin 3 (VCC) ↔ U4 VIN ↔ C5 10 µF ↔ R3a | Energiebus, alles außer Logik |
 | **+3V3** | U4 VOUT ↔ C6 1 µF ↔ U1 Pin 3 **und alle VDD33-Pins** ↔ C2 22 µF ↔ C1a/C1b 100 nF ↔ R_EN ↔ R_BOOT ↔ R_GPIO8 ↔ **R_BTN** | Logikversorgung |
-| **GND** | U1 (alle GND-Pins), U3 Pin 2, U4 GND, U6 Pin 2, U7 Pin 1, Q1 Source, C1–C12, C_BTN, R2, R3b, R5a/R5b, R4/D2, **R_TANK/D5**, SW1/SW2, J1 Pin 2, **J2 Pin 1**, **J7 Pin 1**, J4 Pin 2, **J6 Pin 2**, J5 GND + Schirm | Masse |
+| **GND** | U1 (alle GND-Pins), U3 Pin 2, U4 GND, U6 Pin 2, U7 Pin 1, Q1 Source, C1–C12, C_BTN, **C_SPARE**, R2, R3b, R5a/R5b, R4/D2, **R_TANK/D5**, SW1/SW2, J1 Pin 2, **J2 Pin 1**, **J7 Pin 1**, J4 Pin 2, **J6 Pin 2**, **J8 Pin 1**, **J9–J15 Pin 1**, J5 GND + Schirm | Masse |
 | **EN** | U1 **Pin 8** ↔ R_EN 10 kΩ → +3V3 · C4 1 µF → GND · SW1 → GND | Reset; RC **10 kΩ + 1 µF** (Espressif) |
 | **BOOT** | U1 **Pin 23 (IO9)** ↔ R_BOOT 10 kΩ → +3V3 · SW2 → GND | Download-Modus; **kein großer C** an GPIO9! |
 | **GPIO8_STRAP** | U1 **Pin 22 (IO8)** ↔ R_GPIO8 10 kΩ → +3V3 | Strapping-Pin nicht floaten lassen |
@@ -54,6 +57,17 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 | **SENSOR_PWR** | U1 **Pin 6 (IO3)** → J2 Pin 2 (Feuchte-VCC) ↔ J7 Pin 2 (Licht-VCC) | **beide** externen Sensoren nur während der Messung versorgen |
 | **LIGHT_RAW** | J7 Pin 3 (Sensorausgang) ↔ R_LIGHT 10 kΩ → GND ↔ R_LIGHT_S 1 kΩ | Lichtsensor-Rohsignal; **offener Stecker ⇒ R_LIGHT zieht auf 0 V ⇒ „dunkel"** (Bewässerung bleibt erlaubt) |
 | **LIGHT_AOUT** | R_LIGHT_S 1 kΩ (in Reihe) ↔ U1 **Pin 9 (IO4, ADC1_CH4)** ↔ C_LIGHT 100 nF → GND | gefilterter ADC-Eingang, gegen den Sensorausgang hochohmig getrennt |
+| **SDA / SDA_MCU** | J8 Pin 3 ↔ R_SDA_S 1 kΩ (in Reihe) ↔ U1 **Pin 24 (IO18)** · R_SDA_PU 10 kΩ → **VCC_EXT** | I²C-Daten; Pull-up am geschalteten Rail, Serien-R schützt den Pin |
+| **SCL / SCL_MCU** | J8 Pin 4 ↔ R_SCL_S 1 kΩ (in Reihe) ↔ U1 **Pin 25 (IO19)** · R_SCL_PU 10 kΩ → **VCC_EXT** | I²C-Takt; wie SDA |
+| **VCC_EXT** | Q2 **Drain** ↔ J8 Pin 2 ↔ J9–J15 Pin 2 ↔ R_SDA_PU/R_SCL_PU | geschaltete Erweiterungsversorgung (Load-Switch, beim Reset aus) |
+| **EXT_EN** | U1 **Pin 26 (IO20)** ↔ Q2 **Gate** ↔ R_GATE 47 kΩ → **+3V3** | IO20 zieht das Gate nach unten ⇒ VCC_EXT an; ohne Treiber hält der Pull-up VCC_EXT aus |
+| **SPARE_AIN_RAW → SPARE_AIN** | J9 Pin 3 → R_SPARE_AIN 1 kΩ → U1 **Pin 10 (IO5, ADC1_CH5)** ↔ C_SPARE 100 nF → GND | Reserve-Analog, RC-gefiltert (gleiches Muster wie SENSOR_AOUT) |
+| **SPARE_IO15_RAW → SPARE_IO15** | J10 Pin 3 → R_SPARE_IO15 1 kΩ → U1 **Pin 20 (IO15)** | Reserve-IO15 (Strapping JTAG-Quelle, Default-eFuses inert) |
+| **SPARE_IO16** | J11 Pin 3 → R_SPARE_IO16 1 kΩ → U1 **Pin 31 (TXD0/IO16)** | Reserve-IO16, nur über Serien-R erreichbar |
+| **SPARE_IO17** | J12 Pin 3 → R_SPARE_IO17 1 kΩ → U1 **Pin 30 (RXD0/IO17)** | Reserve-IO17, nur über Serien-R erreichbar |
+| **SPARE_IO21_RAW → SPARE_IO21** | J13 Pin 3 → R_SPARE_IO21 1 kΩ → U1 **Pin 27 (IO21)** | Reserve-IO21 (WPU beim Reset) |
+| **SPARE_IO22_RAW → SPARE_IO22** | J14 Pin 3 → R_SPARE_IO22 1 kΩ → U1 **Pin 28 (IO22)** | Reserve-IO22 |
+| **SPARE_IO23_RAW → SPARE_IO23** | J15 Pin 3 → R_SPARE_IO23 1 kΩ → U1 **Pin 29 (IO23)** | Reserve-IO23 |
 | **VBAT_SENSE** | R3a 200 kΩ (von VBAT) ↔ Knoten ↔ R3b 200 kΩ → GND · Knoten ↔ U1 **Pin 13 (IO1, ADC1_CH1)** ↔ C10 100 nF → GND | Zellspannung für Pumpstopp/Warnung (§4b BOM) |
 | **USB_DM** | J5 D− ↔ U6 Pin 3 → U6 Pin 4 ↔ [R 22 Ω optional] ↔ U1 **Pin 17 (IO12)** | USB-Daten, nativ |
 | **USB_DP** | J5 D+ ↔ U6 Pin 1 → U6 Pin 6 ↔ [R 22 Ω optional] ↔ U1 **Pin 18 (IO13)** | USB-Daten, nativ |
@@ -61,7 +75,7 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 | **LED_CHG / STAT_CHG** | VBUS → R_LEDCHG 1 kΩ → D_LEDCHG **Anode** · D_LEDCHG **Kathode** → U3 Pin 1 (STAT) | Ladestatus (STAT ist Tri-State, senkt Strom). **Achtung:** die LED-Kathode gehört an STAT, **nicht** an GND — sonst leuchtet sie dauerhaft |
 | **BTN** | U1 **Pin 15 (IO6)** ↔ R_BTN 10 kΩ → +3V3 · C_BTN 100 nF → GND · J6 Pin 1 | **Nachfüll-Bestätigung.** Externer Taster schließt auf GND; IO6 ist **LP_GPIO6** → weckt aus dem Deep-Sleep (EXT1, ANY_LOW) |
 | **LED_TANK** | U1 **Pin 16 (IO7)** → R_TANK 1 kΩ → D5 **Anode** · D5 **Kathode** → GND | **Tank-leer-Anzeige (rot).** IO7 ist LP_GPIO7; D2 bleibt die Status-LED |
-| **UART_DBG** (optional, DNP) | U1 **Pin 31 (TXD0)** → R_UART 499 Ω → Testpad · U1 **Pin 30 (RXD0)** → Testpad | Notfall-Debug, Espressif empfiehlt den 499-Ω-Widerstand |
+| **UART_DBG** (optional, DNP) | U1 **Pin 31 (TXD0)** → R_UART 499 Ω → Testpad · U1 **Pin 30 (RXD0)** → Testpad | Notfall-Debug, Espressif empfiehlt den 499-Ω-Widerstand. **TXD0/RXD0 liegen zugleich über R_SPARE_IO16/17 an J11/J12** |
 
 ---
 
@@ -77,6 +91,7 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 | U6 | USBLC6-2SC6 | ESD, SOT-23-6 | `C7519` | Datenleitungen schützen (USB-Vorgabe, nicht von Espressif) |
 | U7 | MAX809TEUR+T | 3,08 V, SOT-23 | `C16711` | Unterspannungsschutz; Espressif empfiehlt für Akkubetrieb einen Power-Monitor ~3,0 V |
 | Q1 | AO3400A | N-MOSFET SOT-23 | `C20917` | Pumpentreiber; RDS(on) < 48 mΩ @ VGS 2,5 V |
+| **Q2** | **AO3401A** | **P-MOSFET SOT-23** | `C15127` | **neu (14.09.2026):** High-Side-Load-Switch für die geschaltete Erweiterungsversorgung **VCC_EXT**. RDS(on) 85 mΩ @ VGS −2,5 V; Source → +3V3, Drain → VCC_EXT, Gate über 47 kΩ auf +3V3 (aus = Fail-safe), IO20 zieht nach unten |
 | D1 | 1N5819WS | 40 V / 1 A | `C191023` | Freilaufdiode der Pumpe (Kathode an VBAT) |
 | D3 | 1N5819WS | 40 V / 1 A | `C191023` | Klemmzweig: Anode am Gate, Kathode an U7-RESET |
 | D2 | **LED grün** (525 nm) | 0805 | `C2297` | **Farbe geändert 11.09.2026** (vorher rot wie D5). Grün = Status/Betrieb, **rot bleibt der Warnung „Tank leer" vorbehalten**. Vf **2,85 V** (InGaN) → am 3,3-V-Rail nur **0,45 V Reserve**, deshalb R4 = 220 Ω. JLC: **basic**, 1.627.076 auf Lager. *Blau* wäre möglich, ist bei JLC aber nur **extended** (+3 $) und hätte dasselbe Vf-Problem |
@@ -102,6 +117,7 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 | C11 | 100 nF | 0805 | **direkt an den Pumpenklemmen** | **neu (Review 3):** Bürstenstörungen des DC-Motors abfangen, damit sie nicht über VBAT in ADC/LDO einstreuen |
 | C_BTN | 100 nF | 0805 | **Entprellung des externen Tasters** | RC mit R_BTN: 10 kΩ × 100 nF = **1 ms** — entprellt und hält Einstreuungen auf der Tasterleitung fern |
 | C12 | 100 nF | 0805 | Decoupling am Unterspannungswächter | Standardpraxis; der MAX809 selbst braucht laut Datenblatt keine externen Bauteile |
+| **C_SPARE** | 100 nF | 0805 | **ADC-Filter Reserve-Analog (IO5, J9)** | Espressif-ADC-Empfehlung; bildet mit R_SPARE_AIN (1 kΩ) einen Tiefpass (τ = 0,1 ms), gleiches Muster wie SENSOR_AOUT |
 
 ### Widerstände
 
@@ -123,6 +139,18 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 | **R_LIGHT** | 10 kΩ | Lastwiderstand / definierter Zustand des Lichtsensors | offener Stecker ⇒ 0 V ⇒ Firmware liest „dunkel" (Bewässerung erlaubt, Pflanze vertrocknet nicht); begrenzt zugleich den Fotostrom des ALS-PT19 |
 | **R_LIGHT_S** | 1 kΩ | Licht-AOUT in Reihe | Serienschutz für den ADC (gleiche Rolle wie R6) |
 | R_UART | 499 Ω (DNP) | TXD0-Serie | Espressif: „connect a 499 Ω series resistor to the U0TXD line" |
+| **R_GATE** | 47 kΩ | Gate-Pull-up Load-Switch | Hält das Gate von Q2 ohne aktiven GPIO auf **+3V3** (Quellpotential) ⇒ VGS = 0 ⇒ Q2 sperrt ⇒ **VCC_EXT ist beim Reset aus** (Fail-safe) |
+| **R_SDA_PU** | 10 kΩ | I²C-SDA-Pull-up | Pull-up an **VCC_EXT**, nicht an +3V3 — im ausgeschalteten Zustand zieht der Bus keinen Strom |
+| **R_SCL_PU** | 10 kΩ | I²C-SCL-Pull-up | dito, an **VCC_EXT** |
+| **R_SDA_S** | 1 kΩ | I²C-SDA in Reihe | Serienschutz zwischen J8 Pin 3 und U1 Pin 24 (IO18) |
+| **R_SCL_S** | 1 kΩ | I²C-SCL in Reihe | Serienschutz zwischen J8 Pin 4 und U1 Pin 25 (IO19) |
+| **R_SPARE_AIN** | 1 kΩ | Reserve-Analog in Reihe | Serienschutz zwischen J9 Pin 3 und U1 Pin 10 (IO5, ADC1_CH5); Teil des ADC-Filters mit C_SPARE |
+| **R_SPARE_IO15** | 1 kΩ | Reserve-IO15 in Reihe | zwischen J10 Pin 3 und U1 Pin 20 (IO15) |
+| **R_SPARE_IO16** | 1 kΩ | Reserve-IO16 in Reihe | zwischen J11 Pin 3 und U1 Pin 31 (TXD0/IO16) |
+| **R_SPARE_IO17** | 1 kΩ | Reserve-IO17 in Reihe | zwischen J12 Pin 3 und U1 Pin 30 (RXD0/IO17) |
+| **R_SPARE_IO21** | 1 kΩ | Reserve-IO21 in Reihe | zwischen J13 Pin 3 und U1 Pin 27 (IO21) |
+| **R_SPARE_IO22** | 1 kΩ | Reserve-IO22 in Reihe | zwischen J14 Pin 3 und U1 Pin 28 (IO22) |
+| **R_SPARE_IO23** | 1 kΩ | Reserve-IO23 in Reihe | zwischen J15 Pin 3 und U1 Pin 29 (IO23) |
 
 ### Steckverbinder und Schalter
 
@@ -135,7 +163,20 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 | SW1 | Taster 5,1 × 5,1 mm | `C318884` | Reset (EN gegen GND) |
 | SW2 | Taster 5,1 × 5,1 mm | `C318884` | Boot (GPIO9 gegen GND) |
 | **J6** | **2 Lötpads / Bohrungen Ø 1,0 mm, Raster 2,54 mm** | – | **kein Stecker, keine BOM-Position, keine JLC-Kosten** — der Taster sitzt außerhalb der Platine (Gehäuse) und wird mit zwei Kabeln direkt angelötet |
-| **J7** | **JST-XH 2,54 mm, 3-pol** | `C157928` | **externer Lichtsensor:** **1 = GND · 2 = SENSOR_PWR (VCC) · 3 = LIGHT_RAW (AOUT)** — **identisch zu J2** (gleiche Crimpkontakte) |
+| **J7** | **Stiftleiste 1×3, 2,54 mm, male gerade** | `C2937625` | **externer Lichtsensor:** **1 = GND · 2 = SENSOR_PWR (VCC) · 3 = LIGHT_RAW (AOUT)** — **Typwechsel 14.09.2026:** der Nutzer steckt Dupont-Buchsen direkt auf (keine Crimpzange). Gleicher Stiftleistentyp wie J9–J15 |
+| **J8** | **Stiftleiste 1×4, 2,54 mm, male gerade** | `C2691448` | **I²C-Erweiterung (VCC_EXT):** **1 = GND · 2 = VCC_EXT · 3 = SDA · 4 = SCL** (VCC innen, wie Qwiic/STEMMA) |
+| **J9** | **Stiftleiste 1×3, 2,54 mm, male gerade** | `C2937625` | **Reserve-Analog:** **1 = GND · 2 = VCC_EXT · 3 = SPARE_AIN_RAW (IO5, ADC1_CH5)** |
+| **J10** | **Stiftleiste 1×3, 2,54 mm, male gerade** | `C2937625` | **Reserve IO15:** **1 = GND · 2 = VCC_EXT · 3 = SPARE_IO15_RAW** (Strapping JTAG-Quelle, Default-eFuses inert) |
+| **J11** | **Stiftleiste 1×3, 2,54 mm, male gerade** | `C2937625` | **Reserve IO16 (TXD0):** **1 = GND · 2 = VCC_EXT · 3 = SPARE_IO16** |
+| **J12** | **Stiftleiste 1×3, 2,54 mm, male gerade** | `C2937625` | **Reserve IO17 (RXD0):** **1 = GND · 2 = VCC_EXT · 3 = SPARE_IO17** |
+| **J13** | **Stiftleiste 1×3, 2,54 mm, male gerade** | `C2937625` | **Reserve IO21:** **1 = GND · 2 = VCC_EXT · 3 = SPARE_IO21_RAW** (WPU beim Reset) |
+| **J14** | **Stiftleiste 1×3, 2,54 mm, male gerade** | `C2937625` | **Reserve IO22:** **1 = GND · 2 = VCC_EXT · 3 = SPARE_IO22_RAW** |
+| **J15** | **Stiftleiste 1×3, 2,54 mm, male gerade** | `C2937625` | **Reserve IO23:** **1 = GND · 2 = VCC_EXT · 3 = SPARE_IO23_RAW** |
+
+**Stecker-Typen (ab 14.09.2026):** J2 bleibt **JST-XH 3P** (`C157928`, gerastet). J7 und J9–J15 sind
+**2,54-mm-Stiftleisten male gerade** (`C2937625`), J8 ist die 4-polige Variante (`C2691448`).
+Kabel mit Dupont-Buchse werden direkt aufgesteckt. Die **Pinordnung ist überall GND–VCC–SIG**
+(VCC in der Mitte), J8 als GND–VCC–SDA–SCL.
 
 ---
 
@@ -159,12 +200,23 @@ Der ESP32-C6-MINI-1 führt 22 GPIOs heraus. Belegt sind hier:
 | 18 | IO13 | **USB_D+** |
 | 22 | IO8 | Strapping-Pin, nur Pull-up |
 | 23 | IO9 | **BOOT** (Strapping) + Pull-up |
-| 30 / 31 | RXD0 / TXD0 | **UART_RX (IO17) / UART_TX (IO16)** — optional UART-Debug (DNP) |
+| 10 | IO5 | **SPARE_AIN** (ADC1_CH5) — Reserve-Analog an **J9**, über R_SPARE_AIN 1 kΩ + C_SPARE 100 nF |
+| 20 | IO15 | **SPARE_IO15** — Reserve an **J10** (Strapping JTAG-Quelle, Default-eFuses inert), über R_SPARE_IO15 1 kΩ |
+| 24 | IO18 | **SDA_MCU** — I²C-Daten an **J8**, über R_SDA_S 1 kΩ |
+| 25 | IO19 | **SCL_MCU** — I²C-Takt an **J8**, über R_SCL_S 1 kΩ |
+| 26 | IO20 | **EXT_EN** — Load-Switch Q2 (interner WPU beim Reset ⇒ VCC_EXT aus) |
+| 27 | IO21 | **SPARE_IO21** — Reserve an **J13**, über R_SPARE_IO21 1 kΩ (WPU beim Reset) |
+| 28 | IO22 | **SPARE_IO22** — Reserve an **J14**, über R_SPARE_IO22 1 kΩ |
+| 29 | IO23 | **SPARE_IO23** — Reserve an **J15**, über R_SPARE_IO23 1 kΩ |
+| 30 / 31 | RXD0 / TXD0 | **UART_RX (IO17) / UART_TX (IO16)** — optional UART-Debug (DNP); zugleich über R_SPARE_IO17/16 an **J12/J11** |
 | 1, 2, 11, 14, 36–53 | GND | Masse |
 | 49 | EPAD | Thermo-Pad — mit GND verbinden (Espressif: nicht Pflicht, verbessert die Wärmeabfuhr) |
 | div. | VDD33 | **alle** an +3V3, jeweils 100 nF in der Nähe |
 
-**Nicht als Stecker herausgeführt:** IO4 (Lichtsensor an J7).
+**Herausgeführt als 2,54-mm-Stiftleisten (ab 14.09.2026):** IO4 (Lichtsensor) an **J7**, IO5 an
+**J9**, IO15 an **J10**, IO16 an **J11**, IO17 an **J12**, IO18/IO19 (I²C) an **J8**, IO21 an
+**J13**, IO22 an **J14**, IO23 an **J15**. IO20 bleibt **intern** (Load-Switch-Steuerung, nicht
+auf einen Stecker geführt).
 Espressif: unbenutzte hochohmige Pins mit Pull-up/down versehen oder internen Pull aktivieren
 (verhindert Mehrverbrauch im Schlaf).
 
@@ -196,6 +248,7 @@ pauschal „Strapping-Pins" und damit tabu. Das ist **so nicht richtig**:
 | **ME6211 (SOT-23-5)** | 1 = VIN · 2 = GND · 3 = EN · 4 = NC · 5 = VOUT | ⚠️ **noch gegenprüfen** (Datenblatt zeigt nur Bild). **EN an VIN/VBAT** legen — auf +3V3 gelegt könnte der Regler nicht starten |
 | **MAX809 (SOT-23)** | 1 = GND · 2 = RESET · 3 = VCC | ⚠️ **noch gegenprüfen** (Bild) |
 | **AO3400A (SOT-23)** | 1 = Gate · 2 = Source · 3 = Drain | ⚠️ **noch gegenprüfen** (Bild) |
+| **AO3401A (SOT-23)** | 1 = Gate · 2 = Source · 3 = Drain | ⚠️ **noch gegenprüfen** (Bild); gleiche Pinbelegung wie AO3400A. Hier Source → +3V3, Drain → VCC_EXT (P-Kanal-High-Side) |
 
 ---
 
@@ -334,12 +387,14 @@ bereits im Design und auf Lager.
 Bewässert wird **nur in der Dunkelphase** (Growlicht aus): unter Licht verdunstet mehr, und
 Tropfwasser auf dem Substrat soll nicht mit der Lampenabwärme kollidieren. Der Lichtsensor
 kommt **extern an einem Kabel** an den Topfrand/Tent — **nicht** auf die Platine. Auf der
-Platine sitzt nur der **Stecker J7** (identisch zu J2) mit dem Lastwiderstand, dem
-Serienschutz und dem ADC-Filter.
+Platine sitzt nur der **Stecker J7** mit dem Lastwiderstand, dem Serienschutz und dem ADC-Filter.
 
-Der Sensor selbst ist **keine BOM-/PCBA-Position** — er wird separat beschafft. Weil auf der
-Platine nur die genannten Passiven und J7 dazukommen und alle Werte bereits im Projekt sind,
-ändert sich an den LCSC-Positionen nichts außer der Menge (JST-XH von 1 auf 2).
+Der Sensor selbst ist **keine BOM-/PCBA-Position** — er wird separat beschafft.
+
+**Typwechsel 14.09.2026:** J7 ist jetzt eine **2,54-mm-Stiftleiste 1×3, male gerade**
+(`C2937625`) — derselbe Steckpins-Typ wie die Reserve-Stecker J9–J15. Der Nutzer steckt
+Dupont-Buchsen direkt auf, es ist keine Crimpzange nötig. Die Pinordnung
+**GND–VCC–SIG** bleibt unverändert.
 
 ### 8.2 Netze
 
@@ -353,12 +408,12 @@ Platine nur die genannten Passiven und J7 dazukommen und alle Werte bereits im P
 
 | Pos | Wert | LCSC | Zweck |
 |---|---|---|---|
-| **J7** | JST-XH 3P | `C157928` | externer Lichtsensor — gleiche Crimpkontakte wie J2 (Menge der Position 1 → 2) |
+| **J7** | Stiftleiste 1×3, 2,54 mm, male | `C2937625` | externer Lichtsensor — Dupont-Buchse direkt aufstecken (Typwechsel 14.09.2026) |
 | **R_LIGHT** | 10 kΩ | `C17414` | Lastwiderstand/definierter Zustand: **offener Stecker ⇒ 0 V ⇒ „dunkel"** |
 | **R_LIGHT_S** | 1 kΩ | `C17513` | Serienschutz für den ADC (wie R6) |
 | **C_LIGHT** | 100 nF | `C49678` | ADC-Filter (Espressif: 0,1 µF am ADC-Pin) |
 
-**Belegung J7 (wie J2, seit 13.09.2026):** **1 = GND · 2 = VCC (SENSOR_PWR) · 3 = AOUT.**
+**Belegung J7 (GND–VCC–SIG, seit 13.09.2026):** **1 = GND · 2 = VCC (SENSOR_PWR) · 3 = AOUT.**
 Die Ordnung **GND–VCC–SIG** ist Absicht (Begründung in §9.1).
 Der Sensor liegt bewusst an **SENSOR_PWR** und **nicht** an +3V3: ein dauerhaft versorgter
 Lichtsensor (ALS-PT19 typ. < 1 mA, Module mit LDO mehr) würde das gesamte Standby-Budget
@@ -392,52 +447,99 @@ doppelte Hysterese. Geprüft von `check_light_contrast`, `check_light_adc_filter
 
 ---
 
-## 9. Pinordnung GND–VCC–SIG (ergänzt 13.09.2026)
+## 9. Pinordnung und Steckpins (GND–VCC–SIG, ab 14.09.2026)
 
-Die beiden 3-poligen Stecker **J2 (Feuchtesensor)** und **J7 (Lichtsensor)** haben einheitlich die
-Ordnung **GND–VCC–SIG**: Pin 1 = GND, **Pin 2 = SENSOR_PWR (VCC)**, Pin 3 = Signal.
+**Alle freien GPIOs und der I²C-Bus sind als 2,54-mm-Stiftleiste (male, gerade) herausgeführt** —
+Kabel mit Dupont-Buchse werden direkt aufgesteckt, es ist keine Crimpzange nötig. **Jeder freie
+GPIO bekommt einen eigenen 3-poligen Stecker** (nicht kompakt, nicht 2-reihig). Alle 3-poligen
+Stecker haben einheitlich die Ordnung **GND–VCC–SIG** (VCC in der Mitte, Pin 2); der 4-polige
+I²C-Stecker J8 folgt **GND–VCC–SDA–SCL** (VCC innen, wie Qwiic/STEMMA). J2 bleibt JST-XH.
 
-### 9.1 Warum GND–VCC–SIG (Teil A)
+### 9.1 Pinbelegung aller Stecker
+
+| Stecker | Typ | Pin 1 | Pin 2 (VCC) | Pin 3 | Pin 4 | Signal → MCU |
+|---|---|---|---|---|---|---|
+| **J2** | JST-XH 3P (`C157928`) | GND | SENSOR_PWR | SENSOR_RAW | – | R6 1 kΩ → IO0 (Pin 12) |
+| **J7** | Stiftleiste 1×3 (`C2937625`) | GND | SENSOR_PWR | LIGHT_RAW | – | R_LIGHT_S 1 kΩ → IO4 (Pin 9) |
+| **J8** | Stiftleiste 1×4 (`C2691448`) | GND | VCC_EXT | SDA | SCL | R_SDA_S/R_SCL_S 1 kΩ → IO18/IO19 (Pin 24/25) |
+| **J9** | Stiftleiste 1×3 (`C2937625`) | GND | VCC_EXT | SPARE_AIN_RAW | – | R_SPARE_AIN 1 kΩ → IO5 (Pin 10) |
+| **J10** | Stiftleiste 1×3 (`C2937625`) | GND | VCC_EXT | SPARE_IO15_RAW | – | R_SPARE_IO15 1 kΩ → IO15 (Pin 20) |
+| **J11** | Stiftleiste 1×3 (`C2937625`) | GND | VCC_EXT | SPARE_IO16 | – | R_SPARE_IO16 1 kΩ → IO16/TXD0 (Pin 31) |
+| **J12** | Stiftleiste 1×3 (`C2937625`) | GND | VCC_EXT | SPARE_IO17 | – | R_SPARE_IO17 1 kΩ → IO17/RXD0 (Pin 30) |
+| **J13** | Stiftleiste 1×3 (`C2937625`) | GND | VCC_EXT | SPARE_IO21_RAW | – | R_SPARE_IO21 1 kΩ → IO21 (Pin 27) |
+| **J14** | Stiftleiste 1×3 (`C2937625`) | GND | VCC_EXT | SPARE_IO22_RAW | – | R_SPARE_IO22 1 kΩ → IO22 (Pin 28) |
+| **J15** | Stiftleiste 1×3 (`C2937625`) | GND | VCC_EXT | SPARE_IO23_RAW | – | R_SPARE_IO23 1 kΩ → IO23 (Pin 29) |
+
+### 9.2 Warum GND–VCC–SIG
 
 Bei einem 3-poligen Stecker ist **nur der mittlere Pin gegen Umdrehen invariant** (aus 1↔3 wird
-2↔2). Liegt dort **VCC**, kann ein verkehrt gecrimpter Stecker
+2↔2). Liegt dort **VCC**, kann ein verkehrt gesteckter Stecker
 
 - **niemals 3,3 V auf einen MCU-Pin** legen und
-- **niemals die Sensorversorgung über unsere Masse kurzschließen** —
+- **niemals die Versorgung über unsere Masse kurzschließen** —
 
 genau der Fehler, der mit der früheren Ordnung (1 = VCC, 3 = GND) möglich war.
 
 **Fehlerfall neu:** VCC bleibt korrekt auf Pin 2, **GND und SIG tauschen**. Der Sensor bekommt
 seine Masse dann über den **1-kΩ-Serienwiderstand** unseres Signaleingangs (≈ 3 mA, pin-sicher),
-der Sensor-GND-Strom fließt in unseren Eingang (ESD-Dioden nach GND), das Sensorsignal landet auf
-unserer Masse. Ergebnis: **keine Funktion, kein Schaden** — die gewünschte Ausfallsicherheit.
+der GND-Strom fließt in unseren Eingang (ESD-Dioden nach GND), das Signal landet auf unserer
+Masse. Ergebnis: **keine Funktion, kein Schaden** — die gewünschte Ausfallsicherheit.
 
-| Stecker | neu (ab 13.09.2026) | alt (vorher) |
-|---|---|---|
-| **J2** (Feuchtesensor) | 1 = GND · **2 = SENSOR_PWR (VCC)** · 3 = SENSOR_RAW (AOUT) | 1 = VCC · 2 = AOUT · 3 = GND |
-| **J7** (Lichtsensor) | 1 = GND · **2 = SENSOR_PWR (VCC)** · 3 = LIGHT_RAW (AOUT) | 1 = VCC · 2 = AOUT · 3 = GND |
+### 9.3 1 kΩ in Reihe in JEDER Signalleitung
 
-**Wichtig:** Der 1-kΩ-Serienwiderstand liegt weiterhin **zwischen Stecker-Pin und ADC/MCU**
-(R6, R_LIGHT_S). Die neue Reihenfolge umgeht die Schutzwirkung nicht.
+Zwischen **jedem Stecker-Signalpin und dem MCU** liegt ein **1-kΩ-Serienwiderstand** — auch in
+**SDA/SCL** und in den Reserve-Leitungen:
 
-### 9.2 Fehlerfall-Tabelle
+| Leitung | Serien-R | Leitung | Serien-R |
+|---|---|---|---|
+| J2 SENSOR_RAW | R6 | J13 SPARE_IO21 | R_SPARE_IO21 |
+| J7 LIGHT_RAW | R_LIGHT_S | J14 SPARE_IO22 | R_SPARE_IO22 |
+| J8 SDA | R_SDA_S | J15 SPARE_IO23 | R_SPARE_IO23 |
+| J8 SCL | R_SCL_S | J10 SPARE_IO15 | R_SPARE_IO15 |
+| J9 SPARE_AIN | R_SPARE_AIN | J11 SPARE_IO16 | R_SPARE_IO16 |
+| | | J12 SPARE_IO17 | R_SPARE_IO17 |
+
+Der Serienwiderstand liegt immer **zwischen Stecker-Pin und MCU-Pin** und begrenzt Fehlerströme
+in den Pin (z. B. wenn ein Dupont-Kabel verkehrt gesteckt oder ein Sensor ohne Versorgung
+angeschlossen wird).
+
+### 9.4 Load-Switch für VCC_EXT (Fail-safe: beim Reset aus)
+
+Die Erweiterungsversorgung **VCC_EXT** kommt **nicht** direkt vom 3,3-V-Rail und **nicht** von
+einem GPIO, sondern über einen **P-Kanal-MOSFET Q2 (AO3401A)**:
+
+- **Source → +3V3**, **Drain → VCC_EXT**, **Gate → EXT_EN (IO20)**.
+- **R_GATE 47 kΩ** zieht das Gate **nach +3V3** (Quellpotential). Ohne aktiven GPIO ist damit
+  **VGS = 0** ⇒ Q2 sperrt ⇒ **VCC_EXT ist aus**.
+- IO20 zieht das Gate über den offenen Drain **nach unten**, um VCC_EXT einzuschalten. Beim
+  Reset hat IO20 einen internen **Weak-Pull-up** (Espressif ESP32-C6) ⇒ Rail ist beim Start
+  **aus** — die gewünschte Fail-safe-Richtung.
+- Dadurch kann ein angeschlossenes Erweiterungsmodul den Bus **im Aus-Zustand nicht** über die
+  I²C-Leitungen oder VCC_EXT rückwärts versorgen.
+
+### 9.5 I²C-Pull-ups an VCC_EXT (nicht an +3V3)
+
+**R_SDA_PU und R_SCL_PU (je 10 kΩ)** hängen an **VCC_EXT**, nicht an +3V3. Ist VCC_EXT aus,
+liegt der Bus hochohmig an 0 V und zieht **keinen Strom**. 10 kΩ sind für kurze Kabel (wenige cm
+bis ca. 30 cm) und die üblichen 100-kHz-/400-kHz-I²C-Module plausibel. Der Serien-R (1 kΩ)
+begrenzt zusätzlich den Fehlerstrom in die MCU-Pins.
+
+### 9.6 Fehlerfall-Tabelle
 
 | Fehler | neue Ordnung GND–VCC–SIG | alte Ordnung VCC–SIG–GND |
 |---|---|---|
-| Stecker verkehrt gecrimpt | VCC bleibt auf Pin 2; GND/SIG tauschen. Sensor-Masse fließt über den 1-kΩ-Serien-R (≈ 3 mA, pin-sicher), Signal liegt auf unserer Masse. **Keine Funktion, kein Schaden.** | 3,3 V liegen auf dem MCU-Signalpin; die Sensorversorgung wird über unsere Masse kurzgeschlossen → **Pin-/Leistungsschaden möglich** |
+| Stecker verkehrt gesteckt | VCC bleibt auf Pin 2; GND/SIG tauschen. Masse fließt über den 1-kΩ-Serien-R (≈ 3 mA, pin-sicher), Signal liegt auf unserer Masse. **Keine Funktion, kein Schaden.** | 3,3 V liegen auf dem MCU-Signalpin; die Versorgung wird über unsere Masse kurzgeschlossen → **Pin-/Leistungsschaden möglich** |
 | Stecker offen (J2) | R6 liefert einen definierten Pegel, ADC schwebt nicht | – |
 | Stecker offen (J7) | R_LIGHT zieht LIGHT_RAW auf 0 V ⇒ „dunkel" ⇒ Bewässerung bleibt erlaubt (unkritisch) | – |
+| Erweiterung nicht gesteckt | VCC_EXT bleibt aus, kein Busstrom; J9–J15 unbenutzt | – |
 
-### 9.3 Sicherheitspaket
+### 9.7 Aderfarben-Empfehlung
 
-1. **Gerastete JST-XH-Stecker überall** (physischer Verpolschutz) — Stecker-Typen nicht mischen.
-2. **1 kΩ in Reihe in jeder Signalleitung** (R6, R_LIGHT_S).
-3. **VCC in der Mitte** bei beiden 3-poligen Steckern (J2, J7).
-4. **Aderfarben-Empfehlung** (der Nutzer crimpt selbst):
-   - 3-polig: **schwarz = GND · rot = VCC (SENSOR_PWR) · gelb = Signal (SIG)**
-   - Alle Signaladern vor dem Anschließen auf Durchgang/Polung prüfen.
+- 3-polig: **schwarz = GND · rot = VCC · gelb = Signal (SIG)** (GND–VCC–SIG von links nach rechts).
+- 4-polig (J8): **schwarz = GND · rot = VCC_EXT · weiß = SDA · grün = SCL**.
+- Signaladern vor dem Anschließen auf Durchgang/Polung prüfen.
 
-### 9.4 Hinweis zur Aufgabenliste
+### 9.8 Hinweis zur Aufgabenliste
 
 - **`LIGHT_RES`** wurde **nicht** als neues Netz angelegt: Die bestehenden Netze **LIGHT_RAW**
   (Steckerseite von R_LIGHT_S) und **LIGHT_AOUT** (ADC-Seite) beschreiben diese Knoten bereits.
@@ -448,3 +550,5 @@ unserer Masse. Ergebnis: **keine Funktion, kein Schaden** — die gewünschte Au
 ## 10. Rückschau
 
 - 14.09.2026: GPIO-Erweiterung (J8/J9/J10/Q2/TP7–TP11) auf Wunsch des Nutzers wieder entfernt.
+- 14.09.2026: GPIO-Erweiterung auf 2,54-mm-Stiftleisten wieder eingebaut (je Signal ein
+  3-pol GND–VCC–SIG-Stecker, I²C als 4-pol).

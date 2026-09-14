@@ -1,10 +1,11 @@
 # Mutationstest: beißen die Prüfungen wirklich?
 
-Stand: 14.09.2026 (Rückbau der GPIO-Erweiterung; Pinordnung bleibt) · Verifikation des Prüfpakets
-`hardware/design/` durch den Koordinator (**nicht** durch den Code-Autor). Ein Test, der immer
-besteht, ist wertlos — deshalb wurde **jede der heute 24 Prüfungen einzeln sabotiert** (16 im ersten
-Durchgang, 3 für Taster/Tank-LED, 1 für den LED-Headroom, 4 für den Lichtsensor; die 5 Mutationen
-der am 14.09.2026 entfernten GPIO-Erweiterung entfallen) und geprüft, ob der Test rot wird.
+Stand: 14.09.2026 (GPIO-Erweiterung auf 2,54-mm-Stiftleisten wieder eingebaut) · Verifikation des
+Prüfpakets `hardware/design/` durch den Koordinator (**nicht** durch den Code-Autor). Ein Test, der
+immer besteht, ist wertlos — deshalb wurde **jede der heute 29 Prüfungen einzeln sabotiert** (16 im
+ersten Durchgang, 3 für Taster/Tank-LED, 1 für den LED-Headroom, 4 für den Lichtsensor, 5 für die
+Stecker/Erweiterung) und geprüft, ob der Test rot wird. Nachtrag 5 belegt die fünf
+Erweiterungs-Prüfungen zusätzlich mit je mindestens einer eigenen Mutation.
 
 ## Aufbau
 
@@ -90,16 +91,37 @@ zieht den ADC über R_LIGHT auf 0 V („dunkel"), die Bewässerung bleibt erlaub
 GPIO8/GPIO9/GPIO15 — IO4/IO5 sind nur SDIO-Straps und als ADC nutzbar. Der Taster-Wecktest
 (Prüfung 21) führt IO4/IO5 weiterhin als Strapping und schließt sie für die Weckquelle aus.
 
-### Nachtrag 4 — entfallen: Pinordnung/Erweiterungsstecker (13.09.2026, entfernt 14.09.2026)
+### Nachtrag 4 — Pinordnung/Erweiterungsstecker (13.09.2026, entfernt 14.09.2026)
 
-Anlass war der GPIO-Ausbau (J8 I²C mit Load-Switch Q2, J9/J10, TP7–TP11) zusammen mit der
-Pinordnung GND–VCC–SIG. Mit dem Rückbau der GPIO-Erweiterung am 14.09.2026 sind auch die dafür
-eingeführten Prüfungen **Stecker-Pinordnung, Serienwiderstand Signale, Load-Switch-Fail-safe,
-Erweiterungs-Pins** und **I2C-Pull-ups** entfallen; ihre Mutationen entfallen ersatzlos.
+Der GPIO-Ausbau vom 13.09. (J8 I²C mit Load-Switch Q2, J9/J10, TP7–TP11) samt Pinordnung
+GND–VCC–SIG wurde am 14.09.2026 zurückgebaut; damit entfielen damals auch die Prüfungen
+**Stecker-Pinordnung, Serienwiderstand Signale, Load-Switch-Fail-safe, Erweiterungs-Pins** und
+**I2C-Pull-ups**. **Dieser Rückbau wurde am 14.09.2026 revidiert** — siehe Nachtrag 5.
 
-**Ergebnis:** Es verbleiben **24 mutationsgeprüfte Prüfungen**; die noch gültigen Mutationen zu
-Licht-Stecker und Standby-Budget stehen in Nachtrag 3. Die Aussage **GND–VCC–SIG** bleibt als
-Dokumentation für die Stecker J2/J7 erhalten (nicht mehr als eigene Prüfung).
+### Nachtrag 5 — Erweiterung auf 2,54-mm-Stiftleisten (14.09.2026)
+
+Anlass: Die freien GPIOs und der I²C-Bus sind wieder herausgeführt, jetzt als **2,54-mm-Stiftleisten
+(J7–J15, je Signal ein eigener 3-pol GND–VCC–SIG-Stecker; J8 als 4-pol GND–VCC–SDA–SCL)**, mit
+Load-Switch Q2, Serienwiderständen in **jeder** Signalleitung und I²C-Pull-ups an VCC_EXT. Die
+fünf Prüfungen aus Nachtrag 4 sind in angepasster Form wieder aktiv. Alle Mutationen wurden **real
+in einer Repo-Kopie** ausgeführt (`design/report.py`, Exit-Code und Fehlerliste ausgewertet).
+
+| # | Prüfung | Mutation (Quelle: Netzliste bzw. Schaltplan) | Ergebnis |
+|---|---|---|---|
+| 23 | Stecker-Pinordnung | J2 Pin 1 auf SENSOR_RAW gelegt (alte Ordnung VCC/SIG/GND verdreht) | ✅ `J2: 1=SENSOR_RAW 2=SENSOR_PWR 3=None FEHLER` → FEHLER (Exit 1) |
+| 24 | Serienwiderstand Signale | R_SDA_S auf beiden Seiten auf SDA_MCU (Widerstand umgangen) | ✅ „NICHT-Reihe" + Netzstruktur „R_SDA_S nur auf einem Netz" → FEHLER |
+| 24 | Serienwiderstand Signale | R_SPARE_IO15 von 1 kΩ auf 0 Ω | ✅ „Wert?" → FEHLER |
+| 25 | Load-Switch-Fail-safe | R_GATE von +3V3 auf GND gehängt (kein Gate-Pull-up) | ✅ „R_GATE an +3V3 FEHLER" → FEHLER |
+| 27 | I2C-Pull-ups | R_SDA_PU von VCC_EXT auf +3V3 gehängt | ✅ Pull-up-Seite nicht VCC_EXT → FEHLER |
+| 26 | Erweiterungs-Pins | IO15 des Steckers durch IO0 ersetzt (Doppelbelegung Pin 12) | ✅ Doppelbelegung + Zuordnung FEHLER → FEHLER (auch Pin-Disziplin) |
+| 13 | ADC-Filter (Reserve) | C_SPARE 100 nF → 10 µF | ✅ R_SPARE_AIN·C_SPARE 10,00 ms > 5 ms → FEHLER |
+| 25/26 | Load-Switch/Pins | IO20 zusätzlich auf +3V3 gelegt (Doppelbelegung Pin 26) | ✅ Doppelbelegung Pin 26 + Zuordnung FEHLER → FEHLER |
+
+**Ergebnis: 8 von 8 Erweiterungs-Mutationen wurden erkannt (Exit 1).** Zusammen mit den
+unveränderten Mutationen der Nachträge 1–3 sind damit **29 Prüfungen** mutationsgeprüft. Die
+Prüfungen 23–27 lesen die Verschaltung aus der Netzliste und die Werte aus `schaltplan_v1.md`;
+hart verdrahtet sind nur die IO-Nummern (`EXT_IO_PIN`) und die Ordnung GND/VCC/SIG (als Konstante
+mit Begründung im Code).
 
 ## Erkenntnisse aus dem Mutationstest
 
@@ -136,7 +158,7 @@ Dokumentation für die Stecker J2/J7 erhalten (nicht mehr als eigene Prüfung).
 
 ```bash
 cd hardware
-python3 design/report.py            # 24 Prüfungen, Exit 0 = alles im Rahmen
+python3 design/report.py            # 29 Prüfungen, Exit 0 = alles im Rahmen
 python3 ../scripts/check_netlist.py         # Netzlisten-Struktur
 python3 ../scripts/check_bom_consistency.py # Schaltplan ↔ JLCPCB-BOM
 ```

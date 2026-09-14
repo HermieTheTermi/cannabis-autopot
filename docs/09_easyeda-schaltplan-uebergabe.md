@@ -37,15 +37,15 @@ Immer mit `--project SmartGrowTopf_V1` arbeiten, Mutationen mit `--doc P1`.
 Alle im Repo `~/Projekte/cannabis-autopot`:
 
 - `hardware/schaltplan_v1.md` (Stand 14.09.2026) — **Wahrheit**: Blockbild, Netztabelle,
-  Bauteilwerte, Pinbelegungen, Auslegung. **32 Netze, 52 bestückte Positionen, 6 Testpunkte
-  (TP1–TP6)**. Der Live-Bau in EasyEDA wurde am **14.09.2026** auf diesen Stand aufgebaut
-  (58 Bauteile, 32 Netze, 171 Verbindungen, `sch gate` pass) und der PCB-Bau per
-  `pcb import-changes` nachgezogen (58 Bauteile, 32 Netze).
+  Bauteilwerte, Pinbelegungen, Auslegung. **50 Netze, 80 Bauteile, 72 bestückte Positionen,
+  6 Testpunkte (TP1–TP6)**. Die GPIO-/I²C-Erweiterung (J7–J15, Q2) ist als 2,54-mm-Stiftleisten
+  wieder eingebaut; der **Live-Bau in EasyEDA muss dafür noch nachgezogen werden** (Offline-Stand
+  der Generatoren: 80 Bauteile, 50 Netze, 233 Verbindungen, `check_ir_netlist.py` 0 Abweichungen).
 - `hardware/schaltplan_v1_netzliste.csv` — maschinenlesbare Netzliste (Bauteil, Pin, Netz).
 - `hardware/pcba_bom_jlc.csv` + `hardware/pcba_verfuegbarkeit_jlc.md` — LCSC-Codes,
   basic/extended, Lagerbestand.
-- `hardware/design/` — Python-Designmodell mit **24 mutationsgeprüften** Prüfungen
-  (`python3 hardware/design/report.py` → 24/24) und die Netzlisten-/BOM-Linter unter
+- `hardware/design/` — Python-Designmodell mit **29 mutationsgeprüften** Prüfungen
+  (`python3 hardware/design/report.py` → 29/29) und die Netzlisten-/BOM-Linter unter
   `scripts/`. Diese dienen der Gegenprüfung der EasyEDA-Ausgabe.
 - `docs/02_architektur-und-geometrie.md` — mechanische Wahrheit (Platine ≤ 38 mm breit,
   Antennen-Freistellung, Kammermaße).
@@ -55,7 +55,7 @@ Alle im Repo `~/Projekte/cannabis-autopot`:
 1. **S0** — Anforderungen und Datenquellen festhalten (aus den Dateien oben; keine neuen
    Bauteile erfinden, kein Umlabeln unvollständiger Schaltungen).
 2. **S1** — `easyeda sch connectivity` exportieren (Basisschnappschuss), Papier/Zeichenfläche
-   mit `sch sheet-geometry --json` prüfen (A4, Rand-Freihaltezone).
+   mit `sch sheet-geometry --json` prüfen (A1, 3304 × 2338 raw, Rand-Freihaltezone).
 3. **S2** — Positionen: nur fehlende/ungültige Bezeichner mit `sch designators` vergeben,
    gültige behalten; Pin-/NC-Verbindungen lokal prüfbar machen.
 4. **S3** — Lib-Geometrie mit `sch lib-layout` rechnen, Module mit `sch compose` setzen

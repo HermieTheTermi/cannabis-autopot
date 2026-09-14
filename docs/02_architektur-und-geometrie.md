@@ -54,8 +54,8 @@ Die Wulst sitzt seitlich am Mantel und **vollständig über dem Wasserstand** (k
 | Breite (tangential) | **60 mm** |
 | Tiefe (radial) | **40 mm** → Gesamtbreite an dieser Stelle ≈ **180 mm** |
 | Inhalt | ESP32-C6-MINI-1 (13,2 × 16,6 mm) + Lader/LDO/USB auf eigener PCB (Zielgröße ≤ 38 mm breit) + 2 Lötpads für den externen Taster, LiPo-Zelle 59 × 37 × 5 mm, Pumpe Ø 32 × 44 mm (OEM ABC-12527), Taster, LED |
-| Kanäle | **2 getrennte Schlitze**: Schlauchkanal (6 × 6 mm) für Saug- und Druckschlauch sowie Kabelkanal. Der Kabelkanal ist für **1 Sensorleitung (Ø 4 mm)** ausgelegt; durchgeführt werden das **Feuchtesensor-Kabel (J2)**, das **Lichtsensor-Kabel (J7)** und die **Taster-Rückleitung**. Zwei dünne Sensorleitungen passen durch den vorhandenen Kanal |
-| Öffnungen | USB-C-Durchbruch (Laden), **LED-Fenster (muss D2 und D5 abdecken)**, **Bohrung für den externen Taster** in der Außenwand, **Kabelaustritte für Feuchte- und Lichtsensor** mit Tropfschlaufe, Deckel mit Dichtung |
+| Kanäle | **2 getrennte Schlitze**: Schlauchkanal (6 × 6 mm) für Saug- und Druckschlauch sowie Kabelkanal. Mit der GPIO-Erweiterung (14.09.2026) steigt die Zahl der durchzuführenden Kabel deutlich: **Feuchtesensor (J2)**, **Lichtsensor (J7)**, **I²C (J8)** und **sieben Reserve-Kabel (J9–J15)** sowie die **Taster-Rückleitung (J6)** — insgesamt **11 Kabel** (der Auftrag nennt „9 Kabel"; die aufgeführten Posten summieren sich auf 11, siehe offener Punkt). Die Reserve-Leitungen werden nur nach Bedarf gesteckt; der vorhandene Ø-4-mm-Kanal reicht für zwei dünne Sensorleitungen, für die Gesamtzahl ist ein **breiterer/mehrkammeriger Kabelaustritt** nötig. |
+| Öffnungen | USB-C-Durchbruch (Laden), **LED-Fenster (muss D2 und D5 abdecken)**, **Bohrung für den externen Taster** in der Außenwand, **Kabelaustritte für Feuchte-/Licht-/I²C-/Reserve-Sensoren** mit Tropfschlaufe, Deckel mit Dichtung |
 
 **Einbau von unten nach oben (Innenmaß):** Pumpe y 92–136 (44 mm Bauhöhe) · Platine darüber · Zelle hochkant dahinter (59 mm Höhe, 5 mm Bautiefe). Maße stammen aus den final gewählten Bauteilen — siehe `../hardware/bom_entscheidung.md`. Die Pumpenparameter in `case/params.scad` (Ø32 / 44 mm) sind noch nachzuziehen.
 
@@ -94,6 +94,25 @@ Die Wulst sitzt seitlich am Mantel und **vollständig über dem Wasserstand** (k
 - **Leitungslänge:** standardmäßig ~300–500 mm (analoger Spannungsausgang, hochohmig); bei
   Bedarf verdrillt mit GND führen. Der ADC-Pin ist durch R_LIGHT_S/C_LIGHT gegen Einstreuung
   geschützt (siehe `hardware/schaltplan_v1.md` §8).
+
+### Erweiterungs-Kabelaustritte (14.09.2026, offener Gehäuse-Punkt)
+
+Die freien GPIOs und der I²C-Bus sind auf **2,54-mm-Stiftleisten** herausgeführt (J8 I²C 4-pol,
+J9–J15 Reserve je 3-pol). Damit steigt die Zahl der möglichen Kabelaustritte aus der dichten
+Elektronikkammer:
+
+| Stecker | Kabel | Bemerkung |
+|---|---|---|
+| J2 | Feuchtesensor | vorhanden |
+| J7 | Lichtsensor | vorhanden (jetzt Stiftleiste) |
+| J8 | I²C (VCC_EXT, SDA, SCL, GND) | neu |
+| J9–J15 | 7 × Reserve (GND, VCC_EXT, SIG) | neu, nur nach Bedarf gesteckt |
+| J6 | Taster-Rückleitung | vorhanden |
+
+Das sind **11 Kabel** (der Auftrag nennt 9). Die Reserve-Stecker werden nicht alle gleichzeitig
+benutzt; trotzdem braucht der Kabelaustritt in der Wulst **Platzreserve** für bis zu sieben
+3-adrige Dupont-Leitungen plus I²C. Das ist bewusst als **offener Gehäuse-Punkt** geführt (siehe
+§6) und im OpenSCAD nicht vorwegzunehmen.
 
 ---
 
@@ -135,5 +154,6 @@ Faustwert für 1,9-L-Topf: 0,15–0,35 L pro Gießvorgang, im Wachstum alle 3–
 - [ ] **Taster-Bohrung** in der Außenwand festlegen (Position so, dass der Taster **ohne Öffnen** erreichbar ist) + Kabelweg für das zweiadrige Tasterkabel zur Platine
 - [ ] **LED-Fenster für zwei LEDs:** D2 (Status) und D5 (Tank leer) — ein gemeinsames Fenster oder zwei kleine Lichtleiter; beide Plätze müssen **außerhalb** des antennenfreien Bereichs oben liegen
 - [ ] **Halteclip + Kabeldurchbruch für den externen Lichtsensor** festlegen (Topfrand/Kragen, außerhalb der dichten Elektronikkammer) → `case/params.scad`
+- [ ] **Kabelaustritt für die GPIO-/I²C-Erweiterung** (J8 + J9–J15) dimensionieren: Platzreserve für bis zu 8 Kabel (I²C + 7 Reserve, zusammen mit Feuchte/Licht/Taster 11) durch die Wulst, als mehrkammeriger oder breiterer Austritt mit Tropfschlaufe — offener Gehäuse-Punkt
 - [ ] Firmware-Regel für D5 aufnehmen (blinken statt dauerleuchten: 1,3 mA dauerhaft wären 31 mAh/Tag und damit das 19-fache des Standby-Budgets)
 

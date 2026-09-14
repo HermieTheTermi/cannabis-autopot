@@ -145,8 +145,7 @@
     },
     {
      "number": "10",
-     "name": "IO5",
-     "noConnected": true
+     "name": "IO5"
     },
     {
      "number": "11",
@@ -186,8 +185,7 @@
     },
     {
      "number": "20",
-     "name": "IO15",
-     "noConnected": true
+     "name": "IO15"
     },
     {
      "number": "21",
@@ -204,33 +202,27 @@
     },
     {
      "number": "24",
-     "name": "IO18",
-     "noConnected": true
+     "name": "IO18"
     },
     {
      "number": "25",
-     "name": "IO19",
-     "noConnected": true
+     "name": "IO19"
     },
     {
      "number": "26",
-     "name": "IO20",
-     "noConnected": true
+     "name": "IO20"
     },
     {
      "number": "27",
-     "name": "IO21",
-     "noConnected": true
+     "name": "IO21"
     },
     {
      "number": "28",
-     "name": "IO22",
-     "noConnected": true
+     "name": "IO22"
     },
     {
      "number": "29",
-     "name": "IO23",
-     "noConnected": true
+     "name": "IO23"
     },
     {
      "number": "30",
@@ -1357,7 +1349,7 @@
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
     "deviceUuid": "72b9be21f4ad4d53a42178e79731ea2a",
-    "name": "HDR-TH 2P 2,54 mm"
+    "name": "HDR-TH 2P, 2,54 mm"
    },
    "pins": [
     {
@@ -1476,11 +1468,11 @@
   {
    "id": "cmp-J7",
    "ref": "J7",
-   "role": "J7 — Lichtsensor JST-XH 3P (extern)",
+   "role": "J7 — Lichtsensor Stiftleiste 1x3 2.54 mm (extern)",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "c1af4305cbb2420986031de4cb5eed74",
-    "name": "S3B-XH-A(LF)(SN)"
+    "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
+    "name": "HDR-TH_3P-P2.54-V-M_PZ254V-11-03P"
    },
    "pins": [
     {
@@ -1560,6 +1552,508 @@
     }
    ],
    "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-J8",
+   "ref": "J8",
+   "role": "J8 — I2C Stiftleiste 1x4 (GND-VCC-SDA-SCL)",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "f70eda5267b34d9799800488a27be0c6",
+    "name": "HDR-TH_4P-P2.54-V-M"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    },
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "3",
+     "name": "3"
+    },
+    {
+     "number": "4",
+     "name": "4"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-J9",
+   "ref": "J9",
+   "role": "J9 — Reserve-Analog Stiftleiste 1x3 (IO5)",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
+    "name": "HDR-TH_3P-P2.54-V-M_PZ254V-11-03P"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    },
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "3",
+     "name": "3"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-J10",
+   "ref": "J10",
+   "role": "J10 — Reserve IO15 Stiftleiste 1x3",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
+    "name": "HDR-TH_3P-P2.54-V-M_PZ254V-11-03P"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    },
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "3",
+     "name": "3"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-J11",
+   "ref": "J11",
+   "role": "J11 — Reserve IO16 (TXD0) Stiftleiste 1x3",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
+    "name": "HDR-TH_3P-P2.54-V-M_PZ254V-11-03P"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    },
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "3",
+     "name": "3"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-J12",
+   "ref": "J12",
+   "role": "J12 — Reserve IO17 (RXD0) Stiftleiste 1x3",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
+    "name": "HDR-TH_3P-P2.54-V-M_PZ254V-11-03P"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    },
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "3",
+     "name": "3"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-J13",
+   "ref": "J13",
+   "role": "J13 — Reserve IO21 Stiftleiste 1x3",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
+    "name": "HDR-TH_3P-P2.54-V-M_PZ254V-11-03P"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    },
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "3",
+     "name": "3"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-J14",
+   "ref": "J14",
+   "role": "J14 — Reserve IO22 Stiftleiste 1x3",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
+    "name": "HDR-TH_3P-P2.54-V-M_PZ254V-11-03P"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    },
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "3",
+     "name": "3"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-J15",
+   "ref": "J15",
+   "role": "J15 — Reserve IO23 Stiftleiste 1x3",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
+    "name": "HDR-TH_3P-P2.54-V-M_PZ254V-11-03P"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    },
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "3",
+     "name": "3"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-Q2",
+   "ref": "Q2",
+   "role": "Q2 — P-Kanal-Load-Switch VCC_EXT",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "f58385f66b144586baef3753ba84f65d",
+    "name": "AO3401A"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "G"
+    },
+    {
+     "number": "2",
+     "name": "S"
+    },
+    {
+     "number": "3",
+     "name": "D"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_GATE",
+   "ref": "R23",
+   "role": "R_GATE — Gate-Pull-up Load-Switch 47 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "91f8acf5ccc04a77aed714589966c8f5",
+    "name": "0805W8F4702T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_SDA_PU",
+   "ref": "R19",
+   "role": "R_SDA_PU — I2C SDA Pull-up 10 k an VCC_EXT",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
+    "name": "0805W8F1002T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_SCL_PU",
+   "ref": "R20",
+   "role": "R_SCL_PU — I2C SCL Pull-up 10 k an VCC_EXT",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
+    "name": "0805W8F1002T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_SDA_S",
+   "ref": "R21",
+   "role": "R_SDA_S — I2C SDA Serienschutz 1 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "name": "0805W8F1001T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_SCL_S",
+   "ref": "R22",
+   "role": "R_SCL_S — I2C SCL Serienschutz 1 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "name": "0805W8F1001T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_SPARE_AIN",
+   "ref": "R24",
+   "role": "R_SPARE_AIN — Reserve-AIN Serienschutz 1 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "name": "0805W8F1001T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_SPARE_IO15",
+   "ref": "R25",
+   "role": "R_SPARE_IO15 — Reserve IO15 Serienschutz 1 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "name": "0805W8F1001T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_SPARE_IO16",
+   "ref": "R26",
+   "role": "R_SPARE_IO16 — Reserve IO16 Serienschutz 1 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "name": "0805W8F1001T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_SPARE_IO17",
+   "ref": "R27",
+   "role": "R_SPARE_IO17 — Reserve IO17 Serienschutz 1 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "name": "0805W8F1001T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_SPARE_IO21",
+   "ref": "R28",
+   "role": "R_SPARE_IO21 — Reserve IO21 Serienschutz 1 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "name": "0805W8F1001T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_SPARE_IO22",
+   "ref": "R29",
+   "role": "R_SPARE_IO22 — Reserve IO22 Serienschutz 1 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "name": "0805W8F1001T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_SPARE_IO23",
+   "ref": "R30",
+   "role": "R_SPARE_IO23 — Reserve IO23 Serienschutz 1 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "name": "0805W8F1001T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C_SPARE",
+   "ref": "C16",
+   "role": "C_SPARE — ADC-Filter Reserve-Analog 100 nF",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+    "name": "CC0805KRX7R9BB104"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
   }
  ],
  "nets": [
@@ -1614,6 +2108,12 @@
   {
    "id": "net-6a5d7bda708032b4d78fb81c79dfd8f2d1e88d16",
    "name": "EN",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-0d7c7a38af3c384a1fc8a70a9441f7527a8084f8",
+   "name": "EXT_EN",
    "scope": "local",
    "role": "signal"
   },
@@ -1696,6 +2196,30 @@
    "role": "signal"
   },
   {
+   "id": "net-82d696d8788b0da75be34639e8a547d61ef178a7",
+   "name": "SCL",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-13fda2370fcb8566451fa55879caa23b44a50181",
+   "name": "SCL_MCU",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-fd0e6d0e645c42a605af0a9c874be499be463518",
+   "name": "SDA",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-c83ba5ea510c58e658c6068d87760895eb99b9f1",
+   "name": "SDA_MCU",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
    "id": "net-55c4ea69baf261b150364a4408a0b31bff47c5cb",
    "name": "SENSOR_AOUT",
    "scope": "local",
@@ -1710,6 +2234,78 @@
   {
    "id": "net-51978626329afff4532b2327be4cbb483e7165aa",
    "name": "SENSOR_RAW",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-0397c3023d5fb2f6864c3d4dbf97d8801a874006",
+   "name": "SPARE_AIN",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-a71dbb4cfdc3b858f8322efc8ded04c4fda8f77e",
+   "name": "SPARE_AIN_RAW",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-77f69b8fd5a1e90b5b1ecf17983842e06007bc95",
+   "name": "SPARE_IO15",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-da8b420725b57a956a4f9a77a57bacc2fe7e0718",
+   "name": "SPARE_IO15_RAW",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-361d9ce9ab58ea62fd461a1041afdcae73c87687",
+   "name": "SPARE_IO16",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-f86425b94410992eb72f62e74d9fc5de384ea862",
+   "name": "SPARE_IO17",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-d51107117b50e65c628dc4723c73a3a9d52939ca",
+   "name": "SPARE_IO21",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-f624d69b952568b635e112b969065d407116830c",
+   "name": "SPARE_IO21_RAW",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-8b2497ed442dd98496dd8f5030786c7571550b9f",
+   "name": "SPARE_IO22",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-dfff60cb3e01cd9fb95589a49bbcf2b696f23735",
+   "name": "SPARE_IO22_RAW",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-dda8a1f207f709b7031f24eba49413fd79830ea0",
+   "name": "SPARE_IO23",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-b43479e1d86c131016530252378447a374b47408",
+   "name": "SPARE_IO23_RAW",
    "scope": "local",
    "role": "signal"
   },
@@ -1752,6 +2348,12 @@
   {
    "id": "net-098e3c9f0ee4914c627f64873850a4cf254e9630",
    "name": "VBAT_SENSE",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-7e6cdfa0d3a3e3ae9dc05aa34d29eb53e8176196",
+   "name": "VCC_EXT",
    "scope": "local",
    "role": "signal"
   }
@@ -1938,6 +2540,18 @@
    "kind": "netlist"
   },
   {
+   "componentId": "cmp-C_SPARE",
+   "pinNumber": "1",
+   "netId": "net-0397c3023d5fb2f6864c3d4dbf97d8801a874006",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_SPARE",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
    "componentId": "cmp-D1",
    "pinNumber": "1",
    "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
@@ -2007,6 +2621,114 @@
    "componentId": "cmp-J1",
    "pinNumber": "2",
    "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J10",
+   "pinNumber": "1",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J10",
+   "pinNumber": "2",
+   "netId": "net-7e6cdfa0d3a3e3ae9dc05aa34d29eb53e8176196",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J10",
+   "pinNumber": "3",
+   "netId": "net-da8b420725b57a956a4f9a77a57bacc2fe7e0718",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J11",
+   "pinNumber": "1",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J11",
+   "pinNumber": "2",
+   "netId": "net-7e6cdfa0d3a3e3ae9dc05aa34d29eb53e8176196",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J11",
+   "pinNumber": "3",
+   "netId": "net-361d9ce9ab58ea62fd461a1041afdcae73c87687",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J12",
+   "pinNumber": "1",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J12",
+   "pinNumber": "2",
+   "netId": "net-7e6cdfa0d3a3e3ae9dc05aa34d29eb53e8176196",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J12",
+   "pinNumber": "3",
+   "netId": "net-f86425b94410992eb72f62e74d9fc5de384ea862",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J13",
+   "pinNumber": "1",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J13",
+   "pinNumber": "2",
+   "netId": "net-7e6cdfa0d3a3e3ae9dc05aa34d29eb53e8176196",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J13",
+   "pinNumber": "3",
+   "netId": "net-f624d69b952568b635e112b969065d407116830c",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J14",
+   "pinNumber": "1",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J14",
+   "pinNumber": "2",
+   "netId": "net-7e6cdfa0d3a3e3ae9dc05aa34d29eb53e8176196",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J14",
+   "pinNumber": "3",
+   "netId": "net-dfff60cb3e01cd9fb95589a49bbcf2b696f23735",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J15",
+   "pinNumber": "1",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J15",
+   "pinNumber": "2",
+   "netId": "net-7e6cdfa0d3a3e3ae9dc05aa34d29eb53e8176196",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J15",
+   "pinNumber": "3",
+   "netId": "net-b43479e1d86c131016530252378447a374b47408",
    "kind": "netlist"
   },
   {
@@ -2154,6 +2876,48 @@
    "kind": "netlist"
   },
   {
+   "componentId": "cmp-J8",
+   "pinNumber": "1",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J8",
+   "pinNumber": "2",
+   "netId": "net-7e6cdfa0d3a3e3ae9dc05aa34d29eb53e8176196",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J8",
+   "pinNumber": "3",
+   "netId": "net-fd0e6d0e645c42a605af0a9c874be499be463518",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J8",
+   "pinNumber": "4",
+   "netId": "net-82d696d8788b0da75be34639e8a547d61ef178a7",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J9",
+   "pinNumber": "1",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J9",
+   "pinNumber": "2",
+   "netId": "net-7e6cdfa0d3a3e3ae9dc05aa34d29eb53e8176196",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J9",
+   "pinNumber": "3",
+   "netId": "net-a71dbb4cfdc3b858f8322efc8ded04c4fda8f77e",
+   "kind": "netlist"
+  },
+  {
    "componentId": "cmp-Q1",
    "pinNumber": "1",
    "netId": "net-389305e592258685a28b1ef92a1e030301e0a1eb",
@@ -2169,6 +2933,24 @@
    "componentId": "cmp-Q1",
    "pinNumber": "3",
    "netId": "net-7aa33919a58ef89d8f6e5129e4c058438f5c1894",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-Q2",
+   "pinNumber": "1",
+   "netId": "net-0d7c7a38af3c384a1fc8a70a9441f7527a8084f8",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-Q2",
+   "pinNumber": "2",
+   "netId": "net-2a0578345b7fcca9ed1b70565db42672e9260a31",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-Q2",
+   "pinNumber": "3",
+   "netId": "net-7e6cdfa0d3a3e3ae9dc05aa34d29eb53e8176196",
    "kind": "netlist"
   },
   {
@@ -2304,6 +3086,18 @@
    "kind": "netlist"
   },
   {
+   "componentId": "cmp-R_GATE",
+   "pinNumber": "1",
+   "netId": "net-2a0578345b7fcca9ed1b70565db42672e9260a31",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_GATE",
+   "pinNumber": "2",
+   "netId": "net-0d7c7a38af3c384a1fc8a70a9441f7527a8084f8",
+   "kind": "netlist"
+  },
+  {
    "componentId": "cmp-R_GPIO8",
    "pinNumber": "1",
    "netId": "net-2a0578345b7fcca9ed1b70565db42672e9260a31",
@@ -2361,6 +3155,138 @@
    "componentId": "cmp-R_PROG",
    "pinNumber": "2",
    "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SCL_PU",
+   "pinNumber": "1",
+   "netId": "net-82d696d8788b0da75be34639e8a547d61ef178a7",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SCL_PU",
+   "pinNumber": "2",
+   "netId": "net-7e6cdfa0d3a3e3ae9dc05aa34d29eb53e8176196",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SCL_S",
+   "pinNumber": "1",
+   "netId": "net-13fda2370fcb8566451fa55879caa23b44a50181",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SCL_S",
+   "pinNumber": "2",
+   "netId": "net-82d696d8788b0da75be34639e8a547d61ef178a7",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SDA_PU",
+   "pinNumber": "1",
+   "netId": "net-fd0e6d0e645c42a605af0a9c874be499be463518",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SDA_PU",
+   "pinNumber": "2",
+   "netId": "net-7e6cdfa0d3a3e3ae9dc05aa34d29eb53e8176196",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SDA_S",
+   "pinNumber": "1",
+   "netId": "net-c83ba5ea510c58e658c6068d87760895eb99b9f1",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SDA_S",
+   "pinNumber": "2",
+   "netId": "net-fd0e6d0e645c42a605af0a9c874be499be463518",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SPARE_AIN",
+   "pinNumber": "1",
+   "netId": "net-a71dbb4cfdc3b858f8322efc8ded04c4fda8f77e",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SPARE_AIN",
+   "pinNumber": "2",
+   "netId": "net-0397c3023d5fb2f6864c3d4dbf97d8801a874006",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SPARE_IO15",
+   "pinNumber": "1",
+   "netId": "net-da8b420725b57a956a4f9a77a57bacc2fe7e0718",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SPARE_IO15",
+   "pinNumber": "2",
+   "netId": "net-77f69b8fd5a1e90b5b1ecf17983842e06007bc95",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SPARE_IO16",
+   "pinNumber": "1",
+   "netId": "net-9daaa353e796fe76a52169d3da91a17dfddebb1b",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SPARE_IO16",
+   "pinNumber": "2",
+   "netId": "net-361d9ce9ab58ea62fd461a1041afdcae73c87687",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SPARE_IO17",
+   "pinNumber": "1",
+   "netId": "net-b941a1d102b964870ce0b7f4306006a5fa687d78",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SPARE_IO17",
+   "pinNumber": "2",
+   "netId": "net-f86425b94410992eb72f62e74d9fc5de384ea862",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SPARE_IO21",
+   "pinNumber": "1",
+   "netId": "net-f624d69b952568b635e112b969065d407116830c",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SPARE_IO21",
+   "pinNumber": "2",
+   "netId": "net-d51107117b50e65c628dc4723c73a3a9d52939ca",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SPARE_IO22",
+   "pinNumber": "1",
+   "netId": "net-dfff60cb3e01cd9fb95589a49bbcf2b696f23735",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SPARE_IO22",
+   "pinNumber": "2",
+   "netId": "net-8b2497ed442dd98496dd8f5030786c7571550b9f",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SPARE_IO23",
+   "pinNumber": "1",
+   "netId": "net-b43479e1d86c131016530252378447a374b47408",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SPARE_IO23",
+   "pinNumber": "2",
+   "netId": "net-dda8a1f207f709b7031f24eba49413fd79830ea0",
    "kind": "netlist"
   },
   {
@@ -2455,6 +3381,12 @@
   },
   {
    "componentId": "cmp-U1",
+   "pinNumber": "10",
+   "netId": "net-0397c3023d5fb2f6864c3d4dbf97d8801a874006",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U1",
    "pinNumber": "11",
    "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
    "kind": "netlist"
@@ -2515,6 +3447,12 @@
   },
   {
    "componentId": "cmp-U1",
+   "pinNumber": "20",
+   "netId": "net-77f69b8fd5a1e90b5b1ecf17983842e06007bc95",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U1",
    "pinNumber": "22",
    "netId": "net-964fa29c913bd02275b9e343fe254aea292a1975",
    "kind": "netlist"
@@ -2523,6 +3461,42 @@
    "componentId": "cmp-U1",
    "pinNumber": "23",
    "netId": "net-3bd9bc26b8b471fb6dbf33292d902e89b4f0bf82",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U1",
+   "pinNumber": "24",
+   "netId": "net-c83ba5ea510c58e658c6068d87760895eb99b9f1",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U1",
+   "pinNumber": "25",
+   "netId": "net-13fda2370fcb8566451fa55879caa23b44a50181",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U1",
+   "pinNumber": "26",
+   "netId": "net-0d7c7a38af3c384a1fc8a70a9441f7527a8084f8",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U1",
+   "pinNumber": "27",
+   "netId": "net-d51107117b50e65c628dc4723c73a3a9d52939ca",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U1",
+   "pinNumber": "28",
+   "netId": "net-8b2497ed442dd98496dd8f5030786c7571550b9f",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U1",
+   "pinNumber": "29",
+   "netId": "net-dda8a1f207f709b7031f24eba49413fd79830ea0",
    "kind": "netlist"
   },
   {

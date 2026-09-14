@@ -40,7 +40,7 @@ def main():
             net = row['Netz'].strip()
             comp = row['Bauteil'].strip()
             spec = row['Pin'].strip()
-            if row.get('Bemerkung', '').strip().startswith('#'):
+            if net.startswith('#') or row.get('Bemerkung', '').strip().startswith('#'):
                 continue          # Kommentarzeile, keine Verbindung (kein Phantompin)
             rec = comps.get(comp)
             if rec is None:

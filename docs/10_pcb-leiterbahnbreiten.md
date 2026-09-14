@@ -1,6 +1,6 @@
 # Leiterbahnbreiten auf der Platine (Akku, Pumpe, Versorgung)
 
-Stand: 13.09.2026 · Projekt SmartGrowTopf_V1 · gehört zur Schaltplan-/PCB-Phase
+Stand: 14.09.2026 · Projekt SmartGrowTopf_V1 · gehört zur Schaltplan-/PCB-Phase
 Rechenweg: `../hardware/easyeda/scripts/netclass_spec.py` → Ergebnis `../hardware/easyeda/netclass_spec.json`
 
 ## 1. Kurzantwort
@@ -12,7 +12,8 @@ Rechenweg: `../hardware/easyeda/scripts/netclass_spec.py` → Ergebnis `../hardw
 | **Masse (GND)** | **keine dünne Bahn** — Kupferfläche auf der Unterseite + kurze Stiche ≥ 0,5 mm | derselbe Strom fließt zurück |
 | **+3V3** vom LDO zum Modul | **0,4 mm**, mindestens 0,25 mm | 0,5 A max (TX-Spitze 0,38 A) |
 | **VBUS** (USB 5 V → Lader) | 0,5 mm | Lader zieht bis 0,5 A |
-| Alle Signale (LED, Sensor, Taster, UART, Gate) | 0,25 mm | wenige mA |
+| **VCC_EXT** (Q2 → J8/J9–J15) | **0,5 mm**, mindestens 0,25 mm | geschaltete Erweiterungsversorgung (Sensor-Module), bewusst mit Reserve |
+| Alle Signale (LED, Sensor, Taster, UART, Gate, **I²C/Reserve**) | 0,25 mm | wenige mA |
 | **USB_DP/USB_DM** | 0,25 mm, paarweise + gleich lang | 12 Mbit/s Full Speed |
 
 Ein 2-Lagen-Board mit 1 oz Kupfer (35 µm) bei JLCPCB kann minimal 0,127 mm (5 mil) —
@@ -117,7 +118,7 @@ prüfbar und versioniert sind:
 
 | Datei | Rolle |
 |---|---|
-| `hardware/easyeda/netclass_spec.json` | **die Definition**: je Netz Rolle, Sollbreite, Minimum, Strom, Erwärmung, Spannungsabfall (alle **32 Netze** der aktuellen Netzliste) |
+| `hardware/easyeda/netclass_spec.json` | **die Definition**: je Netz Rolle, Sollbreite, Minimum, Strom, Erwärmung, Spannungsabfall (alle **50 Netze** der aktuellen Netzliste) |
 | `hardware/easyeda/scripts/netclass_spec.py` | rechnet die Definition nach IPC-2221A aus (reproduzierbar) |
 | `hardware/easyeda/scripts/pcb_widths.py` | **setzt sie auf der Platine durch**: `--check` (Rückgabewert 1 bei Verstoß, gate-fähig), `--apply` (zu dünne Bahnen nachziehen), `--route-plan` (Verdrahtungsbefehle ausgeben) |
 | `hardware/easyeda/s0_spec.json` → `netClasses` | Kurzfassung für den P-Phasen-Import |

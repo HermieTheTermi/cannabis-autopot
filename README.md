@@ -53,7 +53,7 @@ cannabis-autopot/
 │   ├── check_netlist.py                 ← Lint der Netzliste (exit 0 vor dem Layout nötig)
 │   └── check_bom_consistency.py         ← Querabgleich Schaltplan ↔ JLCPCB-BOM
 ├── hardware/
-│   ├── design/                          ← Schaltplan als Python-Modell: 24 Prüfungen + Simulationen
+│   ├── design/                          ← Schaltplan als Python-Modell: 29 Prüfungen + Simulationen
 │   │   └── MUTATIONSTEST.md             ← Nachweis, dass jede Prüfung bei Fehlern anschlägt
 │   ├── bom_entscheidung.md              ← BESTELLGRUNDLAGE: Bauteile, Preise, Links
 │   ├── schaltplan_v1.md                 ← VERBINDUNGSVORGABE: Netze, Werte, Pinbelegungen
@@ -78,29 +78,31 @@ cannabis-autopot/
 - [x] **Versorgung festgelegt:** 1S direkt, kein Boost/Buck (Pumpe ab 3 V dokumentiert); eigener Lader **MCP73831T-2** + LDO **ME6211** auf der Platine
 - [x] **MCU festgelegt:** **ESP32-C6-MINI-1** auf eigener PCB (kein Dev-Board) — Pflichtbeschaltung und Antennenregeln aus den Espressif-Docs übernommen
 - [x] **PCBA geprüft:** alle Bauteile bei JLCPCB verfügbar (LCSC-Codes in `hardware/pcba_bom_jlc.csv`)
-- [x] **Schaltplan V1 + Netzliste** (`hardware/schaltplan_v1.md`, `..._netzliste.csv`, **32 Netze / 52 bestückte Positionen**)
-- [x] **Design als Python-Modell + Prüfungen** (`hardware/design/`): **24** Design-Regelprüfungen gegen die
+- [x] **Schaltplan V1 + Netzliste** (`hardware/schaltplan_v1.md`, `..._netzliste.csv`, **50 Netze / 80 Bauteile / 72 bestückte Positionen**)
+- [x] **Design als Python-Modell + Prüfungen** (`hardware/design/`): **29** Design-Regelprüfungen gegen die
       Datenblattgrenzen, 6 Simulationsgruppen, Mutationsabdeckung vollständig (`hardware/design/MUTATIONSTEST.md`)
 - [x] **Taster + 3 LEDs** (11.09.2026): externer Nachfüll-Taster an IO6 (weckt aus dem Deep-Sleep), nur
       2 Lötpads auf der Platine · **D5 rot = Tank leer** (IO7, R_TANK 1 kΩ, Firmware blinkt) ·
       **D2 grün = Status** (IO14, C2297, R4 **220 Ω** — grün hat Vf 2,85 V, am 3,3-V-Rail bleiben nur 0,45 V
       Reserve) · D_LEDCHG rot = Ladestatus. Neue Positionen sind **basic** (kein Extended-Aufpreis)
 - [x] **Lichtsensor extern + Licht-Gate** (13.09.2026): Bewässerung nur in der Dunkelphase.
-      Stecker **J7** (JST-XH 3P wie J2) mit **R_LIGHT 10 kΩ** (offener Stecker ⇒ 0 V ⇒ „dunkel",
-      Bewässerung bleibt erlaubt) · **R_LIGHT_S 1 kΩ** + **C_LIGHT 100 nF** am ADC · Sensor
-      an **SENSOR_PWR** (geschaltet, keine Standby-Verschlechterung) · ADC auf **IO4 (ADC1_CH4)**.
-       Firmware-Fail-safe inkl. Zeitfenster-Fallback und Telegram-Alarm. **Pin-Korrektur:** IO4/IO5
-       sind keine boot-kritischen Strapping-Pins (nur GPIO8/9/15). Neue Prüfungen + Mutationstest.
-- [x] **Pinordnung GND–VCC–SIG** (13.09.2026): **J2/J7** auf
-      1 = GND · **2 = VCC** · 3 = Signal umgestellt (nur der mittlere Pin ist gegen Umdrehen
-      invariant — ein verkehrt gecrimpter Stecker kann so **nie** 3,3 V auf einen MCU-Pin legen).
-- [x] **Rückbau der GPIO-Erweiterung** (14.09.2026): die am 13.09. ergänzte Erweiterung
-      (**J8** I²C mit **Q2** Load-Switch, **J9** Reserve-Analog, **J10** Reserve-Digital,
-      **TP7–TP11**) wurde auf Wunsch des Nutzers wieder entfernt — aus Netzliste, Designmodell,
-      Generatoren, EasyEDA-Schaltplan und PCB. Geblieben sind Lichtsensor (J7), Pinordnung
-      GND–VCC–SIG und die einzeln verdrahteten U1-Massepads → **32 Netze / 52 bestückte
-      Positionen**; Schaltplan live neu gebaut (58 Bauteile, `sch gate` **pass**), PCB per
-      `pcb import-changes` nachgezogen.
+      Stecker **J7** (seit 14.09.2026 2,54-mm-Stiftleiste) mit **R_LIGHT 10 kΩ** (offener Stecker
+      ⇒ 0 V ⇒ „dunkel", Bewässerung bleibt erlaubt) · **R_LIGHT_S 1 kΩ** + **C_LIGHT 100 nF** am
+      ADC · Sensor an **SENSOR_PWR** (geschaltet, keine Standby-Verschlechterung) · ADC auf
+      **IO4 (ADC1_CH4)**. Firmware-Fail-safe inkl. Zeitfenster-Fallback und Telegram-Alarm.
+      **Pin-Korrektur:** IO4/IO5 sind keine boot-kritischen Strapping-Pins (nur GPIO8/9/15).
+- [x] **Pinordnung GND–VCC–SIG** (13.09.2026): alle 3-poligen Stecker auf
+      1 = GND · **2 = VCC** · 3 = Signal (nur der mittlere Pin ist gegen Umdrehen invariant — ein
+      verkehrt gesteckter Stecker kann so **nie** 3,3 V auf einen MCU-Pin legen). J8 (I²C 4-pol)
+      als **GND–VCC_EXT–SDA–SCL**.
+- [x] **GPIO-Erweiterung auf 2,54-mm-Stiftleisten** (14.09.2026): alle freien GPIOs + I²C als
+      **Stiftleisten (male, gerade)** für Dupont-Buchsen — **je Signal ein eigener 3-pol Stecker**
+      (**J9–J15**: IO5/IO15/IO16/IO17/IO21/IO22/IO23), I²C als 4-pol **J8**, Lichtsensor **J7** jetzt
+      ebenfalls Stiftleiste. **1 kΩ in Reihe in jeder Signalleitung**. Erweiterungsversorgung
+      **VCC_EXT** über **P-Kanal-Load-Switch Q2 (AO3401A)**: Gate über 47 kΩ auf +3V3 ⇒ **aus beim
+      Reset** (Fail-safe). **I²C-Pull-ups an VCC_EXT** (kein Busstrom im Aus-Zustand). **C_SPARE**
+      100 nF am Reserve-ADC. Offline-Generatoren: 80 Bauteile / 50 Netze / 233 Verbindungen,
+      `check_ir_netlist.py` 0 Abweichungen; Live-Neuaufbau des EasyEDA-Blatts steht aus.
 - [ ] Gehäuse-CAD (parametrisch) + PCB-Design
 - [ ] Firmware (State-Machine)
 

@@ -137,6 +137,39 @@ Hardware-Details: `hardware/schaltplan_v1.md` §8.
 
 ---
 
+## 4c. I²C- und GPIO-Erweiterung (J8–J15, wieder aufgenommen 14.09.2026)
+
+Hardware: `hardware/schaltplan_v1.md` §9. Alle freien GPIOs und der I²C-Bus sind als
+**2,54-mm-Stiftleisten** herausgeführt: **J8** (I²C 4-pol, **GND · VCC_EXT · SDA(IO18) · SCL(IO19)**),
+**J9** (Reserve-ADC **IO5**), **J10–J15** (Reserve **IO15/IO16/IO17/IO21/IO22/IO23**). Jede
+Signalleitung hat **1 kΩ in Reihe** zum MCU. Die I²C-Pull-ups (2 × 10 kΩ) hängen an **VCC_EXT**.
+
+**VCC_EXT / Load-Switch (Fail-safe):** VCC_EXT kommt aus dem **P-Kanal-MOSFET Q2 (AO3401A)**,
+Source an +3V3, Drain an VCC_EXT. Das Gate hängt über **47 kΩ auf +3V3** (Quellpotential) und wird
+von **IO20 (`EXT_EN`)** nach unten gezogen. **Polarität:** IO20 `LOW` ⇒ Q2 leitet ⇒ **Rail an**;
+IO20 `HIGH`/hochohmig ⇒ Q2 sperrt ⇒ **Rail aus**. Beim Reset hat IO20 einen internen
+**Weak-Pull-up** ⇒ **VCC_EXT ist beim Start aus**.
+
+**Firmware-Option (noch nicht implementiert):**
+
+1. **Rail schalten:** `EXT_EN` (IO20) als Ausgang. Im Deep-Sleep IO20 hoch ⇒ Rail aus ⇒ **kein
+   Standby-Strom** über angeschlossene Module und keiner über die I²C-Pull-ups.
+2. **Bus-Scan:** mit `Wire.begin(/*SDA=*/18, /*SCL=*/19)` und einem Scan der Adressen 0x08–0x77
+   prüfen, welche Module stecken; Ergebnis im Telegram-Tagesreport / `/status` ausgeben.
+3. **Autarkie:** Module nur während der Messung bestromen (Rail an, 5–10 ms warten, lesen, Rail
+   aus) — analog zum geschalteten SENSOR_PWR der analogen Sensoren.
+4. **Reserve-ADC IO5 (J9):** zweiter analoger Kanal (ADC1_CH5) mit R_SPARE_AIN 1 kΩ + C_SPARE
+   100 nF, gleiche Median-/Kalibrierlogik wie der Feuchtekanal; z. B. zweiter Feuchtesensor, NTC
+   oder Pegel-Trigger. `ADC_ATTEN_DB_12` (0–3300 mV).
+5. **Reserve-Digital IO15/16/17/21/22/23 (J10–J15):** frei als Ein-/Ausgang nutzbar. Beachten:
+   IO15 ist Strapping (JTAG-Quelle, mit Default-eFuses wirkungslos), IO16/IO17 sind UART0
+   (TXD0/RXD0, Debug — mit dem 1-kΩ-Serien-R bleibt der Pin geschützt), IO21 hat beim Reset einen
+   WPU (ein angeschlossenes Modul sieht kurz High).
+6. **Option:** den analogen Lichtsensor auf J7 durch einen digitalen I²C-Lichtsensor ersetzen
+   (dann das Licht-Gate aus 4b auf den digitalen Wert umstellen).
+
+---
+
 ## 5. State-Machine (Kern der Firmware)
 
 **Regel:** komplett `millis()`-getrieben, **kein `delay()`** — der Webserver und Telegram-Polling müssen parallel weiterlaufen.

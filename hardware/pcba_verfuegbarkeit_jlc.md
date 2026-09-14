@@ -1,6 +1,6 @@
 # PCBA-Verfügbarkeit bei JLCPCB — Smart Grow Topf V1 (Modul-Variante)
 
-Stand: 11.09.2026 · Methode: JLCPCB-Parts-API (`selectSmtComponentList/v2`, Skill `jlcpcb-parts-check`),
+Stand: 14.09.2026 · Methode: JLCPCB-Parts-API (`selectSmtComponentList/v2`, Skill `jlcpcb-parts-check`),
 jede Zeile ein echter API-Treffer. Preise = 1-Stück-Staffel in USD. `base` = Basic (keine
 Handling-Gebühr) · `expand` = Extended (**+3 USD pro Position**).
 
@@ -51,12 +51,22 @@ Seit der Umstellung auf das nackte **ESP32-C6-MINI-1** gibt es **keine Lücke me
 | J1 | Akku JST PH 2,0 mm 2-pol | `C54582899` | SMD 2 mm gewinkelt | expand | 2.308 | $0,0466 |
 | J2 | Sensor JST-XH 2,5 mm 3-pol | `C157928` | THT gewinkelt | expand | 146.324 | $0,0745 |
 | J4 | Pumpe JST-XH 2,5 mm 2-pol | `C157931` | THT gewinkelt | expand | 50.464 | $0,1014 |
+| J7, J9–J15 | Stiftleiste 1×3, 2,54 mm, male gerade (XFCN `PZ254V-11-03P`) | `C2937625` | THT 2,54 mm | expand | ⏳ | ⏳ |
+| J8 | Stiftleiste 1×4, 2,54 mm, male gerade (XFCN `PZ254V-11-04P`) | `C2691448` | THT 2,54 mm | expand | ⏳ | ⏳ |
+| Q2 | **AO3401A** (P-Kanal-Load-Switch, High-Side) | `C15127` | SOT-23 | **base** | 591.277 | $0,0908 |
 
-**Handling-Kosten:** 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 = **10 Extended-Positionen ≈ 30 USD**
-(U1, U3, U4, U6, U7, J5, C3, J1, J2, J4). Alles andere ist Basic. Das ist der Preis dafür, dass
-Lader, LDO und USB jetzt auf unserer Platine sitzen statt im XIAO-Modul. Sparoptionen:
-RT9013-33 statt ME6211 ändert nichts (beide Extended), ein Basic-Äquivalent für den 100-µF-Puffer
-wäre noch zu suchen.
+**Nachtrag 14.09.2026 (GPIO-/I²C-Stiftleisten, live geprüft):** Die **Device-Identitäten** der drei
+neuen Positionen wurden am 14.09.2026 live über `easyeda lib by-lcsc --include-device-identity`
+aufgelöst: `C2937625` → XFCN `PZ254V-11-03P` (1×3), `C2691448` → XFCN `PZ254V-11-04P` (1×4),
+`C15127` → AOS `AO3401A` (P-Kanal, RDS(on) 85 mΩ @ VGS −2,5 V). **Bestand/Preis** der beiden
+Stiftleisten wurden in diesem Durchgang **nicht** erneut abgefragt (⏳); Q2 `C15127` ist wie Q1
+**Basic**. J2 bleibt die **einzige** JST-XH-3P-Position (J7 ist jetzt Stiftleiste).
+
+**Handling-Kosten:** 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 = **12 Extended-Positionen
+≈ 36 USD** (U1, U3, U4, U6, U7, J5, C3, J1, J2, J4, `C2937625`, `C2691448`). Alles andere ist
+Basic (inkl. Q2 `C15127`). Das ist der Preis dafür, dass Lader, LDO und USB auf unserer Platine
+sitzen statt im XIAO-Modul. Sparoptionen: RT9013-33 statt ME6211 ändert nichts (beide Extended),
+ein Basic-Äquivalent für den 100-µF-Puffer wäre noch zu suchen.
 
 ## 2. Der XIAO ist raus — und warum das die Platine *kleiner* macht
 
@@ -71,6 +81,7 @@ die eine Gehäuseöffnung und Randabstand erzwungen hätte. Damit lässt sich di
 | Bauteil | Quelle | Kernwerte |
 |---|---|---|
 | AO3400A | `aosmd.com/pdfs/datasheet/AO3400A.pdf` | VDS 30 V · ID 5,7 A · RDS(on) < 48 mΩ @ VGS 2,5 V · VGS(th) 0,65–1,45 V |
+| AO3401A | LCSC-Produktdaten `C15127` | P-Kanal · RDS(on) 47 mΩ @ VGS −10 V · 60 mΩ @ −4,5 V · **85 mΩ @ −2,5 V** |
 | 1N5819WS | LCSC-Datenblatt (Heketai) | VRRM 40 V · IF 1,0 A · IFSM 25 A · VF ≤ 0,60 V @ 1 A |
 | MAX809T | LCSC-Datenblatt | VTH 3,04/3,08/3,11 V · ICC 12 µA · push-pull aktiv-low |
 | MCP73831T-2 | LCSC-Datenblatt | **4,20 V** Ladeschluss (die -2-Variante) · 15–500 mA · UVLO 3,45/3,38 V |

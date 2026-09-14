@@ -5,54 +5,57 @@ Autopot "SmartGrowTopf_V1" in EasyEDA Pro — gebaut mit der `easyeda-agent` CLI
 des Design-Flows S0–S6 (`docs/09_easyeda-schaltplan-uebergabe.md`). Quelle der Schaltung ist die
 Handnetzliste `../schaltplan_v1_netzliste.csv`.
 
-> **Stand 14.09.2026:** Der Live-Bau in EasyEDA wurde nach dem Rückbau der GPIO-Erweiterung
-> (J8/J9/J10/Q2/TP7–TP11) auf die aktuelle Netzliste gezogen und deckt sich mit ihr:
-> **58 Bauteile, 32 Netze, 171 Verbindungen, 11 Modulgruppen**, `sch gate` = **pass**.
-> Live-Nachweise: `s5/live_connectivity_2026-09-14.json`, `s5/FINAL_gate_2026-09-14.json`,
-> Blattbild `../../out/schaltplan_2026-09-14.png` (+ `.svg`). Der PCB-Bau wurde mit
-> `pcb import-changes` nachgezogen (**58 Bauteile, 32 Netze**) — Platzieren und Verdrahten
-> auf der Platine macht der Anwender.
+> **Stand 14.09.2026 (GPIO-Erweiterung auf 2,54-mm-Stiftleisten):** Die Offline-Generatoren
+> (`build_ir.py`, `plan_layout.py`, `build_autoconnect.py`, `netclass_spec.py`) wurden auf die
+> erweiterte Netzliste gezogen: **80 Bauteile, 50 Netze, 233 Verbindungen, 12 Modulgruppen**;
+> `check_ir_netlist.py` = **0 Abweichungen**; `plan_layout.py` packt jetzt mit den live
+> gemessenen Bauteil-Volumen (`raw/measured_volumes_2026-09-14.json`, Koerper + Marker/Stiche)
+> ohne Planungsproblem (`raw/frames.json` = **12 Rahmen**, Blattnutzung **71,1 %**);
+> `check_plan_fit.py` = **Exit 0**; `raw/ac_ERWEITERUNG.json` wieder vorhanden.
+> Der **Live-Bau in EasyEDA ist noch auf dem Rückbau-Stand** (58 Bauteile, 32 Netze, 171
+> Verbindungen, 11 Modulgruppen, `sch gate` = pass) und muss vom Koordinator mit
+> `sch clear → place → frames → autoconnect` auf den neuen Stand gezogen werden. Live-Nachweise
+> des alten Stands: `s5/live_connectivity_2026-09-14.json`, `s5/FINAL_gate_2026-09-14.json`,
+> Blattbild `../../out/schaltplan_2026-09-14.png` (+ `.svg`).
 >
-> **Rückbau 14.09.2026:** Die GPIO-Erweiterung vom 13.09. (J8 I²C + Q2 Load-Switch, J9/J10
-> Reserve, TP7–TP11) wurde auf Wunsch des Nutzers wieder entfernt — in Netzliste, Designmodell,
-> Generatoren, Live-Schaltplan und PCB. Geblieben sind der Lichtsensor (J7, R_LIGHT, R_LIGHT_S,
-> C_LIGHT), die Pinordnung GND–VCC–SIG der 3-poligen Stecker (J2/J7) und die einzeln
-> verdrahteten U1-Massepads 36–53.
+> **Erweiterung 14.09.2026:** Freie GPIOs + I²C als **2,54-mm-Stiftleisten** — **J8** (I²C 4-pol,
+> GND–VCC_EXT–SDA–SCL), **J9–J15** (je 3-pol, GND–VCC–SIG), Lichtsensor **J7** ebenfalls
+> Stiftleiste, **Q2 AO3401A** als Load-Switch für VCC_EXT, 1 kΩ in jeder Signalleitung,
+> I²C-Pull-ups an VCC_EXT, `C_SPARE` am Reserve-ADC. Live-Device-Identitäten der drei neuen
+> LCSC-Positionen am 14.09.2026 per `easyeda lib by-lcsc --include-device-identity` aufgelöst;
+> das gemessene Library-Präfix der Stiftleisten ist **`H?`** (projektseitig bewusst als J-Refdes
+> geführt, wie schon J2/J7 mit Präfix `CN?`).
+>
+> **Rückbau 14.09.2026:** Die GPIO-Erweiterung vom 13.09. (J8/J9/J10/Q2/TP7–TP11) war zwischen-
+> zeitlich wieder entfernt und ist mit dieser Änderung in neuer Form (Stiftleisten) zurück.
 >
 > **Nachbesserung 13.09.2026 (Massepads):** Die frühere Sammelzeile `U1 1/2/11/14/36-53` in
 > der Netzliste ist in Einzelzeilen aufgelöst. Das ESP32-C6-MINI-1-Symbol hat **keinen
 > Bus-/Sammelpin** — alle 22 GND-Pads (1, 2, 11, 14, 36–53) haben live geprüfte eigene
-> Koordinaten und werden einzeln verdrahtet. Der frühere Autoconnect-Skip der „18
-> U1-GND-Buspins" ist entfernt: Alle **171** Verbindungen werden verdrahtet, übersprungen
-> **0**. Die Zeile `EPAD (Pin 49)` ist als Kommentar erhalten (Pad 49 ist in 36–53 enthalten,
-> kein Phantompin).
+> Koordinaten und werden einzeln verdrahtet. Die Zeile `EPAD (Pin 49)` ist als Kommentar
+> erhalten (Pad 49 ist in 36–53 enthalten, kein Phantompin).
 >
 > **Historisch (11.09.2026):** Der erste eingecheckte Bau hatte 30 Netze und **keinen**
 > Lichtsensor; die Zahlen in den Prüfberichten vom 11.09. beziehen sich darauf.
 
-Stand des eingecheckten Baus: **14.09.2026** · Tool: `easyeda-agent` 1.4.8 · Blatt: **A2 Querformat** (594 × 420 mm)
+Stand des Offline-Aufbaus: **14.09.2026** · Tool: `easyeda-agent` 1.4.8 · Blatt: **A1 Querformat** (841 × 594 mm; 3304 × 2338 raw)
 
 ---
 
-## Ergebnis (Live-Bau, Stand 14.09.2026)
+## Ergebnis (Offline-Generatoren, Stand 14.09.2026)
 
 | Prüfung | Werkzeug | Stand |
 |---|---|---|
-| Blatt / Geometrie | `sch sheet-geometry` | A2, 2338 × 1652 Einheiten, Titelblock-Freihaltezone ab x ≥ 1636, y ≤ 198 |
-| Bauteile / Verdrahtung | `sch connectivity` | **58 Bauteile, 171 Leitungssegmente, 11 Modulgruppen**, 1 Seite („Systemuebersicht") |
-| Netzlisten-Treue | `check_ir_netlist.py` (Pin-für-Pin gegen `raw/ir_numbered.json`) | **0 Abweichungen** (171 Verbindungen, **32 Netze**, 24 NC-Pins) |
-| Gruppen-Lesbarkeit | `sch clusters` | 0 Überlappungen, 0 außerhalb des Blatts; 1 „zu eng" (C3 ↔ J2, 4 Einheiten) |
-| Platzierung | `sch layout-lint` | 0 Überlappungen, 0 Pin-Koinzidenzen, 0 Off-Grid, 0 außerhalb des Blatts |
-| Elektrik | `sch check` | 0 Fehler, 0 Mehrnetz-Leitungen (14 Warnungen: floating-pin 6 · marker-overlap 6 · missing-partition 1 · missing-titleblock 1) |
-| Kurzschlüsse | `sch bridge-check` | 0 Brücken, 0 verwaiste Stiche, 0 verwaiste Bäume (171 Leitungsträger) |
-| Offizieller DRC | `sch drc` | 0 fatal, 0 error, 2 warn |
-| Abnahme | `sch gate` | **pass** (alle 5 Stufen grün) |
-| Abnahme streng | `sch gate --strict` | fail — ausschließlich WARN-Klasse: 1× „zu eng", 14 `check`-Warnungen, 2 DRC-Warnungen |
+| Bauteile / Netze | `raw/ir_report.txt` | **80 Bauteile, 50 Netze, 233 Verbindungen**, 16 NC-Pins, keine Probleme |
+| Module | `raw/modules.json` | **12 Module** (USB, LADER, DEBUG, MCU, WAEChTER, LDO, AKKU, SENSOR, PUMPE, TASTER, LICHT, ERWEITERUNG) |
+| Rahmen | `raw/frames.json` | **12 Rahmen** (11 bestehende + `frame-erweiterung`) |
+| Netzlisten-Treue | `check_ir_netlist.py` (Pin-für-Pin gegen `raw/ir_numbered.json`) | **0 Abweichungen** (233 Verbindungen, 50 Netze) |
+| Platzierung | `plan_layout.py` | kein Planungsproblem; 12 Blöcke aus den gemessenen Volumen gepackt, Blattnutzung 71,1 % (Volumen 15,2 %) |
+| Platzierungs-Fit (offline) | `check_plan_fit.py` | **Exit 0** — 80 Volumen im Nutzbereich, kleinster Volumen-Abstand 25,00, kleinster Rahmen-Rand 150, 0 Blocküberlappungen |
+| Autoconnect-Specs | `build_autoconnect.py` | **12** Spec-Dateien, `raw/ac_ERWEITERUNG.json` mit **54** Verbindungen |
 
-`sch save` → `saved: true`; Bild-Exporte in `../../out/schaltplan_2026-09-14.png` / `.svg`.
-
-**Elektrisch ist der Plan fertig und geprüft.** Offen sind ausschließlich kosmetische Punkte,
-siehe „Bekannte Restpunkte".
+**Live-Bau in EasyEDA steht noch auf dem Rückbau-Stand** (58/32/171, `sch gate` pass) und wird
+danach nachgezogen. Offen sind ausschließlich kosmetische Punkte, siehe „Bekannte Restpunkte".
 
 ---
 
@@ -86,11 +89,12 @@ G=(--project "SmartGrowTopf_V1" --doc $P)
 # S0  Spezifikation (Board 38 mm, 2 Lagen, GND-Fläche unten) → s0_spec.json
 # S1  Netzliste + Symbole → kanonische IR (Designator-Nummerierung offline nachgebildet)
 python3 scripts/build_ir.py                                   # → raw/ir_draft.json, raw/ir_numbered.json,
-                                                              #   raw/no_place.json  (19 Umbenennungen)
+                                                              #   raw/no_place.json  (32 Umbenennungen)
 python3 scripts/check_ir_netlist.py                           # Pin-für-Pin: 0 Abweichungen
 # S2  Module/Gruppen + Rahmen
 python3 scripts/plan_layout.py                                # → raw/place_all.sh, raw/frames_*.json
-bash raw/place_all.sh                                         # 58/58 platziert
+python3 scripts/check_plan_fit.py                             # offline: Volumen/Ränder/Blöcke, Exit 0
+bash raw/place_all.sh                                         # 80/80 platziert
 easyeda "${G[@]}" sch zone-draw … ; easyeda "${G[@]}" sch frame apply …
 # S3/S4  Verdrahtung je Modul (autoconnect statt lib-layout-Solver), inkl. 22 Einzel-GND-Pads
 python3 scripts/build_autoconnect.py                          # → raw/ac_<MODUL>.json
@@ -102,10 +106,10 @@ easyeda "${G[@]}" sch bridge-check --json ; easyeda "${G[@]}" sch drc --json
 easyeda "${G[@]}" sch gate --json ; easyeda "${G[@]}" sch gate --strict --json
 # S6  Sichern + Export
 easyeda "${G[@]}" sch save
-easyeda "${G[@]}" sch export-image --format png --out out/SmartGrowTopf_V1_A2_final.png
+easyeda "${G[@]}" sch export-image --format png --out out/SmartGrowTopf_V1_A1_final.png
 ```
 
-Die Papiergröße (A4 → A2) ist **nicht** über die CLI änderbar: Blatt im EasyEDA-Canvas anklicken →
+Die Papiergröße (A4 → A1) ist **nicht** über die CLI änderbar: Blatt im EasyEDA-Canvas anklicken →
 rechtes Panel „Drawing" → Feld `Size`. Danach mit `sch sheet-geometry` gegenprüfen.
 
 ## Dateien
@@ -115,7 +119,8 @@ rechtes Panel „Drawing" → Feld `Size`. Danach mit `sch sheet-geometry` gegen
 | `scripts/build_ir.py` | Netzliste + Symbol-Pins → kanonische IR + Designator-Nummerierung |
 | `scripts/check_ir_netlist.py` | Selbstkonsistenz IR ↔ Handnetzliste (Pin für Pin) |
 | `scripts/plan_layout.py` | Modulblöcke, Platzierungsbefehle, Rahmen |
-| `scripts/build_autoconnect.py` | Autoconnect-Specs je Modul (11 Dateien) |
+| `scripts/check_plan_fit.py` | Offline-Prüfer der Platzierung gegen die gemessenen Volumen |
+| `scripts/build_autoconnect.py` | Autoconnect-Specs je Modul (12 Dateien) |
 | `scripts/build_layout_input.py` | Eingabe für den Solver `sch lib-layout` (verworfen, s. u.) |
 | `scripts/repair_pins.py` | Wiederherstellung der Verdrahtung nach dem Marker-Vorfall |
 | `scripts/fix_overlaps_safe.py` | kosmetische Marker-Korrektur (nur `disconnect --flag-id`) |
@@ -124,9 +129,9 @@ rechtes Panel „Drawing" → Feld `Size`. Danach mit `sch sheet-geometry` gegen
 | `raw/` | IR (numeriert), Module, Symbole, Autoconnect-Specs, Platzierungsskript |
 | `s1/` `s3/` `s4/` `s6/` | Zwischenstände (Seitenzustand, Verdrahtung, Titelblock) |
 | `s5/FINAL_*` | **Abnahme-Belege** (gate, gate strict, check, bridge, drc, lint, read, Gruppen, Status) |
-| `s5/b2_*` | Autoconnect-Läufe der finalen A2-Verdrahtung |
+| `s5/b2_*` | Autoconnect-Läufe der finalen A1-Verdrahtung |
 | `s5/archiv/` | alle Zwischenläufe (Zwischenprüfungen, verworfene Versuche) |
-| `out/` | Bild-Exporte (PNG/SVG, A2) |
+| `out/` | Bild-Exporte (PNG/SVG, A1) |
 
 ## Erfahrungen, die den Aufbau erklären
 
@@ -140,7 +145,7 @@ rechtes Panel „Drawing" → Feld `Size`. Danach mit `sch sheet-geometry` gegen
   Sichere Klinge ist `disconnect --flag-id` + `connect --pin`, mit Netzlisten-Prüfung nach jedem Schritt.
 - **`sch clear` leert mehr als die Bauteile**: auch Gruppen, Rahmen und NC-Marken verschwinden.
 - **Mehr Blattfläche entspannt die Optik**: auf A4 gab es 9 Cluster-Überlappungen und 15 aus dem
-  Blatt ragende Marken — auf A2 sind es 0 bzw. 0.
+  Blatt ragende Marken — auf A1 sind es 0 bzw. 0.
 - **`VDD33` bleibt unverbunden**: das offizielle ESP32-C6-MINI-1-Symbol hat genau einen 3V3-Pin;
   die VDD33-Pins sind modulintern verbunden. Die Netzliste bleibt unverändert.
 

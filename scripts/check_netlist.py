@@ -35,6 +35,8 @@ def main() -> int:
 
     for r in rows:
         net, comp, pin = r["Netz"].strip(), r["Bauteil"].strip(), r["Pin"].strip()
+        if net.startswith("#"):      # Kommentarzeile (keine Verbindung)
+            continue
         nets[net].append((comp, pin))
         comp_nets[comp].add(net)
         key = (comp, pin)

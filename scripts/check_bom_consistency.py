@@ -99,6 +99,8 @@ def main() -> int:
     if netlist.exists():
         net_parts = set()
         for r in csv.DictReader(netlist.open(encoding="utf-8")):
+            if r["Netz"].strip().startswith("#"):   # Kommentarzeile
+                continue
             for d in r["Bauteil"].split():
                 if DESIG.match(d) and d not in SKIP:
                     net_parts.add(d)

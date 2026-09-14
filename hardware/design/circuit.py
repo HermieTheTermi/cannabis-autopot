@@ -159,7 +159,7 @@ def load_netlist(path=None):
             if len(row) < 3:
                 continue
             net, comp, pin = row[0].strip(), row[1].strip(), row[2].strip()
-            if not net or not comp:
+            if not net or net.startswith("#") or not comp:
                 continue
             nets.setdefault(net, [])
             if (comp, pin) not in nets[net]:
