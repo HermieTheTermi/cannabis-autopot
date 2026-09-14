@@ -34,6 +34,8 @@ cd ~/Projekte/cannabis-autopot
 f3d --output=/tmp/teil.png --resolution=1100,800 cad/export/teil.stl   # Ansicht erzeugen
 ```
 
+Explosionsansicht aller 8 Druckteile: `cad/exploded.py` schreibt `cad/export/exploded.step`/`.stl`, gerendert z. B. mit `f3d --output=/tmp/exploded.png --resolution=1500,1100 --camera-position=-850,-1130,1150 --camera-focal-point=0,0,380 --camera-view-up=0,0,1 cad/export/exploded.stl`.
+
 `cad/export/` ist Build-Artefakt und per `.gitignore` ausgenommen — versioniert werden nur die
 Python-Quellen.
 
