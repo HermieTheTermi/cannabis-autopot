@@ -58,3 +58,9 @@ chain(cable_path, route_d);
 
 // Schlauchweg Wulst -> Topfrand -> Stutzen
 chain(hose_path, route_d);
+
+// Kappe auf dem Einfuellstutzen (Bezug: Mundebene = P0 + fill_len*d)
+cap_pos = fill_p0 + (fill_len + cap_h - cap_depth) * fill_dir;
+translate(cap_pos)
+  rotate([270 - fill_ang, 0, 0])
+    fill_cap();

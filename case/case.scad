@@ -28,3 +28,6 @@ translate([3*layout_dx + 70, 0, 0]) wulst_lid();
 
 // Abdeckung (flach)
 translate([3*layout_dx + 230, 0, 0]) cover();
+
+// Kappe fuer den Einfuellstutzen
+translate([3*layout_dx + 380, 0, 0]) fill_cap();

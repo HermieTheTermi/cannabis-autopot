@@ -90,12 +90,56 @@ module collar_ring() {
     }
 }
 
+// LST-Ankerloecher: radiale Bohrungen durch den Kragen, Reihen versetzt,
+// um den Sensorkabel-Ausschnitt (+Y = 90 Grad) freigehalten.
+module lst_holes() {
+  for (row = [0 : lst_rows - 1]) {
+    z   = lst_row_z[row];
+    off = (row % 2) * (180 / lst_holes);
+    for (i = [0 : lst_holes - 1]) {
+      a  = off + i * 360 / lst_holes;
+      da = min(abs(a - 90), 360 - abs(a - 90));
+      if (da >= lst_gap_deg)
+        rotate([0, 0, a])
+          translate([0, shell_ir - 1, z])
+            rotate([-90, 0, 0])
+              cylinder(d=lst_hole_d, h=lst_drill_len);
+    }
+  }
+}
+
 // Auflagering fuer den Rost (im Tank, unterhalb des Rostes)
 module grid_ledge() {
   difference() {
     cylinder(r=shell_ir, h=ledge_h);
     translate([0, 0, -1]) cylinder(r=ledge_ir, h=ledge_h + 2);
   }
+}
+
+// ---------------------------------------------------------------------------
+// Einfuellstutzen (Wassertank, -Y-Seite)
+// Achse liegt in der YZ-Ebene, 45 Grad nach oben/aussen.
+// ---------------------------------------------------------------------------
+fill_dir = [0, -cos(fill_ang), sin(fill_ang)];      // Achsenrichtung nach -Y/+Z
+fill_p0  = [0, -shell_or, fill_z_wall];             // Achspunkt an der Aussenwand
+
+// Massivkoerper des Stutzens (von innen in der Wand bis zur Mundebene)
+module fill_neck() {
+  translate(fill_p0)
+    rotate([90 - fill_ang, 0, 0])
+      translate([0, 0, -fill_start])
+        cylinder(d=fill_bore_d + 2*fill_wall, h=fill_start + fill_len);
+}
+
+// Bohrung inkl. kegeliger Trichterlippe am Mund (beidseitig ueberstehend)
+module fill_bore() {
+  translate(fill_p0)
+    rotate([90 - fill_ang, 0, 0]) {
+      translate([0, 0, -fill_start - 2])
+        cylinder(d=fill_bore_d, h=fill_start + fill_len + 4);
+      translate([0, 0, fill_len - fill_cs_len])
+        cylinder(d1=fill_bore_d, d2=fill_mouth_d, h=fill_cs_len);
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -109,12 +153,14 @@ module shell_lower() {
           cylinder(r=shell_or, h=split_z);
           translate([0, 0, split_z])
             cylinder(r=spigot_or, h=spigot_h);
+          fill_neck();
         }
         translate([0, 0, floor_t])
           cylinder(r=shell_ir, h=split_z + spigot_h - floor_t + 1);
       }
       translate([0, 0, ledge_z0]) grid_ledge();
     }
+    fill_bore();
   }
 }
 
@@ -154,6 +200,8 @@ module shell_upper() {
     // Kragenausschnitt fuer den Sensorkabelaustritt
     translate([-3.5, shell_or - 10, collar_z0 + 2])
       cube([7, 16, collar_h + 4]);
+    // LST-Ankerloecher im Kragen
+    lst_holes();
     // Deckelgewinde (Pilotbohrungen)
     for (x = [-boss_x, boss_x], z = boss_z)
       translate([x, shell_or, z]) rotate([-90, 0, 0])
@@ -278,5 +326,24 @@ module cover() {
     cylinder(d=cover_od, h=cover_t);
     translate([0, 0, -1]) cylinder(d=cover_hole, h=cover_t + 2);
     translate([-4, shell_or - 14, -1]) cube([8, 16, cover_t + 2]);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Kappe fuer den Einfuellstutzen (Drucklage +Z, offene Seite nach oben)
+// ---------------------------------------------------------------------------
+module fill_cap() {
+  difference() {
+    union() {
+      cylinder(d=cap_od, h=cap_h);
+      // zwei gegenueberliegende Greifrippen (greifen in den Mantel ein)
+      for (rx = [cap_od/2 - cap_rib_t, -cap_od/2 - cap_rib_t])
+        translate([rx, -cap_rib_w/2, 0]) cube([2*cap_rib_t, cap_rib_w, cap_h]);
+    }
+    // Sackloch (Klemmsitz auf dem Stutzen)
+    translate([0, 0, cap_h - cap_depth])
+      cylinder(d=cap_id, h=cap_depth + 1);
+    // Lueftungsloch im Deckel (Druckausgleich)
+    translate([0, 0, -1]) cylinder(d=cap_vent_d, h=cap_h + 2);
   }
 }

@@ -19,6 +19,16 @@ floor_t     = 3.0;                   // Bodenstaerke Tank
 tank_h      = 82.0;                  // Innenhoehe bis Rostauflage
 max_water   = 71.0;                  // max. Wasserstand (1,0 L)
 
+// Einfuellstutzen — Wasser nachfuellen, ohne die obere Schale abzunehmen
+fill_ang      = 45.0;   // Neigung der Achse ueber der Horizontalen
+fill_z_wall   = 68.0;   // Hoehe der Achse beim Durchtritt durch die Aussenwand (r = shell_or)
+fill_bore_d   = 16.0;   // lichte Bohrung des Stutzens
+fill_wall     = 4.5;    // Wandstaerke des Stutzens
+fill_len      = 18.0;   // Laenge ab der Aussenwand, entlang der Achse gemessen
+fill_mouth_d  = 22.0;   // Aufweitung (Trichterlippe) am Mund, 45-Grad-Kegel
+fill_cs_len   = 3.0;    // Laenge der Aufweitung entlang der Achse
+fill_start    = 10.0;   // wie weit der Stutzenkoerper in die Wand hineinreicht (von r = shell_or nach innen)
+
 // ---- Auflagerost / Trennplatte ---------------------------------------------
 grid_t      = 4.0;                   // Dicke
 grid_od     = 132.0;                 // Aussen-Durchmesser
@@ -58,6 +68,14 @@ collar_z0   = pot_z1;                // 266.0
 collar_z1   = total_h;               // 278.0
 collar_h    = collar_z1 - collar_z0;// 12.0
 collar_r    = shell_or + 2.0;        // 72.0 Ausstellungsradius
+
+// LST-Ankerloecher im Kragen (Schnur durchfaedeln, Low-Stress-Training)
+lst_rows      = 2;                  // Anzahl Lochreihen
+lst_holes     = 24;                 // Loecher je Reihe, gleichmaessig ueber den Umfang
+lst_hole_d    = 2.2;                // gezeichnet: gedruckt bleiben davon ca. 2,0 mm
+lst_row_z     = [269.5, 274.5];     // Hoehe der Reihen (Kragenmitte)
+lst_gap_deg   = 8.0;                // Freihaltung um den Sensorkabel-Ausschnitt (+Y = 90 Grad)
+lst_drill_len = 10.0;               // radiale Bohrtiefe (grosszuegig durch die Kragenwand)
 
 // ---- Wulst (Elektronik + Kanaele) -------------------------------------------
 wulst_z0      = 90.0;
@@ -132,6 +150,15 @@ ring_barb_id  = 3.8;
 cover_od   = 136.0;
 cover_t    = 3.0;
 cover_hole = 45.0;
+
+// ---- Kappe fuer den Einfuellstutzen -----------------------------------------
+cap_od     = 30.0;                   // Aussen-Durchmesser
+cap_h      = 12.0;                   // Hoehe (Drucklage, offene Seite nach oben)
+cap_id     = 24.8;                   // Sackloch-Bohrung, Klemmsitz auf Stutzen-Aussenmass 25,0
+cap_depth  = 9.0;                    // Tiefe der Sackloch-Bohrung (3,0 mm Deckel bleibt)
+cap_vent_d = 2.0;                    // Lueftungsloch im Deckel (Druckausgleich)
+cap_rib_w  = 3.0;                    // Rippenbreite (tangential)
+cap_rib_t  = 1.5;                    // Rippendicke (radial)
 
 // ---- Segmentierung (Bauraum 220 x 220 x 250) --------------------------------
 split_z    = wulst_z0;               // 90.0  Trennebene unten/oben
