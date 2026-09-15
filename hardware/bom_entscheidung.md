@@ -15,7 +15,8 @@ Grundlage: `../research/bom-check/01…04` · **Nachrecherche 12.09.2026: `../re
 | 1d | **3,3-V-LDO** | **ME6211C33M5G**, 500 mA, 40 µA | ≈ 0,06 € | JLCPCB `C82942` | ✅ Datenblatt (500 mA / 100 mV @100 mA / 40 µA) |
 | 1e | **USB-C + Schutz** | Buchse 16-pol `C165948` + USBLC6-2SC6 `C7519` + 2 × 5,1 kΩ `C27834` | ≈ 0,40 € | JLCPCB | ✅ API |
 | 1f | **Unterspannungswächter** | **MAX809TEUR+T**, Schwelle 3,08 V | ≈ 0,52 € (0,5628 $) | JLCPCB `C16711` | ✅ Datenblatt VTH 3,04/3,08/3,11 V |
-| 2 | **Pumpe** | ⚠️ **Entscheidung offen (12.09.2026)** — OEM-Peristaltik ABC-12527 nur mit **24,20 € Versand** (anodas.lt, Gesamt 31,94 €); baugleiche Pumpe bei abc-rc.pl 4,99 €, liefert aber nicht nach DE. Kandidat: **Funduino 3–12 V, 0–90 ml/min, 250 mA, Schlauch 3 × 5 mm** | 7,74 € anodas · 9,11 € Funduino (Amazon) | anodas.lt https://anodas.lt/en/peristaltic-liquid-pump-with-silicone-tubing-3-7-6vdc · Funduino https://www.amazon.de/dp/B0DT1JCFNV | ✅ Preis+Specs (anodas 12.09. Checkout-Simulation: 24,20 € Versand) · ⚠️ Funduino-Förderrate bei 3,7 V unbelegt → messen |
+| 2 | **Pumpe** | **CONQUERALL DC-5-V-Mikro-Peristaltikpumpe** (Amazon `B0DHVMZ27Y`) — Nennspannung **DC 5 V**, Leerlaufstrom 0,4 A, **Anlaufstrom 3 A (bei 5 V)**, Fördermenge **≤ 150 ml/min**, Silikonschlauch **3 × 5 mm**, Bauhöhe **42 mm**, Ansaugbereich 0,5 m, umpolbar | **11,99 €** (2er-Pack `B0DJ78W43W` **16,61 €**) | https://www.amazon.de/dp/B0DHVMZ27Y (Verkäufer EASFFY, auf Lager, 4,2★/11) | ✅ Preis + Specs 14.09.2026 (Amazon) · ⚠️ **Ø nicht dokumentiert** → vor Einbau messen (Wulst ist auf Ø 32 gerechnet) · ⚠️ Betrieb an 1S (3,0–4,2 V) liegt **unter** der Nennspannung → Förderrate + Anlauf **messen** · ⚠️ **Anlaufstrom** → siehe §4c: PWM-Softstart ist Pflicht |
+| 2b | ~~OEM-Peristaltik ABC-12527~~ | **abgelöst (14.09.2026)** — war fachlich passend (3,7–6 V, ab 3 V dokumentiert, Ø32 × 44 mm, ~250 ml/min), aber **31,94 €** inkl. 24,20 € Versand aus Litauen (anodas.lt) | – | anodas.lt | Historie: `../research/bom-check/06_pumpe-eu-quellen.md` |
 | 3 | **Sensor** | Kapazitiv **v1.2**, analog — **AZ-Delivery ausverkauft (12.09.)**, Ersatz: **ARCELI 6er-Pack V1.2 kapazitiv** (1,25 €/St.) | **7,49 €** (6 St.) | Amazon `B0FPRBY7LW` · AZ (falls wieder lieferbar) https://www.az-delivery.de/products/bodenfeuchte-sensor-modul-v1-2 | ✅ selbst 12.09. (7,49 €, ab Lager, Gratislieferung 16.09.) · ⚠️ Elektrodenlänge bleibt unbelegt |
 | 4 | **Akku** | **EFASO 503759** 3,7 V ~1500 mAh, **PCM**, JST PH2.0 | **14,90 €** | efaso.de (Kassel) — https://efaso.de/produkt/503759-3-7v-1500-mah-pcm-jst-ph2-0-2p/ | ✅ selbst (14,90 €, PCM + JST bestätigt) |
 | 5 | **MOSFET** | **AO3400A** (SOT-23), 10 St | **1,67 €** | Reichelt, ab Lager — https://www.reichelt.de/de/de/shop/produkt/mosfet_n-ch_30v_5_7a_0_018r_sot-23-166490 | ✅ selbst (0,167 €/St ab 10) |
@@ -28,10 +29,12 @@ Grundlage: `../research/bom-check/01…04` · **Nachrecherche 12.09.2026: `../re
 | | **Gesamt (realistisch)** | | **≈ 47–49 €** | inkl. Schlauch (3–5 €) und Passiven (~5 €) | |
 | | **+ JLCPCB-Kosten (nicht in dieser BOM)** | | **≈ 28 € Handling** | 10 Extended-Positionen à 3 $ + Platinenfertigung (noch kein Angebot eingeholt) | |
 
-**Was die Pumpenwahl geändert hat:** Die frühere Adafruit 3910 (24,50 €) ist entfallen, weil die
-OEM-Pumpe im Datenblatt **3,7–6 V** abdeckt — und in der Praxis besser fördert (siehe §2/§3).
-Ersparnis 16,76 € bei besserer Energiebilanz. Der Schlauch ist jetzt **kostenpflichtig**, weil die
-OEM-Pumpe nur ca. 5 cm Schlauch mitbringt (die Adafruit brachte 530 mm mit).
+**Was die Pumpenwahl geändert hat (14.09.2026):** Die Pumpe ist jetzt die **CONQUERALL DC 5 V**
+(11,99 €, Amazon, sofort lieferbar) — statt 31,94 € für die OEM-Pumpe aus Litauen. Das spart
+**19,95 €**, verschiebt aber ein Risiko: die OEM war **ab 3 V dokumentiert**, die CONQUERALL ist mit
+**5 V Nennspannung** spezifiziert und läuft an der 1S-Zelle (3,0–4,2 V) *unterhalb* ihrer Nennspannung.
+Förderrate bei 3,7 V und Anlaufverhalten sind damit **nicht belegt → messen** (§7). Der Anlaufstrom
+(3 A bei 5 V) ist der zweite neue Punkt und in §4c gegen die Schaltung geprüft.
 
 ---
 
@@ -42,15 +45,27 @@ Alle Werte aus Produktseiten/Datenblättern, Umrechnung in Wh/L aus Leistung und
 
 | Pumpe | Preis | Leistung | Förderrate | **Wh/L** | Quelle |
 |---|---|---|---|---|---|
-| **OEM ABC-12527** @3,7 V | **7,74 €** | 1,67 W | ~154 ml/min* | **0,18** | anodas.lt (Spannung + Strom dokumentiert) |
-| OEM ABC-12527 @6 V | 7,74 € | 3,24 W | ~250 ml/min* | 0,22 | anodas.lt |
+| **CONQUERALL DC 5 V** @5 V (Nenn) | **11,99 €** | 2,0 W (5 V × 0,4 A) | ≤ 150 ml/min | **0,22** | Amazon `B0DHVMZ27Y` (Datenblattangaben des Händlers) |
+| CONQUERALL DC 5 V @3,7 V (1S-Betrieb) | 11,99 € | ~1,5 W* | ~111 ml/min* | **0,22** | *lineare Skalierung — **Annahme, nicht belegt** |
+| ~~OEM ABC-12527~~ @3,7 V (abgelöst) | 7,74 € + 24,20 € Versand | 1,67 W | ~154 ml/min* | 0,18 | anodas.lt (Spannung + Strom dokumentiert) |
 | Adafruit 3910 @5 V | 24,50 € | 2,50 W | 100 ml/min | 0,42 | adafruit.com/product/3910 |
 | Whadda WPM447 @6 V | 12,90 € | 5,00 W | 39 ml/min | 2,14 | whadda.com + electrokit.se |
 
-\* Förderrate der OEM-Pumpe skaliert nicht linear mit der Spannung — die Linearskalierung ist meine
-Annahme, die Seite nennt nur „1L – 4 min" ohne Spannungsbezug. **Vor dem Einbau messen.**
+\* Die Förderrate der CONQUERALL ist nur als **Obergrenze bei Nennspannung** angegeben und die
+Spannungsskalierung ist meine Annahme → **vor dem Einbau messen** (§7). Bei 3,7 V ergibt sich damit
+eine Laufzeit von ~2,7 min für 300 ml.
 
-Nicht gewählt: **Funduino „0-90 ml/min, 3-12 V"** (7,92 €) — im Titel 3–12 V, in den Produktdetails aber „Betriebsspannung 12 V DC" und **keine Stromangabe**, damit ist die Akku-Auslegung nicht belegbar. **Adafruit 3910**: dreifacher Preis bei halber Förderrate. **Whadda WPM447**: fünffache Energie pro Liter.
+**Was an der CONQUERALL gemessen wurde (14.09.2026, Amazon-Produktdaten):**
+> „Nennspannung: DC 5V · Leerlaufstrom: 0,4 A · Ansaugbereich: 0,5 m · Anlaufstrom: 3 A ·
+> Fördermenge: ≤150 ml/min · Pumpe Gesamthöhe: 42 mm · Schlauchdurchmesser: 3 × 5 mm"
+
+**Warum diese und nicht die anderen Amazon-Typen:** Die billigen „6-V-Mini-Peristaltikpumpen"
+(5,99–6,69 €, z. B. `B0HC8WF98P`, `B0H7R9XYJ5`) schreiben im Produkttext ausdrücklich
+**„Spannungen unter 6 V betreiben den Motor nicht"** → an der 1S-Zelle unbrauchbar. Die
+12-V-Klasse (G528/G928/Kamoer NKP) bräuchte einen Boost, den die Platine bewusst nicht hat.
+Schrittmotor-Mikropumpen (3–5 V) fördern nur 0,5 ml/min, die G10-Klasse 1 ml/min → beide
+viel zu langsam. „Peristaltikpumpe 3,7/6/12 V … Membran Luftpumpe" sind **keine** Peristaltikpumpen
+(Titel-Fehler der Händler) → kommen für „Medium berührt die Mechanik nicht" nicht infrage.
 
 Verifizierter Spec-Block der OEM-Pumpe (Wortlaut der Produktseite):
 > „Rated voltage: 3.7V to 6V · Current: 3V – 400mA, 6V – 540mA · Engine: DC with pinion ·
@@ -67,26 +82,62 @@ vor der Bestellung klären.
 
 **Entscheidung: 1S-Akku (3,7 V) direkt an der Pumpe, kein Boost, kein Buck.**
 
-Der Grund ist der Wechsel der Pumpe. Die frühere Planung stand auf der Prämisse, dass die Pumpe
+Der Grund ist der Pumpentyp. Die frühere Planung stand auf der Prämisse, dass die Pumpe
 5–6 V braucht (Adafruit 3910, Herstellerangabe „Motor voltage: 5 to 6 VDC") und der Direktbetrieb an
 einer 1S-Zelle damit undokumentiert war — zusätzlich liefert der XIAO im Akkubetrieb **keine 5 V**
-(Seeed-Wiki, wörtlich: „When using battery power, no voltage will be present on the 5V pin"), es
-hätte also zwingend einen Wandler gebraucht.
+(Seeed-Wiki, wörtlich: „When using battery power, no voltage will be present on the 5V pin"),
+es hätte also zwingend einen Wandler gebraucht.
 
-Diese Prämisse ist mit der OEM-Pumpe weg: sie ist **ab 3 V dokumentiert** (3 V – 400 mA) und für
-**3,7–6 V** ausgelegt. Eine 1S-Zelle liefert 3,0–4,2 V — die Pumpe läuft damit **innerhalb** ihres
-Datenblattbereichs, über den ganzen Entladezyklus.
+**Der damalige Fix war die OEM-Pumpe (ab 3 V dokumentiert). Mit der CONQUERALL ist diese Sicherheit
+wieder weg** — sie ist mit **Nennspannung DC 5 V** spezifiziert (Leerlaufstrom 0,4 A), die 1S-Zelle
+liefert 3,0–4,2 V. Die Pumpe läuft damit **unterhalb ihrer Nennspannung**, und daraus folgt:
+
+- **Förderrate:** linear geschätzt ~111 ml/min bei 3,7 V statt 150 ml/min → für 300 ml noch
+  2,7 min, für die größte Dosis (350 ml) unter 4 min (§4). **Annahme, nicht belegt → messen.**
+- **Anlauf:** bei Unterspannung ist das Losbrechmoment nicht garantiert. Der Anlaufstrom *sinkt*
+  mit der Spannung (2,5 A bei 4,2 V … 1,8 A bei 3,0 V) — das entlastet Zelle und PCM, sagt aber
+  nichts darüber, ob der Motor dreht. **Messen: 3,0 / 3,7 / 4,2 V, je 30 s in den Messbecher (§7).**
+- **Boost bleibt verworfen:** ein Step-Up auf 5 V kostet Wirkungsgrad und Platinenfläche. Er ist die
+  **Rückfallebene**, falls die Messung zeigt, dass die Pumpe an der Zelle nicht sicher anläuft —
+  nicht die Voreinstellung.
+
+**Zum Vergleich — warum es mit der abgelösten OEM-Pumpe unkritisch war:** sie war **ab 3 V
+dokumentiert** (3 V – 400 mA) und für 3,7–6 V ausgelegt, lief also **innerhalb** ihres
+Datenblattbereichs über den ganzen Entladezyklus — genau dafür war sie ausgewählt worden
+(`../research/bom-check/06_pumpe-eu-quellen.md`). Dieser Vorteil ist mit dem Preis der
+CONQUERALL (11,99 € statt 31,94 €) bezahlt.
 
 **Das 2S-Konzept (2 Zellen + Step-Down) wurde geprüft und verworfen:**
 - **Wirkungsgrad bringt nichts:** Buck aus 2S (η 0,90) gegen Boost aus 1S (η 0,88) — Laufzeit
-  praktisch identisch (32 vs. 31 Tage gerechnet). Und mit der neuen Pumpe entfällt die Wandlung
-  komplett, das ist besser als jede Wandlung.
+  praktisch identisch (32 vs. 31 Tage gerechnet). Und solange die Pumpe direkt an 1S läuft,
+  entfällt die Wandlung komplett, das ist besser als jede Wandlung.
 - **Kosten:** 2S braucht einen **eigenen Lader plus Balancer**, weil der Onboard-Lader des XIAO für
   eine Zelle (3,7 V / 4,2 V Ladeschluss) ausgelegt ist. Das sind zusätzliche Bauteile und
   Platinenfläche — bei einem Konzept, dessen Ziel „günstig" ist, der falsche Hebel.
-- **Kapazität wird nicht gebraucht:** siehe §4 — die 1S-Zelle reicht für ~85 Dosiervorgänge.
+- **Kapazität wird nicht gebraucht:** siehe §4 — die 1S-Zelle reicht für ~65 Dosiervorgänge.
 - **Sicherheit:** Reihenschaltung ohne sauberes Balancing ist in einem feuchten Gehäuse ein
   echtes Risiko, nicht nur ein Schönheitsfehler.
+
+## 3b. Reicht die Pumpe für Hub und Volumen? — nachgerechnet (14.09.2026)
+
+Gegen die echten Projektwerte (`../docs/02_architektur-und-geometrie.md`): Hub Pumpenmitte
+(y ≈ 114) bis Verteilerring auf der Substratoberfläche (y ≈ 260) = **~200 mm**, Saughöhe bis
+Tankboden (y ≈ 8) = **~106 mm**, Dosis **150–350 ml** (gerechnet mit 300 ml), Tank 1,0 L.
+
+| Prüfung | Rechnung | Ergebnis |
+|---|---|---|
+| **Förderhöhe** | 200 mm Wassersäule = ρ·g·h = **0,0196 bar** | gegen typ. 0,5–1 bar Pumpendruck → **20–40× Reserve** |
+| **Leitungsverlust** | Hagen-Poiseuille, 3 mm ID, ~450 mm Weg, 150 ml/min | **0,0057 bar** → Gesamt-Gegendruck **0,025 bar** |
+| **Saughöhe** | 106 mm gegen Datenblatt „Ansaugbereich 0,5 m" | **4,7× Reserve** ✅ |
+| **Volumen/Zeit** | 300 ml bei 111 ml/min (3,7 V) | **2,7 min** (4,2 V: 2,4 min · 3,0 V: 3,3 min); größte Dosis 350 ml < 4 min ✅ |
+| **Laufzeit** | 0,068 Wh je 300-ml-Dosis, 4,44 Wh nutzbar aus 1500 mAh | **~65 Dosen pro Ladung** ≈ 2,2 Monate bei 1×/Tag |
+| **Tankfüllung** | 1000 ml / 300 ml | **3,3 Dosiervorgänge** → Tank alle 3–6 Tage nachfüllen (Blüte: 1–2 Tage/Gabe) |
+
+**Fazit:** **Hub und Volumen sind kein Ausschlusskriterium** — die Förderhöhe ist bei Peristaltik
+Trivialphysik (0,02 bar gegen ≥0,5 bar Pumpendruck). Die offenen Punkte liegen ausschließlich in
+der **elektrischen Anlaufbarkeit** bei Unterspannung (§4c) und in der **Dosiergenauigkeit**:
+Mini-Pumpen streuen laut eigener BOM-Notiz ±30 %, d. h. 300 ml können 210–390 ml werden →
+Laufzeit einmal kalibrieren (30 s in den Messbecher), nicht blind auf ml/min vertrauen.
 
 Wenn 2S später doch gewünscht wird (z. B. für mehr Reserven), ist der Weg dokumentiert: 2S-Lader
 mit Balancer + Buck auf 5 V, und der Onboard-Lader des XIAO wird nicht mehr genutzt.
@@ -103,12 +154,13 @@ mit Balancer + Buck auf 5 V, und der Onboard-Lader des XIAO wird nicht mehr genu
   sinnvoll ~250 mA für die 1500-mAh-Zelle. Lade-LED am Tri-State-Statusausgang.
   Der XIAO ist nicht mehr im Design — sein Onboard-Lader (SGM40567-4.2) wäre bei JLC ohnehin nicht beschaffbar. (Beim späteren Aufbau mit nacktem ESP32-Modul muss ein eigener 1S-Lader
   vorgesehen werden, z. B. MCP73831.)
-- **Laufzeit neu gerechnet** (Pumpe @3,7 V: 1,67 W, ~154 ml/min): ein Dosiervorgang von 300 ml
-  braucht ~1,9 min und **0,052 Wh**. Aus 1500 mAh @ 3,7 V (5,55 Wh brutto, ~4,44 Wh nutzbar) →
-  **≈ 85 Dosiervorgänge pro Ladung**, bei 1× täglich also rund **3 Monate**. Die alte „4 Wochen\"-Angabe
-  galt für die Adafruit-Pumpe mit 2,5 W bei 100 ml/min — die neue Pumpe ist der Grund für den Sprung.
+- **Laufzeit neu gerechnet (14.09.2026, CONQUERALL @3,7 V: ~1,5 W, ~111 ml/min):** ein Dosiervorgang
+  von 300 ml braucht **~2,7 min** und **0,068 Wh**. Aus 1500 mAh @ 3,7 V (5,55 Wh brutto,
+  ~4,44 Wh nutzbar) → **≈ 65 Dosiervorgänge pro Ladung**, bei 1× täglich also rund **2,2 Monate**.
+  Die Energie je Dosis ist über den ganzen Entladezyklus praktisch konstant (0,067–0,071 Wh):
+  bei niedrigerer Spannung läuft die Pumpe länger, zieht aber weniger Strom.
 - **Warum keine 18650:** geschützte 18650 ist Ø18,85 × 69 mm und passt in die Wulst (40 mm tief),
-  bringt aber ~3× Kapazität, die bei 85 Dosen pro Ladung niemand braucht. Option für später.
+  bringt aber ~3× Kapazität, die bei 65 Dosen pro Ladung niemand braucht. Option für später.
 
 ---
 
@@ -143,21 +195,95 @@ PCM der Zelle.
 
 ---
 
+## 4c. Anlaufstrom 3 A gegen die Schaltung geprüft (14.09.2026)
+
+**Frage:** Die CONQUERALL nennt **3 A Anlaufstrom** — trägt unsere Kette das?
+(Werte: `hardware/schaltplan_v1.md` + `../docs/10_pcb-leiterbahnbreiten.md` + Datenblätter.)
+
+**Ergebnis in einem Satz:** Der Strompfad trägt die 3 A kurzzeitig (MOSFET, Diode, Leiterbahnen),
+aber **zwei Stellen können den Anlauf abschalten** — das PCM der Zelle (Overcurrent ~2–3 A) und der
+Unterspannungswächter **MAX809 (3,08 V)** über den Spannungseinbruch. Das ist ein **Funktionsrisiko,
+kein Sicherheitsrisiko**: nichts wird überlastet, die Pumpe bleibt nur stehen.
+
+**1 · Der Anlaufstrom ist an unserer Zelle kleiner als 3 A.** Ein DC-Motor ist im Stillstand ohmsch:
+`R_Motor = 5 V / 3 A = 1,67 Ω` → der Startstrom skaliert mit der Spannung:
+
+| Zellspannung | 4,2 V | 4,0 V | 3,7 V | 3,4 V | 3,0 V |
+|---|---|---|---|---|---|
+| Anlaufstrom | 2,52 A | 2,40 A | 2,22 A | 2,04 A | 1,80 A |
+
+**2 · Spannungseinbruch gegen die MAX809-Schwelle.** Serienwiderstände im Pumpenpfad (worst case):
+Zelle 1500 mAh **80 mΩ** (typ. 60–100) · PCM 2× FS8205A **50 mΩ** · Q1 AO3400A @VGS 3,0 V **40 mΩ** ·
+Leiterbahnen 0,5 mm über ~55 mm **64 mΩ** · JST-XH **20 mΩ** = **254 mΩ**.
+
+| Zellspannung | Einbruch bei Anlauf | VBAT während des Anlaufs | gegen 3,08 V |
+|---|---|---|---|
+| 4,2 V | 0,64 V | 3,56 V | ✅ |
+| 4,0 V | 0,61 V | 3,39 V | ✅ |
+| 3,7 V | 0,56 V | 3,14 V | ✅ (knapp) |
+| 3,4 V | 0,52 V | **2,88 V** | ❌ **MAX809 sperrt die Pumpe** |
+| 3,0 V | 0,46 V | **2,54 V** | ❌ **MAX809 sperrt die Pumpe** |
+
+→ **Unterhalb ~3,4 V Zellspannung startet die Pumpe nicht mehr** (mit 80 mΩ Zellwiderstand; bei
+gesunden 60 mΩ verschiebt sich die Grenze auf ~3,1 V). Folge für die Firmware: der Feuchtewert
+bleibt unverändert → die Diagnose würde fälschlich **„Tank leer / Pumpe verstopft"** melden.
+Deshalb **VBAT während des Pumpvorgangs mitloggen** und Unterspannung getrennt melden (§4b Ebene 1).
+
+**3 · PCM-Overcurrent der Zelle.** Typische 1S-PCMs mit **DW01A + FS8205A** schalten bei
+**150 mV / (2 × RDS(on))** ab — mit 25–37 mΩ je FET also bei **2,0–3,0 A**. Der höchste Anlaufstrom
+(2,5 A bei 4,2 V) liegt damit **genau auf der Schwelle**. Die EFASO-Zelle dokumentiert ihr PCM
+**nicht** (§7) → Schwellwert am Prototyp messen.
+
+**4 · Was die 3 A sicher trägt:**
+
+- **Q1 AO3400A:** 5,2–5,8 A Dauerstrom im SOT-23 → 2,5 A Anlauf ✅; Verlust 0,36 W für die
+  Anlaufdauer (~100 ms), im Dauerbetrieb bei 0,4 A nur **6 mW**.
+- **D1 1N5819WS:** **1 A Dauer / 13 A Surge (8,3 ms)** — ⚠️ die oft zitierten 25 A gehören zur
+  **DO-41-Version** 1N5819, nicht zur SOD-323-Variante. 3 A Freilaufpuls liegen trotzdem weit
+  unter 13 A ✅.
+- **Leiterbahnen 0,5 mm:** laut `docs/10` tragen sie 1,45 A bei 10 K **dauerhaft**; der Anlaufstrom
+  fließt nur ~100 ms, Spannungsabfall dabei 141 mV ✅. Ein Dauerstrom von 3 A wäre **nicht** erlaubt —
+  tritt aber nicht auf.
+- **C3 100 µF: kein Anlaufschutz.** Er liefert 2,5 A nur **23 µs** lang (`t = C·ΔU/I`), das ist
+  gegen den 100-ms-Motoranlauf wirkungslos. Nutzen hat er für HF-Störungen — dafür sitzt C11 100 nF
+  direkt an den Pumpenklemmen.
+
+**5 · Maßnahme: PWM-Softstart ist Pflicht (Firmware).** Mit einer Rampe über 100–300 ms steigt der
+Strom nicht sprunghaft: bei **1,0 A** Anlaufstrom ist der Einbruch nur **0,25 V** → selbst aus 3,4 V
+bleiben 3,15 V ✅, und die PCM-Schwelle wird sicher nicht erreicht. Der Pumpentreiber hängt am
+GPIO2 über R1 4,7 kΩ / R2 47 kΩ und ist bereits PWM-fähig (20 kHz) → **keine Hardwareänderung,
+nur Firmware**.
+
+**6 · Konsequenz für die Pumpenwahl.** Die abgelöste OEM-Pumpe zog **0,4–0,54 A**: Einbruch ~0,14 V,
+Anlauf unkritisch ohne jede Firmware-Maßnahme. Mit der CONQUERALL ist der Softstart **Bedingung**,
+nicht Kür. Läuft die Pumpe an der Zelle trotzdem nicht sicher an, sind die Optionen in dieser
+Reihenfolge: (a) Softstart + Messung, (b) Boost auf 5 V, (c) 2S, (d) zurück zur OEM-Pumpe (31,94 €).
+
+---
+
 ## 5. Wulst-Maße (aus den finalen Bauteilen abgeleitet)
 
 | Innenmaß | Wert | Bestimmt durch |
 |---|---|---|
-| Breite | **60 mm** | Pumpe Ø32 + Wandungen, PCB ~52 mm, Zelle 37 mm |
-| Tiefe (radial) | **40 mm** | Pumpe Ø32 + 2 × 2,5 mm Wand + Montagefreiheit |
-| Höhe | **160 mm** (y = 90–250) | Pumpe 44 mm (+ Halterung), darüber Platine + Zelle |
+| Breite | **60 mm** | Pumpe + Wandungen, PCB ~52 mm, Zelle 37 mm |
+| Tiefe (radial) | **40 mm** | Pumpe (Ø war 32 mm angenommen) + 2 × 2,5 mm Wand + Montagefreiheit |
+| Höhe | **160 mm** (y = 90–250) | Pumpe + Halterung, darüber Platine + Zelle |
 | Gesamtbreite Topf an der Wulst | **≈ 180 mm** | 140 mm + 40 mm |
 
-Einbau von unten nach oben: **Pumpe** (44 mm Bauhöhe, dadurch deutlich mehr Luft als vorher mit
-66,8 mm) → **Platine** → **Zelle** hinter/über der Platine.
+Einbau von unten nach oben: **Pumpe** (Bauhöhe jetzt **42 mm** statt 44 mm, dadurch noch etwas mehr
+Luft) → **Platine** → **Zelle** hinter/über der Platine.
 
-**Parameter nachzuziehen (CAD, `cad/params.py`):**
-`pump_d` 27.8 → **32** · `pump_l` 66.8 → **44** · `pump_mount_cc` 50 → **44** · `pump_mount_d` 3.7 → **2.5**.
-Die Wulst selbst (60 × 40 × 160) bleibt gültig.
+⚠️ **Offener Punkt aus dem Pumpenwechsel (14.09.2026): Die CONQUERALL gibt keinen Durchmesser an.**
+Die Wulst ist mit **Ø 32 mm** gerechnet worden (OEM-Pumpe). Die Bauhöhe ist mit 42 mm bestätigt, der
+Ø muss **vor dem Einbau gemessen** werden — ist er größer als ~34 mm, wird die Wulsttiefe von 40 mm
+knapp (Pumpe + 2 × 2,5 mm Wand + Montagefreiheit). Notfalls Wulst auf 44 mm Tiefe ziehen
+(Gesamtbreite dann ≈ 184 mm).
+
+**CAD-Parameter (`cad/params.py`):** dort stehen noch `pump_d = 27.8` · `pump_l = 66.8` ·
+`pump_mount_cc = 50.0` · `pump_mount_d = 3.7` — die Werte der ursprünglichen Pumpe. Sie werden von
+**keinem** Modul verwendet (nur Doku, per grep geprüft), die Wulst selbst ist parametrisch
+unabhängig. Nach dem Ausmessen der CONQUERALL auf die gemessenen Werte ziehen (oder die Zeilen
+löschen, damit sie nicht als Geometrie-Wahrheit missverstanden werden).
 
 ---
 
@@ -178,6 +304,12 @@ Die Wulst selbst (60 × 40 × 160) bleibt gültig.
    22/33-Ω-Serienwiderstände vorsehen.
 3. Pumpe: AO3400A Low-Side, **Gate 4,7 kΩ, Pulldown 47 kΩ** (Review 1), 1N5819 antiparallel, **100 µF Pufferelko** + 100 nF an den Klemmen (Review 3).
    Pumpe hängt **direkt an VBAT** — kein Wandler, kein Boost-Layout.
+   ⚠️ **Anlaufstrom (14.09.2026, §4c):** die aktuelle Pumpe (CONQUERALL DC 5 V) zieht beim Anlauf
+   **2,2–2,5 A** — der härteste Fall des ganzen Designs. Der 100-µF-Elko deckt davon nur **23 µs** ab
+   (kein Anlaufschutz, nur HF-Bedämpfung), VBAT bricht über den 254-mΩ-Pfad um ~0,56 V ein, und damit
+   kann der **MAX809 (3,08 V) die Pumpe selbst abschalten**, sobald die Zelle unter ~3,4 V liegt.
+   → **PWM-Softstart (Rampe 100–300 ms) ist Pflicht** — reine Firmware, keine Hardwareänderung
+   (GPIO2 → R1 → Gate; 20 kHz PWM ist ohnehin vorgesehen).
 3b. **Zellspannung überwachen:** 200-k-Widerstand in 1:2-Beschaltung auf einen **ADC1**-Pin, plus
    **0,1 µF Filterkondensator** am ADC-Pin (Espressif-Empfehlung für ADC-Genauigkeit). Grundlage für
    Pumpstopp und Warnung in §4b. Der ADC des ESP32-C6 ist verrauscht → im Code vielfach mitteln und
@@ -204,14 +336,29 @@ Die Wulst selbst (60 × 40 × 160) bleibt gültig.
 
 ## 7. Noch offen / bewusst nicht behauptet
 
-- **Förderrate der OEM-Pumpe bei 3,7 V** nicht dokumentiert (Seite nennt nur „1L – 4 min" ohne
-  Spannung) → nach dem Aufbau 60 s in den Messbecher pumpen und auf ml/min umrechnen.
-- **Versandkosten/Lieferzeit** der OEM-Pumpe nach DE (anodas.lt: „negotiated individually").
-- **Schlauch** muss beschafft werden (3 × 5 mm Silikon, ~1 m) — Position 8.
+**Zur neuen Pumpe (CONQUERALL `B0DHVMZ27Y`) — der Messauftrag vor dem Einbau:**
+
+- **Förderrate bei 3,0 / 3,7 / 4,2 V** nicht dokumentiert (Angabe „≤150 ml/min" gilt bei 5 V Nennspannung).
+  → Labornetzteil, je 30 s in den Messbecher, auf ml/min umrechnen. **Entscheidet über die Dosiermenge
+  in der Firmware.**
+- **Läuft sie bei Unterspannung überhaupt an?** Bei 3,0/3,4 V ist das Losbrechmoment nicht belegt — genau
+  die Spannungslage, in der der MAX809 zusätzlich sperrt (§4c). Test an einer echten Zelle mit
+  Ladezuständen ~100 % / ~60 % / ~30 %.
+- **Anlaufstrom am realen Aufbau messen** (Shunt/Stromzange) und mit der PCM-Schwelle vergleichen (§4c).
+- **Ø der Pumpe** nicht dokumentiert → ausmessen (Wulst auf Ø 32 gerechnet, §5).
+- **PWM-Softstart in der Firmware implementieren** — mit dieser Pumpe Bedingung, nicht optional (§4c).
+- **Firmware:** VBAT während des Pumpvorgangs mitloggen und Unterspannung getrennt von „Tank leer" melden,
+  sonst wird der MAX809-Eingriff als Verstopfung fehlgedeutet (§4c Punkt 2).
+
+**Bestehende offene Punkte:**
+
+- **Schlauch** muss beschafft werden (3 × 5 mm Silikon, ~1 m) — Position 8. Passt zur CONQUERALL
+  (Schlauchdurchmesser 3 × 5 mm bestätigt).
 - **Elektrodenlänge des Sensor v1.2** nicht belegt → am realen Board messen (Messebene liegt 75 mm tief).
 - **LDO-Bestückung** des AZ-Boards nur im Foto prüfbar (nicht im Text).
 - **Maße der EFASO-Zelle** am Listing nicht bestätigt.
-- **Abschaltspannung des EFASO-PCM** nicht dokumentiert → beim Hersteller erfragen oder am Prototyp messen (Ebene 4 in §4b).
+- **Abschaltspannung *und* Abschaltstrom des EFASO-PCM** nicht dokumentiert → beim Hersteller erfragen
+  oder am Prototyp messen (Ebene 4 in §4b, Strom in §4c Punkt 3).
 - **RF-Endtest** am fertigen Gehäuse (Espressif-Vorgabe) — ohne Test ist die Antennenperformance unbelegt.
 - **Ruhestrom des ME6211** (40 µA) kostet ~29 mAh/Monat; Alternative TPS7A02 (25 nA) fällt weg, weil er
   nur 200 mA kann und der TX-Peak 382 mA ist.

@@ -8,7 +8,7 @@ Rechenweg: `../hardware/easyeda/scripts/netclass_spec.py` → Ergebnis `../hardw
 | Leitung | Breite | Warum |
 |---|---|---|
 | **Akku + (VBAT)** von J1 zum Lader, LDO, Wächter und Pumpenzweig | **0,5 mm (20 mil)**, nie unter 0,4 mm | trägt im schlechtesten Fall ~1,3 A → Erwärmung 7,8 K |
-| **Pumpenleitung (PUMP_N)**: Q1 Drain → J4 | **0,5 mm (20 mil)**, nie unter 0,4 mm | Pumpe zieht 0,45–0,54 A, Anlaufstrom höher |
+| **Pumpenleitung (PUMP_N)**: Q1 Drain → J4 | **0,5 mm (20 mil)**, nie unter 0,4 mm | Pumpe zieht 0,4 A Dauer, **2,2–2,5 A Anlauf** (~100 ms) |
 | **Masse (GND)** | **keine dünne Bahn** — Kupferfläche auf der Unterseite + kurze Stiche ≥ 0,5 mm | derselbe Strom fließt zurück |
 | **+3V3** vom LDO zum Modul | **0,4 mm**, mindestens 0,25 mm | 0,5 A max (TX-Spitze 0,38 A) |
 | **VBUS** (USB 5 V → Lader) | 0,5 mm | Lader zieht bis 0,5 A |
@@ -23,8 +23,13 @@ die Werte oben liegen also bequem im Standardprozess und kosten keinen Aufpreis.
 
 **Ströme** (aus Datenblättern, nicht geschätzt):
 
-- Pumpe OEM ABC-12527 (anodas.lt): „Current: 3V – 400 mA, 6V – 540 mA" → an unserer
-  1S-Zelle (3,0–4,2 V) sind es **~0,45 A**, als Worst Case 0,54 A.
+- Pumpe **CONQUERALL DC 5 V** (Amazon `B0DHVMZ27Y`, seit 14.09.2026): Nennstrom **0,4 A**
+  (5 V Nennspannung); an unserer 1S-Zelle (3,0–4,2 V) ist sie **unterspannungsbetrieben** →
+  Laststrom ~0,4 A, **Anlaufstrom 2,2–2,5 A** (aus den 3 A @5 V des Datenblatts, ohmsch auf die
+  Zellspannung umgerechnet). Die abgelöste OEM ABC-12527 lag bei 0,45–0,54 A Dauerstrom.
+- ⚠️ **Der Anlaufstrom ist der kritische Fall dieser Platine** (nicht der Dauerstrom): bei 2,2 A
+  bricht VBAT über den 254-mΩ-Gesamtpfad um **0,56 V** ein → siehe `../hardware/bom_entscheidung.md`
+  §4c. Gegenmaßnahme ist **PWM-Softstart in der Firmware**, nicht breitere Bahnen.
 - LDO ME6211C33: **500 mA** Ausgang; der ESP32-C6 zieht im WLAN-TX **382 mA** Spitze
   (Espressif Tab. 6-4) — beides gleichzeitig mit der Pumpe ist der Lastfall.
 - Lader MCP73831 mit R_PROG 3,9 kΩ: **256 mA** (max 500 mA).
@@ -55,11 +60,11 @@ und bei 0,4 mm → 12 K (deshalb 0,4 mm als Untergrenze, nicht als Ziel).
 **Spannungsabfall** (Kupfer bei 70 °C) — der eigentliche Grund für die 0,5 mm
 ist nicht die Erwärmung, sondern dass die Pumpe ihre Spannung behalten soll:
 
-| Strecke | Widerstand | Abfall @0,54 A | @1,5 A Anlauf |
-|---|---|---|---|
-| 0,4 mm × 40 mm | 59 mΩ | 32 mV (0,9 %) | 88 mV (2,4 %) |
-| **0,5 mm × 40 mm** | **47 mΩ** | **25 mV (0,7 %)** | 71 mV (1,9 %) |
-| 0,25 mm × 40 mm | 94 mΩ | 51 mV (1,4 %) | 141 mV (3,8 %) |
+| Strecke | Widerstand | Abfall @0,4 A (Dauer) | @2,2 A Anlauf | @2,5 A Anlauf |
+|---|---|---|---|---|
+| 0,4 mm × 40 mm | 59 mΩ | 23 mV (0,6 %) | 129 mV (3,5 %) | 146 mV (4,0 %) |
+| **0,5 mm × 40 mm** | **47 mΩ** | **19 mV (0,5 %)** | **103 mV (2,8 %)** | 117 mV (3,2 %) |
+| 0,25 mm × 40 mm | 94 mΩ | 37 mV (1,0 %) | 206 mV (5,6 %) | 234 mV (6,3 %) |
 
 Zum Vergleich der Bauteile: der AO3400A hat **48 mΩ** Rds(on), die 1N5819WS
 verliert ~0,35 V in Durchlassrichtung, die JST-Buchse ~20 mΩ pro Pol.
@@ -70,9 +75,9 @@ Rest des Pfades die Grenze, nicht das Kupfer.
 
 Thermisch würde 0,25 mm reichen (0,88 A bei 10 K). Dagegen spricht:
 
-1. Die Pumpe ist ein Motor mit Bürsten — der Anlaufstrom ist im Datenblatt **nicht**
-   angegeben und liegt bei kleinen DC-Getriebemotoren typisch beim 2–3-fachen
-   Nennstrom. Bei 1,5 A hat eine 0,25-mm-Bahn 3,8 % Spannungsverlust, eine 0,5-mm-Bahn 1,9 %.
+1. Die Pumpe ist ein Motor mit Bürsten — der Anlaufstrom ist **seit 14.09.2026 bekannt**:
+   Datenblatt der CONQUERALL nennt **3 A bei 5 V**, an der 1S-Zelle sind es 2,2–2,5 A. Bei 2,2 A
+   hat eine 0,25-mm-Bahn **5,6 %** Spannungsverlust, eine 0,5-mm-Bahn **2,8 %**.
 2. Jede Erwärmung im Wulst ist unerwünscht (geschlossene Kammer, LiPo daneben).
 3. Eine breitere Bahn ist bei JLCPCB kostenlos — Sparsamkeit an dieser Stelle
    spart nichts.

@@ -29,18 +29,24 @@ Dieses Dokument ist die Recherche-/Ideenebene (inkl. Alternativen und Ausschluss
 
 ### 2.1 Peristaltische Pumpe (klein + günstig + akkutauglich)
 
-**Empfehlung:** Funduino Peristaltik-, Schlauch- und Dosierpumpe — **9,11 €**
-- 0–90 ml/min, **3–12 V** (also bei 6 V betreibbar → akkufreundlich)
+**Empfehlung (Stand 14.09.2026): CONQUERALL DC-5-V-Mikro-Peristaltikpumpe — 11,99 €**
+- **≤ 150 ml/min**, Nennspannung **DC 5 V**, Leerlaufstrom 0,4 A, **Anlaufstrom 3 A (bei 5 V)**
+- Silikonschlauch **3 × 5 mm** (passt zum bestellten Schlauch), Bauhöhe 42 mm, Ansaugbereich 0,5 m
 - Schlauch quetschen, selbstansaugend, Richtung per Umpolung umkehrbar
-- Amazon: https://www.amazon.de/dp/B0DT1JCFNV (Versand aus DE)
+- Amazon: https://www.amazon.de/dp/B0DHVMZ27Y · 2er-Pack `B0DJ78W43W` 16,61 €
+- ⚠️ Ø nicht dokumentiert, Betrieb an 1S (3,0–4,2 V) unterhalb der Nennspannung, Anlaufstrom 3 A
+  → **PWM-Softstart Pflicht** und Messauftrag: `bom_entscheidung.md` §4c/§7
 
-**Alternativen (6 V, für Akku besonders geeignet):**
-| Produkt | Preis | Flow | Link |
-|---|---|---|---|
-| 6V-Mini-Peristaltik (G10) | ab **5,87 €** | präzise, ~wenige ml/min | https://www.amazon.de/dp/B0HC8WF98P |
-| 6V mini Peristaltik | 6,69 € | – | https://www.amazon.de/dp/B0H7R9XYJ5 |
-| Whadda WPM447, 6V | 14,18 € | – | https://www.amazon.de/dp/B09L4SR2MY |
-| 6V, 0–150 ml/min | 17,79 € | 0–150 ml/min | https://www.amazon.de/dp/B098RQCMFJ |
+**Geprüft und verworfen (14.09.2026):**
+
+| Produkt | Preis | Warum nicht |
+|---|---|---|
+| „6V-Mini-Peristaltik" `B0HC8WF98P` / `B0H7R9XYJ5` | 5,99 / 6,69 € | Produkttext wörtlich: **„Spannungen unter 6 V betreiben den Motor nicht"** → an 1S unbrauchbar |
+| Funduino „0–90 ml/min, 3–12 V" `B0DT1JCFNV` | 11,39 € | Titel nennt 3–12 V, Produktdetails **keine Spannung/kein Strom** → Akku-Auslegung nicht belegbar |
+| Whadda WPM447 `B09L4SR2MY` | 14,18 € | 39 ml/min bei 5 W → fünffache Energie pro Liter |
+| 12-V-Klasse (G528/G928, Kamoer NKP) | ab 16 € | bräuchte Boost, den die Platine bewusst nicht hat |
+| Schrittmotor-Mikropumpen 3–5 V `B0GGRLZ23B` | 18,88 € | 0,5 ml/min → 10 h für eine Dosis |
+| „Peristaltikpumpe 3,7/6/12 V … **Membran** Luftpumpe" | 18–19 € | sind **keine** Peristaltikpumpen (Titel-Fehler), Medium hätte Kontakt |
 
 > **Warum 3–6V statt 12V:** Für Akkubetrieb ist eine 3–6V-Pumpe direkt an einer 3,7V-LiPo-Zelle (oder per Buck auf 3,3V) einfacher und effizienter. 12V bräuchte einen Step-Up und mehr Zellen. Bei einem kleinen Topf ist der Durchfluss eh klein — die Funduino (0–90 ml/min) reicht.
 
@@ -98,7 +104,7 @@ Dieses Dokument ist die Recherche-/Ideenebene (inkl. Alternativen und Ausschluss
 | Komponente | Preis |
 |---|---|
 | XIAO ESP32-C6 | ~6 $ |
-| Peristaltische Pumpe (Funduino) | 9,11 € |
+| Peristaltische Pumpe (CONQUERALL 5 V) | 11,99 € |
 | MOSFET (IRLZ44N 10er) / Fertigmodul | ~7 € |
 | Kapazitiver Sensor v2.0 | ~3–5 € |
 | Freilaufdiode 1N5819 | <1 € |

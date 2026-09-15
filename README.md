@@ -78,8 +78,8 @@ cannabis-autopot/
 - [x] Projektordner + Anforderungen + 4 Recherchen (10.09.2026)
 - [x] **Entscheidungen 11.09.2026:** Topf Ø140×150 (Erde) + 1 L Tank darunter · ESP32-C6-MINI-1 auf eigener PCB · Wulst mit Kanal · Top-Drip-Ring · Sensor von oben · Telegram final · nur Wasser
 - [x] **Höhen-/Volumenberechnung** → Gesamthöhe 278 mm, Tank 1,0 L, Erdvolumen 1,9 L (`docs/02_...`)
-- [x] **BOM-Entscheidung** (11.09.2026): ESP32-C6-MINI-1 ≈ 3,60 € · OEM-Peristaltikpumpe ABC-12527 (3,7–6 V) 7,74 € · Sensor v1.2 4,99 € · EFASO-Akku 14,90 € → **≈ 47–49 €** gesamt inkl. Schlauch und Passiven (+ ~28 € JLCPCB-Handling) (`hardware/bom_entscheidung.md`)
-- [x] **Versorgung festgelegt:** 1S direkt, kein Boost/Buck (Pumpe ab 3 V dokumentiert); eigener Lader **MCP73831T-2** + LDO **ME6211** auf der Platine
+- [x] **BOM-Entscheidung** (11.09.2026, Pumpentausch 14.09.2026): ESP32-C6-MINI-1 ≈ 3,60 € · Peristaltikpumpe **CONQUERALL DC 5 V** (Amazon `B0DHVMZ27Y`, ≤150 ml/min, 3 × 5 mm Schlauch) **11,99 €** statt 31,94 € OEM · Sensor v1.2 4,99 € · EFASO-Akku 14,90 € → **≈ 47–49 €** gesamt inkl. Schlauch und Passiven (+ ~28 € JLCPCB-Handling) (`hardware/bom_entscheidung.md`)
+- [x] **Versorgung festgelegt:** 1S direkt, kein Boost/Buck; eigener Lader **MCP73831T-2** + LDO **ME6211** auf der Platine. ⚠️ **Offen seit dem Pumpentausch:** die CONQUERALL ist mit 5 V Nennspannung spezifiziert — Betrieb an 3,0–4,2 V ist **nicht belegt**, und ihr Anlaufstrom (2,2–2,5 A) kann den MAX809 (3,08 V) auslösen → **PWM-Softstart Pflicht**, Messauftrag in `hardware/bom_entscheidung.md` §4c/§7
 - [x] **MCU festgelegt:** **ESP32-C6-MINI-1** auf eigener PCB (kein Dev-Board) — Pflichtbeschaltung und Antennenregeln aus den Espressif-Docs übernommen
 - [x] **PCBA geprüft:** alle Bauteile bei JLCPCB verfügbar (LCSC-Codes in `hardware/pcba_bom_jlc.csv`)
 - [x] **Schaltplan V1 + Netzliste** (`hardware/schaltplan_v1.md`, `..._netzliste.csv`, **50 Netze / 80 Bauteile / 72 bestückte Positionen**)

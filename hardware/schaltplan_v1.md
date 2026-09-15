@@ -49,7 +49,7 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 | **EN** | U1 **Pin 8** ↔ R_EN 10 kΩ → +3V3 · C4 1 µF → GND · SW1 → GND | Reset; RC **10 kΩ + 1 µF** (Espressif) |
 | **BOOT** | U1 **Pin 23 (IO9)** ↔ R_BOOT 10 kΩ → +3V3 · SW2 → GND | Download-Modus; **kein großer C** an GPIO9! |
 | **GPIO8_STRAP** | U1 **Pin 22 (IO8)** ↔ R_GPIO8 10 kΩ → +3V3 | Strapping-Pin nicht floaten lassen |
-| **PUMP_EN** | U1 **Pin 5 (IO2)** → R1 **4,7 kΩ** → **Gate-Knoten** von Q1 | Pumpensteuerung (PWM-fähig) |
+| **PUMP_EN** | U1 **Pin 5 (IO2)** → R1 **4,7 kΩ** → **Gate-Knoten** von Q1 | Pumpensteuerung (PWM-fähig) — **PWM-Softstart vorgeschrieben**, Anlaufstrom 2,2–2,5 A (siehe Q1/C3) |
 | **GATE** | Q1 Gate ↔ R1 4,7 kΩ ↔ R2 **47 kΩ** → GND ↔ D3 **Anode** | Abschaltung bei MCU-Tod (Pull-down) bzw. Unterspannung (D3 → MAX809) |
 | **PUMP_N** | Q1 Drain ↔ J4 Pin 2 (Pumpe −) ↔ D1 **Anode** | geschaltete Pumpenmasse (Low-Side) |
 | **RESET_UV** | U7 Pin 2 (RESET) ↔ D3 **Kathode** | zieht bei VBAT < 3,08 V den Gate-Knoten auf ~0,3 V |
@@ -90,7 +90,7 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 | U4 | ME6211C33M5G | 500 mA, 3,3 V | `C82942` | TX-Peak des C6 = **382 mA**; Espressif fordert ≥ 500 mA |
 | U6 | USBLC6-2SC6 | ESD, SOT-23-6 | `C7519` | Datenleitungen schützen (USB-Vorgabe, nicht von Espressif) |
 | U7 | MAX809TEUR+T | 3,08 V, SOT-23 | `C16711` | Unterspannungsschutz; Espressif empfiehlt für Akkubetrieb einen Power-Monitor ~3,0 V |
-| Q1 | AO3400A | N-MOSFET SOT-23 | `C20917` | Pumpentreiber; RDS(on) < 48 mΩ @ VGS 2,5 V |
+| Q1 | AO3400A | N-MOSFET SOT-23 | `C20917` | Pumpentreiber; RDS(on) < 48 mΩ @ VGS 2,5 V → trägt **5,2–5,8 A** Dauerstrom, der 2,2–2,5-A-Anlauf der Pumpe ist damit unkritisch (Verlust ~0,36 W für ~100 ms, im Betrieb 6 mW) |
 | **Q2** | **AO3401A** | **P-MOSFET SOT-23** | `C15127` | **neu (14.09.2026):** High-Side-Load-Switch für die geschaltete Erweiterungsversorgung **VCC_EXT**. RDS(on) 85 mΩ @ VGS −2,5 V; Source → +3V3, Drain → VCC_EXT, Gate über 47 kΩ auf +3V3 (aus = Fail-safe), IO20 zieht nach unten |
 | D1 | 1N5819WS | 40 V / 1 A | `C191023` | Freilaufdiode der Pumpe (Kathode an VBAT) |
 | D3 | 1N5819WS | 40 V / 1 A | `C191023` | Klemmzweig: Anode am Gate, Kathode an U7-RESET |
@@ -106,7 +106,7 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 | C1a, C1b | 2 × 100 nF | 0805 | Decoupling am Modul | Sollwerte der Modul-Typenschaltung (22 µF + 2 × 0,1 µF) |
 | C10 | 100 nF | 0805 | ADC-Filter VBAT | Espressif-ADC-Empfehlung; macht zusätzlich die hohe Teiler-Impedanz für den ADC niederohmig |
 | C2 | 22 µF | 0805 | Bulk am Modul-3V3 | dito |
-| C3 | 100 µF | Elko 16 V | Puffer für den Pumpenstrom | eigene Auslegung (Motoranlauf) |
+| C3 | 100 µF | Elko 16 V | Puffer für den Pumpenstrom | eigene Auslegung (Motoranlauf) — ⚠️ deckt bei 2,5 A Anlauf nur **23 µs** ab (`t = C·ΔU/I`), ist also **kein** Anlaufschutz; dafür 100 nF C11 an den Klemmen |
 | C4 | 1 µF | 0603 | EN-RC-Glied | Espressif: „R = 10 kΩ and C = 1 µF" |
 | C5 | **10 µF** | 0805 | LDO-Eingang (CIN) | **Erhöht:** ME6211 verlangt min. 1 µF, Espressif dazu ≥ 10 µF am Leistungseingang → Reserve für die 382-mA-TX-Spitzen bei fast leerer Zelle |
 | C6 | 1 µF | 0603 | LDO-Ausgang (COUT) | ME6211-Datenblatt: CL = 1 µF Low-ESR |

@@ -6,7 +6,9 @@ Datenblaetter nach IPC-2221A (aussen, 1 oz Kupfer = 35 um, dT = 10 K) und
 prueft zusaetzlich den Spannungsabfall auf dem langen Pumpen-/Akkupfad.
 
 Quellen der Stroeme:
-  * Pumpe OEM ABC-12527 (anodas.lt): "Current: 3V - 400mA, 6V - 540mA"
+  * Pumpe CONQUERALL DC 5 V (Amazon B0DHVMZ27Y, seit 14.09.2026):
+    "Nennspannung DC 5V, Leerlaufstrom 0,4 A, Anlaufstrom 3 A, Foerdermenge <= 150 ml/min"
+    -> an der 1S-Zelle (3,0-4,2 V) unterspannungsbetrieben; Anlaufstrom ohmsch skaliert
   * Lader MCP73831T (R_PROG 3,9k): ~256 mA, Chip-Maximum 500 mA
   * LDO ME6211C33: 500 mA Ausgang (ESP32-C6 TX-Spitze 382 mA, Espressif Tab. 6-4)
   * Zelle EFASO 503759, 1S, 3,0-4,2 V, 1500 mAh
@@ -26,9 +28,9 @@ ALPHA = 0.00393             # 1/K
 T_OP = 70.0                 # angenommene Leiterbahntemperatur fuer IR-Drop
 
 # --- Stroeme (aus den Datenblaettern, s. Kopf) ------------------------------
-I_PUMP_NOM = 0.54           # Pumpe @6 V (Datenblatt-Worstcase); an 1S real ~0.45 A
-I_PUMP_CELL = 0.45          # Pumpe an 4,2-V-Zelle
-I_PUMP_INRUSH = 1.50        # Motor-Anlauf (Datenblatt schweigt -> 2,8x Nennstrom)
+I_PUMP_NOM = 0.40           # Pumpe CONQUERALL @5 V Nennspannung (Leerlaufstrom 0,4 A)
+I_PUMP_CELL = 0.40          # Pumpe an der 1S-Zelle (3,0-4,2 V, unterspannungsbetrieben)
+I_PUMP_INRUSH = 2.50        # Motor-Anlauf: 3 A @5 V laut Datenblatt -> ohmsch auf 4,2 V skaliert
 I_LDO = 0.50                # ME6211 Maximalstrom
 I_TX = 0.382                # ESP32-C6 WLAN-TX-Spitze
 I_CHG = 0.256               # MCP73831 mit R_PROG 3,9k
@@ -140,8 +142,8 @@ def build():
         "basis": "IPC-2221A (aussen), dT = 10 K, 1 oz Kupfer, 2 Lagen",
         "formula": "A[mil^2] = (I / (k * dT^0.44))^(1/0.725), k=0.048 aussen; Breite = A / 1,378 mil",
         "inputs_a": {
-            "pumpe_nenn_6v": I_PUMP_NOM, "pumpe_an_zelle_4v2": I_PUMP_CELL,
-            "pumpe_anlauf_angenommen": I_PUMP_INRUSH, "ldo_max": I_LDO,
+            "pumpe_nenn_5v_datenblatt": I_PUMP_NOM, "pumpe_an_zelle": I_PUMP_CELL,
+            "pumpe_anlauf_an_der_zelle": I_PUMP_INRUSH, "ldo_max": I_LDO,
             "esp32c6_tx_peak": I_TX, "lader_programmiert": I_CHG,
             "vbat_gleichzeitig_pumpe_und_mcu": round(I_VBAT_WORST, 3),
             "vbat_inkl_laden_firmware_verbietet": round(I_VBAT_ALL, 3),
@@ -158,8 +160,13 @@ def build():
             "(pcb power-pour), Stiche >= 0,5 mm, Via-Stitching an Lader/LDO/Pumpenrueckweg.",
             "Am MOSFET-Pad (SOT-23) darf die Bahn kurz auf Padbreite verjuengen "
             "(neck-down) - das ist bei Leistungspfaden normal und nur ein 'pcb check'-Hinweis.",
-            "Anlaufstrom der Pumpe ist nicht dokumentiert -> am Prototyp messen und "
-            "die 0,5 mm gegen 1,5 A (dT 10,9 K) gegenpruefen.",
+            "Anlaufstrom der Pumpe ist belegt: 3 A @5 V laut Datenblatt -> 2,2-2,5 A an der "
+            "1S-Zelle (ohmsch skaliert). Die 0,5 mm tragen dauerhaft 1,45 A bei dT 10 K; der "
+            "Anlaufstrom fliesst nur ~100 ms (dT transient unkritisch, Abfall 2,8 %). "
+            "ENTSCHEIDEND ist nicht die Bahn, sondern der Spannungseinbruch ueber den "
+            "Gesamtpfad (254 mOhm -> 0,56 V): der MAX809 (3,08 V) kann die Pumpe abschalten. "
+            "Deshalb PWM-Softstart in der Firmware (Rampe 100-300 ms) - Rechnung in "
+            "hardware/bom_entscheidung.md Abschnitt 4c.",
             "USB_DP/USB_DM als Paar (diff-pair) deklarieren und laengengleich fuehren; "
             "kontrollierte Impedanz bietet JLCPCB nur ab 4 Lagen, bei 12 Mbit/s FS-USB "
             "ist ein kurzes, paralleles Paar ausreichend.",
