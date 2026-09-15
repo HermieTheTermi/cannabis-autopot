@@ -162,8 +162,8 @@ Folgekosten siehe **§10**.
 | **R_LIGHT_S** | 1 kΩ | Licht-AOUT in Reihe | Serienschutz für den ADC (gleiche Rolle wie R6) |
 | R_UART | 499 Ω (DNP) | TXD0-Serie | Espressif: „connect a 499 Ω series resistor to the U0TXD line" |
 | **R_GATE** | 47 kΩ | Gate-Pull-up Load-Switch | Hält das Gate von Q2 ohne aktiven GPIO auf **+3V3** (Quellpotential) ⇒ VGS = 0 ⇒ Q2 sperrt ⇒ **VCC_EXT ist beim Reset aus** (Fail-safe) |
-| **R_SDA_PU** | 10 kΩ | I²C-SDA-Pull-up | Pull-up an **VCC_EXT**, nicht an +3V3 — im ausgeschalteten Zustand zieht der Bus keinen Strom |
-| **R_SCL_PU** | 10 kΩ | I²C-SCL-Pull-up | dito, an **VCC_EXT** |
+| **R_SDA_PU** ⭐ | **4,7 kΩ** | I²C-SDA-Pull-up | Pull-up an **VCC_EXT**, nicht an +3V3 — im ausgeschalteten Zustand zieht der Bus keinen Strom |
+| **R_SCL_PU** ⭐ | **4,7 kΩ** | I²C-SCL-Pull-up | dito, an **VCC_EXT** |
 | **R_SDA_S** | 1 kΩ | I²C-SDA in Reihe | Serienschutz zwischen J8 Pin 3 und U1 Pin 24 (IO18) |
 | **R_SCL_S** | 1 kΩ | I²C-SCL in Reihe | Serienschutz zwischen J8 Pin 4 und U1 Pin 25 (IO19) |
 | **R_SPARE_AIN** | 1 kΩ | Reserve-Analog in Reihe | Serienschutz zwischen J9 Pin 3 und U1 Pin 10 (IO5, ADC1_CH5); Teil des ADC-Filters mit C_SPARE |
@@ -549,7 +549,7 @@ einem GPIO, sondern über einen **P-Kanal-MOSFET Q2 (AO3401A)**:
 
 ### 9.5 I²C-Pull-ups an VCC_EXT (nicht an +3V3)
 
-**R_SDA_PU und R_SCL_PU (je 10 kΩ)** hängen an **VCC_EXT**, nicht an +3V3. Ist VCC_EXT aus,
+**R_SDA_PU und R_SCL_PU (je 4,7 kΩ, Revision 15.09.2026)** hängen an **VCC_EXT**, nicht an +3V3. Ist VCC_EXT aus,
 liegt der Bus hochohmig an 0 V und zieht **keinen Strom**. 10 kΩ sind für kurze Kabel (wenige cm
 bis ca. 30 cm) und die üblichen 100-kHz-/400-kHz-I²C-Module plausibel. Der Serien-R (1 kΩ)
 begrenzt zusätzlich den Fehlerstrom in die MCU-Pins.
