@@ -79,9 +79,17 @@ cannabis-autopot/
 - [x] **Entscheidungen 11.09.2026:** Topf Ø140×150 (Erde) + 1 L Tank darunter · ESP32-C6-MINI-1 auf eigener PCB · Wulst mit Kanal · Top-Drip-Ring · Sensor von oben · Telegram final · nur Wasser
 - [x] **Höhen-/Volumenberechnung** → Gesamthöhe 278 mm, Tank 1,0 L, Erdvolumen 1,9 L (`docs/02_...`)
 - [x] **BOM-Entscheidung** (11.09.2026, Pumpentausch 14.09.2026): ESP32-C6-MINI-1 ≈ 3,60 € · Peristaltikpumpe **CONQUERALL DC 5 V** (Amazon `B0DHVMZ27Y`, ≤150 ml/min, 3 × 5 mm Schlauch) **11,99 €** statt 31,94 € OEM · Sensor v1.2 4,99 € · EFASO-Akku 14,90 € → **≈ 47–49 €** gesamt inkl. Schlauch und Passiven (+ ~28 € JLCPCB-Handling) (`hardware/bom_entscheidung.md`)
-- [x] **Versorgung festgelegt:** 1S direkt, kein Boost/Buck; eigener Lader **MCP73831T-2** + LDO **ME6211** auf der Platine. ⚠️ **Offen seit dem Pumpentausch:** die CONQUERALL ist mit 5 V Nennspannung spezifiziert — Betrieb an 3,0–4,2 V ist **nicht belegt**, und ihr Anlaufstrom (2,2–2,5 A) kann den MAX809 (3,08 V) auslösen → **PWM-Softstart Pflicht**, Messauftrag in `hardware/bom_entscheidung.md` §4c/§7
+- [x] **Versorgung festgelegt:** 1S direkt für die Logik (LDO 3,3 V), eigener Lader **MCP73831T-2** + **ME6211** auf der Platine · **seit 15.09.2026 zusätzlich U8 MT3608 als 5-V-Boost für beide Pumpen** (5,10 V). ⚠️ **Offen:** der Anlaufstrom der CONQUERALL (2,2–2,5 A gemessen erwartet, 3 A laut Datenblatt) liegt **über** dem, was der Boost liefern kann → **PWM-Softstart Pflicht**, Messauftrag in `hardware/bom_entscheidung.md` §4c/§7 und `hardware/schaltplan_v1.md` §10
 - [x] **MCU festgelegt:** **ESP32-C6-MINI-1** auf eigener PCB (kein Dev-Board) — Pflichtbeschaltung und Antennenregeln aus den Espressif-Docs übernommen
 - [x] **PCBA geprüft:** alle Bauteile bei JLCPCB verfügbar (LCSC-Codes in `hardware/pcba_bom_jlc.csv`)
+- [x] **Sauerstoffpumpe + 5-V-Boost** (15.09.2026): **zweiter** Pumpenpfad — **Q3** (AO3400A) mit
+      R20/R21, Freilauf **D7**, UV-Klemmzweig **D8**, Stecker **J16** (JST-XH 2P aufrecht, gleicher Typ
+      wie J4) an **IO22** (vorher Reserve **J14** ⛔ entfällt). Damit **beide** Pumpen 5 V bekommen,
+      erzeugt **U8 MT3608** mit **L1 22 µH**, **D6 SS34**, **C13/C14 22 µF**, **R18 75 kΩ/R19 10 kΩ**
+      eine geregelte **+5-V-Schiene (5,10 V)** aus VBAT; J4 Pin 1 und D1 liegen jetzt an **+5V**.
+      ⚠️ Zwei Folgepflichten: **PWM-Softstart jetzt Pflicht** (der Boost liefert den 3-A-Anlauf nicht —
+      22 µF ≈ 7 µs) und **O2-Pumpe nicht dauerhaft** (1500-mAh-Zelle wäre in ~2,5 h leer).
+      Rechnungen + offene Punkte (Platz!, Einbauort außerhalb) in `hardware/schaltplan_v1.md` §10
 - [x] **Stecker auf „nach oben" umgestellt** (15.09.2026): J1/J2/J4 von gewinkelt (Side-Entry) auf
       **aufrecht (Top-Entry)** — neue LCSC-Codes `C160352` (Akku PH, SMD), `C493416` (Sensor XH-3P),
       `C158012` (Pumpe XH-2P); vorher `C54582899`/`C157928`/`C157931`. Die aufrechten Typen haben

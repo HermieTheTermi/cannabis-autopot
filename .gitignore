@@ -32,3 +32,6 @@ __pycache__/
 
 # EasyEDA-Tool-Cache (Export-Artefakte, lokal generiert)
 .easyeda/
+
+# EasyEDA-Playbook-Laufzeitlogs (nicht versionieren)
+hardware/easyeda/rebuild/*.journal.jsonl

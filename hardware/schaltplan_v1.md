@@ -32,8 +32,14 @@ IO14 Status-LED · IO9 Boot · IO12/13 USB ·
 **IO15–IO17, IO21–IO23 Reserve (J10–J15, je über 1 kΩ in Reihe)** ·
 **IO18/IO19 I²C (J8, je über 1 kΩ in Reihe)** · **IO20 Load-Switch VCC_EXT (intern)**.
 
-**Versorgungskette:** USB-C 5 V → Lader → **VBAT** (3,0–4,2 V) → { Pumpe direkt, MAX809, Teiler,
-LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entscheidung.md` §3.
+**Versorgungskette (Stand 15.09.2026):** USB-C 5 V → Lader → **VBAT** (3,0–4,2 V) →
+{ **Boost U8 → +5 V → beide Pumpen**, MAX809, Teiler, LDO → 3,3 V }.
+
+⚠️ **Geändert am 15.09.2026:** Bis dahin hing die Dosierpumpe **direkt an VBAT** (3,0–4,2 V) und es gab
+bewusst **keinen Schaltregler**. Da jetzt **beide** Pumpen (Dosier- **und** Sauerstoffpumpe) **5 V**
+bekommen sollen — die CONQUERALL ist mit 5 V Nennspannung spezifiziert —, sitzt nun ein
+**Aufwärtsregler (Boost) U8 MT3608** zwischen VBAT und den Pumpen. Details, Auslegung und die
+Folgekosten siehe **§10**.
 
 ---
 
@@ -43,9 +49,15 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 |---|---|---|
 | **VBUS** | J5 VBUS ↔ U3 Pin 4 (VDD) ↔ C7 4,7 µF ↔ U6 Pin 5 ↔ R_LEDCHG (Lade-LED) | 5-V-Eingang, Ladestrom, LED-Versorgung |
 | **PROG** | U3 Pin 5 (PROG) ↔ R_PROG 3,9 kΩ ↔ GND | Ladestrom-Programmierung (256 mA) |
-| **VBAT** | U3 Pin 3 (VBAT) ↔ C8 4,7 µF ↔ J1 Pin 1 (Akku +) ↔ C3 100 µF ↔ J4 Pin 1 (Pumpe +) ↔ D1 Kathode ↔ U7 Pin 3 (VCC) ↔ U4 VIN ↔ C5 10 µF ↔ R3a | Energiebus, alles außer Logik |
+| **VBAT** | U3 Pin 3 (VBAT) ↔ C8 4,7 µF ↔ J1 Pin 1 (Akku +) ↔ C3 100 µF ↔ **U8 Pin 5 (IN) + Pin 4 (EN)** ↔ **C13 22 µF** ↔ **L1 Pin 1** ↔ U7 Pin 3 (VCC) ↔ U4 VIN ↔ C5 10 µF ↔ R3a | Energiebus + Boost-Eingang, alles außer Logik |
+| **+5V** ⭐ | **D6 Kathode** ↔ **C14 22 µF** ↔ **C15 100 nF** ↔ **R18 75 kΩ** ↔ **J4 Pin 1 (Dosierpumpe +)** ↔ **D1 Kathode** ↔ **J16 Pin 1 (O2-Pumpe +)** ↔ **D7 Kathode** | **neu 15.09.2026:** 5-V-Schiene für **beide** Pumpen (Boost-Ausgang) |
+| **SW_BOOST** ⭐ | **U8 Pin 1 (SW)** ↔ **L1 Pin 2** ↔ **D6 Anode** | **neu:** Schaltknoten des Boosts (kurz halten, kein Prüfpunkt) |
+| **FB_5V** ⭐ | **U8 Pin 3 (FB)** ↔ **R18 75 kΩ** ↔ **R19 10 kΩ** ↔ GND | **neu:** Feedback-Teiler → **5,10 V** (0,6 V × (1 + 75/10)) |
+| **PUMP2_EN** ⭐ | **U1 Pin 28 (IO22)** ↔ **R20 4,7 kΩ** (Gate-Serie) | **neu:** Steuersignal der Sauerstoffpumpe (ersetzt SPARE_IO22) |
+| **GATE2** ⭐ | **R20** ↔ **Q3 Gate** ↔ **R21 47 kΩ → GND** ↔ **D8 Anode** | **neu:** Gate-Knoten Q3 (Pulldown = aus beim Boot, D8 = Klemmzweig) |
+| **PUMP2_N** ⭐ | **Q3 Drain** ↔ **J16 Pin 2 (O2-Pumpe −)** ↔ **D7 Anode** ↔ **C16 100 nF** | **neu:** geschaltete Masse der Sauerstoffpumpe |
 | **+3V3** | U4 VOUT ↔ C6 1 µF ↔ U1 Pin 3 **und alle VDD33-Pins** ↔ C2 22 µF ↔ C1a/C1b 100 nF ↔ R_EN ↔ R_BOOT ↔ R_GPIO8 ↔ **R_BTN** | Logikversorgung |
-| **GND** | U1 (alle GND-Pins), U3 Pin 2, U4 GND, U6 Pin 2, U7 Pin 1, Q1 Source, C1–C12, C_BTN, **C_SPARE**, R2, R3b, R5a/R5b, R4/D2, **R_TANK/D5**, SW1/SW2, J1 Pin 2, **J2 Pin 1**, **J7 Pin 1**, J4 Pin 2, **J6 Pin 2**, **J8 Pin 1**, **J9–J15 Pin 1**, J5 GND + Schirm | Masse |
+| **GND** | U1 (alle GND-Pins), U3 Pin 2, U4 GND, U6 Pin 2, U7 Pin 1, **U8 Pin 2**, Q1 **und Q3** Source, C1–C16, C_BTN, **C_SPARE**, R2, **R19, R21**, R3b, R5a/R5b, R4/D2, **R_TANK/D5**, SW1/SW2, J1 Pin 2, **J2 Pin 1**, **J7 Pin 1**, J4 Pin 2, **J6 Pin 2**, **J8 Pin 1**, **J9–J13, J15 Pin 1** (J14 entfällt), J5 GND + Schirm | Masse |
 | **EN** | U1 **Pin 8** ↔ R_EN 10 kΩ → +3V3 · C4 1 µF → GND · SW1 → GND | Reset; RC **10 kΩ + 1 µF** (Espressif) |
 | **BOOT** | U1 **Pin 23 (IO9)** ↔ R_BOOT 10 kΩ → +3V3 · SW2 → GND | Download-Modus; **kein großer C** an GPIO9! |
 | **GPIO8_STRAP** | U1 **Pin 22 (IO8)** ↔ R_GPIO8 10 kΩ → +3V3 | Strapping-Pin nicht floaten lassen |
@@ -90,10 +102,13 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 | U4 | ME6211C33M5G | 500 mA, 3,3 V | `C82942` | TX-Peak des C6 = **382 mA**; Espressif fordert ≥ 500 mA |
 | U6 | USBLC6-2SC6 | ESD, SOT-23-6 | `C7519` | Datenleitungen schützen (USB-Vorgabe, nicht von Espressif) |
 | U7 | MAX809TEUR+T | 3,08 V, SOT-23 | `C16711` | Unterspannungsschutz; Espressif empfiehlt für Akkubetrieb einen Power-Monitor ~3,0 V |
-| Q1 | AO3400A | N-MOSFET SOT-23 | `C20917` | Pumpentreiber; RDS(on) < 48 mΩ @ VGS 2,5 V → trägt **5,2–5,8 A** Dauerstrom, der 2,2–2,5-A-Anlauf der Pumpe ist damit unkritisch (Verlust ~0,36 W für ~100 ms, im Betrieb 6 mW) |
-| **Q2** | **AO3401A** | **P-MOSFET SOT-23** | `C15127` | **neu (14.09.2026):** High-Side-Load-Switch für die geschaltete Erweiterungsversorgung **VCC_EXT**. RDS(on) 85 mΩ @ VGS −2,5 V; Source → +3V3, Drain → VCC_EXT, Gate über 47 kΩ auf +3V3 (aus = Fail-safe), IO20 zieht nach unten |
-| D1 | 1N5819WS | 40 V / 1 A | `C191023` | Freilaufdiode der Pumpe (Kathode an VBAT) |
-| D3 | 1N5819WS | 40 V / 1 A | `C191023` | Klemmzweig: Anode am Gate, Kathode an U7-RESET |
+| **U8** ⭐ | **MT3608** | Boost, 2 A, 1,2 MHz, SOT-23-6 | `C84817` | **neu (15.09.2026):** Aufwärtsregler **VBAT (3,0–4,2 V) → +5 V** für **beide** Pumpen. V_out = 0,6 V × (1 + R18/R19) = **5,10 V**. Schalterstrom-Grenze 2 A; EN liegt fest an VBAT (immer aktiv). Auslegung + Grenzen in **§10** |
+| Q1, **Q3** ⭐ | AO3400A | N-MOSFET SOT-23 | `C20917` | Pumpentreiber; RDS(on) < 48 mΩ @ VGS 2,5 V → trägt **5,2–5,8 A** Dauerstrom. **Q1 = Dosierpumpe (IO2)**, **Q3 = Sauerstoffpumpe (IO22)** — identische Beschaltung (R20 4,7 kΩ Serie, R21 47 kΩ Pulldown, eigene Freilaufdiode, eigener Klemmzweig) |
+| Q2 | **AO3401A** | P-MOSFET SOT-23 | `C15127` | **neu (14.09.2026):** High-Side-Load-Switch für die geschaltete Erweiterungsversorgung **VCC_EXT**. RDS(on) 85 mΩ @ VGS −2,5 V; Source → +3V3, Drain → VCC_EXT, Gate über 47 kΩ auf +3V3 (aus = Fail-safe), IO20 zieht nach unten |
+| D1, **D7** ⭐ | 1N5819WS | 40 V / 1 A | `C191023` | Freilaufdioden, **Kathode jetzt an +5V** (nicht mehr VBAT): D1 = Dosierpumpe (Q1), D7 = Sauerstoffpumpe (Q3) |
+| D3, **D8** ⭐ | 1N5819WS | 40 V / 1 A | `C191023` | Klemmzweige: Anode am Gate, Kathode an U7-RESET — D3 → Q1-Gate, **D8 → Q3-Gate**. Bei Unterspannung (< 3,08 V) sind damit **beide** Pumpen zwangsweise aus |
+| **D6** ⭐ | **SS34** | 3 A / 40 V, SMA | `C8678` | **neu:** Boost-Diode (SW → +5 V). SMA statt SOD-323 wegen der Stromspitzen (~2 A im Schalter, Sperrspannung liegt bei ~5 V + Reserve) |
+| **L1** ⭐ | **22 µH** | YNR6045, SMD 6 × 6 mm, 2,05 A, 89 mΩ | `C341068` | **neu:** Boost-Induktivität. 22 µH ist der Datenblatt-Standardwert für den MT3608; Auswahl nach **Sättigungsstrom ≥ 2 A** (Schaltergrenze) *und* niedrigem DCR (Verlust bei 1,3 A ≈ 0,15 W) |
 | D2 | **LED grün** (525 nm) | 0805 | `C2297` | **Farbe geändert 11.09.2026** (vorher rot wie D5). Grün = Status/Betrieb, **rot bleibt der Warnung „Tank leer" vorbehalten**. Vf **2,85 V** (InGaN) → am 3,3-V-Rail nur **0,45 V Reserve**, deshalb R4 = 220 Ω. JLC: **basic**, 1.627.076 auf Lager. *Blau* wäre möglich, ist bei JLC aber nur **extended** (+3 $) und hätte dasselbe Vf-Problem |
 | D5 | LED rot, **gleicher Typ wie D2** | 0805 | `C84256` | **neu:** Anzeige „Tank leer". Kein neues JLC-Bauteil nötig — identischer 0805-Typ, **6.141.918 auf Lager** (basic) |
 | D_LEDCHG | LED rot, **gleicher Typ wie D2** | 0805 | `C84256` | Ladestatus. **Grund für rot:** bei JLC ist **keine** grüne 0805-LED mit Bestand verfügbar (geprüft) → derselbe Basic-Typ spart eine Extended-Position. Alternative: STAT (U3 Pin 1) auf einen freien GPIO legen und den Ladestatus per Telegram melden |
@@ -118,6 +133,10 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 | C_BTN | 100 nF | 0805 | **Entprellung des externen Tasters** | RC mit R_BTN: 10 kΩ × 100 nF = **1 ms** — entprellt und hält Einstreuungen auf der Tasterleitung fern |
 | C12 | 100 nF | 0805 | Decoupling am Unterspannungswächter | Standardpraxis; der MAX809 selbst braucht laut Datenblatt keine externen Bauteile |
 | **C_SPARE** | 100 nF | 0805 | **ADC-Filter Reserve-Analog (IO5, J9)** | Espressif-ADC-Empfehlung; bildet mit R_SPARE_AIN (1 kΩ) einen Tiefpass (τ = 0,1 ms), gleiches Muster wie SENSOR_AOUT |
+| **C13** ⭐ | **22 µF** | 0805 | **Boost-Eingang (VBAT)** | **neu:** MT3608 verlangt einen Keramik-C am Eingang; 22 µF deckt die Schaltstromspitzen (ΔI ≈ 2 A bei 1,2 MHz) ab, damit die Pulsströme nicht in VBAT/Lader/ADC einstreuen |
+| **C14** ⭐ | **22 µF** | 0805 | **Boost-Ausgang (+5V)** | **neu:** Ausgangs-Bulk. **Achtung:** 22 µF halten 2 A nur **~11 µs** (t = C·ΔU/I) — der Motorenanlauf ist damit **nicht** gepuffert, das erledigt der Softstart in der Firmware |
+| **C15** ⭐ | 100 nF | 0805 | **Boost-Ausgang (+5V), HF** | **neu:** HF-Bedämpfung des 1,2-MHz-Schaltknotens |
+| **C16** ⭐ | 100 nF | 0805 | **direkt an den Klemmen der Sauerstoffpumpe** | **neu:** Bürstenstörungen der zweiten Pumpe abfangen (gleiches Muster wie C11) |
 
 ### Widerstände
 
@@ -149,7 +168,11 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 | **R_SPARE_IO16** | 1 kΩ | Reserve-IO16 in Reihe | zwischen J11 Pin 3 und U1 Pin 31 (TXD0/IO16) |
 | **R_SPARE_IO17** | 1 kΩ | Reserve-IO17 in Reihe | zwischen J12 Pin 3 und U1 Pin 30 (RXD0/IO17) |
 | **R_SPARE_IO21** | 1 kΩ | Reserve-IO21 in Reihe | zwischen J13 Pin 3 und U1 Pin 27 (IO21) |
-| **R_SPARE_IO22** | 1 kΩ | Reserve-IO22 in Reihe | zwischen J14 Pin 3 und U1 Pin 28 (IO22) |
+| ~~**R_SPARE_IO22**~~ | **entfällt (15.09.2026)** | – | **IO22 ist jetzt PUMP2_EN** (Sauerstoffpumpe). Der Reserve-Stecker **J14** entfällt ersatzlos; an seine Stelle tritt der Pumpenstecker **J16** |
+| **R20** ⭐ | **4,7 kΩ** | **Gate-Serie der Sauerstoffpumpe** | **neu:** identisch zu R1. Begrenzt den Umladestrom des Gate und — im Klemmfall über D8 — den Strom aus dem MAX809 auf **0,57 mA** (Spec: ISINK = 1,2 mA) |
+| **R21** ⭐ | **47 kΩ** | **Gate-Pulldown Q3** | **neu:** identisch zu R2. Hält Q3 beim Boot/Reset sicher aus; Ansteuerpegel 3,3 V × 47/51,7 = **3,0 V** (über dem 2,5-V-Spec-Punkt des AO3400A) |
+| **R18** ⭐ | **75 kΩ** | **Boost-Feedback oben** | **neu:** V_out = 0,6 V × (1 + R18/R19) = 0,6 × (1 + 7,5) = **5,10 V**. Werte als 0805-Basic gewählt (75 kΩ `C17819` + 10 kΩ `C17414`) — 5,10 V liegt innerhalb der ±5-%-Toleranz beider Pumpen |
+| **R19** ⭐ | **10 kΩ** | **Boost-Feedback unten** | **neu:** s. R18; bildet mit R18 den Teiler am FB-Pin (Pin 3), unterer Zweig an GND |
 | **R_SPARE_IO23** | 1 kΩ | Reserve-IO23 in Reihe | zwischen J15 Pin 3 und U1 Pin 29 (IO23) |
 
 ### Steckverbinder und Schalter
@@ -158,7 +181,8 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 |---|---|---|---|
 | J1 | JST PH 2,0 mm, 2-pol, **aufrecht (Top-Entry, SMD)** | `C160352` | Akku (Pin 1 = +, Pin 2 = −) — **Polung im Layout prüfen**. ⚠️ Typwechsel 15.09.2026 (vorher `C54582899`, liegend „卧贴") |
 | J2 | JST-XH 2,54 mm, 3-pol, **aufrecht (Top-Entry, THT)** | `C493416` | Feuchtesensor: **1 = GND · 2 = SENSOR_PWR (VCC) · 3 = SENSOR_RAW (AOUT)**. ⚠️ Typwechsel 15.09.2026 (vorher `C157928`, gewinkelt „弯插"); Stecker geht jetzt nach oben raus |
-| J4 | JST-XH 2,54 mm, 2-pol, **aufrecht (Top-Entry, THT)** | `C158012` | Pumpe: 1 = VBAT, 2 = geschaltete Masse. ⚠️ Typwechsel 15.09.2026 (vorher `C157931`, gewinkelt — Lager war auf **2 Stück** gefallen) |
+| J4 | JST-XH 2,54 mm, 2-pol, **aufrecht (Top-Entry, THT)** | `C158012` | **Dosierpumpe:** **1 = +5V** (seit 15.09.2026 — vorher VBAT), 2 = geschaltete Masse (Q1 Drain). ⚠️ Typwechsel 15.09.2026 (vorher `C157931`, gewinkelt — Lager war auf **2 Stück** gefallen) |
+| **J16** ⭐ | **JST-XH 2,54 mm, 2-pol, aufrecht (Top-Entry, THT)** | `C158012` | **Sauerstoffpumpe (neu 15.09.2026):** **1 = +5V · 2 = PUMP2_N** (geschaltete Masse über Q3). Bewusst **derselbe Steckertyp wie J4** — ein Crimp-Werkzeug, gleiche Ersatzteile, dieselbe JLC-Position (Menge 2) |
 | J5 | USB-C 16-pol | `C165948` | VBUS, GND/Schirm, CC1/CC2, D+/D− |
 | SW1 | Taster 5,1 × 5,1 mm | `C318884` | Reset (EN gegen GND) |
 | SW2 | Taster 5,1 × 5,1 mm | `C318884` | Boot (GPIO9 gegen GND) |
@@ -170,7 +194,7 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 | **J11** | **Stiftleiste 1×3, 2,54 mm, male gerade** | `C2937625` | **Reserve IO16 (TXD0):** **1 = GND · 2 = VCC_EXT · 3 = SPARE_IO16** |
 | **J12** | **Stiftleiste 1×3, 2,54 mm, male gerade** | `C2937625` | **Reserve IO17 (RXD0):** **1 = GND · 2 = VCC_EXT · 3 = SPARE_IO17** |
 | **J13** | **Stiftleiste 1×3, 2,54 mm, male gerade** | `C2937625` | **Reserve IO21:** **1 = GND · 2 = VCC_EXT · 3 = SPARE_IO21_RAW** (WPU beim Reset) |
-| **J14** | **Stiftleiste 1×3, 2,54 mm, male gerade** | `C2937625` | **Reserve IO22:** **1 = GND · 2 = VCC_EXT · 3 = SPARE_IO22_RAW** |
+| ~~**J14**~~ | **entfällt (15.09.2026)** | – | **Reserve IO22 gestrichen** — IO22 ist jetzt **PUMP2_EN** (Sauerstoffpumpe), der Stecker wird zu **J16**. Wer die Reserve braucht, kann J13 (IO21) oder J15 (IO23) nutzen |
 | **J15** | **Stiftleiste 1×3, 2,54 mm, male gerade** | `C2937625` | **Reserve IO23:** **1 = GND · 2 = VCC_EXT · 3 = SPARE_IO23_RAW** |
 
 **Stecker-Typen (ab 14.09.2026):** J2 bleibt **JST-XH 3P** (`C157928`, gerastet). J7 und J9–J15 sind
@@ -206,7 +230,7 @@ Der ESP32-C6-MINI-1 führt 22 GPIOs heraus. Belegt sind hier:
 | 25 | IO19 | **SCL_MCU** — I²C-Takt an **J8**, über R_SCL_S 1 kΩ |
 | 26 | IO20 | **EXT_EN** — Load-Switch Q2 (interner WPU beim Reset ⇒ VCC_EXT aus) |
 | 27 | IO21 | **SPARE_IO21** — Reserve an **J13**, über R_SPARE_IO21 1 kΩ (WPU beim Reset) |
-| 28 | IO22 | **SPARE_IO22** — Reserve an **J14**, über R_SPARE_IO22 1 kΩ |
+| 28 | IO22 | **PUMP2_EN** ⭐ — Gate der **Sauerstoffpumpe** (Q3) über **R20 4,7 kΩ** (vorher Reserve an J14; der Reserve-Stecker entfällt) |
 | 29 | IO23 | **SPARE_IO23** — Reserve an **J15**, über R_SPARE_IO23 1 kΩ |
 | 30 / 31 | RXD0 / TXD0 | **UART_RX (IO17) / UART_TX (IO16)** — optional UART-Debug (DNP); zugleich über R_SPARE_IO17/16 an **J12/J11** |
 | 1, 2, 11, 14, 36–53 | GND | Masse |
@@ -547,8 +571,106 @@ begrenzt zusätzlich den Fehlerstrom in die MCU-Pins.
 
 ---
 
-## 10. Rückschau
+## 10. Sauerstoffpumpe + 5-V-Boost (neu 15.09.2026)
 
+### 10.1 Was gefordert war
+
+> „für die Pumpe haben wir ja ein Mosfet, ich brauche noch ein zweites Mosfet + Anschlussmöglichkeit
+> und **beide sollen 5 V liefern** — das eine für Dosierpumpe, das andere für eine Sauerstoffpumpe."
+
+Daraus folgen **zwei** Änderungen: ein zweiter, baugleicher Leistungspfad — und eine **5-V-Schiene**,
+die es im Akkubetrieb bisher nicht gab.
+
+### 10.2 Warum ein Boost und keine direkte 1S-Versorgung mehr
+
+| Zustand | Spannung an der Pumpe | Bewertung |
+|---|---|---|
+| vorher (Pumpe an VBAT) | **3,0–4,2 V** | Die CONQUERALL ist mit **5 V** spezifiziert; Betrieb/Anlauf bei 3,7 V waren **nicht belegt** (offener Messauftrag, siehe `bom_entscheidung.md` §3b/§7) |
+| **jetzt (Boost U8)** | **5,10 V, geregelt** | Beide Pumpen laufen in ihrer Nennspannung → Drehzahl, Fördermenge und Anlaufstrom werden **reproduzierbar**; der Messauftrag reduziert sich auf den Anlaufstrom |
+
+**Topologie (MT3608, Standardbeschaltung):** VBAT → **L1 22 µH** → **SW (Pin 1)** ·
+**D6 SS34** von SW nach **+5 V** · **C13 22 µF** am Eingang, **C14 22 µF + C15 100 nF** am Ausgang ·
+**R18 75 kΩ / R19 10 kΩ** am FB-Pin ⇒ **V_out = 0,6 V × (1 + 7,5) = 5,10 V** ·
+**EN (Pin 4) fest an VBAT** (der Boost läuft dauerhaft; Abschaltung erfolgt über die beiden MOSFETs).
+
+### 10.3 Der zweite Leistungspfad ist eine Kopie des ersten
+
+| | Dosierpumpe | Sauerstoffpumpe |
+|---|---|---|
+| Stecker | **J4** (JST-XH 2P, aufrecht) | **J16** (JST-XH 2P, aufrecht, **gleicher Typ `C158012`**) |
+| Schalter | **Q1** AO3400A | **Q3** AO3400A (baugleich) |
+| Gate-Serie | R1 4,7 kΩ | **R20 4,7 kΩ** |
+| Gate-Pulldown | R2 47 kΩ | **R21 47 kΩ** |
+| Freilauf | D1 1N5819WS an **+5V** | **D7** 1N5819WS an **+5V** |
+| Klemmzweig (UV) | D3 an U7-RESET | **D8** an U7-RESET |
+| Steuersignal | **IO2** (PUMP_EN) | **IO22** (PUMP2_EN) — vorher Reserve an J14 |
+
+Bewusst **symmetrisch**: gleiche Teile, gleiche Rechenwege, ein Crimp-Werkzeug für beide Stecker —
+und bei Unterspannung (< 3,08 V) klemmt der MAX809 über **D3 *und* D8 beide** Pumpen zwangsweise aus.
+
+### 10.4 Strombedarf und die harte Boost-Grenze
+
+| Fall | Strom @ 5 V | Eingangsstrom @ 3,0 V (η ≈ 85 %) | Boost (2 A Schalter) |
+|---|---|---|---|
+| Dosierpumpe allein | 0,40 A | 0,78 A | ✅ |
+| Sauerstoffpumpe allein (Annahme 0,30 A) | 0,30 A | 0,59 A | ✅ |
+| **beide gleichzeitig** | **0,70 A** | **1,37 A** | ✅ mit Reserve |
+| **Anlauf Dosierpumpe** (3 A laut Datenblatt) | **3,0 A** | ~5,9 A | ❌ **nicht lieferbar** |
+
+⚠️ **Der Boost kann den Anlaufstrom nicht liefern — und ein Ausgangskondensator kann das auch nicht.**
+Rechnung: **t = C · ΔU / I** → 22 µF halten 3 A nur **~7 µs** bei 1 V Einbruch (selbst 1000 µF reichen
+nur ~0,3 ms). Der Motoranlauf dauert aber ~100 ms.
+
+⇒ **Der PWM-Softstart ist damit nicht mehr „empfohlen", sondern Pflicht:** Rampe über 100–300 ms
+(GPIO2 bzw. GPIO22, 20 kHz), damit der Einschaltstrom **≤ 1 A** bleibt und in die Boost-Reserve passt.
+Gilt für **beide** Pumpen (die Membranpumpe zieht beim Anlauf ebenfalls ein Mehrfaches ihres Nennstroms).
+Ersatzweise (nicht vorgesehen): MT3608**B** (`C19189893`, **4 A** Schalterstrom) statt `C84817`.
+
+### 10.5 ⚠️ Die Sauerstoffpumpe darf **nicht** dauerhaft laufen
+
+| Betriebsart | Leistung aus der Zelle | Laufzeit mit 4,44 Wh nutzbar |
+|---|---|---|
+| Dosierpumpe 1 × 300 ml | ~0,08 Wh | 62–67 Dosen (wie bisher) |
+| O2-Pumpe **dauerhaft** (0,30 A @ 5 V) | ~1,76 W | **≈ 2,5 Stunden** ❌ |
+| O2-Pumpe **dauerhaft** (kleine Variante, 0,10 A) | ~0,59 W | ≈ 7,5 Stunden ❌ |
+| **O2-Pumpe als Intervall** (5 × 10 min/Tag, 0,30 A) | ~0,15 Wh/Tag | ✅ neben der Bewässerung |
+
+**Empfehlung:** Sauerstoffpumpe **nur in Intervallen** (Firmware-Zeitplan, z. B. 5 × 10 min/Tag).
+Für Dauerbetrieb ist die 1500-mAh-Zelle zu klein — dann größere Zelle (18650, 3500 mAh ≈ 12,6 Wh),
+oder die Pumpe hängt am USB-Netzteil. **Der Wandler ist hier die Hauptlast**, nicht die Dosierpumpe:
+Er verliert ~15 % und zieht im Leerlauf zusätzlich ~1,6 mA (~38 mAh/Tag, ≈ 2,5 % der Zelle pro Tag).
+
+### 10.6 Offene Punkte (in diesem Schritt bewusst nicht entschieden)
+
+1. **Welche Sauerstoffpumpe genau?** Ausgelegt ist der Pfad für **5 V / bis 1 A / JST-XH 2P** (Stecker
+   und MOSFET tragen 2–3 A). Die konkrete Pumpe (Membran-Luftpumpe, meist 0,3–1 W) ist noch nicht
+   gewählt — bei der Auswahl auf **5 V Nennspannung** achten (nicht „3–12 V", das ist das bekannte
+   Amazon-Fallmuster aus der Pumpenrecherche).
+2. **Platz.** Platine: **80 → 94 Positionen** (neu: U8, L1, D6, D7, D8, C13–C16, R18–R21, Q3, J16;
+   entfallen: J14). Neu dazukommen u. a. eine **6 × 6 mm Induktivität** und eine **SMA-Diode** — das ist
+   deutlich mehr als der bisherige Reserve-Stecker. Die Platine ist mit der Zielgröße ≤ 38 mm Breite
+   (Wulst 60 mm) **dicht**; entweder wächst die Platine/die Wulst, oder weitere Reserve-Stecker
+   (J10–J13, J15) weichen.
+3. **Einbauort der Sauerstoffpumpe.** Sie sollte **außerhalb des Topfs** stehen: eine Membran-Luftpumpe
+   braucht **frische Luft** (im geschlossenen Gehäuse ist die Anreicherung sinnlos), und sie ist die
+   zweite Wärmequelle. Das Kabel führt durch den vorhandenen Schlauchkanal; der Stecker J16 sitzt auf
+   der Platine und geht **nach oben** raus (Top-Entry, wie J2/J4).
+4. **Firmware:** zweiter PWM-Kanal auf IO22 (LEDC, 20 kHz), gleicher Softstart, Zeitplan + Watchdog.
+
+---
+
+## 11. Rückschau
+
+- 15.09.2026: **Sauerstoffpumpe + 5-V-Boost.** Zweiter, baugleicher Leistungspfad: **Q3** (AO3400A),
+  **R20/R21** (Gate 4,7 kΩ / Pulldown 47 kΩ), **D7** (Freilauf), **D8** (UV-Klemmzweig), Stecker
+  **J16** (JST-XH 2P aufrecht, `C158012`) — gesteuert über **IO22** (vorher Reserve **J14**, die
+  entfällt). Weil **beide** Pumpen **5 V** bekommen sollen, sitzt jetzt ein **Boost U8 MT3608** mit
+  **L1 22 µH**, **D6 SS34**, **C13/C14 22 µF + C15 100 nF**, **R18 75 kΩ / R19 10 kΩ** ⇒ **5,10 V**
+  zwischen VBAT und den Pumpen (J4 Pin 1 und D1-Kathode liegen damit an **+5V**, nicht mehr an VBAT).
+  ⚠️ Zwei Konsequenzen, die bewusst dokumentiert sind: **der PWM-Softstart ist jetzt Pflicht** (der
+  Boost liefert den 3-A-Anlauf nicht, und kein Kondensator puffert ihn — 22 µF ≈ 7 µs) und **die
+  Sauerstoffpumpe darf nicht dauerhaft laufen** (sonst ist die 1500-mAh-Zelle in ~2,5 h leer).
+  Details, Rechnungen und offene Punkte in **§10**.
 - 15.09.2026: **Steckertypen J1/J2/J4 von gewinkelt (Side-Entry) auf aufrecht (Top-Entry) umgestellt** —
   die Stecker gehen jetzt **nach oben** aus der Platine, nicht zur Seite. Neue LCSC-Codes:
   **J1 `C160352`** (JST `B2B-PH-SM4-TB`, SMD, vorher `C54582899` = `S2B-…` liegend „卧贴"),

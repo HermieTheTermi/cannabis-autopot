@@ -1,6 +1,6 @@
 # PCBA-Verfügbarkeit bei JLCPCB — Smart Grow Topf V1 (Modul-Variante)
 
-Stand: 14.09.2026 · Methode: JLCPCB-Parts-API (`selectSmtComponentList/v2`, Skill `jlcpcb-parts-check`),
+Stand: 15.09.2026 · Methode: JLCPCB-Parts-API (`selectSmtComponentList/v2`, Skill `jlcpcb-parts-check`),
 jede Zeile ein echter API-Treffer. Preise = 1-Stück-Staffel in USD. `base` = Basic (keine
 Handling-Gebühr) · `expand` = Extended (**+3 USD pro Position**).
 
@@ -21,7 +21,7 @@ Seit der Umstellung auf das nackte **ESP32-C6-MINI-1** gibt es **keine Lücke me
 | U6 | **USBLC6-2SC6** (ESD USB) | `C7519` | SOT-23-6L | expand | 35.445 | $0,1827 |
 | U7 | **MAX809TEUR+T** (Unterspannung 3,08 V) | `C16711` | SOT-23 | expand | 13.783 | $0,5628 |
 | J5 | USB-C Buchse 16-pol | `C165948` | SMD | expand | 245.957 | $0,1858 |
-| Q1 | MOSFET **AO3400A** | `C20917` | SOT-23 | **base** | 901.401 | $0,0846 |
+| Q1 **Q3** | MOSFET **AO3400A** (Q1 Dosierpumpe, Q3 Sauerstoffpumpe) | `C20917` | SOT-23 | **base** | 901.401 | $0,0846 |
 | D1 | Schottky **1N5819WS** (Freilauf) | `C191023` | SOD-323 | **base** | 5.648.846 | $0,0137 |
 | D3 | Schottky (Klemmzweig MAX809) | `C191023` | SOD-323 | **base** | 5.648.846 | $0,0137 |
 | ~~U5~~ | ~~SS34~~ | – | – | – | – | – | **entfallen (Review 3):** die geplante VBUS→VBAT-Brücke würde die Zelle ungeregelt laden. Kein Verpolschutz in Reihe (Zelle hat PCM) |
@@ -50,7 +50,7 @@ Seit der Umstellung auf das nackte **ESP32-C6-MINI-1** gibt es **keine Lücke me
 | SW1/2 | Taster (Reset + Boot) | `C318884` | SMD-4P 5,1×5,1 | **base** | 769.000 | $0,0205 |
 | J1 | Akku JST PH 2,0 mm 2-pol, **aufrecht (Top-Entry)** | `C160352` | SMD 2 mm stehend | expand | ⏳ | ⏳ |
 | J2 | Sensor JST-XH 2,5 mm 3-pol, **aufrecht (Top-Entry)** | `C493416` | THT stehend | expand | 19.594 | ⏳ |
-| J4 | Pumpe JST-XH 2,5 mm 2-pol, **aufrecht (Top-Entry)** | `C158012` | THT stehend | expand | 203.889 | ⏳ |
+| J4 **J16** | Pumpen JST-XH 2,5 mm 2-pol, **aufrecht (Top-Entry)** (Dosier- + Sauerstoffpumpe) | `C158012` | THT stehend | expand | 203.889 | ⏳ |
 | J7, J9–J15 | Stiftleiste 1×3, 2,54 mm, male gerade (XFCN `PZ254V-11-03P`) | `C2937625` | THT 2,54 mm | expand | ⏳ | ⏳ |
 | J8 | Stiftleiste 1×4, 2,54 mm, male gerade (XFCN `PZ254V-11-04P`) | `C2691448` | THT 2,54 mm | expand | ⏳ | ⏳ |
 | Q2 | **AO3401A** (P-Kanal-Load-Switch, High-Side) | `C15127` | SOT-23 | **base** | 591.277 | $0,0908 |
@@ -87,6 +87,15 @@ die eine Gehäuseöffnung und Randabstand erzwungen hätte. Damit lässt sich di
 | MCP73831T-2 | LCSC-Datenblatt | **4,20 V** Ladeschluss (die -2-Variante) · 15–500 mA · UVLO 3,45/3,38 V |
 | ME6211C33 | LCSC-Datenblatt | 500 mA · Dropout 100 mV @ 100 mA · Iq 40 µA |
 | ESP32-C6-MINI-1 | Espressif-Datasheet v1.5 (HTML) | TX-Peak **382 mA** @ 20,5 dBm · Deep-Sleep 7 µA · USB_D− GPIO12 / USB_D+ GPIO13 |
+
+| **U8** | **MT3608** (5-V-Boost für beide Pumpen) | `C84817` | SOT-23-6 | expand | 281.143 | ⏳ |
+| **L1** | Induktivität **22 µH** (YNR6045, 2,05 A) | `C341068` | SMD 6 × 6 mm | expand | 4.120 | ⏳ |
+| **D6** | **SS34** Boost-Diode 3 A / 40 V | `C8678` | SMA | expand | 3.557.042 | ⏳ |
+| **R18** | Widerstand **75 kΩ** (Boost-Feedback) | `C17819` | 0805 | **base** | 49.785 | ⏳ |
+
+⚠️ **Neu am 15.09.2026 (Sauerstoffpumpe + Boost):** `C84817`, `C341068`, `C8678`, `C17819` sind noch
+**nicht** über die JLCPCB-Parts-API gegengeprüft (Bestände stammen aus der LCSC-Suche). Vor der
+Bestellung mit dem Skill `jlcpcb-parts-check` nachziehen — insbesondere **L1** (kleinster Bestand).
 
 ## 4. Nicht geprüft / offen
 

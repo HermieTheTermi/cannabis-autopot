@@ -78,9 +78,17 @@ vor der Bestellung klären.
 
 ---
 
-## 3. Betriebsspannung — der frühere offene Punkt ist geschlossen
+## 3. Betriebsspannung — ~~der frühere offene Punkt ist geschlossen~~ **revidiert am 15.09.2026**
 
-**Entscheidung: 1S-Akku (3,7 V) direkt an der Pumpe, kein Boost, kein Buck.**
+> **⚠️ NEU (15.09.2026): Es gibt jetzt einen Boost.** Auf Wunsch des Nutzers sollen **beide** Pumpen
+> (Dosier- **und** Sauerstoffpumpe) **5 V** bekommen. Damit ist der Direktbetrieb an der 1S-Zelle
+> gestrichen: **U8 MT3608** erzeugt eine geregelte **+5-V-Schiene (5,10 V)** aus VBAT, und **beide**
+> Pumpen hängen über je einen AO3400A (Q1/Q3) daran. Auslegung, Rechnungen und die zwei harten
+> Konsequenzen (**PWM-Softstart Pflicht**, **O2-Pumpe nicht im Dauerbetrieb**) stehen in
+> `hardware/schaltplan_v1.md` **§10**. Die Absätze unten bleiben als Begründung stehen, warum es
+> vorher keinen Wandler gab.
+
+**Entscheidung bis 14.09.2026: 1S-Akku (3,7 V) direkt an der Pumpe, kein Boost, kein Buck.**
 
 Der Grund ist der Pumpentyp. Die frühere Planung stand auf der Prämisse, dass die Pumpe
 5–6 V braucht (Adafruit 3910, Herstellerangabe „Motor voltage: 5 to 6 VDC") und der Direktbetrieb an

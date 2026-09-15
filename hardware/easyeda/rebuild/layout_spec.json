@@ -1,0 +1,148 @@
+{
+ "page": "Systemuebersicht",
+ "sheet": "A4",
+ "modules": [
+  {
+   "name": "POWER",
+   "zone": "left-top",
+   "core": "U3",
+   "parts": [
+    "U3",
+    "C7",
+    "C8",
+    "R13",
+    "LED1",
+    "R14",
+    "C3",
+    "J1",
+    "U7",
+    "C12",
+    "TP3",
+    "TP4"
+   ]
+  },
+  {
+   "name": "BOOST",
+   "zone": "left-bottom",
+   "core": "U8",
+   "parts": [
+    "U8",
+    "L1",
+    "D6",
+    "C13",
+    "C14",
+    "C15",
+    "R18",
+    "R19"
+   ]
+  },
+  {
+   "name": "MCU",
+   "zone": "center",
+   "core": "U1",
+   "parts": [
+    "U1",
+    "C1",
+    "C2",
+    "C4",
+    "R9",
+    "R10",
+    "R11",
+    "C10",
+    "SW1",
+    "SW2",
+    "TP2",
+    "U6",
+    "J5",
+    "R7",
+    "R8",
+    "R3",
+    "R5",
+    "D2",
+    "D5",
+    "R4",
+    "R15"
+   ]
+  },
+  {
+   "name": "UI",
+   "zone": "right-top",
+   "core": "Q2",
+   "parts": [
+    "J6",
+    "R12",
+    "Q2",
+    "R23",
+    "U4",
+    "C5",
+    "C6",
+    "TP5"
+   ]
+  },
+  {
+   "name": "SENSORS",
+   "zone": "right",
+   "core": "J2",
+   "parts": [
+    "J2",
+    "R6",
+    "C9",
+    "TP6",
+    "J7",
+    "R17",
+    "J8",
+    "R22"
+   ]
+  },
+  {
+   "name": "SPARE",
+   "zone": "right",
+   "core": "J9",
+   "parts": [
+    "J9",
+    "J10",
+    "J11",
+    "J12",
+    "J13",
+    "J15",
+    "R24",
+    "R25",
+    "R26",
+    "R27",
+    "R28",
+    "R29",
+    "R30",
+    "R16",
+    "TP1"
+   ]
+  },
+  {
+   "name": "PUMPS",
+   "zone": "right-bottom",
+   "core": "Q1",
+   "parts": [
+    "Q1",
+    "R1",
+    "R2",
+    "D1",
+    "D3",
+    "C11",
+    "J4",
+    "Q3",
+    "R20",
+    "R21",
+    "D7",
+    "D8",
+    "C16",
+    "J16"
+   ]
+  }
+ ],
+ "rules": {
+  "avoidTitleBlock": true,
+  "preservePinFanout": true,
+  "moduleGap": 80,
+  "routeChannelGap": 40,
+  "preferVerticalPeripheralPlacement": true
+ }
+}

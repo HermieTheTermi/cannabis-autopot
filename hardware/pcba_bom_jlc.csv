@@ -8,21 +8,21 @@ USB-C-16P,J5,SMD,C165948,1,extended - Buchse
 100uF,C3,SMD D6.3x5.4,C970684,1,extended - Elko VBAT-Puffer; POLARITAET beachten
 JST-PH-2P,J1,SMD P2.0 aufrecht (Top-Entry),C160352,1,extended - Akku; Polung im Layout pruefen
 JST-XH-3P,J2,THT P2.5 aufrecht (Top-Entry),C493416,1,extended - Feuchtesensor (gerastet, GND-VCC-SIG)
-JST-XH-2P,J4,THT P2.5 aufrecht (Top-Entry),C158012,1,extended - Pumpe
-AO3400A,Q1,SOT-23,C20917,1,basic - Pumpentreiber
+JST-XH-2P,J4 J16,THT P2.5 aufrecht (Top-Entry),C158012,2,extended - Dosierpumpe + Sauerstoffpumpe
+AO3400A,Q1 Q3,SOT-23,C20917,2,basic - Pumpentreiber (Q1 Dosierpumpe, Q3 Sauerstoffpumpe)
 AO3401A,Q2,SOT-23,C15127,1,basic - P-Kanal-Load-Switch fuer VCC_EXT (RDS(on) 85 mOhm @ VGS -2.5V)
-Stiftleiste-1x3-2.54mm,J7 J9 J10 J11 J12 J13 J14 J15,THT P2.54 gerade,C2937625,8,extended - XFCN PZ254V-11-03P; GND-VCC-SIG (VCC immer Pin 2) fuer Lichtsensor + Reserve-IO
+Stiftleiste-1x3-2.54mm,J7 J9 J10 J11 J12 J13 J15,THT P2.54 gerade,C2937625,7,extended - XFCN PZ254V-11-03P; GND-VCC-SIG (VCC immer Pin 2) fuer Lichtsensor + Reserve-IO
 Stiftleiste-1x4-2.54mm,J8,THT P2.54 gerade,C2691448,1,extended - XFCN PZ254V-11-04P; I2C GND-VCC-SDA-SCL
-1N5819WS,D1 D3,SOD-323,C191023,2,basic - Freilauf + Klemmzweig MAX809
+1N5819WS,D1 D3 D7 D8,SOD-323,C191023,4,basic - Freilauf + Klemmzweig MAX809, je 2x pro Pumpe
 LED-RED,D5 D_LEDCHG,0805,C84256,2,basic - Tank leer (Warnung) + Ladestatus
 LED-GREEN,D2,0805,C2297,1,basic - Status; 525nm Vf 2.85V (InGaN, nur 0.45V Reserve an 3V3)
-100nF,C1a C1b C9 C10 C11 C12 C_BTN C_LIGHT C_SPARE,0805,C49678,9,basic - Modul-Decoupling, 4x ADC-Filter, Pumpen-EMI, MAX809, Taster-Entprellung
-22uF,C2,0805,C45783,1,basic - Bulk am Modul
+100nF,C1a C1b C9 C10 C11 C12 C15 C16 C_BTN C_LIGHT C_SPARE,0805,C49678,11,basic - Modul-Decoupling, 4x ADC-Filter, Pumpen-EMI, MAX809, Taster-Entprellung
+22uF,C2 C13 C14,0805,C45783,3,basic - Bulk am Modul + Boost Ein-/Ausgang
 10uF,C5,0805,C15850,1,basic - LDO-Eingang (Espressif >=10uF)
 4.7uF,C7 C8,0805,C1779,2,basic - Lader Ein-/Ausgang (Datenblatt min. 4.7uF)
 1uF,C4 C6,0603,C15849,2,basic - EN-RC + LDO-Ausgang
-4.7k,R1,0805,C17673,1,basic - Gate-Serie (Klemmstrom 0.57mA)
-47k,R2 R_GATE,0805,C17713,2,basic - Pumpen-Gate-Pulldown + Load-Switch-Gate-Pull-up
+4.7k,R1 R20,0805,C17673,2,basic - Gate-Serie beider Pumpen (Klemmstrom 0.57mA)
+47k,R2 R21 R_GATE,0805,C17713,3,basic - Gate-Pulldown beider Pumpen + Load-Switch-Gate-Pull-up
 10k,R_EN R_BOOT R_GPIO8 R_BTN R_LIGHT R_SDA_PU R_SCL_PU,0805,C17414,7,basic - EN-RC + GPIO9 + GPIO8 + Taster + Licht-Last + I2C-Pull-ups (VCC_EXT)
 3.9k,R_PROG,0805,C17614,1,basic - Ladestrom 256mA (Basic statt 4.02k/Extended)
 1k,R6 R_LEDCHG R_TANK R_LIGHT_S R_SDA_S R_SCL_S R_SPARE_AIN R_SPARE_IO15 R_SPARE_IO16 R_SPARE_IO17 R_SPARE_IO21 R_SPARE_IO22 R_SPARE_IO23,0805,C17513,13,basic - Lade-/Tank-LED + Sensor-/Licht-/I2C-/Reserve-Serie (1 kOhm je Signalleitung)
@@ -32,3 +32,7 @@ LED-GREEN,D2,0805,C2297,1,basic - Status; 525nm Vf 2.85V (InGaN, nur 0.45V Reser
 SW-SMD,SW1 SW2,SMD-4P 5.1x5.1,C318884,2,basic - Reset + Boot
 499R,R_UART,0805,,0,DNP - NICHT BESTUECKEN (nur optionaler UART-Debug)
 ,J6,2x Loch 1.0mm Raster 2.54mm,,0,KEINE BESTUECKUNG - nur Lotpads fuer den externen Taster
+MT3608,U8,SOT-23-6,C84817,1,extended - 5-V-Boost fuer beide Pumpen (Vout = 0.6*(1+75k/10k) = 5.10 V)
+22uH,L1,SMD 6x6mm,C341068,1,extended - Boost-Induktivitaet YNR6045-220M (2.05 A, 89 mOhm)
+SS34,D6,SMA(DO-214AC),C8678,1,extended - Boost-Diode 3A/40V
+75k,R18,0805,C17819,1,basic - Boost-Feedback oben

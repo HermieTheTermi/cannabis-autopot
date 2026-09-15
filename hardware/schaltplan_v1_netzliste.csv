@@ -12,8 +12,12 @@ VBAT,J1,1,Akku + (Polung im Layout pruefen)
 VBAT,U3,3 VBAT,Ladeausgang
 VBAT,C8,1,4.7 uF nach GND
 VBAT,C3,+,100 uF Elko - POLARITAET beachten
-VBAT,J4,1,Pumpe +
-VBAT,D1,Kathode,Freilaufdiode
+VBAT,U8,5 IN,Boost-Eingang MT3608
+VBAT,U8,4 EN,Boost dauerhaft aktiv (fest an VBAT)
+VBAT,C13,1,22 uF Boost-Eingang nach GND
+VBAT,L1,1,Boost-Induktivitaet (22 uH) - andere Seite an SW_BOOST
++5V,J4,1,Dosierpumpe + (seit 15.09.2026 am 5-V-Boost statt an VBAT)
++5V,D1,Kathode,Freilaufdiode Dosierpumpe
 VBAT,U7,3 VCC,Unterspannungswaechter
 VBAT,U4,1 VIN,LDO-Eingang
 VBAT,U4,3 EN,LDO dauerhaft aktiv - NICHT auf +3V3 (Startproblem)
@@ -227,3 +231,35 @@ GND,J5,GND (A1/A12/B1/B12) + Schirm,
 GND,C_BTN,2,
 GND,D5,Kathode,
 GND,J6,2,Lotpad/Bohrung - Taster-Rueckleitung
++5V,U8,1 SW / D6,Boost-Ausgang ueber Diode D6 (SS34) - MT3608 Pin 1 = SW
++5V,D6,Kathode,Boost-Diode SS34
++5V,C14,1,22 uF Boost-Ausgang nach GND
++5V,C15,1,100 nF Boost-Ausgang HF nach GND
++5V,R18,1,Feedback-Teiler oben (75 k) -> 5.10 V
++5V,J4,1,Dosierpumpe + (Pin 1)
++5V,J16,1,Sauerstoffpumpe + (Pin 1)
++5V,D7,Kathode,Freilaufdiode Sauerstoffpumpe
+SW_BOOST,U8,1 SW,Schaltknoten - kurz halten, kein Pruefpunkt
+SW_BOOST,L1,2,Induktivitaet 22 uH
+SW_BOOST,D6,Anode,Boost-Diode
+FB_5V,U8,3 FB,Feedback-Eingang (0.6 V intern)
+FB_5V,R18,2,Teiler oben
+FB_5V,R19,1,Teiler unten nach GND
+PUMP2_EN,U1,28 IO22,Gate-Steuersignal Sauerstoffpumpe (vorher Reserve J14)
+PUMP2_EN,R20,1,Gate-Serie 4.7 k
+GATE2,R20,2,Gate-Knoten Q3
+GATE2,Q3,Gate,Gate AO3400A
+GATE2,R21,1,Pulldown 47 k nach GND
+GATE2,D8,Anode,Klemmzweig zum MAX809-RESET
+PUMP2_N,Q3,Drain,geschaltete Masse Sauerstoffpumpe
+PUMP2_N,J16,2,Sauerstoffpumpe - (Pin 2)
+PUMP2_N,D7,Anode,Freilaufdiode
+PUMP2_N,C16,1,100 nF an den Klemmen nach GND
+GND,U8,2,GND MT3608
+GND,C13,2,22 uF Boost-Eingang
+GND,C14,2,22 uF Boost-Ausgang
+GND,C15,2,100 nF Boost-Ausgang HF
+GND,R19,2,Feedback-Teiler unten
+GND,Q3,Source,Source AO3400A
+GND,R21,2,Pulldown Q3
+GND,C16,2,100 nF Pumpenklemmen Sauerstoffpumpe

@@ -1,0 +1,3275 @@
+{
+ "version": 1,
+ "meta": {
+  "name": "sch-materialize",
+  "description": "Materialize 1.4 connectivity components",
+  "project": "51deea9fc24745be915d72e65813fa8b",
+  "doc": "4f6771a27edec75b"
+ },
+ "defaults": {
+  "timeoutSec": 90
+ },
+ "steps": [
+  {
+   "id": "place-C1",
+   "name": "place C1",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "C1",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "1fcffeacebec4bcab600894243e1bb8c",
+    "x": 1105,
+    "y": 850
+   },
+   "capture": {
+    "C1": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-C1",
+   "name": "bind C1",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "C1",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-C1"
+     },
+     "uniqueId": "gge16",
+     "supplierId": "C49678",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${C1}"
+   },
+   "assert": {
+    "$.component.designator": "==C1",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-C1"
+   }
+  },
+  {
+   "id": "place-C10",
+   "name": "place C10",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "C10",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "1fcffeacebec4bcab600894243e1bb8c",
+    "x": 1525,
+    "y": 575
+   },
+   "capture": {
+    "C10": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-C10",
+   "name": "bind C10",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "C10",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-C10"
+     },
+     "uniqueId": "gge21",
+     "supplierId": "C49678",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${C10}"
+   },
+   "assert": {
+    "$.component.designator": "==C10",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-C10"
+   }
+  },
+  {
+   "id": "place-C11",
+   "name": "place C11",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "C11",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "1fcffeacebec4bcab600894243e1bb8c",
+    "x": 2760,
+    "y": 655
+   },
+   "capture": {
+    "C11": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-C11",
+   "name": "bind C11",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "C11",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-C11"
+     },
+     "uniqueId": "gge48",
+     "supplierId": "C49678",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${C11}"
+   },
+   "assert": {
+    "$.component.designator": "==C11",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-C11"
+   }
+  },
+  {
+   "id": "place-C12",
+   "name": "place C12",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "C12",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "1fcffeacebec4bcab600894243e1bb8c",
+    "x": 2015,
+    "y": 1435
+   },
+   "capture": {
+    "C12": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-C12",
+   "name": "bind C12",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "C12",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-C12"
+     },
+     "uniqueId": "gge31",
+     "supplierId": "C49678",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${C12}"
+   },
+   "assert": {
+    "$.component.designator": "==C12",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-C12"
+   }
+  },
+  {
+   "id": "place-C13",
+   "name": "place C13",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "C13",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "1fcffeacebec4bcab600894243e1bb8c",
+    "x": 600,
+    "y": 2420
+   },
+   "capture": {
+    "C13": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-C13",
+   "name": "bind C13",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "C13",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-C13"
+     },
+     "uniqueId": "gge17",
+     "supplierId": "C45783",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${C13}"
+   },
+   "assert": {
+    "$.component.designator": "==C13",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-C13"
+   }
+  },
+  {
+   "id": "place-C14",
+   "name": "place C14",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "C14",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "1fcffeacebec4bcab600894243e1bb8c",
+    "x": 900,
+    "y": 2420
+   },
+   "capture": {
+    "C14": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-C14",
+   "name": "bind C14",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "C14",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-C14"
+     },
+     "uniqueId": "gge52",
+     "supplierId": "C45783",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${C14}"
+   },
+   "assert": {
+    "$.component.designator": "==C14",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-C14"
+   }
+  },
+  {
+   "id": "place-C15",
+   "name": "place C15",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "C15",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "1fcffeacebec4bcab600894243e1bb8c",
+    "x": 1200,
+    "y": 2420
+   },
+   "capture": {
+    "C15": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-C15",
+   "name": "bind C15",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "C15",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-C15"
+     },
+     "uniqueId": "gge80",
+     "supplierId": "C49678",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${C15}"
+   },
+   "assert": {
+    "$.component.designator": "==C15",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-C15"
+   }
+  },
+  {
+   "id": "place-C16",
+   "name": "place C16",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "C16",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "1fcffeacebec4bcab600894243e1bb8c",
+    "x": 3100,
+    "y": 2400
+   },
+   "capture": {
+    "C16": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-C16",
+   "name": "bind C16",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "C16",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-C16"
+     },
+     "uniqueId": "gge76",
+     "supplierId": "C49678",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${C16}"
+   },
+   "assert": {
+    "$.component.designator": "==C16",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-C16"
+   }
+  },
+  {
+   "id": "place-C2",
+   "name": "place C2",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "C2",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "9583d53cf848486a9d523fcaf153a729",
+    "x": 1240,
+    "y": 850
+   },
+   "capture": {
+    "C2": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-C2",
+   "name": "bind C2",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "C2",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-C2"
+     },
+     "uniqueId": "gge18",
+     "supplierId": "C45783",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${C2}"
+   },
+   "assert": {
+    "$.component.designator": "==C2",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-C2"
+   }
+  },
+  {
+   "id": "place-C3",
+   "name": "place C3",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "C3",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "fd9b819453c943d9b25639f63ee16ae3",
+    "x": 1760,
+    "y": 1760
+   },
+   "capture": {
+    "C3": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-C3",
+   "name": "bind C3",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "C3",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-C3"
+     },
+     "uniqueId": "gge38",
+     "supplierId": "C970684",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${C3}"
+   },
+   "assert": {
+    "$.component.designator": "==C3",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-C3"
+   }
+  },
+  {
+   "id": "place-C4",
+   "name": "place C4",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "C4",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "af2e25dc8e174a11bab66129be592f4d",
+    "x": 1590,
+    "y": 725
+   },
+   "capture": {
+    "C4": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-C4",
+   "name": "bind C4",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "C4",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-C4"
+     },
+     "uniqueId": "gge19",
+     "supplierId": "C15849",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${C4}"
+   },
+   "assert": {
+    "$.component.designator": "==C4",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-C4"
+   }
+  },
+  {
+   "id": "place-C5",
+   "name": "place C5",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "C5",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "e10bc30d72324129a5b7daae4e75f56f",
+    "x": 2535,
+    "y": 1835
+   },
+   "capture": {
+    "C5": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-C5",
+   "name": "bind C5",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "C5",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-C5"
+     },
+     "uniqueId": "gge35",
+     "supplierId": "C15850",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${C5}"
+   },
+   "assert": {
+    "$.component.designator": "==C5",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-C5"
+   }
+  },
+  {
+   "id": "place-C6",
+   "name": "place C6",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "C6",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "af2e25dc8e174a11bab66129be592f4d",
+    "x": 2535,
+    "y": 1885
+   },
+   "capture": {
+    "C6": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-C6",
+   "name": "bind C6",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "C6",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-C6"
+     },
+     "uniqueId": "gge36",
+     "supplierId": "C15849",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${C6}"
+   },
+   "assert": {
+    "$.component.designator": "==C6",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-C6"
+   }
+  },
+  {
+   "id": "place-C7",
+   "name": "place C7",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "C7",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "cffcb18c2c544b879332d01f596fbfaf",
+    "x": 770,
+    "y": 1850
+   },
+   "capture": {
+    "C7": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-C7",
+   "name": "bind C7",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "C7",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-C7"
+     },
+     "uniqueId": "gge7",
+     "supplierId": "C1779",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${C7}"
+   },
+   "assert": {
+    "$.component.designator": "==C7",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-C7"
+   }
+  },
+  {
+   "id": "place-C8",
+   "name": "place C8",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "C8",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "cffcb18c2c544b879332d01f596fbfaf",
+    "x": 760,
+    "y": 1705
+   },
+   "capture": {
+    "C8": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-C8",
+   "name": "bind C8",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "C8",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-C8"
+     },
+     "uniqueId": "gge8",
+     "supplierId": "C1779",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${C8}"
+   },
+   "assert": {
+    "$.component.designator": "==C8",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-C8"
+   }
+  },
+  {
+   "id": "place-C9",
+   "name": "place C9",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "C9",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "1fcffeacebec4bcab600894243e1bb8c",
+    "x": 1090,
+    "y": 580
+   },
+   "capture": {
+    "C9": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-C9",
+   "name": "bind C9",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "C9",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-C9"
+     },
+     "uniqueId": "gge20",
+     "supplierId": "C49678",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${C9}"
+   },
+   "assert": {
+    "$.component.designator": "==C9",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-C9"
+   }
+  },
+  {
+   "id": "place-D1",
+   "name": "place D1",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "D1",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
+    "x": 2750,
+    "y": 420
+   },
+   "capture": {
+    "D1": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-D1",
+   "name": "bind D1",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "D1",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-D1"
+     },
+     "uniqueId": "gge46",
+     "supplierId": "C191023",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${D1}"
+   },
+   "assert": {
+    "$.component.designator": "==D1",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-D1"
+   }
+  },
+  {
+   "id": "place-D2",
+   "name": "place D2",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "D2",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "cabe1100a18642cca4b0bdb071599cef",
+    "x": 1305,
+    "y": 580
+   },
+   "capture": {
+    "D2": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-D2",
+   "name": "bind D2",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "D2",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-D2"
+     },
+     "uniqueId": "gge14",
+     "supplierId": "C2297",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${D2}"
+   },
+   "assert": {
+    "$.component.designator": "==D2",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-D2"
+   }
+  },
+  {
+   "id": "place-D3",
+   "name": "place D3",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "D3",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
+    "x": 2625,
+    "y": 660
+   },
+   "capture": {
+    "D3": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-D3",
+   "name": "bind D3",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "D3",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-D3"
+     },
+     "uniqueId": "gge47",
+     "supplierId": "C191023",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${D3}"
+   },
+   "assert": {
+    "$.component.designator": "==D3",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-D3"
+   }
+  },
+  {
+   "id": "place-D5",
+   "name": "place D5",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "D5",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "6073168119a941bda41c330f8b8e9152",
+    "x": 1415,
+    "y": 580
+   },
+   "capture": {
+    "D5": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-D5",
+   "name": "bind D5",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "D5",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-D5"
+     },
+     "uniqueId": "gge15",
+     "supplierId": "C84256",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${D5}"
+   },
+   "assert": {
+    "$.component.designator": "==D5",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-D5"
+   }
+  },
+  {
+   "id": "place-D6",
+   "name": "place D6",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "D6",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "804240ef97df427480be2a5281ccea31",
+    "x": 1200,
+    "y": 2200
+   },
+   "capture": {
+    "D6": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-D6",
+   "name": "bind D6",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "D6",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-D6"
+     },
+     "uniqueId": "gge83",
+     "supplierId": "C8678",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${D6}"
+   },
+   "assert": {
+    "$.component.designator": "==D6",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-D6"
+   }
+  },
+  {
+   "id": "place-D7",
+   "name": "place D7",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "D7",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
+    "x": 2800,
+    "y": 2400
+   },
+   "capture": {
+    "D7": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-D7",
+   "name": "bind D7",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "D7",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-D7"
+     },
+     "uniqueId": "gge93",
+     "supplierId": "C191023",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${D7}"
+   },
+   "assert": {
+    "$.component.designator": "==D7",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-D7"
+   }
+  },
+  {
+   "id": "place-D8",
+   "name": "place D8",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "D8",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
+    "x": 2200,
+    "y": 2200
+   },
+   "capture": {
+    "D8": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-D8",
+   "name": "bind D8",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "D8",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-D8"
+     },
+     "uniqueId": "gge89",
+     "supplierId": "C191023",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${D8}"
+   },
+   "assert": {
+    "$.component.designator": "==D8",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-D8"
+   }
+  },
+  {
+   "id": "place-J1",
+   "name": "place J1",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "J1",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "81214969fb224686b54499e2b4f4ad3f",
+    "x": 1630,
+    "y": 1765
+   },
+   "capture": {
+    "J1": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-J1",
+   "name": "bind J1",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "J1",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-J1"
+     },
+     "uniqueId": "gge39",
+     "supplierId": "C160352",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${J1}"
+   },
+   "assert": {
+    "$.component.designator": "==J1",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-J1"
+   }
+  },
+  {
+   "id": "place-J10",
+   "name": "place J10",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "J10",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
+    "x": 300,
+    "y": 700
+   },
+   "capture": {
+    "J10": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-J10",
+   "name": "bind J10",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "J10",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-J10"
+     },
+     "uniqueId": "gge57",
+     "supplierId": "C2937625",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${J10}"
+   },
+   "assert": {
+    "$.component.designator": "==J10",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-J10"
+   }
+  },
+  {
+   "id": "place-J11",
+   "name": "place J11",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "J11",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
+    "x": 595,
+    "y": 700
+   },
+   "capture": {
+    "J11": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-J11",
+   "name": "bind J11",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "J11",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-J11"
+     },
+     "uniqueId": "gge58",
+     "supplierId": "C2937625",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${J11}"
+   },
+   "assert": {
+    "$.component.designator": "==J11",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-J11"
+   }
+  },
+  {
+   "id": "place-J12",
+   "name": "place J12",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "J12",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
+    "x": 290,
+    "y": 770
+   },
+   "capture": {
+    "J12": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-J12",
+   "name": "bind J12",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "J12",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-J12"
+     },
+     "uniqueId": "gge59",
+     "supplierId": "C2937625",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${J12}"
+   },
+   "assert": {
+    "$.component.designator": "==J12",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-J12"
+   }
+  },
+  {
+   "id": "place-J13",
+   "name": "place J13",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "J13",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
+    "x": 580,
+    "y": 770
+   },
+   "capture": {
+    "J13": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-J13",
+   "name": "bind J13",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "J13",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-J13"
+     },
+     "uniqueId": "gge60",
+     "supplierId": "C2937625",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${J13}"
+   },
+   "assert": {
+    "$.component.designator": "==J13",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-J13"
+   }
+  },
+  {
+   "id": "place-J15",
+   "name": "place J15",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "J15",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
+    "x": 415,
+    "y": 255
+   },
+   "capture": {
+    "J15": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-J15",
+   "name": "bind J15",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "J15",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-J15"
+     },
+     "uniqueId": "gge62",
+     "supplierId": "C2937625",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${J15}"
+   },
+   "assert": {
+    "$.component.designator": "==J15",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-J15"
+   }
+  },
+  {
+   "id": "place-J16",
+   "name": "place J16",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "J16",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "4d018698282b47d4893c87aca1c32f67",
+    "x": 3400,
+    "y": 2400
+   },
+   "capture": {
+    "J16": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-J16",
+   "name": "bind J16",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "J16",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-J16"
+     },
+     "uniqueId": "gge95",
+     "supplierId": "C158012",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${J16}"
+   },
+   "assert": {
+    "$.component.designator": "==J16",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-J16"
+   }
+  },
+  {
+   "id": "place-J2",
+   "name": "place J2",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "J2",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "f76627383a2f4537b225d848b6249ec0",
+    "x": 1190,
+    "y": 1355
+   },
+   "capture": {
+    "J2": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-J2",
+   "name": "bind J2",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "J2",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-J2"
+     },
+     "uniqueId": "gge43",
+     "supplierId": "C493416",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${J2}"
+   },
+   "assert": {
+    "$.component.designator": "==J2",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-J2"
+   }
+  },
+  {
+   "id": "place-J4",
+   "name": "place J4",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "J4",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "4d018698282b47d4893c87aca1c32f67",
+    "x": 2630,
+    "y": 895
+   },
+   "capture": {
+    "J4": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-J4",
+   "name": "bind J4",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "J4",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-J4"
+     },
+     "uniqueId": "gge51",
+     "supplierId": "C158012",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${J4}"
+   },
+   "assert": {
+    "$.component.designator": "==J4",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-J4"
+   }
+  },
+  {
+   "id": "place-J5",
+   "name": "place J5",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "J5",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "730e76758f9742ca9ca85c73f4ec0ecd",
+    "x": 2105,
+    "y": 610
+   },
+   "capture": {
+    "J5": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-J5",
+   "name": "bind J5",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "J5",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-J5"
+     },
+     "uniqueId": "gge4",
+     "supplierId": "C165948",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${J5}"
+   },
+   "assert": {
+    "$.component.designator": "==J5",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-J5"
+   }
+  },
+  {
+   "id": "place-J6",
+   "name": "place J6",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "J6",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "72b9be21f4ad4d53a42178e79731ea2a",
+    "x": 1185,
+    "y": 1815
+   },
+   "capture": {
+    "J6": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-J6",
+   "name": "bind J6",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "J6",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-J6"
+     },
+     "uniqueId": "gge54",
+     "supplierId": "C20381559",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${J6}"
+   },
+   "assert": {
+    "$.component.designator": "==J6",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-J6"
+   }
+  },
+  {
+   "id": "place-J7",
+   "name": "place J7",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "J7",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
+    "x": 2615,
+    "y": 1400
+   },
+   "capture": {
+    "J7": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-J7",
+   "name": "bind J7",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "J7",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-J7"
+     },
+     "uniqueId": "gge77",
+     "supplierId": "C2937625",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${J7}"
+   },
+   "assert": {
+    "$.component.designator": "==J7",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-J7"
+   }
+  },
+  {
+   "id": "place-J8",
+   "name": "place J8",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "J8",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "f70eda5267b34d9799800488a27be0c6",
+    "x": 450,
+    "y": 625
+   },
+   "capture": {
+    "J8": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-J8",
+   "name": "bind J8",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "J8",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-J8"
+     },
+     "uniqueId": "gge55",
+     "supplierId": "C2691448",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${J8}"
+   },
+   "assert": {
+    "$.component.designator": "==J8",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-J8"
+   }
+  },
+  {
+   "id": "place-J9",
+   "name": "place J9",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "J9",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
+    "x": 605,
+    "y": 840
+   },
+   "capture": {
+    "J9": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-J9",
+   "name": "bind J9",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "J9",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-J9"
+     },
+     "uniqueId": "gge56",
+     "supplierId": "C2937625",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${J9}"
+   },
+   "assert": {
+    "$.component.designator": "==J9",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-J9"
+   }
+  },
+  {
+   "id": "place-L1",
+   "name": "place L1",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "L1",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "41353bd188bd41e4b5cff1c3b04e8681",
+    "x": 600,
+    "y": 2200
+   },
+   "capture": {
+    "L1": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-L1",
+   "name": "bind L1",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "L1",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-L1"
+     },
+     "uniqueId": "gge81",
+     "supplierId": "C341068",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${L1}"
+   },
+   "assert": {
+    "$.component.designator": "==L1",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-L1"
+   }
+  },
+  {
+   "id": "place-LED1",
+   "name": "place LED1",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "LED1",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "6073168119a941bda41c330f8b8e9152",
+    "x": 375,
+    "y": 1745
+   },
+   "capture": {
+    "LED1": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-LED1",
+   "name": "bind LED1",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "LED1",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-LED1"
+     },
+     "uniqueId": "gge6",
+     "supplierId": "C84256",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${LED1}"
+   },
+   "assert": {
+    "$.component.designator": "==LED1",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-LED1"
+   }
+  },
+  {
+   "id": "place-Q1",
+   "name": "place Q1",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "Q1",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "1c95a10b7c4a4095b426799cbca7b1b2",
+    "x": 2625,
+    "y": 460
+   },
+   "capture": {
+    "Q1": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-Q1",
+   "name": "bind Q1",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "Q1",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-Q1"
+     },
+     "uniqueId": "gge45",
+     "supplierId": "C20917",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${Q1}"
+   },
+   "assert": {
+    "$.component.designator": "==Q1",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-Q1"
+   }
+  },
+  {
+   "id": "place-Q2",
+   "name": "place Q2",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "Q2",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "f58385f66b144586baef3753ba84f65d",
+    "x": 235,
+    "y": 275
+   },
+   "capture": {
+    "Q2": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-Q2",
+   "name": "bind Q2",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "Q2",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-Q2"
+     },
+     "uniqueId": "gge63",
+     "supplierId": "C15127",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${Q2}"
+   },
+   "assert": {
+    "$.component.designator": "==Q2",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-Q2"
+   }
+  },
+  {
+   "id": "place-Q3",
+   "name": "place Q3",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "Q3",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "1c95a10b7c4a4095b426799cbca7b1b2",
+    "x": 2500,
+    "y": 2400
+   },
+   "capture": {
+    "Q3": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-Q3",
+   "name": "bind Q3",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "Q3",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-Q3"
+     },
+     "uniqueId": "gge92",
+     "supplierId": "C20917",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${Q3}"
+   },
+   "assert": {
+    "$.component.designator": "==Q3",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-Q3"
+   }
+  },
+  {
+   "id": "place-R1",
+   "name": "place R1",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R1",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "611ee85922f4491584738b3ecdf137f4",
+    "x": 2745,
+    "y": 800
+   },
+   "capture": {
+    "R1": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R1",
+   "name": "bind R1",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R1",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R1"
+     },
+     "uniqueId": "gge49",
+     "supplierId": "C17673",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R1}"
+   },
+   "assert": {
+    "$.component.designator": "==R1",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R1"
+   }
+  },
+  {
+   "id": "place-R10",
+   "name": "place R10",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R10",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3ab167b4ae354ce18482658b15d1ec96",
+    "x": 1625,
+    "y": 575
+   },
+   "capture": {
+    "R10": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R10",
+   "name": "bind R10",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R10",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R10"
+     },
+     "uniqueId": "gge24",
+     "supplierId": "C17414",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R10}"
+   },
+   "assert": {
+    "$.component.designator": "==R10",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R10"
+   }
+  },
+  {
+   "id": "place-R11",
+   "name": "place R11",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R11",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3ab167b4ae354ce18482658b15d1ec96",
+    "x": 1195,
+    "y": 580
+   },
+   "capture": {
+    "R11": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R11",
+   "name": "bind R11",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R11",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R11"
+     },
+     "uniqueId": "gge25",
+     "supplierId": "C17414",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R11}"
+   },
+   "assert": {
+    "$.component.designator": "==R11",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R11"
+   }
+  },
+  {
+   "id": "place-R12",
+   "name": "place R12",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R12",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3ab167b4ae354ce18482658b15d1ec96",
+    "x": 1200,
+    "y": 1865
+   },
+   "capture": {
+    "R12": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R12",
+   "name": "bind R12",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R12",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R12"
+     },
+     "uniqueId": "gge53",
+     "supplierId": "C17414",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R12}"
+   },
+   "assert": {
+    "$.component.designator": "==R12",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R12"
+   }
+  },
+  {
+   "id": "place-R13",
+   "name": "place R13",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R13",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "eb3a002498064638b42a7b04b4029852",
+    "x": 655,
+    "y": 1730
+   },
+   "capture": {
+    "R13": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R13",
+   "name": "bind R13",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R13",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R13"
+     },
+     "uniqueId": "gge9",
+     "supplierId": "C17614",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R13}"
+   },
+   "assert": {
+    "$.component.designator": "==R13",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R13"
+   }
+  },
+  {
+   "id": "place-R14",
+   "name": "place R14",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R14",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "x": 245,
+    "y": 1860
+   },
+   "capture": {
+    "R14": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R14",
+   "name": "bind R14",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R14",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R14"
+     },
+     "uniqueId": "gge10",
+     "supplierId": "C17513",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R14}"
+   },
+   "assert": {
+    "$.component.designator": "==R14",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R14"
+   }
+  },
+  {
+   "id": "place-R15",
+   "name": "place R15",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R15",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "x": 1075,
+    "y": 745
+   },
+   "capture": {
+    "R15": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R15",
+   "name": "bind R15",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R15",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R15"
+     },
+     "uniqueId": "gge26",
+     "supplierId": "C17513",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R15}"
+   },
+   "assert": {
+    "$.component.designator": "==R15",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R15"
+   }
+  },
+  {
+   "id": "place-R16",
+   "name": "place R16",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R16",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "68e77fee64a84125bdea1b394c2e5985",
+    "x": 3055,
+    "y": 1780
+   },
+   "capture": {
+    "R16": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R16",
+   "name": "bind R16",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R16",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R16"
+     },
+     "uniqueId": "gge11",
+     "supplierId": "C17722",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R16}"
+   },
+   "assert": {
+    "$.component.designator": "==R16",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R16"
+   }
+  },
+  {
+   "id": "place-R17",
+   "name": "place R17",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R17",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3ab167b4ae354ce18482658b15d1ec96",
+    "x": 2635,
+    "y": 1280
+   },
+   "capture": {
+    "R17": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R17",
+   "name": "bind R17",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R17",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R17"
+     },
+     "uniqueId": "gge78",
+     "supplierId": "C17414",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R17}"
+   },
+   "assert": {
+    "$.component.designator": "==R17",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R17"
+   }
+  },
+  {
+   "id": "place-R18",
+   "name": "place R18",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R18",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "x": 900,
+    "y": 2620
+   },
+   "capture": {
+    "R18": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R18",
+   "name": "bind R18",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R18",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R18"
+     },
+     "uniqueId": "gge79",
+     "supplierId": "C17819",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R18}"
+   },
+   "assert": {
+    "$.component.designator": "==R18",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R18"
+   }
+  },
+  {
+   "id": "place-R19",
+   "name": "place R19",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R19",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3ab167b4ae354ce18482658b15d1ec96",
+    "x": 900,
+    "y": 2800
+   },
+   "capture": {
+    "R19": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R19",
+   "name": "bind R19",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R19",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R19"
+     },
+     "uniqueId": "gge65",
+     "supplierId": "C17414",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R19}"
+   },
+   "assert": {
+    "$.component.designator": "==R19",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R19"
+   }
+  },
+  {
+   "id": "place-R2",
+   "name": "place R2",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R2",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "91f8acf5ccc04a77aed714589966c8f5",
+    "x": 2600,
+    "y": 800
+   },
+   "capture": {
+    "R2": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R2",
+   "name": "bind R2",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R2",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R2"
+     },
+     "uniqueId": "gge50",
+     "supplierId": "C17713",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R2}"
+   },
+   "assert": {
+    "$.component.designator": "==R2",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R2"
+   }
+  },
+  {
+   "id": "place-R20",
+   "name": "place R20",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R20",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3ab167b4ae354ce18482658b15d1ec96",
+    "x": 2200,
+    "y": 2400
+   },
+   "capture": {
+    "R20": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R20",
+   "name": "bind R20",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R20",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R20"
+     },
+     "uniqueId": "gge66",
+     "supplierId": "C17673",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R20}"
+   },
+   "assert": {
+    "$.component.designator": "==R20",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R20"
+   }
+  },
+  {
+   "id": "place-R21",
+   "name": "place R21",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R21",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "x": 2200,
+    "y": 2600
+   },
+   "capture": {
+    "R21": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R21",
+   "name": "bind R21",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R21",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R21"
+     },
+     "uniqueId": "gge67",
+     "supplierId": "C17713",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R21}"
+   },
+   "assert": {
+    "$.component.designator": "==R21",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R21"
+   }
+  },
+  {
+   "id": "place-R22",
+   "name": "place R22",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R22",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "x": 280,
+    "y": 980
+   },
+   "capture": {
+    "R22": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R22",
+   "name": "bind R22",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R22",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R22"
+     },
+     "uniqueId": "gge68",
+     "supplierId": "C17513",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R22}"
+   },
+   "assert": {
+    "$.component.designator": "==R22",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R22"
+   }
+  },
+  {
+   "id": "place-R23",
+   "name": "place R23",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R23",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "91f8acf5ccc04a77aed714589966c8f5",
+    "x": 240,
+    "y": 625
+   },
+   "capture": {
+    "R23": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R23",
+   "name": "bind R23",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R23",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R23"
+     },
+     "uniqueId": "gge64",
+     "supplierId": "C17713",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R23}"
+   },
+   "assert": {
+    "$.component.designator": "==R23",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R23"
+   }
+  },
+  {
+   "id": "place-R24",
+   "name": "place R24",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R24",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "x": 580,
+    "y": 980
+   },
+   "capture": {
+    "R24": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R24",
+   "name": "bind R24",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R24",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R24"
+     },
+     "uniqueId": "gge69",
+     "supplierId": "C17513",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R24}"
+   },
+   "assert": {
+    "$.component.designator": "==R24",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R24"
+   }
+  },
+  {
+   "id": "place-R25",
+   "name": "place R25",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R25",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "x": 600,
+    "y": 240
+   },
+   "capture": {
+    "R25": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R25",
+   "name": "bind R25",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R25",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R25"
+     },
+     "uniqueId": "gge70",
+     "supplierId": "C17513",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R25}"
+   },
+   "assert": {
+    "$.component.designator": "==R25",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R25"
+   }
+  },
+  {
+   "id": "place-R26",
+   "name": "place R26",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R26",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "x": 305,
+    "y": 1015
+   },
+   "capture": {
+    "R26": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R26",
+   "name": "bind R26",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R26",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R26"
+     },
+     "uniqueId": "gge71",
+     "supplierId": "C17513",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R26}"
+   },
+   "assert": {
+    "$.component.designator": "==R26",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R26"
+   }
+  },
+  {
+   "id": "place-R27",
+   "name": "place R27",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R27",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "x": 605,
+    "y": 1015
+   },
+   "capture": {
+    "R27": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R27",
+   "name": "bind R27",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R27",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R27"
+     },
+     "uniqueId": "gge72",
+     "supplierId": "C17513",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R27}"
+   },
+   "assert": {
+    "$.component.designator": "==R27",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R27"
+   }
+  },
+  {
+   "id": "place-R28",
+   "name": "place R28",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R28",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "x": 325,
+    "y": 1055
+   },
+   "capture": {
+    "R28": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R28",
+   "name": "bind R28",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R28",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R28"
+     },
+     "uniqueId": "gge73",
+     "supplierId": "C17513",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R28}"
+   },
+   "assert": {
+    "$.component.designator": "==R28",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R28"
+   }
+  },
+  {
+   "id": "place-R29",
+   "name": "place R29",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R29",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "x": 600,
+    "y": 490
+   },
+   "capture": {
+    "R29": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R29",
+   "name": "bind R29",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R29",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R29"
+     },
+     "uniqueId": "gge74",
+     "supplierId": "C17513",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R29}"
+   },
+   "assert": {
+    "$.component.designator": "==R29",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R29"
+   }
+  },
+  {
+   "id": "place-R3",
+   "name": "place R3",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R3",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "d437a4e518b341d7a6ddadaf8d14b1f6",
+    "x": 1990,
+    "y": 1245
+   },
+   "capture": {
+    "R3": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R3",
+   "name": "bind R3",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R3",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R3"
+     },
+     "uniqueId": "gge32",
+     "supplierId": "C17539",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R3}"
+   },
+   "assert": {
+    "$.component.designator": "==R3",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R3"
+   }
+  },
+  {
+   "id": "place-R30",
+   "name": "place R30",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R30",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "x": 355,
+    "y": 490
+   },
+   "capture": {
+    "R30": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R30",
+   "name": "bind R30",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R30",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R30"
+     },
+     "uniqueId": "gge75",
+     "supplierId": "C17513",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R30}"
+   },
+   "assert": {
+    "$.component.designator": "==R30",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R30"
+   }
+  },
+  {
+   "id": "place-R4",
+   "name": "place R4",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R4",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "760339a7f6b44f119a4df4dbb5478cf2",
+    "x": 1150,
+    "y": 745
+   },
+   "capture": {
+    "R4": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R4",
+   "name": "bind R4",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R4",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R4"
+     },
+     "uniqueId": "gge22",
+     "supplierId": "C17557",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R4}"
+   },
+   "assert": {
+    "$.component.designator": "==R4",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R4"
+   }
+  },
+  {
+   "id": "place-R5",
+   "name": "place R5",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R5",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "d437a4e518b341d7a6ddadaf8d14b1f6",
+    "x": 2085,
+    "y": 1225
+   },
+   "capture": {
+    "R5": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R5",
+   "name": "bind R5",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R5",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R5"
+     },
+     "uniqueId": "gge33",
+     "supplierId": "C17539",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R5}"
+   },
+   "assert": {
+    "$.component.designator": "==R5",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R5"
+   }
+  },
+  {
+   "id": "place-R6",
+   "name": "place R6",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R6",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "x": 1200,
+    "y": 1230
+   },
+   "capture": {
+    "R6": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R6",
+   "name": "bind R6",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R6",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R6"
+     },
+     "uniqueId": "gge42",
+     "supplierId": "C17513",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R6}"
+   },
+   "assert": {
+    "$.component.designator": "==R6",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R6"
+   }
+  },
+  {
+   "id": "place-R7",
+   "name": "place R7",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R7",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "228f8e23038b4563bc5cde7c8409a6b9",
+    "x": 2005,
+    "y": 805
+   },
+   "capture": {
+    "R7": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R7",
+   "name": "bind R7",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R7",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R7"
+     },
+     "uniqueId": "gge2",
+     "supplierId": "C27834",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R7}"
+   },
+   "assert": {
+    "$.component.designator": "==R7",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R7"
+   }
+  },
+  {
+   "id": "place-R8",
+   "name": "place R8",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R8",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "228f8e23038b4563bc5cde7c8409a6b9",
+    "x": 2115,
+    "y": 805
+   },
+   "capture": {
+    "R8": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R8",
+   "name": "bind R8",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R8",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R8"
+     },
+     "uniqueId": "gge3",
+     "supplierId": "C27834",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R8}"
+   },
+   "assert": {
+    "$.component.designator": "==R8",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R8"
+   }
+  },
+  {
+   "id": "place-R9",
+   "name": "place R9",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "R9",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "3ab167b4ae354ce18482658b15d1ec96",
+    "x": 1395,
+    "y": 845
+   },
+   "capture": {
+    "R9": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-R9",
+   "name": "bind R9",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "R9",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-R9"
+     },
+     "uniqueId": "gge23",
+     "supplierId": "C17414",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${R9}"
+   },
+   "assert": {
+    "$.component.designator": "==R9",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-R9"
+   }
+  },
+  {
+   "id": "place-SW1",
+   "name": "place SW1",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "SW1",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "38630614a58f4650bd5eefe9a5f79d9a",
+    "x": 1390,
+    "y": 735
+   },
+   "capture": {
+    "SW1": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-SW1",
+   "name": "bind SW1",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "SW1",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-SW1"
+     },
+     "uniqueId": "gge27",
+     "supplierId": "C318884",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${SW1}"
+   },
+   "assert": {
+    "$.component.designator": "==SW1",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-SW1"
+   }
+  },
+  {
+   "id": "place-SW2",
+   "name": "place SW2",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "SW2",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "38630614a58f4650bd5eefe9a5f79d9a",
+    "x": 1230,
+    "y": 740
+   },
+   "capture": {
+    "SW2": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-SW2",
+   "name": "bind SW2",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "SW2",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-SW2"
+     },
+     "uniqueId": "gge28",
+     "supplierId": "C318884",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${SW2}"
+   },
+   "assert": {
+    "$.component.designator": "==SW2",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-SW2"
+   }
+  },
+  {
+   "id": "place-TP1",
+   "name": "place TP1",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "TP1",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "1d9ad61565194f66a2bb1c832c938c3d",
+    "x": 3050,
+    "y": 1875
+   },
+   "capture": {
+    "TP1": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-TP1",
+   "name": "bind TP1",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "TP1",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-TP1"
+     },
+     "uniqueId": "gge12",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${TP1}"
+   },
+   "assert": {
+    "$.component.designator": "==TP1",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-TP1"
+   }
+  },
+  {
+   "id": "place-TP2",
+   "name": "place TP2",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "TP2",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "1d9ad61565194f66a2bb1c832c938c3d",
+    "x": 1300,
+    "y": 740
+   },
+   "capture": {
+    "TP2": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-TP2",
+   "name": "bind TP2",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "TP2",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-TP2"
+     },
+     "uniqueId": "gge29",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${TP2}"
+   },
+   "assert": {
+    "$.component.designator": "==TP2",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-TP2"
+   }
+  },
+  {
+   "id": "place-TP3",
+   "name": "place TP3",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "TP3",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "1d9ad61565194f66a2bb1c832c938c3d",
+    "x": 1615,
+    "y": 1820
+   },
+   "capture": {
+    "TP3": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-TP3",
+   "name": "bind TP3",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "TP3",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-TP3"
+     },
+     "uniqueId": "gge40",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${TP3}"
+   },
+   "assert": {
+    "$.component.designator": "==TP3",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-TP3"
+   }
+  },
+  {
+   "id": "place-TP4",
+   "name": "place TP4",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "TP4",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "1d9ad61565194f66a2bb1c832c938c3d",
+    "x": 1705,
+    "y": 1820
+   },
+   "capture": {
+    "TP4": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-TP4",
+   "name": "bind TP4",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "TP4",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-TP4"
+     },
+     "uniqueId": "gge41",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${TP4}"
+   },
+   "assert": {
+    "$.component.designator": "==TP4",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-TP4"
+   }
+  },
+  {
+   "id": "place-TP5",
+   "name": "place TP5",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "TP5",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "1d9ad61565194f66a2bb1c832c938c3d",
+    "x": 2645,
+    "y": 1885
+   },
+   "capture": {
+    "TP5": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-TP5",
+   "name": "bind TP5",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "TP5",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-TP5"
+     },
+     "uniqueId": "gge37",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${TP5}"
+   },
+   "assert": {
+    "$.component.designator": "==TP5",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-TP5"
+   }
+  },
+  {
+   "id": "place-TP6",
+   "name": "place TP6",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "TP6",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "1d9ad61565194f66a2bb1c832c938c3d",
+    "x": 1065,
+    "y": 1235
+   },
+   "capture": {
+    "TP6": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-TP6",
+   "name": "bind TP6",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "TP6",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-TP6"
+     },
+     "uniqueId": "gge44",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${TP6}"
+   },
+   "assert": {
+    "$.component.designator": "==TP6",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-TP6"
+   }
+  },
+  {
+   "id": "place-U1",
+   "name": "place U1",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "U1",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "6f51ffdaaf4d45a3acac6e54a529f9e1",
+    "x": 1355,
+    "y": 320
+   },
+   "capture": {
+    "U1": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-U1",
+   "name": "bind U1",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "U1",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-U1"
+     },
+     "uniqueId": "gge13",
+     "supplierId": "C5736265",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${U1}"
+   },
+   "assert": {
+    "$.component.designator": "==U1",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-U1"
+   }
+  },
+  {
+   "id": "place-U3",
+   "name": "place U3",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "U3",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "78f39a8c3fa54027bfc13d0a0eefd7c2",
+    "x": 525,
+    "y": 1855
+   },
+   "capture": {
+    "U3": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-U3",
+   "name": "bind U3",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "U3",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-U3"
+     },
+     "uniqueId": "gge5",
+     "supplierId": "C424093",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${U3}"
+   },
+   "assert": {
+    "$.component.designator": "==U3",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-U3"
+   }
+  },
+  {
+   "id": "place-U4",
+   "name": "place U4",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "U4",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "0c60a448115c435b947647a7222a5ab0",
+    "x": 2570,
+    "y": 1760
+   },
+   "capture": {
+    "U4": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-U4",
+   "name": "bind U4",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "U4",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-U4"
+     },
+     "uniqueId": "gge34",
+     "supplierId": "C82942",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${U4}"
+   },
+   "assert": {
+    "$.component.designator": "==U4",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-U4"
+   }
+  },
+  {
+   "id": "place-U6",
+   "name": "place U6",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "U6",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "5f9a995bc73746278024add8c7b330e3",
+    "x": 2110,
+    "y": 310
+   },
+   "capture": {
+    "U6": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-U6",
+   "name": "bind U6",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "U6",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-U6"
+     },
+     "uniqueId": "gge1",
+     "supplierId": "C7519",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${U6}"
+   },
+   "assert": {
+    "$.component.designator": "==U6",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-U6"
+   }
+  },
+  {
+   "id": "place-U7",
+   "name": "place U7",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "U7",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "d7cdf9114eff4110bc187d388e4df2e5",
+    "x": 2070,
+    "y": 1375
+   },
+   "capture": {
+    "U7": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-U7",
+   "name": "bind U7",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "U7",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-U7"
+     },
+     "uniqueId": "gge30",
+     "supplierId": "C16711",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${U7}"
+   },
+   "assert": {
+    "$.component.designator": "==U7",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-U7"
+   }
+  },
+  {
+   "id": "place-U8",
+   "name": "place U8",
+   "action": "schematic.component.place",
+   "payload": {
+    "designator": "U8",
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "uuid": "f42b51ab2afc4d9db90725b5f9dacdaa",
+    "x": 900,
+    "y": 2200
+   },
+   "capture": {
+    "U8": "$.primitiveId"
+   }
+  },
+  {
+   "id": "bind-U8",
+   "name": "bind U8",
+   "action": "schematic.component.modify",
+   "payload": {
+    "patch": {
+     "designator": "U8",
+     "otherProperty": {
+      "EasyEDA Agent Component ID": "cmp-U8"
+     },
+     "uniqueId": "gge82",
+     "supplierId": "C84817",
+     "supplier": "LCSC",
+     "addIntoBom": true,
+     "addIntoPcb": true
+    },
+    "primitiveId": "${U8}"
+   },
+   "assert": {
+    "$.component.designator": "==U8",
+    "$.component.otherProperty.EasyEDA Agent Component ID": "==cmp-U8"
+   }
+  },
+  {
+   "id": "save-__active__",
+   "action": "schematic.save",
+   "checkpoint": true
+  }
+ ]
+}
