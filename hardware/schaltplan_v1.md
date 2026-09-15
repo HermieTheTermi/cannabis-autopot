@@ -49,28 +49,31 @@ Folgekosten siehe **§10**.
 |---|---|---|
 | **VBUS** | J5 VBUS ↔ U3 Pin 4 (VDD) ↔ C7 4,7 µF ↔ U6 Pin 5 ↔ R_LEDCHG (Lade-LED) | 5-V-Eingang, Ladestrom, LED-Versorgung |
 | **PROG** | U3 Pin 5 (PROG) ↔ R_PROG 3,9 kΩ ↔ GND | Ladestrom-Programmierung (256 mA) |
-| **VBAT** | U3 Pin 3 (VBAT) ↔ C8 4,7 µF ↔ J1 Pin 1 (Akku +) ↔ C3 100 µF ↔ **U8 Pin 5 (IN) + Pin 4 (EN)** ↔ **C17 22 µF** ↔ **L1 Pin 1** ↔ U7 Pin 3 (VCC) ↔ U4 VIN ↔ C5 10 µF ↔ R3a | Energiebus + Boost-Eingang, alles außer Logik |
+| **VBAT** | U3 Pin 3 (VBAT) ↔ C8 4,7 µF ↔ J1 Pin 1 (Akku +) ↔ C3 100 µF ↔ **U8 Pin 5 (IN)** ↔ **C17 22 µF** ↔ **L1 Pin 1** ↔ U7 Pin 3 (VCC) ↔ U4 VIN ↔ C5 10 µF ↔ R3a | Energiebus + Boost-Eingang, alles außer Logik |
 | **+5V** ⭐ | **D6 Kathode** ↔ **C18 22 µF** ↔ **C19 100 nF** ↔ **R31 75 kΩ** ↔ **J4 Pin 1 (Dosierpumpe +)** ↔ **D1 Kathode** ↔ **J16 Pin 1 (O2-Pumpe +)** ↔ **D7 Kathode** | **neu 15.09.2026:** 5-V-Schiene für **beide** Pumpen (Boost-Ausgang) |
 | **SW_BOOST** ⭐ | **U8 Pin 1 (SW)** ↔ **L1 Pin 2** ↔ **D6 Anode** | **neu:** Schaltknoten des Boosts (kurz halten, kein Prüfpunkt) |
 | **FB_5V** ⭐ | **U8 Pin 3 (FB)** ↔ **R31 75 kΩ** ↔ **R32 10 kΩ** ↔ GND | **neu:** Feedback-Teiler → **5,10 V** (0,6 V × (1 + 75/10)) |
-| **PUMP2_EN** ⭐ | **U1 Pin 28 (IO22)** ↔ **R33 4,7 kΩ** (Gate-Serie) | **neu:** Steuersignal der Sauerstoffpumpe (ersetzt SPARE_IO22) |
-| **GATE2** ⭐ | **R33** ↔ **Q3 Gate** ↔ **R34 47 kΩ → GND** ↔ **D8 Anode** | **neu:** Gate-Knoten Q3 (Pulldown = aus beim Boot, D8 = Klemmzweig) |
+| **PUMP2_EN** ⭐ | **U1 Pin 28 (IO22)** ↔ **R33 1 kΩ** (Gate-Serie) | **neu:** Steuersignal der Sauerstoffpumpe (ersetzt SPARE_IO22) |
+| **GATE** ⭐ | **R1 1 kΩ** ↔ **Q1 Gate** ↔ **R2 47 kΩ → GND** | Gate-Knoten Q1 — **ohne** Klemmdiode (Revision 15.09.2026) |
+| **GATE2** ⭐ | **R33 1 kΩ** ↔ **Q3 Gate** ↔ **R34 47 kΩ → GND** | Gate-Knoten Q3 — **ohne** Klemmdiode (Revision 15.09.2026) |
+| **KLAMP1** ⭐ | **D3 Anode** ↔ **R35 10 kΩ** | Klemmzweig Dosierpumpe, vom Gate **entkoppelt** (Serienwiderstand begrenzt den Sinkstrom) |
+| **KLAMP2** ⭐ | **D8 Anode** ↔ **R36 10 kΩ** | Klemmzweig Sauerstoffpumpe, entkoppelt |
 | **PUMP2_N** ⭐ | **Q3 Drain** ↔ **J16 Pin 2 (O2-Pumpe −)** ↔ **D7 Anode** ↔ **C20 100 nF** | **neu:** geschaltete Masse der Sauerstoffpumpe |
 | **+3V3** | U4 VOUT ↔ C6 1 µF ↔ U1 Pin 3 **und alle VDD33-Pins** ↔ C2 22 µF ↔ C1a/C1b 100 nF ↔ R_EN ↔ R_BOOT ↔ R_GPIO8 ↔ **R_BTN** | Logikversorgung |
 | **GND** | U1 (alle GND-Pins), U3 Pin 2, U4 GND, U6 Pin 2, U7 Pin 1, **U8 Pin 2**, Q1 **und Q3** Source, C1–C16, C_BTN, **C_SPARE**, R2, **R19, R21**, R3b, R5a/R5b, R4/D2, **R_TANK/D5**, SW1/SW2, J1 Pin 2, **J2 Pin 1**, **J7 Pin 1**, J4 Pin 2, **J6 Pin 2**, **J8 Pin 1**, **J9–J13, J15 Pin 1** (J14 entfällt), J5 GND + Schirm | Masse |
 | **EN** | U1 **Pin 8** ↔ R_EN 10 kΩ → +3V3 · C4 1 µF → GND · SW1 → GND | Reset; RC **10 kΩ + 1 µF** (Espressif) |
 | **BOOT** | U1 **Pin 23 (IO9)** ↔ R_BOOT 10 kΩ → +3V3 · SW2 → GND | Download-Modus; **kein großer C** an GPIO9! |
 | **GPIO8_STRAP** | U1 **Pin 22 (IO8)** ↔ R_GPIO8 10 kΩ → +3V3 | Strapping-Pin nicht floaten lassen |
-| **PUMP_EN** | U1 **Pin 5 (IO2)** → R1 **4,7 kΩ** → **Gate-Knoten** von Q1 | Pumpensteuerung (PWM-fähig) — **PWM-Softstart vorgeschrieben**, Anlaufstrom 2,2–2,5 A (siehe Q1/C3) |
-| **GATE** | Q1 Gate ↔ R1 4,7 kΩ ↔ R2 **47 kΩ** → GND ↔ D3 **Anode** | Abschaltung bei MCU-Tod (Pull-down) bzw. Unterspannung (D3 → MAX809) |
+| **PUMP_EN** | U1 **Pin 5 (IO2)** → R1 **1 kΩ** → **Gate-Knoten** von Q1 | Pumpensteuerung (PWM-fähig) — **PWM-Softstart vorgeschrieben**, Anlaufstrom 2,2–2,5 A (siehe Q1/C3) |
+| **GATE** | Q1 Gate ↔ R1 **1 kΩ** ↔ R2 **47 kΩ** → GND | Abschaltung bei MCU-Tod (Pull-down); Klemmung jetzt über KLAMP1 → RESET_UV |
 | **PUMP_N** | Q1 Drain ↔ J4 Pin 2 (Pumpe −) ↔ D1 **Anode** | geschaltete Pumpenmasse (Low-Side) |
-| **RESET_UV** | U7 Pin 2 (RESET) ↔ D3 **Kathode** | zieht bei VBAT < 3,08 V den Gate-Knoten auf ~0,3 V |
+| **RESET_UV** ⭐ | U7 Pin 2 (RESET) ↔ D3 **Kathode** ↔ **D8 Kathode** ↔ **R35 10 kΩ** ↔ **R36 10 kΩ** ↔ **R37 47 kΩ (Pull-up nach VBAT)** ↔ **U8 Pin 4 (EN)** | **Revision 15.09.2026:** Klemmung beider Kanäle **und** der Boost-EN hängen am Wächter — bei VBAT < 3,08 V gehen beide Gates auf ~0,3 V **und** die 5-V-Schiene schaltet ab. R35/R36 begrenzen den Sinkstrom auf **0,30 mA** (Spec 1,2 mA) |
 | **SENSOR_RAW → SENSOR_AOUT** | J2 Pin 3 (SIG) → R6 1 kΩ → U1 **Pin 12 (IO0, ADC1_CH0)** ↔ C9 100 nF → GND | Bodenfeuchte. Zwei getrennte Netze: R6 liegt **in Reihe**, nicht parallel |
 | **SENSOR_PWR** | U1 **Pin 6 (IO3)** → J2 Pin 2 (Feuchte-VCC) ↔ J7 Pin 2 (Licht-VCC) | **beide** externen Sensoren nur während der Messung versorgen |
 | **LIGHT_RAW** | J7 Pin 3 (Sensorausgang) ↔ R_LIGHT 10 kΩ → GND ↔ R_LIGHT_S 1 kΩ | Lichtsensor-Rohsignal; **offener Stecker ⇒ R_LIGHT zieht auf 0 V ⇒ „dunkel"** (Bewässerung bleibt erlaubt) |
 | **LIGHT_AOUT** | R_LIGHT_S 1 kΩ (in Reihe) ↔ U1 **Pin 9 (IO4, ADC1_CH4)** ↔ C_LIGHT 100 nF → GND | gefilterter ADC-Eingang, gegen den Sensorausgang hochohmig getrennt |
-| **SDA / SDA_MCU** | J8 Pin 3 ↔ R_SDA_S 1 kΩ (in Reihe) ↔ U1 **Pin 24 (IO18)** · R_SDA_PU 10 kΩ → **VCC_EXT** | I²C-Daten; Pull-up am geschalteten Rail, Serien-R schützt den Pin |
-| **SCL / SCL_MCU** | J8 Pin 4 ↔ R_SCL_S 1 kΩ (in Reihe) ↔ U1 **Pin 25 (IO19)** · R_SCL_PU 10 kΩ → **VCC_EXT** | I²C-Takt; wie SDA |
+| **SDA / SDA_MCU** | J8 Pin 3 ↔ R_SDA_S 1 kΩ (in Reihe) ↔ U1 **Pin 24 (IO18)** · R_SDA_PU **4,7 kΩ** → **VCC_EXT** | I²C-Daten; Pull-up am geschalteten Rail, Serien-R schützt den Pin |
+| **SCL / SCL_MCU** | J8 Pin 4 ↔ R_SCL_S 1 kΩ (in Reihe) ↔ U1 **Pin 25 (IO19)** · R_SCL_PU **4,7 kΩ** → **VCC_EXT** | I²C-Takt; wie SDA |
 | **VCC_EXT** | Q2 **Drain** ↔ J8 Pin 2 ↔ J9–J15 Pin 2 ↔ R_SDA_PU/R_SCL_PU | geschaltete Erweiterungsversorgung (Load-Switch, beim Reset aus) |
 | **EXT_EN** | U1 **Pin 26 (IO20)** ↔ Q2 **Gate** ↔ R_GATE 47 kΩ → **+3V3** | IO20 zieht das Gate nach unten ⇒ VCC_EXT an; ohne Treiber hält der Pull-up VCC_EXT aus |
 | **SPARE_AIN_RAW → SPARE_AIN** | J9 Pin 3 → R_SPARE_AIN 1 kΩ → U1 **Pin 10 (IO5, ADC1_CH5)** ↔ C_SPARE 100 nF → GND | Reserve-Analog, RC-gefiltert (gleiches Muster wie SENSOR_AOUT) |
@@ -169,8 +172,11 @@ Folgekosten siehe **§10**.
 | **R_SPARE_IO17** | 1 kΩ | Reserve-IO17 in Reihe | zwischen J12 Pin 3 und U1 Pin 30 (RXD0/IO17) |
 | **R_SPARE_IO21** | 1 kΩ | Reserve-IO21 in Reihe | zwischen J13 Pin 3 und U1 Pin 27 (IO21) |
 | ~~**R_SPARE_IO22**~~ | **entfällt (15.09.2026)** | – | **IO22 ist jetzt PUMP2_EN** (Sauerstoffpumpe). Der Reserve-Stecker **J14** entfällt ersatzlos; an seine Stelle tritt der Pumpenstecker **J16** |
-| **R33** ⭐ | **4,7 kΩ** | **Gate-Serie der Sauerstoffpumpe** | **neu:** identisch zu R1. Begrenzt den Umladestrom des Gate und — im Klemmfall über D8 — den Strom aus dem MAX809 auf **0,57 mA** (Spec: ISINK = 1,2 mA) |
+| **R33** ⭐ | **1 kΩ** | **Gate-Serie der Sauerstoffpumpe** | **neu:** identisch zu R1. Begrenzt den Umladestrom des Gate und — im Klemmfall über D8 — den Strom aus dem MAX809 auf **0,57 mA** (Spec: ISINK = 1,2 mA) |
 | **R34** ⭐ | **47 kΩ** | **Gate-Pulldown Q3** | **neu:** identisch zu R2. Hält Q3 beim Boot/Reset sicher aus; Ansteuerpegel 3,3 V × 47/51,7 = **3,0 V** (über dem 2,5-V-Spec-Punkt des AO3400A) |
+| **R35** ⭐ | **10 kΩ** | **Serienwiderstand im Klemmzweig Dosierpumpe** | **Revision 15.09.2026:** entkoppelt D3 vom Gate und begrenzt den Sinkstrom in U7 auf **0,30 mA** (Spec 1,2 mA) |
+| **R36** ⭐ | **10 kΩ** | **Serienwiderstand im Klemmzweig Sauerstoffpumpe** | dito für D8 (Kanal 2) |
+| **R37** ⭐ | **47 kΩ** | **Pull-up des Boost-EN (U8 Pin 4) nach VBAT** | hält den Boost an, solange der Wächter nicht auslöst |
 | **R31** ⭐ | **75 kΩ** | **Boost-Feedback oben** | **neu:** V_out = 0,6 V × (1 + R31/R32) = 0,6 × (1 + 7,5) = **5,10 V**. Werte als 0805-Basic gewählt (75 kΩ `C17819` + 10 kΩ `C17414`) — 5,10 V liegt innerhalb der ±5-%-Toleranz beider Pumpen |
 | **R32** ⭐ | **10 kΩ** | **Boost-Feedback unten** | **neu:** s. R31; bildet mit R31 den Teiler am FB-Pin (Pin 3), unterer Zweig an GND |
 | **R_SPARE_IO23** | 1 kΩ | Reserve-IO23 in Reihe | zwischen J15 Pin 3 und U1 Pin 29 (IO23) |
@@ -658,6 +664,48 @@ Er verliert ~15 % und zieht im Leerlauf zusätzlich ~1,6 mA (~38 mAh/Tag, ≈ 2,
 4. **Firmware:** zweiter PWM-Kanal auf IO22 (LEDC, 20 kHz), gleicher Softstart, Zeitplan + Watchdog.
 
 ---
+
+## 12. Revision nach externem Schaltplan-Review (15.09.2026)
+
+Ein zweites Sprachmodell hat die Textbeschreibung (`schaltplan_v1_komplett.md`) geprüft. Jeder harte
+Befund wurde gegen die IR verifiziert. Ergebnis: **drei echte Schaltungsänderungen** (hier umgesetzt),
+mehrere Doku-Fehler (in der Textdatei korrigiert) und eine Reihe **berechtigter Auslegungspunkte**, die
+bewusst **nicht** in V1 geändert werden.
+
+### 12.1 Umgesetzte Änderungen (in der Netzliste, IR-neu gebaut, 0 Abweichungen)
+
+| # | Änderung | Grund |
+|---|---|---|
+| 1 | **Klemmzweig entkoppelt:** `D3`/`D8` hängen nicht mehr am Gate, sondern über **R35/R36 (10 kΩ)** am `RESET_UV`. Gate-Serienwiderstände **R1/R33: 4,7 kΩ → 1 kΩ** | Der 4,7-kΩ-Gatewiderstand war nur wegen des Klemmstroms so groß (0,57 mA in den MAX809). Für **PWM** sind 4,7 kΩ zu träge. Jetzt ist die Klemmung über eigene Serienwiderstände begrenzt (**0,30 mA**, Spec 1,2 mA) und das Gate mit 1 kΩ schnell genug (τ ≈ 0,8 µs bei C_iss ≈ 800 pF → PWM bis ~1 kHz sauber) |
+| 2 | **Boost-EN am Wächter:** `U8 Pin 4 (EN)` liegt nicht mehr fest an VBAT, sondern an `RESET_UV` mit **R37 47 kΩ Pull-up** nach VBAT | Bisher lief der Boost auch unter der Wächter-Schwelle weiter. Jetzt schaltet die **5-V-Schiene beim Auslösen wirklich ab** — doppelte Sperre zusätzlich zur Gateklemmung. ⚠️ Allein reicht der EN nicht: der MT3608 hat einen Pfad über L1/D6 zum Ausgang, deshalb bleibt die Gateklemmung nötig |
+| 3 | **I²C-Pull-ups R19/R20: 10 kΩ → 4,7 kΩ** | Bei Buskapazität > 100 pF ist 10 kΩ zu hoch (100 kHz erlaubt t_r ≈ 1 µs, Fast-Mode 300 ns). Serienschutz R21/R22 bleiben **1 kΩ** — Low-Pegel 0,30 V, gültig; die 47 kΩ aus dem Review stammten aus der **fehlerhaften BOM**, nicht aus der Schaltung |
+
+### 12.2 Zusätzlich gefundene und behobene Fehler
+
+- **C11** lag zwischen `PUMP_N` und **VBAT** statt über den Motorklemmen (Altstand aus der VBAT-Ära) →
+  jetzt an `+5V`, damit der EMI-Kondensator auch wirklich über der Pumpe liegt.
+- **C20** lag zwischen `PUMP2_N` und **GND** (also über Drain–Source von Q3) → jetzt an `+5V`.
+- **Fertigungs-BOM war inkonsistent:** funktionale Bezeichner (`C1a`, `C_BTN`, `R_GATE`) und verrutschte
+  Zuordnungen — `R20` stand in der Gate-Zeile, `R21` mit **47 kΩ** statt 1 kΩ. Das wäre eine
+  **Fehlbestellung** gewesen. BOM jetzt KI-frei aus der IR erzeugt: **90 bestückte Refs**, keine Lücken.
+
+### 12.3 Bewusst NICHT in V1 geändert (Entscheidungen für V2 / Messauftrag)
+
+| Punkt | Bewertung | Warum nicht jetzt |
+|---|---|---|
+| **Pumpenanlauf 3 A** (15,3 W, aus 3,0 V ≈ **6 A**) — der MT3608 kann das nicht, Softstart ist **kein** Nachweis | **berechtigt, offen** | Erfordert entweder stärkeren Boost (z. B. TPS61088), eine Pumpe mit kleinerem Anlaufstrom oder eine echte Anlaufstrombegrenzung. **Erst messen** (Messauftrag §10): realer Anlaufstrom der CONQUERALL am Prüfstand |
+| **+3V3 aus 3,0 V VBAT** — der ME6211 ist ein LDO und kann nicht hochregeln; unter ≈ 3,5 V bricht die Logikversorgung ein | **berechtigt** | Buck-Boost wäre ein Umbau. Konsequenz dokumentiert: nutzbarer Zellbereich **4,2 → ~3,5 V** (die Angabe „3,0–4,2 V → +3V3" war irreführend) |
+| **UVLO sperrt nur die Pumpen**, nicht das System | teilweise behoben (12.1 #2) | Der Akku hat ein PCM (Tiefentladung/Kurzschluss) — das ist aber ein Bauteil, kein Schaltungsschutz. Vollständige Systemabschaltung = V2 |
+| **Kein Power-Path** (MCP73831 lädt den Lastknoten) | **berechtigt** | Lader mit Power-Path (MCP73871/BQ24074) = neuer IC, neue Platine → V2. Betriebsregel: **während des Ladens nicht pumpen** |
+| **Mehr Ausgangsbulk** gegen den Anlauf | **nicht wirksam** | 22 µF puffern 3 A nur ~7 µs; selbst 220 µF nur ~73 µs. Der Hebel ist der Anlaufstrom, nicht der Kondensator |
+| **IO3 versorgt J2 und J7 direkt** | berechtigt | Für die vorgesehenen Sensoren (< 20 mA) vertretbar; ein Load-Switch ist V2 |
+| **Strapping-Pins GPIO4/5/15** (Licht/Reserve) | berechtigt zu prüfen | Firmware-Thema: Strap-Pegel beim Reset verifizieren (nicht jede Last stört den Boot) |
+
+### 12.4 Was das Review bestätigt hat
+
+Zwei getrennte 5,1-kΩ-CC-Pulldowns · USB D−/D+ an GPIO12/13 · USBLC6-Zuordnung · EN-Pull-up und
+Reset-RC · GPIO8/9-Pull-ups und Boot-Taster · Low-Side-MOSFETs mit Gate-Pulldowns · Freilaufdioden
+D1/D7 richtig gepolt · Boost-Feedback 0,6 × (1 + 75/10) = 5,10 V · VBAT-Teiler und ADC-Filter.
 
 ## 11. Rückschau
 

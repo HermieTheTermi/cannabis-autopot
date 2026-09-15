@@ -233,5 +233,20 @@
   "componentId": "cmp-J_PUMP2",
   "before": "J_PUMP2",
   "after": "J16"
+ },
+ {
+  "componentId": "cmp-R_CLAMP1",
+  "before": "R_CLAMP1",
+  "after": "R35"
+ },
+ {
+  "componentId": "cmp-R_CLAMP2",
+  "before": "R_CLAMP2",
+  "after": "R36"
+ },
+ {
+  "componentId": "cmp-R_EN_PU",
+  "before": "R_EN_PU",
+  "after": "R37"
  }
 ]

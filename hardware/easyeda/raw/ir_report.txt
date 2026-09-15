@@ -1,4 +1,4 @@
-Bauteile: 93  Netze: 54  Verbindungen: 262
+Bauteile: 96  Netze: 56  Verbindungen: 268
 NC-Pins: 17
 keine Probleme
 HINWEISE:

@@ -3,16 +3,16 @@
  "documentId": "4f6771a27edec75b",
  "frames": [
   {
-   "id": "frame-debug",
-   "title": "UART-Debug-Pads (DNP)",
+   "id": "frame-lader",
+   "title": "Laden (MCP73831)",
    "rect": {
-    "minX": 2020,
-    "minY": 1685,
-    "maxX": 2477,
-    "maxY": 2148
+    "minX": 2146,
+    "minY": 1703,
+    "maxX": 3106,
+    "maxY": 2212
    },
-   "titleX": 2032,
-   "titleY": 2136,
+   "titleX": 2158,
+   "titleY": 2200,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
@@ -21,13 +21,28 @@
    "id": "frame-ldo",
    "title": "3V3-LDO (ME6211)",
    "rect": {
-    "minX": 12,
-    "minY": 1650,
-    "maxX": 509,
-    "maxY": 2124
+    "minX": 470,
+    "minY": 1728,
+    "maxX": 967,
+    "maxY": 2202
    },
-   "titleX": 24,
-   "titleY": 2112,
+   "titleX": 482,
+   "titleY": 2190,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-debug",
+   "title": "UART-Debug-Pads (DNP)",
+   "rect": {
+    "minX": 967,
+    "minY": 1728,
+    "maxX": 1424,
+    "maxY": 2191
+   },
+   "titleX": 979,
+   "titleY": 2179,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
@@ -36,28 +51,13 @@
    "id": "frame-taster",
    "title": "Taster & LEDs",
    "rect": {
-    "minX": 1562,
-    "minY": 1599,
-    "maxX": 2020,
-    "maxY": 2099
+    "minX": 12,
+    "minY": 1681,
+    "maxX": 470,
+    "maxY": 2181
    },
-   "titleX": 1574,
-   "titleY": 2087,
-   "fontSize": 20,
-   "color": "#AA00AA",
-   "lineType": 1
-  },
-  {
-   "id": "frame-lader",
-   "title": "Laden (MCP73831)",
-   "rect": {
-    "minX": 602,
-    "minY": 1587,
-    "maxX": 1562,
-    "maxY": 2096
-   },
-   "titleX": 614,
-   "titleY": 2084,
+   "titleX": 24,
+   "titleY": 2169,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
@@ -66,13 +66,43 @@
    "id": "frame-akku",
    "title": "Akku & Puffer",
    "rect": {
-    "minX": 2477,
-    "minY": 1685,
-    "maxX": 3013,
-    "maxY": 2068
+    "minX": 1424,
+    "minY": 1750,
+    "maxX": 1960,
+    "maxY": 2133
    },
-   "titleX": 2489,
-   "titleY": 2056,
+   "titleX": 1436,
+   "titleY": 2121,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-boost",
+   "title": "5-V-Boost (MT3608)",
+   "rect": {
+    "minX": 1573,
+    "minY": 1011,
+    "maxX": 2146,
+    "maxY": 1750
+   },
+   "titleX": 1585,
+   "titleY": 1738,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-waechter",
+   "title": "Unterspannungswaechter (MAX809)",
+   "rect": {
+    "minX": 688,
+    "minY": 1135,
+    "maxX": 1208,
+    "maxY": 1728
+   },
+   "titleX": 700,
+   "titleY": 1716,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
@@ -81,13 +111,13 @@
    "id": "frame-licht",
    "title": "Lichtsensor-Eingang",
    "rect": {
-    "minX": 2330,
-    "minY": 1174,
-    "maxX": 3027,
-    "maxY": 1685
+    "minX": 2146,
+    "minY": 1192,
+    "maxX": 2843,
+    "maxY": 1703
    },
-   "titleX": 2342,
-   "titleY": 1673,
+   "titleX": 2158,
+   "titleY": 1691,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
@@ -97,42 +127,27 @@
    "title": "Sensor-Eingang",
    "rect": {
     "minX": 12,
-    "minY": 1135,
+    "minY": 1166,
     "maxX": 602,
-    "maxY": 1650
+    "maxY": 1681
    },
    "titleX": 24,
-   "titleY": 1638,
+   "titleY": 1669,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
   },
   {
-   "id": "frame-waechter",
-   "title": "Unterspannungswaechter (MAX809)",
+   "id": "frame-usb",
+   "title": "USB-C Eingang & ESD",
    "rect": {
-    "minX": 1810,
-    "minY": 1006,
-    "maxX": 2330,
-    "maxY": 1599
+    "minX": 2486,
+    "minY": 198,
+    "maxX": 3081,
+    "maxY": 1192
    },
-   "titleX": 1822,
-   "titleY": 1587,
-   "fontSize": 20,
-   "color": "#AA00AA",
-   "lineType": 1
-  },
-  {
-   "id": "frame-boost",
-   "title": "5-V-Boost (MT3608)",
-   "rect": {
-    "minX": 897,
-    "minY": 1011,
-    "maxX": 1581,
-    "maxY": 1587
-   },
-   "titleX": 909,
-   "titleY": 1575,
+   "titleX": 2498,
+   "titleY": 1180,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
@@ -141,13 +156,13 @@
    "id": "frame-pumpe",
    "title": "Pumpentreiber Dosier- + Sauerstoffpumpe",
    "rect": {
-    "minX": 2405,
-    "minY": 198,
-    "maxX": 3168,
-    "maxY": 1174
+    "minX": 12,
+    "minY": 12,
+    "maxX": 688,
+    "maxY": 1166
    },
-   "titleX": 2417,
-   "titleY": 1162,
+   "titleX": 24,
+   "titleY": 1154,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
@@ -156,12 +171,12 @@
    "id": "frame-erweiterung",
    "title": "Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch",
    "rect": {
-    "minX": 12,
+    "minX": 688,
     "minY": 12,
-    "maxX": 897,
+    "maxX": 1573,
     "maxY": 1135
    },
-   "titleX": 24,
+   "titleX": 700,
    "titleY": 1123,
    "fontSize": 20,
    "color": "#AA00AA",
@@ -171,28 +186,13 @@
    "id": "frame-mcu",
    "title": "ESP32-C6-MCU + Beschaltung",
    "rect": {
-    "minX": 897,
+    "minX": 1573,
     "minY": 12,
-    "maxX": 1810,
+    "maxX": 2486,
     "maxY": 1011
    },
-   "titleX": 909,
+   "titleX": 1585,
    "titleY": 999,
-   "fontSize": 20,
-   "color": "#AA00AA",
-   "lineType": 1
-  },
-  {
-   "id": "frame-usb",
-   "title": "USB-C Eingang & ESD",
-   "rect": {
-    "minX": 1810,
-    "minY": 12,
-    "maxX": 2405,
-    "maxY": 1006
-   },
-   "titleX": 1822,
-   "titleY": 994,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1

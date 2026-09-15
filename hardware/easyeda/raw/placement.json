@@ -21,119 +21,119 @@
   {
    "module": "USB",
    "title": "USB-C Eingang & ESD",
-   "x0": 1810,
-   "y1": 1006,
-   "x1": 2405,
-   "y0": 12,
-   "content_bottom": 162.5
+   "x0": 2486,
+   "y1": 1192,
+   "x1": 3081,
+   "y0": 198,
+   "content_bottom": 348.5
   },
   {
    "module": "LADER",
    "title": "Laden (MCP73831)",
-   "x0": 602,
-   "y1": 2096,
-   "x1": 1562,
-   "y0": 1587,
-   "content_bottom": 1737.5
+   "x0": 2146,
+   "y1": 2212,
+   "x1": 3106,
+   "y0": 1703,
+   "content_bottom": 1853.5
   },
   {
    "module": "DEBUG",
    "title": "UART-Debug-Pads (DNP)",
-   "x0": 2020,
-   "y1": 2148,
-   "x1": 2477,
-   "y0": 1685,
-   "content_bottom": 1835.0
+   "x0": 967,
+   "y1": 2191,
+   "x1": 1424,
+   "y0": 1728,
+   "content_bottom": 1878.0
   },
   {
    "module": "MCU",
    "title": "ESP32-C6-MCU + Beschaltung",
-   "x0": 897,
+   "x0": 1573,
    "y1": 1011,
-   "x1": 1810,
+   "x1": 2486,
    "y0": 12,
    "content_bottom": 162.5
   },
   {
    "module": "WAEChTER",
    "title": "Unterspannungswaechter (MAX809)",
-   "x0": 1810,
-   "y1": 1599,
-   "x1": 2330,
-   "y0": 1006,
-   "content_bottom": 1156.75
+   "x0": 688,
+   "y1": 1728,
+   "x1": 1208,
+   "y0": 1135,
+   "content_bottom": 1285.75
   },
   {
    "module": "LDO",
    "title": "3V3-LDO (ME6211)",
-   "x0": 12,
-   "y1": 2124,
-   "x1": 509,
-   "y0": 1650,
-   "content_bottom": 1800.5
+   "x0": 470,
+   "y1": 2202,
+   "x1": 967,
+   "y0": 1728,
+   "content_bottom": 1878.5
   },
   {
    "module": "AKKU",
    "title": "Akku & Puffer",
-   "x0": 2477,
-   "y1": 2068,
-   "x1": 3013,
-   "y0": 1685,
-   "content_bottom": 1835.75
+   "x0": 1424,
+   "y1": 2133,
+   "x1": 1960,
+   "y0": 1750,
+   "content_bottom": 1900.75
   },
   {
    "module": "SENSOR",
    "title": "Sensor-Eingang",
    "x0": 12,
-   "y1": 1650,
+   "y1": 1681,
    "x1": 602,
-   "y0": 1135,
-   "content_bottom": 1285.5
+   "y0": 1166,
+   "content_bottom": 1316.5
   },
   {
    "module": "PUMPE",
    "title": "Pumpentreiber Dosier- + Sauerstoffpumpe",
-   "x0": 2405,
-   "y1": 1174,
-   "x1": 3168,
-   "y0": 198,
-   "content_bottom": 348.75
+   "x0": 12,
+   "y1": 1166,
+   "x1": 688,
+   "y0": 12,
+   "content_bottom": 162.75
   },
   {
    "module": "BOOST",
    "title": "5-V-Boost (MT3608)",
-   "x0": 897,
-   "y1": 1587,
-   "x1": 1581,
+   "x0": 1573,
+   "y1": 1750,
+   "x1": 2146,
    "y0": 1011,
-   "content_bottom": 1161.5
+   "content_bottom": 1161.75
   },
   {
    "module": "TASTER",
    "title": "Taster & LEDs",
-   "x0": 1562,
-   "y1": 2099,
-   "x1": 2020,
-   "y0": 1599,
-   "content_bottom": 1749.75
+   "x0": 12,
+   "y1": 2181,
+   "x1": 470,
+   "y0": 1681,
+   "content_bottom": 1831.75
   },
   {
    "module": "ERWEITERUNG",
    "title": "Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch",
-   "x0": 12,
+   "x0": 688,
    "y1": 1135,
-   "x1": 897,
+   "x1": 1573,
    "y0": 12,
    "content_bottom": 162.75
   },
   {
    "module": "LICHT",
    "title": "Lichtsensor-Eingang",
-   "x0": 2330,
-   "y1": 1685,
-   "x1": 3027,
-   "y0": 1174,
-   "content_bottom": 1324.75
+   "x0": 2146,
+   "y1": 1703,
+   "x1": 2843,
+   "y0": 1192,
+   "content_bottom": 1342.75
   }
  ],
  "placements": [
@@ -143,15 +143,15 @@
    "module": "USB",
    "id": "cmp-U6",
    "deviceUuid": "5f9a995bc73746278024add8c7b330e3",
-   "x": 2108,
-   "y": 312,
+   "x": 2784,
+   "y": 498,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2060,
-    260,
-    2155,
-    360
+    2740,
+    450,
+    2830,
+    550
    ]
   },
   {
@@ -160,15 +160,15 @@
    "module": "USB",
    "id": "cmp-R5a",
    "deviceUuid": "228f8e23038b4563bc5cde7c8409a6b9",
-   "x": 2003,
-   "y": 806,
+   "x": 2679,
+   "y": 992,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1990,
-    800,
-    2015,
-    810
+    2670,
+    990,
+    2690,
+    995
    ]
   },
   {
@@ -177,15 +177,15 @@
    "module": "USB",
    "id": "cmp-R5b",
    "deviceUuid": "228f8e23038b4563bc5cde7c8409a6b9",
-   "x": 2115,
-   "y": 806,
+   "x": 2791,
+   "y": 992,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2105,
-    800,
-    2125,
-    810
+    2780,
+    990,
+    2800,
+    995
    ]
   },
   {
@@ -194,15 +194,15 @@
    "module": "USB",
    "id": "cmp-J5",
    "deviceUuid": "730e76758f9742ca9ca85c73f4ec0ecd",
-   "x": 2105,
-   "y": 608,
+   "x": 2781,
+   "y": 794,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2080,
-    540,
-    2130,
-    675
+    2755,
+    730,
+    2805,
+    860
    ]
   },
   {
@@ -211,15 +211,15 @@
    "module": "LADER",
    "id": "cmp-U3",
    "deviceUuid": "78f39a8c3fa54027bfc13d0a0eefd7c2",
-   "x": 1114,
-   "y": 1918,
+   "x": 2658,
+   "y": 2034,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1080,
-    1900,
-    1150,
-    1940
+    2620,
+    2015,
+    2695,
+    2055
    ]
   },
   {
@@ -228,15 +228,15 @@
    "module": "LADER",
    "id": "cmp-D_LEDCHG",
    "deviceUuid": "6073168119a941bda41c330f8b8e9152",
-   "x": 963,
-   "y": 1805,
+   "x": 2507,
+   "y": 1921,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    950,
-    1795,
-    970,
-    1820
+    2490,
+    1910,
+    2510,
+    1940
    ]
   },
   {
@@ -245,15 +245,15 @@
    "module": "LADER",
    "id": "cmp-C7",
    "deviceUuid": "cffcb18c2c544b879332d01f596fbfaf",
-   "x": 1362,
-   "y": 1910,
+   "x": 2906,
+   "y": 2026,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1355,
-    1900,
-    1370,
-    1920
+    2900,
+    2020,
+    2910,
+    2035
    ]
   },
   {
@@ -262,15 +262,15 @@
    "module": "LADER",
    "id": "cmp-C8",
    "deviceUuid": "cffcb18c2c544b879332d01f596fbfaf",
-   "x": 1352,
-   "y": 1764,
+   "x": 2896,
+   "y": 1880,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1345,
-    1755,
-    1360,
-    1770
+    2890,
+    1870,
+    2900,
+    1890
    ]
   },
   {
@@ -279,15 +279,15 @@
    "module": "LADER",
    "id": "cmp-R_PROG",
    "deviceUuid": "eb3a002498064638b42a7b04b4029852",
-   "x": 1243,
-   "y": 1790,
+   "x": 2787,
+   "y": 1906,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1230,
-    1785,
-    1255,
-    1795
+    2775,
+    1900,
+    2800,
+    1910
    ]
   },
   {
@@ -296,15 +296,15 @@
    "module": "LADER",
    "id": "cmp-R_LEDCHG",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-   "x": 835,
-   "y": 1922,
+   "x": 2379,
+   "y": 2038,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    825,
-    1920,
-    845,
-    1925
+    2370,
+    2035,
+    2390,
+    2040
    ]
   },
   {
@@ -313,15 +313,15 @@
    "module": "DEBUG",
    "id": "cmp-R_UART",
    "deviceUuid": "68e77fee64a84125bdea1b394c2e5985",
-   "x": 2249,
-   "y": 1893,
+   "x": 1196,
+   "y": 1936,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2240,
-    1890,
-    2260,
-    1900
+    1185,
+    1930,
+    1205,
+    1940
    ]
   },
   {
@@ -330,15 +330,15 @@
    "module": "DEBUG",
    "id": "cmp-TP1",
    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
-   "x": 2241,
-   "y": 1987,
+   "x": 1188,
+   "y": 2030,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2240,
-    1975,
-    2260,
-    2000
+    1190,
+    2020,
+    1210,
+    2040
    ]
   },
   {
@@ -347,14 +347,14 @@
    "module": "MCU",
    "id": "cmp-U1",
    "deviceUuid": "6f51ffdaaf4d45a3acac6e54a529f9e1",
-   "x": 1354,
+   "x": 2030,
    "y": 321,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1320,
+    1995,
     180,
-    1390,
+    2065,
     460
    ]
   },
@@ -364,14 +364,14 @@
    "module": "MCU",
    "id": "cmp-D2",
    "deviceUuid": "cabe1100a18642cca4b0bdb071599cef",
-   "x": 1304,
+   "x": 1980,
    "y": 579,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1290,
+    1965,
     570,
-    1310,
+    1985,
     595
    ]
   },
@@ -381,14 +381,14 @@
    "module": "MCU",
    "id": "cmp-D5",
    "deviceUuid": "6073168119a941bda41c330f8b8e9152",
-   "x": 1414,
+   "x": 2090,
    "y": 579,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1400,
+    2075,
     570,
-    1420,
+    2095,
     595
    ]
   },
@@ -398,14 +398,14 @@
    "module": "MCU",
    "id": "cmp-C1a",
    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-   "x": 1103,
+   "x": 1779,
    "y": 849,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1090,
+    1770,
     840,
-    1115,
+    1790,
     860
    ]
   },
@@ -415,14 +415,14 @@
    "module": "MCU",
    "id": "cmp-C1b",
    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-   "x": 1488,
+   "x": 2164,
    "y": 726,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1480,
+    2155,
     720,
-    1500,
+    2175,
     735
    ]
   },
@@ -432,14 +432,14 @@
    "module": "MCU",
    "id": "cmp-C2",
    "deviceUuid": "9583d53cf848486a9d523fcaf153a729",
-   "x": 1239,
+   "x": 1915,
    "y": 849,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1230,
+    1905,
     840,
-    1250,
+    1925,
     860
    ]
   },
@@ -449,14 +449,14 @@
    "module": "MCU",
    "id": "cmp-C4",
    "deviceUuid": "af2e25dc8e174a11bab66129be592f4d",
-   "x": 1588,
+   "x": 2264,
    "y": 725,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1580,
+    2255,
     715,
-    1600,
+    2275,
     735
    ]
   },
@@ -466,14 +466,14 @@
    "module": "MCU",
    "id": "cmp-C9",
    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-   "x": 1090,
+   "x": 1766,
    "y": 579,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1080,
+    1755,
     570,
-    1100,
+    1775,
     590
    ]
   },
@@ -483,14 +483,14 @@
    "module": "MCU",
    "id": "cmp-C10",
    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-   "x": 1526,
+   "x": 2202,
    "y": 577,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1515,
+    2190,
     570,
-    1535,
+    2210,
     585
    ]
   },
@@ -500,14 +500,14 @@
    "module": "MCU",
    "id": "cmp-R4",
    "deviceUuid": "760339a7f6b44f119a4df4dbb5478cf2",
-   "x": 1150,
+   "x": 1826,
    "y": 745,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1140,
+    1815,
     740,
-    1160,
+    1835,
     750
    ]
   },
@@ -517,14 +517,14 @@
    "module": "MCU",
    "id": "cmp-R_EN",
    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-   "x": 1396,
+   "x": 2072,
    "y": 847,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1385,
+    2060,
     840,
-    1405,
+    2080,
     850
    ]
   },
@@ -534,14 +534,14 @@
    "module": "MCU",
    "id": "cmp-R_BOOT",
    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-   "x": 1623,
+   "x": 2299,
    "y": 573,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1610,
+    2290,
     570,
-    1635,
+    2310,
     580
    ]
   },
@@ -551,14 +551,14 @@
    "module": "MCU",
    "id": "cmp-R_GPIO8",
    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-   "x": 1197,
+   "x": 1873,
    "y": 579,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1185,
+    1860,
     575,
-    1210,
+    1885,
     585
    ]
   },
@@ -568,14 +568,14 @@
    "module": "MCU",
    "id": "cmp-R_TANK",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-   "x": 1074,
+   "x": 1750,
    "y": 745,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1065,
+    1740,
     740,
-    1085,
+    1760,
     750
    ]
   },
@@ -585,14 +585,14 @@
    "module": "MCU",
    "id": "cmp-SW1",
    "deviceUuid": "38630614a58f4650bd5eefe9a5f79d9a",
-   "x": 1388,
+   "x": 2064,
    "y": 735,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1380,
+    2055,
     715,
-    1400,
+    2075,
     745
    ]
   },
@@ -602,14 +602,14 @@
    "module": "MCU",
    "id": "cmp-SW2",
    "deviceUuid": "38630614a58f4650bd5eefe9a5f79d9a",
-   "x": 1230,
+   "x": 1906,
    "y": 741,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1220,
+    1895,
     720,
-    1240,
+    1915,
     750
    ]
   },
@@ -619,14 +619,14 @@
    "module": "MCU",
    "id": "cmp-TP2",
    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
-   "x": 1302,
+   "x": 1978,
    "y": 739,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1300,
+    1980,
     730,
-    1320,
+    2000,
     750
    ]
   },
@@ -636,15 +636,15 @@
    "module": "WAEChTER",
    "id": "cmp-U7",
    "deviceUuid": "d7cdf9114eff4110bc187d388e4df2e5",
-   "x": 2070,
-   "y": 1377,
+   "x": 948,
+   "y": 1506,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2055,
-    1355,
-    2100,
-    1400
+    930,
+    1485,
+    975,
+    1525
    ]
   },
   {
@@ -653,15 +653,15 @@
    "module": "WAEChTER",
    "id": "cmp-C12",
    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-   "x": 2015,
-   "y": 1437,
+   "x": 893,
+   "y": 1566,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2005,
-    1430,
-    2025,
-    1445
+    880,
+    1560,
+    905,
+    1575
    ]
   },
   {
@@ -670,15 +670,15 @@
    "module": "WAEChTER",
    "id": "cmp-R3a",
    "deviceUuid": "d437a4e518b341d7a6ddadaf8d14b1f6",
-   "x": 1989,
-   "y": 1243,
+   "x": 867,
+   "y": 1372,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1980,
-    1240,
-    2000,
-    1250
+    855,
+    1370,
+    880,
+    1375
    ]
   },
   {
@@ -687,15 +687,15 @@
    "module": "WAEChTER",
    "id": "cmp-R3b",
    "deviceUuid": "d437a4e518b341d7a6ddadaf8d14b1f6",
-   "x": 2086,
-   "y": 1227,
+   "x": 964,
+   "y": 1356,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2075,
-    1220,
-    2095,
-    1230
+    955,
+    1350,
+    975,
+    1360
    ]
   },
   {
@@ -704,15 +704,15 @@
    "module": "LDO",
    "id": "cmp-U4",
    "deviceUuid": "0c60a448115c435b947647a7222a5ab0",
-   "x": 253,
-   "y": 1838,
+   "x": 711,
+   "y": 1916,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    210,
-    1815,
-    295,
-    1860
+    670,
+    1895,
+    750,
+    1940
    ]
   },
   {
@@ -721,15 +721,15 @@
    "module": "LDO",
    "id": "cmp-C5",
    "deviceUuid": "e10bc30d72324129a5b7daae4e75f56f",
-   "x": 217,
-   "y": 1912,
+   "x": 675,
+   "y": 1990,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    205,
-    1905,
-    230,
-    1920
+    665,
+    1980,
+    685,
+    2000
    ]
   },
   {
@@ -738,15 +738,15 @@
    "module": "LDO",
    "id": "cmp-C6",
    "deviceUuid": "af2e25dc8e174a11bab66129be592f4d",
-   "x": 217,
-   "y": 1962,
+   "x": 675,
+   "y": 2040,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    205,
-    1955,
-    230,
-    1970
+    665,
+    2030,
+    685,
+    2050
    ]
   },
   {
@@ -755,15 +755,15 @@
    "module": "LDO",
    "id": "cmp-TP5",
    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
-   "x": 328,
-   "y": 1962,
+   "x": 786,
+   "y": 2040,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    330,
-    1950,
-    350,
-    1970
+    785,
+    2030,
+    805,
+    2050
    ]
   },
   {
@@ -772,15 +772,15 @@
    "module": "AKKU",
    "id": "cmp-C3",
    "deviceUuid": "fd9b819453c943d9b25639f63ee16ae3",
-   "x": 2808,
-   "y": 1848,
+   "x": 1755,
+   "y": 1913,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2800,
-    1840,
-    2820,
-    1855
+    1745,
+    1905,
+    1765,
+    1920
    ]
   },
   {
@@ -789,15 +789,15 @@
    "module": "AKKU",
    "id": "cmp-J1",
    "deviceUuid": "81214969fb224686b54499e2b4f4ad3f",
-   "x": 2677,
-   "y": 1852,
+   "x": 1624,
+   "y": 1917,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2660,
-    1835,
-    2700,
-    1870
+    1610,
+    1900,
+    1650,
+    1930
    ]
   },
   {
@@ -806,15 +806,15 @@
    "module": "AKKU",
    "id": "cmp-TP3",
    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
-   "x": 2662,
-   "y": 1906,
+   "x": 1609,
+   "y": 1971,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2660,
-    1895,
-    2680,
-    1915
+    1610,
+    1960,
+    1630,
+    1980
    ]
   },
   {
@@ -823,15 +823,15 @@
    "module": "AKKU",
    "id": "cmp-TP4",
    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
-   "x": 2753,
-   "y": 1906,
+   "x": 1700,
+   "y": 1971,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2750,
-    1895,
-    2775,
-    1915
+    1700,
+    1960,
+    1720,
+    1980
    ]
   },
   {
@@ -841,14 +841,14 @@
    "id": "cmp-R6",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
    "x": 315,
-   "y": 1353,
+   "y": 1384,
    "rotation": 0,
    "mirror": false,
    "bbox": [
     305,
-    1350,
+    1380,
     325,
-    1360
+    1390
    ]
   },
   {
@@ -858,14 +858,14 @@
    "id": "cmp-J2",
    "deviceUuid": "f76627383a2f4537b225d848b6249ec0",
    "x": 307,
-   "y": 1478,
+   "y": 1509,
    "rotation": 0,
    "mirror": false,
    "bbox": [
     295,
-    1460,
+    1490,
     320,
-    1500
+    1530
    ]
   },
   {
@@ -875,14 +875,14 @@
    "id": "cmp-TP6",
    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
    "x": 181,
-   "y": 1358,
+   "y": 1389,
    "rotation": 0,
    "mirror": false,
    "bbox": [
     180,
-    1350,
+    1380,
     200,
-    1370
+    1400
    ]
   },
   {
@@ -891,15 +891,15 @@
    "module": "PUMPE",
    "id": "cmp-Q1",
    "deviceUuid": "1c95a10b7c4a4095b426799cbca7b1b2",
-   "x": 2626,
-   "y": 461,
+   "x": 233,
+   "y": 275,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2615,
-    450,
-    2650,
-    470
+    220,
+    265,
+    260,
+    285
    ]
   },
   {
@@ -908,15 +908,15 @@
    "module": "PUMPE",
    "id": "cmp-D1",
    "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
-   "x": 2751,
-   "y": 423,
+   "x": 358,
+   "y": 237,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2745,
-    415,
-    2755,
-    430
+    350,
+    230,
+    365,
+    245
    ]
   },
   {
@@ -925,15 +925,15 @@
    "module": "PUMPE",
    "id": "cmp-D3",
    "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
-   "x": 2625,
-   "y": 661,
+   "x": 232,
+   "y": 475,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2620,
-    650,
-    2630,
-    670
+    225,
+    465,
+    240,
+    485
    ]
   },
   {
@@ -942,15 +942,15 @@
    "module": "PUMPE",
    "id": "cmp-C11",
    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-   "x": 2930,
-   "y": 657,
+   "x": 201,
+   "y": 623,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2920,
-    650,
-    2940,
-    665
+    190,
+    615,
+    210,
+    630
    ]
   },
   {
@@ -959,15 +959,15 @@
    "module": "PUMPE",
    "id": "cmp-R1",
    "deviceUuid": "611ee85922f4491584738b3ecdf137f4",
-   "x": 2933,
-   "y": 799,
+   "x": 241,
+   "y": 756,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2920,
-    795,
-    2945,
-    805
+    230,
+    750,
+    250,
+    760
    ]
   },
   {
@@ -976,15 +976,15 @@
    "module": "PUMPE",
    "id": "cmp-R2",
    "deviceUuid": "91f8acf5ccc04a77aed714589966c8f5",
-   "x": 2598,
-   "y": 803,
+   "x": 307,
+   "y": 617,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2590,
-    800,
-    2610,
-    810
+    295,
+    610,
+    320,
+    620
    ]
   },
   {
@@ -993,15 +993,15 @@
    "module": "PUMPE",
    "id": "cmp-J4",
    "deviceUuid": "4d018698282b47d4893c87aca1c32f67",
-   "x": 2631,
-   "y": 959,
+   "x": 238,
+   "y": 909,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2615,
-    945,
-    2655,
-    975
+    220,
+    895,
+    265,
+    925
    ]
   },
   {
@@ -1010,15 +1010,15 @@
    "module": "PUMPE",
    "id": "cmp-J_PUMP2",
    "deviceUuid": "4d018698282b47d4893c87aca1c32f67",
-   "x": 2846,
-   "y": 415,
+   "x": 453,
+   "y": 229,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2830,
-    400,
-    2870,
-    430
+    440,
+    215,
+    480,
+    245
    ]
   },
   {
@@ -1027,15 +1027,15 @@
    "module": "PUMPE",
    "id": "cmp-Q_PUMP2",
    "deviceUuid": "1c95a10b7c4a4095b426799cbca7b1b2",
-   "x": 2793,
-   "y": 661,
+   "x": 400,
+   "y": 475,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2780,
-    650,
-    2820,
-    670
+    390,
+    465,
+    425,
+    485
    ]
   },
   {
@@ -1044,15 +1044,49 @@
    "module": "PUMPE",
    "id": "cmp-R_GATE2",
    "deviceUuid": "611ee85922f4491584738b3ecdf137f4",
-   "x": 2748,
-   "y": 802,
+   "x": 457,
+   "y": 616,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2740,
-    800,
-    2760,
-    805
+    445,
+    610,
+    470,
+    620
+   ]
+  },
+  {
+   "ref": "R35",
+   "role": "R_CLAMP1",
+   "module": "PUMPE",
+   "id": "cmp-R_CLAMP1",
+   "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
+   "x": 381,
+   "y": 737,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    370,
+    730,
+    390,
+    740
+   ]
+  },
+  {
+   "ref": "R36",
+   "role": "R_CLAMP2",
+   "module": "PUMPE",
+   "id": "cmp-R_CLAMP2",
+   "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
+   "x": 477,
+   "y": 737,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    465,
+    730,
+    490,
+    740
    ]
   },
   {
@@ -1061,15 +1095,15 @@
    "module": "PUMPE",
    "id": "cmp-R_GATE2_PD",
    "deviceUuid": "91f8acf5ccc04a77aed714589966c8f5",
-   "x": 2729,
-   "y": 899,
+   "x": 336,
+   "y": 849,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2720,
-    895,
-    2740,
-    905
+    325,
+    845,
+    345,
+    855
    ]
   },
   {
@@ -1078,15 +1112,15 @@
    "module": "PUMPE",
    "id": "cmp-D_FLY2",
    "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
-   "x": 2646,
-   "y": 1013,
+   "x": 253,
+   "y": 963,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2640,
-    1005,
-    2650,
-    1020
+    245,
+    955,
+    260,
+    970
    ]
   },
   {
@@ -1095,15 +1129,15 @@
    "module": "PUMPE",
    "id": "cmp-D_CLAMP2",
    "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
-   "x": 2890,
-   "y": 1011,
+   "x": 291,
+   "y": 1007,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2880,
+    285,
     1000,
-    2895,
-    1020
+    295,
+    1015
    ]
   },
   {
@@ -1112,15 +1146,15 @@
    "module": "PUMPE",
    "id": "cmp-C_PUMP2_EMI",
    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-   "x": 2827,
-   "y": 955,
+   "x": 434,
+   "y": 905,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2815,
-    945,
-    2840,
-    965
+    425,
+    895,
+    445,
+    915
    ]
   },
   {
@@ -1129,15 +1163,15 @@
    "module": "BOOST",
    "id": "cmp-U_BOOST",
    "deviceUuid": "f42b51ab2afc4d9db90725b5f9dacdaa",
-   "x": 1291,
-   "y": 1184,
+   "x": 1860,
+   "y": 1340,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1260,
-    1160,
+    1830,
     1320,
-    1205
+    1890,
+    1360
    ]
   },
   {
@@ -1146,14 +1180,14 @@
    "module": "BOOST",
    "id": "cmp-L_BOOST",
    "deviceUuid": "41353bd188bd41e4b5cff1c3b04e8681",
-   "x": 1088,
+   "x": 1764,
    "y": 1226,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1070,
+    1745,
     1225,
-    1105,
+    1780,
     1230
    ]
   },
@@ -1163,15 +1197,15 @@
    "module": "BOOST",
    "id": "cmp-D_BOOST",
    "deviceUuid": "804240ef97df427480be2a5281ccea31",
-   "x": 1142,
-   "y": 1426,
+   "x": 1818,
+   "y": 1546,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1135,
-    1420,
-    1150,
-    1435
+    1810,
+    1540,
+    1825,
+    1555
    ]
   },
   {
@@ -1180,15 +1214,15 @@
    "module": "BOOST",
    "id": "cmp-C_BST_IN",
    "deviceUuid": "9583d53cf848486a9d523fcaf153a729",
-   "x": 1103,
-   "y": 1328,
+   "x": 1779,
+   "y": 1400,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1090,
-    1320,
-    1115,
-    1335
+    1770,
+    1390,
+    1790,
+    1410
    ]
   },
   {
@@ -1197,15 +1231,15 @@
    "module": "BOOST",
    "id": "cmp-C_BST_OUT",
    "deviceUuid": "9583d53cf848486a9d523fcaf153a729",
-   "x": 1239,
-   "y": 1328,
+   "x": 1915,
+   "y": 1400,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1230,
-    1320,
-    1250,
-    1335
+    1905,
+    1390,
+    1925,
+    1410
    ]
   },
   {
@@ -1214,15 +1248,15 @@
    "module": "BOOST",
    "id": "cmp-C_BST_HF",
    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-   "x": 1375,
-   "y": 1328,
+   "x": 1779,
+   "y": 1448,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1365,
-    1320,
-    1385,
-    1335
+    1770,
+    1440,
+    1790,
+    1455
    ]
   },
   {
@@ -1231,15 +1265,15 @@
    "module": "BOOST",
    "id": "cmp-R_FB_TOP",
    "deviceUuid": "c464d818a3cc4b9ba1e2b92f982ed62e",
-   "x": 1346,
-   "y": 1424,
+   "x": 1808,
+   "y": 1591,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1330,
-    1420,
-    1360,
-    1430
+    1790,
+    1585,
+    1825,
+    1595
    ]
   },
   {
@@ -1248,15 +1282,32 @@
    "module": "BOOST",
    "id": "cmp-R_FB_BOT",
    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-   "x": 1137,
-   "y": 1378,
+   "x": 1813,
+   "y": 1498,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1125,
-    1375,
-    1150,
-    1380
+    1800,
+    1495,
+    1825,
+    1500
+   ]
+  },
+  {
+   "ref": "R37",
+   "role": "R_EN_PU",
+   "module": "BOOST",
+   "id": "cmp-R_EN_PU",
+   "deviceUuid": "91f8acf5ccc04a77aed714589966c8f5",
+   "x": 1866,
+   "y": 1192,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1855,
+    1190,
+    1875,
+    1195
    ]
   },
   {
@@ -1265,15 +1316,15 @@
    "module": "TASTER",
    "id": "cmp-C_BTN",
    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-   "x": 1755,
-   "y": 1799,
+   "x": 205,
+   "y": 1881,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1745,
-    1790,
-    1765,
-    1810
+    195,
+    1870,
+    215,
+    1890
    ]
   },
   {
@@ -1282,15 +1333,15 @@
    "module": "TASTER",
    "id": "cmp-R_BTN",
    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-   "x": 1791,
-   "y": 1940,
+   "x": 241,
+   "y": 2022,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1780,
-    1935,
-    1800,
-    1945
+    230,
+    2020,
+    250,
+    2025
    ]
   },
   {
@@ -1299,15 +1350,15 @@
    "module": "TASTER",
    "id": "cmp-J6",
    "deviceUuid": "72b9be21f4ad4d53a42178e79731ea2a",
-   "x": 1777,
-   "y": 1889,
+   "x": 227,
+   "y": 1971,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1765,
-    1875,
-    1790,
-    1905
+    215,
+    1955,
+    240,
+    1985
    ]
   },
   {
@@ -1316,14 +1367,14 @@
    "module": "ERWEITERUNG",
    "id": "cmp-J8",
    "deviceUuid": "f70eda5267b34d9799800488a27be0c6",
-   "x": 269,
+   "x": 945,
    "y": 623,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    255,
+    930,
     600,
-    305,
+    980,
     645
    ]
   },
@@ -1333,14 +1384,14 @@
    "module": "ERWEITERUNG",
    "id": "cmp-J9",
    "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
-   "x": 603,
+   "x": 1279,
    "y": 765,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    590,
+    1265,
     745,
-    630,
+    1305,
     785
    ]
   },
@@ -1350,14 +1401,14 @@
    "module": "ERWEITERUNG",
    "id": "cmp-J10",
    "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
-   "x": 540,
+   "x": 1216,
    "y": 617,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    525,
+    1200,
     595,
-    565,
+    1240,
     640
    ]
   },
@@ -1367,14 +1418,14 @@
    "module": "ERWEITERUNG",
    "id": "cmp-J11",
    "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
-   "x": 290,
+   "x": 966,
    "y": 697,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    275,
+    950,
     675,
-    315,
+    990,
     720
    ]
   },
@@ -1384,14 +1435,14 @@
    "module": "ERWEITERUNG",
    "id": "cmp-J12",
    "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
-   "x": 570,
+   "x": 1246,
    "y": 697,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    555,
+    1230,
     675,
-    595,
+    1270,
     720
    ]
   },
@@ -1401,14 +1452,14 @@
    "module": "ERWEITERUNG",
    "id": "cmp-J13",
    "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
-   "x": 302,
+   "x": 978,
    "y": 765,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    285,
+    960,
     745,
-    330,
+    1005,
     785
    ]
   },
@@ -1418,14 +1469,14 @@
    "module": "ERWEITERUNG",
    "id": "cmp-J15",
    "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
-   "x": 413,
+   "x": 1089,
    "y": 255,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    400,
+    1075,
     235,
-    440,
+    1115,
     275
    ]
   },
@@ -1435,14 +1486,14 @@
    "module": "ERWEITERUNG",
    "id": "cmp-Q2",
    "deviceUuid": "f58385f66b144586baef3753ba84f65d",
-   "x": 237,
+   "x": 913,
    "y": 275,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    225,
+    900,
     265,
-    260,
+    940,
     285
    ]
   },
@@ -1452,14 +1503,14 @@
    "module": "ERWEITERUNG",
    "id": "cmp-R_GATE",
    "deviceUuid": "91f8acf5ccc04a77aed714589966c8f5",
-   "x": 651,
+   "x": 1327,
    "y": 441,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    640,
+    1315,
     435,
-    660,
+    1340,
     445
    ]
   },
@@ -1469,14 +1520,14 @@
    "module": "ERWEITERUNG",
    "id": "cmp-R_SDA_PU",
    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-   "x": 509,
+   "x": 1185,
    "y": 819,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    500,
+    1175,
     815,
-    520,
+    1195,
     825
    ]
   },
@@ -1486,14 +1537,14 @@
    "module": "ERWEITERUNG",
    "id": "cmp-R_SCL_PU",
    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-   "x": 281,
+   "x": 957,
    "y": 867,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    270,
+    945,
     860,
-    290,
+    970,
     870
    ]
   },
@@ -1503,14 +1554,14 @@
    "module": "ERWEITERUNG",
    "id": "cmp-R_SDA_S",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-   "x": 545,
+   "x": 1221,
    "y": 867,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    535,
+    1210,
     860,
-    555,
+    1230,
     870
    ]
   },
@@ -1520,14 +1571,14 @@
    "module": "ERWEITERUNG",
    "id": "cmp-R_SCL_S",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-   "x": 281,
+   "x": 957,
    "y": 905,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    270,
+    945,
     900,
-    290,
+    970,
     910
    ]
   },
@@ -1537,14 +1588,14 @@
    "module": "ERWEITERUNG",
    "id": "cmp-R_SPARE_AIN",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-   "x": 581,
+   "x": 1257,
    "y": 905,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    570,
+    1245,
     900,
-    590,
+    1270,
     910
    ]
   },
@@ -1554,14 +1605,14 @@
    "module": "ERWEITERUNG",
    "id": "cmp-R_SPARE_IO15",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-   "x": 601,
+   "x": 1277,
    "y": 242,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    590,
+    1265,
     240,
-    610,
+    1290,
     245
    ]
   },
@@ -1571,14 +1622,14 @@
    "module": "ERWEITERUNG",
    "id": "cmp-R_SPARE_IO16",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-   "x": 303,
+   "x": 979,
    "y": 941,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    290,
+    970,
     935,
-    315,
+    990,
     945
    ]
   },
@@ -1588,14 +1639,14 @@
    "module": "ERWEITERUNG",
    "id": "cmp-R_SPARE_IO17",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-   "x": 607,
+   "x": 1283,
    "y": 941,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    595,
+    1270,
     935,
-    620,
+    1295,
     945
    ]
   },
@@ -1605,14 +1656,14 @@
    "module": "ERWEITERUNG",
    "id": "cmp-R_SPARE_IO21",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-   "x": 323,
+   "x": 999,
    "y": 979,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    310,
+    990,
     975,
-    335,
+    1010,
     985
    ]
   },
@@ -1622,14 +1673,14 @@
    "module": "ERWEITERUNG",
    "id": "cmp-R_SPARE_IO23",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-   "x": 355,
+   "x": 1031,
    "y": 491,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    345,
+    1020,
     485,
-    365,
+    1040,
     495
    ]
   },
@@ -1639,14 +1690,14 @@
    "module": "ERWEITERUNG",
    "id": "cmp-C_SPARE",
    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-   "x": 264,
+   "x": 940,
    "y": 825,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    255,
+    930,
     815,
-    275,
+    950,
     835
    ]
   },
@@ -1656,15 +1707,15 @@
    "module": "LICHT",
    "id": "cmp-J7",
    "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
-   "x": 2613,
-   "y": 1513,
+   "x": 2429,
+   "y": 1531,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2600,
-    1490,
-    2640,
-    1535
+    2415,
+    1510,
+    2455,
+    1550
    ]
   },
   {
@@ -1673,15 +1724,15 @@
    "module": "LICHT",
    "id": "cmp-R_LIGHT",
    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-   "x": 2635,
-   "y": 1393,
+   "x": 2451,
+   "y": 1411,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2625,
-    1390,
-    2645,
-    1400
+    2440,
+    1405,
+    2460,
+    1415
    ]
   },
   {
@@ -1690,15 +1741,15 @@
    "module": "LICHT",
    "id": "cmp-R_LIGHT_S",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-   "x": 2790,
-   "y": 1389,
+   "x": 2606,
+   "y": 1407,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2780,
-    1385,
-    2800,
-    1395
+    2595,
+    1400,
+    2615,
+    1410
    ]
   },
   {
@@ -1707,15 +1758,15 @@
    "module": "LICHT",
    "id": "cmp-C_LIGHT",
    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-   "x": 2523,
-   "y": 1395,
+   "x": 2339,
+   "y": 1413,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2510,
-    1385,
-    2535,
-    1405
+    2330,
+    1405,
+    2350,
+    1420
    ]
   }
  ],

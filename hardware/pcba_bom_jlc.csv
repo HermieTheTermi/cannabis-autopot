@@ -1,16 +1,16 @@
 Comment,Designator,Footprint,LCSC Part #,Menge,Hinweis
 1uF,C4 C6,0603,C15849,2,basic - EN-RC + LDO-Ausgang
 100nF,C1 C9 C10 C11 C12 C13 C14 C15 C16 C19 C20,0805,C49678,11,basic - Decoupling Modul + EMI ueber beiden Pumpenklemmen
-10k,R9 R10 R11 R12 R17 R19 R20 R32,0805,C17414,8,"basic - I2C-Pull-ups (VCC_EXT), Feedback unten, EN/GPIO/Last-Pull-ups"
+10k,R9 R10 R11 R12 R17 R32 R35 R36,0805,C17414,8,"basic - I2C-Pull-ups, Klemmzweig-Serie, Feedback unten, EN/GPIO/Last-Pull-ups (10 kOhm)"
 10uF,C5,0805,C15850,1,basic - LDO-Eingang (Espressif >=10uF)
-1k,R6 R14 R15 R18 R24 R25 R26 R27 R28 R30 R21 R22,0805,C17513,12,basic - LED-Vorwiderstaende + Sensor-/Licht-/I2C-Serienwiderstaende (1 kOhm je Signalleitung)
+1k,R1 R6 R14 R15 R18 R21 R22 R24 R25 R26 R27 R28 R30 R33,0805,C17513,14,basic - LED-Vorwiderstaende + Sensor-/Licht-/I2C-Serienwiderstaende + Gate-Serie beider Pumpen (1 kOhm)
 200k,R3 R5,0805,C17539,2,basic - VBAT-Teiler 1:2
 220R,R4,0805,C17557,1,basic - Status-LED gruen (Vf 2.85V
 22uF,C2 C17 C18,0805,C45783,3,basic - Bulk am Modul + Boost Ein-/Ausgang
 3.9k,R13,0805,C17614,1,basic - Ladestrom 256mA (Basic statt 4.02k/Extended)
-4.7k,R1 R33,0805,C17673,2,basic - Gate-Serienwiderstaende beider Pumpen
+4.7k,R19 R20,0805,C17673,2,basic - I2C-Pull-ups SDA/SCL nach VCC_EXT (4.7 kOhm)
 4.7uF,C7 C8,0805,C1779,2,basic - Lader Ein-/Ausgang (Datenblatt min. 4.7uF)
-47k,R2 R23 R34,0805,C17713,3,basic - Gate-Pulldowns beider Pumpen + Load-Switch-Gate-Pull-up
+47k,R2 R23 R34 R37,0805,C17713,4,basic - Gate-Pulldowns beider Pumpen + Boost-EN-Pull-up (47 kOhm)
 499R,R16,0805,,1,DNP - NICHT BESTUECKEN (nur optionaler UART-Debug)
 5.1k,R7 R8,0805,C27834,2,basic - USB-C CC
 75k,R31,0805,C17819,1,basic - Boost-Feedback oben

@@ -6,10 +6,10 @@
 
 | Kennzahl | Wert |
 |---|---|
-| Bauteile | **93** |
-| Netze | **54** |
-| Verbindungen (Pin→Netz) | **262** |
-| Pins insgesamt / davon verbunden | 279 / 262 |
+| Bauteile | **96** |
+| Netze | **56** |
+| Verbindungen (Pin→Netz) | **268** |
+| Pins insgesamt / davon verbunden | 285 / 268 |
 | Funktionsblöcke (mit Rahmen) | **13** |
 | MCU | **ESP32-C6-MINI-1** (U1, 53 Pins) |
 | Versorgung | USB-C → MCP73831 Lader → 1S-LiPo (VBAT 3,0–4,2 V) → {ME6211 LDO → **+3V3** Logik · MT3608 Boost → **+5V** Pumpen} |
@@ -173,12 +173,12 @@ Jedes Netz listet **alle** Pins, die daran hängen. `Ref:Pin (Pinname)` — der 
 - `J1:1`  — AKKU
 - `L1:1`  — BOOST
 - `R3:1`  — WAEChTER
+- `R37:2`  — BOOST
 - `TP4:1`  — AKKU
 - `U3:3` (VBAT)  — LADER
 - `U4:1` (VIN)  — LDO
 - `U4:3` (CE)  — LDO
 - `U7:3` (VCC)  — WAEChTER
-- `U8:4` (EN)  — BOOST
 - `U8:5` (IN)  — BOOST
 
 ### Netz `VBUS`  (power, 6 Pins)
@@ -312,16 +312,14 @@ Jedes Netz listet **alle** Pins, die daran hängen. `Ref:Pin (Pinname)` — der 
 - `R32:1`  — BOOST
 - `U8:3` (FB)  — BOOST
 
-### Netz `GATE`  (signal, 4 Pins)
+### Netz `GATE`  (signal, 3 Pins)
 
-- `D3:2` (A)  — PUMPE
 - `Q1:1` (G)  — PUMPE
 - `R1:2`  — PUMPE
 - `R2:1`  — PUMPE
 
-### Netz `GATE2`  (signal, 4 Pins)
+### Netz `GATE2`  (signal, 3 Pins)
 
-- `D8:2` (A)  — PUMPE
 - `Q3:1` (G)  — PUMPE
 - `R33:2`  — PUMPE
 - `R34:1`  — PUMPE
@@ -330,6 +328,16 @@ Jedes Netz listet **alle** Pins, die daran hängen. `Ref:Pin (Pinname)` — der 
 
 - `R11:2`  — MCU
 - `U1:22` (IO8)  — MCU
+
+### Netz `KLAMP1`  (signal, 2 Pins)
+
+- `D3:2` (A)  — PUMPE
+- `R35:1`  — PUMPE
+
+### Netz `KLAMP2`  (signal, 2 Pins)
+
+- `D8:2` (A)  — PUMPE
+- `R36:1`  — PUMPE
 
 ### Netz `LED_CHG`  (signal, 2 Pins)
 
@@ -397,11 +405,15 @@ Jedes Netz listet **alle** Pins, die daran hängen. `Ref:Pin (Pinname)` — der 
 - `J4:2`  — PUMPE
 - `Q1:3` (D)  — PUMPE
 
-### Netz `RESET_UV`  (signal, 3 Pins)
+### Netz `RESET_UV`  (signal, 7 Pins)
 
 - `D3:1` (K)  — PUMPE
 - `D8:1` (K)  — PUMPE
+- `R35:2`  — PUMPE
+- `R36:2`  — PUMPE
+- `R37:1`  — BOOST
 - `U7:2` (RESET)  — WAEChTER
+- `U8:4` (EN)  — BOOST
 
 ### Netz `SCL`  (signal, 3 Pins)
 

@@ -13,7 +13,7 @@ VBAT,U3,3 VBAT,Ladeausgang
 VBAT,C8,1,4.7 uF nach GND
 VBAT,C3,+,100 uF Elko - POLARITAET beachten
 VBAT,U_BOOST,5 IN,Boost-Eingang MT3608
-VBAT,U_BOOST,4 EN,Boost dauerhaft aktiv (fest an VBAT)
+VBAT,U_BOOST,5 IN,Boost-Eingang aus VBAT
 VBAT,C_BST_IN,1,22 uF Boost-Eingang nach GND
 VBAT,L_BOOST,1,Boost-Induktivitaet (22 uH) - andere Seite an SW_BOOST
 +5V,J4,1,Dosierpumpe + (seit 15.09.2026 am 5-V-Boost statt an VBAT)
@@ -52,11 +52,11 @@ BOOT,SW2,1,Taster gegen GND
 GPIO8_STRAP,U1,22 IO8,Strapping-Pin
 GPIO8_STRAP,R_GPIO8,2,
 PUMP_EN,U1,5 IO2,Pumpen-PWM
-PUMP_EN,R1,1,4.7 kOhm Gate-Serie (Klemmstrom 0.57 mA)
+PUMP_EN,R1,1,Gate-Serie 1 kOhm (schnelle Flanken fuer PWM)
 GATE,R1,2,
 GATE,R2,1,47 kOhm Pulldown
 GATE,Q1,1 Gate,
-GATE,D3,Anode,Klemmzweig
+KLAMP1,D3,Anode,Klemmzweig (Kathode an RESET_UV)
 PUMP_N,Q1,3 Drain,Low-Side-Schalter
 PUMP_N,J4,2,Pumpe -
 PUMP_N,D1,Anode,
@@ -64,6 +64,10 @@ PUMP_N,C11,1,100 nF direkt an den Pumpenklemmen (Buerstenstoerung)
 RESET_UV,U7,2 RESET,aktiv low unter 3.08 V
 RESET_UV,D3,Kathode,
 RESET_UV,D_CLAMP2,Kathode,
+RESET_UV,R_CLAMP1,2,Serienwiderstand im Klemmzweig 10 k (begrenzt Sinkstrom in U7 auf 0.30 mA)
+RESET_UV,R_CLAMP2,2,Serienwiderstand im Klemmzweig 10 k (Kanal 2)
+RESET_UV,R_EN_PU,1,Pull-up fuer den Boost-EN (Waechter zieht EN auf Low)
+RESET_UV,U_BOOST,4 EN,Boost-EN am Waechter: unter 3.08 V schaltet die 5-V-Schiene ab
 SENSOR_RAW,J2,3,Sensor AOUT unbeschaltet
 SENSOR_RAW,R6,1,1 kOhm Serienwiderstand
 SENSOR_AOUT,R6,2,
@@ -82,12 +86,12 @@ LIGHT_AOUT,C_LIGHT,1,100 nF Filter
 # --- Erweiterung/I2C (14.09.2026): freie GPIOs auf 2,54-mm-Stiftleisten, immer GND-VCC-SIG ---
 SDA,J8,3,I2C-Daten (Steckerseite)
 SDA,R_SDA_S,2,1 kOhm Serienschutz
-SDA,R_SDA_PU,1,10 kOhm Pull-up nach VCC_EXT
+SDA,R_SDA_PU,1,4.7 kOhm Pull-up nach VCC_EXT
 SDA_MCU,U1,24 IO18,I2C-Daten am Modul
 SDA_MCU,R_SDA_S,1,
 SCL,J8,4,I2C-Takt (Steckerseite)
 SCL,R_SCL_S,2,1 kOhm Serienschutz
-SCL,R_SCL_PU,1,10 kOhm Pull-up nach VCC_EXT
+SCL,R_SCL_PU,1,4.7 kOhm Pull-up nach VCC_EXT
 SCL_MCU,U1,25 IO19,I2C-Takt am Modul
 SCL_MCU,R_SCL_S,1,
 VCC_EXT,J8,2,geschaltete Erweiterungsversorgung
@@ -239,11 +243,11 @@ FB_5V,U_BOOST,3 FB,Feedback-Eingang (0.6 V intern)
 FB_5V,R_FB_TOP,2,Teiler oben
 FB_5V,R_FB_BOT,1,Teiler unten nach GND
 PUMP2_EN,U1,28 IO22,Gate-Steuersignal Sauerstoffpumpe (vorher Reserve J14)
-PUMP2_EN,R_GATE2,1,Gate-Serie 4.7 k
+PUMP2_EN,R_GATE2,1,Gate-Serie 1 kOhm (Kanal 2)
 GATE2,R_GATE2,2,Gate-Knoten Q3
 GATE2,Q_PUMP2,Gate,Gate AO3400A
 GATE2,R_GATE2_PD,1,Pulldown 47 k nach GND
-GATE2,D_CLAMP2,Anode,Klemmzweig zum MAX809-RESET
+KLAMP2,D_CLAMP2,Anode,Klemmzweig zum MAX809-RESET
 PUMP2_N,Q_PUMP2,Drain,geschaltete Masse Sauerstoffpumpe
 PUMP2_N,J_PUMP2,2,Sauerstoffpumpe - (Pin 2)
 PUMP2_N,D_FLY2,Anode,Freilaufdiode
@@ -256,3 +260,6 @@ GND,R_FB_BOT,2,Feedback-Teiler unten
 GND,Q_PUMP2,Source,Source AO3400A
 GND,R_GATE2_PD,2,Pulldown Q3
 +5V,C_PUMP2_EMI,2,EMI-Kondensator ueber den Motorklemmen (Minus geschaltet ueber Q3)
+KLAMP1,R_CLAMP1,1,Serienwiderstand zum Gate-Knoten (entkoppelt den Klemmstrom)
+KLAMP2,R_CLAMP2,1,Serienwiderstand zum Gate-Knoten Kanal 2
+VBAT,R_EN_PU,2,47 k Pull-up (haelt den Boost an, solange der Waechter nicht ausloest)

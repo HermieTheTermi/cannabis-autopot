@@ -863,6 +863,33 @@
    "body_h": 31.0,
    "markers": 2,
    "wires": 2
+  },
+  "R35": {
+   "module": "PUMPE",
+   "vol_w": 169.0,
+   "vol_h": 17.5,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R36": {
+   "module": "PUMPE",
+   "vol_w": 169.0,
+   "vol_h": 17.5,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R37": {
+   "module": "BOOST",
+   "vol_w": 169.0,
+   "vol_h": 17.5,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
   }
  }
 }
