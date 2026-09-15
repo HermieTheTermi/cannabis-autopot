@@ -91,7 +91,7 @@ die eine Gehäuseöffnung und Randabstand erzwungen hätte. Damit lässt sich di
 | **U8** | **MT3608** (5-V-Boost für beide Pumpen) | `C84817` | SOT-23-6 | expand | 281.143 | ⏳ |
 | **L1** | Induktivität **22 µH** (YNR6045, 2,05 A) | `C341068` | SMD 6 × 6 mm | expand | 4.120 | ⏳ |
 | **D6** | **SS34** Boost-Diode 3 A / 40 V | `C8678` | SMA | expand | 3.557.042 | ⏳ |
-| **R18** | Widerstand **75 kΩ** (Boost-Feedback) | `C17819` | 0805 | **base** | 49.785 | ⏳ |
+| **R31** | Widerstand **75 kΩ** (Boost-Feedback) | `C17819` | 0805 | **base** | 49.785 | ⏳ |
 
 ⚠️ **Neu am 15.09.2026 (Sauerstoffpumpe + Boost):** `C84817`, `C341068`, `C8678`, `C17819` sind noch
 **nicht** über die JLCPCB-Parts-API gegengeprüft (Bestände stammen aus der LCSC-Suche). Vor der

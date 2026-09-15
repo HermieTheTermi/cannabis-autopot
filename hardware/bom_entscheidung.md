@@ -342,6 +342,61 @@ löschen, damit sie nicht als Geometrie-Wahrheit missverstanden werden).
 
 ---
 
+## 8. Optionale Sauerstoffpumpe (5 V) — recherchiert und ausgewählt (15.09.2026)
+
+Die Sauerstoffpumpe hängt am zweiten Pumpenpfad (`Q3`, `R33`, `R34`, `D7`, `D8`, `C20`, Stecker **J16**
+= JST-XH 2P aufrecht, Steuerung **IO22**) und wird aus dem neuen **5-V-Boost** (U8 MT3608) versorgt.
+Damit sind die Randbedingungen fix: **5 V DC**, **≤ 1 A** (Pfad ausgelegt), Betrieb **im Intervall**.
+
+### Empfehlung
+
+**Mini USB Aquarium Luftpumpe, leise, mit Luftstein — Amazon `B0FXB5BMTT`, 8,48 €** (3,9 ★ / 45 Bewertungen)
+
+| Kandidat | Preis | Bewertung | Spannung | Leistung | Förderleistung | Lautstärke | Lieferumfang |
+|---|---|---|---|---|---|---|---|
+| **`B0FXB5BMTT`** (Empfehlung) | **8,48 €** | 3,9 ★ | **5 V USB** | ~1 W | für 10–40 L | < 35 dB | **Pumpe + 1,15 m Silikonschlauch + Luftsprudler** |
+| `B093GPMT1Z` | 9,99 € | 4,1 ★ | 5 V USB | 1 W | **210 L/h**, 150 g | leise (Keramikmotor) | Pumpe |
+| `B0F1T8SPL3` | 9,00 € | 4,3 ★ | 5 V USB | 1 W | 130 g | „super silent" | Pumpe (Schlauch/Stein extra) |
+| `B0GWMCWPNQ` | 8,99 € | 4,3 ★ | 5 V USB | 1 W | 130 g | leise (Keramikmotor) | Pumpe |
+| `B0B82JX6Z4` (Colexy) | 7,29 € | 3,4 ★ | 5 V USB | 1 W | regelbar, 90 g | leise | Pumpe |
+| ~~`B0FRFXMRDT`~~ (Pawfly Nano Silent) | 13,99 € | 4,2 ★ | **nicht als 5 V DC spezifiziert** | 1,3 W | 27 L/h (450 ml/min) | 30 dB (piezo) | Komplettset inkl. Rückschlagventil |
+| ~~`B08MSYJRHC`~~ (Boxtech) | 32,99 € | 4,4 ★ | 2/5/8/10 W | zu groß/teuer | — | — | — |
+| ~~`B0CKXKY31J`~~ (AQQA) | 37,99 € | 4,5 ★ | 4 Ausgänge, 10 W | **weit über dem Boost** | — | — | — |
+
+**Warum der Empfehlungskandidat:** Er ist der einzige in der engen Auswahl, bei dem die Betriebsspannung
+**explizit 5 V USB** ist *und* **Schlauch + Sprudelstein im Lieferumfang** sind — damit ist die Pumpe
+sofort betriebsfertig, ohne Zusatzkauf. Er ist für **10–40 L** ausgelegt (unser Topf liegt deutlich
+darunter) und laut Datenblatt **dauerbetriebsfähig**, was im Intervallbetrieb viel Reserve bedeutet.
+
+**Pawfly (13,99 €, 30 dB) wäre der leiseste**, ist aber piezo-elektrisch und die Angebotsseite nennt
+**keine 5-V-DC-Spannung** (Pawfly führt dieselbe Bauform auch als 230-V-Gerät) → für ein 5-V-Bordnetz
+**nicht ohne Risiko**, deshalb nicht empfohlen.
+
+### Strom- und Laufzeitrechnung (für die Auslegung)
+
+| Größe | Wert |
+|---|---|
+| Leistung | 1 W bei 5 V → **0,20 A** am Boost-Ausgang |
+| Strom aus der Zelle (3,7 V, η ≈ 0,85) | **≈ 0,32 A** |
+| Zelle 1500 mAh, **Dauerbetrieb** | **≈ 4,7 h** bis leer |
+| Intervall 6 × 15 min/Tag | 1,5 h/Tag, **≈ 0,5 Wh/Tag** — energetisch vernachlässigbar |
+| Last für den Boost (1 A möglich) | 0,2 A → **unkritisch**, PWM-Softstart trotzdem sinnvoll |
+
+### Anbindung (Hardware)
+
+- Die Pumpe kommt mit **USB-A-Stecker**: Kabel abschneiden, **rot = +5 V**, **schwarz = GND**, auf
+  **JST-XH 2P** crimpen (gleicher Steckertyp wie die Dosierpumpe an J4 → ein Crimp-Werkzeug).
+- **Rückschlagventil** in die Luftleitung (sonst zieht Wasser in die Pumpe, wenn sie aus ist).
+- **Membranpumpe braucht Frischluft** → außerhalb des Topfs montieren, Luftleitung in die Nährlösung.
+- Betrieb über **IO22** (`PUMP2_EN`) mit **PWM-Softstart** (gleiche Rampe wie die Dosierpumpe).
+- ⚠️ Energetisch gilt weiter: **nicht dauerhaft laufen lassen** — bei 1 W sind es ~4,7 h, das reicht
+  für Intervall-Sauerstoffgabe, nicht für 24/7.
+
+### Kaufquellen
+- Empfehlung: https://www.amazon.de/dp/B0FXB5BMTT (8,48 €)
+- Alternative kräftiger (210 L/h): https://www.amazon.de/dp/B093GPMT1Z (9,99 €)
+- Alternative günstig: https://www.amazon.de/dp/B0B82JX6Z4 (7,29 €, regelbar)
+
 ## 7. Noch offen / bewusst nicht behauptet
 
 **Zur neuen Pumpe (CONQUERALL `B0DHVMZ27Y`) — der Messauftrag vor dem Einbau:**

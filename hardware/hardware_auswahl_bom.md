@@ -99,6 +99,14 @@ Dieses Dokument ist die Recherche-/Ideenebene (inkl. Alternativen und Ausschluss
 
 ---
 
+### 2.6 Sauerstoffpumpe (optional, 5 V) — gewählt 15.09.2026
+
+**Mini USB Aquarium Luftpumpe mit Luftstein — Amazon `B0FXB5BMTT`, 8,48 €** (3,9 ★)
+5 V USB, ~1 W (0,20 A), < 35 dB, für 10–40 L, dauerbetriebsfähig; **Lieferumfang: Pumpe,
+1,15 m Silikonschlauch, Luftsprudler**. Anschluss über **JST-XH 2P (J16)**, Steuerung **IO22**.
+Alternativen: `B093GPMT1Z` (9,99 €, 210 L/h) · `B0B82JX6Z4` (7,29 €, regelbar).
+Vollständige Tabelle, Strom-/Laufzeitrechnung und Anbindung: `bom_entscheidung.md` §8.
+
 ## 3. Gesamtkosten (Kern-Hardware, Schätzung)
 
 | Komponente | Preis |

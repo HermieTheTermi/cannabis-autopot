@@ -83,13 +83,21 @@ cannabis-autopot/
 - [x] **MCU festgelegt:** **ESP32-C6-MINI-1** auf eigener PCB (kein Dev-Board) — Pflichtbeschaltung und Antennenregeln aus den Espressif-Docs übernommen
 - [x] **PCBA geprüft:** alle Bauteile bei JLCPCB verfügbar (LCSC-Codes in `hardware/pcba_bom_jlc.csv`)
 - [x] **Sauerstoffpumpe + 5-V-Boost** (15.09.2026): **zweiter** Pumpenpfad — **Q3** (AO3400A) mit
-      R20/R21, Freilauf **D7**, UV-Klemmzweig **D8**, Stecker **J16** (JST-XH 2P aufrecht, gleicher Typ
-      wie J4) an **IO22** (vorher Reserve **J14** ⛔ entfällt). Damit **beide** Pumpen 5 V bekommen,
-      erzeugt **U8 MT3608** mit **L1 22 µH**, **D6 SS34**, **C13/C14 22 µF**, **R18 75 kΩ/R19 10 kΩ**
+      **R33/R34**, Freilauf **D7**, UV-Klemmzweig **D8**, Stecker **J16** (JST-XH 2P aufrecht, gleicher
+      Typ wie J4) an **IO22** (vorher Reserve **J14** ⛔ entfällt). Damit **beide** Pumpen 5 V bekommen,
+      erzeugt **U8 MT3608** mit **L1 22 µH**, **D6 SS34**, **C17/C18 22 µF**, **R31 75 kΩ/R32 10 kΩ**
       eine geregelte **+5-V-Schiene (5,10 V)** aus VBAT; J4 Pin 1 und D1 liegen jetzt an **+5V**.
       ⚠️ Zwei Folgepflichten: **PWM-Softstart jetzt Pflicht** (der Boost liefert den 3-A-Anlauf nicht —
       22 µF ≈ 7 µs) und **O2-Pumpe nicht dauerhaft** (1500-mAh-Zelle wäre in ~2,5 h leer).
       Rechnungen + offene Punkte (Platz!, Einbauort außerhalb) in `hardware/schaltplan_v1.md` §10
+- [x] **Sauerstoffpumpe ausgewählt** (15.09.2026): **Mini USB Aquarium-Luftpumpe mit Luftstein**,
+      Amazon **`B0FXB5BMTT`, 8,48 €** — **5 V USB**, ~1 W (**0,20 A**; aus der Zelle ≈ 0,32 A),
+      < 35 dB, für 10–40 L, **Lieferumfang: Pumpe + 1,15 m Silikonschlauch + Luftsprudler**.
+      Pumpe am **5-V-Boost** also unkritisch (Boost kann 1 A); Anschluss: USB-Stecker ab, rot/schwarz
+      auf **JST-XH 2P (J16)**; Rückschlagventil in die Luftleitung; **außerhalb** des Topfs montieren
+      (Membranpumpe braucht Frischluft). Alternativen: `B093GPMT1Z` (9,99 €, 210 L/h),
+      `B0B82JX6Z4` (7,29 €, regelbar). Vergleichstabelle + Strom-/Laufzeitrechnung:
+      `hardware/bom_entscheidung.md` §8
 - [x] **Stecker auf „nach oben" umgestellt** (15.09.2026): J1/J2/J4 von gewinkelt (Side-Entry) auf
       **aufrecht (Top-Entry)** — neue LCSC-Codes `C160352` (Akku PH, SMD), `C493416` (Sensor XH-3P),
       `C158012` (Pumpe XH-2P); vorher `C54582899`/`C157928`/`C157931`. Die aufrechten Typen haben
