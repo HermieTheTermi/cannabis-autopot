@@ -5,6 +5,25 @@ Autopot "SmartGrowTopf_V1" in EasyEDA Pro — gebaut mit der `easyeda-agent` CLI
 des Design-Flows S0–S6 (`docs/09_easyeda-schaltplan-uebergabe.md`). Quelle der Schaltung ist die
 Handnetzliste `../schaltplan_v1_netzliste.csv`.
 
+> **Stand 15.09.2026 — zweiter Live-Neuaufbau (Review-Revision eingespielt):** Die Seite wurde erneut
+> **von Grund auf** gebaut, jetzt mit der überarbeiteten Schaltung: **96 Bauteile, 56 Netze,
+> 268 Verbindungen, 13 Module, 13 Rahmen**. Live: `sch clear` (93 Bauteile/262 Drähte/13 Rahmen),
+> `place_all.sh` **96/96 FAIL=0**, 13 Rahmen + 13 Titel (`clear --dry-run`: `rectangles: 13`, `texts: 13`),
+> 13 Gruppen, `autoconnect` je Modul. **7 Verbindungen** mussten wegen transienter
+> `connector did not respond`-Timeouts per Retry-Spec nachgezogen werden (C10:2, C14:2, C15:2, C16:2,
+> Q1:2, J2:1, R16:1) — danach **Pin-für-Pin-Diff gegen die Ziel-IR: 0 Abweichungen** (268 Pins, 56 Netze).
+> 8 NC-Marker gesetzt (J1:3/4, J5:B8/A8, SW1:3/4, SW2:3/4). `sch gate`: **layout-lint pass (0/0, 0 out-of-sheet)**,
+> `check` pass, `bridge-check` pass (**0 Waisen**, 268 Drähte), `drc` pass; `clusters` meldet 1 Überlappung
+> und 1 Bauteil knapp außerhalb (Layout — wird vom Nutzer selbst gemacht). Gespeichert.
+> Blattbild: `.easyeda/artifacts/20260915-093824-schematic_export-b8231b42.png`.
+> **Neu gegenüber dem ersten Aufbau:** R35/R36 (10 kΩ) in den Klemmzweigen, R37 (47 kΩ) als
+> Boost-EN-Pull-up, Gate-Serien R1/R33 auf 1 kΩ, I²C-Pull-ups R19/R20 auf 4,7 kΩ.
+>
+> ⚠️ **Falle beim Live-Lauf:** Ist kein EasyEDA-Fenster verbunden (`windows: []`), schlägt `sch clear`
+> **still** fehl und `place_all.sh` läuft gegen den alten Bestand → nur **einzelne FAILs** (Designator-
+> Kollisionen), der Rest sieht „erfolgreich" aus. Vor jedem Lauf `easyeda daemon health` prüfen und
+> `easyeda doc open <uuid> --project <name>` fahren.
+>
 > **Stand 15.09.2026 (Sauerstoffpumpe + 5-V-Boost, Neuaufbau der Seite):** Die Generatorkette läuft
 > wieder vollständig und die Seite wurde **von Grund auf neu gebaut** (kein Flicken, kein manuelles
 > Umplatzieren): **93 Bauteile, 54 Netze, 262 Verbindungen, 13 Modulgruppen, 13 Modulrahmen**.

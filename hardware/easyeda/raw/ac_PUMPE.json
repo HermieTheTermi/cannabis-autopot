@@ -1,12 +1,12 @@
 {
  "connections": [
   {
-   "pin": "C11:2",
-   "kind": "power",
-   "net": "VBAT"
+   "pin": "Q1:2",
+   "kind": "ground",
+   "net": "GND"
   },
   {
-   "pin": "Q1:2",
+   "pin": "Q3:2",
    "kind": "ground",
    "net": "GND"
   },
@@ -16,9 +16,29 @@
    "net": "GND"
   },
   {
+   "pin": "R34:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
    "pin": "C11:1",
    "kind": "netport",
    "net": "PUMP_N"
+  },
+  {
+   "pin": "C11:2",
+   "kind": "netport",
+   "net": "+5V"
+  },
+  {
+   "pin": "C20:1",
+   "kind": "netport",
+   "net": "PUMP2_N"
+  },
+  {
+   "pin": "C20:2",
+   "kind": "netport",
+   "net": "+5V"
   },
   {
    "pin": "D1:1",
@@ -38,7 +58,37 @@
   {
    "pin": "D3:2",
    "kind": "netport",
-   "net": "GATE"
+   "net": "KLAMP1"
+  },
+  {
+   "pin": "D7:1",
+   "kind": "netport",
+   "net": "+5V"
+  },
+  {
+   "pin": "D7:2",
+   "kind": "netport",
+   "net": "PUMP2_N"
+  },
+  {
+   "pin": "D8:1",
+   "kind": "netport",
+   "net": "RESET_UV"
+  },
+  {
+   "pin": "D8:2",
+   "kind": "netport",
+   "net": "KLAMP2"
+  },
+  {
+   "pin": "J16:1",
+   "kind": "netport",
+   "net": "+5V"
+  },
+  {
+   "pin": "J16:2",
+   "kind": "netport",
+   "net": "PUMP2_N"
   },
   {
    "pin": "J4:1",
@@ -61,6 +111,16 @@
    "net": "PUMP_N"
   },
   {
+   "pin": "Q3:1",
+   "kind": "netport",
+   "net": "GATE2"
+  },
+  {
+   "pin": "Q3:3",
+   "kind": "netport",
+   "net": "PUMP2_N"
+  },
+  {
    "pin": "R1:1",
    "kind": "netport",
    "net": "PUMP_EN"
@@ -74,6 +134,41 @@
    "pin": "R2:1",
    "kind": "netport",
    "net": "GATE"
+  },
+  {
+   "pin": "R33:1",
+   "kind": "netport",
+   "net": "PUMP2_EN"
+  },
+  {
+   "pin": "R33:2",
+   "kind": "netport",
+   "net": "GATE2"
+  },
+  {
+   "pin": "R34:1",
+   "kind": "netport",
+   "net": "GATE2"
+  },
+  {
+   "pin": "R35:1",
+   "kind": "netport",
+   "net": "KLAMP1"
+  },
+  {
+   "pin": "R35:2",
+   "kind": "netport",
+   "net": "RESET_UV"
+  },
+  {
+   "pin": "R36:1",
+   "kind": "netport",
+   "net": "KLAMP2"
+  },
+  {
+   "pin": "R36:2",
+   "kind": "netport",
+   "net": "RESET_UV"
   }
  ],
  "rules": {

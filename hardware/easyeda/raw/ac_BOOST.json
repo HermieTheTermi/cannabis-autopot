@@ -31,14 +31,14 @@
    "net": "GND"
   },
   {
+   "pin": "R37:2",
+   "kind": "power",
+   "net": "VBAT"
+  },
+  {
    "pin": "U8:2",
    "kind": "ground",
    "net": "GND"
-  },
-  {
-   "pin": "U8:4",
-   "kind": "power",
-   "net": "VBAT"
   },
   {
    "pin": "U8:5",
@@ -86,6 +86,11 @@
    "net": "FB_5V"
   },
   {
+   "pin": "R37:1",
+   "kind": "netport",
+   "net": "RESET_UV"
+  },
+  {
    "pin": "U8:1",
    "kind": "netport",
    "net": "SW_BOOST"
@@ -94,6 +99,11 @@
    "pin": "U8:3",
    "kind": "netport",
    "net": "FB_5V"
+  },
+  {
+   "pin": "U8:4",
+   "kind": "netport",
+   "net": "RESET_UV"
   }
  ],
  "rules": {
