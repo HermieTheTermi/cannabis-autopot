@@ -2694,7 +2694,7 @@
   {
    "componentId": "cmp-C11",
    "pinNumber": "2",
-   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
+   "netId": "net-4ec13f0a2404126eac02d6aee3a0f7eb511c47fd",
    "kind": "netlist"
   },
   {
@@ -2898,7 +2898,7 @@
   {
    "componentId": "cmp-C_PUMP2_EMI",
    "pinNumber": "2",
-   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "netId": "net-4ec13f0a2404126eac02d6aee3a0f7eb511c47fd",
    "kind": "netlist"
   },
   {

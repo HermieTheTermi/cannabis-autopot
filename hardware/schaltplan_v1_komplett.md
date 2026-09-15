@@ -17,9 +17,10 @@
 ## 1. Versorgungskette (wie der Strom läuft)
 
 ```
-USB-C (J5) ──► USBLC6 ESD (U6) ──► VBUS ──► MCP73831 Lader (U3) ──► VBAT (1S-LiPo, J1)
+USB-C (J5) ──► VBUS ──► MCP73831 Lader (U3) ──► VBAT (1S-LiPo, J1)
+  U6 (USBLC6) haengt PARALLEL an VBUS/D+/D- als ESD-Schutz, nicht in Serie im Lastpfad
                                                    │
-                                                   ├──► ME6211 LDO (U4) ──► +3V3 ──► ESP32-C6 (U1), Sensor, LEDs, Wächter
+                                                   ├──► ME6211 LDO (U4) ──► +3V3 ──► ESP32-C6 (U1), Sensor, LEDs   [Wächter U7 haengt an VBAT, nicht an +3V3]
                                                    └──► MT3608 Boost (U8) ──► +5V ──┬──► Q1 ──► J4  Dosierpumpe
                                                         (Vout = 5,10 V)            └──► Q3 ──► J16 Sauerstoffpumpe (optional)
 ```
@@ -149,10 +150,12 @@ Jedes Netz listet **alle** Pins, die daran hängen. `Ref:Pin (Pinname)` — der 
 - `U1:3` (3V3)  — MCU
 - `U4:5` (VOUT)  — LDO
 
-### Netz `+5V`  (power, 8 Pins)
+### Netz `+5V`  (power, 10 Pins)
 
+- `C11:2`  — PUMPE
 - `C18:1`  — BOOST
 - `C19:1`  — BOOST
+- `C20:2`  — PUMPE
 - `D1:1` (K)  — PUMPE
 - `D6:1` (K)  — BOOST
 - `D7:1` (K)  — PUMPE
@@ -160,12 +163,11 @@ Jedes Netz listet **alle** Pins, die daran hängen. `Ref:Pin (Pinname)` — der 
 - `J16:1`  — PUMPE
 - `R31:1`  — BOOST
 
-### Netz `VBAT`  (power, 16 Pins)
+### Netz `VBAT`  (power, 15 Pins)
 
 - `C3:1`  — AKKU
 - `C5:1`  — LDO
 - `C8:1`  — LADER
-- `C11:2`  — PUMPE
 - `C12:1`  — WAEChTER
 - `C17:1`  — BOOST
 - `J1:1`  — AKKU
@@ -188,7 +190,7 @@ Jedes Netz listet **alle** Pins, die daran hängen. `Ref:Pin (Pinname)` — der 
 - `U3:4` (VDD)  — LADER
 - `U6:5`  — USB
 
-### Netz `GND`  (ground, 78 Pins)
+### Netz `GND`  (ground, 77 Pins)
 
 - `C1:2`  — MCU
 - `C2:2`  — MCU
@@ -208,7 +210,6 @@ Jedes Netz listet **alle** Pins, die daran hängen. `Ref:Pin (Pinname)` — der 
 - `C17:2`  — BOOST
 - `C18:2`  — BOOST
 - `C19:2`  — BOOST
-- `C20:2`  — PUMPE
 - `D2:2` (K)  — MCU
 - `D5:1` (-)  — MCU
 - `J1:2`  — AKKU
@@ -715,19 +716,19 @@ Die Blattkoordinaten sind EasyEDA-Einheiten (1/100 inch). `x0..x1` / `y0..y1` is
 
 | Pin | Netz | wozu |
 |---|---|---|
-| 1 | `+5V` | Sauerstoffpumpe, optional (+5 V geschaltet) |
-| 2 | `PUMP2_N` | Sauerstoffpumpe, optional (+5 V geschaltet) |
+| 1 | `+5V` | Sauerstoffpumpe **+ dauerhaft an +5V** (geschaltet wird die Masse über Q3) |
+| 2 | `PUMP2_N` | Sauerstoffpumpe **− geschaltet** über Q3 (Low-Side) |
 
 ### Testpunkte (nur Messpunkte, nicht bestückt)
 
 | Ref | Netz | Zweck |
 |---|---|---|
-| TP1 | `UART_TP` | UART TX (Debug) |
-| TP2 | `UART_RX` | Freigabe/Reset-Netz des Wächters |
-| TP3 | `GND` | Akku-Plus (VBAT) messen |
-| TP4 | `VBAT` | Masse (GND) messen |
-| TP5 | `+3V3` | +3V3 messen |
-| TP6 | `SENSOR_AOUT` | Sensor-Analogspannung messen |
+| TP1 | `UART_TP` (UART-TX, nur bei bestücktem R16 verbunden) |
+| TP2 | `UART_RX` |
+| TP3 | `GND` |
+| TP4 | `VBAT` (Akku-Plus) |
+| TP5 | `+3V3` |
+| TP6 | `SENSOR_AOUT` (Sensor-ADC, auch an J7 Pin 3) |
 
 ## 6. Mikrocontroller U1 (ESP32-C6-MINI-1) — komplette Pinbelegung
 
@@ -815,7 +816,7 @@ Die Blattkoordinaten sind EasyEDA-Einheiten (1/100 inch). `x0..x1` / `y0..y1` is
 | Anschluss | Was kommt dran | Wie |
 |---|---|---|
 | J1 | 1S-LiPo-Akku (1500 mAh, EFASO) | Steckverbinder PH 2,0 **aufrecht**, Pin 1 = +, Pin 2 = − |
-| J2 | kapazitiver Bodenfeuchte-Sensor | JST-XH 3P aufrecht, Pin 1 = +3V3, Pin 2 = Signal, Pin 3 = GND |
+| J2 | kapazitiver Bodenfeuchte-Sensor | JST-XH 3P aufrecht — **Pin 1 = GND, Pin 2 = SENSOR_PWR (vom GPIO3), Pin 3 = SENSOR_RAW (ADC)** |
 | J4 | Dosierpumpe | JST-XH 2P aufrecht; Pumpe mit 5 V/0,4 A, Kabel auf JST-XH crimpen |
 | J16 | Sauerstoffpumpe (optional) | JST-XH 2P aufrecht (gleicher Typ wie J4 → ein Crimp-Werkzeug) |
 | J5 | USB-C-Kabel | Laden + Programmieren |
