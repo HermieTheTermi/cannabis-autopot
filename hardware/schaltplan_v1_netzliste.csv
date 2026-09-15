@@ -12,10 +12,10 @@ VBAT,J1,1,Akku + (Polung im Layout pruefen)
 VBAT,U3,3 VBAT,Ladeausgang
 VBAT,C8,1,4.7 uF nach GND
 VBAT,C3,+,100 uF Elko - POLARITAET beachten
-VBAT,U8,5 IN,Boost-Eingang MT3608
-VBAT,U8,4 EN,Boost dauerhaft aktiv (fest an VBAT)
-VBAT,C13,1,22 uF Boost-Eingang nach GND
-VBAT,L1,1,Boost-Induktivitaet (22 uH) - andere Seite an SW_BOOST
+VBAT,U_BOOST,5 IN,Boost-Eingang MT3608
+VBAT,U_BOOST,4 EN,Boost dauerhaft aktiv (fest an VBAT)
+VBAT,C_BST_IN,1,22 uF Boost-Eingang nach GND
+VBAT,L_BOOST,1,Boost-Induktivitaet (22 uH) - andere Seite an SW_BOOST
 +5V,J4,1,Dosierpumpe + (seit 15.09.2026 am 5-V-Boost statt an VBAT)
 +5V,D1,Kathode,Freilaufdiode Dosierpumpe
 VBAT,U7,3 VCC,Unterspannungswaechter
@@ -63,6 +63,7 @@ PUMP_N,D1,Anode,
 PUMP_N,C11,1,100 nF direkt an den Pumpenklemmen (Buerstenstoerung)
 RESET_UV,U7,2 RESET,aktiv low unter 3.08 V
 RESET_UV,D3,Kathode,
+RESET_UV,D_CLAMP2,Kathode,
 SENSOR_RAW,J2,3,Sensor AOUT unbeschaltet
 SENSOR_RAW,R6,1,1 kOhm Serienwiderstand
 SENSOR_AOUT,R6,2,
@@ -98,7 +99,6 @@ VCC_EXT,J10,2,Reserve IO15 VCC (geschaltet)
 VCC_EXT,J11,2,Reserve IO16 VCC (geschaltet)
 VCC_EXT,J12,2,Reserve IO17 VCC (geschaltet)
 VCC_EXT,J13,2,Reserve IO21 VCC (geschaltet)
-VCC_EXT,J14,2,Reserve IO22 VCC (geschaltet)
 VCC_EXT,J15,2,Reserve IO23 VCC (geschaltet)
 EXT_EN,U1,26 IO20,Load-Switch-Eingang (interner WPU beim Reset)
 EXT_EN,Q2,1 Gate,
@@ -120,10 +120,6 @@ SPARE_IO21_RAW,J13,3,Reserve IO21 am Stecker
 SPARE_IO21_RAW,R_SPARE_IO21,1,
 SPARE_IO21,R_SPARE_IO21,2,
 SPARE_IO21,U1,27 IO21,WPU beim Reset (angehaengtes Modul sieht kurz High)
-SPARE_IO22_RAW,J14,3,Reserve IO22 am Stecker
-SPARE_IO22_RAW,R_SPARE_IO22,1,
-SPARE_IO22,R_SPARE_IO22,2,
-SPARE_IO22,U1,28 IO22,
 SPARE_IO23_RAW,J15,3,Reserve IO23 am Stecker
 SPARE_IO23_RAW,R_SPARE_IO23,1,
 SPARE_IO23,R_SPARE_IO23,2,
@@ -222,7 +218,6 @@ GND,J10,1,Reserve IO15 GND
 GND,J11,1,Reserve IO16 GND
 GND,J12,1,Reserve IO17 GND
 GND,J13,1,Reserve IO21 GND
-GND,J14,1,Reserve IO22 GND
 GND,J15,1,Reserve IO23 GND
 GND,C_SPARE,2,ADC-Filter Reserve-Analog
 GND,TP3,1,Testpad GND
@@ -231,35 +226,33 @@ GND,J5,GND (A1/A12/B1/B12) + Schirm,
 GND,C_BTN,2,
 GND,D5,Kathode,
 GND,J6,2,Lotpad/Bohrung - Taster-Rueckleitung
-+5V,U8,1 SW / D6,Boost-Ausgang ueber Diode D6 (SS34) - MT3608 Pin 1 = SW
-+5V,D6,Kathode,Boost-Diode SS34
-+5V,C14,1,22 uF Boost-Ausgang nach GND
-+5V,C15,1,100 nF Boost-Ausgang HF nach GND
-+5V,R18,1,Feedback-Teiler oben (75 k) -> 5.10 V
-+5V,J4,1,Dosierpumpe + (Pin 1)
-+5V,J16,1,Sauerstoffpumpe + (Pin 1)
-+5V,D7,Kathode,Freilaufdiode Sauerstoffpumpe
-SW_BOOST,U8,1 SW,Schaltknoten - kurz halten, kein Pruefpunkt
-SW_BOOST,L1,2,Induktivitaet 22 uH
-SW_BOOST,D6,Anode,Boost-Diode
-FB_5V,U8,3 FB,Feedback-Eingang (0.6 V intern)
-FB_5V,R18,2,Teiler oben
-FB_5V,R19,1,Teiler unten nach GND
++5V,D_BOOST,Kathode,Boost-Diode SS34
++5V,C_BST_OUT,1,22 uF Boost-Ausgang nach GND
++5V,C_BST_HF,1,100 nF Boost-Ausgang HF nach GND
++5V,R_FB_TOP,1,Feedback-Teiler oben (75 k) -> 5.10 V
++5V,J_PUMP2,1,Sauerstoffpumpe + (Pin 1)
++5V,D_FLY2,Kathode,Freilaufdiode Sauerstoffpumpe
+SW_BOOST,U_BOOST,1 SW,Schaltknoten - kurz halten, kein Pruefpunkt
+SW_BOOST,L_BOOST,2,Induktivitaet 22 uH
+SW_BOOST,D_BOOST,Anode,Boost-Diode
+FB_5V,U_BOOST,3 FB,Feedback-Eingang (0.6 V intern)
+FB_5V,R_FB_TOP,2,Teiler oben
+FB_5V,R_FB_BOT,1,Teiler unten nach GND
 PUMP2_EN,U1,28 IO22,Gate-Steuersignal Sauerstoffpumpe (vorher Reserve J14)
-PUMP2_EN,R20,1,Gate-Serie 4.7 k
-GATE2,R20,2,Gate-Knoten Q3
-GATE2,Q3,Gate,Gate AO3400A
-GATE2,R21,1,Pulldown 47 k nach GND
-GATE2,D8,Anode,Klemmzweig zum MAX809-RESET
-PUMP2_N,Q3,Drain,geschaltete Masse Sauerstoffpumpe
-PUMP2_N,J16,2,Sauerstoffpumpe - (Pin 2)
-PUMP2_N,D7,Anode,Freilaufdiode
-PUMP2_N,C16,1,100 nF an den Klemmen nach GND
-GND,U8,2,GND MT3608
-GND,C13,2,22 uF Boost-Eingang
-GND,C14,2,22 uF Boost-Ausgang
-GND,C15,2,100 nF Boost-Ausgang HF
-GND,R19,2,Feedback-Teiler unten
-GND,Q3,Source,Source AO3400A
-GND,R21,2,Pulldown Q3
-GND,C16,2,100 nF Pumpenklemmen Sauerstoffpumpe
+PUMP2_EN,R_GATE2,1,Gate-Serie 4.7 k
+GATE2,R_GATE2,2,Gate-Knoten Q3
+GATE2,Q_PUMP2,Gate,Gate AO3400A
+GATE2,R_GATE2_PD,1,Pulldown 47 k nach GND
+GATE2,D_CLAMP2,Anode,Klemmzweig zum MAX809-RESET
+PUMP2_N,Q_PUMP2,Drain,geschaltete Masse Sauerstoffpumpe
+PUMP2_N,J_PUMP2,2,Sauerstoffpumpe - (Pin 2)
+PUMP2_N,D_FLY2,Anode,Freilaufdiode
+PUMP2_N,C_PUMP2_EMI,1,100 nF an den Klemmen nach GND
+GND,U_BOOST,2,GND MT3608
+GND,C_BST_IN,2,22 uF Boost-Eingang
+GND,C_BST_OUT,2,22 uF Boost-Ausgang
+GND,C_BST_HF,2,100 nF Boost-Ausgang HF
+GND,R_FB_BOT,2,Feedback-Teiler unten
+GND,Q_PUMP2,Source,Source AO3400A
+GND,R_GATE2_PD,2,Pulldown Q3
+GND,C_PUMP2_EMI,2,100 nF Pumpenklemmen Sauerstoffpumpe

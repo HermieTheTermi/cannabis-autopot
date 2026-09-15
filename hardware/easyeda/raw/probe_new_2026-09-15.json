@@ -1,0 +1,362 @@
+{
+ "result": {
+  "components": [
+   {
+    "designator": "C15",
+    "device": {
+     "libraryUuid": "1fcffeacebec4bcab600894243e1bb8c",
+     "name": "={Value}",
+     "uuid": "0f2cccf1a6cfce50"
+    },
+    "pins": [
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     },
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     }
+    ]
+   },
+   {
+    "designator": "C16",
+    "device": {
+     "libraryUuid": "1fcffeacebec4bcab600894243e1bb8c",
+     "name": "={Value}",
+     "uuid": "0f2cccf1a6cfce50"
+    },
+    "pins": [
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     },
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     }
+    ]
+   },
+   {
+    "designator": "C13",
+    "device": {
+     "libraryUuid": "9583d53cf848486a9d523fcaf153a729",
+     "name": "={Value}",
+     "uuid": "bb44b79413d327f6"
+    },
+    "pins": [
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     },
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     }
+    ]
+   },
+   {
+    "designator": "C14",
+    "device": {
+     "libraryUuid": "9583d53cf848486a9d523fcaf153a729",
+     "name": "={Value}",
+     "uuid": "bb44b79413d327f6"
+    },
+    "pins": [
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     },
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     }
+    ]
+   },
+   {
+    "designator": "D7",
+    "device": {
+     "libraryUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
+     "name": "={Manufacturer Part}",
+     "uuid": "28a06b8f2f40a373"
+    },
+    "pins": [
+     {
+      "pinNumber": "1",
+      "pinName": "K"
+     },
+     {
+      "pinNumber": "2",
+      "pinName": "A"
+     }
+    ]
+   },
+   {
+    "designator": "D8",
+    "device": {
+     "libraryUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
+     "name": "={Manufacturer Part}",
+     "uuid": "28a06b8f2f40a373"
+    },
+    "pins": [
+     {
+      "pinNumber": "1",
+      "pinName": "K"
+     },
+     {
+      "pinNumber": "2",
+      "pinName": "A"
+     }
+    ]
+   },
+   {
+    "designator": "D6",
+    "device": {
+     "libraryUuid": "804240ef97df427480be2a5281ccea31",
+     "name": "={Manufacturer Part}",
+     "uuid": "937b65ae32506e7a"
+    },
+    "pins": [
+     {
+      "pinNumber": "2",
+      "pinName": "A"
+     },
+     {
+      "pinNumber": "1",
+      "pinName": "K"
+     }
+    ]
+   },
+   {
+    "designator": "J1",
+    "device": {
+     "libraryUuid": "81214969fb224686b54499e2b4f4ad3f",
+     "name": "={Manufacturer Part}",
+     "uuid": "035ee485a44ca9c9"
+    },
+    "pins": [
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     },
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     },
+     {
+      "pinNumber": "3",
+      "pinName": "3"
+     },
+     {
+      "pinNumber": "4",
+      "pinName": "4"
+     }
+    ]
+   },
+   {
+    "designator": "J16",
+    "device": {
+     "libraryUuid": "4d018698282b47d4893c87aca1c32f67",
+     "name": "={Manufacturer Part}",
+     "uuid": "a56ebc522ad52508"
+    },
+    "pins": [
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     },
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     }
+    ]
+   },
+   {
+    "designator": "J4",
+    "device": {
+     "libraryUuid": "4d018698282b47d4893c87aca1c32f67",
+     "name": "={Manufacturer Part}",
+     "uuid": "a56ebc522ad52508"
+    },
+    "pins": [
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     },
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     }
+    ]
+   },
+   {
+    "designator": "J2",
+    "device": {
+     "libraryUuid": "f76627383a2f4537b225d848b6249ec0",
+     "name": "={Manufacturer Part}",
+     "uuid": "1d1e8ab1e1825e1d"
+    },
+    "pins": [
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     },
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     },
+     {
+      "pinNumber": "3",
+      "pinName": "3"
+     }
+    ]
+   },
+   {
+    "designator": "L1",
+    "device": {
+     "libraryUuid": "41353bd188bd41e4b5cff1c3b04e8681",
+     "name": "={Value}",
+     "uuid": "a7f47ef5a916c149"
+    },
+    "pins": [
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     },
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     }
+    ]
+   },
+   {
+    "designator": "Q3",
+    "device": {
+     "libraryUuid": "1c95a10b7c4a4095b426799cbca7b1b2",
+     "name": "={Manufacturer Part}",
+     "uuid": "e473f9c44ee01ce8"
+    },
+    "pins": [
+     {
+      "pinNumber": "3",
+      "pinName": "D"
+     },
+     {
+      "pinNumber": "1",
+      "pinName": "G"
+     },
+     {
+      "pinNumber": "2",
+      "pinName": "S"
+     }
+    ]
+   },
+   {
+    "designator": "R20",
+    "device": {
+     "libraryUuid": "611ee85922f4491584738b3ecdf137f4",
+     "name": "={Value}",
+     "uuid": "20f226a52945ef32"
+    },
+    "pins": [
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     },
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     }
+    ]
+   },
+   {
+    "designator": "R19",
+    "device": {
+     "libraryUuid": "3ab167b4ae354ce18482658b15d1ec96",
+     "name": "={Value}",
+     "uuid": "1c6fa2e4e98e588b"
+    },
+    "pins": [
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     },
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     }
+    ]
+   },
+   {
+    "designator": "R21",
+    "device": {
+     "libraryUuid": "91f8acf5ccc04a77aed714589966c8f5",
+     "name": "={Value}",
+     "uuid": "65691a12f8769d8b"
+    },
+    "pins": [
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     },
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     }
+    ]
+   },
+   {
+    "designator": "U8",
+    "device": {
+     "libraryUuid": "f42b51ab2afc4d9db90725b5f9dacdaa",
+     "name": "={Manufacturer Part}",
+     "uuid": "a3dc4769e496255b"
+    },
+    "pins": [
+     {
+      "pinNumber": "1",
+      "pinName": "SW"
+     },
+     {
+      "pinNumber": "2",
+      "pinName": "GND"
+     },
+     {
+      "pinNumber": "3",
+      "pinName": "FB"
+     },
+     {
+      "pinNumber": "4",
+      "pinName": "EN"
+     },
+     {
+      "pinNumber": "5",
+      "pinName": "IN"
+     },
+     {
+      "pinNumber": "6",
+      "pinName": "NC"
+     }
+    ]
+   },
+   {
+    "designator": "R18",
+    "device": {
+     "libraryUuid": "c464d818a3cc4b9ba1e2b92f982ed62e",
+     "name": "={Value}",
+     "uuid": "a16dcd7c41fa96ef"
+    },
+    "pins": [
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     },
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     }
+    ]
+   }
+  ]
+ }
+}

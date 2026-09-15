@@ -51,7 +51,7 @@ def main():
         buckets.setdefault(mod, []).append({'pin': f"{ref}:{pin}", 'kind': kind, 'net': net})
 
     order = ['USB', 'LADER', 'AKKU', 'WAEChTER', 'LDO', 'MCU',
-             'TASTER', 'PUMPE', 'SENSOR', 'DEBUG', 'LICHT', 'ERWEITERUNG']
+             'TASTER', 'PUMPE', 'BOOST', 'SENSOR', 'DEBUG', 'LICHT', 'ERWEITERUNG']
     total = 0
     lines = []
     for mod in order:

@@ -5,6 +5,35 @@ Autopot "SmartGrowTopf_V1" in EasyEDA Pro — gebaut mit der `easyeda-agent` CLI
 des Design-Flows S0–S6 (`docs/09_easyeda-schaltplan-uebergabe.md`). Quelle der Schaltung ist die
 Handnetzliste `../schaltplan_v1_netzliste.csv`.
 
+> **Stand 15.09.2026 (Sauerstoffpumpe + 5-V-Boost, Neuaufbau der Seite):** Die Generatorkette läuft
+> wieder vollständig und die Seite wurde **von Grund auf neu gebaut** (kein Flicken, kein manuelles
+> Umplatzieren): **93 Bauteile, 54 Netze, 262 Verbindungen, 13 Modulgruppen, 13 Modulrahmen**.
+> `check_ir_netlist.py` = **0 Abweichungen**; `plan_layout.py` = kein Planungsproblem (Blattnutzung
+> **78,7 %**); `check_plan_fit.py` = **Exit 0** (0 überlappende Rahmen, kleinster Volumenabstand 25);
+> `build_autoconnect.py` = **13 Spec-Dateien mit 261 Verbindungen**.
+> Live: **93 Bauteile platziert (0 FAIL)**, 13 Rahmen + 13 Titel gezeichnet (die Rücklese-Prüfung
+> meldet `verified:false` wegen des bekannten Vorzeichenfehlers — `sch clear --dry-run` beweist
+> `rectangles: 13, texts: 13`), 13 Gruppen angelegt, **261 von 262 Pins verdrahtet**,
+> **Pin-für-Pin-Diff gegen die Ziel-IR = 0 Abweichungen**, `sch gate`: `layout-lint` pass (0/0),
+> `check` pass, `bridge-check` pass (**0 Waisen**), `drc` pass — **einziger Restpunkt** ist ein
+> Cluster-Overlap `D7 ↔ D8` (22 × 6 Einheiten, reine Lesbarkeit) im Pumpenblock.
+> Blattbild: `.easyeda/artifacts/20260915-090028-schematic_export-63b30385.png`.
+>
+> **Neu inhaltlich:** zweiter, baugleicher Pumpenpfad für die **Sauerstoffpumpe** (`Q3`, `R33`, `R34`,
+> `D7`, `D8`, `C20`, `J16`) an **IO22** — der Reserve-Stecker **J14** entfällt dafür — und ein
+> **5-V-Boost** (`U8 MT3608`, `L1`, `D6`, `C17/C18` 22 µF, `C19` 100 nF, `R31/R32`) aus VBAT, damit
+> **beide** Pumpen an **+5V** hängen. ⚠️ Folgepflichten: **PWM-Softstart zwingend** (der Boost liefert
+> den 3-A-Anlauf nicht) und die Sauerstoffpumpe **nicht im Dauerbetrieb** (Akku in ~2,5 h leer).
+> Details + Rechnungen: `../schaltplan_v1.md` §10.
+>
+> ⚠️ **Arbeitsweise (User-Vorgabe 15.09.2026):** Bei Schaltplan-Änderungen **immer** diese Kette
+> benutzen — `sch clear` → `raw/place_all.sh` → Rahmen (je Rahmen eigene Datei!) → Gruppen →
+> `autoconnect --spec raw/ac_<MODUL>.json` je Modul → NC-Marker → Pin-für-Pin-Diff → `gate`.
+> **Nichts manuell nachrücken**, **keine Designatoren selbst vergeben** (das macht die Allokation in
+> `raw/designator_changes.json`), **keine Rahmen/Gruppen vergessen**. Neue Bauteile gehören mit
+> funktionalem Namen in `COMPS`/`modules.json`, ihre Pin-Tabellen als `raw/probe*.json`, ihre Volumen
+> in `raw/measured_volumes_<datum>.json`.
+>
 > **Stand 14.09.2026 (GPIO-Erweiterung auf 2,54-mm-Stiftleisten):** Die Offline-Generatoren
 > (`build_ir.py`, `plan_layout.py`, `build_autoconnect.py`, `netclass_spec.py`) wurden auf die
 > erweiterte Netzliste gezogen: **80 Bauteile, 50 Netze, 233 Verbindungen, 12 Modulgruppen**;

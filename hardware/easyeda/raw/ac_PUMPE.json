@@ -6,16 +6,6 @@
    "net": "VBAT"
   },
   {
-   "pin": "D1:1",
-   "kind": "power",
-   "net": "VBAT"
-  },
-  {
-   "pin": "J4:1",
-   "kind": "power",
-   "net": "VBAT"
-  },
-  {
    "pin": "Q1:2",
    "kind": "ground",
    "net": "GND"
@@ -31,6 +21,11 @@
    "net": "PUMP_N"
   },
   {
+   "pin": "D1:1",
+   "kind": "netport",
+   "net": "+5V"
+  },
+  {
    "pin": "D1:2",
    "kind": "netport",
    "net": "PUMP_N"
@@ -44,6 +39,11 @@
    "pin": "D3:2",
    "kind": "netport",
    "net": "GATE"
+  },
+  {
+   "pin": "J4:1",
+   "kind": "netport",
+   "net": "+5V"
   },
   {
    "pin": "J4:2",

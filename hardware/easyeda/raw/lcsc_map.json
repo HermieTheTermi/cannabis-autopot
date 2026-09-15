@@ -246,5 +246,63 @@
   "manufacturerId": "0805W8F4990T5E",
   "uuid": "68e77fee64a84125bdea1b394c2e5985",
   "value": "499Ω"
+ },
+ "C158012": {
+  "footprintName": "CONN-TH_B2B-XH-A-LF-SN",
+  "lcsc": "C158012",
+  "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+  "manufacturer": "JST",
+  "manufacturerId": "B2B-XH-A(LF)(SN)",
+  "uuid": "4d018698282b47d4893c87aca1c32f67"
+ },
+ "C160352": {
+  "footprintName": "CONN-SMD_B2B-PH-SM4-TB-LF-SN",
+  "lcsc": "C160352",
+  "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+  "manufacturer": "JST",
+  "manufacturerId": "B2B-PH-SM4-TB(LF)(SN)",
+  "uuid": "81214969fb224686b54499e2b4f4ad3f"
+ },
+ "C17819": {
+  "footprintName": "R0805",
+  "lcsc": "C17819",
+  "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+  "manufacturer": "UNI-ROYAL(厚声)",
+  "manufacturerId": "0805W8F7502T5E",
+  "uuid": "c464d818a3cc4b9ba1e2b92f982ed62e",
+  "value": "75kΩ"
+ },
+ "C341068": {
+  "footprintName": "IND-SMD_L6.0-W6.0",
+  "lcsc": "C341068",
+  "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+  "manufacturer": "YJYCOIN(益嘉源)",
+  "manufacturerId": "YNR6045-220M",
+  "uuid": "41353bd188bd41e4b5cff1c3b04e8681",
+  "value": "22uH"
+ },
+ "C493416": {
+  "footprintName": "CONN-TH_3P-P2.50_B3B-XH-A-BK-LF-SN",
+  "lcsc": "C493416",
+  "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+  "manufacturer": "JST",
+  "manufacturerId": "B3B-XH-A-BK(LF)(SN)",
+  "uuid": "f76627383a2f4537b225d848b6249ec0"
+ },
+ "C84817": {
+  "footprintName": "SOT-23-6_L2.9-W1.6-P0.95-LS2.8-BL",
+  "lcsc": "C84817",
+  "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+  "manufacturer": "西安航天民芯",
+  "manufacturerId": "MT3608",
+  "uuid": "f42b51ab2afc4d9db90725b5f9dacdaa"
+ },
+ "C8678": {
+  "footprintName": "SMA_L4.3-W2.6-LS5.2-RD",
+  "lcsc": "C8678",
+  "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+  "manufacturer": "MDD(辰达半导体)",
+  "manufacturerId": "SS34",
+  "uuid": "804240ef97df427480be2a5281ccea31"
  }
 }

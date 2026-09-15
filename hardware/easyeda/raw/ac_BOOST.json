@@ -1,0 +1,109 @@
+{
+ "connections": [
+  {
+   "pin": "C17:1",
+   "kind": "power",
+   "net": "VBAT"
+  },
+  {
+   "pin": "C17:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "C18:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "C19:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "L1:1",
+   "kind": "power",
+   "net": "VBAT"
+  },
+  {
+   "pin": "R32:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U8:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U8:4",
+   "kind": "power",
+   "net": "VBAT"
+  },
+  {
+   "pin": "U8:5",
+   "kind": "power",
+   "net": "VBAT"
+  },
+  {
+   "pin": "C18:1",
+   "kind": "netport",
+   "net": "+5V"
+  },
+  {
+   "pin": "C19:1",
+   "kind": "netport",
+   "net": "+5V"
+  },
+  {
+   "pin": "D6:1",
+   "kind": "netport",
+   "net": "+5V"
+  },
+  {
+   "pin": "D6:2",
+   "kind": "netport",
+   "net": "SW_BOOST"
+  },
+  {
+   "pin": "L1:2",
+   "kind": "netport",
+   "net": "SW_BOOST"
+  },
+  {
+   "pin": "R31:1",
+   "kind": "netport",
+   "net": "+5V"
+  },
+  {
+   "pin": "R31:2",
+   "kind": "netport",
+   "net": "FB_5V"
+  },
+  {
+   "pin": "R32:1",
+   "kind": "netport",
+   "net": "FB_5V"
+  },
+  {
+   "pin": "U8:1",
+   "kind": "netport",
+   "net": "SW_BOOST"
+  },
+  {
+   "pin": "U8:3",
+   "kind": "netport",
+   "net": "FB_5V"
+  }
+ ],
+ "rules": {
+  "avoidTitleBlock": true,
+  "avoidPinFanout": true,
+  "staggerLabels": true,
+  "offsetRange": [
+   18,
+   150
+  ],
+  "offsetStep": 6
+ }
+}

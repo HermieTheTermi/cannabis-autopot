@@ -348,7 +348,7 @@
   {
    "pin": "U1:28",
    "kind": "netport",
-   "net": "SPARE_IO22"
+   "net": "PUMP2_EN"
   },
   {
    "pin": "U1:29",

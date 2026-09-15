@@ -1127,11 +1127,11 @@
   {
    "id": "cmp-J1",
    "ref": "J1",
-   "role": "J1 — Akku JST-PH 2P",
+   "role": "J1 — Akku JST-PH 2P aufrecht (Top-Entry)",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "8ecae1aa1e8a426b83dc915400438c28",
-    "name": "XY-S2B-PH-SM4-TB"
+    "deviceUuid": "81214969fb224686b54499e2b4f4ad3f",
+    "name": "B2B-PH-SM4-TB(LF)(SN)"
    },
    "pins": [
     {
@@ -1158,11 +1158,11 @@
   {
    "id": "cmp-J2",
    "ref": "J2",
-   "role": "J2 — Sensor JST-XH 3P",
+   "role": "J2 — Sensor JST-XH 3P aufrecht (Top-Entry)",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "c1af4305cbb2420986031de4cb5eed74",
-    "name": "S3B-XH-A(LF)(SN)"
+    "deviceUuid": "f76627383a2f4537b225d848b6249ec0",
+    "name": "B3B-XH-A-BK(LF)(SN)"
    },
    "pins": [
     {
@@ -1183,11 +1183,11 @@
   {
    "id": "cmp-J4",
    "ref": "J4",
-   "role": "J4 — Pumpe JST-XH 2P",
+   "role": "J4 — Dosierpumpe JST-XH 2P aufrecht (Top-Entry)",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "06158f0aee2546dd80e7a951e2e5ed6b",
-    "name": "S2B-XH-A(LF)(SN)"
+    "deviceUuid": "4d018698282b47d4893c87aca1c32f67",
+    "name": "B2B-XH-A(LF)(SN)"
    },
    "pins": [
     {
@@ -1197,6 +1197,342 @@
     {
      "number": "2",
      "name": "2"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-J_PUMP2",
+   "ref": "J_PUMP2",
+   "role": "J_PUMP2 — Sauerstoffpumpe JST-XH 2P aufrecht",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "4d018698282b47d4893c87aca1c32f67",
+    "name": "B2B-XH-A(LF)(SN)"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    },
+    {
+     "number": "2",
+     "name": "2"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-U_BOOST",
+   "ref": "U_BOOST",
+   "role": "U_BOOST — MT3608 Aufwaertsregler 5 V",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "f42b51ab2afc4d9db90725b5f9dacdaa",
+    "name": "MT3608"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "SW"
+    },
+    {
+     "number": "2",
+     "name": "GND"
+    },
+    {
+     "number": "3",
+     "name": "FB"
+    },
+    {
+     "number": "4",
+     "name": "EN"
+    },
+    {
+     "number": "5",
+     "name": "IN"
+    },
+    {
+     "number": "6",
+     "name": "NC",
+     "noConnected": true
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-L_BOOST",
+   "ref": "L_BOOST",
+   "role": "L_BOOST — Boost-Induktivitaet 22 uH YNR6045",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "41353bd188bd41e4b5cff1c3b04e8681",
+    "name": "YNR6045-220M"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-D_BOOST",
+   "ref": "D_BOOST",
+   "role": "D_BOOST — Boost-Diode SS34 3A/40V",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "804240ef97df427480be2a5281ccea31",
+    "name": "SS34"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "A"
+    },
+    {
+     "number": "1",
+     "name": "K"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C_BST_IN",
+   "ref": "C_BST_IN",
+   "role": "C_BST_IN — Boost-Eingang 22 uF",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "9583d53cf848486a9d523fcaf153a729",
+    "name": "CL21A226MAQNNNE"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    },
+    {
+     "number": "2",
+     "name": "2"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C_BST_OUT",
+   "ref": "C_BST_OUT",
+   "role": "C_BST_OUT — Boost-Ausgang 22 uF",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "9583d53cf848486a9d523fcaf153a729",
+    "name": "CL21A226MAQNNNE"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    },
+    {
+     "number": "2",
+     "name": "2"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C_BST_HF",
+   "ref": "C_BST_HF",
+   "role": "C_BST_HF — Boost-Ausgang HF 100 nF",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+    "name": "CC0805KRX7R9BB104"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_FB_TOP",
+   "ref": "R_FB_TOP",
+   "role": "R_FB_TOP — Feedback oben 75 k -> 5,10 V",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "c464d818a3cc4b9ba1e2b92f982ed62e",
+    "name": "0805W8F7502T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_FB_BOT",
+   "ref": "R_FB_BOT",
+   "role": "R_FB_BOT — Feedback unten 10 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
+    "name": "0805W8F1002T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-Q_PUMP2",
+   "ref": "Q_PUMP2",
+   "role": "Q_PUMP2 — N-MOSFET Sauerstoffpumpe",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "1c95a10b7c4a4095b426799cbca7b1b2",
+    "name": "AO3400A"
+   },
+   "pins": [
+    {
+     "number": "3",
+     "name": "D"
+    },
+    {
+     "number": "1",
+     "name": "G"
+    },
+    {
+     "number": "2",
+     "name": "S"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_GATE2",
+   "ref": "R_GATE2",
+   "role": "R_GATE2 — Gate-Serie 4,7 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "611ee85922f4491584738b3ecdf137f4",
+    "name": "0805W8F4701T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_GATE2_PD",
+   "ref": "R_GATE2_PD",
+   "role": "R_GATE2_PD — Gate-Pulldown 47 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "91f8acf5ccc04a77aed714589966c8f5",
+    "name": "0805W8F4702T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-D_FLY2",
+   "ref": "D_FLY2",
+   "role": "D_FLY2 — Freilaufdiode Sauerstoffpumpe",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
+    "name": "1N5819WS"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "K"
+    },
+    {
+     "number": "2",
+     "name": "A"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-D_CLAMP2",
+   "ref": "D_CLAMP2",
+   "role": "D_CLAMP2 — Klemmzweig Gate Sauerstoffpumpe",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
+    "name": "1N5819WS"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "K"
+    },
+    {
+     "number": "2",
+     "name": "A"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C_PUMP2_EMI",
+   "ref": "C_PUMP2_EMI",
+   "role": "C_PUMP2_EMI — EMI an den Klemmen Sauerstoffpumpe 100 nF",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+    "name": "CC0805KRX7R9BB104"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
     }
    ],
    "pageId": "4f6771a27edec75b"
@@ -1708,31 +2044,6 @@
    "pageId": "4f6771a27edec75b"
   },
   {
-   "id": "cmp-J14",
-   "ref": "J14",
-   "role": "J14 — Reserve IO22 Stiftleiste 1x3",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
-    "name": "HDR-TH_3P-P2.54-V-M_PZ254V-11-03P"
-   },
-   "pins": [
-    {
-     "number": "1",
-     "name": "1"
-    },
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "3",
-     "name": "3"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
    "id": "cmp-J15",
    "ref": "J15",
    "role": "J15 — Reserve IO23 Stiftleiste 1x3",
@@ -1993,27 +2304,6 @@
    "pageId": "4f6771a27edec75b"
   },
   {
-   "id": "cmp-R_SPARE_IO22",
-   "ref": "R_SPARE_IO22",
-   "role": "R_SPARE_IO22 — Reserve IO22 Serienschutz 1 k",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-    "name": "0805W8F1001T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
    "id": "cmp-R_SPARE_IO23",
    "ref": "R_SPARE_IO23",
    "role": "R_SPARE_IO23 — Reserve IO23 Serienschutz 1 k",
@@ -2060,6 +2350,12 @@
   {
    "id": "net-2a0578345b7fcca9ed1b70565db42672e9260a31",
    "name": "+3V3",
+   "scope": "global",
+   "role": "power"
+  },
+  {
+   "id": "net-4ec13f0a2404126eac02d6aee3a0f7eb511c47fd",
+   "name": "+5V",
    "scope": "global",
    "role": "power"
   },
@@ -2118,8 +2414,20 @@
    "role": "signal"
   },
   {
+   "id": "net-d61f7eeba89d9903efb1f3c1d5ef3789df046792",
+   "name": "FB_5V",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
    "id": "net-389305e592258685a28b1ef92a1e030301e0a1eb",
    "name": "GATE",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-e96fb72d4dc513b8feeddaab1dddb5cf62c546e9",
+   "name": "GATE2",
    "scope": "local",
    "role": "signal"
   },
@@ -2174,6 +2482,18 @@
   {
    "id": "net-879e194824d2fb008fcb0aa124b9bfe5c1a64a59",
    "name": "PROG",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-d04ed41c479a8c275d779a5e628d7b7a2480b920",
+   "name": "PUMP2_EN",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-0a6feef8ee2686bdfa93fefeeb62fddb59a149da",
+   "name": "PUMP2_N",
    "scope": "local",
    "role": "signal"
   },
@@ -2286,18 +2606,6 @@
    "role": "signal"
   },
   {
-   "id": "net-8b2497ed442dd98496dd8f5030786c7571550b9f",
-   "name": "SPARE_IO22",
-   "scope": "local",
-   "role": "signal"
-  },
-  {
-   "id": "net-dfff60cb3e01cd9fb95589a49bbcf2b696f23735",
-   "name": "SPARE_IO22_RAW",
-   "scope": "local",
-   "role": "signal"
-  },
-  {
    "id": "net-dda8a1f207f709b7031f24eba49413fd79830ea0",
    "name": "SPARE_IO23",
    "scope": "local",
@@ -2312,6 +2620,12 @@
   {
    "id": "net-7ae1ee91aee1c94f2691a1667d6732c52eb165ee",
    "name": "STAT_CHG",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-c4d938be1df2b195d7c3f938aee3757ee9a54146",
+   "name": "SW_BOOST",
    "scope": "local",
    "role": "signal"
   },
@@ -2516,6 +2830,42 @@
    "kind": "netlist"
   },
   {
+   "componentId": "cmp-C_BST_HF",
+   "pinNumber": "1",
+   "netId": "net-4ec13f0a2404126eac02d6aee3a0f7eb511c47fd",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_BST_HF",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_BST_IN",
+   "pinNumber": "1",
+   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_BST_IN",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_BST_OUT",
+   "pinNumber": "1",
+   "netId": "net-4ec13f0a2404126eac02d6aee3a0f7eb511c47fd",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_BST_OUT",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
    "componentId": "cmp-C_BTN",
    "pinNumber": "1",
    "netId": "net-dfb5c899750af7f747a703b890411b567ad5dca6",
@@ -2540,6 +2890,18 @@
    "kind": "netlist"
   },
   {
+   "componentId": "cmp-C_PUMP2_EMI",
+   "pinNumber": "1",
+   "netId": "net-0a6feef8ee2686bdfa93fefeeb62fddb59a149da",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_PUMP2_EMI",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
    "componentId": "cmp-C_SPARE",
    "pinNumber": "1",
    "netId": "net-0397c3023d5fb2f6864c3d4dbf97d8801a874006",
@@ -2554,7 +2916,7 @@
   {
    "componentId": "cmp-D1",
    "pinNumber": "1",
-   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
+   "netId": "net-4ec13f0a2404126eac02d6aee3a0f7eb511c47fd",
    "kind": "netlist"
   },
   {
@@ -2597,6 +2959,42 @@
    "componentId": "cmp-D5",
    "pinNumber": "2",
    "netId": "net-1e5cd6fd39c3d501cc46db4e0fca7bba6b7f4f5b",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-D_BOOST",
+   "pinNumber": "1",
+   "netId": "net-4ec13f0a2404126eac02d6aee3a0f7eb511c47fd",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-D_BOOST",
+   "pinNumber": "2",
+   "netId": "net-c4d938be1df2b195d7c3f938aee3757ee9a54146",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-D_CLAMP2",
+   "pinNumber": "1",
+   "netId": "net-1f9a8d738dc50ea222730c853a317f97b6fefa56",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-D_CLAMP2",
+   "pinNumber": "2",
+   "netId": "net-e96fb72d4dc513b8feeddaab1dddb5cf62c546e9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-D_FLY2",
+   "pinNumber": "1",
+   "netId": "net-4ec13f0a2404126eac02d6aee3a0f7eb511c47fd",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-D_FLY2",
+   "pinNumber": "2",
+   "netId": "net-0a6feef8ee2686bdfa93fefeeb62fddb59a149da",
    "kind": "netlist"
   },
   {
@@ -2696,24 +3094,6 @@
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-J14",
-   "pinNumber": "1",
-   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
-   "kind": "netlist"
-  },
-  {
-   "componentId": "cmp-J14",
-   "pinNumber": "2",
-   "netId": "net-7e6cdfa0d3a3e3ae9dc05aa34d29eb53e8176196",
-   "kind": "netlist"
-  },
-  {
-   "componentId": "cmp-J14",
-   "pinNumber": "3",
-   "netId": "net-dfff60cb3e01cd9fb95589a49bbcf2b696f23735",
-   "kind": "netlist"
-  },
-  {
    "componentId": "cmp-J15",
    "pinNumber": "1",
    "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
@@ -2752,7 +3132,7 @@
   {
    "componentId": "cmp-J4",
    "pinNumber": "1",
-   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
+   "netId": "net-4ec13f0a2404126eac02d6aee3a0f7eb511c47fd",
    "kind": "netlist"
   },
   {
@@ -2918,6 +3298,30 @@
    "kind": "netlist"
   },
   {
+   "componentId": "cmp-J_PUMP2",
+   "pinNumber": "1",
+   "netId": "net-4ec13f0a2404126eac02d6aee3a0f7eb511c47fd",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J_PUMP2",
+   "pinNumber": "2",
+   "netId": "net-0a6feef8ee2686bdfa93fefeeb62fddb59a149da",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-L_BOOST",
+   "pinNumber": "1",
+   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-L_BOOST",
+   "pinNumber": "2",
+   "netId": "net-c4d938be1df2b195d7c3f938aee3757ee9a54146",
+   "kind": "netlist"
+  },
+  {
    "componentId": "cmp-Q1",
    "pinNumber": "1",
    "netId": "net-389305e592258685a28b1ef92a1e030301e0a1eb",
@@ -2951,6 +3355,24 @@
    "componentId": "cmp-Q2",
    "pinNumber": "3",
    "netId": "net-7e6cdfa0d3a3e3ae9dc05aa34d29eb53e8176196",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-Q_PUMP2",
+   "pinNumber": "1",
+   "netId": "net-e96fb72d4dc513b8feeddaab1dddb5cf62c546e9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-Q_PUMP2",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-Q_PUMP2",
+   "pinNumber": "3",
+   "netId": "net-0a6feef8ee2686bdfa93fefeeb62fddb59a149da",
    "kind": "netlist"
   },
   {
@@ -3086,6 +3508,30 @@
    "kind": "netlist"
   },
   {
+   "componentId": "cmp-R_FB_BOT",
+   "pinNumber": "1",
+   "netId": "net-d61f7eeba89d9903efb1f3c1d5ef3789df046792",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_FB_BOT",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_FB_TOP",
+   "pinNumber": "1",
+   "netId": "net-4ec13f0a2404126eac02d6aee3a0f7eb511c47fd",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_FB_TOP",
+   "pinNumber": "2",
+   "netId": "net-d61f7eeba89d9903efb1f3c1d5ef3789df046792",
+   "kind": "netlist"
+  },
+  {
    "componentId": "cmp-R_GATE",
    "pinNumber": "1",
    "netId": "net-2a0578345b7fcca9ed1b70565db42672e9260a31",
@@ -3095,6 +3541,30 @@
    "componentId": "cmp-R_GATE",
    "pinNumber": "2",
    "netId": "net-0d7c7a38af3c384a1fc8a70a9441f7527a8084f8",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_GATE2",
+   "pinNumber": "1",
+   "netId": "net-d04ed41c479a8c275d779a5e628d7b7a2480b920",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_GATE2",
+   "pinNumber": "2",
+   "netId": "net-e96fb72d4dc513b8feeddaab1dddb5cf62c546e9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_GATE2_PD",
+   "pinNumber": "1",
+   "netId": "net-e96fb72d4dc513b8feeddaab1dddb5cf62c546e9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_GATE2_PD",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
    "kind": "netlist"
   },
   {
@@ -3263,18 +3733,6 @@
    "componentId": "cmp-R_SPARE_IO21",
    "pinNumber": "2",
    "netId": "net-d51107117b50e65c628dc4723c73a3a9d52939ca",
-   "kind": "netlist"
-  },
-  {
-   "componentId": "cmp-R_SPARE_IO22",
-   "pinNumber": "1",
-   "netId": "net-dfff60cb3e01cd9fb95589a49bbcf2b696f23735",
-   "kind": "netlist"
-  },
-  {
-   "componentId": "cmp-R_SPARE_IO22",
-   "pinNumber": "2",
-   "netId": "net-8b2497ed442dd98496dd8f5030786c7571550b9f",
    "kind": "netlist"
   },
   {
@@ -3490,7 +3948,7 @@
   {
    "componentId": "cmp-U1",
    "pinNumber": "28",
-   "netId": "net-8b2497ed442dd98496dd8f5030786c7571550b9f",
+   "netId": "net-d04ed41c479a8c275d779a5e628d7b7a2480b920",
    "kind": "netlist"
   },
   {
@@ -3754,6 +4212,36 @@
   {
    "componentId": "cmp-U7",
    "pinNumber": "3",
+   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_BOOST",
+   "pinNumber": "1",
+   "netId": "net-c4d938be1df2b195d7c3f938aee3757ee9a54146",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_BOOST",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_BOOST",
+   "pinNumber": "3",
+   "netId": "net-d61f7eeba89d9903efb1f3c1d5ef3789df046792",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_BOOST",
+   "pinNumber": "4",
+   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_BOOST",
+   "pinNumber": "5",
    "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
    "kind": "netlist"
   }

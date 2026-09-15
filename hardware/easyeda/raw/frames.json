@@ -3,46 +3,31 @@
  "documentId": "4f6771a27edec75b",
  "frames": [
   {
-   "id": "frame-ldo",
-   "title": "3V3-LDO (ME6211)",
-   "rect": {
-    "minX": 2330,
-    "minY": 1574,
-    "maxX": 2827,
-    "maxY": 2048
-   },
-   "titleX": 2342,
-   "titleY": 2036,
-   "fontSize": 20,
-   "color": "#AA00AA",
-   "lineType": 1
-  },
-  {
    "id": "frame-debug",
    "title": "UART-Debug-Pads (DNP)",
    "rect": {
-    "minX": 2827,
-    "minY": 1574,
-    "maxX": 3284,
-    "maxY": 2037
+    "minX": 2020,
+    "minY": 1685,
+    "maxX": 2477,
+    "maxY": 2148
    },
-   "titleX": 2839,
-   "titleY": 2025,
+   "titleX": 2032,
+   "titleY": 2136,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
   },
   {
-   "id": "frame-lader",
-   "title": "Laden (MCP73831)",
+   "id": "frame-ldo",
+   "title": "3V3-LDO (ME6211)",
    "rect": {
     "minX": 12,
-    "minY": 1526,
-    "maxX": 972,
-    "maxY": 2035
+    "minY": 1650,
+    "maxX": 509,
+    "maxY": 2124
    },
    "titleX": 24,
-   "titleY": 2023,
+   "titleY": 2112,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
@@ -51,13 +36,28 @@
    "id": "frame-taster",
    "title": "Taster & LEDs",
    "rect": {
-    "minX": 972,
-    "minY": 1526,
-    "maxX": 1430,
-    "maxY": 2026
+    "minX": 1562,
+    "minY": 1599,
+    "maxX": 2020,
+    "maxY": 2099
    },
-   "titleX": 984,
-   "titleY": 2014,
+   "titleX": 1574,
+   "titleY": 2087,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-lader",
+   "title": "Laden (MCP73831)",
+   "rect": {
+    "minX": 602,
+    "minY": 1587,
+    "maxX": 1562,
+    "maxY": 2096
+   },
+   "titleX": 614,
+   "titleY": 2084,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
@@ -66,13 +66,43 @@
    "id": "frame-akku",
    "title": "Akku & Puffer",
    "rect": {
-    "minX": 1430,
-    "minY": 1599,
-    "maxX": 1966,
-    "maxY": 1982
+    "minX": 2477,
+    "minY": 1685,
+    "maxX": 3013,
+    "maxY": 2068
    },
-   "titleX": 1442,
-   "titleY": 1970,
+   "titleX": 2489,
+   "titleY": 2056,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-licht",
+   "title": "Lichtsensor-Eingang",
+   "rect": {
+    "minX": 2330,
+    "minY": 1174,
+    "maxX": 3027,
+    "maxY": 1685
+   },
+   "titleX": 2342,
+   "titleY": 1673,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-sensor",
+   "title": "Sensor-Eingang",
+   "rect": {
+    "minX": 12,
+    "minY": 1135,
+    "maxX": 602,
+    "maxY": 1650
+   },
+   "titleX": 24,
+   "titleY": 1638,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
@@ -93,31 +123,31 @@
    "lineType": 1
   },
   {
-   "id": "frame-licht",
-   "title": "Lichtsensor-Eingang",
+   "id": "frame-boost",
+   "title": "5-V-Boost (MT3608)",
    "rect": {
-    "minX": 2330,
-    "minY": 1063,
-    "maxX": 3027,
-    "maxY": 1574
+    "minX": 897,
+    "minY": 1011,
+    "maxX": 1581,
+    "maxY": 1587
    },
-   "titleX": 2342,
-   "titleY": 1562,
+   "titleX": 909,
+   "titleY": 1575,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
   },
   {
-   "id": "frame-sensor",
-   "title": "Sensor-Eingang",
+   "id": "frame-pumpe",
+   "title": "Pumpentreiber Dosier- + Sauerstoffpumpe",
    "rect": {
-    "minX": 897,
-    "minY": 1011,
-    "maxX": 1487,
-    "maxY": 1526
+    "minX": 2405,
+    "minY": 198,
+    "maxX": 3168,
+    "maxY": 1174
    },
-   "titleX": 909,
-   "titleY": 1514,
+   "titleX": 2417,
+   "titleY": 1162,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
@@ -129,25 +159,10 @@
     "minX": 12,
     "minY": 12,
     "maxX": 897,
-    "maxY": 1209
+    "maxY": 1135
    },
    "titleX": 24,
-   "titleY": 1197,
-   "fontSize": 20,
-   "color": "#AA00AA",
-   "lineType": 1
-  },
-  {
-   "id": "frame-pumpe",
-   "title": "Pumpentreiber (Low-Side)",
-   "rect": {
-    "minX": 2405,
-    "minY": 198,
-    "maxX": 2973,
-    "maxY": 1063
-   },
-   "titleX": 2417,
-   "titleY": 1051,
+   "titleY": 1123,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1

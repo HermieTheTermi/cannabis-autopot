@@ -2,7 +2,7 @@
 """S3-Planung: Modulbloecke auf A1 anhand GEMESSENER Bauteil-Volumen.
 
 Liest die kanonische IR (raw/ir_numbered.json) und die live gemessenen Volumen
-(raw/measured_volumes_2026-09-14.json; je Bauteil vol_w/vol_h = Koerper PLUS
+(raw/measured_volumes_2026-09-15.json; je Bauteil vol_w/vol_h = Koerper PLUS
 eigene Marker/Stiche) und rechnet daraus
 
   * raw/placement.json  — Modulbloecke, Bauteilpositionen (Ganzzahl)
@@ -29,7 +29,7 @@ import build_ir
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 RAW = os.path.join(ROOT, 'raw')
-MEASURED = os.path.join(RAW, 'measured_volumes_2026-09-14.json')
+MEASURED = os.path.join(RAW, 'measured_volumes_2026-09-15.json')
 
 SHEET = (0, 0, 3304, 2338)          # A1 quer (3304 x 2338 raw)
 USABLE = (12, 12, 3292, 2326)       # Nutzbereich aus measured_volumes (Fallback)
@@ -49,13 +49,14 @@ TITLES = {
     'LDO':         '3V3-LDO (ME6211)',
     'AKKU':        'Akku & Puffer',
     'SENSOR':      'Sensor-Eingang',
-    'PUMPE':       'Pumpentreiber (Low-Side)',
+    'PUMPE':       'Pumpentreiber Dosier- + Sauerstoffpumpe',
     'TASTER':      'Taster & LEDs',
     'ERWEITERUNG': 'Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch',
+    'BOOST':       '5-V-Boost (MT3608)',
     'LICHT':       'Lichtsensor-Eingang',
 }
 MODULE_ORDER = ['USB', 'LADER', 'DEBUG', 'MCU', 'WAEChTER', 'LDO',
-                'AKKU', 'SENSOR', 'PUMPE', 'TASTER', 'ERWEITERUNG', 'LICHT']
+                'AKKU', 'SENSOR', 'PUMPE', 'BOOST', 'TASTER', 'ERWEITERUNG', 'LICHT']
 
 # Gemessene Bounding-Boxen fehlen fuer die neuen Bibliotheksteile der Erweiterung.
 # Ersatzgeometrien relativ zum Symbolursprung (nur fuer die Info-Box `bbox`, nicht
@@ -65,6 +66,13 @@ SYNTH_BBOX = {
     build_ir.NEW_PARTS['C2937625']['deviceUuid']: (-15.5, -20.5, 25.5, 20.5),
     build_ir.NEW_PARTS['C2691448']['deviceUuid']: (-15.5, -20.5, 35.5, 20.5),
     build_ir.NEW_PARTS['C15127']['deviceUuid']: (-10.5, -10.5, 24.5, 10.5),
+    '804240ef97df427480be2a5281ccea31': (-7.5, -8.5, 5.5, 8.5),
+    '81214969fb224686b54499e2b4f4ad3f': (-15.5, -15.5, 25.5, 15.5),
+    '4d018698282b47d4893c87aca1c32f67': (-15.5, -15.5, 25.5, 15.5),
+    'f76627383a2f4537b225d848b6249ec0': (-10.5, -20.5, 10.5, 20.5),
+    '41353bd188bd41e4b5cff1c3b04e8681': (-17.4, -0.4, 17.2, 4.8),
+    'f42b51ab2afc4d9db90725b5f9dacdaa': (-30.5, -22.5, 30.5, 22.5),
+    'c464d818a3cc4b9ba1e2b92f982ed62e': (-15.5, -5.5, 15.5, 5.5),   # R18 75k (R0805)
 }
 
 

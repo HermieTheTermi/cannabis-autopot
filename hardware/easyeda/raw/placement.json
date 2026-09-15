@@ -30,20 +30,20 @@
   {
    "module": "LADER",
    "title": "Laden (MCP73831)",
-   "x0": 12,
-   "y1": 2035,
-   "x1": 972,
-   "y0": 1526,
-   "content_bottom": 1676.5
+   "x0": 602,
+   "y1": 2096,
+   "x1": 1562,
+   "y0": 1587,
+   "content_bottom": 1737.5
   },
   {
    "module": "DEBUG",
    "title": "UART-Debug-Pads (DNP)",
-   "x0": 2827,
-   "y1": 2037,
-   "x1": 3284,
-   "y0": 1574,
-   "content_bottom": 1724.0
+   "x0": 2020,
+   "y1": 2148,
+   "x1": 2477,
+   "y0": 1685,
+   "content_bottom": 1835.0
   },
   {
    "module": "MCU",
@@ -66,53 +66,62 @@
   {
    "module": "LDO",
    "title": "3V3-LDO (ME6211)",
-   "x0": 2330,
-   "y1": 2048,
-   "x1": 2827,
-   "y0": 1574,
-   "content_bottom": 1724.5
+   "x0": 12,
+   "y1": 2124,
+   "x1": 509,
+   "y0": 1650,
+   "content_bottom": 1800.5
   },
   {
    "module": "AKKU",
    "title": "Akku & Puffer",
-   "x0": 1430,
-   "y1": 1982,
-   "x1": 1966,
-   "y0": 1599,
-   "content_bottom": 1749.75
+   "x0": 2477,
+   "y1": 2068,
+   "x1": 3013,
+   "y0": 1685,
+   "content_bottom": 1835.75
   },
   {
    "module": "SENSOR",
    "title": "Sensor-Eingang",
+   "x0": 12,
+   "y1": 1650,
+   "x1": 602,
+   "y0": 1135,
+   "content_bottom": 1285.5
+  },
+  {
+   "module": "PUMPE",
+   "title": "Pumpentreiber Dosier- + Sauerstoffpumpe",
+   "x0": 2405,
+   "y1": 1174,
+   "x1": 3168,
+   "y0": 198,
+   "content_bottom": 348.75
+  },
+  {
+   "module": "BOOST",
+   "title": "5-V-Boost (MT3608)",
    "x0": 897,
-   "y1": 1526,
-   "x1": 1487,
+   "y1": 1587,
+   "x1": 1581,
    "y0": 1011,
    "content_bottom": 1161.5
   },
   {
-   "module": "PUMPE",
-   "title": "Pumpentreiber (Low-Side)",
-   "x0": 2405,
-   "y1": 1063,
-   "x1": 2973,
-   "y0": 198,
-   "content_bottom": 348.0
-  },
-  {
    "module": "TASTER",
    "title": "Taster & LEDs",
-   "x0": 972,
-   "y1": 2026,
-   "x1": 1430,
-   "y0": 1526,
-   "content_bottom": 1676.75
+   "x0": 1562,
+   "y1": 2099,
+   "x1": 2020,
+   "y0": 1599,
+   "content_bottom": 1749.75
   },
   {
    "module": "ERWEITERUNG",
    "title": "Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch",
    "x0": 12,
-   "y1": 1209,
+   "y1": 1135,
    "x1": 897,
    "y0": 12,
    "content_bottom": 162.75
@@ -121,10 +130,10 @@
    "module": "LICHT",
    "title": "Lichtsensor-Eingang",
    "x0": 2330,
-   "y1": 1574,
+   "y1": 1685,
    "x1": 3027,
-   "y0": 1063,
-   "content_bottom": 1213.75
+   "y0": 1174,
+   "content_bottom": 1324.75
   }
  ],
  "placements": [
@@ -202,15 +211,15 @@
    "module": "LADER",
    "id": "cmp-U3",
    "deviceUuid": "78f39a8c3fa54027bfc13d0a0eefd7c2",
-   "x": 524,
-   "y": 1857,
+   "x": 1114,
+   "y": 1918,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    490,
-    1835,
-    560,
-    1880
+    1080,
+    1900,
+    1150,
+    1940
    ]
   },
   {
@@ -219,15 +228,15 @@
    "module": "LADER",
    "id": "cmp-D_LEDCHG",
    "deviceUuid": "6073168119a941bda41c330f8b8e9152",
-   "x": 373,
-   "y": 1744,
+   "x": 963,
+   "y": 1805,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    360,
-    1735,
-    380,
-    1760
+    950,
+    1795,
+    970,
+    1820
    ]
   },
   {
@@ -236,15 +245,15 @@
    "module": "LADER",
    "id": "cmp-C7",
    "deviceUuid": "cffcb18c2c544b879332d01f596fbfaf",
-   "x": 772,
-   "y": 1849,
+   "x": 1362,
+   "y": 1910,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    765,
-    1840,
-    780,
-    1860
+    1355,
+    1900,
+    1370,
+    1920
    ]
   },
   {
@@ -253,15 +262,15 @@
    "module": "LADER",
    "id": "cmp-C8",
    "deviceUuid": "cffcb18c2c544b879332d01f596fbfaf",
-   "x": 762,
-   "y": 1703,
+   "x": 1352,
+   "y": 1764,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    755,
-    1695,
-    770,
-    1710
+    1345,
+    1755,
+    1360,
+    1770
    ]
   },
   {
@@ -270,15 +279,15 @@
    "module": "LADER",
    "id": "cmp-R_PROG",
    "deviceUuid": "eb3a002498064638b42a7b04b4029852",
-   "x": 653,
-   "y": 1729,
+   "x": 1243,
+   "y": 1790,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    640,
-    1725,
-    665,
-    1735
+    1230,
+    1785,
+    1255,
+    1795
    ]
   },
   {
@@ -287,15 +296,15 @@
    "module": "LADER",
    "id": "cmp-R_LEDCHG",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-   "x": 245,
-   "y": 1861,
+   "x": 835,
+   "y": 1922,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    235,
-    1855,
-    255,
-    1865
+    825,
+    1920,
+    845,
+    1925
    ]
   },
   {
@@ -304,15 +313,15 @@
    "module": "DEBUG",
    "id": "cmp-R_UART",
    "deviceUuid": "68e77fee64a84125bdea1b394c2e5985",
-   "x": 3056,
-   "y": 1782,
+   "x": 2249,
+   "y": 1893,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    3045,
-    1780,
-    3065,
-    1785
+    2240,
+    1890,
+    2260,
+    1900
    ]
   },
   {
@@ -321,15 +330,15 @@
    "module": "DEBUG",
    "id": "cmp-TP1",
    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
-   "x": 3048,
-   "y": 1876,
+   "x": 2241,
+   "y": 1987,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    3050,
-    1865,
-    3070,
-    1885
+    2240,
+    1975,
+    2260,
+    2000
    ]
   },
   {
@@ -695,15 +704,15 @@
    "module": "LDO",
    "id": "cmp-U4",
    "deviceUuid": "0c60a448115c435b947647a7222a5ab0",
-   "x": 2571,
-   "y": 1762,
+   "x": 253,
+   "y": 1838,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2530,
-    1740,
-    2610,
-    1785
+    210,
+    1815,
+    295,
+    1860
    ]
   },
   {
@@ -712,15 +721,15 @@
    "module": "LDO",
    "id": "cmp-C5",
    "deviceUuid": "e10bc30d72324129a5b7daae4e75f56f",
-   "x": 2535,
-   "y": 1836,
+   "x": 217,
+   "y": 1912,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2525,
-    1830,
-    2545,
-    1845
+    205,
+    1905,
+    230,
+    1920
    ]
   },
   {
@@ -729,15 +738,15 @@
    "module": "LDO",
    "id": "cmp-C6",
    "deviceUuid": "af2e25dc8e174a11bab66129be592f4d",
-   "x": 2535,
-   "y": 1886,
+   "x": 217,
+   "y": 1962,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2525,
-    1880,
-    2545,
-    1895
+    205,
+    1955,
+    230,
+    1970
    ]
   },
   {
@@ -746,15 +755,15 @@
    "module": "LDO",
    "id": "cmp-TP5",
    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
-   "x": 2646,
-   "y": 1886,
+   "x": 328,
+   "y": 1962,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2645,
-    1875,
-    2665,
-    1895
+    330,
+    1950,
+    350,
+    1970
    ]
   },
   {
@@ -763,15 +772,15 @@
    "module": "AKKU",
    "id": "cmp-C3",
    "deviceUuid": "fd9b819453c943d9b25639f63ee16ae3",
-   "x": 1761,
-   "y": 1762,
+   "x": 2808,
+   "y": 1848,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1750,
-    1755,
-    1770,
-    1770
+    2800,
+    1840,
+    2820,
+    1855
    ]
   },
   {
@@ -779,16 +788,16 @@
    "role": "J1",
    "module": "AKKU",
    "id": "cmp-J1",
-   "deviceUuid": "8ecae1aa1e8a426b83dc915400438c28",
-   "x": 1630,
-   "y": 1766,
+   "deviceUuid": "81214969fb224686b54499e2b4f4ad3f",
+   "x": 2677,
+   "y": 1852,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1620,
-    1750,
-    1640,
-    1780
+    2660,
+    1835,
+    2700,
+    1870
    ]
   },
   {
@@ -797,15 +806,15 @@
    "module": "AKKU",
    "id": "cmp-TP3",
    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
-   "x": 1615,
-   "y": 1820,
+   "x": 2662,
+   "y": 1906,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1615,
-    1810,
-    1635,
-    1830
+    2660,
+    1895,
+    2680,
+    1915
    ]
   },
   {
@@ -814,15 +823,15 @@
    "module": "AKKU",
    "id": "cmp-TP4",
    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
-   "x": 1706,
-   "y": 1820,
+   "x": 2753,
+   "y": 1906,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1705,
-    1810,
-    1725,
-    1830
+    2750,
+    1895,
+    2775,
+    1915
    ]
   },
   {
@@ -831,15 +840,15 @@
    "module": "SENSOR",
    "id": "cmp-R6",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-   "x": 1200,
-   "y": 1229,
+   "x": 315,
+   "y": 1353,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1190,
-    1225,
-    1210,
-    1235
+    305,
+    1350,
+    325,
+    1360
    ]
   },
   {
@@ -847,16 +856,16 @@
    "role": "J2",
    "module": "SENSOR",
    "id": "cmp-J2",
-   "deviceUuid": "c1af4305cbb2420986031de4cb5eed74",
-   "x": 1192,
-   "y": 1354,
+   "deviceUuid": "f76627383a2f4537b225d848b6249ec0",
+   "x": 307,
+   "y": 1478,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1175,
-    1335,
-    1220,
-    1375
+    295,
+    1460,
+    320,
+    1500
    ]
   },
   {
@@ -865,15 +874,15 @@
    "module": "SENSOR",
    "id": "cmp-TP6",
    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
-   "x": 1066,
-   "y": 1234,
+   "x": 181,
+   "y": 1358,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1065,
-    1225,
-    1085,
-    1245
+    180,
+    1350,
+    200,
+    1370
    ]
   },
   {
@@ -883,7 +892,7 @@
    "id": "cmp-Q1",
    "deviceUuid": "1c95a10b7c4a4095b426799cbca7b1b2",
    "x": 2626,
-   "y": 460,
+   "y": 461,
    "rotation": 0,
    "mirror": false,
    "bbox": [
@@ -900,7 +909,7 @@
    "id": "cmp-D1",
    "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
    "x": 2751,
-   "y": 422,
+   "y": 423,
    "rotation": 0,
    "mirror": false,
    "bbox": [
@@ -917,7 +926,7 @@
    "id": "cmp-D3",
    "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
    "x": 2625,
-   "y": 660,
+   "y": 661,
    "rotation": 0,
    "mirror": false,
    "bbox": [
@@ -933,14 +942,14 @@
    "module": "PUMPE",
    "id": "cmp-C11",
    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-   "x": 2758,
-   "y": 656,
+   "x": 2930,
+   "y": 657,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2750,
+    2920,
     650,
-    2770,
+    2940,
     665
    ]
   },
@@ -950,15 +959,15 @@
    "module": "PUMPE",
    "id": "cmp-R1",
    "deviceUuid": "611ee85922f4491584738b3ecdf137f4",
-   "x": 2745,
-   "y": 798,
+   "x": 2933,
+   "y": 799,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2735,
+    2920,
     795,
-    2755,
-    800
+    2945,
+    805
    ]
   },
   {
@@ -968,14 +977,14 @@
    "id": "cmp-R2",
    "deviceUuid": "91f8acf5ccc04a77aed714589966c8f5",
    "x": 2598,
-   "y": 802,
+   "y": 803,
    "rotation": 0,
    "mirror": false,
    "bbox": [
     2590,
     800,
     2610,
-    805
+    810
    ]
   },
   {
@@ -983,16 +992,271 @@
    "role": "J4",
    "module": "PUMPE",
    "id": "cmp-J4",
-   "deviceUuid": "06158f0aee2546dd80e7a951e2e5ed6b",
+   "deviceUuid": "4d018698282b47d4893c87aca1c32f67",
    "x": 2631,
-   "y": 896,
+   "y": 959,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2620,
-    880,
+    2615,
+    945,
+    2655,
+    975
+   ]
+  },
+  {
+   "ref": "J16",
+   "role": "J_PUMP2",
+   "module": "PUMPE",
+   "id": "cmp-J_PUMP2",
+   "deviceUuid": "4d018698282b47d4893c87aca1c32f67",
+   "x": 2846,
+   "y": 415,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2830,
+    400,
+    2870,
+    430
+   ]
+  },
+  {
+   "ref": "Q3",
+   "role": "Q_PUMP2",
+   "module": "PUMPE",
+   "id": "cmp-Q_PUMP2",
+   "deviceUuid": "1c95a10b7c4a4095b426799cbca7b1b2",
+   "x": 2793,
+   "y": 661,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2780,
+    650,
+    2820,
+    670
+   ]
+  },
+  {
+   "ref": "R33",
+   "role": "R_GATE2",
+   "module": "PUMPE",
+   "id": "cmp-R_GATE2",
+   "deviceUuid": "611ee85922f4491584738b3ecdf137f4",
+   "x": 2748,
+   "y": 802,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2740,
+    800,
+    2760,
+    805
+   ]
+  },
+  {
+   "ref": "R34",
+   "role": "R_GATE2_PD",
+   "module": "PUMPE",
+   "id": "cmp-R_GATE2_PD",
+   "deviceUuid": "91f8acf5ccc04a77aed714589966c8f5",
+   "x": 2729,
+   "y": 899,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2720,
+    895,
+    2740,
+    905
+   ]
+  },
+  {
+   "ref": "D7",
+   "role": "D_FLY2",
+   "module": "PUMPE",
+   "id": "cmp-D_FLY2",
+   "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
+   "x": 2646,
+   "y": 1013,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2640,
+    1005,
     2650,
-    910
+    1020
+   ]
+  },
+  {
+   "ref": "D8",
+   "role": "D_CLAMP2",
+   "module": "PUMPE",
+   "id": "cmp-D_CLAMP2",
+   "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
+   "x": 2890,
+   "y": 1011,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2880,
+    1000,
+    2895,
+    1020
+   ]
+  },
+  {
+   "ref": "C20",
+   "role": "C_PUMP2_EMI",
+   "module": "PUMPE",
+   "id": "cmp-C_PUMP2_EMI",
+   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+   "x": 2827,
+   "y": 955,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2815,
+    945,
+    2840,
+    965
+   ]
+  },
+  {
+   "ref": "U8",
+   "role": "U_BOOST",
+   "module": "BOOST",
+   "id": "cmp-U_BOOST",
+   "deviceUuid": "f42b51ab2afc4d9db90725b5f9dacdaa",
+   "x": 1291,
+   "y": 1184,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1260,
+    1160,
+    1320,
+    1205
+   ]
+  },
+  {
+   "ref": "L1",
+   "role": "L_BOOST",
+   "module": "BOOST",
+   "id": "cmp-L_BOOST",
+   "deviceUuid": "41353bd188bd41e4b5cff1c3b04e8681",
+   "x": 1088,
+   "y": 1226,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1070,
+    1225,
+    1105,
+    1230
+   ]
+  },
+  {
+   "ref": "D6",
+   "role": "D_BOOST",
+   "module": "BOOST",
+   "id": "cmp-D_BOOST",
+   "deviceUuid": "804240ef97df427480be2a5281ccea31",
+   "x": 1142,
+   "y": 1426,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1135,
+    1420,
+    1150,
+    1435
+   ]
+  },
+  {
+   "ref": "C17",
+   "role": "C_BST_IN",
+   "module": "BOOST",
+   "id": "cmp-C_BST_IN",
+   "deviceUuid": "9583d53cf848486a9d523fcaf153a729",
+   "x": 1103,
+   "y": 1328,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1090,
+    1320,
+    1115,
+    1335
+   ]
+  },
+  {
+   "ref": "C18",
+   "role": "C_BST_OUT",
+   "module": "BOOST",
+   "id": "cmp-C_BST_OUT",
+   "deviceUuid": "9583d53cf848486a9d523fcaf153a729",
+   "x": 1239,
+   "y": 1328,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1230,
+    1320,
+    1250,
+    1335
+   ]
+  },
+  {
+   "ref": "C19",
+   "role": "C_BST_HF",
+   "module": "BOOST",
+   "id": "cmp-C_BST_HF",
+   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+   "x": 1375,
+   "y": 1328,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1365,
+    1320,
+    1385,
+    1335
+   ]
+  },
+  {
+   "ref": "R31",
+   "role": "R_FB_TOP",
+   "module": "BOOST",
+   "id": "cmp-R_FB_TOP",
+   "deviceUuid": "c464d818a3cc4b9ba1e2b92f982ed62e",
+   "x": 1346,
+   "y": 1424,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1330,
+    1420,
+    1360,
+    1430
+   ]
+  },
+  {
+   "ref": "R32",
+   "role": "R_FB_BOT",
+   "module": "BOOST",
+   "id": "cmp-R_FB_BOT",
+   "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
+   "x": 1137,
+   "y": 1378,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1125,
+    1375,
+    1150,
+    1380
    ]
   },
   {
@@ -1001,15 +1265,15 @@
    "module": "TASTER",
    "id": "cmp-C_BTN",
    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-   "x": 1165,
-   "y": 1726,
+   "x": 1755,
+   "y": 1799,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1155,
-    1720,
-    1175,
-    1735
+    1745,
+    1790,
+    1765,
+    1810
    ]
   },
   {
@@ -1018,15 +1282,15 @@
    "module": "TASTER",
    "id": "cmp-R_BTN",
    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-   "x": 1201,
-   "y": 1867,
+   "x": 1791,
+   "y": 1940,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1190,
-    1860,
-    1210,
-    1870
+    1780,
+    1935,
+    1800,
+    1945
    ]
   },
   {
@@ -1035,15 +1299,15 @@
    "module": "TASTER",
    "id": "cmp-J6",
    "deviceUuid": "72b9be21f4ad4d53a42178e79731ea2a",
-   "x": 1187,
-   "y": 1816,
+   "x": 1777,
+   "y": 1889,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1175,
-    1800,
-    1200,
-    1830
+    1765,
+    1875,
+    1790,
+    1905
    ]
   },
   {
@@ -1052,14 +1316,14 @@
    "module": "ERWEITERUNG",
    "id": "cmp-J8",
    "deviceUuid": "f70eda5267b34d9799800488a27be0c6",
-   "x": 452,
+   "x": 269,
    "y": 623,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    435,
+    255,
     600,
-    490,
+    305,
     645
    ]
   },
@@ -1070,14 +1334,14 @@
    "id": "cmp-J9",
    "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
    "x": 603,
-   "y": 839,
+   "y": 765,
    "rotation": 0,
    "mirror": false,
    "bbox": [
     590,
-    820,
+    745,
     630,
-    860
+    785
    ]
   },
   {
@@ -1086,15 +1350,15 @@
    "module": "ERWEITERUNG",
    "id": "cmp-J10",
    "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
-   "x": 302,
-   "y": 701,
+   "x": 540,
+   "y": 617,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    285,
-    680,
-    330,
-    720
+    525,
+    595,
+    565,
+    640
    ]
   },
   {
@@ -1103,14 +1367,14 @@
    "module": "ERWEITERUNG",
    "id": "cmp-J11",
    "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
-   "x": 594,
-   "y": 701,
+   "x": 290,
+   "y": 697,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    580,
-    680,
-    620,
+    275,
+    675,
+    315,
     720
    ]
   },
@@ -1120,15 +1384,15 @@
    "module": "ERWEITERUNG",
    "id": "cmp-J12",
    "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
-   "x": 290,
-   "y": 771,
+   "x": 570,
+   "y": 697,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    275,
-    750,
-    315,
-    790
+    555,
+    675,
+    595,
+    720
    ]
   },
   {
@@ -1137,32 +1401,15 @@
    "module": "ERWEITERUNG",
    "id": "cmp-J13",
    "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
-   "x": 582,
-   "y": 771,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    565,
-    750,
-    610,
-    790
-   ]
-  },
-  {
-   "ref": "J14",
-   "role": "J14",
-   "module": "ERWEITERUNG",
-   "id": "cmp-J14",
-   "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
    "x": 302,
-   "y": 839,
+   "y": 765,
    "rotation": 0,
    "mirror": false,
    "bbox": [
     285,
-    820,
+    745,
     330,
-    860
+    785
    ]
   },
   {
@@ -1205,15 +1452,15 @@
    "module": "ERWEITERUNG",
    "id": "cmp-R_GATE",
    "deviceUuid": "91f8acf5ccc04a77aed714589966c8f5",
-   "x": 241,
-   "y": 625,
+   "x": 651,
+   "y": 441,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    230,
-    620,
-    250,
-    630
+    640,
+    435,
+    660,
+    445
    ]
   },
   {
@@ -1223,14 +1470,14 @@
    "id": "cmp-R_SDA_PU",
    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
    "x": 509,
-   "y": 893,
+   "y": 819,
    "rotation": 0,
    "mirror": false,
    "bbox": [
     500,
-    890,
+    815,
     520,
-    900
+    825
    ]
   },
   {
@@ -1240,14 +1487,14 @@
    "id": "cmp-R_SCL_PU",
    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
    "x": 281,
-   "y": 941,
+   "y": 867,
    "rotation": 0,
    "mirror": false,
    "bbox": [
     270,
-    935,
+    860,
     290,
-    945
+    870
    ]
   },
   {
@@ -1257,14 +1504,14 @@
    "id": "cmp-R_SDA_S",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
    "x": 545,
-   "y": 941,
+   "y": 867,
    "rotation": 0,
    "mirror": false,
    "bbox": [
     535,
-    935,
+    860,
     555,
-    945
+    870
    ]
   },
   {
@@ -1274,14 +1521,14 @@
    "id": "cmp-R_SCL_S",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
    "x": 281,
-   "y": 979,
+   "y": 905,
    "rotation": 0,
    "mirror": false,
    "bbox": [
     270,
-    975,
+    900,
     290,
-    985
+    910
    ]
   },
   {
@@ -1291,14 +1538,14 @@
    "id": "cmp-R_SPARE_AIN",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
    "x": 581,
-   "y": 979,
+   "y": 905,
    "rotation": 0,
    "mirror": false,
    "bbox": [
     570,
-    975,
+    900,
     590,
-    985
+    910
    ]
   },
   {
@@ -1325,14 +1572,14 @@
    "id": "cmp-R_SPARE_IO16",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
    "x": 303,
-   "y": 1015,
+   "y": 941,
    "rotation": 0,
    "mirror": false,
    "bbox": [
     290,
-    1010,
+    935,
     315,
-    1020
+    945
    ]
   },
   {
@@ -1342,14 +1589,14 @@
    "id": "cmp-R_SPARE_IO17",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
    "x": 607,
-   "y": 1015,
+   "y": 941,
    "rotation": 0,
    "mirror": false,
    "bbox": [
     595,
-    1010,
+    935,
     620,
-    1020
+    945
    ]
   },
   {
@@ -1359,31 +1606,14 @@
    "id": "cmp-R_SPARE_IO21",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
    "x": 323,
-   "y": 1053,
+   "y": 979,
    "rotation": 0,
    "mirror": false,
    "bbox": [
     310,
-    1050,
+    975,
     335,
-    1060
-   ]
-  },
-  {
-   "ref": "R29",
-   "role": "R_SPARE_IO22",
-   "module": "ERWEITERUNG",
-   "id": "cmp-R_SPARE_IO22",
-   "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-   "x": 599,
-   "y": 491,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    590,
-    485,
-    610,
-    495
+    985
    ]
   },
   {
@@ -1410,14 +1640,14 @@
    "id": "cmp-C_SPARE",
    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
    "x": 264,
-   "y": 899,
+   "y": 825,
    "rotation": 0,
    "mirror": false,
    "bbox": [
     255,
-    890,
+    815,
     275,
-    910
+    835
    ]
   },
   {
@@ -1427,14 +1657,14 @@
    "id": "cmp-J7",
    "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
    "x": 2613,
-   "y": 1402,
+   "y": 1513,
    "rotation": 0,
    "mirror": false,
    "bbox": [
     2600,
-    1380,
+    1490,
     2640,
-    1420
+    1535
    ]
   },
   {
@@ -1444,14 +1674,14 @@
    "id": "cmp-R_LIGHT",
    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
    "x": 2635,
-   "y": 1282,
+   "y": 1393,
    "rotation": 0,
    "mirror": false,
    "bbox": [
     2625,
-    1280,
+    1390,
     2645,
-    1285
+    1400
    ]
   },
   {
@@ -1461,14 +1691,14 @@
    "id": "cmp-R_LIGHT_S",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
    "x": 2790,
-   "y": 1278,
+   "y": 1389,
    "rotation": 0,
    "mirror": false,
    "bbox": [
     2780,
-    1275,
+    1385,
     2800,
-    1280
+    1395
    ]
   },
   {
@@ -1478,14 +1708,14 @@
    "id": "cmp-C_LIGHT",
    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
    "x": 2523,
-   "y": 1284,
+   "y": 1395,
    "rotation": 0,
    "mirror": false,
    "bbox": [
     2510,
-    1275,
+    1385,
     2535,
-    1290
+    1405
    ]
   }
  ],

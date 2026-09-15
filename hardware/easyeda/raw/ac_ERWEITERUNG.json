@@ -26,11 +26,6 @@
    "net": "GND"
   },
   {
-   "pin": "J14:1",
-   "kind": "ground",
-   "net": "GND"
-  },
-  {
    "pin": "J15:1",
    "kind": "ground",
    "net": "GND"
@@ -99,16 +94,6 @@
    "pin": "J13:3",
    "kind": "netport",
    "net": "SPARE_IO21_RAW"
-  },
-  {
-   "pin": "J14:2",
-   "kind": "netport",
-   "net": "VCC_EXT"
-  },
-  {
-   "pin": "J14:3",
-   "kind": "netport",
-   "net": "SPARE_IO22_RAW"
   },
   {
    "pin": "J15:2",
@@ -249,16 +234,6 @@
    "pin": "R28:2",
    "kind": "netport",
    "net": "SPARE_IO21"
-  },
-  {
-   "pin": "R29:1",
-   "kind": "netport",
-   "net": "SPARE_IO22_RAW"
-  },
-  {
-   "pin": "R29:2",
-   "kind": "netport",
-   "net": "SPARE_IO22"
   },
   {
    "pin": "R30:1",
