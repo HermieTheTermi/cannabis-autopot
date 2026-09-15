@@ -156,9 +156,9 @@ LDO → 3,3 V }. Es gibt **keinen Schaltregler** — bewusst, siehe `bom_entsche
 
 | Pos | Bauteil | LCSC | Anschluss |
 |---|---|---|---|
-| J1 | JST PH 2,0 mm, 2-pol | `C54582899` | Akku (Pin 1 = +, Pin 2 = −) — **Polung im Layout prüfen** |
-| J2 | JST-XH 2,54 mm, 3-pol | `C157928` | Feuchtesensor: **1 = GND · 2 = SENSOR_PWR (VCC) · 3 = SENSOR_RAW (AOUT)** |
-| J4 | JST-XH 2,54 mm, 2-pol | `C157931` | Pumpe: 1 = VBAT, 2 = geschaltete Masse |
+| J1 | JST PH 2,0 mm, 2-pol, **aufrecht (Top-Entry, SMD)** | `C160352` | Akku (Pin 1 = +, Pin 2 = −) — **Polung im Layout prüfen**. ⚠️ Typwechsel 15.09.2026 (vorher `C54582899`, liegend „卧贴") |
+| J2 | JST-XH 2,54 mm, 3-pol, **aufrecht (Top-Entry, THT)** | `C493416` | Feuchtesensor: **1 = GND · 2 = SENSOR_PWR (VCC) · 3 = SENSOR_RAW (AOUT)**. ⚠️ Typwechsel 15.09.2026 (vorher `C157928`, gewinkelt „弯插"); Stecker geht jetzt nach oben raus |
+| J4 | JST-XH 2,54 mm, 2-pol, **aufrecht (Top-Entry, THT)** | `C158012` | Pumpe: 1 = VBAT, 2 = geschaltete Masse. ⚠️ Typwechsel 15.09.2026 (vorher `C157931`, gewinkelt — Lager war auf **2 Stück** gefallen) |
 | J5 | USB-C 16-pol | `C165948` | VBUS, GND/Schirm, CC1/CC2, D+/D− |
 | SW1 | Taster 5,1 × 5,1 mm | `C318884` | Reset (EN gegen GND) |
 | SW2 | Taster 5,1 × 5,1 mm | `C318884` | Boot (GPIO9 gegen GND) |
@@ -459,7 +459,7 @@ I²C-Stecker J8 folgt **GND–VCC–SDA–SCL** (VCC innen, wie Qwiic/STEMMA). J
 
 | Stecker | Typ | Pin 1 | Pin 2 (VCC) | Pin 3 | Pin 4 | Signal → MCU |
 |---|---|---|---|---|---|---|
-| **J2** | JST-XH 3P (`C157928`) | GND | SENSOR_PWR | SENSOR_RAW | – | R6 1 kΩ → IO0 (Pin 12) |
+| **J2** | JST-XH 3P (`C493416`, aufrecht) | GND | SENSOR_PWR | SENSOR_RAW | – | R6 1 kΩ → IO0 (Pin 12) |
 | **J7** | Stiftleiste 1×3 (`C2937625`) | GND | SENSOR_PWR | LIGHT_RAW | – | R_LIGHT_S 1 kΩ → IO4 (Pin 9) |
 | **J8** | Stiftleiste 1×4 (`C2691448`) | GND | VCC_EXT | SDA | SCL | R_SDA_S/R_SCL_S 1 kΩ → IO18/IO19 (Pin 24/25) |
 | **J9** | Stiftleiste 1×3 (`C2937625`) | GND | VCC_EXT | SPARE_AIN_RAW | – | R_SPARE_AIN 1 kΩ → IO5 (Pin 10) |
@@ -549,6 +549,18 @@ begrenzt zusätzlich den Fehlerstrom in die MCU-Pins.
 
 ## 10. Rückschau
 
+- 15.09.2026: **Steckertypen J1/J2/J4 von gewinkelt (Side-Entry) auf aufrecht (Top-Entry) umgestellt** —
+  die Stecker gehen jetzt **nach oben** aus der Platine, nicht zur Seite. Neue LCSC-Codes:
+  **J1 `C160352`** (JST `B2B-PH-SM4-TB`, SMD, vorher `C54582899` = `S2B-…` liegend „卧贴"),
+  **J2 `C493416`** (JST `B3B-XH-A-BK`, THT, vorher `C157928` = `S3B-…` gewinkelt „弯插"),
+  **J4 `C158012`** (JST `B2B-XH-A`, THT, vorher `C157931` = `S2B-…` gewinkelt — Lager war auf 2 Stück gefallen).
+  Die aufrechten Typen haben deutlich mehr Lager (J4: 203.889, J2: 19.594). Pinbelegung unverändert;
+  Belegung geprüft: **Pin-für-Pin-Diff gegen die Baseline = 0 Abweichungen, 50 Netze unverändert**.
+  Die Gehäuse-UUIDs (`uniqueId`) der drei Stecker wurden bewahrt, damit `pcb import-changes` den
+  Footprint **aktualisiert** („Modify Footprint") statt Bauteil zu löschen und neu zu setzen —
+  die Platzierung auf der Platine bleibt damit erhalten (PCB: 80 Bauteile vor und nach dem Import).
+  Restpunkt: `sch gate` meldet in der Stage `clusters` einen **Lesbarkeits**-Overlap J1 ↔ TP3
+  (10 × 3 Einheiten); `layout-lint`, `check`, `bridge-check` und `drc` sind grün.
 - 14.09.2026: GPIO-Erweiterung (J8/J9/J10/Q2/TP7–TP11) auf Wunsch des Nutzers wieder entfernt.
 - 14.09.2026: GPIO-Erweiterung auf 2,54-mm-Stiftleisten wieder eingebaut (je Signal ein
   3-pol GND–VCC–SIG-Stecker, I²C als 4-pol).

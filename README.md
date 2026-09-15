@@ -82,6 +82,11 @@ cannabis-autopot/
 - [x] **Versorgung festgelegt:** 1S direkt, kein Boost/Buck; eigener Lader **MCP73831T-2** + LDO **ME6211** auf der Platine. ⚠️ **Offen seit dem Pumpentausch:** die CONQUERALL ist mit 5 V Nennspannung spezifiziert — Betrieb an 3,0–4,2 V ist **nicht belegt**, und ihr Anlaufstrom (2,2–2,5 A) kann den MAX809 (3,08 V) auslösen → **PWM-Softstart Pflicht**, Messauftrag in `hardware/bom_entscheidung.md` §4c/§7
 - [x] **MCU festgelegt:** **ESP32-C6-MINI-1** auf eigener PCB (kein Dev-Board) — Pflichtbeschaltung und Antennenregeln aus den Espressif-Docs übernommen
 - [x] **PCBA geprüft:** alle Bauteile bei JLCPCB verfügbar (LCSC-Codes in `hardware/pcba_bom_jlc.csv`)
+- [x] **Stecker auf „nach oben" umgestellt** (15.09.2026): J1/J2/J4 von gewinkelt (Side-Entry) auf
+      **aufrecht (Top-Entry)** — neue LCSC-Codes `C160352` (Akku PH, SMD), `C493416` (Sensor XH-3P),
+      `C158012` (Pumpe XH-2P); vorher `C54582899`/`C157928`/`C157931`. Die aufrechten Typen haben
+      deutlich mehr Lager (u. a. J4: 203.889 statt 2). Elektrik unverändert (**Pin-Diff = 0, 50 Netze**),
+      PCB per `import-changes` als **„Modify Footprint"** aktualisiert (80 Bauteile, **Platzierung erhalten**)
 - [x] **Schaltplan V1 + Netzliste** (`hardware/schaltplan_v1.md`, `..._netzliste.csv`, **50 Netze / 80 Bauteile / 72 bestückte Positionen**)
 - [x] **Design als Python-Modell + Prüfungen** (`hardware/design/`): **29** Design-Regelprüfungen gegen die
       Datenblattgrenzen, 6 Simulationsgruppen, Mutationsabdeckung vollständig (`hardware/design/MUTATIONSTEST.md`)

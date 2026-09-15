@@ -48,9 +48,9 @@ Seit der Umstellung auf das nackte **ESP32-C6-MINI-1** gibt es **keine Lücke me
 | J6 | 2 Lötpads/Bohrungen für den externen Taster | – | – | – | – | **keine Bestückung, kein JLC-Kostenpunkt** |
 | D2 | LED rot | `C84256` | 0805 | **base** | 6.142.311 | $0,0134 |
 | SW1/2 | Taster (Reset + Boot) | `C318884` | SMD-4P 5,1×5,1 | **base** | 769.000 | $0,0205 |
-| J1 | Akku JST PH 2,0 mm 2-pol | `C54582899` | SMD 2 mm gewinkelt | expand | 2.308 | $0,0466 |
-| J2 | Sensor JST-XH 2,5 mm 3-pol | `C157928` | THT gewinkelt | expand | 146.324 | $0,0745 |
-| J4 | Pumpe JST-XH 2,5 mm 2-pol | `C157931` | THT gewinkelt | expand | 50.464 | $0,1014 |
+| J1 | Akku JST PH 2,0 mm 2-pol, **aufrecht (Top-Entry)** | `C160352` | SMD 2 mm stehend | expand | ⏳ | ⏳ |
+| J2 | Sensor JST-XH 2,5 mm 3-pol, **aufrecht (Top-Entry)** | `C493416` | THT stehend | expand | 19.594 | ⏳ |
+| J4 | Pumpe JST-XH 2,5 mm 2-pol, **aufrecht (Top-Entry)** | `C158012` | THT stehend | expand | 203.889 | ⏳ |
 | J7, J9–J15 | Stiftleiste 1×3, 2,54 mm, male gerade (XFCN `PZ254V-11-03P`) | `C2937625` | THT 2,54 mm | expand | ⏳ | ⏳ |
 | J8 | Stiftleiste 1×4, 2,54 mm, male gerade (XFCN `PZ254V-11-04P`) | `C2691448` | THT 2,54 mm | expand | ⏳ | ⏳ |
 | Q2 | **AO3401A** (P-Kanal-Load-Switch, High-Side) | `C15127` | SOT-23 | **base** | 591.277 | $0,0908 |
