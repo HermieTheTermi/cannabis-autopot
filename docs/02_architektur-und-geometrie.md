@@ -203,7 +203,7 @@ Faustwert für 1,9-L-Topf: 0,15–0,35 L pro Gießvorgang, im Wachstum alle 3–
 
 ## 7. Offene Punkte
 
-- [ ] **2S-Pack final** (1500–2500 mAh, **mit BMS/Balancing**, 2-polig, JST-PH bevorzugt; Einbau-Maße gegen die Wulst prüfen — Auswahl offen, `docs/11_review-2s-umbau.md` §8.1)
+- [ ] **2S-Pack final** (1500–2500 mAh, **3-polig B− / Mittelabgriff / B+**, JST-XH-3P `C5258884`; **Schutz und Balancing macht die Platine** — ein BMS im Pack ist nicht nötig, aber unschädlich; Einbau-Maße gegen die Wulst prüfen — Auswahl offen, `docs/11_review-2s-umbau.md` §8.1)
 - [ ] Pumpenabmessungen → Wulstbreite ggf. anpassen (parametrisch in `cad/` vorgesehen)
 - [ ] Sensor-Länge real messen (Clone-Streuung ±5 mm) vor dem Einbau
 - [ ] Optionale Tanküberwachung: float switch / Drucksensor am Tankboden (Redundanz zum Feuchte-Kriterium) — V2-Thema

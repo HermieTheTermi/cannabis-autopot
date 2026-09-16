@@ -51,7 +51,7 @@ BST_CHG,C_BST_CHG,1,100 nF Bootstrap (Datenblatt C2)
 VBAT,U_CHG,21 VOUT,"Boost-Ausgang -> Akku-Plus (Datenblatt: ""VOUT 接电池正极"")"
 VBAT,U_CHG,22 VOUT,
 VBAT,C_CHG_OUT,1,10 uF Keramik am Ausgang (Datenblatt C6/C7)
-VBAT,J1,1,Akku 2S-Pack + (Polung im Layout pruefen)
+VBAT,J1,3,"Akku-Pack Plus (Zelle 2 +) - Packseite, direkt am Lader"
 VBAT,TP4,1,Testpad VBAT
 VBAT,U_BUCK5,5 IN,Eingang 5-V-Buck
 VBAT,C_B5_IN,1,22 uF Keramik am Buck-Eingang nach GND
@@ -62,6 +62,39 @@ VBAT,C_B3_IN,1,22 uF Keramik am Buck-Eingang nach GND
 VBAT,C_B3_IN_HF,1,100 nF HF am Buck-Eingang nach GND
 VBAT,R3a,1,UVLO-Teiler oben 200 k
 VBAT,R_SENSE_TOP,1,ADC-Teiler oben 200 k
+# --- Akku-Schutz auf der Platine (HY2120-CB + 2x PSMN4R2-30MLDX) -----------------------------,,,
+BAT_MINUS,J1,1,Akku-Pack-Minus (Zelle 1 -) - liegt NICHT auf Board-GND, sondern hinter dem Schutz
+BAT_MINUS,U_PROT,6 VSS,Masse des Schutz-IC = Pack-Minus (Datenblatt 5.2)
+BAT_MINUS,Q_PROT1,1 S,Source des Entlade-MOSFET (Pinning: 1/2/3 = Source)
+BAT_MINUS,Q_PROT1,2 S,
+BAT_MINUS,Q_PROT1,3 S,
+BAT_MINUS,U_CHG,24 BAT_GND,Bezug des internen Balancing (Datenblatt-Applikation: BAT- an Pin 24)
+BAT_MINUS,C_PROT_VDD,2,VDD-Filterkondensator nach Pack-Minus
+BAT_MINUS,C_PROT_VC,2,VC-Filterkondensator nach Pack-Minus
+MID,J1,2,"Mittelabgriff (Zelle 1 + / Zelle 2 -) - erst mit diesem Stecker ist Balancing moeglich"
+MID,R_PROT_VC,1,330 R zum VC-Pin (Datenblatt-Typwert)
+MID,R_CB,1,Balancing-Widerstand zum VBATM-Pin des Laders
+VBAT,R_PROT_VDD,1,330 R zum VDD-Pin des Schutz-IC (Datenblatt-Typwert)
+PROT_VDD,R_PROT_VDD,2,
+PROT_VDD,U_PROT,5 VDD,Versorgung (Datenblatt Pin 5)
+PROT_VDD,C_PROT_VDD,1,0,1 uF nach VSS (Datenblatt C1)
+PROT_VC,R_PROT_VC,2,
+PROT_VC,U_PROT,4 VC,Mittelabgriff-Messung (Datenblatt Pin 4)
+PROT_VC,C_PROT_VC,1,0,1 uF nach VSS (Datenblatt C2)
+PROT_GATE_D,U_PROT,1 OD,Entlade-Steuerung (Datenblatt Pin 1)
+PROT_GATE_D,Q_PROT1,4 G,Gate des Entlade-MOSFET (Pin 4 = Gate)
+PROT_GATE_C,U_PROT,2 OC,Lade-Steuerung (Datenblatt Pin 2)
+PROT_GATE_C,Q_PROT2,4 G,Gate des Lade-MOSFET
+PROT_CS,U_PROT,3 CS,Strommessung + Ladeerkennung (Datenblatt Pin 3)
+PROT_CS,R_PROT_CS,1,2 k zum Board-GND (Datenblatt R3 typ 2 k)
+PROT_COMMON,Q_PROT1,mb (Drain),"Gemeinsamer Drain beider Schalter (Montagebasis ist laut Pinning Drain)"
+PROT_COMMON,Q_PROT2,mb (Drain),
+GND,R_PROT_CS,2,
+GND,Q_PROT2,1 S,Source des Lade-MOSFET = Board-GND - traegt den gesamten Systemstrom
+GND,Q_PROT2,2 S,
+GND,Q_PROT2,3 S,
+VBATM_CHG,U_CHG,23 VBATM,Balancing-Ausgang (Datenblatt Pin 23)
+VBATM_CHG,R_CB,2,
 VSYS_CHG,U_CHG,19 VSYS,Zwischenknoten des Boost-Ausgangs
 VSYS_CHG,U_CHG,20 VSYS,
 VSYS_CHG,C_VSYS_A,1,22 uF direkt am VSYS-Pin (Datenblatt C4)
@@ -315,7 +348,7 @@ GND,C3,-,Elko-Minus (liegt auf der 5-V-Schiene)
 GND,D2,Kathode,
 GND,SW1,2,
 GND,SW2,2,
-GND,J1,2,Akku -
+
 GND,J2,1,Sensor GND
 GND,J7,1,Lichtsensor GND
 GND,R_LIGHT,2,Lastwiderstand Lichtsensor nach GND

@@ -1,5 +1,12 @@
 # 2S-Akkupacks (7,4 V) mit integriertem BMS/Schutz — Rechercheergebnisse
 
+> ⚠️ **Nachtrag 16.09.2026:** Die Prämisse dieses Dokuments („der Pack soll ein eigenes
+> Schutz-/BMS-IC haben") ist **überholt**. Der Nutzer hat entschieden, dass Schutz **und** Balancing
+> auf unserer Platine liegen („alles auf die Platine … kein zweites extra Bord"). Der Pack muss nur
+> noch **die Zellen und den Mittelabgriff** liefern (3-polig). Diese Recherche bleibt als Beleg für
+> die Marktlage (kein 2S-Pack aus DE-Lager mit dokumentiertem Balancing) und für die Pack-Maße
+> erhalten — siehe `hardware/schaltplan_v1.md` §6.3.
+
 Stand: 2026-09-16. Anforderungen: 2S (7,4 V nominal, 8,4 V Ladeschluss), 1500–3000 mAh, 2-poliger Stecker (JST-PH 2,0 bevorzugt / XH / offene Litzen), Einbauraum ~60×40 mm Wulst mit ~160 mm Höhe, flache Pouch-Zelle bevorzugt; Lader im Gerät: Injoinic IP2326 (5 V USB-C → 8,4 V, ~1 A) mit eigenem 2S-Balancing, Pack soll aber zusätzlich **eigenes Schutz-/BMS-IC** haben.
 
 ## Empfehlung

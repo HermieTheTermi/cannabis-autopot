@@ -235,3 +235,72 @@ bei 0,15 A **0,26 W** in SOT-23-5 abgeführt und durfte laut Datenblatt nur **6,
 - Der **VSYS-Knoten** ist bewusst nur kapazitiv beschaltet und nicht mit BAT+ verbunden (Datenblatt:
   „Zwischenknoten … 2× 22 µF direkt am Pin"). Falls die Messung ein anderes Verhalten zeigt, ist die
   externe Verbindung eine Lötbrücke (als Messauftrag in `schaltplan_v1.md` §6.7 notiert).
+
+## 10. Nachtrag 16.09.2026: Zellschutz **auf der Platine** statt im Pack
+
+**Auftrag (Nutzer, wörtlich):** „Nee, dann mach mal alles auf der Platine bei uns mit drauf, dass wir
+ein Bord haben, wo alles drauf ist. Ich brauche kein zweites extra Bord."
+
+### 10.1 Was dazugekommen ist (9 Positionen, alle bei JLC lagernd)
+
+| Pos | Bauteil | LCSC | Lager | Preis | Rolle |
+|---|---|---|---|---|---|
+| `U_PROT` | HY2120-CB (SOT-23-6) | `C116509` | 2.836 | 0,24 $ | Zellenschutz: Überladung, Tiefentladung, Überstrom, Kurzschluss |
+| `Q_PROT1`, `Q_PROT2` | PSMN4R2-30MLDX (LFPAK33) | `C179452` | 1.473 | 0,42 $ | Schalterpaar in der Minusleitung (Entladen/Laden) |
+| `R_PROT_VDD`, `R_PROT_VC` | 330 Ω 0805 | `C17630` | 2,38 Mio. | Basic | Filter der Messpunkte VDD/VC |
+| `R_PROT_CS` | 2 kΩ 0805 | `C17604` | 6,0 Mio. | Basic | Strommessung/Ladeerkennung am CS-Pin |
+| `R_CB` | 100 Ω 0805 | `C17408` | 10,0 Mio. | Basic | Balancing-Widerstand des IP2326 |
+| `C_PROT_VDD`, `C_PROT_VC` | 100 nF 0805 | `C49678` | (vorhanden) | Basic | Filterkondensatoren |
+| `J1` | JST-XH **3-pol** | `C5258884` | 14.383 | 0,014 $ | Akku: 1 = B− · 2 = Mittelabgriff · 3 = B+ |
+
+### 10.2 Harmonie-Prüfung — passt das zusammen?
+
+1. **Abschaltstaffelung ohne Lücke und ohne Doppelabschaltung:** Firmware-Warnung 7,0 V →
+   Firmware-Pumpstopp 6,8 V → Wächter (U7) **6,19 V** → Zellenschutz **5,80 V** (2,90 V/Zelle) →
+   PCM eines etwaigen Fertigpacks (~2,5 V/Zelle = 5,0 V). Jede Ebene greift später als die vorige ✓
+2. **Überladung 8,56 V liegt über der Ladeschlussspannung 8,4 V** ⇒ der Schutz stört das normale
+   Laden nicht; er greift nur, wenn der Lader durchgeht. Unter 8,8 V, damit er nicht selbst zur
+   Ladegrenze wird ✓
+3. **Überstrom 17 A gegen Pumpenanlauf 2,6 A** ⇒ Faktor **6,5** Reserve. Die Verzögerung von 10 ms
+   (Kurzschluss 250 µs) fängt kurze Spitzen zusätzlich ab — genau das war die Sorge beim Pumpenstart ✓
+4. **Verluste des Schalterpaares:** 0,65 A Dauer × 11,4 mΩ = **7,4 mV** (0,1 % der Packspannung),
+   4,8 mW Dauer; beim Anlauf 2,6 A ⇒ 77 mW für Millisekunden ✓
+5. **Ansteuerung:** Gate-Spannung im Betrieb ≤ 8,4 V gegen V_GS-Grenzwert **±20 V** ✓;
+   Schwellenspannung 1,2 V (typ. 1,7 V) < Tiefentladungs-Auslösung 2,90 V ⇒ Anmerkung *4 des
+   HY2120-Datenblatts erfüllt ✓
+6. **Ruhestrom:** der HY2120 zieht ~3 µA zusätzlich ⇒ 184,5 statt 181,5 µA (Budget 250 µA bleibt
+   eingehalten). In der Design-Suite ist er **noch nicht** enthalten — bewusste Vereinfachung,
+   1,6 % des Budgets
+7. **Bezugspunkt:** der Pack-Minus ist jetzt nicht mehr Board-GND. Der Spannungsabfall im Schalterpaar
+   (7 mV) verschiebt die ADC-Messung um 0,1 % — vernachlässigbar; der Teiler misst weiter korrekt
+   gegen Board-GND ✓
+8. **Platz und Wärme:** 2 × LFPAK33 (je 3,3 × 3,3 mm) + SOT-23-6 + 6 Kleinteile ≈ 3 % der
+   Platinenfläche. Die **Montagebasis (Drain)** beider MOSFETs muss auf Drain-Kupfer liegen — sie ist
+   laut Datenblatt der Drain-Anschluss, nicht nur ein Wärmepad
+9. **Stecker:** JST-XH ist verpolungssicher und pro Pol 3 A belastbar (unsere Dauerlast 0,65 A,
+   Anlaufspitze 2,6 A) ✓
+
+### 10.3 Dabei gefundene Fehler
+
+| # | Fehler | Schwere | Status |
+|---|---|---|---|
+| 1 | **Das Balancing war überhaupt nicht verdrahtet** — `U_CHG` Pin 23 (VBATM) und Pin 24 (VBAT_GND) lagen im Altstand auf **keinem** Netz (Begründung damals: der Pack habe sein eigenes BMS) | mittel | **behoben:** mit dem 3-poligen J1 gibt es den Mittelabgriff; Pin 23 über R_CB, Pin 24 an BAT_MINUS |
+| 2 | **FS8205A als Schalterpaar nicht verwendbar:** keines der vier geprüften Datenblätter (Tech Public, FUXINSEMI, HXY, EVVO) nennt **Pin-Nummern** — nur S1/G1/S2/G2 als Bild | mittel | **umgangen:** Nexperia-Bauteil mit Text-Pinbelegung (1/2/3 = S, 4 = G, Montagebasis = D) und zugleich 5,7 mΩ statt 25 mΩ |
+| 3 | **`C493416` (JST-XH-3P, bisher J2) ist in der JLC-Suche nicht mehr auffindbar** | hoch (Beschaffung) | **behoben:** J1 und J2 auf `C5258884` (14.383 lagernd) umgestellt |
+
+### 10.4 Nachweis
+
+- `python3 hardware/design/report.py` → **40 von 40 Prüfungen bestanden, Exit 0**
+- Drei neue Prüfungen: `Schutz-Serienkette` (Topologie der gesamten Schutzbeschaltung im Netz),
+  `Schutz-Schwellen` (Staffelung gegen Lader, Wächter und Zelle), `Schutz-Ueberstrom` (Reserve gegen
+  den Pumpenanlauf)
+- **Mutationstest 9 von 9** (`hardware/design/mutation_cases_schutz.json`, Tabelle in
+  `hardware/design/MUTATIONSTEST.md`): jede Schutz-Prüfung wird durch eine gezielte Sabotage rot,
+  ebenso die Regressionstests (VBAT-Festigkeit, Ladestrom, 5-V-Ausgang)
+- Netzlisten-Lint und BOM-Abgleich grün: **124 Bauteile**, Schaltplan und JLC-Stückliste deckungsgleich
+
+### 10.5 Offen (Messaufträge, in §6.7 des Schaltplans ergänzt)
+
+Auslöseschwellen am Aufbau (Überladung/Tiefentladung/Überstrom), Balancing-Strom (R_CB 100 Ω),
+Durchlasswiderstand des Paares nachmessen und gegen die 11,4 mΩ stellen. Beim EasyEDA-Neuaufbau
+(§13.5): Montagebasis der LFPAK an Drain-Kupfer binden und die vier Drain-Pins als **ein** Netz führen.

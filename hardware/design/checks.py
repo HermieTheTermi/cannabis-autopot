@@ -32,6 +32,23 @@ IP2326_CHARGE_PHASES = (         # §9, S. 9: Phasen-Stroeme
     (3.7, 0.050),                # < 3,7 V -> 50 mA
     (6.0, 0.100),                # 3,7-6 V -> 100 mA
 )
+IP2326_8V8_V = 8.8               # Variante IP2326_8V8: 8,8 V Ladeschluss
+                                 # (fuer Li-Ion unzulaessig, schaltplan §3.1)
+
+# --- HY2120-CB (HYCON, LCSC C116509), 2-Zellen-Schutz-IC -------------------
+# Schwellen stehen im HY2120-Datenblatt und sind in schaltplan_v1.md §3.1/§6.3
+# belegt; die Pruefungen check_schutz_schwellen / check_schutz_ueberstrom lesen
+# sie zusaetzlich woertlich aus dem Dokument (keine Tautologie).
+HY2120_OC_DELAY_MS = 10.0        # interne Verzoegerung Ueberstrom, §3.1
+
+# --- PSMN4R2-30MLDX (Nexperia, LCSC C179452), Schalterpaar -----------------
+PSMN4R2_RDSON_MAX_OHM = 5.7e-3   # 5,7 mOhm max bei V_GS = 4,5 V (schaltplan
+                                 # §3.1: PSMN4R2-30MLDX, LFPAK33-8), 4,3 mOhm
+                                 # bei 10 V. Paar = 2 x 5,7 mOhm = 11,4 mOhm.
+SCHUTZ_DAUER_DROP_MAX_V = 0.050  # Auslegungsgrenze: Abfall des Paares bei
+                                 # Dauerlast <= 50 mV (Review-Vorgabe).
+BUCK_INRUSH_EFF = 0.90           # Buck-Wirkungsgrad beim Anlauf (bom_entscheidung.md:
+                                 # "Buck aus 2S (eta 0,90)")
 
 # --- SY8113B (Silergy, C78989), Datenblatt AN_SY8113B ----------------------
 BUCK5_VIN_MIN_V, BUCK5_VIN_MAX_V = 4.5, 18.0
@@ -152,9 +169,15 @@ VBAT_IC_VIN_MAX = {
     "U_BUCK3": (BUCK3_VIN_MAX_V, "AP63203 DS41326: Eingang 3,8-32 V"),
 }
 # Passive/steckbare VBAT-Teilnehmer (Widerstaende, Kondensatoren, Stecker, TP).
+# R_PROT_VDD ist der neue 330-Ohm-VDD-Vorwiderstand des Schutz-IC (U_PROT) nach
+# VBAT. Ein 0805-Dickschichtwiderstand hat eine Nenn-Gleichspannungs-
+# festigkeit von >= 50 V (typ. 150 V bei den ueblichen 0805-Typen, z. B.
+# Yageo RC0805: V_working 150 V) und liegt damit weit ueber den 8,4 V des
+# 2S-Packs -- zugelassen (schaltplan §3.3: R_PROT_VDD 330 Ohm, HY2120-Datenblatt
+# 100..470 Ohm Typ 330; JLC-Basic C17630).
 VBAT_PASSIV = frozenset({
     "C_CHG_OUT", "J1", "TP4", "C_B5_IN", "C_B5_IN_HF",
-    "C_B3_IN", "C_B3_IN_HF", "R3a", "R_SENSE_TOP",
+    "C_B3_IN", "C_B3_IN_HF", "R3a", "R_SENSE_TOP", "R_PROT_VDD",
 })
 
 # Woertliche Belegstellen der SYSTEM-Zahlen (Datei -> Pfad).
@@ -594,6 +617,199 @@ def check_system_quellen():
         "Regel: Systemgroessen stammen ausschliesslich aus den Dokumenten. "
         "Prueft fuer jeden Eintrag den Belegtext in schaltplan_v1.md bzw. "
         "bom_entscheidung.md")
+
+
+# ===========================================================================
+# Akku-Schutz auf der Platine (HY2120-CB + Schalterpaar) - neu 16.09.2026
+# ===========================================================================
+
+def _doc_values(pattern, name):
+    """Alle Zahlen zu einem Muster in schaltplan_v1.md (Komma -> Punkt).
+
+    Fehlt das Muster ganz, bricht die Pruefung laut ab (CircuitError) statt
+    still zu bestehen.
+    """
+    text = circuit.SCHEMATIC_PATH.read_text(encoding="utf-8")
+    raw = re.findall(pattern, text)
+    if not raw:
+        raise circuit.CircuitError(
+            "kein Dokumentwert fuer %s in schaltplan_v1.md (Muster %r)"
+            % (name, pattern))
+    return [float(v.replace(",", ".")) for v in raw]
+
+
+def _doc_consistent(values):
+    """True, wenn alle Fundstellen denselben Wert tragen."""
+    return all(abs(v - values[0]) <= 1e-9 for v in values[1:])
+
+
+def _pin_net(designator, pin):
+    """Netz eines Pins; fehlt der Pin, harter Abbruch statt still bestehen."""
+    pins = _pins_of(designator)
+    if pin not in pins:
+        raise circuit.CircuitError(
+            "Pin %r an %s fehlt in der Netzliste" % (pin, designator))
+    return pins[pin]
+
+
+def check_schutz_serie():
+    """Serienkette des Platinen-Schutzes in der Minusleitung (Topologie)."""
+    j1_src = _pin_net("J1", "1")
+    q1_s = [_pin_net("Q_PROT1", p) for p in ("1", "2", "3")]
+    q1_drain = _pin_net("Q_PROT1", "mb (Drain)")
+    q1_gate = _pin_net("Q_PROT1", "4")
+    q2_s = [_pin_net("Q_PROT2", p) for p in ("1", "2", "3")]
+    q2_drain = _pin_net("Q_PROT2", "mb (Drain)")
+    q2_gate = _pin_net("Q_PROT2", "4")
+    vss = _pin_net("U_PROT", "6")
+    od = _pin_net("U_PROT", "1")
+    oc = _pin_net("U_PROT", "2")
+    cs = _pin_net("U_PROT", "3")
+    vdd = _pin_net("U_PROT", "5")
+    vc = _pin_net("U_PROT", "4")
+    chg_vbatm = _pin_net("U_CHG", "23")
+    chg_gnd = _pin_net("U_CHG", "24")
+
+    pack_minus = (j1_src == q1_s[0] == q1_s[1] == q1_s[2] == vss)
+    common = q1_drain == q2_drain
+    q2_on_gnd = q2_s[0] == q2_s[1] == q2_s[2] == "GND"
+    od_only_q1 = (od == q1_gate and od != q2_gate)
+    oc_only_q2 = (oc == q2_gate and oc != q1_gate)
+    gate_ok = od_only_q1 and oc_only_q2
+    cs_ok = set(_nets_of("R_PROT_CS")) == {cs, "GND"} and cs != "GND"
+    vdd_ok = set(_nets_of("R_PROT_VDD")) == {vdd, "VBAT"}
+    vc_ok = set(_nets_of("R_PROT_VC")) == {vc, "MID"}
+    cb_ok = set(_nets_of("R_CB")) == {chg_vbatm, "MID"}
+    chg_gnd_ok = chg_gnd == vss
+    # Gegenprobe: Pack-Minus und Schalterpaar duerfen NICHT auf GND liegen,
+    # sonst ist der Schutz kurzgeschlossen und wirkungslos.
+    pair_off_gnd = (j1_src != "GND" and q1_s[0] != "GND"
+                    and q1_drain != "GND")
+    checks = (
+        ("Pack-Minus J1.1/Q_PROT1-S/U_PROT-VSS", pack_minus),
+        ("Drains beider auf einem Netz (PROT_COMMON)", common),
+        ("Q_PROT2-S auf GND", q2_on_gnd),
+        ("OD an Q_PROT1-Gate, OC an Q_PROT2-Gate (kein Tausch)", gate_ok),
+        ("R_PROT_CS CS<->GND", cs_ok),
+        ("R_PROT_VDD VDD<->VBAT", vdd_ok),
+        ("R_PROT_VC VC<->MID", vc_ok),
+        ("R_CB VBATM<->MID", cb_ok),
+        ("U_CHG.24 auf BAT_MINUS", chg_gnd_ok),
+        ("Schalterpaar nicht auf GND", pair_off_gnd),
+    )
+    ok = all(good for _label, good in checks)
+    ist = "; ".join("%s %s" % (label, "OK" if good else "FEHLER")
+                    for label, good in checks)
+    ist += " (Netze: J1-1 %s, Q_PROT1-S %s, Drains %s/%s, Q_PROT2-S %s, " \
+          "OD %s, OC %s, U_CHG-24 %s)" % (
+              j1_src, q1_s[0], q1_drain, q2_drain, q2_s[0], od, oc, chg_gnd)
+    return CheckResult(
+        "Schutz-Serienkette", ok, ist,
+        "J1-1 = Q_PROT1-S = U_PROT-VSS (BAT_MINUS), beide Drains auf "
+        "PROT_COMMON, Q_PROT2-S auf GND, OD nur an Q_PROT1-Gate (Entlader, "
+        "packseitig), OC nur an Q_PROT2-Gate, R_PROT_CS CS<->GND, R_PROT_VDD "
+        "VDD<->VBAT, R_PROT_VC VC<->MID, R_CB VBATM<->MID, U_CHG-24 auf "
+        "BAT_MINUS; Schalterpaar nicht auf GND",
+        "Regressionsschutz der Topologie (Review 16.09.2026): der Schutz "
+        "sitzt in der Minusleitung zwischen Pack-Minus (BAT_MINUS) und "
+        "Board-GND. Q_PROT1 (Entlader, Gate an OD) liegt packseitig, Q_PROT2 "
+        "(Lader, Gate an OC) an GND, gemeinsamer Drain PROT_COMMON. Wird ein "
+        "Source auf GND gelegt oder OD/OC getauscht, ist der Schutz "
+        "wirkungslos bzw. die Entlade-/Ladetrennung vertauscht")
+
+
+def check_schutz_schwellen():
+    """Abschaltstaffelung: Zellenschutz gegen Lader, Waechter und Zelle."""
+    ov_vals = _doc_values(
+        r"berlad(?:ung|en)\s*\*\*\s*([0-9]+(?:[.,][0-9]+)?)\s*V",
+        "Ueberladung je Zelle")
+    uv_vals = _doc_values(
+        r"Tiefentlad(?:ung|en)\s*\*\*\s*([0-9]+(?:[.,][0-9]+)?)\s*V",
+        "Tiefentladung je Zelle")
+    ov_doc_ok = _doc_consistent(ov_vals)
+    uv_doc_ok = _doc_consistent(uv_vals)
+    ov_cell = ov_vals[0]
+    uv_cell = uv_vals[0]
+    sys = circuit.load_system()
+    ov_pack = 2.0 * ov_cell
+    uv_pack = 2.0 * uv_cell
+    trip = _uvlo_trip(sys)
+    fw = 2.0 * sys["cell_firmware_stop_v"]
+    pcm = 2.0 * sys["cell_pcm_v"]
+    over_ok = IP2326_VSET_OPEN_V < ov_pack < IP2326_8V8_V
+    under_ok = pcm < uv_pack < trip
+    staffel_ok = fw > trip > uv_pack
+    ok = ov_doc_ok and uv_doc_ok and over_ok and under_ok and staffel_ok
+    return CheckResult(
+        "Schutz-Schwellen", ok,
+        "Ueberladung %s/Zelle = %s Pack (%s < x < %s) %s; Tiefentladung "
+        "%s/Zelle = %s Pack (%s < x < Waechter %s) %s; Staffelung FW %s > "
+        "Waechter %s > Zelle %s %s; Dokument konsistent Ueberladung %s/"
+        "Tiefentladung %s"
+        % (_f(ov_cell, 2, "V"), _f(ov_pack, 2, "V"),
+           _f(IP2326_VSET_OPEN_V, 1, "V"), _f(IP2326_8V8_V, 1, "V"),
+           "OK" if over_ok else "FEHLER",
+           _f(uv_cell, 2, "V"), _f(uv_pack, 2, "V"), _f(pcm, 1, "V"),
+           _f(trip, 2, "V"), "OK" if under_ok else "FEHLER",
+           _f(fw, 2, "V"), _f(trip, 2, "V"), _f(uv_pack, 2, "V"),
+           "OK" if staffel_ok else "FEHLER",
+           "ja" if ov_doc_ok else "NEIN", "ja" if uv_doc_ok else "NEIN"),
+        "8,4 V (Ladeschluss) < Ueberladung Pack < 8,8 V; 5,0 V "
+        "(2 x 2,5 V Zelle) < Tiefentladung Pack < Waechter 6,19 V; "
+        "FW-Stopp 6,8 V > Waechter > Zelle 5,80 V",
+        "HY2120-Datenblatt (schaltplan §3.1/§6.3): Ueberladung 4,28 V/Zelle, "
+        "Tiefentladung 2,90 V/Zelle, jeweils woertlich aus dem Dokument "
+        "gelesen; Ladeschluss IP2326 8,4 V (VSET offen) bzw. 8,8 V der "
+        "verbotenen 8V8-Variante; Waechter aus den echten R3a/R3b (TPS3839 "
+        "V_IT 3,08 V); Firmware-Stopp 2 x 3,4 V (bom §4b). Ueberladung muss "
+        "das normale Laden ueberleben, Tiefentladung vor dem Waechter greifen")
+
+
+def check_schutz_ueberstrom():
+    """Reserve der Ueberstromabschaltung gegen den Pumpenanlauf."""
+    dip_vals = _doc_values(
+        r"berstrom(?:schwelle)?\s*\*\*\s*([0-9]+(?:[.,][0-9]+)?)\s*mV",
+        "Entlade-Ueberstrom")
+    dur_vals = _doc_values(r"Dauer\s+([0-9]+(?:[.,][0-9]+)?)\s*A",
+                           "Dauerlast")
+    dip_doc_ok = _doc_consistent(dip_vals)
+    dur_doc_ok = _doc_consistent(dur_vals)
+    v_dip = dip_vals[0] / 1000.0
+    i_dauer = dur_vals[0]
+    sys = circuit.load_system()
+    r_pair = 2.0 * PSMN4R2_RDSON_MAX_OHM
+    i_trip = v_dip / r_pair
+    p_pump = sys["pump_v"] * sys["pump_i_inrush_a"]
+    i_inrush = p_pump / (BUCK_INRUSH_EFF * sys["pack_v_min"])
+    reserve = i_trip / i_inrush
+    reserve_ok = reserve >= 2.0
+    drop = i_dauer * r_pair
+    drop_ok = drop <= SCHUTZ_DAUER_DROP_MAX_V
+    ok = dip_doc_ok and dur_doc_ok and reserve_ok and drop_ok
+    return CheckResult(
+        "Schutz-Ueberstrom", ok,
+        "Ausloesung %s / Paar %s = %s; Anlauf %s/(%s x %s) = %s "
+        "(Reserve %s) %s; Abfall bei %s = %s %s; Dokument konsistent %s/%s"
+        % (_f(v_dip * 1000.0, 0, "mV"), _f(r_pair * 1000.0, 1, "mΩ"),
+           _f(i_trip, 1, "A"), _f(p_pump, 1, "W"),
+           _f(BUCK_INRUSH_EFF, 2, ""), _f(sys["pack_v_min"], 1, "V"),
+           _f(i_inrush, 2, "A"), _f(reserve, 1, "x"),
+           "OK" if reserve_ok else "FEHLER",
+           _f(i_dauer, 2, "A"), _f(drop * 1000.0, 1, "mV"),
+           "OK" if drop_ok else "FEHLER",
+           "ja" if dip_doc_ok else "NEIN",
+           "ja" if dur_doc_ok else "NEIN"),
+        "Ausloesestrom >= 2 x Anlaufstrom und Abfall des Paares bei Dauerlast "
+        "<= %s" % _f(SCHUTZ_DAUER_DROP_MAX_V * 1000.0, 0, "mV"),
+        "HY2120-Datenblatt: V_DIP 200 mV (+-30 mV) ueber dem Paar "
+        "(schaltplan §3.1); PSMN4R2-30MLDX: R_DS(on,max) 5,7 mOhm bei "
+        "V_GS 4,5 V => Paar 11,4 mOhm (schaltplan §6.3); Pumpenanlauf "
+        "5 V/3 A = %s an %s Pack ueber eta_Buck %s (bom §4c: eta 0,90), "
+        "Dauerlast %s (schaltplan §6.3); die interne Verzoegerung von %s "
+        "schuetzt den kurzzeitigen Anlauf"
+        % (_f(p_pump, 1, "W"), _f(sys["pack_v_min"], 1, "V"),
+           _f(BUCK_INRUSH_EFF, 2, ""), _f(i_dauer, 2, "A"),
+           _f(HY2120_OC_DELAY_MS, 0, "ms")))
 
 
 # ===========================================================================
@@ -1177,6 +1393,10 @@ def run_all():
         check_kein_low_vin_am_vbat,
         check_standby_budget,
         check_system_quellen,
+        # Akku-Schutz auf der Platine (neu 16.09.2026)
+        check_schutz_serie,
+        check_schutz_schwellen,
+        check_schutz_ueberstrom,
         # Bestand, auf 2S gezogen
         check_gate_spannung,
         check_mosfet_verlust,

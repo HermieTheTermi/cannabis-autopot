@@ -18,7 +18,7 @@ Maschinenlesbare Fassung derselben Verbindungen: **`schaltplan_v1_netzliste.csv`
    USB-C (J5) ──VBUS 5 V──┬────────────────────────────────► U_CHG  IP2326  (2S-Boost-Lader, 8,4 V)
                           │                                    │
                           ├── L_CHG 2,2 µH ──► LX (15/16/17)    │ VOUT (21/22)
-                          ├── R_VIN_CHG 0,5 Ω ─► VIN (13) + C   └──► VBAT ──┬── J1  2S-Pack (6,0–8,4 V, mit BMS)
+                          ├── R_VIN_CHG 0,5 Ω ─► VIN (13) + C   └──► VBAT ──┬── J1  2S-Pack (6,0–8,4 V, Schutz auf der Platine)
                           ├── R_LEDCHG 1 k ─► D_LEDCHG ─► LED (6)           │
                           └── D+/D− ── U6 ESD ── U1 IO13/IO12              │
    (DP/DM des Laders bleiben OFFEN — kein Fast-Charge-Request, die Datenleitungen gehören dem ESP32)
@@ -73,17 +73,23 @@ Es gibt **keinen** Aufwärtswandler und **keinen** LDO mehr.
 | **EN_CHG** | U_CHG Pin 12 (EN) ↔ **R_EN_CHG 100 kΩ** → VBUS | Laden ist **an, sobald USB steckt** — unabhängig von der Firmware (§6.1) |
 | **LED_CHG / STAT_CHG** | VBUS → R_LEDCHG 1 kΩ → **D_LEDCHG Anode** · **Kathode → U_CHG Pin 6 (LED)** | Ladeanzeige; der LED-Pin ist eine **Senke** (max. 5 mA) → ~2,7 mA |
 | **CC1 / CC2** | J5 A5 ↔ **R5a 5,1 kΩ** → GND · J5 B5 ↔ **R5b 5,1 kΩ** → GND | USB-C-Senke (unverändert). **Kein** Rp, **kein** PD — die Quelle darf 5 V/2,4 A liefern |
-| **offen (NC)** | U_CHG Pin 1 (DM), Pin 2 (DP), Pin 3 (VSET), Pin 5 (BAT_STAT), Pin 7 (TIME_SET), Pin 9 (VIN_OVSET), Pin 10 (CON_SEL), Pin 23 (VBATM), Pin 24 (VBAT_GND) | **VSET** offen ⇒ 8,4 V (die 8V8-Variante wäre 8,8 V → **nicht** verwenden!); **CON_SEL** offen ⇒ 2S; **TIME_SET** offen ⇒ 24 h Timeout; **VIN_OVSET** offen ⇒ 8,75 V (bei 5-V-Quelle irrelevant); **DM/DP** offen ⇒ kein Fast-Charge-Request (§6.1); **VBATM/VBAT_GND** offen ⇒ internes Balancing aus (§6.3) |
+| **offen (NC)** | U_CHG Pin 1 (DM), Pin 2 (DP), Pin 3 (VSET), Pin 5 (BAT_STAT), Pin 7 (TIME_SET), Pin 9 (VIN_OVSET), Pin 10 (CON_SEL) | **VSET** offen ⇒ 8,4 V (die 8V8-Variante wäre 8,8 V → **nicht** verwenden!); **CON_SEL** offen ⇒ 2S; **TIME_SET** offen ⇒ 24 h Timeout; **VIN_OVSET** offen ⇒ 8,75 V (bei 5-V-Quelle irrelevant); **DM/DP** offen ⇒ kein Fast-Charge-Request (§6.1); **VBATM (23) und VBAT_GND (24)** sind jetzt verdrahtet (R_CB an den Mittelabgriff, Masse an den Pack-Minus) ⇒ **internes 2S-Balancing ist aktiv** (§6.3) |
 
 ### 2.2 Batterie und Wächter (geändert)
 
 | Netz | Verbindungen | Zweck |
 |---|---|---|
-| **VBAT** | U_CHG Pin 21/22 (VOUT) ↔ **C_CHG_OUT 10 µF** ↔ **J1 Pin 1 (2S-Pack +)** ↔ TP4 ↔ U_BUCK5 IN ↔ C_B5_IN 22 µF ↔ C_B5_IN_HF ↔ U_BUCK3 VIN ↔ U_BUCK3 EN ↔ C_B3_IN 22 µF ↔ C_B3_IN_HF ↔ R3a ↔ R_SENSE_TOP | Energiebus. **Kein Boost, kein LDO** hängt mehr daran; die Pumpen hängen an +5V |
+| **VBAT** | U_CHG Pin 21/22 (VOUT) ↔ **C_CHG_OUT 10 µF** ↔ **J1 Pin 3 (2S-Pack +)** ↔ TP4 ↔ U_BUCK5 IN ↔ C_B5_IN 22 µF ↔ C_B5_IN_HF ↔ U_BUCK3 VIN ↔ U_BUCK3 EN ↔ C_B3_IN 22 µF ↔ C_B3_IN_HF ↔ R3a ↔ R_SENSE_TOP | Energiebus. **Kein Boost, kein LDO** hängt mehr daran; die Pumpen hängen an +5V |
 | **UV_REF** | **R3a 200 kΩ** (von VBAT) ↔ Knoten ↔ **R3b 200 kΩ** → GND · Knoten ↔ **U7 Pin 3 (VDD)** | Versorgung des Wächters = **VBAT/2**. Auslösung bei VDD = 3,08 V ⇒ **6,16 V Pack** (Offset durch Iq 150 nA ≈ +30 mV ⇒ ~6,19 V) |
 | **RESET_UV** | **U7 Pin 2 (RESET)** ↔ **U_BUCK5 Pin 4 (EN)** ↔ D3 Kathode ↔ D8 Kathode ↔ R_CLAMP1/R_CLAMP2 | aktiv-low; **schaltet die 5-V-Schiene wirklich ab** (Buck: EN low ⇒ Ausgang 0 V, kein Diodenpfad wie beim alten Boost) **und** klemmt beide Pumpengates |
 | **GATE / GATE2** | IO2 → R1 1 kΩ → Q1 Gate ↔ R2 47 kΩ → GND · IO22 → R_GATE2 1 kΩ → Q3 Gate ↔ R_GATE2_PD 47 kΩ → GND | Pumpensteuerung (PWM-fähig) |
 | **KLAMP1 / KLAMP2** | **R_CLAMP1 10 kΩ** (vom Gate-Knoten) ↔ **D3 Anode → Kathode RESET_UV** · **R_CLAMP2 10 kΩ** ↔ **D8 Anode → Kathode RESET_UV** | **korrigiert 16.09.2026:** Serienkette Gate → 10 kΩ → Diode → RESET (vorher war R_CLAMPx **parallel** zur Diode und der Knoten lag nicht am Gate ⇒ Klemmung wirkungslos, §13.4) |
+| **BAT_MINUS** | **J1 Pin 1 (Akku −)** ↔ **Q_PROT1 Pin 1/2/3 (Source)** ↔ **U_PROT Pin 6 (VSS)** ↔ **C_PROT_VDD/C_PROT_VC Pin 2** ↔ **U_CHG Pin 24 (BAT_GND)** | **neu:** Pack-Minus. Liegt bewusst **nicht** auf Board-GND — dazwischen sitzt das Schutz-MOSFET-Paar. Bezugspunkt für Schutz-IC und Balancing |
+| **MID** | **J1 Pin 2 (Mittelabgriff)** ↔ **R_PROT_VC 330 Ω** ↔ **R_CB 100 Ω** | **neu:** Mittelabgriff der beiden Zellen. Speist die Zellüberwachung des HY2120 (über VC) **und** den Balancing-Ausgang des IP2326 (Pin 23 über R_CB) |
+| **PROT_VDD / PROT_VC** | R_PROT_VDD 330 Ω → U_PROT Pin 5 (VDD) + C_PROT_VDD 100 nF → BAT_MINUS · R_PROT_VC 330 Ω → U_PROT Pin 4 (VC) + C_PROT_VC 100 nF → BAT_MINUS | gefilterte Messpunkte des Schutz-IC (Datenblatt-Typwerte) |
+| **PROT_GATE_D / PROT_GATE_C** | U_PROT Pin 1 (OD) → Q_PROT1 Pin 4 (Gate) · U_PROT Pin 2 (OC) → Q_PROT2 Pin 4 (Gate) | Schaltersteuerung: **OD = Entladen**, **OC = Laden** (Datenblatt-Pinbezeichnung) |
+| **PROT_COMMON** | Q_PROT1 **mb (Drain)** ↔ Q_PROT2 **mb (Drain)** | gemeinsamer Drain in der Mitte der Minusleitung (Gegenrichtung der Body-Dioden ⇒ beidseitig sperrfähig) |
+| **PROT_CS** | U_PROT Pin 3 (CS) ↔ **R_PROT_CS 2 kΩ** → GND | Strommessung über den Durchlasswiderstand des Paares + Ladeerkennung (Datenblatt R3) |
 | **VBAT_SENSE** | **R_SENSE_TOP 200 kΩ** (von VBAT) ↔ Knoten ↔ **R_SENSE_BOT 68 kΩ** → GND · Knoten ↔ U1 **Pin 13 (IO1, ADC1_CH1)** ↔ C10 100 nF → GND | **neu 1 : 3,94** (vorher 1:2): 8,4 V → **2,13 V**, 6,16 V → **1,56 V** am ADC. Teilerstrom 31,5 µA. Verhältnis bewusst nicht exakt 1:4, damit beide Widerstände Basic-Positionen bleiben (§3.3) |
 
 ### 2.3 5-V-Schiene und Pumpen (Wandler gewechselt)
@@ -116,13 +122,36 @@ Es gibt **keinen** Aufwärtswandler und **keinen** LDO mehr.
 wird jetzt vom Buck-Feedback benutzt.
 
 ---
+**Akku-Schutz und Balancing auf der Platine (neu 16.09.2026).** Statt eines Fertigpacks mit
+eingebautem BMS sitzt der Schutz jetzt auf unserer Platine (Wunsch des Nutzers: *ein* Board):
+
+- **Zellenschutz (U_PROT, HY2120-CB):** Überladung **4,28 V** je Zelle ⇒ 8,56 V Pack, Tiefentladung
+  **2,90 V** je Zelle ⇒ 5,80 V Pack, Entlade-Überstrom **200 mV** über dem Schalterpaar, Kurzschluss
+  1,0 V. Überladung liegt damit **über** der Ladeschlussspannung des IP2326 (8,4 V) — der Schutz
+  stört das normale Laden also nicht, greift aber, wenn der Lader je durchgeht.
+- **Schalterpaar (Q_PROT1/Q_PROT2, 2 × PSMN4R2-30MLDX):** gemeinsamer Drain in der Minusleitung.
+  Paar-Widerstand ≈ **11,4 mΩ** (5,7 mΩ je Bauteil bei 4,5 V). Der gesamte Systemstrom — Laden
+  (0,90 A) und Pumpen (Anlauf ≈ 2,6 A aus dem Pack, Dauer 0,65 A) — läuft über dieses Paar; der
+  Spannungsabfall bei Dauerlast ist ≈ 7 mV.
+- **Balancing (IP2326, Pins 23/24):** über **R_CB 100 Ω** an den Mittelabgriff. Erst der 3-polige
+  Stecker J1 macht das möglich.
+- **Staffelung der Abschaltungen:** Firmware-Warnung 7,0 V → Firmware-Pumpstopp 6,8 V →
+  Hardware-Wächter (U7) 6,19 V → **Zellenschutz 5,80 V** → PCM der Zellen. Jede Ebene greift später
+  als die vorige, es gibt also keine Lücke und keine unnötige Abschaltung.
+- **Was der Pack selbst noch liefern muss:** nur die Zellen im Reihenverbund mit Mittelabgriff
+  (3 Anschlüsse). Ein im Pack vorhandenes PCM ist unkritisch (doppelt schützt besser), schaltet aber
+  später als unser IC.
+
+
 ## 3. Bauteile mit Werten und Begründung
 
 ### 3.1 ICs, Wandler und Halbleiter
 
 | Pos | Bauteil | Wert | LCSC | Warum / Quelle |
 |---|---|---|---|---|
-| **U_CHG** | **IP2326** (Injoinic) | 2S/3S-Boost-Lader, QFN-24 4×4 mm | `C2832094` | **neu:** 5 V → 8,4 V bei bis zu 15 W Eingang, 94 % Wirkungsgrad (5 V→8 V/1 A), 500 kHz, Leistungs-MOSFETs integriert. **VSET offen ⇒ 8,4 V** (die Variante `IP2326_8V8` lädt auf **8,8 V** → für Li-Ion unzulässig, **nicht** verwenden). **Ladestrom ICHG = 90000/R_ISET = 0,90 A** (±10 %). Trickle 50 mA (<3,7 V), 100 mA (3,7–6 V), CV-Ende: Stopp bei <200 mA. **Kein Power-Path** (Volltext-Grep beider Datenblatt-Versionen: 0 Treffer). Balancing integriert (Pins 23/24) — hier **unbeschaltet**, weil der Pack ein eigenes BMS hat (§6.3) |
+| **U_CHG** | **IP2326** (Injoinic) | 2S/3S-Boost-Lader, QFN-24 4×4 mm | `C2832094` | **neu:** 5 V → 8,4 V bei bis zu 15 W Eingang, 94 % Wirkungsgrad (5 V→8 V/1 A), 500 kHz, Leistungs-MOSFETs integriert. **VSET offen ⇒ 8,4 V** (die Variante `IP2326_8V8` lädt auf **8,8 V** → für Li-Ion unzulässig, **nicht** verwenden). **Ladestrom ICHG = 90000/R_ISET = 0,90 A** (±10 %). Trickle 50 mA (<3,7 V), 100 mA (3,7–6 V), CV-Ende: Stopp bei <200 mA. **Kein Power-Path** (Volltext-Grep beider Datenblatt-Versionen: 0 Treffer). Balancing integriert (Pins 23/24) — **jetzt verdrahtet** (R_CB 100 Ω an den Mittelabgriff, Pin 24 an den Pack-Minus) ⇒ **2S-Balancing aktiv** (§6.3) |
+| **U_PROT** | **HY2120-CB** (HYCON) | 2-Zellen-Schutz-IC, SOT-23-6 | `C116509` | **neu (16.09.2026):** der Zellenschutz sitzt **auf unserer Platine** statt im Pack. Überladen **4,28 V ±25 mV** je Zelle (⇒ 8,56 V Pack), Tiefentladen **2,90 V ±80 mV** (⇒ 5,80 V), Entlade-Überstrom **200 mV ±30 mV**, Lade-Überstrom −210 mV, Kurzschluss 1,0 V (fest). Verzögerungen intern: Überstrom 10 ms, Kurzschluss 250 µs, Überladung ~1 s. Ruhestrom ~3 µA, 0-V-Ladefunktion vorhanden. Belegte Pins: 1 OD, 2 OC, 3 CS, 4 VC, 5 VDD, 6 VSS |
+| **Q_PROT1, Q_PROT2** | **PSMN4R2-30MLDX** (Nexperia) | N-MOSFET 30 V, LFPAK33-8, **5,7 mΩ max** bei 4,5 V (4,3 mΩ bei 10 V) | `C179452` | **neu:** Schalterpaar in der Minusleitung, **Drain beider auf PROT_COMMON**. Q_PROT1 = **Entlader** (Gate an OD, Source am Pack-Minus), Q_PROT2 = **Lader** (Gate an OC, Source am Board-GND). Paar-Widerstand ≈ **11,4 mΩ** ⇒ Überstromschwelle 200 mV / 11,4 mΩ ≈ **17 A**, während die Pumpe beim Anlauf nur ≈ 2,6 A aus dem Pack zieht (Faktor 6,5 Reserve). Belegtes Pinning (Datenblatt-Tabelle): **1/2/3 = Source, 4 = Gate, Montagebasis = Drain** — deshalb ist dieses Bauteil dem FS8205A vorgezogen, dessen Datenblätter **keine** Pin-Nummern nennen (§13.6) |
 | **U_BUCK5** | **SY8113B ADC** (Silergy) | 3 A, 4,5–18 V, synchron, 500 kHz, TSOT-23-6 | `C78989` | **neu:** erzeugt die **5-V-Schiene** für beide Pumpen aus VBAT. V_REF 0,6 V ±1,5 % ⇒ V_out = 0,6 × (1 + 75/10) = **5,10 V**. Iq 100 µA, Shutdown 5–10 µA, EN-Schwelle 1,5 V, Stromgrenze 3 A (Valley) / 6 A (Peak), Sanftanlauf 800 µs intern. **Damit liegt der 3-A-Pumpenanlauf innerhalb der Nennlast** (beim alten MT3608-Boost war er es nicht) |
 | **U_BUCK3** | **AP63203 WU-7** (Diodes) | 2 A, 3,8–32 V, synchron, 1,1 MHz, TSOT-26 | `C780769` | **neu:** erzeugt **+3V3** direkt aus VBAT (ersetzt den ME6211-LDO). V_REF 0,8 V ±1 % ⇒ V_out = 0,8 × (1 + 47/15) = **3,31 V**. **Iq 22 µA** (niedrigster Wert der geprüften Auswahl), Präzisions-EN (an VIN gelegt), 89 °C/W. Vorteil gegenüber dem LDO: bei 8,4 V → 3,3 V **88 %** statt 66 %, keine Verlustwärme bei den 382-mA-TX-Spitzen |
 | **U7** | **TPS3839G33DBZR** (TI) | Unterspannungswächter, **3,08 V**, SOT-23-3 | `C485802` | **neu (ersetzt MAX809TEUR+T):** gleiche Schwelle 3,08 V (V_IT 3,003–3,126 V, Hysterese 31 mV), aber **Iq 150 nA statt 12 µA** — nötig, weil er jetzt an einem 200 kΩ-Teiler hängt (Iq × R_top = Offset; bei 12 µA wären das 2,4 V Fehler). **Push-Pull-Ausgang** (treibt den Buck-EN direkt, kein Pull-up nötig), V_DD 0,9–6,5 V, **200 ms Reset-Delay** nach dem Anlaufen, Ausgangsstrom 2 mA bei V_OL ≤ 0,4 V |
@@ -155,6 +184,8 @@ wird jetzt vom Buck-Feedback benutzt.
 
 | Pos | Wert | Typ | Wofür | Quelle |
 |---|---|---|---|---|
+| **C_PROT_VDD** | **100 nF** | 0805 | VDD-Filter des Schutz-IC nach VSS | HY2120-Datenblatt C1 |
+| **C_PROT_VC** | **100 nF** | 0805 | VC-Filter (Mittelabgriff) nach VSS | HY2120-Datenblatt C2 |
 | **C_CHG_IN** | **10 µF / 25 V** | 0805 | Eingangspuffer des Laders | IP2326-Datenblatt BOM: „10 µF/25 V, **Spannungsfestigkeit > 16 V**, muss Keramik sein" (C1) |
 | **C_CHG_VIN** | **10 µF / 25 V** | 0805 | direkt am VIN-Pin (Pin 13) | dito (C3) |
 | **C_CHG_OUT** | **10 µF / 25 V** | 0805 | Ausgang/Batterieknoten | dito (C6/C7) |
@@ -190,6 +221,10 @@ wird jetzt vom Buck-Feedback benutzt.
 
 | Pos | Wert | Wofür | Quelle |
 |---|---|---|---|
+| **R_PROT_VDD** | **330 Ω** | VDD-Vorwiderstand des Schutz-IC | HY2120-Datenblatt: 100 Ω…470 Ω, Typ 330 Ω |
+| **R_PROT_VC** | **330 Ω** | VC-Vorwiderstand zum Mittelabgriff | dito |
+| **R_PROT_CS** | **2 kΩ** | CS-Widerstand nach GND (Strommessung, Ladeerkennung) | HY2120-Datenblatt R3: 1 kΩ…4 kΩ, Typ 2 kΩ |
+| **R_CB** | **100 Ω** | Balancing-Widerstand des IP2326 (Pin 23 → Mittelabgriff) | IP2326-Applikation: BATM → R_CB → Pin 23 |
 | **R_ISET** | **100 kΩ 1 %** | Ladestrom des IP2326 | Datenblatt: ICHG = 90000/R_ISET ⇒ **0,90 A**; 1 %-Genauigkeit gefordert. ISET darf **nicht** offen bleiben |
 | **R_NTC** | **51 kΩ** | NTC-Funktion stilllegen | Datenblatt: „nicht benötigt ⇒ 51 kΩ nach GND" (20 µA × 51 k = 1,02 V = Normalbereich) |
 | **R_UVSET** | **68 kΩ** | Eingangs-Unterspannungsschwelle | Datenblatt-Tabelle: 68 k ⇒ **4,35 V** (Standard 4,65 V). Ziel: die Eingangsregelschleife soll bei einem dünnen Kabel erst spät den Ladestrom senken |
@@ -224,8 +259,8 @@ wird jetzt vom Buck-Feedback benutzt.
 
 | Pos | Bauteil | LCSC | Anschluss |
 |---|---|---|---|
-| **J1** | JST PH 2,0 mm, 2-pol, aufrecht | `C160352` | **Akku = 2S-Pack** (Pin 1 = +, Pin 2 = −). ⚠️ **Pflicht: Pack mit BMS/Balancer** (§6.3) |
-| J2 | JST-XH 2,5 mm, 3-pol, aufrecht | `C493416` | Feuchtesensor: 1 = GND · 2 = SENSOR_PWR · 3 = SENSOR_RAW |
+| **J1** | JST-XH 2,5 mm, **3-pol**, aufrecht | `C5258884` | **Akku (2S): 1 = BAT− · 2 = MID (Mittelabgriff) · 3 = BAT+**. Pin 1 liegt bewusst auf Masse wie bei RC-Balancer-Steckern; der Mittelabgriff speist Schutz-IC **und** Balancing. Ein Pack-BMS ist damit **nicht** mehr nötig (§6.3), ein vorhandenes schadet nicht |
+| J2 | JST-XH 2,5 mm, 3-pol, aufrecht | `C5258884` | Feuchtesensor: 1 = GND · 2 = SENSOR_PWR · 3 = SENSOR_RAW |
 | J4 | JST-XH 2,5 mm, 2-pol, aufrecht | `C158012` | Dosierpumpe: 1 = **+5V** · 2 = PUMP_N |
 | J16 | JST-XH 2,5 mm, 2-pol, aufrecht | `C158012` | Sauerstoffpumpe: 1 = **+5V** · 2 = PUMP2_N |
 | **J17** | JST-XH 2,5 mm, 2-pol, aufrecht | `C158012` | **neu: 5-V-Ausgang für Sensorik** — 1 = **+5V** · 2 = GND. Gleicher Steckertyp wie J4/J16 (eine Crimpzange, eine BOM-Zeile mit Menge 3) |
@@ -313,41 +348,51 @@ die Verdopplung des Ruhestroms kostet also **nichts** an Laufzeit, weil der Pack
 erfordert dann aber eine Einschaltverzögerung in der Firmware, weil der Buck nach dem EN 800 µs
 Sanftanlauf braucht, plus die 200 ms des Wächters beim Kaltstart).
 
-### 6.3 ⚠️ Der Akku-Pack **muss** eine Schutzplatine (PCM/BMS) haben — Balancing ist die zweite Ebene
+### 6.3 Akku-Schutz und Balancing liegen jetzt **auf unserer Platine**
 
-**Pflicht (Sicherheit):** Der Pack braucht ein **PCM/BMS mit Zellschutz** (Überladung **pro Zelle**,
-Tiefentladung, Überstrom, Kurzschluss). Das ist bei 2S kein Luxus: der Lader lädt nur die
-**Reihenschaltung** auf 8,4 V und kann eine einzelne Zelle nicht sehen.
+**Entscheidung des Nutzers (16.09.2026, wörtlich):** „Nee, dann mach mal alles auf der Platine bei uns
+mit drauf, dass wir ein Bord haben, wo alles drauf ist. Ich brauche kein zweites extra Bord."
+Damit ist die frühere Pflicht („der Pack **muss** ein PCM/BMS haben") **ersetzt**: den Zellschutz
+macht jetzt **U_PROT (HY2120-CB)** mit dem Schalterpaar **Q_PROT1/Q_PROT2**, das Balancing der
+Laderegler **IP2326** selbst.
 
-**Was ohne Balancing wirklich passiert (präzisiert 16.09.2026):** Solange der Pack ein PCM hat, ist
-die Folge von Zell-Drift **kein Brandrisiko**, sondern **Kapazitätsverlust und schnelleres Altern**:
-die schwächere Zelle erreicht ihre Ladeschlussspannung nicht mehr, die stärkere läuft in die
-PCM-Abschaltung (typisch 4,25–4,3 V/Zelle) und beendet die Ladung früher. Gefährlich wird es **erst
-ohne jede Zellschutzschaltung** (dann kann eine Zelle über 4,3 V kommen).
-→ Die frühere Formulierung „ohne Balancing besteht ein Brandrisiko" war zu scharf und ist hiermit ersetzt.
+**Was der Schutz leistet (Werte aus dem HY2120-Datenblatt, §3.1):** Überladen **4,28 V** je Zelle
+(8,56 V Pack), Tiefentladen **2,90 V** je Zelle (5,80 V Pack), Entlade-Überstrom **200 mV** über dem
+Schalterpaar, Kurzschluss ab 1,0 V. Verzögerungen intern (Überstrom 10 ms, Kurzschluss 250 µs) —
+das ist wichtig, weil der Pumpenanlauf kurzzeitig Strom zieht: bei 11,4 mΩ Paar-Widerstand löst der
+Überstrom erst bei ≈ **17 A** aus, der Anlauf zieht ≈ 2,6 A (Faktor 6,5 Reserve).
 
-**Balancing — drei Wege, bewertet:**
+**Was ohne Balancing passiert (unverändert gültig, präzisiert 16.09.2026):** Zell-Drift ist **kein
+Brandrisiko**, sondern kostet **Kapazität und Lebensdauer**: die schwächere Zelle erreicht ihre
+Ladeschlussspannung nicht mehr, die stärkere läuft in die Abschaltung und beendet die Ladung früher.
+Gefährlich wird es erst **ohne jede** Zellschutzschaltung. Da wir Balancing jetzt integriert haben
+(IP2326, Pins 23/24 über **R_CB 100 Ω** am Mittelabgriff), ist die Frage ohnehin erledigt.
 
-| Weg | Aufwand | Bewertung |
-|---|---|---|
-| **a) Der Pack balanciert selbst** (BMS mit Balancer-Funktion) | keiner | Wunschfall. ⚠️ Alle am 16.09.2026 geprüften 2S-Packs aus dem deutschen Handel (Keeppower 2×18500 2000 mAh 10,90 € / 2×18650 3400 mAh 14,90 €, akkuteile.de, Seiko-PCM) **dokumentieren kein Balancing** — nur Schutz. Vor dem Kauf beim Händler erfragen (`research/bom-check/10_2s-akku-quellen.md`) |
-| **b) 2 Einzelzellen + 2S-BMS-Board mit Balancer** | 1 Steckverbinder + 1 Widerstand + 2 Kondensatoren, Mittelabgriff herausführen | technisch die beste Lösung: unser IP2326 kann dann mitbalancieren (Pins 23/24). Der Mittelabgriff ist bei einem BMS-Board zugänglich, bei einem verschweißten Fertigpack nicht |
-| **c) Nichts tun** | keiner | zulässig, **weil** der PCM die Zellen schützt — kostet aber nutzbare Kapazität und Lebensdauer |
+**Balancing-Verdrahtung (aktiv seit 16.09.2026):**
+- **VBATM (Pin 23)** ← **R_CB 100 Ω** ← **Mittelabgriff (J1 Pin 2)**
+- **VBAT_GND (Pin 24)** ← **BAT_MINUS** = Pack-Minus (J1 Pin 1)
+- **2 × 100 nF** als Filter; Aktivierung ab V_CBON = 4,1 V, Ende, wenn beide Zellen darüber liegen
+- Die Verdrahtung liegt im Datenblatt nur als Bild vor (图5) und wurde am **16.09.2026 am Bild
+  Pin-für-Pin geprüft** (BAT+ → VOUT, Mittelabgriff → R_CB → Pin 23, BAT− → Pin 24)
 
-**Wenn Balancing gewünscht wird (Weg b), ändert sich in dieser Schaltung:**
-- **VBATM (Pin 23)** ← **R_CB 100 Ω 1206** ← **Mittelabgriff des Packs** (Datenblatt: I_CB = V_CB/R_CB, < 40 mA)
-- **VBAT_GND (Pin 24)** ← **BAT−** des Packs; **2 × 100 nF** als Filter an beiden Pins
-- J1 wird **3-polig** (BAT− / MID / BAT+, z. B. JST-XH-3P `C493416`, dasselbe Teil wie J2)
-- Aktivierung ab `V_CBON = 4,1 V` (Standardtyp); Balancing endet, wenn beide Zellen darüber liegen
-- ⚠️ Diese Verdrahtung liegt im Datenblatt **nur als Bild** vor (图5): BAT+ → VOUT, Mittelabgriff →
-  R_CB → Pin 23, BAT− → Pin 24. **Vor dem Layout am Bild gegenprüfen** (Belegstatus wie in §5)
+**Verworfene Alternative (kurz, damit sie nicht wieder auftaucht):** ein fertiges **2S-BMS-Modul mit
+Balancer** (z. B. HX-2S-JH20, 47,5 × 24 × 3,6 mm, ≈ 7 €, Schutz + 40 mA-Balancer, Typ HY2120-CB +
+HY2213-BB3A). Fachlich völlig in Ordnung — aber es ist ein **zweites Board** im Gehäuse und wurde
+deshalb vom Nutzer abgelehnt. Ebenso verworfen: auf das Balancing zu verzichten (Weg c, kostet
+Kapazität).
 
 **Pack-Kandidaten (geprüft 16.09.2026, Links in `../research/bom-check/10_2s-akku-quellen.md`):**
-Keeppower 2S1P 2×18500 **2000 mAh** (10,90 €, akkuteile.de, 18,5 × 103 mm, 70 g, Seiko-Schutz) oder
-2×18650 **3400 mAh** (14,90 €, 18,7 × 134 mm, 100 g). ⚠️ **Mechanik-Folge:** der bisherige 1S-Pouch
-war 59 × 37 × 5 mm flach — ein Rundzellenpack ist 18,5 mm dick und ~103 mm lang. Das passt in die
-160 mm hohe Wulst, aber **nicht** mehr hinter die Platine → Einbauort in `docs/02`/`cad/params.py`
-nachziehen (Auftrag, nicht Teil dieses Schaltplan-Schritts).
+Der Pack muss jetzt nur noch **die Zellen und den Mittelabgriff** liefern — 3 Anschlüsse am Stecker J1.
+- **2 Einzelzellen** (z. B. 2 × 18500 oder 2 × 18650 mit Lötfahnen) + 3-poliger Stecker — günstigste
+  und schlankeste Lösung; ein PCM im Pack ist unnötig, aber unschädlich (schaltet bei ~2,5 V/Zelle,
+  also **später** als unser IC ⇒ keine Doppelabschaltung im Normalbetrieb)
+- Keeppower 2S1P 2×18500 **2000 mAh** (10,90 €) bzw. 2×18650 **3400 mAh** (14,90 €, akkuteile.de) —
+  als Fertigpack verwendbar, wenn der Mittelabgriff herausgeführt wird (bei verschweißten Packs
+  **nicht** zugänglich ⇒ dann ohne Balancing, siehe oben)
+
+⚠️ **Mechanik-Folge (offen):** der bisherige 1S-Pouch war 59 × 37 × 5 mm flach — ein Rundzellenpack
+ist 18,5 mm dick und ~103 mm lang. Das passt in die 160 mm hohe Wulst, aber **nicht** mehr hinter die
+Platine → Einbauort in `docs/02`/`cad/params.py` nachziehen.
 
 ### 6.4 Was der Wächter jetzt wirklich abschaltet
 
@@ -374,6 +419,14 @@ ist der Schutz; mechanische Kodierung durch JST).
 
 ### 6.7 Offene Punkte / Messaufträge (Stand 16.09.2026)
 
+**Neu mit dem Platinen-Schutz (16.09.2026):**
+- Auslöseschwellen am Aufbau prüfen: Überladung (Netzteil 8,6 V an VBUS, Packspannung messen),
+  Tiefentladung (Pack auf 5,8 V entladen ⇒ Ausgang muss abschalten) und Überstrom (Kurzschluss am
+  5-V-Ausgang über 1 Ω, 10 ms-Fenster beachten)
+- Balancing-Strom messen (R_CB 100 Ω ⇒ Datenblatt: I_CB = V_CB/R_CB, < 40 mA) und die Erwärmung der
+  beiden MOSFETs bei Dauerlast (0,65 A ⇒ ≈ 7 mV, unkritisch, aber nachmessen)
+- Widerstand des Schalterpaares am Aufbau messen und in `hardware/design/` gegen die 11,4 mΩ aus dem
+  Datenblatt stellen (Grundlage der Überstromschwelle von ≈ 17 A)
 1. **Akku-Pack auswählen** (2S, 1500–2500 mAh, mit BMS + Balancing, 2-poliger Ausgang) — Recherche
    liegt vor, Entscheidung offen. Maße müssen in die Wulst passen (`docs/02`).
 2. **Eingangsstrom messen** (5-V-Seite bei 0,9 A Ladestrom + Pumpenbetrieb) → entscheidet über die
@@ -566,7 +619,7 @@ I²C-Stecker J8 folgt **GND–VCC–SDA–SCL** (VCC innen, wie Qwiic/STEMMA). J
 
 | Stecker | Typ | Pin 1 | Pin 2 (VCC) | Pin 3 | Pin 4 | Signal → MCU |
 |---|---|---|---|---|---|---|
-| **J2** | JST-XH 3P (`C493416`, aufrecht) | GND | SENSOR_PWR | SENSOR_RAW | – | R6 1 kΩ → IO0 (Pin 12) |
+| **J2** | JST-XH 3P (`C5258884`, aufrecht) | GND | SENSOR_PWR | SENSOR_RAW | – | R6 1 kΩ → IO0 (Pin 12) |
 | **J7** | Stiftleiste 1×3 (`C2937625`) | GND | SENSOR_PWR | LIGHT_RAW | – | R_LIGHT_S 1 kΩ → IO4 (Pin 9) |
 | **J8** | Stiftleiste 1×4 (`C2691448`) | GND | VCC_EXT | SDA | SCL | R_SDA_S/R_SCL_S 1 kΩ → IO18/IO19 (Pin 24/25) |
 | **J9** | Stiftleiste 1×3 (`C2937625`) | GND | VCC_EXT | SPARE_AIN_RAW | – | R_SPARE_AIN 1 kΩ → IO5 (Pin 10) |
@@ -885,3 +938,29 @@ Der IR-EasyEDA-Stand vom 15.09.2026 trägt denselben Fehler — beim Neuaufbau m
    diesem Dokument (U4 entfällt!) — die Prüfungen für LDO-Headroom/Boost-Feedback sind zu ersetzen
    durch Buck-Feedback, Wächter-/Teiler-Rechnung und Ladepfad-Rechnung.
 3. Akku-Pack bestellen (§6.7 Nr. 1) und die Messungen aus §6.7 abarbeiten.
+
+### 13.6 Akku-Schutz auf die Platine geholt (16.09.2026)
+
+**Auftrag (Nutzer, wörtlich):** „Nee, dann mach mal alles auf die Platine bei uns mit drauf, dass wir
+ein Bord haben, wo alles drauf ist. Ich brauche kein zweites extra Bord."
+
+**Geändert:** U_PROT (HY2120-CB), Q_PROT1/Q_PROT2 (2 × PSMN4R2-30MLDX), R_PROT_VDD/R_PROT_VC (330 Ω),
+R_PROT_CS (2 kΩ), C_PROT_VDD/C_PROT_VC (100 nF), R_CB (100 Ω); J1 von 2-polig JST-PH auf **3-polig
+JST-XH** (`C5258884`) mit B− / MID / B+; der Pack-Minus ist damit ein eigenes Netz (**BAT_MINUS**)
+zwischen Pack und Schalterpaar. Balancing des IP2326 (Pins 23/24) **erstmals verdrahtet** — vorher
+lagen diese Pins offen (kein Mittelabgriff vorhanden).
+
+**Warum 2 × PSMN4R2-30MLDX statt des üblichen FS8205A:** Der FS8205A ist der Standardbaustein für
+genau diese Aufgabe, aber **kein** der vier geprüften Datenblätter (Tech Public, FUXINSEMI, HXY, EVVO)
+nennt **Pin-Nummern** — nur die Kürzel S1/G1/S2/G2/D1/D2 als Bild. Für eine Netzliste braucht man
+Nummern; raten wäre bei einer **Schutzfunktion** nicht vertretbar. Das Nexperia-Bauteil hat die
+Belegung als **Text-Tabelle** im Datenblatt (1/2/3 = Source, 4 = Gate, Montagebasis = Drain) und ist
+mit 5,7 mΩ zugleich deutlich niederohmiger ⇒ Überstromschwelle ≈ 17 A statt ≈ 3 A.
+
+**Nebenbefund (JLC-Verfügbarkeit):** `C493416` (JST-XH-3P, bisher J2) ist in der JLC-Suche **nicht
+mehr auffindbar** ⇒ J1 und J2 auf `C5258884` (XH-3PA, 14.383 lagernd) umgestellt. Die übrigen neuen
+Werte (330 Ω `C17630`, 2 kΩ `C17604`, 100 Ω `C17408`) sind **JLC-Basic** — sie kosten keinen
+Extended-Aufpreis.
+
+**Noch offen:** die Prüfungen der Design-Suite für die Schutzbeschaltung (Serienkette, Schwellen,
+Überstrom-Reserve) und der EasyEDA-Neuaufbau (§13.5).

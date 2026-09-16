@@ -1,5 +1,10 @@
 Comment,Designator,Footprint,LCSC Part #,Menge,Hinweis
 IP2326,U_CHG,VQFN-24-EP(4x4),C2832094,1,"extended - 2S-Boost-Lader 8,4 V, ICHG = 90000/R_ISET = 0,90 A; EPAD ueber Vias an Kupferflaeche"
+HY2120-CB,U_PROT,SOT-23-6,C116509,1,"extended - 2-Zellen-Schutz: Ueberladung 4,28 V, Tiefentladung 2,90 V/Zelle, Entlade-Ueberstrom 200 mV, Kurzschluss 1,0 V, Ruhestrom ~3 uA"
+PSMN4R2-30MLDX,Q_PROT1 Q_PROT2,LFPAK33-8,C179452,2,"extended - N-MOSFET 30 V, 5,7 mOhm max bei 4,5 V; je einer fuer Entladen (OD) und Laden (OC); Drain beider auf gemeinsamem Knoten"
+330R,R_PROT_VDD R_PROT_VC,0805,C17630,2,basic - Typwerte des Schutz-IC (Datenblatt: 100-470 R fuer VDD/VC)
+2k,R_PROT_CS,0805,C17604,1,"basic - CS-Widerstand (Datenblatt R3: 1-4 k, typ 2 k)"
+100R,R_CB,0805,C17408,1,basic - Balancing-Widerstand des IP2326 (Pin 23 an den Mittelabgriff)
 TPS3839G33DBZR,U7,SOT-23-3,C485802,1,"extended - Unterspannungswaechter 3,08 V, Iq 150 nA, Push-Pull; an R3a/R3b (1:2) = 6,16 V Pack"
 SY8113B ADC,U_BUCK5,TSOT-23-6,C78989,1,"extended - Buck 5 V/3 A, 500 kHz; Vout = 0,6 x (1 + 75/10) = 5,10 V"
 AP63203WU-7,U_BUCK3,TSOT-23-6,C780769,1,"extended - Buck 3,3 V/2 A, 1,1 MHz, Iq 22 uA; Vout = 0,8 x (1 + 47/15) = 3,31 V"
@@ -12,7 +17,7 @@ LED-GREEN,D2,0805,C2297,1,"basic - Status 525 nm, Vf 2,85 V"
 LED-RED,D5 D_LEDCHG,0805,C84256,2,basic - Tank leer + Ladestatus (am LED-Pin des IP2326)
 "2.2uH Isat 5,0A DCR 58mR",L_CHG,SMD 4.6x4.1mm,C142096,1,"extended - Boost-Induktivitaet des Laders (2,2 uH @ 500 kHz laut Datenblatt)"
 "4.7uH Isat 4,0A DCR 31mR",L_BUCK5 L_BUCK3,SMD 6x6mm,C105660,2,"extended - Buck-Induktivitaet, gleicher Typ fuer beide Wandler"
-100nF,C1a C1b C9 C10 C11 C12 C13 C_BTN C_BST_CHG C_B5_BST C_B5_IN_HF C_B5_OUT_HF C_B3_BST C_B3_IN_HF C_B3_OUT_HF C_LIGHT C_PUMP2_EMI C_SPARE,0805,C49678,18,"basic - Decoupling, ADC-Filter, EMI an den Pumpenklemmen, Bootstraps"
+100nF,C1a C1b C9 C10 C11 C12 C13 C_BTN C_BST_CHG C_B5_BST C_B5_IN_HF C_B5_OUT_HF C_B3_BST C_B3_IN_HF C_B3_OUT_HF C_LIGHT C_PUMP2_EMI C_SPARE C_PROT_VDD C_PROT_VC,0805,C49678,20,"basic - Decoupling, ADC-Filter, EMI an den Pumpenklemmen, Bootstraps; zusaetzlich Schutz-IC-VDD/VC-Filter"
 1uF,C4,0603,C15849,1,basic - EN-RC-Glied
 10uF 25V,C_CHG_IN C_CHG_VIN C_CHG_OUT,0805,C15850,3,"basic - Lader Ein-/VIN-/Ausgang (Datenblatt: >16 V, Keramik)"
 22uF 25V,C2 C_VSYS_A C_VSYS_B C_B5_IN C_B5_OUT C_B3_IN C_B3_OUT,0805,C45783,7,"basic - VSYS 2x, Modul-Bulk, Buck Ein-/Ausgang beider Wandler"
@@ -32,9 +37,8 @@ LED-RED,D5 D_LEDCHG,0805,C84256,2,basic - Tank leer + Ladestatus (am LED-Pin des
 4.7k,R_SDA_PU R_SCL_PU,0805,C17673,2,basic - I2C-Pull-ups an VCC_EXT
 499R,R_UART,0805,,1,DNP - NICHT BESTUECKEN (optionaler UART-Debug)
 USB-C-16P,J5,SMD,C165948,1,extended - Buchse (Laden + Programmieren)
-JST-PH-2P,J1,SMD P2.0 aufrecht (Top-Entry),C160352,1,extended - Akku 2S-Pack mit BMS; Polung im Layout pruefen
 JST-XH-2P,J4 J16 J17,THT P2.5 aufrecht (Top-Entry),C158012,3,"extended - Dosierpumpe (J4), Sauerstoffpumpe (J16), 5-V-Sensorausgang (J17)"
-JST-XH-3P,J2,THT P2.5 aufrecht (Top-Entry),C493416,1,extended - Feuchtesensor
+JST-XH-3P,J1 J2,THT P2.5 aufrecht (Top-Entry),C5258884,2,"extended - Akku 3-polig (B-/Mitte/B+) und Feuchtesensor; auf C5258884 (XH-3PA, 14.383 lagernd) umgestellt, C493416 ist nicht mehr auffindbar"
 Stiftleiste-1x3-2.54mm,J7 J9 J10 J11 J12 J13 J15,THT P2.54 gerade,C2937625,7,extended - XFCN PZ254V-11-03P; GND-VCC-SIG (VCC immer Pin 2)
 Stiftleiste-1x4-2.54mm,J8,THT P2.54 gerade,C2691448,1,extended - XFCN PZ254V-11-04P; I2C GND-VCC-SDA-SCL
 SW-SMD,SW1 SW2,SMD-4P 5.1x5.1,C318884,2,basic - Reset + Boot

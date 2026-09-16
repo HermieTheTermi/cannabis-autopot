@@ -17,7 +17,7 @@ Exit-Code 0 = alle Prüfungen bestanden, 1 = mindestens eine fehlgeschlagen.
   §3.1–§3.4 der `schaltplan_v1.md`. Systemgrößen (Pumpe, Pack, Modul, ADC,
   Netzteil) stehen im markierten `SYSTEM`-Block, jede mit ihrer wörtlichen
   Belegstelle. Annahmen stehen markiert in `ASSUMPTIONS`.
-* `checks.py` — 37 Prüfungen. Jede liefert `name · Ist · Soll · Begründung`;
+* `checks.py` — 40 Prüfungen. Jede liefert `name · Ist · Soll · Begründung`;
   hart verdrahtet sind nur Datenblattgrenzen mit Quellenangabe.
 * `sim.py` — Rechenproben (Gate-Treiber, Ladezeit CC/CV, Dosiervorgang,
   Pumpenanlauf, Buck-Rippel, Teilerströme, Standby in mAh/Tag).
@@ -30,6 +30,13 @@ Ladestrom IP2326 · Ladeschluss 2S · Ladeeingangsstrom ·
 3,3-V-Buck-Induktivität · UVLO-Schwelle · Wächter-Sinkstrom ·
 ADC-Teiler Packspannung · Buck-EN-Pegel · Klemmzweig-Serie ·
 VBAT-Spannungsfestigkeit · Standby-Budget · Systemquellen.
+
+## Akku-Schutz auf der Platine (neu 16.09.2026)
+
+Serienkette · Schwellen · Überstrom. Die Schutz-Schwellen und die
+Überstromschwelle werden wörtlich aus `../schaltplan_v1.md` gelesen (fehlt das
+Muster, bricht die Prüfung ab); der Auslösestrom wird gegen den
+Pumpenanlaufstrom gestellt.
 
 ## Quellen
 

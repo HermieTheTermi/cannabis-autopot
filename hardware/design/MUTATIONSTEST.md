@@ -199,3 +199,31 @@ Der grüne Lauf allein (`37 von 37 Prüfungen bestanden`, Exit 0) beweist nichts
    weiterhin ihren Beleg. Ersetzt durch den eindeutigen Beleg `3,4 V Pumpstopp`.
    **Lehre:** vor jeder Mutation die Trefferzahl des Musters zählen (`grep -c`), sonst testet man
    eine andere Größe als die gelesene.
+
+## Mutationstest der Schutz-Prüfungen (16.09.2026)
+
+Falldatei: **`mutation_cases_schutz.json`** · Harness wie oben · Bewertung = Exit ≠ 0 **und**
+erwarteter Prüfname in der Fehlschlag-Liste.
+
+| # | Mutation | erwartete Prüfung | beobachtet | Exit |
+|---|---|---|---|---|
+| 1 | Dokument: Überladung 4,28 V → 4,60 V (9,2 V Pack) | Schutz-Schwellen | Schutz-Schwellen | 1 |
+| 2 | Dokument: Tiefentladen 2,90 V → 3,40 V (6,80 V > Wächter 6,19 V) | Schutz-Schwellen | Schutz-Schwellen | 1 |
+| 3 | Dokument: Überstrom 200 mV → 50 mV (Auslösung bei 4,4 A) | Schutz-Ueberstrom | Schutz-Ueberstrom | 1 |
+| 4 | Netzliste: Q_PROT1 Source von BAT_MINUS auf GND | Schutz-Serienkette | Schutz-Serienkette | 1 |
+| 5 | Netzliste: OD/OC vertauscht (U_PROT Pin 1 an den Lade-Gate-Knoten) | Schutz-Serienkette | Schutz-Serienkette + Netzstruktur | 1 |
+| 6 | Netzliste: R_PROT_CS gegen BAT_MINUS statt GND | Schutz-Serienkette | Schutz-Serienkette + Netzstruktur | 1 |
+| 7 | Regression: U6 (5,5 V ESD) auf VBAT | VBAT-Spannungsfestigkeit | VBAT-Spannungsfestigkeit | 1 |
+| 8 | Regression: R_ISET 100 kΩ → 30 kΩ | Ladestrom IP2326 | Ladestrom IP2326 + Ladeeingangsstrom | 1 |
+| 9 | Regression: R_FB5_TOP 75 kΩ → 100 kΩ | 5-V-Buck-Ausgang | 5-V-Buck-Ausgang | 1 |
+
+**Ergebnis: 9 von 9 Mutationen werden gefangen.** Zusammen mit dem 2S-Durchgang (10/10) sind damit
+**alle 19** in beiden Dateien geprüften Regeln als wirksam belegt; der Gesamtlauf meldet
+`40 von 40 Prüfungen bestanden`.
+
+### Eigener Harness-Fehler (nicht dem Prüf-Code anzulasten)
+
+Mutation 2 griff zuerst nicht: das Suchmuster `Tiefentladung **2,90 V**` existiert im Dokument
+**nicht** — dort steht „Tiefentladung\n **2,90 V**" (Zeilenumbruch) bzw. „Tiefentladen **2,90 V**".
+**Lehre:** Mutationsmuster immer aus der **Datei selbst** ziehen (`t[i:i+40]`), nicht aus dem
+Gedächtnis tippen — sonst prüft man eine andere Größe als die gelesene.

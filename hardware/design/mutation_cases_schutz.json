@@ -1,0 +1,127 @@
+{
+ "workdir": "hardware",
+ "command": [
+  "python3",
+  "design/report.py"
+ ],
+ "summary_regex": "^\\s+- ([^:]+):",
+ "cases": [
+  {
+   "name": "Ueberladung 4,28 V -> 4,60 V (9,2 V Pack)",
+   "edits": [
+    [
+     "hardware/schaltplan_v1.md",
+     "Überladung **4,28 V**",
+     "Überladung **4,60 V**"
+    ]
+   ],
+   "expect": [
+    "Schutz-Schwellen"
+   ]
+  },
+  {
+   "name": "Tiefentladung 2,90 -> 3,40 V",
+   "edits": [
+    [
+     "hardware/schaltplan_v1.md",
+     "Tiefentladen **2,90 V",
+     "Tiefentladen **3,40 V"
+    ]
+   ],
+   "expect": [
+    "Schutz-Schwellen"
+   ]
+  },
+  {
+   "name": "Ueberstromschwelle 200 mV -> 50 mV",
+   "edits": [
+    [
+     "hardware/schaltplan_v1.md",
+     "Überstrom **200 mV**",
+     "Überstrom **50 mV**"
+    ]
+   ],
+   "expect": [
+    "Schutz-Ueberstrom"
+   ]
+  },
+  {
+   "name": "Q_PROT1 Source von BAT_MINUS auf GND",
+   "edits": [
+    [
+     "hardware/schaltplan_v1_netzliste.csv",
+     "BAT_MINUS,Q_PROT1,1 S,",
+     "GND,Q_PROT1,1 S,"
+    ]
+   ],
+   "expect": [
+    "Schutz-Serienkette"
+   ]
+  },
+  {
+   "name": "OD/OC vertauscht (U_PROT Pin 1 auf den Lade-Gate-Knoten)",
+   "edits": [
+    [
+     "hardware/schaltplan_v1_netzliste.csv",
+     "PROT_GATE_D,U_PROT,1 OD,",
+     "PROT_GATE_C,U_PROT,1 OD,"
+    ]
+   ],
+   "expect": [
+    "Schutz-Serienkette"
+   ]
+  },
+  {
+   "name": "R_PROT_CS gegen BAT_MINUS statt GND",
+   "edits": [
+    [
+     "hardware/schaltplan_v1_netzliste.csv",
+     "PROT_CS,R_PROT_CS,1,",
+     "BAT_MINUS,R_PROT_CS,1,"
+    ]
+   ],
+   "expect": [
+    "Schutz-Serienkette"
+   ]
+  },
+  {
+   "name": "U6 (5,5 V ESD) auf VBAT  [Regression]",
+   "edits": [
+    [
+     "hardware/schaltplan_v1_netzliste.csv",
+     "VBUS,U6,5 VBUS,ESD-Referenz",
+     "VBAT,U6,5 VBUS,ESD-Referenz"
+    ]
+   ],
+   "expect": [
+    "VBAT-Spannungsfestigkeit"
+   ]
+  },
+  {
+   "name": "R_ISET 100k -> 30k  [Regression]",
+   "edits": [
+    [
+     "hardware/schaltplan_v1.md",
+     "| **R_ISET** | **100 kΩ 1 %**",
+     "| **R_ISET** | **30 kΩ 1 %**"
+    ]
+   ],
+   "expect": [
+    "Ladestrom IP2326"
+   ]
+  },
+  {
+   "name": "R_FB5_TOP 75k -> 100k  [Regression]",
+   "edits": [
+    [
+     "hardware/schaltplan_v1.md",
+     "| **R_FB5_TOP** | **75 kΩ**",
+     "| **R_FB5_TOP** | **100 kΩ**"
+    ]
+   ],
+   "expect": [
+    "5-V-Buck-Ausgang"
+   ]
+  }
+ ]
+}
