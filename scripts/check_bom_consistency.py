@@ -23,7 +23,7 @@ DOC = ROOT / "hardware" / "schaltplan_v1.md"
 CSV = ROOT / "hardware" / "pcba_bom_jlc.csv"
 
 SKIP = {"TP1", "TP2", "TP3", "TP4", "TP5", "TP6"}  # Testpunkte, keine BOM-Positionen
-DESIG = re.compile(r"^(U|C|R|D|Q|J|SW)\d*[a-z]?(_[A-Z0-9]+)*$")
+DESIG = re.compile(r"^(U|C|R|D|Q|J|L|SW)\d*[a-z]?(_[A-Z0-9]+)*$")  # L ergaenzt 16.09.2026: Induktivitaeten wurden nie geprueft
 OHM = {"k": 1e3, "m": 1e-3, "M": 1e6, "r": 1.0, "": 1.0}
 FARAD = {"p": 1e-12, "n": 1e-9, "u": 1e-6, "µ": 1e-6, "m": 1e-3, "": 1.0}
 

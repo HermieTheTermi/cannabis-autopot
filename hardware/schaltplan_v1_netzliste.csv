@@ -1,47 +1,165 @@
 Netz,Bauteil,Pin,Bemerkung
+# ============================================================================================,,,
+# SmartGrowTopf V1 - Netzliste,"Revision ""2S-Umbau"" 16.09.2026",,
+# --------------------------------------------------------------------------------------------,,,
+# Geaendert gegenueber der 1S-Fassung (15.09.2026):,,,
+#   * 1S-Lader MCP73831 (U3)      -> 2S-Boost-Lader IP2326 (U3),Ladeschluss 8,4 V,
+#   * 5-V-Boost MT3608 (U_BOOST)  -> 5-V-Buck SY8113B ADC (U_BUCK5) aus 6,0-8,4 V,
+#   * 3,3-V-LDO ME6211 (U4)       -> 3,3-V-Buck AP63203 (U_BUCK3) aus 6,"0-8,4 V"
+#   * Unterspannungswaechter MAX809 3,08 V -> TPS3839G33 3,08 V (U7),Versorgung ueber 1:2-Teiler
+#   * VBAT-Teiler 1:2 (ADC)       -> 1:4 (R_SENSE_TOP 300 k / R_SENSE_BOT 100 k),8,4 V -> 2,10 V
+#   * C3 (100 uF) von VBAT nach +5 V verschoben (Pumpenpuffer liegt jetzt auf der 5-V-Schiene),,,
+#   * C11/C20 (Pumpen-EMI) und D1/D7/D3/D8 bleiben unveraendert,,,
+#   * R37 (Boost-EN-Pull-up) entfaellt: TPS3839 treibt den Buck-EN push-pull,,,
+# ============================================================================================,,,
+# --- VBUS: USB-C-Eingang und Ladepfad -------------------------------------------------------,,,
 VBUS,J5,VBUS (A4/A9/B4/B9),USB-Eingang 5 V - alle vier VBUS-Pins verbinden
-VBUS,U3,4 VDD,Ladereingang
-VBUS,C7,1,4.7 uF nach GND (Datenblatt min. 4.7 uF)
 VBUS,U6,5 VBUS,ESD-Referenz
-VBUS,R_LEDCHG,1,Vorwiderstand Lade-LED
+VBUS,C_CHG_IN,1,"10 uF Keramik am Eingang (Datenblatt C1) - 25 V, weil Eingang bis 9,5 V zugelassen"
+VBUS,R_VIN_CHG,1,0.5 Ohm Filterwiderstand zum VIN-Pin (Datenblatt R1) - KEIN Ladestrom-Shunt
+VBUS,L_CHG,1,Induktivitaet 2.2 uH - andere Seite am Schaltknoten LX_CHG
+VBUS,R_LEDCHG,1,"1 kOhm Vorwiderstand der Lade-LED (ca. 2,7 mA aus 5 V)"
+VBUS,R_EN_CHG,1,"100 kOhm Pull-up des Lader-EN - Laden ist an, sobald USB steckt, ohne MCU"
 CC1,J5,A5 CC1,
-CC1,R5a,1,5.1 kOhm nach GND
+CC1,R5a,1,5.1 kOhm nach GND (USB-C-Senke)
 CC2,J5,B5 CC2,
-CC2,R5b,1,5.1 kOhm nach GND
-VBAT,J1,1,Akku + (Polung im Layout pruefen)
-VBAT,U3,3 VBAT,Ladeausgang
-VBAT,C8,1,4.7 uF nach GND
-VBAT,C3,+,100 uF Elko - POLARITAET beachten
-VBAT,U_BOOST,5 IN,Boost-Eingang MT3608
-VBAT,U_BOOST,5 IN,Boost-Eingang aus VBAT
-VBAT,C_BST_IN,1,22 uF Boost-Eingang nach GND
-VBAT,L_BOOST,1,Boost-Induktivitaet (22 uH) - andere Seite an SW_BOOST
-+5V,J4,1,Dosierpumpe + (seit 15.09.2026 am 5-V-Boost statt an VBAT)
-+5V,D1,Kathode,Freilaufdiode Dosierpumpe
-VBAT,U7,3 VCC,Unterspannungswaechter
-VBAT,U4,1 VIN,LDO-Eingang
-VBAT,U4,3 EN,LDO dauerhaft aktiv - NICHT auf +3V3 (Startproblem)
-VBAT,C5,1,10 uF nach GND (Espressif >=10 uF am Leistungseingang)
-VBAT,R3a,1,Teiler oben
+CC2,R5b,1,5.1 kOhm nach GND (USB-C-Senke)
+VBUS_CHG,R_VIN_CHG,2,Filterspannung fuer den VIN-Pin
+VBUS_CHG,U_CHG,13 VIN,mit C_CHG_VIN gepuffert
+VBUS_CHG,C_CHG_VIN,1,10 uF direkt am VIN-Pin (Datenblatt C3)
+EN_CHG,R_EN_CHG,2,Lader-Enable (High = laden)
+EN_CHG,U_CHG,12 EN,EN niemals floaten
+ISET_CHG,R_ISET,1,"100 kOhm 1 Prozent -> ICHG = 90000/100000 = 0,90 A"
+ISET_CHG,U_CHG,11 ISET,ISET darf NICHT offen bleiben (Datenblatt)
+NTC_DIS,R_NTC,1,"51 kOhm -> NTC-Funktion aus (20 uA x 51 k = 1,02 V = Normalbereich)"
+NTC_DIS,U_CHG,4 NTC,kein Akku-NTC verfuegbar
+UVSET_CHG,R_UVSET,1,"68 kOhm -> Eingangs-Unterspannungsschwelle 4,35 V"
+UVSET_CHG,U_CHG,8 VIN_UVSET,"mehr Kopfraum fuer duenne USB-Kabel bei ~1,8 A Eingangsstrom"
+LED_CHG,R_LEDCHG,2,Knoten zwischen Vorwiderstand und LED-Anode
+LED_CHG,D_LEDCHG,Anode,"Lade-LED (leuchtet beim Laden, aus bei Voll, blinkt bei Fehler)"
+STAT_CHG,D_LEDCHG,Kathode,"Kathode an den LED-Pin des Laders (Senke, max. 5 mA)"
+STAT_CHG,U_CHG,6 LED,LED-Senke max. 5 mA
+# --- Ladeschaltknoten / Bootstrap -----------------------------------------------------------,,,
+LX_CHG,L_CHG,2,Schaltknoten des Boost-Laders
+LX_CHG,U_CHG,15 LX,
+LX_CHG,U_CHG,16 LX,
+LX_CHG,U_CHG,17 LX,
+LX_CHG,C_BST_CHG,2,Bootstrap-Kondensator zwischen BST und LX
+BST_CHG,U_CHG,14 BST,
+BST_CHG,C_BST_CHG,1,100 nF Bootstrap (Datenblatt C2)
+# --- Boost-Ausgang und Akku (2S) ------------------------------------------------------------,,,
+VBAT,U_CHG,21 VOUT,"Boost-Ausgang -> Akku-Plus (Datenblatt: ""VOUT 接电池正极"")"
+VBAT,U_CHG,22 VOUT,
+VBAT,C_CHG_OUT,1,10 uF Keramik am Ausgang (Datenblatt C6/C7)
+VBAT,J1,1,Akku 2S-Pack + (Polung im Layout pruefen)
 VBAT,TP4,1,Testpad VBAT
-VBAT,C12,1,100 nF Decoupling am Unterspannungswaechter
+VBAT,U_BUCK5,5 IN,Eingang 5-V-Buck
+VBAT,C_B5_IN,1,22 uF Keramik am Buck-Eingang nach GND
+VBAT,C_B5_IN_HF,1,100 nF HF am Buck-Eingang nach GND
+VBAT,U_BUCK3,3 VIN,"Eingang 3,3-V-Buck"
+VBAT,U_BUCK3,2 EN,"EN fest an VIN - 3,3-V-Schiene ist immer an (MCU muss im Waechterfall leben)"
+VBAT,C_B3_IN,1,22 uF Keramik am Buck-Eingang nach GND
+VBAT,C_B3_IN_HF,1,100 nF HF am Buck-Eingang nach GND
+VBAT,R3a,1,UVLO-Teiler oben 200 k
+VBAT,R_SENSE_TOP,1,ADC-Teiler oben 200 k
+VSYS_CHG,U_CHG,19 VSYS,Zwischenknoten des Boost-Ausgangs
+VSYS_CHG,U_CHG,20 VSYS,
+VSYS_CHG,C_VSYS_A,1,22 uF direkt am VSYS-Pin (Datenblatt C4)
+VSYS_CHG,C_VSYS_B,1,22 uF direkt am VSYS-Pin (Datenblatt C5)
+# --- 5-V-Schiene (Pumpen + Sensorausgang) ---------------------------------------------------,,,
+LX_5V,U_BUCK5,6 LX,Schaltknoten des 5-V-Bucks
+LX_5V,L_BUCK5,1,Induktivitaet 4.7 uH - andere Seite an +5V
+LX_5V,C_B5_BST,2,Bootstrap-Kondensator zwischen BS und LX
+BST_5V,U_BUCK5,1 BS,Bootstrap-Pin
+BST_5V,C_B5_BST,1,100 nF Bootstrap
++5V,L_BUCK5,2,Ausgangsknoten der 5-V-Schiene
++5V,C_B5_OUT,1,22 uF Keramik am Ausgang nach GND
++5V,C_B5_OUT_HF,1,100 nF HF am Ausgang nach GND
++5V,C3,+,100 uF Elko (von VBAT hierher verschoben) - POLARITAET beachten
++5V,R_FB5_TOP,1,"Feedback oben 75 k -> Vout = 0,6 V x (1 + 75/10) = 5,10 V"
++5V,J4,1,Dosierpumpe +
++5V,J16,1,Sauerstoffpumpe +
++5V,J17,1,5-V-Ausgang fuer Sensorik (neu) - Pin 1
++5V,D1,Kathode,Freilaufdiode Dosierpumpe
++5V,D_FLY2,Kathode,Freilaufdiode Sauerstoffpumpe
 +5V,C11,2,EMI-Kondensator ueber den Motorklemmen (Minus geschaltet ueber Q1)
-PROG,U3,5 PROG,Ladestrom-Programmierung
-PROG,R_PROG,1,3.9 kOhm -> 256 mA
-+3V3,U4,5 VOUT,LDO-Ausgang
-+3V3,C6,1,1 uF nach GND
++5V,C_PUMP2_EMI,2,EMI-Kondensator ueber den Klemmen der Sauerstoffpumpe (Minus geschaltet ueber Q3)
+FB_5V,U_BUCK5,3 FB,"Feedback-Eingang (0,6 V intern)"
+FB_5V,R_FB5_TOP,2,Teiler oben
+FB_5V,R_FB5_BOT,1,Teiler unten 10 k
+# --- 3,3-V-Schiene (MCU,Sensorik-Steuerung,Logik) -----------------------------------------
+LX_3V3,U_BUCK3,5 SW,"Schaltknoten des 3,3-V-Bucks"
+LX_3V3,L_BUCK3,1,Induktivitaet 4.7 uH - andere Seite an +3V3
+LX_3V3,C_B3_BST,2,Bootstrap-Kondensator zwischen BST und SW
+BST_3V3,U_BUCK3,6 BST,Bootstrap-Pin
+BST_3V3,C_B3_BST,1,100 nF Bootstrap
++3V3,L_BUCK3,2,Ausgangsknoten der Logikversorgung
++3V3,C_B3_OUT,1,22 uF Keramik am Ausgang nach GND
++3V3,C_B3_OUT_HF,1,100 nF HF am Ausgang nach GND
 +3V3,U1,3 3V3,Modulversorgung
 +3V3,U1,VDD33 (alle),mehrere Pins laut Espressif Pin-Layout
-+3V3,C2,1,22 uF Bulk
++3V3,C2,1,22 uF Bulk am Modul
 +3V3,C1a,1,100 nF
 +3V3,C1b,1,100 nF
++3V3,C13,1,100 nF
 +3V3,R_EN,1,10 kOhm Pull-up EN
 +3V3,R_BOOT,1,10 kOhm Pull-up GPIO9
 +3V3,R_GPIO8,1,10 kOhm Pull-up GPIO8 (eigene Auslegung)
-+3V3,TP5,1,Testpad +3V3
 +3V3,R_BTN,1,10 kOhm Pull-up fuer den externen Taster
 +3V3,R_GATE,1,47 kOhm Gate-Pull-up des Load-Switch (aus = Fail-safe)
 +3V3,Q2,2 Source,P-Kanal-Load-Switch Source
++3V3,TP5,1,Testpad +3V3
+FB_3V3,U_BUCK3,1 FB,"Feedback-Eingang (0,8 V intern)"
++3V3,R_FB3_TOP,1,Feedback oben 47 k -> Teiler auf +3V3
+FB_3V3,R_FB3_TOP,2,
+FB_3V3,R_FB3_BOT,1,"Teiler unten 15 k -> Vout = 0,8 V x (1 + 47/15) = 3,31 V"
+# --- Unterspannungswaechter (2S) ------------------------------------------------------------,,,
+UV_REF,R3a,2,Teilerknoten = Versorgung des Waechters (VBAT/2)
+UV_REF,R3b,1,Teiler unten 200 k
+UV_REF,C12,1,"100 nF Decoupling am Waechter (Datenblatt-Messbedingung C1 = 0,1 uF)"
+UV_REF,U7,3 VDD,"Schwelle 3,08 V -> Ausloesung bei VBAT = 6,16 V (plus ~30 mV Offset durch Iq)"
+RESET_UV,U7,2 RESET,Push-Pull aktiv-low; 200 ms Verzoegerung nach dem Anlaufen
+RESET_UV,U_BUCK5,4 EN,"unter 6,16 V schaltet die 5-V-Schiene wirklich ab (Buck: EN low = 0 V)"
+# Klemmzweig als SERIENKETTE: Gate - R_CLAMPx (10 k) - Dx - RESET_UV.,,,
+# Der Zustand vom 15.09.2026 hatte R_CLAMPx PARALLEL zu Dx und den Knoten KLAMPx,,,
+# nirgends am Gate -> die Klemmung war wirkungslos (Befund im Review 16.09.2026).,,,
+GATE,R_CLAMP1,1,Serienwiderstand im Klemmzweig Dosierpumpe (vom Gate-Knoten weg)
+KLAMP1,R_CLAMP1,2,
+KLAMP1,D3,Anode,
+GATE2,R_CLAMP2,1,Serienwiderstand im Klemmzweig Sauerstoffpumpe
+KLAMP2,R_CLAMP2,2,
+KLAMP2,D8,Anode,
+RESET_UV,D3,Kathode,Klemmzweig Dosierpumpe (Kathode)
+RESET_UV,D8,Kathode,Klemmzweig Sauerstoffpumpe (Kathode)
+# --- Pumpen (unveraendert,jetzt aus der 5-V-Buck-Schiene) ----------------------------------,,
+PUMP_EN,U1,5 IO2,Pumpen-PWM
+PUMP_EN,R1,1,Gate-Serie 1 kOhm (schnelle Flanken fuer PWM)
+GATE,R1,2,
+GATE,R2,1,47 kOhm Pulldown
+GATE,Q1,1 Gate,
+PUMP_N,Q1,3 Drain,Low-Side-Schalter
+PUMP_N,J4,2,Pumpe -
+PUMP_N,D1,Anode,
+PUMP_N,C11,1,100 nF direkt an den Pumpenklemmen (Buerstenstoerung)
+GND,Q1,2 Source,
+GND,R2,2,
+PUMP2_EN,U1,28 IO22,Gate-Steuersignal Sauerstoffpumpe
+PUMP2_EN,R_GATE2,1,Gate-Serie 1 kOhm (Kanal 2)
+GATE2,R_GATE2,2,Gate-Knoten Q3
+GATE2,Q_PUMP2,Gate,Gate AO3400A
+GATE2,R_GATE2_PD,1,Pulldown 47 k nach GND
+PUMP2_N,Q_PUMP2,Drain,geschaltete Masse Sauerstoffpumpe
+PUMP2_N,J16,2,Sauerstoffpumpe - (Pin 2)
+PUMP2_N,D_FLY2,Anode,Freilaufdiode
+PUMP2_N,C_PUMP2_EMI,1,100 nF an den Klemmen nach GND
+GND,Q_PUMP2,Source,Source AO3400A
+GND,R_GATE2_PD,2,Pulldown Q3
+# --- Zell-/Packspannungsmessung (ADC) -------------------------------------------------------,,,
+VBAT_SENSE,R_SENSE_TOP,2,Teilerknoten
+VBAT_SENSE,R_SENSE_BOT,1,
+VBAT_SENSE,U1,13 IO1,"ADC1_CH1 - 8,4 V ergeben 2,13 V am ADC (12-dB-Bereich 0-3300 mV)"
+VBAT_SENSE,C10,1,100 nF Filter
+# --- unveraenderte Bloecke (MCU,USB-Daten,Sensorik,"Erweiterung, Debug) -------------------"
 EN,U1,8 EN,Reset
 EN,R_EN,2,
 EN,C4,1,1 uF RC-Glied
@@ -51,23 +169,6 @@ BOOT,R_BOOT,2,
 BOOT,SW2,1,Taster gegen GND
 GPIO8_STRAP,U1,22 IO8,Strapping-Pin
 GPIO8_STRAP,R_GPIO8,2,
-PUMP_EN,U1,5 IO2,Pumpen-PWM
-PUMP_EN,R1,1,Gate-Serie 1 kOhm (schnelle Flanken fuer PWM)
-GATE,R1,2,
-GATE,R2,1,47 kOhm Pulldown
-GATE,Q1,1 Gate,
-KLAMP1,D3,Anode,Klemmzweig (Kathode an RESET_UV)
-PUMP_N,Q1,3 Drain,Low-Side-Schalter
-PUMP_N,J4,2,Pumpe -
-PUMP_N,D1,Anode,
-PUMP_N,C11,1,100 nF direkt an den Pumpenklemmen (Buerstenstoerung)
-RESET_UV,U7,2 RESET,aktiv low unter 3.08 V
-RESET_UV,D3,Kathode,
-RESET_UV,D_CLAMP2,Kathode,
-RESET_UV,R_CLAMP1,2,Serienwiderstand im Klemmzweig 10 k (begrenzt Sinkstrom in U7 auf 0.30 mA)
-RESET_UV,R_CLAMP2,2,Serienwiderstand im Klemmzweig 10 k (Kanal 2)
-RESET_UV,R_EN_PU,1,Pull-up fuer den Boost-EN (Waechter zieht EN auf Low)
-RESET_UV,U_BOOST,4 EN,Boost-EN am Waechter: unter 3.08 V schaltet die 5-V-Schiene ab
 SENSOR_RAW,J2,3,Sensor AOUT unbeschaltet
 SENSOR_RAW,R6,1,1 kOhm Serienwiderstand
 SENSOR_AOUT,R6,2,
@@ -76,14 +177,13 @@ SENSOR_AOUT,C9,1,100 nF Filter
 SENSOR_AOUT,TP6,1,Testpad SENSOR_AOUT
 SENSOR_PWR,U1,6 IO3,schaltet Sensor-VCC (Feuchte + Licht)
 SENSOR_PWR,J2,2,Sensor VCC (Feuchte)
-SENSOR_PWR,J7,2,Lichtsensor VCC (extern, geschaltet)
+SENSOR_PWR,J7,2,"Lichtsensor VCC (extern, geschaltet)"
 LIGHT_RAW,J7,3,Sensorausgang - definierter Zustand bei offenem Stecker
 LIGHT_RAW,R_LIGHT,1,10 kOhm Lastwiderstand
 LIGHT_RAW,R_LIGHT_S,1,1 kOhm Serienschutz
 LIGHT_AOUT,R_LIGHT_S,2,
 LIGHT_AOUT,U1,9 IO4,ADC1_CH4 - Lichtsensor
 LIGHT_AOUT,C_LIGHT,1,100 nF Filter
-# --- Erweiterung/I2C (14.09.2026): freie GPIOs auf 2,54-mm-Stiftleisten, immer GND-VCC-SIG ---
 SDA,J8,3,I2C-Daten (Steckerseite)
 SDA,R_SDA_S,2,1 kOhm Serienschutz
 SDA,R_SDA_PU,1,4.7 kOhm Pull-up nach VCC_EXT
@@ -128,10 +228,6 @@ SPARE_IO23_RAW,J15,3,Reserve IO23 am Stecker
 SPARE_IO23_RAW,R_SPARE_IO23,1,
 SPARE_IO23,R_SPARE_IO23,2,
 SPARE_IO23,U1,29 IO23,
-VBAT_SENSE,R3a,2,
-VBAT_SENSE,R3b,1,
-VBAT_SENSE,U1,13 IO1,ADC1_CH1
-VBAT_SENSE,C10,1,100 nF Filter
 USB_DM,J5,D- (A7/B7),
 USB_DM,U6,3 I/O2,ESD
 USB_DM,U6,4 I/O2,ESD durchgeschleift
@@ -141,21 +237,17 @@ USB_DP,U6,1 I/O1,ESD
 USB_DP,U6,6 I/O1,ESD durchgeschleift
 USB_DP,U1,18 IO13,USB D+
 LED_STAT,U1,19 IO14,Status-LED (NICHT IO4 = MTMS/Strapping)
-LED_STAT,R4,1,1 kOhm
+LED_STAT,R4,1,"220 Ohm (gruene LED, Vf 2,85 V)"
 LED_STAT_A,R4,2,
-LED_STAT_A,D2,Anode,LED rot
-STAT_CHG,D_LEDCHG,Kathode,Lade-LED Kathode an STAT
-STAT_CHG,U3,1 STAT,Tri-State-Ausgang
-LED_CHG,R_LEDCHG,2,1 kOhm
-LED_CHG,D_LEDCHG,Anode,
-BTN,U1,15 IO6,LP_GPIO6 - weckt aus dem Deep-Sleep (EXT1 ANY_LOW)
-BTN,R_BTN,2,
-BTN,C_BTN,1,100 nF Entprellung
-BTN,J6,1,Lotpad/Bohrung fuer den externen Taster (sitzt im Gehaeuse)
+LED_STAT_A,D2,Anode,LED gruen
 LED_TANK,U1,16 IO7,LP_GPIO7 - Tank-leer-Anzeige
 LED_TANK,R_TANK,1,1 kOhm
 LED_TANK_A,R_TANK,2,
 LED_TANK_A,D5,Anode,LED rot
+BTN,U1,15 IO6,LP_GPIO6 - weckt aus dem Deep-Sleep (EXT1 ANY_LOW)
+BTN,R_BTN,2,
+BTN,C_BTN,1,100 nF Entprellung
+BTN,J6,1,Lotpad/Bohrung fuer den externen Taster (sitzt im Gehaeuse)
 UART_TX,U1,31 TXD0,IO16 - optional DNP
 UART_TX,R_SPARE_IO16,1,1 kOhm Serienschutz zum Reserve-Stecker
 UART_TX,R_UART,1,499 Ohm
@@ -164,6 +256,7 @@ UART_TP,TP1,1,Testpad TXD0
 UART_RX,U1,30 RXD0,IO17 - optional DNP
 UART_RX,R_SPARE_IO17,1,1 kOhm Serienschutz zum Reserve-Stecker
 UART_RX,TP2,1,Testpad RXD0
+# --- Masse ----------------------------------------------------------------------------------,,,
 GND,U1,1,Modul-Masse
 GND,U1,2,Modul-Masse
 GND,U1,11,Modul-Masse
@@ -187,27 +280,38 @@ GND,U1,51,Modul-Masse
 GND,U1,52,Modul-Masse
 GND,U1,53,Modul-Masse
 GND,U1,EPAD (Pin 49),# Kommentar: EPAD = Pad 49 und damit in U1 Pin 36-53 enthalten; das Symbol hat keinen eigenen EPAD-Pin - keine eigene Verbindung (kein Phantompin)
-GND,U3,2 VSS,
-GND,U4,2 GND,
 GND,U6,2 GND,
 GND,U7,1 GND,
-GND,Q1,2 Source,
-GND,R2,2,
-GND,R3b,2,
-GND,R5a,2,
-GND,R5b,2,
-GND,R_PROG,2,
+GND,U_CHG,18 PGND,Leistungsmasse des Boost-Laders
+GND,U_CHG,EPAD,Thermo-Pad - mit GND verbinden (Datenblatt)
+GND,U_BUCK5,2 GND,
+GND,U_BUCK3,4 GND,
+GND,C_CHG_IN,2,
+GND,C_CHG_VIN,2,
+GND,C_CHG_OUT,2,
+GND,C_VSYS_A,2,
+GND,C_VSYS_B,2,
+GND,C_B5_IN,2,
+GND,C_B5_IN_HF,2,
+GND,C_B5_OUT,2,
+GND,C_B5_OUT_HF,2,
+GND,C_B3_IN,2,
+GND,C_B3_IN_HF,2,
+GND,C_B3_OUT,2,
+GND,C_B3_OUT_HF,2,
+GND,R_FB5_BOT,2,
+GND,R_FB3_BOT,2,
+GND,R_ISET,2,
+GND,R_NTC,2,
+GND,R_UVSET,2,
 GND,C4,2,
 GND,C9,2,
 GND,C10,2,
 GND,C1a,2,
 GND,C1b,2,
 GND,C2,2,
-GND,C3,-,Elko-Minus
-GND,C5,2,
-GND,C6,2,
-GND,C7,2,
-GND,C8,2,
+GND,C13,2,
+GND,C3,-,Elko-Minus (liegt auf der 5-V-Schiene)
 GND,D2,Kathode,
 GND,SW1,2,
 GND,SW2,2,
@@ -225,41 +329,13 @@ GND,J13,1,Reserve IO21 GND
 GND,J15,1,Reserve IO23 GND
 GND,C_SPARE,2,ADC-Filter Reserve-Analog
 GND,TP3,1,Testpad GND
-GND,C12,2,
 GND,J5,GND (A1/A12/B1/B12) + Schirm,
 GND,C_BTN,2,
 GND,D5,Kathode,
 GND,J6,2,Lotpad/Bohrung - Taster-Rueckleitung
-+5V,D_BOOST,Kathode,Boost-Diode SS34
-+5V,C_BST_OUT,1,22 uF Boost-Ausgang nach GND
-+5V,C_BST_HF,1,100 nF Boost-Ausgang HF nach GND
-+5V,R_FB_TOP,1,Feedback-Teiler oben (75 k) -> 5.10 V
-+5V,J_PUMP2,1,Sauerstoffpumpe + (Pin 1)
-+5V,D_FLY2,Kathode,Freilaufdiode Sauerstoffpumpe
-SW_BOOST,U_BOOST,1 SW,Schaltknoten - kurz halten, kein Pruefpunkt
-SW_BOOST,L_BOOST,2,Induktivitaet 22 uH
-SW_BOOST,D_BOOST,Anode,Boost-Diode
-FB_5V,U_BOOST,3 FB,Feedback-Eingang (0.6 V intern)
-FB_5V,R_FB_TOP,2,Teiler oben
-FB_5V,R_FB_BOT,1,Teiler unten nach GND
-PUMP2_EN,U1,28 IO22,Gate-Steuersignal Sauerstoffpumpe (vorher Reserve J14)
-PUMP2_EN,R_GATE2,1,Gate-Serie 1 kOhm (Kanal 2)
-GATE2,R_GATE2,2,Gate-Knoten Q3
-GATE2,Q_PUMP2,Gate,Gate AO3400A
-GATE2,R_GATE2_PD,1,Pulldown 47 k nach GND
-KLAMP2,D_CLAMP2,Anode,Klemmzweig zum MAX809-RESET
-PUMP2_N,Q_PUMP2,Drain,geschaltete Masse Sauerstoffpumpe
-PUMP2_N,J_PUMP2,2,Sauerstoffpumpe - (Pin 2)
-PUMP2_N,D_FLY2,Anode,Freilaufdiode
-PUMP2_N,C_PUMP2_EMI,1,100 nF an den Klemmen nach GND
-GND,U_BOOST,2,GND MT3608
-GND,C_BST_IN,2,22 uF Boost-Eingang
-GND,C_BST_OUT,2,22 uF Boost-Ausgang
-GND,C_BST_HF,2,100 nF Boost-Ausgang HF
-GND,R_FB_BOT,2,Feedback-Teiler unten
-GND,Q_PUMP2,Source,Source AO3400A
-GND,R_GATE2_PD,2,Pulldown Q3
-+5V,C_PUMP2_EMI,2,EMI-Kondensator ueber den Motorklemmen (Minus geschaltet ueber Q3)
-KLAMP1,R_CLAMP1,1,Serienwiderstand zum Gate-Knoten (entkoppelt den Klemmstrom)
-KLAMP2,R_CLAMP2,1,Serienwiderstand zum Gate-Knoten Kanal 2
-VBAT,R_EN_PU,2,47 k Pull-up (haelt den Boost an, solange der Waechter nicht ausloest)
+GND,J17,2,5-V-Ausgang GND - Pin 2
+GND,R5a,2,
+GND,R5b,2,
+GND,R3b,2,UVLO-Teiler unten
+GND,C12,2,
+GND,R_SENSE_BOT,2,ADC-Teiler unten

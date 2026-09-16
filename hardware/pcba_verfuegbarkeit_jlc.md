@@ -68,6 +68,43 @@ Basic (inkl. Q2 `C15127`). Das ist der Preis dafür, dass Lader, LDO und USB auf
 sitzen statt im XIAO-Modul. Sparoptionen: RT9013-33 statt ME6211 ändert nichts (beide Extended),
 ein Basic-Äquivalent für den 100-µF-Puffer wäre noch zu suchen.
 
+
+## 1b. Nachtrag 16.09.2026 — Bauteile des 2S-Umbaus (live geprüft)
+
+Abfrage direkt über die JLCPCB-Parts-API (`selectSmtComponentList/v2`), jede Zeile ein echter Treffer
+vom **16.09.2026**. `base` = Basic (keine Handling-Gebühr), `expand` = Extended (**+3 USD je Position**).
+
+| Pos | Bauteil | LCSC | Paket | Typ | Lager | $/Stk 1–9 | geprüft |
+|---|---|---|---|---|---|---|---|
+| **U_CHG** | **IP2326** (2S/3S-Boost-Lader 8,4 V) | `C2832094` | VQFN-24-EP(4x4) | expand | **18.074** | 0,6182 | ✅ API + Datenblatt V1.11 |
+| **U7** | **TPS3839G33DBZR** (Unterspannung 3,08 V) | `C485802` | SOT-23-3 | expand | **3.502** | 0,4458 | ✅ API + Datenblatt SBVS193D |
+| **U_BUCK5** | **SY8113B ADC** (Buck 5 V/3 A) | `C78989` | TSOT-23-6 | expand | **50.655** | 0,2403 | ✅ API + Datenblatt AN_SY8113B |
+| **U_BUCK3** | **AP63203WU-7** (Buck 3,3 V/2 A) | `C780769` | TSOT-23-6 | expand | **25.645** | 1,1794 | ✅ API + Datenblatt DS41326 |
+| **L_CHG** | Induktivität 2,2 µH (Isat 5,0 A) | `C142096` | 4,6 × 4,1 mm | expand | **3.096** | 0,2538 | ✅ API + Herstellerdatenblatt |
+| **L_BUCK5/3** | Induktivität 4,7 µH (Isat 4,0 A), Menge 2 | `C105660` | 6 × 6 mm | expand | **1.571** | 0,0776 | ✅ API + Herstellerdatenblatt |
+| C_CHG_IN/VIN/OUT | 3 × 10 µF 25 V | `C15850` | 0805 | **base** | 6.557.728 | 0,0843 | ✅ (im Projekt vorhanden) |
+| C_VSYS_A/B + C_B* | 9 × 22 µF 25 V | `C45783` | 0805 | **base** | 4.726.458 | 0,2431 | ✅ |
+| C_B*_BST, C_BST_CHG | 4 × 100 nF | `C49678` | 0805 | **base** | 17,9 Mio | 0,0194 | ✅ |
+| R_ISET, R_EN_CHG | 2 × **100 kΩ 1 %** | `C96346` | 0805 | expand | **853.728** | 0,0094 | ✅ (1 % laut Datenblatt gefordert) |
+| R_NTC | 51 kΩ | `C17737` | 0805 | **base** | 958.911 | 0,0068 | ✅ |
+| R_UVSET, R_SENSE_BOT | 2 × 68 kΩ | `C17801` | 0805 | **base** | 348.040 | 0,0037 | ✅ |
+| R_FB5_TOP | 75 kΩ | `C17819` | 0805 | **base** | 49.785 → jetzt 49.785 | 0,0058 | ✅ |
+| R_FB5_BOT, R_CLAMP1/2 | 10 kΩ (mit den vorhandenen) | `C17414` | 0805 | **base** | 54 Mio | 0,0039 | ✅ |
+| R_FB3_TOP, R2, R_GATE | 47 kΩ | `C17713` | 0805 | **base** | 2,1 Mio | 0,0073 | ✅ |
+| R_FB3_BOT | 15 kΩ | `C17475` | 0805 | **base** | 910.242 | 0,0060 | ✅ |
+| R3a/R3b/R_SENSE_TOP | 200 kΩ | `C17539` | 0805 | **base** | 737.504 | 0,0060 | ✅ |
+| R_VIN_CHG | 0,5 Ω | `C28319` | 0805 | expand | **15.532** | 0,0054 | ✅ |
+| **J17** | JST-XH 2P aufrecht (jetzt 3 ×) | `C158012` | THT P2.5 | expand | **434.009** | 0,0406 | ✅ |
+
+**Handling-Kosten jetzt:** **17 Extended-Positionen ≈ 51 USD** (vorher 12 ≈ 36 USD).
+Entfallen sind MCP73831, ME6211, MT3608, SS34 und die 22-µH-Induktivität — dafür kommen
+IP2326, TPS3839, zwei Bucks und zwei Induktivitäten hinzu. Ein **Basic**-Teil ist keiner der vier ICs;
+alle vier sind Extended (bei JLCPCB nicht anders zu bekommen, geprüft).
+
+**Nicht mehr bestückt / entfallen:** U3 MCP73831 (`C424093`), U4 ME6211 (`C82942`), U8 MT3608
+(`C84817`), L1 22 µH (`C341068`), D6 SS34 (`C8678`), R31 75 k (bleibt für das 5-V-Feedback im
+Einsatz), C5 10 µF, C6 1 µF, R13 3,9 kΩ, R37 47 kΩ.
+
 ## 2. Der XIAO ist raus — und warum das die Platine *kleiner* macht
 
 Beim XIAO ESP32-C6 gab es bei JLCPCB nur „Nur-Versand"-Platzhalter (`C9900124963`, LCC-14, 0 Bestand)

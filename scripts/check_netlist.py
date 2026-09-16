@@ -65,7 +65,7 @@ def main() -> int:
         import re
         text = doc.read_text(encoding="utf-8")
         cells = [c.strip().strip("*`") for c in re.findall(r"^\|\s*([^|]+?)\s*\|", text, re.M)]
-        expected = {c for c in cells if re.fullmatch(r"(U|C|R|D|Q|J|SW|TP)[A-Z0-9_]*", c)}
+        expected = {c for c in cells if re.fullmatch(r"(U|C|R|D|Q|J|L|SW|TP)[A-Z0-9_]*", c)}  # L ergaenzt 16.09.2026
         # Netznamen stehen in derselben Tabellenspalte und wuerden falsch anschlagen
         expected -= set(nets)
         in_netlist = set(comp_nets)

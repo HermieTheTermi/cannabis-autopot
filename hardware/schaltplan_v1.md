@@ -1,271 +1,264 @@
 # Schaltplan V1 — Smart Grow Topf
 
-Stand: 14.09.2026 · **Diese Datei ist die Verbindungsvorgabe für das Layout.**
-Alle Bauteilwerte sind aus den Herstellerdatenblättern abgeleitet (Quelle jeweils in der Spalte
-„Warum"). Bauteile, deren Pinbelegung nur als Bild im Datenblatt vorliegt, sind unten als
-**„noch gegenprüfen"** markiert — dort steht die Standardbelegung, nicht ein Beleg.
+Stand: **16.09.2026, Revision „2S-Umbau"** · **Diese Datei ist die Verbindungsvorgabe für das Layout.**
+Alle Bauteilwerte sind aus den Herstellerdatenblättern abgeleitet (Quelle jeweils in der Spalte „Warum").
+Maschinenlesbare Fassung derselben Verbindungen: **`schaltplan_v1_netzliste.csv`** (`Netz, Bauteil, Pin, Bemerkung`).
 
-Maschinenlesbare Fassung derselben Verbindungen: **`schaltplan_v1_netzliste.csv`**
-(`Netz, Bauteil, Pin`) — gedacht für die Übernahme ins EDA-Tool und als Prüfliste.
+> ⚠️ **Was diese Revision geändert hat (Kurzfassung, Details in §13):**
+> 1S-LiPo → **2S-Pack (6,0–8,4 V)**, 1S-Lader → **IP2326** (Boost-Lader aus 5 V USB, 8,4 V / 0,90 A),
+> 5-V-**Boost** → 5-V-**Buck**, 3,3-V-**LDO** → 3,3-V-**Buck**, Unterspannungswächter **MAX809 (3,08 V an 1S)**
+> → **TPS3839G33 (3,08 V an einem 1:2-Teiler ⇒ 6,16 V Pack)**. Der frühere Klemmzweig war im Bestand
+> **unwirksam** (Parallelschaltung statt Serienkette) und ist hier korrigiert (§13.4).
 
 ---
 
 ## 1. Blöcke
 
 ```
-   USB-C (J5) ──VBUS──┬──────────────────────────────► U3 MCP73831 (1S-Lader, 4,20 V)
-                      │                                   │
-                      ├── CC1/CC2 ─ 5,1 kΩ ─ GND          ├──VBAT──┬── J1 Akku (1S, PCM)
-                      └── D+/D− ─ U6 ESD ─ U1 GPIO13/12    │         ├── Q1 AO3400A ─ J4 Pumpe
-                                                           │         ├── U7 MAX809 (3,08 V)
-   +3V3 ◄── U4 ME6211 (500 mA) ◄──VBAT────────────────────┤         ├── R3a/R3b Teiler → ADC
-             │                                             │         └── C3 100 µF (Pumpenpuffer)
-             ├── U1 ESP32-C6-MINI-1 (Pin 3 + VDD33-Pins)
-             ├── Sensor-VCC (über GPIO3 geschaltet, J2/J7)
-             └── VCC_EXT (über Q2/IO20 geschaltet, J8 I²C + J9–J15 Reserve)
+   USB-C (J5) ──VBUS 5 V──┬────────────────────────────────► U_CHG  IP2326  (2S-Boost-Lader, 8,4 V)
+                          │                                    │
+                          ├── L_CHG 2,2 µH ──► LX (15/16/17)    │ VOUT (21/22)
+                          ├── R_VIN_CHG 0,5 Ω ─► VIN (13) + C   └──► VBAT ──┬── J1  2S-Pack (6,0–8,4 V, mit BMS)
+                          ├── R_LEDCHG 1 k ─► D_LEDCHG ─► LED (6)           │
+                          └── D+/D− ── U6 ESD ── U1 IO13/IO12              │
+   (DP/DM des Laders bleiben OFFEN — kein Fast-Charge-Request, die Datenleitungen gehören dem ESP32)
+
+   VBAT ─┬── U_BUCK5  SY8113B   (3 A, 500 kHz) ──► +5V ──┬── Q1 ──► J4   Dosierpumpe
+         │                                               ├── Q3 ──► J16  Sauerstoffpumpe
+         │                                               ├── J17        5-V-Ausgang für Sensorik (neu)
+         │                                               └── C3 100 µF (Pumpenpuffer, von VBAT hierher)
+         ├── U_BUCK3  AP63203    (2 A, 1,1 MHz)  ──► +3V3 ──► ESP32-C6 (U1), Sensorspeisung (IO3),
+         │                                                   LEDs, I2C/VCC_EXT über Q2
+         ├── R3a/R3b 200 k/200 k ──► U7 TPS3839G33 (3,08 V) ──► RESET_UV ──┬── U_BUCK5 EN  (5-V-Schiene AUS)
+         │                                                                 └── D3/D8 über R35/R36 (Gate-Klemmen)
+         └── R_SENSE_TOP/BOT 200 k/68 k ──► VBAT_SENSE (U1 IO1, ADC 1:4 → 2,10 V bei 8,4 V)
 ```
 
-**Logik-Ein-/Ausgänge:** IO0 Feuchte-ADC · IO1 Zellspannung · IO2 Pumpe · IO3 Sensor-Versorgung ·
-**IO4 Lichtsensor-ADC (ADC1_CH4)** · **IO5 Reserve-ADC (ADC1_CH5, J9)** ·
-**IO6 externer Taster (LP_GPIO6, weckt aus dem Deep-Sleep)** · **IO7 Tank-LED (rot, LP_GPIO7)** ·
-IO14 Status-LED · IO9 Boot · IO12/13 USB ·
-**IO15–IO17, IO21–IO23 Reserve (J10–J15, je über 1 kΩ in Reihe)** ·
-**IO18/IO19 I²C (J8, je über 1 kΩ in Reihe)** · **IO20 Load-Switch VCC_EXT (intern)**.
+**Logik-Ein-/Ausgänge (unverändert):** IO0 Feuchte-ADC · IO1 **Packspannung (neu 1:4)** · IO2 Pumpe ·
+IO3 Sensor-Versorgung · IO4 Lichtsensor-ADC · IO5 Reserve-ADC (J9) · IO6 externer Taster (LP_GPIO6) ·
+IO7 Tank-LED (LP_GPIO7) · IO14 Status-LED · IO9 Boot · IO12/13 USB · IO15–IO17, IO21–IO23 Reserve ·
+IO18/IO19 I²C (J8) · IO20 Load-Switch VCC_EXT · IO22 Sauerstoffpumpe.
 
-**Versorgungskette (Stand 15.09.2026):** USB-C 5 V → Lader → **VBAT** (3,0–4,2 V) →
-{ **Boost U8 → +5 V → beide Pumpen**, MAX809, Teiler, LDO → 3,3 V }.
+**Versorgungskette (Stand 16.09.2026):** USB-C 5 V → **IP2326-Boost-Lader** → **VBAT (2S, 6,0–8,4 V)** →
+{ **Buck U_BUCK5 → +5 V → beide Pumpen · Buck U_BUCK3 → +3,3 V → Logik** }.
+Es gibt **keinen** Aufwärtswandler und **keinen** LDO mehr.
 
-⚠️ **Geändert am 15.09.2026:** Bis dahin hing die Dosierpumpe **direkt an VBAT** (3,0–4,2 V) und es gab
-bewusst **keinen Schaltregler**. Da jetzt **beide** Pumpen (Dosier- **und** Sauerstoffpumpe) **5 V**
-bekommen sollen — die CONQUERALL ist mit 5 V Nennspannung spezifiziert —, sitzt nun ein
-**Aufwärtsregler (Boost) U8 MT3608** zwischen VBAT und den Pumpen. Details, Auslegung und die
-Folgekosten siehe **§10**.
+### 1.1 Warum 2S + zwei Abwärtswandler (und nicht mehr 1S + Boost)
+
+| Kriterium | 1S + Boost (bis 15.09.2026) | **2S + zwei Bucks (jetzt)** |
+|---|---|---|
+| Pumpenanlauf 3 A | ❌ Boost kann nur 2 A Schalterstrom → Softstart **Pflicht** | ✅ 3-A-Buck **am Nennstrom der Pumpe**; Softstart nur noch empfohlen |
+| Logikversorgung | ❌ LDO kann aus 3,0 V keine 3,3 V machen → nutzbarer Bereich nur 4,2 → ~3,5 V | ✅ Buck regelt bis 6,0 V (Wächter-Schwelle) herunter → **volle Ausnutzung bis 6,16 V Pack** |
+| Wirkungsgrad 3,3 V | LDO: (3,3/4,2) = **79 %**, bei 5-V-Einspeisung nur 66 % | Buck: **≈ 88 %** (8,4 V → 3,3 V) |
+| Ladestrom | 256 mA (MCP73831) | **0,90 A** (IP2326, ICHG = 90000/R_ISET) |
+| Energie im Pack | 5,55 Wh (1500 mAh, 1S) | **11,1 Wh** (1500 mAh, 2S) |
+| Nachteile | — | 2 Zellen müssen **gebalt** werden (BMS-Pflicht, §6.3); Ruhestrom steigt von 70 µA auf ~160 µA (§6.2) |
 
 ---
 
 ## 2. Netze (was womit verbunden wird)
 
+### 2.1 Ladepfad / Eingang (geändert)
+
 | Netz | Verbindungen | Zweck |
 |---|---|---|
-| **VBUS** | J5 VBUS ↔ U3 Pin 4 (VDD) ↔ C7 4,7 µF ↔ U6 Pin 5 ↔ R_LEDCHG (Lade-LED) | 5-V-Eingang, Ladestrom, LED-Versorgung |
-| **PROG** | U3 Pin 5 (PROG) ↔ R_PROG 3,9 kΩ ↔ GND | Ladestrom-Programmierung (256 mA) |
-| **VBAT** | U3 Pin 3 (VBAT) ↔ C8 4,7 µF ↔ J1 Pin 1 (Akku +) ↔ C3 100 µF ↔ **U8 Pin 5 (IN)** ↔ **C17 22 µF** ↔ **L1 Pin 1** ↔ U7 Pin 3 (VCC) ↔ U4 VIN ↔ C5 10 µF ↔ R3a | Energiebus + Boost-Eingang, alles außer Logik |
-| **+5V** ⭐ | **D6 Kathode** ↔ **C18 22 µF** ↔ **C19 100 nF** ↔ **R31 75 kΩ** ↔ **J4 Pin 1 (Dosierpumpe +)** ↔ **D1 Kathode** ↔ **J16 Pin 1 (O2-Pumpe +)** ↔ **D7 Kathode** | **neu 15.09.2026:** 5-V-Schiene für **beide** Pumpen (Boost-Ausgang) |
-| **SW_BOOST** ⭐ | **U8 Pin 1 (SW)** ↔ **L1 Pin 2** ↔ **D6 Anode** | **neu:** Schaltknoten des Boosts (kurz halten, kein Prüfpunkt) |
-| **FB_5V** ⭐ | **U8 Pin 3 (FB)** ↔ **R31 75 kΩ** ↔ **R32 10 kΩ** ↔ GND | **neu:** Feedback-Teiler → **5,10 V** (0,6 V × (1 + 75/10)) |
-| **PUMP2_EN** ⭐ | **U1 Pin 28 (IO22)** ↔ **R33 1 kΩ** (Gate-Serie) | **neu:** Steuersignal der Sauerstoffpumpe (ersetzt SPARE_IO22) |
-| **GATE** ⭐ | **R1 1 kΩ** ↔ **Q1 Gate** ↔ **R2 47 kΩ → GND** | Gate-Knoten Q1 — **ohne** Klemmdiode (Revision 15.09.2026) |
-| **GATE2** ⭐ | **R33 1 kΩ** ↔ **Q3 Gate** ↔ **R34 47 kΩ → GND** | Gate-Knoten Q3 — **ohne** Klemmdiode (Revision 15.09.2026) |
-| **KLAMP1** ⭐ | **D3 Anode** ↔ **R35 10 kΩ** | Klemmzweig Dosierpumpe, vom Gate **entkoppelt** (Serienwiderstand begrenzt den Sinkstrom) |
-| **KLAMP2** ⭐ | **D8 Anode** ↔ **R36 10 kΩ** | Klemmzweig Sauerstoffpumpe, entkoppelt |
-| **PUMP2_N** ⭐ | **Q3 Drain** ↔ **J16 Pin 2 (O2-Pumpe −)** ↔ **D7 Anode** ↔ **C20 100 nF** | **neu:** geschaltete Masse der Sauerstoffpumpe |
-| **+3V3** | U4 VOUT ↔ C6 1 µF ↔ U1 Pin 3 **und alle VDD33-Pins** ↔ C2 22 µF ↔ C1a/C1b 100 nF ↔ R_EN ↔ R_BOOT ↔ R_GPIO8 ↔ **R_BTN** | Logikversorgung |
-| **GND** | U1 (alle GND-Pins), U3 Pin 2, U4 GND, U6 Pin 2, U7 Pin 1, **U8 Pin 2**, Q1 **und Q3** Source, C1–C16, C_BTN, **C_SPARE**, R2, **R19, R21**, R3b, R5a/R5b, R4/D2, **R_TANK/D5**, SW1/SW2, J1 Pin 2, **J2 Pin 1**, **J7 Pin 1**, J4 Pin 2, **J6 Pin 2**, **J8 Pin 1**, **J9–J13, J15 Pin 1** (J14 entfällt), J5 GND + Schirm | Masse |
-| **EN** | U1 **Pin 8** ↔ R_EN 10 kΩ → +3V3 · C4 1 µF → GND · SW1 → GND | Reset; RC **10 kΩ + 1 µF** (Espressif) |
-| **BOOT** | U1 **Pin 23 (IO9)** ↔ R_BOOT 10 kΩ → +3V3 · SW2 → GND | Download-Modus; **kein großer C** an GPIO9! |
-| **GPIO8_STRAP** | U1 **Pin 22 (IO8)** ↔ R_GPIO8 10 kΩ → +3V3 | Strapping-Pin nicht floaten lassen |
-| **PUMP_EN** | U1 **Pin 5 (IO2)** → R1 **1 kΩ** → **Gate-Knoten** von Q1 | Pumpensteuerung (PWM-fähig) — **PWM-Softstart vorgeschrieben**, Anlaufstrom 2,2–2,5 A (siehe Q1/C3) |
-| **GATE** | Q1 Gate ↔ R1 **1 kΩ** ↔ R2 **47 kΩ** → GND | Abschaltung bei MCU-Tod (Pull-down); Klemmung jetzt über KLAMP1 → RESET_UV |
-| **PUMP_N** | Q1 Drain ↔ J4 Pin 2 (Pumpe −) ↔ D1 **Anode** | geschaltete Pumpenmasse (Low-Side) |
-| **RESET_UV** ⭐ | U7 Pin 2 (RESET) ↔ D3 **Kathode** ↔ **D8 Kathode** ↔ **R35 10 kΩ** ↔ **R36 10 kΩ** ↔ **R37 47 kΩ (Pull-up nach VBAT)** ↔ **U8 Pin 4 (EN)** | **Revision 15.09.2026:** Klemmung beider Kanäle **und** der Boost-EN hängen am Wächter — bei VBAT < 3,08 V gehen beide Gates auf ~0,3 V **und** die 5-V-Schiene schaltet ab. R35/R36 begrenzen den Sinkstrom auf **0,30 mA** (Spec 1,2 mA) |
-| **SENSOR_RAW → SENSOR_AOUT** | J2 Pin 3 (SIG) → R6 1 kΩ → U1 **Pin 12 (IO0, ADC1_CH0)** ↔ C9 100 nF → GND | Bodenfeuchte. Zwei getrennte Netze: R6 liegt **in Reihe**, nicht parallel |
-| **SENSOR_PWR** | U1 **Pin 6 (IO3)** → J2 Pin 2 (Feuchte-VCC) ↔ J7 Pin 2 (Licht-VCC) | **beide** externen Sensoren nur während der Messung versorgen |
-| **LIGHT_RAW** | J7 Pin 3 (Sensorausgang) ↔ R_LIGHT 10 kΩ → GND ↔ R_LIGHT_S 1 kΩ | Lichtsensor-Rohsignal; **offener Stecker ⇒ R_LIGHT zieht auf 0 V ⇒ „dunkel"** (Bewässerung bleibt erlaubt) |
-| **LIGHT_AOUT** | R_LIGHT_S 1 kΩ (in Reihe) ↔ U1 **Pin 9 (IO4, ADC1_CH4)** ↔ C_LIGHT 100 nF → GND | gefilterter ADC-Eingang, gegen den Sensorausgang hochohmig getrennt |
-| **SDA / SDA_MCU** | J8 Pin 3 ↔ R_SDA_S 1 kΩ (in Reihe) ↔ U1 **Pin 24 (IO18)** · R_SDA_PU **4,7 kΩ** → **VCC_EXT** | I²C-Daten; Pull-up am geschalteten Rail, Serien-R schützt den Pin |
-| **SCL / SCL_MCU** | J8 Pin 4 ↔ R_SCL_S 1 kΩ (in Reihe) ↔ U1 **Pin 25 (IO19)** · R_SCL_PU **4,7 kΩ** → **VCC_EXT** | I²C-Takt; wie SDA |
-| **VCC_EXT** | Q2 **Drain** ↔ J8 Pin 2 ↔ J9–J15 Pin 2 ↔ R_SDA_PU/R_SCL_PU | geschaltete Erweiterungsversorgung (Load-Switch, beim Reset aus) |
-| **EXT_EN** | U1 **Pin 26 (IO20)** ↔ Q2 **Gate** ↔ R_GATE 47 kΩ → **+3V3** | IO20 zieht das Gate nach unten ⇒ VCC_EXT an; ohne Treiber hält der Pull-up VCC_EXT aus |
-| **SPARE_AIN_RAW → SPARE_AIN** | J9 Pin 3 → R_SPARE_AIN 1 kΩ → U1 **Pin 10 (IO5, ADC1_CH5)** ↔ C_SPARE 100 nF → GND | Reserve-Analog, RC-gefiltert (gleiches Muster wie SENSOR_AOUT) |
-| **SPARE_IO15_RAW → SPARE_IO15** | J10 Pin 3 → R_SPARE_IO15 1 kΩ → U1 **Pin 20 (IO15)** | Reserve-IO15 (Strapping JTAG-Quelle, Default-eFuses inert) |
-| **SPARE_IO16** | J11 Pin 3 → R_SPARE_IO16 1 kΩ → U1 **Pin 31 (TXD0/IO16)** | Reserve-IO16, nur über Serien-R erreichbar |
-| **SPARE_IO17** | J12 Pin 3 → R_SPARE_IO17 1 kΩ → U1 **Pin 30 (RXD0/IO17)** | Reserve-IO17, nur über Serien-R erreichbar |
-| **SPARE_IO21_RAW → SPARE_IO21** | J13 Pin 3 → R_SPARE_IO21 1 kΩ → U1 **Pin 27 (IO21)** | Reserve-IO21 (WPU beim Reset) |
-| **SPARE_IO22_RAW → SPARE_IO22** | J14 Pin 3 → R_SPARE_IO22 1 kΩ → U1 **Pin 28 (IO22)** | Reserve-IO22 |
-| **SPARE_IO23_RAW → SPARE_IO23** | J15 Pin 3 → R_SPARE_IO23 1 kΩ → U1 **Pin 29 (IO23)** | Reserve-IO23 |
-| **VBAT_SENSE** | R3a 200 kΩ (von VBAT) ↔ Knoten ↔ R3b 200 kΩ → GND · Knoten ↔ U1 **Pin 13 (IO1, ADC1_CH1)** ↔ C10 100 nF → GND | Zellspannung für Pumpstopp/Warnung (§4b BOM) |
-| **USB_DM** | J5 D− ↔ U6 Pin 3 → U6 Pin 4 ↔ [R 22 Ω optional] ↔ U1 **Pin 17 (IO12)** | USB-Daten, nativ |
-| **USB_DP** | J5 D+ ↔ U6 Pin 1 → U6 Pin 6 ↔ [R 22 Ω optional] ↔ U1 **Pin 18 (IO13)** | USB-Daten, nativ |
-| **LED_STAT** | U1 **Pin 19 (IO14)** → R4 **220 Ω** → D2 **grün** → GND | Status/Betrieb; **nicht IO4/IO5** (nur SDIO-Strap, **nicht** boot-kritisch — siehe §4) |
-| **LED_CHG / STAT_CHG** | VBUS → R_LEDCHG 1 kΩ → D_LEDCHG **Anode** · D_LEDCHG **Kathode** → U3 Pin 1 (STAT) | Ladestatus (STAT ist Tri-State, senkt Strom). **Achtung:** die LED-Kathode gehört an STAT, **nicht** an GND — sonst leuchtet sie dauerhaft |
-| **BTN** | U1 **Pin 15 (IO6)** ↔ R_BTN 10 kΩ → +3V3 · C_BTN 100 nF → GND · J6 Pin 1 | **Nachfüll-Bestätigung.** Externer Taster schließt auf GND; IO6 ist **LP_GPIO6** → weckt aus dem Deep-Sleep (EXT1, ANY_LOW) |
-| **LED_TANK** | U1 **Pin 16 (IO7)** → R_TANK 1 kΩ → D5 **Anode** · D5 **Kathode** → GND | **Tank-leer-Anzeige (rot).** IO7 ist LP_GPIO7; D2 bleibt die Status-LED |
-| **UART_DBG** (optional, DNP) | U1 **Pin 31 (TXD0)** → R_UART 499 Ω → Testpad · U1 **Pin 30 (RXD0)** → Testpad | Notfall-Debug, Espressif empfiehlt den 499-Ω-Widerstand. **TXD0/RXD0 liegen zugleich über R_SPARE_IO16/17 an J11/J12** |
+| **VBUS** | J5 VBUS (4 Pins) ↔ U6 Pin 5 ↔ **C_CHG_IN 10 µF** ↔ **R_VIN_CHG 0,5 Ω** ↔ **L_CHG 2,2 µH** ↔ **R_LEDCHG 1 kΩ** ↔ **R_EN_CHG 100 kΩ** | 5-V-Eingang, Eingangspuffer, Boost-Induktivität, LED-Vorwiderstand, EN-Pull-up |
+| **VBUS_CHG** | R_VIN_CHG Pin 2 ↔ **U_CHG Pin 13 (VIN)** ↔ **C_CHG_VIN 10 µF** | gefilterte Steuerversorgung des Laders (0,5 Ω + 10 µF) — **kein** Ladestrompfad, die Leistung fließt über L_CHG → LX |
+| **LX_CHG** | **U_CHG Pin 15/16/17 (LX)** ↔ **L_CHG Pin 2** ↔ **C_BST_CHG Pin 2** | Schaltknoten des Boost-Laders |
+| **BST_CHG** | U_CHG Pin 14 (BST) ↔ **C_BST_CHG 100 nF** | Bootstrap für den High-Side-Treiber (Pin-Abstand einhalten!) |
+| **VSYS_CHG** | U_CHG Pin 19/20 (VSYS) ↔ **C_VSYS_A 22 µF** ↔ **C_VSYS_B 22 µF** | Zwischenknoten des Boost-Ausgangs, **nicht** extern mit VBAT verbunden (Datenblatt: „2× 22 µF direkt am Pin") |
+| **ISET_CHG** | U_CHG Pin 11 (ISET) ↔ **R_ISET 100 kΩ 1 %** → GND | Ladestrom: **ICHG = 90000 / 100000 = 0,90 A** (ISET darf laut Datenblatt **nicht** offen bleiben) |
+| **NTC_DIS** | U_CHG Pin 4 (NTC) ↔ **R_NTC 51 kΩ** → GND | NTC-Funktion stillgelegt: 20 µA × 51 kΩ = **1,02 V** = Normalbereich (0,56–1,32 V) |
+| **UVSET_CHG** | U_CHG Pin 8 (VIN_UVSET) ↔ **R_UVSET 68 kΩ** → GND | Eingangs-Unterspannungsschwelle **4,35 V** (statt 4,65 V) → mehr Kopfraum für dünne USB-Kabel bei ~1,6–1,8 A |
+| **EN_CHG** | U_CHG Pin 12 (EN) ↔ **R_EN_CHG 100 kΩ** → VBUS | Laden ist **an, sobald USB steckt** — unabhängig von der Firmware (§6.1) |
+| **LED_CHG / STAT_CHG** | VBUS → R_LEDCHG 1 kΩ → **D_LEDCHG Anode** · **Kathode → U_CHG Pin 6 (LED)** | Ladeanzeige; der LED-Pin ist eine **Senke** (max. 5 mA) → ~2,7 mA |
+| **CC1 / CC2** | J5 A5 ↔ **R5a 5,1 kΩ** → GND · J5 B5 ↔ **R5b 5,1 kΩ** → GND | USB-C-Senke (unverändert). **Kein** Rp, **kein** PD — die Quelle darf 5 V/2,4 A liefern |
+| **offen (NC)** | U_CHG Pin 1 (DM), Pin 2 (DP), Pin 3 (VSET), Pin 5 (BAT_STAT), Pin 7 (TIME_SET), Pin 9 (VIN_OVSET), Pin 10 (CON_SEL), Pin 23 (VBATM), Pin 24 (VBAT_GND) | **VSET** offen ⇒ 8,4 V (die 8V8-Variante wäre 8,8 V → **nicht** verwenden!); **CON_SEL** offen ⇒ 2S; **TIME_SET** offen ⇒ 24 h Timeout; **VIN_OVSET** offen ⇒ 8,75 V (bei 5-V-Quelle irrelevant); **DM/DP** offen ⇒ kein Fast-Charge-Request (§6.1); **VBATM/VBAT_GND** offen ⇒ internes Balancing aus (§6.3) |
+
+### 2.2 Batterie und Wächter (geändert)
+
+| Netz | Verbindungen | Zweck |
+|---|---|---|
+| **VBAT** | U_CHG Pin 21/22 (VOUT) ↔ **C_CHG_OUT 10 µF** ↔ **J1 Pin 1 (2S-Pack +)** ↔ TP4 ↔ U_BUCK5 IN ↔ C_B5_IN 22 µF ↔ C_B5_IN_HF ↔ U_BUCK3 VIN ↔ U_BUCK3 EN ↔ C_B3_IN 22 µF ↔ C_B3_IN_HF ↔ R3a ↔ R_SENSE_TOP | Energiebus. **Kein Boost, kein LDO** hängt mehr daran; die Pumpen hängen an +5V |
+| **UV_REF** | **R3a 200 kΩ** (von VBAT) ↔ Knoten ↔ **R3b 200 kΩ** → GND · Knoten ↔ **U7 Pin 3 (VDD)** | Versorgung des Wächters = **VBAT/2**. Auslösung bei VDD = 3,08 V ⇒ **6,16 V Pack** (Offset durch Iq 150 nA ≈ +30 mV ⇒ ~6,19 V) |
+| **RESET_UV** | **U7 Pin 2 (RESET)** ↔ **U_BUCK5 Pin 4 (EN)** ↔ D3 Kathode ↔ D8 Kathode ↔ R_CLAMP1/R_CLAMP2 | aktiv-low; **schaltet die 5-V-Schiene wirklich ab** (Buck: EN low ⇒ Ausgang 0 V, kein Diodenpfad wie beim alten Boost) **und** klemmt beide Pumpengates |
+| **GATE / GATE2** | IO2 → R1 1 kΩ → Q1 Gate ↔ R2 47 kΩ → GND · IO22 → R_GATE2 1 kΩ → Q3 Gate ↔ R_GATE2_PD 47 kΩ → GND | Pumpensteuerung (PWM-fähig) |
+| **KLAMP1 / KLAMP2** | **R_CLAMP1 10 kΩ** (vom Gate-Knoten) ↔ **D3 Anode → Kathode RESET_UV** · **R_CLAMP2 10 kΩ** ↔ **D8 Anode → Kathode RESET_UV** | **korrigiert 16.09.2026:** Serienkette Gate → 10 kΩ → Diode → RESET (vorher war R_CLAMPx **parallel** zur Diode und der Knoten lag nicht am Gate ⇒ Klemmung wirkungslos, §13.4) |
+| **VBAT_SENSE** | **R_SENSE_TOP 300 kΩ** (von VBAT) ↔ Knoten ↔ **R_SENSE_BOT 100 kΩ** → GND · Knoten ↔ U1 **Pin 13 (IO1, ADC1_CH1)** ↔ C10 100 nF → GND | **neu 1:4** (vorher 1:2): 8,4 V → **2,13 V**, 6,16 V → 1,54 V am ADC. Teilerstrom 21 µA |
+
+### 2.3 5-V-Schiene und Pumpen (Wandler gewechselt)
+
+| Netz | Verbindungen | Zweck |
+|---|---|---|
+| **LX_5V** | U_BUCK5 Pin 6 (LX) ↔ **L_BUCK5 4,7 µH** ↔ C_B5_BST Pin 2 | Schaltknoten des 5-V-Bucks |
+| **BST_5V** | U_BUCK5 Pin 1 (BS) ↔ **C_B5_BST 100 nF** | Bootstrap |
+| **FB_5V** | U_BUCK5 Pin 3 (FB) ↔ **R_FB5_TOP 110 kΩ** (von +5V) ↔ **R_FB5_BOT 15 kΩ** → GND | V_out = 0,6 V × (1 + 75/10) = **5,10 V** |
+| **+5V** | **L_BUCK5 Pin 2** ↔ C_B5_OUT 22 µF ↔ C_B5_OUT_HF 100 nF ↔ **C3 100 µF Elko** ↔ R_FB5_TOP ↔ **J4 Pin 1**, **J16 Pin 1**, **J17 Pin 1** ↔ D1 Kathode ↔ D7 Kathode ↔ C11 Pin 2 ↔ C20 Pin 2 | 5-V-Schiene: **beide Pumpen**, der neue 5-V-Sensorausgang und der Pumpenpuffer |
+| **PUMP_N / PUMP2_N** | Q1 Drain ↔ J4 Pin 2 ↔ D1 Anode ↔ C11 · Q3 Drain ↔ J16 Pin 2 ↔ D7 Anode ↔ C20 | geschaltete Pumpenmasse (Low-Side, unverändert) |
+
+### 2.4 3,3-V-Schiene (Logik)
+
+| Netz | Verbindungen | Zweck |
+|---|---|---|
+| **LX_3V3 / BST_3V3** | U_BUCK3 Pin 5 (SW) ↔ **L_BUCK3 4,7 µH** ↔ C_B3_BST · Pin 6 (BST) ↔ C_B3_BST 100 nF | Schaltknoten + Bootstrap |
+| **FB_3V3** | U_BUCK3 Pin 1 (FB) ↔ **R_FB3_TOP 100 kΩ** (von +3V3) ↔ **R_FB3_BOT 31,6 kΩ** → GND | V_out = 0,8 V × (1 + 100/31,6) = **3,33 V** |
+| **+3V3** | **L_BUCK3 Pin 2** ↔ C_B3_OUT 22 µF ↔ C_B3_OUT_HF 100 nF ↔ **U1 Pin 3** ↔ C1a/C1b/C2/C13 ↔ R_EN, R_BOOT, R_GPIO8, R_BTN ↔ **Q2 Source** ↔ TP5 | Logikversorgung. **Kein LDO mehr** — die Rail entsteht direkt als Buck-Ausgang |
+
+### 2.5 Unveränderte Netze
+
+`GND` · `EN` · `BOOT` · `GPIO8_STRAP` · `PUMP_EN` · `GATE` · `PUMP_N` · `PUMP2_EN` · `GATE2` · `PUMP2_N` ·
+`SENSOR_RAW` · `SENSOR_AOUT` · `SENSOR_PWR` · `LIGHT_RAW` · `LIGHT_AOUT` · `SDA` / `SDA_MCU` · `SCL` / `SCL_MCU` ·
+`VCC_EXT` · `EXT_EN` · `SPARE_AIN[_RAW]` · `SPARE_IO15[_RAW]` · `SPARE_IO16` · `SPARE_IO17` ·
+`SPARE_IO21[_RAW]` · `SPARE_IO23[_RAW]` · `USB_DM` · `USB_DP` · `LED_STAT[_A]` · `LED_TANK[_A]` · `BTN` ·
+`UART_TX` · `UART_RX` · `UART_TP`
+
+**Entfallene Netze:** `PROG` (MCP73831-Ladestrom), `SW_BOOST` / `FB_5V`-Boost (MT3608) — der Name `FB_5V`
+wird jetzt vom Buck-Feedback benutzt.
 
 ---
-
 ## 3. Bauteile mit Werten und Begründung
 
-### ICs und Halbleiter
+### 3.1 ICs, Wandler und Halbleiter
 
 | Pos | Bauteil | Wert | LCSC | Warum / Quelle |
 |---|---|---|---|---|
-| U1 | ESP32-C6-MINI-1 | Modul | `C5736265` | MCU, Antenne/Flash im Modul |
-| U3 | MCP73831T-2ACI/OT | 4,20 V, SOT-23-5 | `C424093` | 1S-Lader; **-2** = 4,20 V Ladeschluss (Datenblatt: Optionen 4,20/4,35/4,40/4,50 V) |
-| U4 | ME6211C33M5G | 500 mA, 3,3 V | `C82942` | TX-Peak des C6 = **382 mA**; Espressif fordert ≥ 500 mA |
-| U6 | USBLC6-2SC6 | ESD, SOT-23-6 | `C7519` | Datenleitungen schützen (USB-Vorgabe, nicht von Espressif) |
-| U7 | MAX809TEUR+T | 3,08 V, SOT-23 | `C16711` | Unterspannungsschutz; Espressif empfiehlt für Akkubetrieb einen Power-Monitor ~3,0 V |
-| **U8** ⭐ | **MT3608** | Boost, 2 A, 1,2 MHz, SOT-23-6 | `C84817` | **neu (15.09.2026):** Aufwärtsregler **VBAT (3,0–4,2 V) → +5 V** für **beide** Pumpen. V_out = 0,6 V × (1 + R31/R32) = **5,10 V**. Schalterstrom-Grenze 2 A; EN liegt fest an VBAT (immer aktiv). Auslegung + Grenzen in **§10** |
-| Q1, **Q3** ⭐ | AO3400A | N-MOSFET SOT-23 | `C20917` | Pumpentreiber; RDS(on) < 48 mΩ @ VGS 2,5 V → trägt **5,2–5,8 A** Dauerstrom. **Q1 = Dosierpumpe (IO2)**, **Q3 = Sauerstoffpumpe (IO22)** — identische Beschaltung (R33 4,7 kΩ Serie, R34 47 kΩ Pulldown, eigene Freilaufdiode, eigener Klemmzweig) |
-| Q2 | **AO3401A** | P-MOSFET SOT-23 | `C15127` | **neu (14.09.2026):** High-Side-Load-Switch für die geschaltete Erweiterungsversorgung **VCC_EXT**. RDS(on) 85 mΩ @ VGS −2,5 V; Source → +3V3, Drain → VCC_EXT, Gate über 47 kΩ auf +3V3 (aus = Fail-safe), IO20 zieht nach unten |
-| D1, **D7** ⭐ | 1N5819WS | 40 V / 1 A | `C191023` | Freilaufdioden, **Kathode jetzt an +5V** (nicht mehr VBAT): D1 = Dosierpumpe (Q1), D7 = Sauerstoffpumpe (Q3) |
-| D3, **D8** ⭐ | 1N5819WS | 40 V / 1 A | `C191023` | Klemmzweige: Anode am Gate, Kathode an U7-RESET — D3 → Q1-Gate, **D8 → Q3-Gate**. Bei Unterspannung (< 3,08 V) sind damit **beide** Pumpen zwangsweise aus |
-| **D6** ⭐ | **SS34** | 3 A / 40 V, SMA | `C8678` | **neu:** Boost-Diode (SW → +5 V). SMA statt SOD-323 wegen der Stromspitzen (~2 A im Schalter, Sperrspannung liegt bei ~5 V + Reserve) |
-| **L1** ⭐ | **22 µH** | YNR6045, SMD 6 × 6 mm, 2,05 A, 89 mΩ | `C341068` | **neu:** Boost-Induktivität. 22 µH ist der Datenblatt-Standardwert für den MT3608; Auswahl nach **Sättigungsstrom ≥ 2 A** (Schaltergrenze) *und* niedrigem DCR (Verlust bei 1,3 A ≈ 0,15 W) |
-| D2 | **LED grün** (525 nm) | 0805 | `C2297` | **Farbe geändert 11.09.2026** (vorher rot wie D5). Grün = Status/Betrieb, **rot bleibt der Warnung „Tank leer" vorbehalten**. Vf **2,85 V** (InGaN) → am 3,3-V-Rail nur **0,45 V Reserve**, deshalb R4 = 220 Ω. JLC: **basic**, 1.627.076 auf Lager. *Blau* wäre möglich, ist bei JLC aber nur **extended** (+3 $) und hätte dasselbe Vf-Problem |
-| D5 | LED rot, **gleicher Typ wie D2** | 0805 | `C84256` | **neu:** Anzeige „Tank leer". Kein neues JLC-Bauteil nötig — identischer 0805-Typ, **6.141.918 auf Lager** (basic) |
-| D_LEDCHG | LED rot, **gleicher Typ wie D2** | 0805 | `C84256` | Ladestatus. **Grund für rot:** bei JLC ist **keine** grüne 0805-LED mit Bestand verfügbar (geprüft) → derselbe Basic-Typ spart eine Extended-Position. Alternative: STAT (U3 Pin 1) auf einen freien GPIO legen und den Ladestatus per Telegram melden |
-| ~~D4~~ | **entfernt** | – | – | **Gefunden in Review 3:** eine bestückte Schottky-Brücke VBUS → VBAT würde die Zelle **ungeregelt über 5 V laden** (nur Diodenabfall) → Überladung/Schaden. Option ersatzlos gestrichen; für Reprogrammierung ohne Akku ein Labornetzteil auf VBAT oder die Zelle stecken |
+| **U_CHG** | **IP2326** (Injoinic) | 2S/3S-Boost-Lader, QFN-24 4×4 mm | `C2832094` | **neu:** 5 V → 8,4 V bei bis zu 15 W Eingang, 94 % Wirkungsgrad (5 V→8 V/1 A), 500 kHz, Leistungs-MOSFETs integriert. **VSET offen ⇒ 8,4 V** (die Variante `IP2326_8V8` lädt auf **8,8 V** → für Li-Ion unzulässig, **nicht** verwenden). **Ladestrom ICHG = 90000/R_ISET = 0,90 A** (±10 %). Trickle 50 mA (<3,7 V), 100 mA (3,7–6 V), CV-Ende: Stopp bei <200 mA. **Kein Power-Path** (Volltext-Grep beider Datenblatt-Versionen: 0 Treffer). Balancing integriert (Pins 23/24) — hier **unbeschaltet**, weil der Pack ein eigenes BMS hat (§6.3) |
+| **U_BUCK5** | **SY8113B ADC** (Silergy) | 3 A, 4,5–18 V, synchron, 500 kHz, TSOT-23-6 | `C78989` | **neu:** erzeugt die **5-V-Schiene** für beide Pumpen aus VBAT. V_REF 0,6 V ±1,5 % ⇒ V_out = 0,6 × (1 + 75/10) = **5,10 V**. Iq 100 µA, Shutdown 5–10 µA, EN-Schwelle 1,5 V, Stromgrenze 3 A (Valley) / 6 A (Peak), Sanftanlauf 800 µs intern. **Damit liegt der 3-A-Pumpenanlauf innerhalb der Nennlast** (beim alten MT3608-Boost war er es nicht) |
+| **U_BUCK3** | **AP63203 WU-7** (Diodes) | 2 A, 3,8–32 V, synchron, 1,1 MHz, TSOT-26 | `C780769` | **neu:** erzeugt **+3V3** direkt aus VBAT (ersetzt den ME6211-LDO). V_REF 0,8 V ±1 % ⇒ V_out = 0,8 × (1 + 47/15) = **3,31 V**. **Iq 22 µA** (niedrigster Wert der geprüften Auswahl), Präzisions-EN (an VIN gelegt), 89 °C/W. Vorteil gegenüber dem LDO: bei 8,4 V → 3,3 V **88 %** statt 66 %, keine Verlustwärme bei den 382-mA-TX-Spitzen |
+| **U7** | **TPS3839G33DBZR** (TI) | Unterspannungswächter, **3,08 V**, SOT-23-3 | `C485802` | **neu (ersetzt MAX809TEUR+T):** gleiche Schwelle 3,08 V (V_IT 3,003–3,126 V, Hysterese 31 mV), aber **Iq 150 nA statt 12 µA** — nötig, weil er jetzt an einem 200 kΩ-Teiler hängt (Iq × R_top = Offset; bei 12 µA wären das 2,4 V Fehler). **Push-Pull-Ausgang** (treibt den Buck-EN direkt, kein Pull-up nötig), V_DD 0,9–6,5 V, **200 ms Reset-Delay** nach dem Anlaufen, Ausgangsstrom 2 mA bei V_OL ≤ 0,4 V |
+| **U1** | ESP32-C6-MINI-1 | Modul | `C5736265` | MCU (unverändert). TX-Peak **382 mA**, Deep-Sleep 7 µA |
+| **U6** | USBLC6-2SC6 | ESD, SOT-23-6 | `C7519` | USB-Datenleitungen (unverändert) |
+| **Q1** | AO3400A | N-MOSFET SOT-23 | `C20917` | Dosierpumpe (Low-Side, IO2) — unverändert |
+| **Q_PUMP2** | AO3400A | N-MOSFET SOT-23 | `C20917` | Sauerstoffpumpe (Low-Side, IO22) — unverändert |
+| **Q2** | AO3401A | P-MOSFET SOT-23 | `C15127` | Load-Switch VCC_EXT (unverändert) |
+| **D1** | 1N5819WS | 40 V / 1 A, SOD-323 | `C191023` | Freilauf Dosierpumpe an **+5V** |
+| **D_FLY2** | 1N5819WS | 40 V / 1 A, SOD-323 | `C191023` | Freilauf Sauerstoffpumpe an **+5V** |
+| **D3** | 1N5819WS | SOD-323 | `C191023` | Klemmzweig Dosierpumpe (**Kathode an RESET_UV**) |
+| **D8** | 1N5819WS | SOD-323 | `C191023` | Klemmzweig Sauerstoffpumpe |
+| **D2** | LED grün 525 nm | 0805 | `C2297` | Status-LED (IO14) |
+| **D5** | LED rot | 0805 | `C84256` | Tank-leer (IO7) |
+| **D_LEDCHG** | LED rot | 0805 | `C84256` | Ladestatus — **jetzt am LED-Pin des IP2326** (der Pin ist eine Senke; leuchtet beim Laden, aus bei Voll, **blinkt bei Fehler**) |
+| **L_CHG** | **2,2 µH**, 4,6 × 4,1 mm | Isat 5,0 A · Irms 3,0 A · DCR 58 mΩ | `C142096` | Boost-Induktivität. Datenblatt fordert 2,2 µH @ 500 kHz, Isat/Idc > 5 A — **Isat 5,0 A erfüllt**; DCR 58 mΩ liegt über den empfohlenen 20 mΩ ⇒ 0,13 W Verlust bei 1,5 A (~1,5 %), bewusst akzeptiert (die <20-mΩ-Typen sind ≥ 7 × 7 mm) |
+| **L_BUCK5** | **4,7 µH**, 6 × 6 mm | Isat 4,0 A · DCR 31 mΩ | `C105660` | Buck-Induktivität 5 V: Rippel ΔI = 0,86 A (29 %), Spitzenstrom bei 3 A Last **3,43 A < Isat 4,0 A**. Bei max. Eingang liegt der DCR-Verlust bei 0,28 W |
+| **L_BUCK3** | **4,7 µH**, 6 × 6 mm | Isat 4,0 A · DCR 31 mΩ | `C105660` | **gleicher Typ** wie L_BUCK5 (Menge 2, eine BOM-Zeile, ein Footprint). Bei 1,1 MHz ist der Rippel nur 0,35 A (18 %), Last real ≤ 0,5 A ⇒ 8× Reserve |
+| ~~U3~~ | ~~MCP73831T-2ACI/OT~~ | — | — | **entfällt:** 1S-Lader, kann 2S nicht laden |
+| ~~U4~~ | ~~ME6211C33M5G~~ | — | — | **entfällt:** LDO durch Buck ersetzt. ⚠️ Sein V_IN-Maximum ist **6,0 V** — er hätte an 8,4 V ohnehin nicht betrieben werden dürfen |
+| ~~U8~~ | ~~MT3608~~ | — | — | **entfällt:** Aufwärtswandler nicht mehr nötig (2S liegt über 5 V) |
+| ~~L1 (22 µH)~~ | ~~YNR6045~~ | — | — | **entfällt** mit dem Boost. ⚠️ **Achtung:** der alte L1 hatte nur **2,05 A** Sättigungsstrom |
+| ~~D6~~ | ~~SS34~~ | — | — | **entfällt** (Boost-Diode) |
+| ~~R31 75 k / R32 10 k~~ | — | — | — | **entfallen** (Boost-Feedback auf 5,10 V) |
+| ~~R37 47 k~~ | — | — | — | **entfällt:** Boost-EN-Pull-up; der TPS3839 treibt den Buck-EN push-pull |
+| ~~R13 / R_PROG~~ | — | — | — | **entfällt** (Ladestromprogrammierung des MCP73831) |
+| ~~D7~~ | → heißt jetzt **D_FLY2** | — | — | Umbenennung nur zur Klarheit (funktionaler Name wie Q_PUMP2) |
 
-### Kondensatoren
+### 3.2 Kondensatoren
 
 | Pos | Wert | Typ | Wofür | Quelle |
 |---|---|---|---|---|
-| C1a, C1b | 2 × 100 nF | 0805 | Decoupling am Modul | Sollwerte der Modul-Typenschaltung (22 µF + 2 × 0,1 µF) |
-| C10 | 100 nF | 0805 | ADC-Filter VBAT | Espressif-ADC-Empfehlung; macht zusätzlich die hohe Teiler-Impedanz für den ADC niederohmig |
-| C2 | 22 µF | 0805 | Bulk am Modul-3V3 | dito |
-| C3 | 100 µF | Elko 16 V | Puffer für den Pumpenstrom | eigene Auslegung (Motoranlauf) — ⚠️ deckt bei 2,5 A Anlauf nur **23 µs** ab (`t = C·ΔU/I`), ist also **kein** Anlaufschutz; dafür 100 nF C11 an den Klemmen |
-| C4 | 1 µF | 0603 | EN-RC-Glied | Espressif: „R = 10 kΩ and C = 1 µF" |
-| C5 | **10 µF** | 0805 | LDO-Eingang (CIN) | **Erhöht:** ME6211 verlangt min. 1 µF, Espressif dazu ≥ 10 µF am Leistungseingang → Reserve für die 382-mA-TX-Spitzen bei fast leerer Zelle |
-| C6 | 1 µF | 0603 | LDO-Ausgang (COUT) | ME6211-Datenblatt: CL = 1 µF Low-ESR |
-| C7 | 4,7 µF | 0805 | Lader-Eingang | MCP73831-Datenblatt: „Bypass to VSS with a **minimum of 4,7 µF**" |
-| C8 | 4,7 µF | 0805 | Lader-Ausgang/Akku | MCP73831: „4,7 µF … at the output is usually sufficient for up to 500 mA" |
-| C9 | 100 nF | 0805 | ADC-Filter Sensor | Espressif: „add a 0,1 µF filter capacitor between ESP pins and ground when using the ADC" |
-| **C_LIGHT** | 100 nF | 0805 | ADC-Filter **Lichtsensor** | Espressif-ADC-Empfehlung; bildet mit R_LIGHT_S (1 kΩ) einen Tiefpass (τ = 0,1 ms) |
-| C11 | 100 nF | 0805 | **direkt an den Pumpenklemmen** | **neu (Review 3):** Bürstenstörungen des DC-Motors abfangen, damit sie nicht über VBAT in ADC/LDO einstreuen |
-| C_BTN | 100 nF | 0805 | **Entprellung des externen Tasters** | RC mit R_BTN: 10 kΩ × 100 nF = **1 ms** — entprellt und hält Einstreuungen auf der Tasterleitung fern |
-| C12 | 100 nF | 0805 | Decoupling am Unterspannungswächter | Standardpraxis; der MAX809 selbst braucht laut Datenblatt keine externen Bauteile |
-| **C_SPARE** | 100 nF | 0805 | **ADC-Filter Reserve-Analog (IO5, J9)** | Espressif-ADC-Empfehlung; bildet mit R_SPARE_AIN (1 kΩ) einen Tiefpass (τ = 0,1 ms), gleiches Muster wie SENSOR_AOUT |
-| **C17** ⭐ | **22 µF** | 0805 | **Boost-Eingang (VBAT)** | **neu:** MT3608 verlangt einen Keramik-C am Eingang; 22 µF deckt die Schaltstromspitzen (ΔI ≈ 2 A bei 1,2 MHz) ab, damit die Pulsströme nicht in VBAT/Lader/ADC einstreuen |
-| **C18** ⭐ | **22 µF** | 0805 | **Boost-Ausgang (+5V)** | **neu:** Ausgangs-Bulk. **Achtung:** 22 µF halten 2 A nur **~11 µs** (t = C·ΔU/I) — der Motorenanlauf ist damit **nicht** gepuffert, das erledigt der Softstart in der Firmware |
-| **C19** ⭐ | 100 nF | 0805 | **Boost-Ausgang (+5V), HF** | **neu:** HF-Bedämpfung des 1,2-MHz-Schaltknotens |
-| **C20** ⭐ | 100 nF | 0805 | **direkt an den Klemmen der Sauerstoffpumpe** | **neu:** Bürstenstörungen der zweiten Pumpe abfangen (gleiches Muster wie C11) |
+| **C_CHG_IN** | **10 µF / 25 V** | 0805 | Eingangspuffer des Laders | IP2326-Datenblatt BOM: „10 µF/25 V, **Spannungsfestigkeit > 16 V**, muss Keramik sein" (C1) |
+| **C_CHG_VIN** | **10 µF / 25 V** | 0805 | direkt am VIN-Pin (Pin 13) | dito (C3) |
+| **C_CHG_OUT** | **10 µF / 25 V** | 0805 | Ausgang/Batterieknoten | dito (C6/C7) |
+| **C_VSYS_A, C_VSYS_B** | 2 × **22 µF / 25 V** | 0805 | **direkt an den VSYS-Pins** (19/20) | IP2326-Datenblatt: „2× 22 µF Keramik direkt am Pin platzieren" (C4/C5) |
+| **C_BST_CHG** | 100 nF | 0805 | Bootstrap **zwischen BST (14) und LX** | IP2326-Datenblatt: 0,1 µF nahe BST/LX |
+| **C_B5_IN** | 22 µF | 0805 | Buck-Eingang 5 V | SY8113B: „X5R oder besser, > 22 µF" (unverändert C45783) |
+| **C_B5_IN_HF** | 100 nF | 0805 | HF-Stützung am Buck-Eingang | Standardpraxis, gleicher Typ wie alle 100-nF-Positionen |
+| **C_B5_OUT** | 22 µF | 0805 | 5-V-Ausgang | Buck-Ausgangsfilter |
+| **C_B5_OUT_HF** | 100 nF | 0805 | HF am 5-V-Ausgang | dämpft den 500-kHz-Schaltknoten |
+| **C_B5_BST** | 100 nF | 0805 | Bootstrap 5-V-Buck | SY8113B: 0,1 µF zwischen BS und LX |
+| **C3** | **100 µF / 16 V (Elko)** | SMD D6,3×5,4 | **Pumpenpuffer — von VBAT nach +5V verschoben** | Polster für die Pulsströme der Pumpen auf der Schiene, die sie tatsächlich speist. ⚠️ Polarität im Layout prüfen |
+| **C_B3_IN** | 22 µF | 0805 | Buck-Eingang 3,3 V | AP63203-Typenschaltung |
+| **C_B3_IN_HF** | 100 nF | 0805 | HF-Stützung am Buck-Eingang | Standardpraxis |
+| **C_B3_OUT** | 22 µF | 0805 | 3,3-V-Ausgang | AP63203-Typenschaltung |
+| **C_B3_OUT_HF** | 100 nF | 0805 | HF am 3,3-V-Ausgang | für den Modul-Bulk-Pfad (C2) vorgeschaltet |
+| **C_B3_BST** | 100 nF | 0805 | Bootstrap 3,3-V-Buck | AP63203: „100 nF from SW to BST" |
+| **C12** | 100 nF | 0805 | Decoupling des Wächters — **jetzt an UV_REF** | TPS3839-Messbedingung nennt C1 = 0,1 µF; der MAX809 hatte dieselbe Bestückung |
+| C1a, C1b, C13 | 3 × 100 nF | 0805 | Decoupling am Modul | Espressif: 22 µF + 2 × 0,1 µF (unverändert) |
+| C2 | 22 µF / 25 V | 0805 | Bulk am Modul-3V3 | unverändert |
+| C4 | 1 µF | 0603 | EN-RC-Glied | unverändert (Espressif: 10 k + 1 µF) |
+| C9, C10 | 2 × 100 nF | 0805 | ADC-Filter Feuchte / Packspannung | Espressif-ADC-Empfehlung |
+| C11 | 100 nF | 0805 | EMI **an den Pumpenklemmen** J4 | unverändert (Minus ist über Q1 geschaltet) |
+| C_PUMP2_EMI | 100 nF | 0805 | EMI an den Klemmen J16 | unverändert (über Q3 geschaltet) |
+| C_LIGHT | 100 nF | 0805 | ADC-Filter Licht | wie bisher |
+| C_SPARE | 100 nF | 0805 | ADC-Filter Reserve-Analog | wie bisher |
+| C_BTN | 100 nF | 0805 | Taster-Entprellung | wie bisher |
+| ~~C5~~ | ~~10 µF~~ | — | entfällt mit dem LDO | — |
+| ~~C6~~ | ~~1 µF~~ | — | entfällt mit dem LDO | — |
+| ~~C17/C18/C19~~ | — | — | entfallen mit dem Boost (durch C_B5_* ersetzt) | — |
+| ~~C7/C8 (4,7 µF)~~ | — | — | ersetzt durch 10 µF (C_CHG_IN/C_CHG_OUT, Datenblattwert) | — |
 
-### Widerstände
+### 3.3 Widerstände
 
 | Pos | Wert | Wofür | Quelle |
 |---|---|---|---|
-| R1 | **4,7 kΩ** | Gate-Serie | **Korrigiert:** der MAX809-T-Ausgang ist für **ISINK = 1,2 mA** spezifiziert (Datenblatt, VOL ≤ 0,3 V). 1 kΩ hätte 3 mA gezogen — über Spec. 4,7 kΩ → **0,57 mA** |
-| R2 | **47 kΩ** | Gate-Pulldown | Größer gewählt, weil R1/R2 sonst einen Spannungsteiler bilden: 3,3 V × 47/51,7 = **3,0 V** Gate-Ansteuerung (über dem 2,5-V-Spec-Punkt des AO3400A). MCU unbestückt → Gate entlädt in ~30 µs |
-| R_EN | 10 kΩ | EN-Pull-up | Espressif: RC-Glied 10 kΩ + 1 µF, EN nie floaten |
-| R_BOOT | 10 kΩ | Pull-up an GPIO9 | Espressif: „It is recommended to place a pull-up resistor at the GPIO9 pin" |
-| R_GPIO8 | 10 kΩ | Pull-up an GPIO8 | **eigene Auslegung** (Strapping-Pin nicht floaten) |
-| R_PROG | **3,9 kΩ** | Ladestrom | MCP73831: RPROG = 2 kΩ → 500 mA, 10 kΩ → 100 mA ⇒ 3,9 kΩ ≈ **256 mA** (≈0,17 C der 1500-mAh-Zelle). 3,9 kΩ gewählt, weil es ein **Basic**-Teil ist (4,02 kΩ wäre Extended +3 $) |
-| R_LEDCHG | **1 kΩ** | Lade-LED | **vereinfacht:** statt der 470 Ω aus dem Datenblatt-Applikationsbild derselbe 1-kΩ-Basic-Typ wie R4 → 3 mA LED-Strom reichen, eine Position weniger |
-| R4 | **220 Ω** | Status-LED (grün) | **Rechenweg:** 3,3 V − 2,85 V = 0,45 V → mit 220 Ω fließen **1,4–2,7 mA** über die Vf-Streuung (2,7–3,0 V) und bis 3,2 mA im Worst Case — weit unter den 25 mA der LED. Mit 1 kΩ wären es nur 0,3–0,6 mA (zu dunkel und stark Vf-abhängig) |
-| **R_BTN** | 10 kΩ | Pull-up für den externen Taster | Hält IO6 auf High; Tastendruck zieht auf GND (weckt per EXT1 ANY_LOW). Ruhestrom **0 µA**, gedrückt 330 µA |
-| **R_TANK** | 1 kΩ | Vorwiderstand Tank-LED | 1,3 mA bei Vf ≈ 2,0 V. **Option zum Stromsparen:** 2,2 kΩ → 0,6 mA |
-| R3a, R3b | 2 × 200 kΩ | VBAT-Teiler 1:2 | Prinzip aus der Seeed-Doku (200 k in 1:2); ADC sieht max. 2,1 V |
-| R5a, R5b | 2 × 5,1 kΩ | USB-C CC1/CC2 → GND | USB-C-Vorgabe (nicht von Espressif dokumentiert) |
-| R6 | 1 kΩ | Sensor-AOUT in Reihe | **neu im Review:** schützt den ADC, wenn der Sensor unbversorgt ist |
-| **R_LIGHT** | 10 kΩ | Lastwiderstand / definierter Zustand des Lichtsensors | offener Stecker ⇒ 0 V ⇒ Firmware liest „dunkel" (Bewässerung erlaubt, Pflanze vertrocknet nicht); begrenzt zugleich den Fotostrom des ALS-PT19 |
-| **R_LIGHT_S** | 1 kΩ | Licht-AOUT in Reihe | Serienschutz für den ADC (gleiche Rolle wie R6) |
-| R_UART | 499 Ω (DNP) | TXD0-Serie | Espressif: „connect a 499 Ω series resistor to the U0TXD line" |
-| **R_GATE** | 47 kΩ | Gate-Pull-up Load-Switch | Hält das Gate von Q2 ohne aktiven GPIO auf **+3V3** (Quellpotential) ⇒ VGS = 0 ⇒ Q2 sperrt ⇒ **VCC_EXT ist beim Reset aus** (Fail-safe) |
-| **R_SDA_PU** ⭐ | **4,7 kΩ** | I²C-SDA-Pull-up | Pull-up an **VCC_EXT**, nicht an +3V3 — im ausgeschalteten Zustand zieht der Bus keinen Strom |
-| **R_SCL_PU** ⭐ | **4,7 kΩ** | I²C-SCL-Pull-up | dito, an **VCC_EXT** |
-| **R_SDA_S** | 1 kΩ | I²C-SDA in Reihe | Serienschutz zwischen J8 Pin 3 und U1 Pin 24 (IO18) |
-| **R_SCL_S** | 1 kΩ | I²C-SCL in Reihe | Serienschutz zwischen J8 Pin 4 und U1 Pin 25 (IO19) |
-| **R_SPARE_AIN** | 1 kΩ | Reserve-Analog in Reihe | Serienschutz zwischen J9 Pin 3 und U1 Pin 10 (IO5, ADC1_CH5); Teil des ADC-Filters mit C_SPARE |
-| **R_SPARE_IO15** | 1 kΩ | Reserve-IO15 in Reihe | zwischen J10 Pin 3 und U1 Pin 20 (IO15) |
-| **R_SPARE_IO16** | 1 kΩ | Reserve-IO16 in Reihe | zwischen J11 Pin 3 und U1 Pin 31 (TXD0/IO16) |
-| **R_SPARE_IO17** | 1 kΩ | Reserve-IO17 in Reihe | zwischen J12 Pin 3 und U1 Pin 30 (RXD0/IO17) |
-| **R_SPARE_IO21** | 1 kΩ | Reserve-IO21 in Reihe | zwischen J13 Pin 3 und U1 Pin 27 (IO21) |
-| ~~**R_SPARE_IO22**~~ | **entfällt (15.09.2026)** | – | **IO22 ist jetzt PUMP2_EN** (Sauerstoffpumpe). Der Reserve-Stecker **J14** entfällt ersatzlos; an seine Stelle tritt der Pumpenstecker **J16** |
-| **R33** ⭐ | **1 kΩ** | **Gate-Serie der Sauerstoffpumpe** | **neu:** identisch zu R1. Begrenzt den Umladestrom des Gate und — im Klemmfall über D8 — den Strom aus dem MAX809 auf **0,57 mA** (Spec: ISINK = 1,2 mA) |
-| **R34** ⭐ | **47 kΩ** | **Gate-Pulldown Q3** | **neu:** identisch zu R2. Hält Q3 beim Boot/Reset sicher aus; Ansteuerpegel 3,3 V × 47/51,7 = **3,0 V** (über dem 2,5-V-Spec-Punkt des AO3400A) |
-| **R35** ⭐ | **10 kΩ** | **Serienwiderstand im Klemmzweig Dosierpumpe** | **Revision 15.09.2026:** entkoppelt D3 vom Gate und begrenzt den Sinkstrom in U7 auf **0,30 mA** (Spec 1,2 mA) |
-| **R36** ⭐ | **10 kΩ** | **Serienwiderstand im Klemmzweig Sauerstoffpumpe** | dito für D8 (Kanal 2) |
-| **R37** ⭐ | **47 kΩ** | **Pull-up des Boost-EN (U8 Pin 4) nach VBAT** | hält den Boost an, solange der Wächter nicht auslöst |
-| **R31** ⭐ | **75 kΩ** | **Boost-Feedback oben** | **neu:** V_out = 0,6 V × (1 + R31/R32) = 0,6 × (1 + 7,5) = **5,10 V**. Werte als 0805-Basic gewählt (75 kΩ `C17819` + 10 kΩ `C17414`) — 5,10 V liegt innerhalb der ±5-%-Toleranz beider Pumpen |
-| **R32** ⭐ | **10 kΩ** | **Boost-Feedback unten** | **neu:** s. R31; bildet mit R31 den Teiler am FB-Pin (Pin 3), unterer Zweig an GND |
-| **R_SPARE_IO23** | 1 kΩ | Reserve-IO23 in Reihe | zwischen J15 Pin 3 und U1 Pin 29 (IO23) |
+| **R_ISET** | **100 kΩ 1 %** | Ladestrom des IP2326 | Datenblatt: ICHG = 90000/R_ISET ⇒ **0,90 A**; 1 %-Genauigkeit gefordert. ISET darf **nicht** offen bleiben |
+| **R_NTC** | **51 kΩ** | NTC-Funktion stilllegen | Datenblatt: „nicht benötigt ⇒ 51 kΩ nach GND" (20 µA × 51 k = 1,02 V = Normalbereich) |
+| **R_UVSET** | **68 kΩ** | Eingangs-Unterspannungsschwelle | Datenblatt-Tabelle: 68 k ⇒ **4,35 V** (Standard 4,65 V). Ziel: die Eingangsregelschleife soll bei einem dünnen Kabel erst spät den Ladestrom senken |
+| **R_EN_CHG** | **100 kΩ** | Pull-up des Lader-EN nach VBUS | Datenblatt: EN ≥ 1,4 V = an. Damit lädt das Gerät **ohne** Firmware (kein GPIO nötig) |
+| **R_VIN_CHG** | **0,5 Ω** | Filter zum VIN-Pin | Datenblatt-Applikationsbild (R1). **Kein** Shunt — der Ladestrom wird im IC gemessen (0,5 Ω bei 1,8 A wären 1,6 W in 0805) |
+| **R_LEDCHG** | 1 kΩ | Vorwiderstand der Lade-LED | ~2,7 mA an 5 V, LED-Pin kann max. 5 mA. Gleicher Basic-Typ wie R_TANK |
+| **R3a, R3b** | 2 × **200 kΩ** | Wächter-Teiler **1:2** | Schwelle 3,08 V ⇒ Auslösung bei **6,16 V** Pack (= 3,08 V/Zelle). Teilerstrom 21 µA. Offset durch Iq 150 nA: +30 mV |
+| **R_SENSE_TOP** | **200 kΩ** | Packspannungsmessung (oberer Zweig) | **neu:** 8,4 V → **2,13 V**, 6,16 V → 1,56 V — passt in den 12-dB-Bereich (0–3300 mV) mit Reserve. Teilerstrom 31,5 µA. **Verhältnis 1 : 3,94** statt exakt 1:4, dafür bleiben **beide Widerstände Basic-Positionen** |
+| **R_SENSE_BOT** | **68 kΩ** | Packspannungsmessung (unterer Zweig) | gleicher Basic-Typ wie R_UVSET |
+| **R_FB5_TOP** | **75 kΩ** | Feedback 5-V-Buck (oben) | V_out = 0,6 V × (1 + 75/10) = **5,10 V** — derselbe Basic-Wert wie beim alten Boost (C17819) |
+| **R_FB5_BOT** | **10 kΩ** | Feedback 5-V-Buck (unten) | C17414 (Basic) |
+| **R_FB3_TOP** | **47 kΩ** | Feedback 3,3-V-Buck (oben) | C17713 (Basic) |
+| **R_FB3_BOT** | **15 kΩ** | Feedback 3,3-V-Buck (unten) | V_out = 0,8 V × (1 + 47/15) = **3,31 V** (0,3 % unter 3,3 V — weit innerhalb 3,0–3,6 V des Moduls) |
+| **R_CLAMP1, R_CLAMP2** | 2 × **10 kΩ** | Serienwiderstand **im** Klemmzweig | begrenzt den Sinkstrom in U7 auf **0,29 mA** (Ausgang darf 2 mA). **Korrigiert:** liegt in Reihe mit D3/D8, vorher parallel (§13.4) |
+| **R1, R_GATE2** | 2 × 1 kΩ | Gate-Serie beider Pumpen | schnelle PWM-Flanken; identisch für beide Kanäle |
+| **R2, R_GATE2_PD** | 2 × 47 kΩ | Gate-Pulldown | hält die Pumpen bei totem MCU aus; Ansteuerpegel 3,3 V × 47/48 = 3,23 V |
+| R4 | 220 Ω | Status-LED grün (Vf 2,85 V) | 3,3 V − 2,85 V = 0,45 V ⇒ 1,4–2,7 mA |
+| R_TANK | 1 kΩ | Tank-LED | ~1,3 mA |
+| R6, R_LIGHT_S, R_SDA_S, R_SCL_S, R_SPARE_AIN, R_SPARE_IO15, R_SPARE_IO16, R_SPARE_IO17, R_SPARE_IO21, R_SPARE_IO23 | 10 × 1 kΩ | Serienschutz aller Steckerleitungen | Fehlerstrom in einen Pin ≤ 3,3 mA |
+| R_LIGHT | 10 kΩ | Lastwiderstand Lichtsensor | offener Stecker ⇒ 0 V ⇒ „dunkel" |
+| R_EN, R_BOOT, R_GPIO8, R_BTN | 4 × 10 kΩ | Pull-ups (EN, GPIO9, GPIO8, Taster) | Espressif + eigene Auslegung |
+| R_SDA_PU, R_SCL_PU | 2 × 4,7 kΩ | I²C-Pull-ups **an VCC_EXT** | im ausgeschalteten Zustand kein Busstrom |
+| R_GATE | 47 kΩ | Gate-Pull-up des Load-Switch | Fail-safe: ohne GPIO ist VCC_EXT aus |
+| R5a, R5b | 2 × 5,1 kΩ | USB-C CC1/CC2 nach GND | USB-C-Vorgabe |
+| R_UART | 499 Ω | TXD0-Serie | Espressif-Empfehlung, **DNP** |
+| ~~R_PROG (3,9 k)~~ | — | entfällt mit dem MCP73831 | — |
+| ~~R37 (47 k)~~ | — | entfällt: EN-Pull-up des Boosts | — |
+| ~~R31/R32 (75 k/10 k)~~ | — | entfallen: Boost-Feedback | — |
 
-### Steckverbinder und Schalter
+### 3.4 Steckverbinder und Schalter
 
 | Pos | Bauteil | LCSC | Anschluss |
 |---|---|---|---|
-| J1 | JST PH 2,0 mm, 2-pol, **aufrecht (Top-Entry, SMD)** | `C160352` | Akku (Pin 1 = +, Pin 2 = −) — **Polung im Layout prüfen**. ⚠️ Typwechsel 15.09.2026 (vorher `C54582899`, liegend „卧贴") |
-| J2 | JST-XH 2,54 mm, 3-pol, **aufrecht (Top-Entry, THT)** | `C493416` | Feuchtesensor: **1 = GND · 2 = SENSOR_PWR (VCC) · 3 = SENSOR_RAW (AOUT)**. ⚠️ Typwechsel 15.09.2026 (vorher `C157928`, gewinkelt „弯插"); Stecker geht jetzt nach oben raus |
-| J4 | JST-XH 2,54 mm, 2-pol, **aufrecht (Top-Entry, THT)** | `C158012` | **Dosierpumpe:** **1 = +5V** (seit 15.09.2026 — vorher VBAT), 2 = geschaltete Masse (Q1 Drain). ⚠️ Typwechsel 15.09.2026 (vorher `C157931`, gewinkelt — Lager war auf **2 Stück** gefallen) |
-| **J16** ⭐ | **JST-XH 2,54 mm, 2-pol, aufrecht (Top-Entry, THT)** | `C158012` | **Sauerstoffpumpe (neu 15.09.2026):** **1 = +5V · 2 = PUMP2_N** (geschaltete Masse über Q3). Bewusst **derselbe Steckertyp wie J4** — ein Crimp-Werkzeug, gleiche Ersatzteile, dieselbe JLC-Position (Menge 2) |
-| J5 | USB-C 16-pol | `C165948` | VBUS, GND/Schirm, CC1/CC2, D+/D− |
-| SW1 | Taster 5,1 × 5,1 mm | `C318884` | Reset (EN gegen GND) |
-| SW2 | Taster 5,1 × 5,1 mm | `C318884` | Boot (GPIO9 gegen GND) |
-| **J6** | **2 Lötpads / Bohrungen Ø 1,0 mm, Raster 2,54 mm** | – | **kein Stecker, keine BOM-Position, keine JLC-Kosten** — der Taster sitzt außerhalb der Platine (Gehäuse) und wird mit zwei Kabeln direkt angelötet |
-| **J7** | **Stiftleiste 1×3, 2,54 mm, male gerade** | `C2937625` | **externer Lichtsensor:** **1 = GND · 2 = SENSOR_PWR (VCC) · 3 = LIGHT_RAW (AOUT)** — **Typwechsel 14.09.2026:** der Nutzer steckt Dupont-Buchsen direkt auf (keine Crimpzange). Gleicher Stiftleistentyp wie J9–J15 |
-| **J8** | **Stiftleiste 1×4, 2,54 mm, male gerade** | `C2691448` | **I²C-Erweiterung (VCC_EXT):** **1 = GND · 2 = VCC_EXT · 3 = SDA · 4 = SCL** (VCC innen, wie Qwiic/STEMMA) |
-| **J9** | **Stiftleiste 1×3, 2,54 mm, male gerade** | `C2937625` | **Reserve-Analog:** **1 = GND · 2 = VCC_EXT · 3 = SPARE_AIN_RAW (IO5, ADC1_CH5)** |
-| **J10** | **Stiftleiste 1×3, 2,54 mm, male gerade** | `C2937625` | **Reserve IO15:** **1 = GND · 2 = VCC_EXT · 3 = SPARE_IO15_RAW** (Strapping JTAG-Quelle, Default-eFuses inert) |
-| **J11** | **Stiftleiste 1×3, 2,54 mm, male gerade** | `C2937625` | **Reserve IO16 (TXD0):** **1 = GND · 2 = VCC_EXT · 3 = SPARE_IO16** |
-| **J12** | **Stiftleiste 1×3, 2,54 mm, male gerade** | `C2937625` | **Reserve IO17 (RXD0):** **1 = GND · 2 = VCC_EXT · 3 = SPARE_IO17** |
-| **J13** | **Stiftleiste 1×3, 2,54 mm, male gerade** | `C2937625` | **Reserve IO21:** **1 = GND · 2 = VCC_EXT · 3 = SPARE_IO21_RAW** (WPU beim Reset) |
-| ~~**J14**~~ | **entfällt (15.09.2026)** | – | **Reserve IO22 gestrichen** — IO22 ist jetzt **PUMP2_EN** (Sauerstoffpumpe), der Stecker wird zu **J16**. Wer die Reserve braucht, kann J13 (IO21) oder J15 (IO23) nutzen |
-| **J15** | **Stiftleiste 1×3, 2,54 mm, male gerade** | `C2937625` | **Reserve IO23:** **1 = GND · 2 = VCC_EXT · 3 = SPARE_IO23_RAW** |
-
-**Stecker-Typen (ab 14.09.2026):** J2 bleibt **JST-XH 3P** (`C157928`, gerastet). J7 und J9–J15 sind
-**2,54-mm-Stiftleisten male gerade** (`C2937625`), J8 ist die 4-polige Variante (`C2691448`).
-Kabel mit Dupont-Buchse werden direkt aufgesteckt. Die **Pinordnung ist überall GND–VCC–SIG**
-(VCC in der Mitte), J8 als GND–VCC–SDA–SCL.
+| **J1** | JST PH 2,0 mm, 2-pol, aufrecht | `C160352` | **Akku = 2S-Pack** (Pin 1 = +, Pin 2 = −). ⚠️ **Pflicht: Pack mit BMS/Balancer** (§6.3) |
+| J2 | JST-XH 2,5 mm, 3-pol, aufrecht | `C493416` | Feuchtesensor: 1 = GND · 2 = SENSOR_PWR · 3 = SENSOR_RAW |
+| J4 | JST-XH 2,5 mm, 2-pol, aufrecht | `C158012` | Dosierpumpe: 1 = **+5V** · 2 = PUMP_N |
+| J16 | JST-XH 2,5 mm, 2-pol, aufrecht | `C158012` | Sauerstoffpumpe: 1 = **+5V** · 2 = PUMP2_N |
+| **J17** | JST-XH 2,5 mm, 2-pol, aufrecht | `C158012` | **neu: 5-V-Ausgang für Sensorik** — 1 = **+5V** · 2 = GND. Gleicher Steckertyp wie J4/J16 (eine Crimpzange, eine BOM-Zeile mit Menge 3) |
+| J5 | USB-C 16-pol | `C165948` | Laden **und** Programmieren (USB-Serial-JTAG auf IO12/13) |
+| J6 | 2 Lötpads Ø 1,0 mm, Raster 2,54 mm | — | externer Taster (keine Bestückung) |
+| J7, J9–J13, J15 | Stiftleiste 1×3, 2,54 mm | `C2937625` | GND–VCC_EXT–SIG (VCC in der Mitte) |
+| J8 | Stiftleiste 1×4, 2,54 mm | `C2691448` | GND–VCC_EXT–SDA–SCL |
+| SW1, SW2 | Taster 5,1 × 5,1 mm | `C318884` | Reset / Boot |
 
 ---
 
-## 4. Modul-Pinbelegung (verifiziert aus der Espressif-Datasheet v1.5)
-
-Der ESP32-C6-MINI-1 führt 22 GPIOs heraus. Belegt sind hier:
+## 4. Modul-Pinbelegung (ESP32-C6-MINI-1, unverändert)
 
 | Modulpin | Name | Verwendung hier |
 |---|---|---|
-| 3 | 3V3 | +3V3 (zusammen mit allen VDD33-Pins) |
-| 5 | IO2 | **PUMP_EN** |
-| 6 | IO3 | **SENSOR_PWR** (ADC1_CH3) |
+| 3 | 3V3 | +3V3 (jetzt aus dem AP63203-Buck) |
+| 5 | IO2 | PUMP_EN |
+| 6 | IO3 | SENSOR_PWR |
 | 8 | EN | Reset-RC + SW1 |
-| 9 | IO4 | **LIGHT_AOUT** (ADC1_CH4, „P1" = direkter IO-MUX-Pfad). IO4 ist **kein boot-kritischer** Strapping-Pin (siehe Hinweis unten) |
-| 19 | IO14 | **LED_STAT** — frei gewählt, nicht IO4; IO14 liegt außerhalb der LP-GPIOs und ist kein Strapping-Pin |
-| 15 | IO6 | **BTN** — externer Taster. **LP_GPIO6** (weckt aus dem Deep-Sleep), **kein** Strapping-Pin. JTAG wird dadurch nicht genutzt (Flashen über USB-Serial-JTAG auf IO12/13) |
-| 16 | IO7 | **LED_TANK** — **LP_GPIO7**, ebenfalls kein Strapping-Pin |
-| 12 | IO0 | **SENSOR_AOUT** (ADC1_CH0) |
-| 13 | IO1 | **VBAT_SENSE** (ADC1_CH1) |
-| 17 | IO12 | **USB_D−** |
-| 18 | IO13 | **USB_D+** |
-| 22 | IO8 | Strapping-Pin, nur Pull-up |
-| 23 | IO9 | **BOOT** (Strapping) + Pull-up |
-| 10 | IO5 | **SPARE_AIN** (ADC1_CH5) — Reserve-Analog an **J9**, über R_SPARE_AIN 1 kΩ + C_SPARE 100 nF |
-| 20 | IO15 | **SPARE_IO15** — Reserve an **J10** (Strapping JTAG-Quelle, Default-eFuses inert), über R_SPARE_IO15 1 kΩ |
-| 24 | IO18 | **SDA_MCU** — I²C-Daten an **J8**, über R_SDA_S 1 kΩ |
-| 25 | IO19 | **SCL_MCU** — I²C-Takt an **J8**, über R_SCL_S 1 kΩ |
-| 26 | IO20 | **EXT_EN** — Load-Switch Q2 (interner WPU beim Reset ⇒ VCC_EXT aus) |
-| 27 | IO21 | **SPARE_IO21** — Reserve an **J13**, über R_SPARE_IO21 1 kΩ (WPU beim Reset) |
-| 28 | IO22 | **PUMP2_EN** ⭐ — Gate der **Sauerstoffpumpe** (Q3) über **R33 4,7 kΩ** (vorher Reserve an J14; der Reserve-Stecker entfällt) |
-| 29 | IO23 | **SPARE_IO23** — Reserve an **J15**, über R_SPARE_IO23 1 kΩ |
-| 30 / 31 | RXD0 / TXD0 | **UART_RX (IO17) / UART_TX (IO16)** — optional UART-Debug (DNP); zugleich über R_SPARE_IO17/16 an **J12/J11** |
+| 9 | IO4 | LIGHT_AOUT (ADC1_CH4) |
+| 12 | IO0 | SENSOR_AOUT (ADC1_CH0) |
+| 13 | IO1 | **VBAT_SENSE (jetzt 1:4)** |
+| 15 | IO6 | BTN (LP_GPIO6, weckt) |
+| 16 | IO7 | LED_TANK (LP_GPIO7) |
+| 17 / 18 | IO12 / IO13 | USB_D− / USB_D+ |
+| 19 | IO14 | LED_STAT |
+| 20, 24, 25, 26, 27, 28, 29, 30, 31 | IO15, IO18, IO19, IO20, IO21, IO22, IO23, RXD0, TXD0 | wie bisher (Reserve/I²C/EXT_EN/O2-Pumpe/UART) |
+| 22, 23 | IO8, IO9 | Strapping-Pull-ups + Boot-Taster |
+| 10 | IO5 | SPARE_AIN (J9) |
 | 1, 2, 11, 14, 36–53 | GND | Masse |
-| 49 | EPAD | Thermo-Pad — mit GND verbinden (Espressif: nicht Pflicht, verbessert die Wärmeabfuhr) |
-| div. | VDD33 | **alle** an +3V3, jeweils 100 nF in der Nähe |
 
-**Herausgeführt als 2,54-mm-Stiftleisten (ab 14.09.2026):** IO4 (Lichtsensor) an **J7**, IO5 an
-**J9**, IO15 an **J10**, IO16 an **J11**, IO17 an **J12**, IO18/IO19 (I²C) an **J8**, IO21 an
-**J13**, IO22 an **J14**, IO23 an **J15**. IO20 bleibt **intern** (Load-Switch-Steuerung, nicht
-auf einen Stecker geführt).
-Espressif: unbenutzte hochohmige Pins mit Pull-up/down versehen oder internen Pull aktivieren
-(verhindert Mehrverbrauch im Schlaf).
-
-**GPIO9-Regel beachten:** kein großer Kondensator am Pin, sonst startet der Chip in den
-Download-Modus statt in die Anwendung.
-
-**Korrektur der Strapping-Aussage (13.09.2026):** Frühere Dokumentstände nannten IO4/IO5
-pauschal „Strapping-Pins" und damit tabu. Das ist **so nicht richtig**:
-
-- **Boot-kritische Strapping-Pins** sind nur **GPIO8, GPIO9** (Boot-Modus; nur `GPIO8 = 0`
-  **und** `GPIO9 = 0` zugleich ist als ungültig markiert) und **GPIO15** (JTAG-Quellenwahl,
-  mit den Default-eFuses wirkungslos).
-- **IO4/IO5 (MTMS/MTDI)** sind **keine** Boot-Modus-Strapping-Pins. Ihre Strap-Funktion ist
-  ausschließlich die **SDIO-Slave-Flankenneigung**; der Wert 0 ist ausdrücklich erlaubt und
-  ohne SDIO-Slave wirkungslos. Beim Reset haben beide **keine** internen Pulls (nur Input
-  enabled) und sind danach normale IO-Pins. Deshalb ist IO4 als ADC-Eingang (ADC1_CH4)
-  auch mit hochohmiger Quelle (R_LIGHT 10 kΩ + R_LIGHT_S 1 kΩ + C_LIGHT 100 nF) zulässig.
-- Einziger verbleibender Vorbehalt: **Falls Pad-JTAG** (statt USB-Serial-JTAG) je gebraucht
-  wird, sind IO4/IO5 dafür freizuhalten. Geflasht wird hier über USB-Serial-JTAG auf IO12/13.
+⚠️ **Firmware-Änderung (nicht Hardware):** Der ADC-Faktor der Packspannung ist jetzt **4** statt 2
+(8,4 V ⇒ 2,10 V). Die Schwellen aus `bom_entscheidung.md` §4b sind auf Packspannung umzurechnen
+(Messauftrag §6.7).
 
 ---
 
@@ -273,45 +266,107 @@ pauschal „Strapping-Pins" und damit tabu. Das ist **so nicht richtig**:
 
 | Bauteil | Pinbelegung | Belegstatus |
 |---|---|---|
-| **USBLC6-2SC6** | 1 = I/O1 · 2 = GND · 3 = I/O2 · 4 = I/O2 · 5 = VBUS · 6 = I/O1 | ✅ aus dem Datenblatttext verifiziert (1/6 und 3/4 sind die Durchschleifpaare) |
-| **MCP73831 (SOT-23-5)** | 1 = STAT · 2 = VSS · 3 = VBAT · 4 = VDD · 5 = PROG | ⚠️ aus dem „Package Types"-Text des Datenblatts abgeleitet; **Pin-Configuration-Bild nicht textlich prüfbar → beim Footprint gegenprüfen** |
-| **ME6211 (SOT-23-5)** | 1 = VIN · 2 = GND · 3 = EN · 4 = NC · 5 = VOUT | ⚠️ **noch gegenprüfen** (Datenblatt zeigt nur Bild). **EN an VIN/VBAT** legen — auf +3V3 gelegt könnte der Regler nicht starten |
-| **MAX809 (SOT-23)** | 1 = GND · 2 = RESET · 3 = VCC | ⚠️ **noch gegenprüfen** (Bild) |
-| **AO3400A (SOT-23)** | 1 = Gate · 2 = Source · 3 = Drain | ⚠️ **noch gegenprüfen** (Bild) |
-| **AO3401A (SOT-23)** | 1 = Gate · 2 = Source · 3 = Drain | ⚠️ **noch gegenprüfen** (Bild); gleiche Pinbelegung wie AO3400A. Hier Source → +3V3, Drain → VCC_EXT (P-Kanal-High-Side) |
+| **IP2326 (QFN-24 + EPAD)** | 1 DM · 2 DP · 3 VSET · 4 NTC · 5 BAT_STAT · 6 LED · 7 TIME_SET · 8 VIN_UVSET · 9 VIN_OVSET · 10 CON_SEL · 11 ISET · 12 EN · 13 VIN · 14 BST · **15/16/17 LX** · 18 PGND · **19/20 VSYS** · **21/22 VOUT** · 23 VBATM · 24 VBAT_GND · EPAD GND | ✅ **als Text aus der Pin-Tabelle** des Datenblatts V1.11 §4 (S. 2) extrahiert (17-seitiges PDF, Textlayer vorhanden) |
+| **SY8113B (TSOT-23-6)** | 1 BS · 2 GND · 3 FB · 4 EN · 5 IN · 6 LX | ✅ Datenblatttext (AN_SY8113B, „Pinout/Pin Description", S. 2) |
+| **AP63203 (TSOT-26)** | 1 FB · 2 EN · 3 VIN · 4 GND · 5 SW · 6 BST | ⚠️ Die Pin-**Tabelle** des Datenblatts (DS41326) liegt nur als Bild vor; die Reihenfolge stammt aus dem beschrifteten Pinout-Block (Text „1 FB 2 EN 3 VIN 4 GND 5 SW 6 BST") → **beim Footprint gegenprüfen** |
+| **TPS3839 (SOT-23-3)** | 1 GND · 2 RESET · 3 VDD | ✅ Datenblatttext (SBVS193D §6 Pin Functions: „GND 1 · RESET 2 · VDD 3") |
+| **USBLC6-2SC6** | 1 = I/O1 · 2 = GND · 3 = I/O2 · 4 = I/O2 · 5 = VBUS · 6 = I/O1 | ✅ Datenblatttext (unverändert) |
+| **AO3400A / AO3401A** | 1 = Gate · 2 = Source · 3 = Drain | ⚠️ wie bisher: Standardbelegung, im Footprint gegenprüfen |
+| ~~MCP73831 / ME6211 / MAX809~~ | — | entfallen. **Hinweis für die Nachwelt:** der ME6211 hat V_IN,max = 6,0 V — genau deshalb ist der Umbau auf 2S nur *mit* einem anderen Regler zulässig |
 
 ---
 
 ## 6. Auslegungsnotizen und offene Punkte
 
-0. **Prüfwerkzeug:** `../../scripts/check_netlist.py` prüft die Netzliste auf Strukturfehler
-   (Bauteil nur auf einem Netz, Netz mit nur einem Knoten, Pin auf zwei Netzen, im Schaltplan
-   dokumentierte Bauteile, die in der Netzliste fehlen). Läuft mit `python3 scripts/check_netlist.py`
-   und muss **exit 0** liefern, bevor das Layout beginnt.
+### 6.1 Laden (neu dimensioniert)
 
-1. **Ladestrom:** 256 mA (R_PROG 3,9 kΩ). Zusammen mit der Logik (max. ~80 mA) bleibt man unter den 500 mA, die
-   USB 2.0 liefert. Wenn der Sensor aktiv ist und WLAN sendet, kurzzeitig mehr — für die USB-Spec
-   unkritisch, USB-C-Netzteile liefern ohnehin ≥ 1 A.
-2. **Betrieb ohne Akku:** VBUS → Lader → VBAT steigt auf ~4,2 V, die Logik läuft also auch ohne
-   Zelle. Das ist **nicht belastbar** (Pumpe zieht 450 mA, der Lader liefert max. 500 mA nur in
-   CC-Phase). Für Reprogrammierung daher die Zelle stecken oder ein Labornetzteil auf VBAT legen.
-   **Bewusst keine Brücke von VBUS auf VBAT** (siehe Review 3: ungeregelter Ladepfad).
-3. **Standby-Budget:** Modul-Deep-Sleep 7 µA + LDO 40 µA + MAX809 12 µA + Spannungsteiler 10,5 µA
-   ≈ **70 µA** → ~1,7 mAh/Tag. Der Teiler dominiert mit 10,5 µA; wenn das stört, Teiler über einen
-   GPIO schaltbar machen oder auf 2 × 1 MΩ erhöhen (dann ist C10 zwingend).
-4. **Kein Verpolschutz im Hauptpfad** — die Zelle hat ein PCM, und ein Schottky in Reihe würde 0,3 V
-   kosten. Die früher angedachte SS34 (D4) ist in Review 3 **komplett entfallen** (siehe Bauteiltabelle).
-   Verpolsicherung ist damit allein die mechanische Kodierung der JST-Stecker.
-5. **Testpunkte im Layout vorsehen:** TP1/TP2 (UART-Debug), TP3 (GND), TP4 (VBAT),
-   TP5 (+3V3), TP6 (SENSOR_AOUT).
-6. **Layout-Vorgaben aus Espressif:** EN-Leitung kurz halten; USB als 90-Ω-Differentialpaar mit
-   GND-Referenzlage; Antenne → siehe `bom_entscheidung.md` §6 (bauteilfreier Bereich, dünnere
-   Wulstwand, 15 mm Freistellung im Gehäuse).
-7. **Vor dem Bestücken zu klären:** die vier mit ⚠️ markierten Pinbelegungen, die Polarität von J1,
-   und die Farbwahl der Lade-LED.
+- **Ladestrom 0,90 A** (R_ISET 100 kΩ) ⇒ bei 8,4 V sind das 7,6 W Ausgang, bei 94 % Wirkungsgrad
+  ≈ **1,6 A Eingangsstrom** aus 5 V, plus Systemlast (max. 0,6 A, wenn beide Pumpen laufen).
+  ⇒ **Es braucht ein 5-V-Netzteil mit ≥ 2,5 A** (USB-C-Netzteile mit ≥ 3 A sind üblich).
+- Der IP2326 hat eine **Eingangsregelschleife**: sinkt V_USB unter die per R_UVSET gesetzten 4,35 V,
+  reduziert er selbsttätig den Ladestrom („adaptiver Adapter-Schutz") — ein schwaches Netzteil wird
+  also nicht „abgerissen", das Laden dauert nur länger.
+- **Kein Power-Path** (im Datenblatt beider Versionen nicht vorhanden): Während des Ladens kann
+  das System weiterlaufen, weil der Akkuknoten geladen wird. Betriebsregel bleibt wie in §12.3:
+  **beim Pumpen möglichst nicht laden** (der Lader deckt die Last nicht, sondern reduziert sie höchstens).
+- **Kein Fast-Charge-Request:** DM/DP bleiben offen, weil diese Leitungen dem ESP32 gehören
+  (USB-Serial-JTAG auf IO12/13). Das ist datenblattkonform („wenn die Anforderung scheitert, wird
+  dauerhaft mit 5 V geladen"); die 15-W-Fähigkeit des ICs wird damit **nicht** ausgenutzt.
+- **Ladezeit:** 0,6 C bei 1000 mAh-Pack ≈ 1,7 h, bei 2000 mAh ≈ 3,3 h (plus CV-Phase).
+
+### 6.2 Ruhestrom (neu gerechnet)
+
+| Posten | vorher (1S) | jetzt (2S) |
+|---|---|---|
+| Buck 5 V (SY8113B, Iq) | — | **100 µA** |
+| Buck 3,3 V (AP63203, Iq) | — | **22 µA** |
+| LDO (ME6211) | 40 µA | — (entfallen) |
+| Unterspannungswächter | 12 µA (MAX809) | **0,15 µA** (TPS3839) |
+| Teiler (Wächter 1:2 + ADC) | 10,5 µA | **52,4 µA** (21 + 31,4) |
+| ESP32-C6 Deep-Sleep | 7 µA | 7 µA |
+| **Summe** | **≈ 70 µA** (1,7 mAh/Tag) | **≈ 182 µA** (4,4 mAh/Tag = **0,29 %/Tag** bei 1500 mAh) |
+
+Bei 1500 mAh stehen 4,4 mAh/Tag = **0,29 %/Tag** den 1,7 mAh/Tag = 0,11 %/Tag des 1S-Stands gegenüber —
+die Verdopplung des Ruhestroms kostet also **nichts** an Laufzeit, weil der Pack doppelt so groß ist.
+**Sparoption (V2):** den 5-V-Buck per GPIO nur während des Pumpens einschalten (spart 100 µA,
+erfordert dann aber eine Einschaltverzögerung in der Firmware, weil der Buck nach dem EN 800 µs
+Sanftanlauf braucht, plus die 200 ms des Wächters beim Kaltstart).
+
+### 6.3 ⚠️ Der Akku-Pack **muss** ein BMS mit Balancing haben
+
+Reihengeschaltete Zellen driften auseinander; ohne Balancing lädt der Lader die Reihenschaltung auf
+8,4 V, während eine Zelle über 4,25 V kommen kann (Brandrisiko). Deshalb:
+
+- **Gefordert:** fertiger 2S-Pack mit integriertem Schutz- **und Balancier-IC** (BMS/PCM) und
+  2-poligem Ausgang (JST-PH 2,0 mm bevorzugt).
+- Der IP2326 **hätte** ein eigenes 2S-Balancing (Pins 23/24, V_CBON = 4,1 V, I_CB = V_CB/R_CB < 40 mA) —
+  es bleibt hier **unbeschaltet**, weil unser Stecker 2-polig ist. Will man es nutzen, braucht es
+  einen 3-poligen Akku-Stecker (Mittelabgriff!) **plus** R_CB (100 Ω, 1206) und 2 × 100 nF.
+  Die genaue Verdrahtung ist im Datenblatt nur als Bild vorhanden — vor einer Nutzung am Bild
+  gegenprüfen (im Bild: BAT+ → VOUT, **Mittelabgriff → R_CB → Pin 23**, BAT− → Pin 24).
+- Die Firmware-Schwellen (Warnung ~7,0 V, Pumpstopp ~6,8 V) sind **Packspannungs**-Werte; sie ersetzen
+  die früheren 3,5/3,4 V und sind gegen den Hardware-Wächter bei 6,16 V zu staffeln.
+
+### 6.4 Was der Wächter jetzt wirklich abschaltet
+
+Unter 6,16 V Pack: RESET_UV low ⇒ (a) **U_BUCK5 Pin 4 (EN)** sperrt — der Buck-Ausgang ist dann
+**wirklich 0 V** (kein Diodenpfad wie beim alten Boost über L1/D6) und (b) D3/D8 klemmen beide
+Pumpengates über je 10 kΩ auf ~0,3 V. Die **3,3-V-Schiene bleibt an**, damit der MCU melden und
+loggen kann (bewusste Entscheidung, wie in §12.3 dokumentiert). Der Pack entläuft sich im
+Wächterzustand weiter mit ~182 µA (beide Buck-Iq + Teiler) — das PCM der Zellen ist die letzte Ebene.
+
+### 6.5 Verpol-, Kurzschluss- und Steckerschutz (unverändert)
+
+Alle Außenstecker bleiben **GND–VCC–SIG** (VCC in der Mitte) mit 1 kΩ in jeder Signalleitung;
+J17 (neu) ist eine reine **Ausgangs**-Buchse (5 V/GND) — ein Kurzschluss dort wird durch die
+Strombegrenzung des 5-V-Bucks begrenzt. Kein Verpolschutz in Reihe zum Akku (das PCM des Packs
+ist der Schutz; mechanische Kodierung durch JST).
+
+### 6.6 Wärme
+
+- SY8113B: 0,6 A Last, R_DS(on) 80/40 mΩ ⇒ < 50 mW Verlust; θ_JA 100 °C/W.
+- AP63203: 0,15 A Last ⇒ < 60 mW.
+- IP2326: bei 8,4 V/0,9 A ≈ 4 % von 8 W ≈ **0,3 W** im QFN-24 mit EPAD (θ_JA 60 °C/W) ⇒ ~20 K
+  Überhöhung — das EPAD muss über Vias an eine Kupferfläche angebunden werden (**Layout-Vorgabe**).
+- Der **Elko C3** sitzt jetzt auf +5V (vorher VBAT) — thermisch unkritisch.
+
+### 6.7 Offene Punkte / Messaufträge (Stand 16.09.2026)
+
+1. **Akku-Pack auswählen** (2S, 1500–2500 mAh, mit BMS + Balancing, 2-poliger Ausgang) — Recherche
+   liegt vor, Entscheidung offen. Maße müssen in die Wulst passen (`docs/02`).
+2. **Eingangsstrom messen** (5-V-Seite bei 0,9 A Ladestrom + Pumpenbetrieb) → entscheidet über die
+   Netzteilanforderung (≥ 2,5 A) und ggf. über R_ISET (0,75 A/0,9 A).
+3. **VSYS-Verhalten:** im Applikationsbild sind VSYS-Pins nur kapazitiv beschaltet (2 × 22 µF) und
+   **nicht** extern mit BAT+ verbunden — so ist es hier umgesetzt. Falls die Messung zeigt, dass der
+   Ausgang ohne externe Verbindung nicht hochläuft, VSYS extern auf VBAT legen (Lötbrücke).
+4. **Pin-Footprints der 4 neuen ICs** (IP2326 QFN-24 EPAD, SY8113B TSOT-23-6, AP63203 TSOT-26,
+   TPS3839 SOT-23-3) vor dem Layout gegen die Datenblatt-Bilder prüfen (§5).
+5. **Leerlaufstrom beider Bucks messen** (Akku-Standby) → bestätigt die 182 µA aus §6.2.
+6. **Pumpenanlauf ohne Softstart** testen: der 3-A-Anlauf liegt jetzt innerhalb der 3-A-Nennlast —
+   die Messung entscheidet, ob der Softstart weiterhin zwingend ist.
+7. **Firmware:** ADC-Faktor 4:1, neue Schwellen, Warten auf die 5-V-Schiene nach dem Kaltstart.
 
 ---
-
 ## 7. Externer Taster und Tank-LED (ergänzt 11.09.2026)
 
 ### 7.1 Warum
@@ -497,7 +552,7 @@ I²C-Stecker J8 folgt **GND–VCC–SDA–SCL** (VCC innen, wie Qwiic/STEMMA). J
 | **J11** | Stiftleiste 1×3 (`C2937625`) | GND | VCC_EXT | SPARE_IO16 | – | R_SPARE_IO16 1 kΩ → IO16/TXD0 (Pin 31) |
 | **J12** | Stiftleiste 1×3 (`C2937625`) | GND | VCC_EXT | SPARE_IO17 | – | R_SPARE_IO17 1 kΩ → IO17/RXD0 (Pin 30) |
 | **J13** | Stiftleiste 1×3 (`C2937625`) | GND | VCC_EXT | SPARE_IO21_RAW | – | R_SPARE_IO21 1 kΩ → IO21 (Pin 27) |
-| **J14** | Stiftleiste 1×3 (`C2937625`) | GND | VCC_EXT | SPARE_IO22_RAW | – | R_SPARE_IO22 1 kΩ → IO22 (Pin 28) |
+| ~~J14~~ | **entfällt seit 15.09.2026** | – | – | – | – | IO22 ist **PUMP2_EN** (Sauerstoffpumpe) → Stecker **J16**; die Reserve-Funktion ist gestrichen |
 | **J15** | Stiftleiste 1×3 (`C2937625`) | GND | VCC_EXT | SPARE_IO23_RAW | – | R_SPARE_IO23 1 kΩ → IO23 (Pin 29) |
 
 ### 9.2 Warum GND–VCC–SIG
@@ -523,7 +578,7 @@ Zwischen **jedem Stecker-Signalpin und dem MCU** liegt ein **1-kΩ-Serienwiderst
 | Leitung | Serien-R | Leitung | Serien-R |
 |---|---|---|---|
 | J2 SENSOR_RAW | R6 | J13 SPARE_IO21 | R_SPARE_IO21 |
-| J7 LIGHT_RAW | R_LIGHT_S | J14 SPARE_IO22 | R_SPARE_IO22 |
+| J7 LIGHT_RAW | R_LIGHT_S | *(J14 entfällt)* | – |
 | J8 SDA | R_SDA_S | J15 SPARE_IO23 | R_SPARE_IO23 |
 | J8 SCL | R_SCL_S | J10 SPARE_IO15 | R_SPARE_IO15 |
 | J9 SPARE_AIN | R_SPARE_AIN | J11 SPARE_IO16 | R_SPARE_IO16 |
@@ -577,7 +632,11 @@ begrenzt zusätzlich den Fehlerstrom in die MCU-Pins.
 
 ---
 
-## 10. Sauerstoffpumpe + 5-V-Boost (neu 15.09.2026)
+## 10. Sauerstoffpumpe + 5-V-Boost (Historie, 15.09.2026)
+
+> ⚠️ **Abgelöst am 16.09.2026:** Der Boost U8 (MT3608) ist durch den **5-V-Buck U_BUCK5 (SY8113B)**
+> ersetzt (§13). Die Auslegung unten bleibt als Begründung stehen, warum es bis dahin einen Boost
+> gab — die darin genannte harte Grenze („Boost kann den 3-A-Anlauf nicht liefern") **gilt nicht mehr**.
 
 ### 10.1 Was gefordert war
 
@@ -665,7 +724,7 @@ Er verliert ~15 % und zieht im Leerlauf zusätzlich ~1,6 mA (~38 mAh/Tag, ≈ 2,
 
 ---
 
-## 12. Revision nach externem Schaltplan-Review (15.09.2026)
+## 12. Revision nach externem Schaltplan-Review (Historie, 15.09.2026)
 
 Ein zweites Sprachmodell hat die Textbeschreibung (`schaltplan_v1_komplett.md`) geprüft. Jeder harte
 Befund wurde gegen die IR verifiziert. Ergebnis: **drei echte Schaltungsänderungen** (hier umgesetzt),
@@ -734,3 +793,73 @@ D1/D7 richtig gepolt · Boost-Feedback 0,6 × (1 + 75/10) = 5,10 V · VBAT-Teile
 - 14.09.2026: GPIO-Erweiterung (J8/J9/J10/Q2/TP7–TP11) auf Wunsch des Nutzers wieder entfernt.
 - 14.09.2026: GPIO-Erweiterung auf 2,54-mm-Stiftleisten wieder eingebaut (je Signal ein
   3-pol GND–VCC–SIG-Stecker, I²C als 4-pol).
+
+---
+
+## 13. Revision „2S-Umbau" (16.09.2026)
+
+Auftrag: *„Wechsel den 1S-Akku zu einem 2S-Akku. Ein IP2326-Board, damit man per USB-C laden kann.
+Die Step-Ups für 5 V können raus, aber ein Step-Down rein für den ESP32 und ggf. ein 5 V für Sensoren."*
+
+### 13.1 Was geändert wurde
+
+| # | Änderung | Begründung |
+|---|---|---|
+| 1 | **Akku 1S → 2S** (VBAT 3,0–4,2 V → **6,0–8,4 V**) | Vorgabe. Nutzen: doppelte Energie (11,1 statt 5,55 Wh) und die Pumpe läuft in ihrer Nennspannung |
+| 2 | **U_CHG = IP2326** statt MCP73831 | 1S-Lader kann 2S nicht laden. Der IP2326 lädt aus **5 V USB** auf **8,4 V** (Boost-Lader, 15 W), Ladestrom per R_ISET |
+| 3 | **5-V-Boost (MT3608) → 5-V-Buck (SY8113B)** | Aus 6,0–8,4 V muss man 5 V **herunter**regeln, nicht hoch. Nebenwirkung: der 3-A-Pumpenanlauf liegt jetzt **innerhalb** der Nennlast (der Boost konnte ihn nicht liefern, deshalb war der Softstart Pflicht) |
+| 4 | **3,3-V-LDO (ME6211) → 3,3-V-Buck (AP63203)** | Auftrag („Step-Down für den ESP32"). 88 % statt 66 % Wirkungsgrad; der LDO hätte aus 8,4 V 0,65 W in SOT-23-5 verheizt und darf laut Datenblatt ohnehin nur 6,0 V Eingang |
+| 5 | **U7 = TPS3839G33** statt MAX809T (beide 3,08 V) | ⚠️ Der MAX809 verträgt nur **5,5 V** Versorgung und 12 µA Eigenstrom — an einem 2S-Teiler wäre der Iq-Fehler 2,4 V. Der TPS3839 zieht **150 nA** (Offset 30 mV) und hat einen Push-Pull-Ausgang |
+| 6 | **Wächter-Teiler bleibt 200 k/200 k**, Versorgung = VBAT/2 | gleiche Schwellenlogik wie vorher: **6,16 V Pack = 3,08 V/Zelle** |
+| 7 | **ADC-Teiler 1:2 → 1:4** (300 k/100 k) | vorher „max. 2,1 V" aus 4,2 V; 8,4 V hätten am 1:2-Teiler **4,2 V** ergeben und den ADC (max. 3,3 V) überfahren |
+| 8 | **C3 (100 µF) von VBAT nach +5V** | der Puffer gehört an die Schiene, die die Pumpen wirklich speist |
+| 9 | **J17 (JST-XH 2P) = 5-V-Sensorausgang** | „ggf. ein 5 V für Sensoren" — die Sensorik selbst bleibt an SENSOR_PWR (3,3 V, per IO3 geschaltet), J17 ist der zusätzliche 5-V-Abgriff |
+| 10 | **EN-Pull-up R37 entfällt**, EN direkt am Wächter | Push-Pull-Ausgang darf direkt treiben (2 mA bei V_OL ≤ 0,4 V — nötig für die Klemmzweige) |
+| 11 | **Ladeschaltung neu beschaltet:** L_CHG 2,2 µH, R_VIN_CHG 0,5 Ω, C_CHG_IN/VIN/OUT 10 µF, 2 × 22 µF an VSYS, C_BST_CHG 100 nF, R_ISET 100 k, R_NTC 51 k, R_UVSET 68 k, R_EN_CHG 100 k | komplett nach Datenblatt-BOM/Applikationsbild; alle Werte mit Quelle in §3 |
+| 12 | **DP/DM des Laders offen** (kein Fast-Charge) | die Datenleitungen gehören dem ESP32 (USB-Serial-JTAG). Datenblattkonform: ohne Request wird dauerhaft mit 5 V geladen |
+
+### 13.2 Was **nicht** geändert wurde (bewusst)
+
+- **Kein Power-Path:** der IP2326 hat keinen (Datenblatt-Grep: 0 Treffer). Betriebsregel bleibt:
+  beim Pumpen möglichst nicht laden. Ein Lader mit Power-Path wäre ein anderes IC (z. B. BQ25887,
+  bei JLC lagernd, aber I²C-konfiguriert und mit Balancing) — bewusst **nicht** gewählt, weil der
+  Auftrag den IP2326 nennt und der Aufwand (I²C-Anbindung + Firmware) nicht im Verhältnis steht.
+- **Balancing des IP2326 bleibt unbeschaltet** (2-poliger Akku-Stecker) → §6.3.
+- **Die 3,3-V-Schiene hängt nicht am Wächter** (MCU soll melden können).
+- **PWM-Softstart bleibt empfohlen** (Thermik, Akku-Einbruch, EMV), ist aber nicht mehr Bedingung.
+
+### 13.3 Bauteilbilanz
+
+| | vorher | jetzt |
+|---|---|---|
+| Bauteile in der Netzliste | 96 | **115** |
+| Netze | 56 | **68** |
+| Verbindungen | 268 | **314** |
+| Positionen in der JLC-BOM | 90 bestückte Refs | **neu erzeugt (siehe `pcba_bom_jlc.csv`)** |
+| Extended-Positionen (Handling) | 12 | **15** (neu: U_CHG, U_BUCK5, U_BUCK3, L_CHG, L_BUCK5/3, TPS3839 …; entfallen: MCP73831, ME6211, MT3608, SS34, 22-µH-L1) |
+
+### 13.4 ⚠️ Dabei gefundener Fehler im Altstand (Klemmzweig war wirkungslos)
+
+In der Netzliste vom 15.09.2026 standen:
+
+```
+KLAMP1,D3,Anode          KLAMP1,R_CLAMP1,1         (Kommentar: "zum Gate-Knoten")
+RESET_UV,D3,Kathode      RESET_UV,R_CLAMP1,2
+```
+
+`R_CLAMP1` lag damit **parallel** zur Diode D3 zwischen denselben zwei Netzen, und der Knoten
+`KLAMP1` war **an kein Gate angeschlossen** (das Gate heißt `GATE` bzw. `GATE2`). Folge: die
+Unter­spannungsklemmung der Pumpen war **funktionslos**; nur der Weg über den Boost-EN (R37) wirkte.
+Der Netzlisten-Lint konnte das nicht sehen (beide Bauteile liegen auf zwei Netzen, das Netz hat
+zwei Bauteile). **Jetzt korrekt als Serienkette:** `GATE → R_CLAMPx (10 k) → Dx → RESET_UV`.
+Der IR-EasyEDA-Stand vom 15.09.2026 trägt denselben Fehler — beim Neuaufbau mit korrigieren.
+
+### 13.5 Folgeauftrag (nächster Schritt)
+
+1. **EasyEDA-Neuaufbau:** die 4 neuen IC-Geräte-UUIDs per `easyeda lib by-lcsc` auflösen
+   (`C2832094`, `C780769`, `C78989`, `C485802`), in `build_ir.py` (`COMPS`) eintragen, IR neu bauen,
+   Netzklassen/Layout-Input neu erzeugen → erst danach `pcb import-changes`.
+2. **Design-Checks** (`hardware/design/`) auf 2S umstellen: `circuit.py` liest U3/U4/U7-Werte aus
+   diesem Dokument (U4 entfällt!) — die Prüfungen für LDO-Headroom/Boost-Feedback sind zu ersetzen
+   durch Buck-Feedback, Wächter-/Teiler-Rechnung und Ladepfad-Rechnung.
+3. Akku-Pack bestellen (§6.7 Nr. 1) und die Messungen aus §6.7 abarbeiten.

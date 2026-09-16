@@ -11,14 +11,14 @@ Grundlage: `../research/bom-check/01…04` · **Nachrecherche 12.09.2026: `../re
 |---|---|---|---|---|---|
 | 1 | **MCU** | **ESP32-C6-MINI-1** (nacktes Modul auf eigener PCB) | **≈ 3,60 €** (3,8871 $) | JLCPCB `C5736265` | ✅ API + Espressif-Datasheet |
 | 1b | MCU-Alternative | ESP32-C6-MINI-1**U** (IPEX, externe Antenne) | ≈ 3,99 € (4,3051 $) | JLCPCB `C20627095` | ✅ API (1.352 lagernd) |
-| 1c | **1S-Lader** | **MCP73831T-2ACI/OT**, 4,20 V | ≈ 0,76 € (0,8181 $) | JLCPCB `C424093` | ✅ MPN + Datenblatt (4,20-V-Variante geprüft) |
-| 1d | **3,3-V-LDO** | **ME6211C33M5G**, 500 mA, 40 µA | ≈ 0,06 € | JLCPCB `C82942` | ✅ Datenblatt (500 mA / 100 mV @100 mA / 40 µA) |
+| 1c | **2S-Lader** ⭐ | **IP2326**, 2S-Boost-Lader aus 5 V USB, 8,4 V / 0,90 A | ≈ 0,62 $ | JLCPCB `C2832094` | ✅ API (18.074 lagernd) + Datenblatt V1.11 (VSET offen = 8,4 V; ICHG = 90000/R_ISET; kein Power-Path). ⚠️ Variante **IP2326_8V8 = 8,8 V** nicht verwenden |
+| 1d | **3,3-V-Buck** ⭐ | **AP63203WU-7**, 2 A, 3,8–32 V, **Iq 22 µA** (ersetzt den LDO) | ≈ 1,18 $ | JLCPCB `C780769` | ✅ API (25.645) + Datenblatt DS41326. Der ME6211 entfällt: V_IN,max 6,0 V und 0,26 W Verlust bei 8,4 V → 3,3 V |
 | 1e | **USB-C + Schutz** | Buchse 16-pol `C165948` + USBLC6-2SC6 `C7519` + 2 × 5,1 kΩ `C27834` | ≈ 0,40 € | JLCPCB | ✅ API |
-| 1f | **Unterspannungswächter** | **MAX809TEUR+T**, Schwelle 3,08 V | ≈ 0,52 € (0,5628 $) | JLCPCB `C16711` | ✅ Datenblatt VTH 3,04/3,08/3,11 V |
+| 1f | **Unterspannungswächter (2S)** ⭐ | **TPS3839G33DBZR**, 3,08 V, **Iq 150 nA**, Push-Pull | ≈ 0,45 $ | JLCPCB `C485802` | ✅ API (3.502) + Datenblatt (V_IT 3,003–3,126 V, Hysterese 31 mV). Am 1:2-Teiler ⇒ **6,16 V Pack**. Der MAX809 scheidet aus: V_DD,max 5,5 V |
 | 2 | **Pumpe** | **CONQUERALL DC-5-V-Mikro-Peristaltikpumpe** (Amazon `B0DHVMZ27Y`) — Nennspannung **DC 5 V**, Leerlaufstrom 0,4 A, **Anlaufstrom 3 A (bei 5 V)**, Fördermenge **≤ 150 ml/min**, Silikonschlauch **3 × 5 mm**, Bauhöhe **42 mm**, Ansaugbereich 0,5 m, umpolbar | **11,99 €** (2er-Pack `B0DJ78W43W` **16,61 €**) | https://www.amazon.de/dp/B0DHVMZ27Y (Verkäufer EASFFY, auf Lager, 4,2★/11) | ✅ Preis + Specs 14.09.2026 (Amazon) · ⚠️ **Ø nicht dokumentiert** → vor Einbau messen (Wulst ist auf Ø 32 gerechnet) · ⚠️ Betrieb an 1S (3,0–4,2 V) liegt **unter** der Nennspannung → Förderrate + Anlauf **messen** · ⚠️ **Anlaufstrom** → siehe §4c: PWM-Softstart ist Pflicht |
 | 2b | ~~OEM-Peristaltik ABC-12527~~ | **abgelöst (14.09.2026)** — war fachlich passend (3,7–6 V, ab 3 V dokumentiert, Ø32 × 44 mm, ~250 ml/min), aber **31,94 €** inkl. 24,20 € Versand aus Litauen (anodas.lt) | – | anodas.lt | Historie: `../research/bom-check/06_pumpe-eu-quellen.md` |
 | 3 | **Sensor** | Kapazitiv **v1.2**, analog — **AZ-Delivery ausverkauft (12.09.)**, Ersatz: **ARCELI 6er-Pack V1.2 kapazitiv** (1,25 €/St.) | **7,49 €** (6 St.) | Amazon `B0FPRBY7LW` · AZ (falls wieder lieferbar) https://www.az-delivery.de/products/bodenfeuchte-sensor-modul-v1-2 | ✅ selbst 12.09. (7,49 €, ab Lager, Gratislieferung 16.09.) · ⚠️ Elektrodenlänge bleibt unbelegt |
-| 4 | **Akku** | **EFASO 503759** 3,7 V ~1500 mAh, **PCM**, JST PH2.0 | **14,90 €** | efaso.de (Kassel) — https://efaso.de/produkt/503759-3-7v-1500-mah-pcm-jst-ph2-0-2p/ | ✅ selbst (14,90 €, PCM + JST bestätigt) |
+| 4 | **Akku (2S)** ⭐ | **2S-Pack 7,4 V, 1500–2500 mAh, mit BMS/PCM *und Balancierung*, 2-poliger Ausgang (JST-PH 2,0 bevorzugt)** | offen | Quellenrecherche liegt vor (Stand 16.09.2026), Entscheidung offen | ⚠️ **Pflicht: Balancing** — ohne Balancer kann eine Zelle über 4,25 V kommen (der Lader lädt nur die Reihenschaltung auf 8,4 V). Betrieb 6,0–8,4 V, Wächter-Abschaltung bei 6,16 V |
 | 5 | **MOSFET** | **AO3400A** (SOT-23), 10 St | **1,67 €** | Reichelt, ab Lager — https://www.reichelt.de/de/de/shop/produkt/mosfet_n-ch_30v_5_7a_0_018r_sot-23-166490 | ✅ selbst (0,167 €/St ab 10) |
 | 6 | **Freilaufdiode** | 1N5819 (DO-41), 10 St | ~1,00 € | Reichelt | ⚠️ Subagent, nicht selbst geprüft |
 | 7 | **Sensor-Stecker** | JST-XH 2,54 3-pol Buchse, 10 St | 3,00 € | Funduinoshop | ⚠️ Subagent |
@@ -115,7 +115,13 @@ Datenblattbereichs über den ganzen Entladezyklus — genau dafür war sie ausge
 (`../research/bom-check/06_pumpe-eu-quellen.md`). Dieser Vorteil ist mit dem Preis der
 CONQUERALL (11,99 € statt 31,94 €) bezahlt.
 
-**Das 2S-Konzept (2 Zellen + Step-Down) wurde geprüft und verworfen:**
+**Das 2S-Konzept (2 Zellen + Step-Down) wurde am 16.09.2026 auf Wunsch des Nutzers umgesetzt** —
+die damalige Gegenrede ist damit überholt und bleibt nur als Historie unten stehen. Was sich geändert hat
+und warum: `hardware/schaltplan_v1.md` **§13** + `docs/11_review-2s-umbau.md`.
+Kernpunkte: der Lader (IP2326) bringt ein eigenes 2S-Balancing mit, der Buck deckt den 3-A-Pumpenanlauf
+(der 1S-Boost konnte das nicht), und die nutzbare Zellspanne reicht jetzt bis 6,16 V statt bis ~3,5 V.
+
+**Die frühere Gegenrede (Stand 15.09.2026, hier als Historie):**
 - **Wirkungsgrad bringt nichts:** Buck aus 2S (η 0,90) gegen Boost aus 1S (η 0,88) — Laufzeit
   praktisch identisch (32 vs. 31 Tage gerechnet). Und solange die Pumpe direkt an 1S läuft,
   entfällt die Wandlung komplett, das ist besser als jede Wandlung.
