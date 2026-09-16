@@ -144,3 +144,26 @@ LCSC-Suche und sind mit dem Boost hinfällig.
 - **Basic-Alternativen** für die **17** Extended-Positionen des 2S-Stands nicht gesucht
   (Sparpotenzial ~51 USD; die vier neuen ICs sind bei JLCPCB alle Extended, §1b).
 - Pumpe, Sensor, Akku, Schlauch kommen nicht von JLC (siehe `bom_entscheidung.md`).
+
+## Nachtrag 16.09.2026: Schutz auf der Platine + Vollprüfung der Stückliste
+
+**Neu hinzugekommene Positionen (live gegen die JLC-API geprüft):**
+
+| Pos | Bauteil | LCSC | Lager | Typ |
+|---|---|---|---|---|
+| `U_PROT` | HY2120-CB (SOT-23-6) | `C116509` | 2.836 | expanded (0,24 $) |
+| `Q_PROT1`, `Q_PROT2` | PSMN4R2-30MLDX (LFPAK33-8) | `C179452` | 1.473 | expanded (0,42 $) |
+| `R_PROT_VDD`, `R_PROT_VC` | 330 Ω 0805 | `C17630` | 2.379.214 | **basic** |
+| `R_PROT_CS` | 2 kΩ 0805 | `C17604` | 6.010.972 | **basic** |
+| `R_CB` | 100 Ω 0805 | `C17408` | 10.031.255 | **basic** |
+| `C_PROT_VDD`, `C_PROT_VC` | 100 nF 0805 | `C49678` | vorhandene Position | **basic** |
+| `J1` | JST-XH 3-pol (THT) | `C5258884` | 14.383 | expanded (0,014 $) |
+
+**Ausgetauscht:** `C493416` (JST-XH-3P, bisher J2) ist über die JLC-API **nicht mehr auffindbar**
+(Suche liefert 0 Treffer) ⇒ J1 und J2 laufen jetzt auf `C5258884` (XH-3PA, 14.383 lagernd).
+Das gleiche Muster hatte der Bauform-Check ergeben: **vor der Bestellung jeden Code erneut abfragen**,
+nicht auf alte Tabellen vertrauen.
+
+**Vollprüfung der Stückliste (16.09.2026):** alle **42 eindeutigen LCSC-Positionen** der
+`pcba_bom_jlc.csv` wurden einzeln gegen die JLC-API abgefragt — Ergebnis: **42 von 42 lagernd**
+(≥ 50 Stück, kein Engpass, keine Streichung nötig).
