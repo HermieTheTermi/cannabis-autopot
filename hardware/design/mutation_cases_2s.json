@@ -33,12 +33,12 @@
    ]
   },
   {
-   "name": "R_FB3_TOP 47k -> 100k (3V3 zu hoch)",
+   "name": "FB an Teiler statt +3V3 (AP63203)",
    "edits": [
     [
-     "hardware/schaltplan_v1.md",
-     "| **R_FB3_TOP** | **47 kΩ**",
-     "| **R_FB3_TOP** | **100 kΩ**"
+     "hardware/schaltplan_v1_netzliste.csv",
+     "+3V3,U_BUCK3,1 FB,",
+     "FB_3V3,U_BUCK3,1 FB,"
     ]
    ],
    "expect": [
@@ -46,16 +46,60 @@
    ]
   },
   {
-   "name": "R3b 200k -> 100k (UVLO verschoben)",
+   "name": "R3b 51k -> 100k (UVLO verschoben)",
    "edits": [
     [
      "hardware/schaltplan_v1.md",
-     "| **R3b** | **200 kΩ**",
+     "| **R3b** | **51 kΩ**",
      "| **R3b** | **100 kΩ**"
     ]
    ],
    "expect": [
     "UVLO-Schwelle"
+   ]
+  },
+  {
+   "name": "UV-Teiler hochohmig (Iq-Offset)",
+   "edits": [
+    [
+     "hardware/schaltplan_v1.md",
+     "| **R3a** | **51 kΩ**",
+     "| **R3a** | **200 kΩ**"
+    ],
+    [
+     "hardware/schaltplan_v1.md",
+     "| **R3b** | **51 kΩ**",
+     "| **R3b** | **200 kΩ**"
+    ]
+   ],
+   "expect": [
+    "UV-Teiler-Offset"
+   ]
+  },
+  {
+   "name": "R2/R_GATE2_PD 47k -> 1k (kein Pulldown)",
+   "edits": [
+    [
+     "hardware/schaltplan_v1.md",
+     "| **R2, R_GATE2_PD** | 2 × 47 kΩ",
+     "| **R2, R_GATE2_PD** | 2 × 1 kΩ"
+    ]
+   ],
+   "expect": [
+    "Gate-Pulldowns"
+   ]
+  },
+  {
+   "name": "U_BUCK5 EN nicht mehr an RESET_UV",
+   "edits": [
+    [
+     "hardware/schaltplan_v1_netzliste.csv",
+     "RESET_UV,U_BUCK5,4 EN,",
+     "UV_REF,U_BUCK5,4 EN,"
+    ]
+   ],
+   "expect": [
+    "Waechter-Abschaltung"
    ]
   },
   {
@@ -85,16 +129,16 @@
    ]
   },
   {
-   "name": "R_CLAMP1 zurueck auf Parallelfehler",
+   "name": "IO3 direkt auf SENSOR_PWR (kein Q_SENS)",
    "edits": [
     [
      "hardware/schaltplan_v1_netzliste.csv",
-     "GATE,R_CLAMP1,1,",
-     "KLAMP1,R_CLAMP1,1,"
+     "EXT_SENS_EN,U1,6 IO3,",
+     "SENSOR_PWR,U1,6 IO3,"
     ]
    ],
    "expect": [
-    "Klemmzweig-Serie"
+    "Sensor-Lastschalter"
    ]
   },
   {
@@ -133,7 +177,7 @@
     ],
     [
      "hardware/schaltplan_v1.md",
-     "| **R3a** | **200 kΩ**",
+     "| **R3a** | **51 kΩ**",
      "| **R3a** | **20 kΩ**"
     ]
    ],

@@ -1,18 +1,44 @@
 Netz,Bauteil,Pin,Bemerkung
+# Fixes aus dem externen Review (Fable5,,,
+#   1) AP63203 ist die FESTSPANNUNGSVERSION (VFB = 3,,,
+#      Regler auf ~13,,,
+#      R_FB3_BOT entfallen (Datenblatt Fig. 21).,,,
+#   2) Der Gate-Klemmzweig (10 k in Reihe zur Diode gegen den 1-k-GPIO-Zweig) konnte das Gate,,,
+#      rechnerisch nur auf ~2,,,
+#      Hardware-Schutzfunktionen bleiben: (a) U7 schaltet den 5-V-Buck und damit die,,,
+#      Pumpenversorgung ab,,,
+#      beide Gates auf 0 V. D3,,,
+#   8) UV-Teiler von 200k/200k auf 51k/51k: der Waechter zieht 500 nA (max),,,
+#      Schwelle ueber 200 k um ~0,,,
+#   9) Sensorversorgung laeuft nicht mehr direkt aus GPIO3,,,
+#      P-Kanal-Lastschalter (Q_SENS,,,
 # ============================================================================================,,,
-# SmartGrowTopf V1 - Netzliste,"Revision ""2S-Umbau"" 16.09.2026",,
+# SmartGrowTopf V1 - Netzliste,,,
 # --------------------------------------------------------------------------------------------,,,
 # Geaendert gegenueber der 1S-Fassung (15.09.2026):,,,
-#   * 1S-Lader MCP73831 (U3)      -> 2S-Boost-Lader IP2326 (U3),Ladeschluss 8,4 V,
-#   * 5-V-Boost MT3608 (U_BOOST)  -> 5-V-Buck SY8113B ADC (U_BUCK5) aus 6,0-8,4 V,
-#   * 3,3-V-LDO ME6211 (U4)       -> 3,3-V-Buck AP63203 (U_BUCK3) aus 6,"0-8,4 V"
-#   * Unterspannungswaechter MAX809 3,08 V -> TPS3839G33 3,08 V (U7),Versorgung ueber 1:2-Teiler
-#   * VBAT-Teiler 1:2 (ADC)       -> 1:4 (R_SENSE_TOP 300 k / R_SENSE_BOT 100 k),8,4 V -> 2,10 V
+#   * 1S-Lader MCP73831 (U3)      -> 2S-Boost-Lader IP2326 (U3),,,
+#   * 5-V-Boost MT3608 (U_BOOST)  -> 5-V-Buck SY8113B ADC (U_BUCK5) aus 6,,,
+#   * 3,,,
+#   * Unterspannungswaechter MAX809 3,,,
+#   * VBAT-Teiler 1:2 (ADC)       -> 1:4 (R_SENSE_TOP 300 k / R_SENSE_BOT 100 k),,,
 #   * C3 (100 uF) von VBAT nach +5 V verschoben (Pumpenpuffer liegt jetzt auf der 5-V-Schiene),,,
 #   * C11/C20 (Pumpen-EMI) und D1/D7/D3/D8 bleiben unveraendert,,,
 #   * R37 (Boost-EN-Pull-up) entfaellt: TPS3839 treibt den Buck-EN push-pull,,,
 # ============================================================================================,,,
 # --- VBUS: USB-C-Eingang und Ladepfad -------------------------------------------------------,,,
+# --- Ladeschaltknoten / Bootstrap -----------------------------------------------------------,,,
+# --- Boost-Ausgang und Akku (2S) ------------------------------------------------------------,,,
+# --- Akku-Schutz auf der Platine (HY2120-CB + 2x PSMN4R2-30MLDX) -----------------------------,,,
+# --- 5-V-Schiene (Pumpen + Sensorausgang) ---------------------------------------------------,,,
+# --- 3,,,
+# --- Unterspannungswaechter (2S) ------------------------------------------------------------,,,
+# Klemmzweig als SERIENKETTE: Gate - R_CLAMPx (10 k) - Dx - RESET_UV.,,,
+# Der Zustand vom 15.09.2026 hatte R_CLAMPx PARALLEL zu Dx und den Knoten KLAMPx,,,
+# nirgends am Gate -> die Klemmung war wirkungslos (Befund im Review 16.09.2026).,,,
+# --- Pumpen (unveraendert,,,
+# --- Zell-/Packspannungsmessung (ADC) -------------------------------------------------------,,,
+# --- unveraenderte Bloecke (MCU,,,
+# --- Masse ----------------------------------------------------------------------------------,,,
 VBUS,J5,VBUS (A4/A9/B4/B9),USB-Eingang 5 V - alle vier VBUS-Pins verbinden
 VBUS,U6,5 VBUS,ESD-Referenz
 VBUS,C_CHG_IN,1,"10 uF Keramik am Eingang (Datenblatt C1) - 25 V, weil Eingang bis 9,5 V zugelassen"
@@ -31,15 +57,13 @@ EN_CHG,R_EN_CHG,2,Lader-Enable (High = laden)
 EN_CHG,U_CHG,12 EN,EN niemals floaten
 ISET_CHG,R_ISET,1,"100 kOhm 1 Prozent -> ICHG = 90000/100000 = 0,90 A"
 ISET_CHG,U_CHG,11 ISET,ISET darf NICHT offen bleiben (Datenblatt)
-NTC_DIS,R_NTC,1,"51 kOhm -> NTC-Funktion aus (20 uA x 51 k = 1,02 V = Normalbereich)"
-NTC_DIS,U_CHG,4 NTC,kein Akku-NTC verfuegbar
+NTC_CHG,U_CHG,4 NTC,Akku-NTC (100 kOhm B3950) ueber Stecker J18; 82 k parallel laut Datenblatt-Beispiel
 UVSET_CHG,R_UVSET,1,"68 kOhm -> Eingangs-Unterspannungsschwelle 4,35 V"
 UVSET_CHG,U_CHG,8 VIN_UVSET,"mehr Kopfraum fuer duenne USB-Kabel bei ~1,8 A Eingangsstrom"
 LED_CHG,R_LEDCHG,2,Knoten zwischen Vorwiderstand und LED-Anode
 LED_CHG,D_LEDCHG,Anode,"Lade-LED (leuchtet beim Laden, aus bei Voll, blinkt bei Fehler)"
 STAT_CHG,D_LEDCHG,Kathode,"Kathode an den LED-Pin des Laders (Senke, max. 5 mA)"
 STAT_CHG,U_CHG,6 LED,LED-Senke max. 5 mA
-# --- Ladeschaltknoten / Bootstrap -----------------------------------------------------------,,,
 LX_CHG,L_CHG,2,Schaltknoten des Boost-Laders
 LX_CHG,U_CHG,15 LX,
 LX_CHG,U_CHG,16 LX,
@@ -47,11 +71,9 @@ LX_CHG,U_CHG,17 LX,
 LX_CHG,C_BST_CHG,2,Bootstrap-Kondensator zwischen BST und LX
 BST_CHG,U_CHG,14 BST,
 BST_CHG,C_BST_CHG,1,100 nF Bootstrap (Datenblatt C2)
-# --- Boost-Ausgang und Akku (2S) ------------------------------------------------------------,,,
 VBAT,U_CHG,21 VOUT,"Boost-Ausgang -> Akku-Plus (Datenblatt: ""VOUT 接电池正极"")"
 VBAT,U_CHG,22 VOUT,
 VBAT,C_CHG_OUT,1,10 uF Keramik am Ausgang (Datenblatt C6/C7)
-VBAT,J1,3,"Akku-Pack Plus (Zelle 2 +) - Packseite, direkt am Lader"
 VBAT,TP4,1,Testpad VBAT
 VBAT,U_BUCK5,5 IN,Eingang 5-V-Buck
 VBAT,C_B5_IN,1,22 uF Keramik am Buck-Eingang nach GND
@@ -60,9 +82,8 @@ VBAT,U_BUCK3,3 VIN,"Eingang 3,3-V-Buck"
 VBAT,U_BUCK3,2 EN,"EN fest an VIN - 3,3-V-Schiene ist immer an (MCU muss im Waechterfall leben)"
 VBAT,C_B3_IN,1,22 uF Keramik am Buck-Eingang nach GND
 VBAT,C_B3_IN_HF,1,100 nF HF am Buck-Eingang nach GND
-VBAT,R3a,1,UVLO-Teiler oben 200 k
+VBAT,R3a,1,UVLO-Teiler oben 51 k
 VBAT,R_SENSE_TOP,1,ADC-Teiler oben 200 k
-# --- Akku-Schutz auf der Platine (HY2120-CB + 2x PSMN4R2-30MLDX) -----------------------------,,,
 BAT_MINUS,J1,1,Akku-Pack-Minus (Zelle 1 -) - liegt NICHT auf Board-GND, sondern hinter dem Schutz
 BAT_MINUS,U_PROT,6 VSS,Masse des Schutz-IC = Pack-Minus (Datenblatt 5.2)
 BAT_MINUS,Q_PROT1,1 S,Source des Entlade-MOSFET (Pinning: 1/2/3 = Source)
@@ -71,7 +92,7 @@ BAT_MINUS,Q_PROT1,3 S,
 BAT_MINUS,U_CHG,24 BAT_GND,Bezug des internen Balancing (Datenblatt-Applikation: BAT- an Pin 24)
 BAT_MINUS,C_PROT_VDD,2,VDD-Filterkondensator nach Pack-Minus
 BAT_MINUS,C_PROT_VC,2,VC-Filterkondensator nach Pack-Minus
-MID,J1,2,"Mittelabgriff (Zelle 1 + / Zelle 2 -) - erst mit diesem Stecker ist Balancing moeglich"
+MID,J1,2,Mittelabgriff (Zelle 1 + / Zelle 2 -) - erst mit diesem Stecker ist Balancing moeglich
 MID,R_PROT_VC,1,330 R zum VC-Pin (Datenblatt-Typwert)
 MID,R_CB,1,Balancing-Widerstand zum VBATM-Pin des Laders
 VBAT,R_PROT_VDD,1,330 R zum VDD-Pin des Schutz-IC (Datenblatt-Typwert)
@@ -99,7 +120,6 @@ VSYS_CHG,U_CHG,19 VSYS,Zwischenknoten des Boost-Ausgangs
 VSYS_CHG,U_CHG,20 VSYS,
 VSYS_CHG,C_VSYS_A,1,22 uF direkt am VSYS-Pin (Datenblatt C4)
 VSYS_CHG,C_VSYS_B,1,22 uF direkt am VSYS-Pin (Datenblatt C5)
-# --- 5-V-Schiene (Pumpen + Sensorausgang) ---------------------------------------------------,,,
 LX_5V,U_BUCK5,6 LX,Schaltknoten des 5-V-Bucks
 LX_5V,L_BUCK5,1,Induktivitaet 4.7 uH - andere Seite an +5V
 LX_5V,C_B5_BST,2,Bootstrap-Kondensator zwischen BS und LX
@@ -120,7 +140,6 @@ BST_5V,C_B5_BST,1,100 nF Bootstrap
 FB_5V,U_BUCK5,3 FB,"Feedback-Eingang (0,6 V intern)"
 FB_5V,R_FB5_TOP,2,Teiler oben
 FB_5V,R_FB5_BOT,1,Teiler unten 10 k
-# --- 3,3-V-Schiene (MCU,Sensorik-Steuerung,Logik) -----------------------------------------
 LX_3V3,U_BUCK3,5 SW,"Schaltknoten des 3,3-V-Bucks"
 LX_3V3,L_BUCK3,1,Induktivitaet 4.7 uH - andere Seite an +3V3
 LX_3V3,C_B3_BST,2,Bootstrap-Kondensator zwischen BST und SW
@@ -142,29 +161,12 @@ BST_3V3,C_B3_BST,1,100 nF Bootstrap
 +3V3,R_GATE,1,47 kOhm Gate-Pull-up des Load-Switch (aus = Fail-safe)
 +3V3,Q2,2 Source,P-Kanal-Load-Switch Source
 +3V3,TP5,1,Testpad +3V3
-FB_3V3,U_BUCK3,1 FB,"Feedback-Eingang (0,8 V intern)"
-+3V3,R_FB3_TOP,1,Feedback oben 47 k -> Teiler auf +3V3
-FB_3V3,R_FB3_TOP,2,
-FB_3V3,R_FB3_BOT,1,"Teiler unten 15 k -> Vout = 0,8 V x (1 + 47/15) = 3,31 V"
-# --- Unterspannungswaechter (2S) ------------------------------------------------------------,,,
 UV_REF,R3a,2,Teilerknoten = Versorgung des Waechters (VBAT/2)
-UV_REF,R3b,1,Teiler unten 200 k
+UV_REF,R3b,1,Teiler unten 51 k
 UV_REF,C12,1,"100 nF Decoupling am Waechter (Datenblatt-Messbedingung C1 = 0,1 uF)"
 UV_REF,U7,3 VDD,"Schwelle 3,08 V -> Ausloesung bei VBAT = 6,16 V (plus ~30 mV Offset durch Iq)"
 RESET_UV,U7,2 RESET,Push-Pull aktiv-low; 200 ms Verzoegerung nach dem Anlaufen
 RESET_UV,U_BUCK5,4 EN,"unter 6,16 V schaltet die 5-V-Schiene wirklich ab (Buck: EN low = 0 V)"
-# Klemmzweig als SERIENKETTE: Gate - R_CLAMPx (10 k) - Dx - RESET_UV.,,,
-# Der Zustand vom 15.09.2026 hatte R_CLAMPx PARALLEL zu Dx und den Knoten KLAMPx,,,
-# nirgends am Gate -> die Klemmung war wirkungslos (Befund im Review 16.09.2026).,,,
-GATE,R_CLAMP1,1,Serienwiderstand im Klemmzweig Dosierpumpe (vom Gate-Knoten weg)
-KLAMP1,R_CLAMP1,2,
-KLAMP1,D3,Anode,
-GATE2,R_CLAMP2,1,Serienwiderstand im Klemmzweig Sauerstoffpumpe
-KLAMP2,R_CLAMP2,2,
-KLAMP2,D8,Anode,
-RESET_UV,D3,Kathode,Klemmzweig Dosierpumpe (Kathode)
-RESET_UV,D8,Kathode,Klemmzweig Sauerstoffpumpe (Kathode)
-# --- Pumpen (unveraendert,jetzt aus der 5-V-Buck-Schiene) ----------------------------------,,
 PUMP_EN,U1,5 IO2,Pumpen-PWM
 PUMP_EN,R1,1,Gate-Serie 1 kOhm (schnelle Flanken fuer PWM)
 GATE,R1,2,
@@ -187,12 +189,10 @@ PUMP2_N,D_FLY2,Anode,Freilaufdiode
 PUMP2_N,C_PUMP2_EMI,1,100 nF an den Klemmen nach GND
 GND,Q_PUMP2,Source,Source AO3400A
 GND,R_GATE2_PD,2,Pulldown Q3
-# --- Zell-/Packspannungsmessung (ADC) -------------------------------------------------------,,,
 VBAT_SENSE,R_SENSE_TOP,2,Teilerknoten
 VBAT_SENSE,R_SENSE_BOT,1,
 VBAT_SENSE,U1,13 IO1,"ADC1_CH1 - 8,4 V ergeben 2,13 V am ADC (12-dB-Bereich 0-3300 mV)"
 VBAT_SENSE,C10,1,100 nF Filter
-# --- unveraenderte Bloecke (MCU,USB-Daten,Sensorik,"Erweiterung, Debug) -------------------"
 EN,U1,8 EN,Reset
 EN,R_EN,2,
 EN,C4,1,1 uF RC-Glied
@@ -208,7 +208,6 @@ SENSOR_AOUT,R6,2,
 SENSOR_AOUT,U1,12 IO0,ADC1_CH0
 SENSOR_AOUT,C9,1,100 nF Filter
 SENSOR_AOUT,TP6,1,Testpad SENSOR_AOUT
-SENSOR_PWR,U1,6 IO3,schaltet Sensor-VCC (Feuchte + Licht)
 SENSOR_PWR,J2,2,Sensor VCC (Feuchte)
 SENSOR_PWR,J7,2,"Lichtsensor VCC (extern, geschaltet)"
 LIGHT_RAW,J7,3,Sensorausgang - definierter Zustand bei offenem Stecker
@@ -289,7 +288,6 @@ UART_TP,TP1,1,Testpad TXD0
 UART_RX,U1,30 RXD0,IO17 - optional DNP
 UART_RX,R_SPARE_IO17,1,1 kOhm Serienschutz zum Reserve-Stecker
 UART_RX,TP2,1,Testpad RXD0
-# --- Masse ----------------------------------------------------------------------------------,,,
 GND,U1,1,Modul-Masse
 GND,U1,2,Modul-Masse
 GND,U1,11,Modul-Masse
@@ -333,9 +331,7 @@ GND,C_B3_IN_HF,2,
 GND,C_B3_OUT,2,
 GND,C_B3_OUT_HF,2,
 GND,R_FB5_BOT,2,
-GND,R_FB3_BOT,2,
 GND,R_ISET,2,
-GND,R_NTC,2,
 GND,R_UVSET,2,
 GND,C4,2,
 GND,C9,2,
@@ -348,7 +344,6 @@ GND,C3,-,Elko-Minus (liegt auf der 5-V-Schiene)
 GND,D2,Kathode,
 GND,SW1,2,
 GND,SW2,2,
-
 GND,J2,1,Sensor GND
 GND,J7,1,Lichtsensor GND
 GND,R_LIGHT,2,Lastwiderstand Lichtsensor nach GND
@@ -372,3 +367,17 @@ GND,R5b,2,
 GND,R3b,2,UVLO-Teiler unten
 GND,C12,2,
 GND,R_SENSE_BOT,2,ADC-Teiler unten
++3V3,U_BUCK3,1 FB,"Festspannungsversion AP63203: FB direkt auf den Ausgang, VFB = 3,30 V - kein Teiler (Datenblatt Fig. 21)"
++3V3,Q_SENS,2 Source,"P-Kanal-Lastschalter Sensorversorgung (Source an 3,3 V)"
+SENSOR_PWR,Q_SENS,3 Drain,geschaltete Sensorversorgung (Feuchte J2 + Licht J7)
+EXT_SENS_EN,Q_SENS,1 Gate,Gate des Sensor-Lastschalters
+EXT_SENS_EN,R_SENS_GATE,1,
++3V3,R_SENS_GATE,2,47 k Gate-Pull-up: ohne Freigabe ist der Lastschalter sicher aus
+EXT_SENS_EN,U1,6 IO3,Sensor-Lastschalter (low = ein; Pull-up haelt ihn im Reset aus)
+PACK_PLUS,J1,3,"Akku-Pack Plus (Zelle 2 +) - Packseite, VOR der Sicherung"
+PACK_PLUS,F1,1,
+VBAT,F1,2,"5-A-Sicherung (traege, 2410): schuetzt Akkukabel und Stecker. Die 17-A-Schwelle des HY2120 ist dafuer zu hoch (Review 16.09.2026)"
+NTC_CHG,J18,1,"NTC-Signal vom Akku-Temperatursensor (XH-2P, Gegenstueck am Kabel)"
+GND,J18,2,NTC-Rueckleitung
+NTC_CHG,R_NTC_PAR,1,"82 k parallel zum NTC - Datenblatt-Wert, legt die Schwellen auf 0 / 45 / 55 Grad C"
+GND,R_NTC_PAR,2,

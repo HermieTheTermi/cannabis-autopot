@@ -2,10 +2,19 @@
 
 Stand: 14.09.2026 (GPIO-Erweiterung auf 2,54-mm-Stiftleisten wieder eingebaut) · Verifikation des
 Prüfpakets `hardware/design/` durch den Koordinator (**nicht** durch den Code-Autor). Ein Test, der
-immer besteht, ist wertlos — deshalb wurde **jede der heute 29 Prüfungen einzeln sabotiert** (16 im
+immer besteht, ist wertlos — deshalb wurde **jede der damals 29 Prüfungen einzeln sabotiert** (16 im
 ersten Durchgang, 3 für Taster/Tank-LED, 1 für den LED-Headroom, 4 für den Lichtsensor, 5 für die
 Stecker/Erweiterung) und geprüft, ob der Test rot wird. Nachtrag 5 belegt die fünf
 Erweiterungs-Prüfungen zusätzlich mit je mindestens einer eigenen Mutation.
+
+> **Aktueller Stand (16.09.2026, Review-Fixes):** Das Paket umfasst jetzt **42 Prüfungen**.
+> Der alte Dioden-Klemmzweig (D3/D8/R_CLAMP1/2) ist entfallen; seine beiden Prüfungen
+> **„Wächter-Sinkstrom"** und **„Klemmzweig-Serie"** wurden gestrichen und durch
+> **„Gate-Pulldowns"** und **„Wächter-Abschaltung"** ersetzt. Neu dazu kamen
+> **„UV-Teiler-Offset"** und **„Sensor-Lastschalter"**. Die Tabellen der Nachträge 1–5 sind
+> historische Momentaufnahmen und nennen zum Teil Prüfungen, die es heute nicht mehr gibt;
+> maßgeblich sind die Abschnitte „Mutationstest 2S-Umbau" und „Mutationstest der
+> Schutz-Prüfungen" sowie der neue Abschnitt „Mutationstest der Review-Fixes" weiter unten.
 
 ## Aufbau
 
@@ -158,7 +167,7 @@ mit Begründung im Code).
 
 ```bash
 cd hardware
-python3 design/report.py            # 29 Prüfungen, Exit 0 = alles im Rahmen
+python3 design/report.py            # 42 Prüfungen, Exit 0 = alles im Rahmen
 python3 ../scripts/check_netlist.py         # Netzlisten-Struktur
 python3 ../scripts/check_bom_consistency.py # Schaltplan ↔ JLCPCB-BOM
 ```
@@ -177,17 +186,29 @@ Aufruf:
 |---|---|---|---|---|
 | 1 | `R_ISET` 100 kΩ → 30 kΩ (Ladestrom 2,7 A) | Ladestrom IP2326 | Ladestrom IP2326 **+** Ladeeingangsstrom | 1 |
 | 2 | `R_FB5_TOP` 75 kΩ → 100 kΩ (5 V ⇒ 6,6 V) | 5-V-Buck-Ausgang | 5-V-Buck-Ausgang | 1 |
-| 3 | `R_FB3_TOP` 47 kΩ → 100 kΩ (3,3 V ⇒ 6,1 V) | 3,3-V-Buck-Ausgang | 3,3-V-Buck-Ausgang **+** LED-Ströme, LED-Headroom | 1 |
-| 4 | `R3b` 200 kΩ → 100 kΩ (Abschaltung 6,19 V ⇒ 9,2 V) | UVLO-Schwelle | UVLO-Schwelle **+** Unterspannungsstaffelung | 1 |
-| 5 | `R_SENSE_BOT` 68 kΩ → 200 kΩ (ADC 2,13 V ⇒ 4,2 V) | ADC-Teiler Packspannung | ADC-Teiler Packspannung | 1 |
-| 6 | Netzliste: `U6` (USBLC6, 5,5 V max) von VBUS auf **VBAT** (8,4 V) | VBAT-Spannungsfestigkeit | VBAT-Spannungsfestigkeit | 1 |
-| 7 | Netzliste: `R_CLAMP1` zurück auf die alte **Parallelschaltung** (Knoten an keinem Gate) | Klemmzweig-Serie | Klemmzweig-Serie **+** Netzstruktur | 1 |
-| 8 | BOM: `IP2326` → **`IP2326_8V8`** (8,8 V Ladeschluss) | Ladeschluss 2S | Ladeschluss 2S | 1 |
-| 9 | Belegtext `3,4 V Pumpstopp` aus `bom_entscheidung.md` entfernt | Systemquellen | Systemquellen | 1 |
-| 10 | beide Teiler niederohmig (`R_SENSE_TOP`, `R3a` 200 kΩ → 20 kΩ) | Standby-Budget | Standby-Budget **+** 5 weitere | 1 |
+| 3 | Netzliste: `U_BUCK3` FB (Pin 1) von `+3V3` auf ein Netz `FB_3V3` gelegt (Teiler statt Festspannung) | 3,3-V-Buck-Ausgang | 3,3-V-Buck-Ausgang **+** Netzstruktur | 1 |
+| 4 | `R3b` 51 kΩ → 100 kΩ (Abschaltung ⇒ 4,6 V) | UVLO-Schwelle | UVLO-Schwelle **+** UV-Teiler-Offset, Schutz-Schwellen, Unterspannungsstaffelung | 1 |
+| 5 | `R3a` **und** `R3b` 51 kΩ → 200 kΩ (Iq-Offset 25 mV ⇒ 100 mV, Schwelle bleibt 6,16 V) | UV-Teiler-Offset | UV-Teiler-Offset | 1 |
+| 6 | `R2, R_GATE2_PD` 2 × 47 kΩ → 2 × 1 kΩ (kein wirksamer Pulldown) | Gate-Pulldowns | Gate-Pulldowns **+** Gate-Spannung | 1 |
+| 7 | Netzliste: `U_BUCK5` EN (Pin 4) von `RESET_UV` auf `UV_REF` (Wächter schaltet die 5-V-Schiene nicht mehr ab) | Waechter-Abschaltung | Waechter-Abschaltung **+** Netzstruktur | 1 |
+| 8 | `R_SENSE_BOT` 68 kΩ → 200 kΩ (ADC 2,13 V ⇒ 4,2 V) | ADC-Teiler Packspannung | ADC-Teiler Packspannung | 1 |
+| 9 | Netzliste: `U6` (USBLC6, 5,5 V max) von VBUS auf **VBAT** (8,4 V) | VBAT-Spannungsfestigkeit | VBAT-Spannungsfestigkeit | 1 |
+| 10 | Netzliste: `U1` Pin 6 (IO3) direkt auf `SENSOR_PWR` statt auf das Gate `EXT_SENS_EN` | Sensor-Lastschalter | Sensor-Lastschalter | 1 |
+| 11 | BOM: `IP2326` → **`IP2326_8V8`** (8,8 V Ladeschluss) | Ladeschluss 2S | Ladeschluss 2S | 1 |
+| 12 | Belegtext `3,4 V Pumpstopp` aus `bom_entscheidung.md` entfernt | Systemquellen | Systemquellen | 1 |
+| 13 | beide Teiler niederohmig (`R_SENSE_TOP` 200 kΩ → 20 kΩ, `R3a` 51 kΩ → 20 kΩ) | Standby-Budget | Standby-Budget **+** 6 weitere | 1 |
 
-**Ergebnis: 10 von 10 Mutationen werden gefangen — jede geprüfte Regel beißt nachweislich.**
-Der grüne Lauf allein (`37 von 37 Prüfungen bestanden`, Exit 0) beweist nichts; erst diese Tabelle tut es.
+**Ergebnis: 13 von 13 Mutationen werden gefangen — jede geprüfte Regel beißt nachweislich.**
+Die alte Mutation „`R_CLAMP1` zurück auf die Parallelschaltung" ist **entfallen**: die Prüfung
+„Klemmzweig-Serie" existiert nicht mehr, weil der gesamte Klemmzweig (D3/D8/R_CLAMP1/2) im Review
+16.09.2026 als wirkungslos entfernt wurde. An ihre Stelle tritt Mutation 7 (Wächter-Abschaltung);
+das Wiederauftauchen eines Klemmzweig-Rests fängt dieselbe Prüfung zusätzlich über die
+`R_CLAMP*`/`D3`/`D8`/`KLAMP*`-Suche.
+Der grüne Lauf allein (`42 von 42 Prüfungen bestanden`, Exit 0) beweist nichts; erst diese Tabelle tut es.
+
+**Lücke (ehrlich):** Mutation 5 ist die einzige, die „UV-Teiler-Offset" isoliert rot macht (beide
+Widerstände hochohmig, Schwelle unverändert). Wird nur `R3a` verstellt, schlägt zuerst
+„UVLO-Schwelle" an; die Offset-Prüfung wird dann mitgerissen, aber nicht getrennt nachgewiesen.
 
 ### Eigene Harness-Fehler in diesem Durchgang (nicht dem Prüf-Code anzulasten)
 
@@ -217,9 +238,9 @@ erwarteter Prüfname in der Fehlschlag-Liste.
 | 8 | Regression: R_ISET 100 kΩ → 30 kΩ | Ladestrom IP2326 | Ladestrom IP2326 + Ladeeingangsstrom | 1 |
 | 9 | Regression: R_FB5_TOP 75 kΩ → 100 kΩ | 5-V-Buck-Ausgang | 5-V-Buck-Ausgang | 1 |
 
-**Ergebnis: 9 von 9 Mutationen werden gefangen.** Zusammen mit dem 2S-Durchgang (10/10) sind damit
-**alle 19** in beiden Dateien geprüften Regeln als wirksam belegt; der Gesamtlauf meldet
-`40 von 40 Prüfungen bestanden`.
+**Ergebnis: 9 von 9 Mutationen werden gefangen.** Zusammen mit dem 2S-Durchgang (13/13) sind damit
+**22** Mutationsfälle in beiden Dateien als wirksam belegt; der Gesamtlauf meldet
+`42 von 42 Prüfungen bestanden`.
 
 ### Eigener Harness-Fehler (nicht dem Prüf-Code anzulasten)
 

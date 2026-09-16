@@ -113,6 +113,12 @@ def main():
     try:
         results = checks.run_all()
         simulations = sim.run_all()
+    except checks.PruefFehler as exc:
+        # Werkzeugfehler: das Pruefmodell passt nicht zur Netzliste.  Das ist
+        # KEIN Design-Fehler und wird nicht als "Pruefung fehlgeschlagen"
+        # gezaehlt -- eigener Exit-Code 2 macht das unmissverstaendlich.
+        print("Werkzeugfehler: %s" % exc)
+        return 2
     except circuit.CircuitError as exc:
         print("FEHLER: %s" % exc)
         return 1

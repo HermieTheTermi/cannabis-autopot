@@ -31,7 +31,12 @@ ONE_PIN_OK_PREFIX = ("TP",)
 # DATENBLATTGRENZEN, die das Modell selbst braucht (jede mit Quelle).
 # ---------------------------------------------------------------------------
 VREF_BUCK5 = 0.6   # SY8113B (Silergy) Datenblatt AN_SY8113B S.1/S.2: V_REF 0,6 V
-VREF_BUCK3 = 0.8   # AP63203 (Diodes) Datenblatt DS41326: V_REF 0,8 V
+# AP63203 (Diodes) ist die FESTSPANNUNGSVERSION (AP63203 = 3,3 V, AP63205 = 5 V,
+# Datenblatt DS41326 Fig. 21: FB direkt auf den Ausgang).  Der frueher hier
+# gerechnete Teiler R_FB3_TOP/R_FB3_BOT existiert seit dem Review 16.09.2026
+# nicht mehr -- V_OUT wird nicht mehr aus Widerstaenden, sondern als
+# Datenblatt-Festwert angenommen (3,27/3,30/3,33 V).
+VOUT_BUCK3_FIXED = 3.30
 
 # ---------------------------------------------------------------------------
 # SYSTEM - Systemkenngroessen aus den Projektdokumenten.
@@ -343,8 +348,12 @@ def rail_5v():
 
 
 def rail_3v3():
-    """3,3-V-Schiene aus dem AP63203-Feedbackteiler (V_REF 0,8 V)."""
-    return VREF_BUCK3 * (1.0 + ratio("R_FB3_TOP"))
+    """3,3-V-Schiene des AP63203 in der Festspannungsversion.
+
+    FB (Pin 1) liegt laut Netzliste direkt auf +3V3, es gibt keinen
+    Rueckkopplungsteiler.  Der Wert ist der Datenblatt-Festwert (3,30 V).
+    """
+    return VOUT_BUCK3_FIXED
 
 
 def system_quellen():

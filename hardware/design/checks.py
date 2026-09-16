@@ -15,6 +15,18 @@ from . import circuit
 
 CheckResult = namedtuple("CheckResult", "name bestanden ist soll begruendung")
 
+
+class PruefFehler(Exception):
+    """Werkzeugfehler: Pruefmodell und Netzliste passen nicht zusammen.
+
+    Anders als :class:`circuit.CircuitError` ist das **kein Design-Fehler**:
+    Eine Pruefung darf gar nicht erst laufen, weil sie einen Pin-/Bauteilnamen
+    verwendet, den die Netzliste nicht kennt.  Der Bericht weist das getrennt
+    als "Werkzeugfehler" aus (eigener Exit-Code) und zaehlt es nicht als
+    "Pruefung fehlgeschlagen" -- sonst haelt man einen veralteten Pruefstand
+    faelschlich fuer einen bestandenen oder fehlgeschlagenen Test.
+    """
+
 # ===========================================================================
 # Datenblattgrenzen (jede mit Quelle)
 # ===========================================================================
@@ -376,15 +388,30 @@ def check_buck5_ausgang():
 
 
 def check_buck3_ausgang():
-    """3,3-V-Buck AP63203: V_out = 0,8 V x (1 + R_FB3_TOP/R_FB3_BOT)."""
+    """AP63203-Festspannungsversion: FB (Pin 1) direkt auf +3V3, kein Teiler.
+
+    Geprueft wird beides: der Ausgangswert liegt im Modulfenster, UND FB ist
+    wirklich direkt am Ausgang (nicht ueber einen Teiler), UND es existiert
+    kein Teilerbauteil R_FB3_TOP/R_FB3_BOT und kein Netz FB_3V3 mehr.
+    """
     v = circuit.rail_3v3()
-    ok = MODULE_VDD33_MIN_V <= v <= MODULE_VDD33_MAX_V
+    fb_net = _pin_net("U_BUCK3", "1")
+    fb_direct = fb_net == "+3V3"
+    rest_teiler = [d for d in circuit.parts() if d.startswith("R_FB3")]
+    netz_fb = "FB_3V3" in circuit.load_netlist()
+    spannung_ok = MODULE_VDD33_MIN_V <= v <= MODULE_VDD33_MAX_V
+    ok = spannung_ok and fb_direct and not rest_teiler and not netz_fb
     return CheckResult(
         "3,3-V-Buck-Ausgang", ok,
-        "%s" % _f(v, 3, "V"),
-        "3,0 V bis 3,6 V (Modul)",
-        "AP63203-Datenblatt DS41326: V_REF 0,8 V +-1 %, "
-        "V_out = 0,8 x (1 + R_FB3_TOP/R_FB3_BOT); Espressif ESP32-C6-MINI-1: "
+        "%s (FB Pin 1 auf %s %s, Teiler %s, Netz FB_3V3 %s)"
+        % (_f(v, 3, "V"), fb_net, "OK" if fb_direct else "FEHLER",
+           ", ".join(rest_teiler) or "keiner",
+           "vorhanden -> FEHLER" if netz_fb else "entfallen"),
+        "3,0 V bis 3,6 V (Modul); FB direkt auf +3V3, kein Teiler",
+        "AP63203-Datenblatt DS41326: Festspannungsversion, VFB 3,27/3,30/3,33 V "
+        "bzw. 'AP63203 ... fixed output voltages of 3.3V'; Fig. 21 fuehrt FB "
+        "direkt auf den Ausgang. Der frueher geprüfte Teiler R_FB3_TOP/BOT ist "
+        "entfallen (Review 16.09.2026); Espressif ESP32-C6-MINI-1: "
         "V_DD33 3,0-3,6 V")
 
 
@@ -454,28 +481,129 @@ def check_uvlo_schwelle():
            _f(r3a / 1000.0, 0, "kΩ"), _f(sys["iq_watchdog_ua"], 2, "µA")),
         "6,0 V bis 6,6 V Pack (2 x 3,0..3,3 V)",
         "TPS3839 S. 7: V_IT 3,003-3,126 V, Hysterese 31 mV; "
-        "V_trip = V_IT x (1 + R3a/R3b) + Iq x R3a (Teiler 200 k/200 k)")
+        "V_trip = V_IT x (1 + R3a/R3b) + Iq x R3a (Teiler 51 k/51 k, "
+        "Iq typ. 0,15 µA bzw. max. 0,5 µA)")
 
 
-def check_waechter_sinkstrom():
-    """Sinkstrom der beiden Klemmzweige am TPS3839-Ausgang."""
+def check_uvlo_teiler():
+    """UV-Teiler 51 k/51 k: Teilerstrom, Tagesverbrauch und Iq-Offset.
+
+    Rechnet die Verschiebung der Schwelle durch den Waechter-Ruhestrom als
+    Iq_max x R3a (nicht geschaetzt) und den Teilerstrom als
+    V_Pack,max/(R3a+R3b).  Beides muss im Rahmen bleiben: der Offset unter
+    50 mV, der Teilerstrom als kleiner Posten des Standby-Budgets.
+    """
     sys = circuit.load_system()
-    rail = circuit.rail_3v3()
-    rc1 = circuit.parse_ohm(circuit.part("R_CLAMP1")["value"])
-    rc2 = circuit.parse_ohm(circuit.part("R_CLAMP2")["value"])
-    i1 = (rail - DIODE_VF_SCHOTTKY_V) / rc1
-    i2 = (rail - DIODE_VF_SCHOTTKY_V) / rc2
-    total = i1 + i2 + EN_INPUT_LEAK_UA * 1e-6
-    ok = total <= TPS3839_IOL_A
+    r3a = circuit.parse_ohm(circuit.part("R3a")["value"])
+    r3b = circuit.parse_ohm(circuit.part("R3b")["value"])
+    i_div = sys["pack_v_max"] / (r3a + r3b)
+    mah_day = i_div * 1e6 / 1000.0 * 24.0
+    offset_max = TPS3839_IQ_MAX_UA * 1e-6 * r3a
+    offset_typ = TPS3839_IQ_TYP_UA * 1e-6 * r3a
+    symmetrisch = abs(r3a - r3b) < 1.0
+    ok = (abs(r3a - 51000.0) < 1.0 and symmetrisch
+          and offset_max <= 0.050 and i_div <= 100e-6)
     return CheckResult(
-        "Waechter-Sinkstrom", ok,
-        "%s (2 x %s + EN-Leck %s)"
-        % (_f(total * 1000.0, 3, "mA"), _f(i1 * 1000.0, 3, "mA"),
-           _f(EN_INPUT_LEAK_UA, 1, "µA")),
-        "<= 2 mA (I_OL bei V_OL <= 0,4 V)",
-        "TPS3839 Datenblatt SBVS193D, Pin Functions/EC: V_OL <= 0,4 V bei "
-        "I_OL = 2 mA; I = (V_rail - V_F)/R_CLAMP je Zweig; "
-        "EN-Leckstrom ist Annahme (siehe circuit.ASSUMPTIONS)")
+        "UV-Teiler-Offset", ok,
+        "R3a %s/%s, Teilerstrom %s (%s/Tag), Offset Iq_max x R3a = %s "
+        "(typ. %s)"
+        % (_f(r3a / 1000.0, 0, "kΩ"), _f(r3b / 1000.0, 0, "kΩ"),
+           _f(i_div * 1e6, 1, "µA"), _f(mah_day, 2, "mAh"),
+           _f(offset_max * 1000.0, 1, "mV"), _f(offset_typ * 1000.0, 1, "mV")),
+        "R3a = R3b = 51 kΩ, Iq-Offset <= 50 mV, Teilerstrom <= 100 µA",
+        "Fix 16.09.2026 (Review): von 200 k/200 k auf 51 k/51 k verkleinert. "
+        "TPS3839-Datenblatt SBVS193D: Iq 150 nA typ., 500 nA max.; der Strom "
+        "fließt durch R3a und verschiebt die Schwelle um Iq x R3a "
+        "(200 k waeren bis ~0,2 V gewesen, jetzt +15..+50 mV). Teilerstrom "
+        "82 µA = ~2 mAh/Tag, Teil des 250-µA-Standby-Budgets (schaltplan "
+        "§3.2/§13.5)")
+
+
+
+def _ohms(designator):
+    """Widerstand eines Bauteils aus dem Wertfeld, ersatzweise dem Bauteilfeld.
+
+    In schaltplan_v1.md tragen einzelne Zeilen (z. B. R_SENS_GATE) den Wert in
+    der zweiten Spalte statt in "Wert"; beide Felder werden daher versucht.
+    """
+    entry = circuit.part(designator)
+    for key in ("value", "desc"):
+        text = entry.get(key)
+        if not text:
+            continue
+        try:
+            return circuit.parse_ohm(text)
+        except circuit.CircuitError:
+            continue
+    raise circuit.CircuitError(
+        "kein Widerstandswert fuer %s in schaltplan_v1.md" % designator)
+
+
+def check_gate_pulldowns():
+    """Beide Pumpen-Gates haengen ueber 47 kOhm auf GND (Aus bei toter MCU).
+
+    Ersetzt den frueheren Klemmzweig-Sinkstrom: der Dioden-Klemmzweig ist
+    entfallen.  Die wirksame zweite Ebene ist der Gate-Pulldown -- ist die MCU
+    hochohmig (Reset, Deep-Sleep, Absturz), zieht R2/R_GATE2_PD das jeweilige
+    Gate auf 0 V und der Low-Side-MOSFET sperrt.
+    """
+    teile = []
+    ok = True
+    for r_des, gate in (("R2", "GATE"), ("R_GATE2_PD", "GATE2")):
+        r_nets = set(_nets_of(r_des))
+        good = r_nets == {gate, "GND"} and abs(_ohms(r_des) - 47000.0) < 1.0
+        ok = ok and good
+        teile.append("%s %s an %s/GND %s"
+                     % (r_des, "47 kΩ" if abs(_ohms(r_des) - 47000.0) < 1.0
+                        else _f(_ohms(r_des) / 1000.0, 1, "kΩ"),
+                        gate, "OK" if good else "FEHLER"))
+    # Die Gates muessen ueber einen Serien-R von der MCU kommen (R1/R_GATE2),
+    # damit der Pulldown bei hochohmigem GPIO den Knoten wirklich auf 0 V zieht.
+    serie = (set(_nets_of("R1")) == {"PUMP_EN", "GATE"}
+             and set(_nets_of("R_GATE2")) == {"PUMP2_EN", "GATE2"})
+    ok = ok and serie
+    teile.append("Gate-Serie R1/R_GATE2 %s" % ("OK" if serie else "FEHLER"))
+    return CheckResult(
+        "Gate-Pulldowns", ok, "; ".join(teile),
+        "R2 (GATE/GND) und R_GATE2_PD (GATE2/GND) je 47 kΩ; Gates ueber "
+        "Serien-R1/R_GATE2 von der MCU",
+        "Review 16.09.2026: der alte Dioden-Klemmzweig (D3/D8 + R_CLAMP1/2) "
+        "konnte das Gate gegen den 1-kΩ-GPIO-Zweig rechnerisch nicht "
+        "abschalten (~2,97 V) und ist entfallen. Wirksam bleiben (a) die "
+        "5-V-Abschaltung durch U7 und (b) diese 47-kΩ-Pulldowns: bei "
+        "hochohmigem GPIO liegt V_GS = 0 V, der MOSFET sperrt")
+
+
+def check_waechter_abschaltung():
+    """Waechter schaltet die 5-V-Schiene wirklich ab (RESET_UV -> U_BUCK5 EN).
+
+    Ersetzt die frueher geprüfte Klemmzweig-Serie.  Geprueft wird der
+    verbliebene Mechanismus: der TPS3839-Ausgang (Pin 2) liegt auf RESET_UV und
+    U_BUCK5 Pin 4 (EN) haengt am selben Netz -> unter der Schwelle ist der
+    Buck-Ausgang 0 V und damit die Pumpenversorgung aus.  Zugleich darf kein
+    Rest des entfernten Klemmzweigs mehr existieren (D3/D8/R_CLAMP*/KLAMP*).
+    """
+    reset_u7 = _pin_net("U7", "2")
+    en_buck5 = _pin_net("U_BUCK5", "4")
+    verdrahtet = reset_u7 == "RESET_UV" and en_buck5 == "RESET_UV"
+    rest = [d for d in circuit.parts()
+            if d in ("R_CLAMP1", "R_CLAMP2", "D3", "D8")]
+    nets = set(circuit.load_netlist())
+    rest_nets = sorted(n for n in nets if n.startswith("KLAMP"))
+    ok = verdrahtet and not rest and not rest_nets
+    return CheckResult(
+        "Waechter-Abschaltung", ok,
+        "U7 Pin 2 (RESET) auf %s, U_BUCK5 Pin 4 (EN) auf %s %s; Klemmzweig-Rest "
+        "%s %s"
+        % (reset_u7, en_buck5, "OK" if verdrahtet else "FEHLER",
+           ", ".join(rest) or "keiner", "" if not rest_nets else
+           "-> Netze " + ", ".join(rest_nets) + " FEHLER"),
+        "U7-RESET und U_BUCK5-EN auf RESET_UV; kein D3/D8/R_CLAMP*/KLAMP*",
+        "TPS3839 SBVS193D: Push-Pull-Ausgang aktiv-low; SY8113B: EN low => "
+        "Ausgang 0 V. Damit ist die Pumpenversorgung im Waechterfall sicher "
+        "aus. Der Dioden-Klemmzweig D3/D8/R_CLAMP1/2 ist im Review 16.09.2026 "
+        "als wirkungslos entfernt worden (§13.5)")
+
 
 
 def check_adc_teiler_max():
@@ -508,36 +636,6 @@ def check_buck_en_pegel():
         "> 1,5 V (EN High)",
         "TPS3839 SBVS193D: V_OH >= V_DD - 0,4 V (Push-Pull); "
         "SY8113B: EN-High-Schwelle 1,5 V, 'Do not float'")
-
-
-def check_klemmzweig_serie():
-    """Klemmzweig muss Serie sein: GATE -> R_CLAMP -> D -> RESET_UV."""
-    sys = circuit.load_system()
-    teile = []
-    ok = True
-    for r_des, d_des, gate, knot in (
-            ("R_CLAMP1", "D3", "GATE", "KLAMP1"),
-            ("R_CLAMP2", "D8", "GATE2", "KLAMP2")):
-        r_nets = set(_nets_of(r_des))
-        d_nets = set(_nets_of(d_des))
-        d_pins = _pins_of(d_des)
-        serie = r_nets == {gate, knot} and d_nets == {knot, "RESET_UV"}
-        richtung = (d_pins.get("Anode") == knot
-                    and d_pins.get("Kathode") == "RESET_UV")
-        good = serie and richtung
-        ok = ok and good
-        teile.append("%s: %s (%s->%s, %s); %s: Anode %s, Kathode %s (%s)"
-                     % (gate, "OK" if r_nets == {gate, knot} else "FEHLER",
-                        gate, knot, "/".join(sorted(r_nets)),
-                        d_des, d_pins.get("Anode"), d_pins.get("Kathode"),
-                        "OK" if richtung else "FEHLER"))
-    return CheckResult(
-        "Klemmzweig-Serie", ok, "; ".join(teile),
-        "GATE->R_CLAMP1->D3->RESET_UV und GATE2->R_CLAMP2->D8->RESET_UV (Serie)",
-        "Review 2S-Umbau §5 Befund 1: im Altstand lagen R_CLAMPx PARALLEL zu "
-        "Dx, der Knoten hing an keinem Gate -> Klemmung wirkungslos. "
-        "Prueft die Netze und die Diodenrichtung (Anode am Knoten, "
-        "Kathode an RESET_UV)")
 
 
 def check_kein_low_vin_am_vbat():
@@ -581,7 +679,8 @@ def check_standby_budget():
     total_ua = (sys["module_sleep_ua"] + sys["iq_buck5_ua"] + sys["iq_buck3_ua"]
                 + sys["iq_watchdog_ua"] + uvlo_ua + adc_ua)
     mah_day = total_ua / 1000.0 * 24.0
-    # Lichtsensor haengt an SENSOR_PWR (IO3, im Deep-Sleep aus) -> 0 µA.
+    # Lichtsensor haengt an SENSOR_PWR (ueber Q_SENS geschaltet, IO3 treibt
+    # nur das Gate) -> im Deep-Sleep kein Strom.
     j7_net = circuit.net_of("J7", "2")
     switched = j7_net == "SENSOR_PWR"
     ok = total_ua <= 250.0 and switched
@@ -590,10 +689,10 @@ def check_standby_budget():
         "%s, %s/Tag; Lichtsensor an %s %s"
         % (_f(total_ua, 1, "µA"), _f(mah_day, 2, "mAh"),
            j7_net, "geschaltet" if switched else "DAUERHAFT -> FEHLER"),
-        "<= 250 µA; Sensor an SENSOR_PWR",
+        "<= 250 µA; Sensor an SENSOR_PWR (ueber Q_SENS geschaltet)",
         "Datenblaetter: SY8113B Iq 100 µA, AP63203 22 µA, TPS3839 0,15 µA "
-        "(schaltplan §6.2) + Teiler 21/31,4 µA + Modul 7 µA; "
-        "Lichtsensor an geschaltetem SENSOR_PWR")
+        "(schaltplan §6.2) + Teiler 82/31,4 µA (§13.5) + Modul 7 µA; "
+        "Lichtsensor an geschaltetem SENSOR_PWR, das Gate treibt IO3")
 
 
 def check_system_quellen():
@@ -644,22 +743,40 @@ def _doc_consistent(values):
 
 
 def _pin_net(designator, pin):
-    """Netz eines Pins; fehlt der Pin, harter Abbruch statt still bestehen."""
-    pins = _pins_of(designator)
-    if pin not in pins:
-        raise circuit.CircuitError(
-            "Pin %r an %s fehlt in der Netzliste" % (pin, designator))
-    return pins[pin]
+    """Netz eines Pins; kennt die Netzliste den Pin nicht, Werkzeugfehler.
+
+    Akzeptiert sowohl den rohen Pin-Namen aus der Netzliste ("5 D", "4 G",
+    "3 VDD") als auch die auf die fuehrende Ziffer reduzierte Form ("5", "4"),
+    damit Aufrufer nicht von der Schreibweise des Symbols abhaengen.  Ein
+    Name, den weder die rohe noch die reduzierte Form trifft, ist ein
+    **Werkzeugfehler** (:class:`PruefFehler`), kein Design-Fehler: das
+    Pruefmodell ist veraltet und hat den Pin nie gesehen.
+    """
+    raw_pin, reduced = {}, {}
+    for net, nodes in circuit.load_netlist().items():
+        for comp, p in nodes:
+            if comp != designator:
+                continue
+            raw_pin.setdefault(p.strip(), net)
+            m = re.match(r"\s*([0-9]+)\b", p)
+            reduced.setdefault(m.group(1) if m else p.strip(), net)
+    if pin in raw_pin:
+        return raw_pin[pin]
+    if pin in reduced:
+        return reduced[pin]
+    raise PruefFehler(
+        "Pin %r an %s existiert nicht in der Netzliste \u2014 checks.py veraltet"
+        % (pin, designator))
 
 
 def check_schutz_serie():
     """Serienkette des Platinen-Schutzes in der Minusleitung (Topologie)."""
     j1_src = _pin_net("J1", "1")
     q1_s = [_pin_net("Q_PROT1", p) for p in ("1", "2", "3")]
-    q1_drain = _pin_net("Q_PROT1", "mb (Drain)")
+    q1_drain = _pin_net("Q_PROT1", "5 D")
     q1_gate = _pin_net("Q_PROT1", "4")
     q2_s = [_pin_net("Q_PROT2", p) for p in ("1", "2", "3")]
-    q2_drain = _pin_net("Q_PROT2", "mb (Drain)")
+    q2_drain = _pin_net("Q_PROT2", "5 D")
     q2_gate = _pin_net("Q_PROT2", "4")
     vss = _pin_net("U_PROT", "6")
     od = _pin_net("U_PROT", "1")
@@ -828,7 +945,8 @@ def check_gate_spannung():
                                  _f(rail, 2, "V")),
         ">= 2,5 V und > 1,45 V",
         "AO3400A-Datenblatt: RDS(on) bei VGS = 2,5 V spezifiziert, "
-        "VGS(th) max = 1,45 V; Rail aus dem AP63203-Feedback")
+        "VGS(th) max = 1,45 V; Rail +3V3 aus dem AP63203 in der "
+        "Festspannungsversion")
 
 
 def check_mosfet_verlust():
@@ -876,14 +994,16 @@ def check_teilerstrom():
     adc_ua = sys["pack_v_max"] / (r_top + r_bot) * 1e6
     total = uvlo_ua + adc_ua
     return CheckResult(
-        "Teilerstrom", total <= 60.0,
+        "Teilerstrom", total <= 130.0,
         "Waechter %s + ADC %s = %s bei %s"
         % (_f(uvlo_ua, 1, "µA"), _f(adc_ua, 1, "µA"),
            _f(total, 1, "µA"), _f(sys["pack_v_max"], 1, "V")),
-        "<= 60 µA (beide Teiler zusammen)",
+        "<= 130 µA (beide Teiler zusammen)",
         "Teiler duerfen im Standby-Budget (250 µA) nur ein Teilbudget "
-        "verbrauchen; I = VBAT_max/(R_top+R_bot) je Teiler "
-        "(schaltplan §6.2: 21 + 31,4 µA)")
+        "verbrauchen; I = VBAT_max/(R_top+R_bot) je Teiler. Seit dem "
+        "UV-Teiler-Fix 16.09.2026 (51 k/51 k) zieht der Waechterteiler ~82 µA "
+        "statt 21 µA -- die Obergrenze ist entsprechend angehoben "
+        "(Waechter + ADC = ~113 µA, schaltplan §3.2/§13.5)")
 
 
 def check_uv_staffelung():
@@ -1272,6 +1392,59 @@ def check_load_switch_failsafe():
         "hoch haelt -> VCC_EXT ist beim Start aus")
 
 
+def check_sensor_lastschalter():
+    """Sensorversorgung ueber Q_SENS; IO3 treibt nur das Gate; kein GPIO an VCC.
+
+    Neu 16.09.2026: SENSOR_PWR wird nicht mehr direkt von GPIO3 gespeist,
+    sondern ueber einen P-Kanal-Lastschalter Q_SENS (AO3401A, gleicher Typ wie
+    Q2).  Source an +3V3, Drain an SENSOR_PWR, Gate an EXT_SENS_EN;
+    R_SENS_GATE (47 kOhm) zieht das Gate nach +3V3, damit der Schalter ohne
+    Freigabe (Reset, hochohmiger GPIO) sicher aus ist.  Zusaetzlich darf kein
+    GPIO direkt an einem Stecker-VCC (SENSOR_PWR/VCC_EXT) haengen.
+    """
+    q = _pins_of("Q_SENS")
+    src_ok = q.get("2") == "+3V3"
+    drain_ok = q.get("3") == "SENSOR_PWR"
+    gate_ok = q.get("1") == "EXT_SENS_EN"
+    r_gate = _nets_of("R_SENS_GATE")
+    r_ok = set(r_gate) == {"+3V3", "EXT_SENS_EN"} and r_gate.get("+3V3") == "2"
+    try:
+        r_val = _ohms("R_SENS_GATE")
+    except circuit.CircuitError:
+        r_val = None
+    val_ok = r_val is not None and abs(r_val - 47000.0) < 1.0
+    io = None
+    try:
+        io, _ = _u1_io_on_net("EXT_SENS_EN")
+    except circuit.CircuitError:
+        io = None
+    io_ok = io == 3
+    pin6 = _pin_net("U1", "6")
+    pin6_ok = pin6 == "EXT_SENS_EN"
+    gpio_auf_vcc = []
+    for vcc in ("SENSOR_PWR", "VCC_EXT"):
+        for comp, pin in circuit.load_netlist().get(vcc, []):
+            if comp == "U1":
+                gpio_auf_vcc.append("U1.%s an %s" % (pin, vcc))
+    ok = (src_ok and drain_ok and gate_ok and r_ok and val_ok
+          and io_ok and pin6_ok and not gpio_auf_vcc)
+    return CheckResult(
+        "Sensor-Lastschalter", ok,
+        "Q_SENS S->%s D->%s G->%s; R_SENS_GATE %s kΩ nach +3V3 %s; U1 Pin 6 "
+        "auf %s, IO%d %s; GPIO direkt an VCC: %s"
+        % (q.get("2"), q.get("3"), q.get("1"),
+           _f((r_val or 0) / 1000.0, 0, ""), "OK" if r_ok else "FEHLER",
+           pin6, io if io is not None else -1, "OK" if io_ok else "FEHLER",
+           ", ".join(gpio_auf_vcc) or "keiner"),
+        "Q_SENS Source +3V3, Drain SENSOR_PWR, Gate EXT_SENS_EN; R_SENS_GATE "
+        "47 kΩ nach +3V3 (fail-safe aus); IO3 treibt nur das Gate; kein GPIO "
+        "direkt an SENSOR_PWR/VCC_EXT",
+        "Review 16.09.2026: die Sensorversorgung direkt aus GPIO3 ist fuer frei "
+        "anschliessbare Module zu schwach; jetzt treibt IO3 (Pin 6) nur das "
+        "Gate von Q_SENS (AO3401A, P-Kanal).  Der Pull-up haelt den Schalter "
+        "bei hochohmigem GPIO aus (P-Kanal: V_GS = 0 sperrt), wie bei Q2")
+
+
 def check_erweiterung_pins():
     """Kein U1-Pin doppelt; Erweiterungspins wie geplant; GPIO8/9 unveraendert."""
     pin_net = defaultdict(set)
@@ -1386,10 +1559,11 @@ def run_all():
         check_buck5_induktivitaet,
         check_buck3_induktivitaet,
         check_uvlo_schwelle,
-        check_waechter_sinkstrom,
+        check_uvlo_teiler,
+        check_gate_pulldowns,
         check_adc_teiler_max,
         check_buck_en_pegel,
-        check_klemmzweig_serie,
+        check_waechter_abschaltung,
         check_kein_low_vin_am_vbat,
         check_standby_budget,
         check_system_quellen,
@@ -1416,6 +1590,7 @@ def run_all():
         check_stecker_pinordnung,
         check_erweiterung_serienwiderstand,
         check_load_switch_failsafe,
+        check_sensor_lastschalter,
         check_erweiterung_pins,
         check_i2c_pullups,
         check_en_rc,

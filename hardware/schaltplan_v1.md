@@ -18,19 +18,21 @@ Maschinenlesbare Fassung derselben Verbindungen: **`schaltplan_v1_netzliste.csv`
    USB-C (J5) ──VBUS 5 V──┬────────────────────────────────► U_CHG  IP2326  (2S-Boost-Lader, 8,4 V)
                           │                                    │
                           ├── L_CHG 2,2 µH ──► LX (15/16/17)    │ VOUT (21/22)
-                          ├── R_VIN_CHG 0,5 Ω ─► VIN (13) + C   └──► VBAT ──┬── J1  2S-Pack (6,0–8,4 V, Schutz auf der Platine)
+                          ├── R_VIN_CHG 0,5 Ω ─► VIN (13) + C   └──► VBAT ──┬── F1  5 A träge  ◄── J1  2S-Pack (6,0–8,4 V, Schutz auf der Platine)
                           ├── R_LEDCHG 1 k ─► D_LEDCHG ─► LED (6)           │
                           └── D+/D− ── U6 ESD ── U1 IO13/IO12              │
    (DP/DM des Laders bleiben OFFEN — kein Fast-Charge-Request, die Datenleitungen gehören dem ESP32)
+   NTC   J18 (XH-2P) ◄── 100 kΩ B3950 ∥ 82 kΩ  — Temperaturüberwachung des Akkus
+         (Datenblatt-Schwellen: 0 °C Laden aus · 45 °C Strom halbiert · 55 °C Laden aus)
 
    VBAT ─┬── U_BUCK5  SY8113B   (3 A, 500 kHz) ──► +5V ──┬── Q1 ──► J4   Dosierpumpe
          │                                               ├── Q3 ──► J16  Sauerstoffpumpe
          │                                               ├── J17        5-V-Ausgang für Sensorik (neu)
          │                                               └── C3 100 µF (Pumpenpuffer, von VBAT hierher)
-         ├── U_BUCK3  AP63203    (2 A, 1,1 MHz)  ──► +3V3 ──► ESP32-C6 (U1), Sensorspeisung (IO3),
+         ├── U_BUCK3  AP63203    (2 A, 1,1 MHz)  ──► +3V3 ──► ESP32-C6 (U1), Sensorspeisung über Q_SENS (IO3),
          │                                                   LEDs, I2C/VCC_EXT über Q2
-         ├── R3a/R3b 200 k/200 k ──► U7 TPS3839G33 (3,08 V) ──► RESET_UV ──┬── U_BUCK5 EN  (5-V-Schiene AUS)
-         │                                                                 └── D3/D8 über R35/R36 (Gate-Klemmen)
+         ├── R3a/R3b 51 k/51 k  ──► U7 TPS3839G33 (3,08 V) ──► RESET_UV ──┬── U_BUCK5 EN  (5-V-Schiene AUS)
+         │                                                              └── (Gates halten die 47-k-Pulldowns auf 0 V, solange die MCU im Reset liegt)
          └── R_SENSE_TOP/BOT 200 k/68 k ──► VBAT_SENSE (U1 IO1, ADC 1:3,94 → 2,13 V bei 8,4 V)
 ```
 
@@ -41,7 +43,7 @@ IO18/IO19 I²C (J8) · IO20 Load-Switch VCC_EXT · IO22 Sauerstoffpumpe.
 
 **Versorgungskette (Stand 16.09.2026):** USB-C 5 V → **IP2326-Boost-Lader** → **VBAT (2S, 6,0–8,4 V)** →
 { **Buck U_BUCK5 → +5 V → beide Pumpen · Buck U_BUCK3 → +3,3 V → Logik** }.
-Es gibt **keinen** Aufwärtswandler und **keinen** LDO mehr.
+Es gibt **keinen zusätzlichen Aufwärtswandler für die Lastversorgung** (der IP2326 ist selbst ein Boost-Lader) und **keinen LDO** mehr. *(Formulierung präzisiert nach dem Review 16.09.2026.)*
 
 ### 1.1 Warum 2S + zwei Abwärtswandler (und nicht mehr 1S + Boost)
 
@@ -68,7 +70,7 @@ Es gibt **keinen** Aufwärtswandler und **keinen** LDO mehr.
 | **BST_CHG** | U_CHG Pin 14 (BST) ↔ **C_BST_CHG 100 nF** | Bootstrap für den High-Side-Treiber (Pin-Abstand einhalten!) |
 | **VSYS_CHG** | U_CHG Pin 19/20 (VSYS) ↔ **C_VSYS_A 22 µF** ↔ **C_VSYS_B 22 µF** | Zwischenknoten des Boost-Ausgangs, **nicht** extern mit VBAT verbunden (Datenblatt: „2× 22 µF direkt am Pin") |
 | **ISET_CHG** | U_CHG Pin 11 (ISET) ↔ **R_ISET 100 kΩ 1 %** → GND | Ladestrom: **ICHG = 90000 / 100000 = 0,90 A** (ISET darf laut Datenblatt **nicht** offen bleiben) |
-| **NTC_DIS** | U_CHG Pin 4 (NTC) ↔ **R_NTC 51 kΩ** → GND | NTC-Funktion stillgelegt: 20 µA × 51 kΩ = **1,02 V** = Normalbereich (0,56–1,32 V) |
+| **NTC_CHG** | U_CHG Pin 4 (NTC) ↔ **R_NTC_PAR 82 kΩ** → GND ↔ **J18 Pin 1** (NTC am Kabel) | **neu 16.09.2026:** echter Akku-Temperatursensor statt der 51-kΩ-Stilllegung. Der Pin speist **20 µA**; der NTC (100 kΩ, B3950) liegt parallel zu 82 kΩ ⇒ Schwellen **0 / 45 / 55 °C**. **Fail-safe:** Stecker ab ⇒ 1,64 V > 1,32 V ⇒ Lader deutet „zu kalt" und lädt nicht. Ohne den 82-kΩ-Widerstand läge der Pin bei 2,0 V und der Lader würde dauerhaft als „zu kalt" blockieren |
 | **UVSET_CHG** | U_CHG Pin 8 (VIN_UVSET) ↔ **R_UVSET 68 kΩ** → GND | Eingangs-Unterspannungsschwelle **4,35 V** (statt 4,65 V) → mehr Kopfraum für dünne USB-Kabel bei ~1,6–1,8 A |
 | **EN_CHG** | U_CHG Pin 12 (EN) ↔ **R_EN_CHG 100 kΩ** → VBUS | Laden ist **an, sobald USB steckt** — unabhängig von der Firmware (§6.1) |
 | **LED_CHG / STAT_CHG** | VBUS → R_LEDCHG 1 kΩ → **D_LEDCHG Anode** · **Kathode → U_CHG Pin 6 (LED)** | Ladeanzeige; der LED-Pin ist eine **Senke** (max. 5 mA) → ~2,7 mA |
@@ -79,16 +81,16 @@ Es gibt **keinen** Aufwärtswandler und **keinen** LDO mehr.
 
 | Netz | Verbindungen | Zweck |
 |---|---|---|
-| **VBAT** | U_CHG Pin 21/22 (VOUT) ↔ **C_CHG_OUT 10 µF** ↔ **J1 Pin 3 (2S-Pack +)** ↔ TP4 ↔ U_BUCK5 IN ↔ C_B5_IN 22 µF ↔ C_B5_IN_HF ↔ U_BUCK3 VIN ↔ U_BUCK3 EN ↔ C_B3_IN 22 µF ↔ C_B3_IN_HF ↔ R3a ↔ R_SENSE_TOP | Energiebus. **Kein Boost, kein LDO** hängt mehr daran; die Pumpen hängen an +5V |
-| **UV_REF** | **R3a 200 kΩ** (von VBAT) ↔ Knoten ↔ **R3b 200 kΩ** → GND · Knoten ↔ **U7 Pin 3 (VDD)** | Versorgung des Wächters = **VBAT/2**. Auslösung bei VDD = 3,08 V ⇒ **6,16 V Pack** (Offset durch Iq 150 nA ≈ +30 mV ⇒ ~6,19 V) |
-| **RESET_UV** | **U7 Pin 2 (RESET)** ↔ **U_BUCK5 Pin 4 (EN)** ↔ D3 Kathode ↔ D8 Kathode ↔ R_CLAMP1/R_CLAMP2 | aktiv-low; **schaltet die 5-V-Schiene wirklich ab** (Buck: EN low ⇒ Ausgang 0 V, kein Diodenpfad wie beim alten Boost) **und** klemmt beide Pumpengates |
+| **VBAT** | U_CHG Pin 21/22 (VOUT) ↔ **C_CHG_OUT 10 µF** ↔ **F1 Pin 2 (5 A)** ↔ *F1 Pin 1 → PACK_PLUS → J1 Pin 3 (2S-Pack +)* ↔ TP4 ↔ U_BUCK5 IN ↔ C_B5_IN 22 µF ↔ C_B5_IN_HF ↔ U_BUCK3 VIN ↔ U_BUCK3 EN ↔ C_B3_IN 22 µF ↔ C_B3_IN_HF ↔ R3a ↔ R_SENSE_TOP | Energiebus. **Kein zusätzlicher Boost-Wandler und kein LDO** hängen mehr daran (der IP2326 ist der Boost-Lader selbst); die Pumpen hängen an +5V |
+| **PACK_PLUS** | **J1 Pin 3 (Pack +)** ↔ **F1** | Akku-Pack-Plus **vor** der Sicherung. **F1** (5 A träge, 2410) liegt direkt danach und schützt Kabel, Crimpkontakte und Leiterbahnen — die Überstromschwelle des Schutz-IC (~17 A) ist dafür zu hoch (Review 16.09.2026) |
+| **UV_REF** | **R3a 51 kΩ** (von VBAT) ↔ Knoten ↔ **R3b 51 kΩ** → GND · Knoten ↔ **U7 Pin 3 (VDD)** | Versorgung des Wächters = **VBAT/2**. Auslösung bei VDD = 3,08 V ⇒ **6,16 V Pack**. **Fix 16.09.2026:** von 200 k/200 k auf 51 k/51 k verkleinert — bei 200 k verschob schon der Wächterstrom (150 nA typ., 500 nA max.) die Schwelle um bis zu ~0,2 V; jetzt +15…+50 mV. Teilerstrom 82 µA (2 mAh/Tag) |
+| **RESET_UV** | **U7 Pin 2 (RESET)** ↔ **U_BUCK5 Pin 4 (EN)** | aktiv-low; **schaltet die 5-V-Schiene wirklich ab** (Buck: EN low ⇒ Ausgang 0 V, kein Diodenpfad wie beim alten Boost) und damit die **Pumpenversorgung**. Die früheren Gate-Klemmzweige (D3/D8 + R_CLAMP1/2) sind **entfallen**: mit 10 kΩ gegen den 1-kΩ-GPIO-Zweig blieb das Gate rechnerisch bei ~2,97 V, der MOSFET also an (Review 16.09.2026). Zweite, wirksame Ebene: im Reset sind die GPIOs hochohmig, die 47-kΩ-Pulldowns halten beide Gates auf 0 V |
 | **GATE / GATE2** | IO2 → R1 1 kΩ → Q1 Gate ↔ R2 47 kΩ → GND · IO22 → R_GATE2 1 kΩ → Q3 Gate ↔ R_GATE2_PD 47 kΩ → GND | Pumpensteuerung (PWM-fähig) |
-| **KLAMP1 / KLAMP2** | **R_CLAMP1 10 kΩ** (vom Gate-Knoten) ↔ **D3 Anode → Kathode RESET_UV** · **R_CLAMP2 10 kΩ** ↔ **D8 Anode → Kathode RESET_UV** | **korrigiert 16.09.2026:** Serienkette Gate → 10 kΩ → Diode → RESET (vorher war R_CLAMPx **parallel** zur Diode und der Knoten lag nicht am Gate ⇒ Klemmung wirkungslos, §13.4) |
 | **BAT_MINUS** | **J1 Pin 1 (Akku −)** ↔ **Q_PROT1 Pin 1/2/3 (Source)** ↔ **U_PROT Pin 6 (VSS)** ↔ **C_PROT_VDD/C_PROT_VC Pin 2** ↔ **U_CHG Pin 24 (BAT_GND)** | **neu:** Pack-Minus. Liegt bewusst **nicht** auf Board-GND — dazwischen sitzt das Schutz-MOSFET-Paar. Bezugspunkt für Schutz-IC und Balancing |
-| **MID** | **J1 Pin 2 (Mittelabgriff)** ↔ **R_PROT_VC 330 Ω** ↔ **R_CB 100 Ω** | **neu:** Mittelabgriff der beiden Zellen. Speist die Zellüberwachung des HY2120 (über VC) **und** den Balancing-Ausgang des IP2326 (Pin 23 über R_CB) |
+| **MID** | **J1 Pin 2 (Mittelabgriff)** ↔ **R_PROT_VC 330 Ω** ↔ **R_CB 100 Ω (1206, 0,25 W)** | **neu:** Mittelabgriff der beiden Zellen. Speist die Zellüberwachung des HY2120 (über VC) **und** den Balancing-Ausgang des IP2326 (Pin 23 über R_CB) |
 | **PROT_VDD / PROT_VC** | R_PROT_VDD 330 Ω → U_PROT Pin 5 (VDD) + C_PROT_VDD 100 nF → BAT_MINUS · R_PROT_VC 330 Ω → U_PROT Pin 4 (VC) + C_PROT_VC 100 nF → BAT_MINUS | gefilterte Messpunkte des Schutz-IC (Datenblatt-Typwerte) |
 | **PROT_GATE_D / PROT_GATE_C** | U_PROT Pin 1 (OD) → Q_PROT1 Pin 4 (Gate) · U_PROT Pin 2 (OC) → Q_PROT2 Pin 4 (Gate) | Schaltersteuerung: **OD = Entladen**, **OC = Laden** (Datenblatt-Pinbezeichnung) |
-| **PROT_COMMON** | Q_PROT1 **mb (Drain)** ↔ Q_PROT2 **mb (Drain)** | gemeinsamer Drain in der Mitte der Minusleitung (Gegenrichtung der Body-Dioden ⇒ beidseitig sperrfähig) |
+| **PROT_COMMON** | Q_PROT1 **Pin 5 (D)** ↔ Q_PROT2 **Pin 5 (D)** | gemeinsamer Drain in der Mitte der Minusleitung (Gegenrichtung der Body-Dioden ⇒ beidseitig sperrfähig) |
 | **PROT_CS** | U_PROT Pin 3 (CS) ↔ **R_PROT_CS 2 kΩ** → GND | Strommessung über den Durchlasswiderstand des Paares + Ladeerkennung (Datenblatt R3) |
 | **VBAT_SENSE** | **R_SENSE_TOP 200 kΩ** (von VBAT) ↔ Knoten ↔ **R_SENSE_BOT 68 kΩ** → GND · Knoten ↔ U1 **Pin 13 (IO1, ADC1_CH1)** ↔ C10 100 nF → GND | **neu 1 : 3,94** (vorher 1:2): 8,4 V → **2,13 V**, 6,16 V → **1,56 V** am ADC. Teilerstrom 31,5 µA. Verhältnis bewusst nicht exakt 1:4, damit beide Widerstände Basic-Positionen bleiben (§3.3) |
 
@@ -107,8 +109,8 @@ Es gibt **keinen** Aufwärtswandler und **keinen** LDO mehr.
 | Netz | Verbindungen | Zweck |
 |---|---|---|
 | **LX_3V3 / BST_3V3** | U_BUCK3 Pin 5 (SW) ↔ **L_BUCK3 4,7 µH** ↔ C_B3_BST · Pin 6 (BST) ↔ C_B3_BST 100 nF | Schaltknoten + Bootstrap |
-| **FB_3V3** | U_BUCK3 Pin 1 (FB) ↔ **R_FB3_TOP 100 kΩ** (von +3V3) ↔ **R_FB3_BOT 31,6 kΩ** → GND | V_out = 0,8 V × (1 + 100/31,6) = **3,33 V** |
-| **+3V3** | **L_BUCK3 Pin 2** ↔ C_B3_OUT 22 µF ↔ C_B3_OUT_HF 100 nF ↔ **U1 Pin 3** ↔ C1a/C1b/C2/C13 ↔ R_EN, R_BOOT, R_GPIO8, R_BTN ↔ **Q2 Source** ↔ TP5 | Logikversorgung. **Kein LDO mehr** — die Rail entsteht direkt als Buck-Ausgang |
+| **+3V3 (FB)** | U_BUCK3 Pin 1 (FB) **direkt auf +3V3** | Der AP63203 ist die **Festspannungsversion** (VFB = 3,27/3,30/3,33 V laut Datenblatt). Fig. 21 der Herstellerunterlage führt FB direkt auf den Ausgang; der frühere 47k/15k-Teiler hätte den Regler auf **~13,6 V** hochlaufen lassen (Review 16.09.2026). R_FB3_TOP und R_FB3_BOT **entfallen** |
+| **+3V3** | **L_BUCK3 Pin 2** ↔ C_B3_OUT 22 µF ↔ C_B3_OUT_HF 100 nF ↔ **U1 Pin 3** ↔ C1a/C1b/C2/C13 ↔ R_EN, R_BOOT, R_GPIO8, R_BTN ↔ **Q2 Source** ↔ **Q_SENS Source** ↔ TP5 | Logikversorgung. **Kein LDO mehr** — die Rail entsteht direkt als Buck-Ausgang |
 
 ### 2.5 Unveränderte Netze
 
@@ -159,11 +161,11 @@ eingebautem BMS sitzt der Schutz jetzt auf unserer Platine (Wunsch des Nutzers: 
 | **U6** | USBLC6-2SC6 | ESD, SOT-23-6 | `C7519` | USB-Datenleitungen (unverändert) |
 | **Q1** | AO3400A | N-MOSFET SOT-23 | `C20917` | Dosierpumpe (Low-Side, IO2) — unverändert |
 | **Q_PUMP2** | AO3400A | N-MOSFET SOT-23 | `C20917` | Sauerstoffpumpe (Low-Side, IO22) — unverändert |
-| **Q2** | AO3401A | P-MOSFET SOT-23 | `C15127` | Load-Switch VCC_EXT (unverändert) |
+| **Q2** | AO3401A | P-MOSFET SOT-23 | `C15127` | Load-Switch VCC_EXT |
+| **Q_SENS** | AO3401A | P-MOSFET SOT-23 | `C15127` | **neu 16.09.2026:** Lastschalter der Sensorversorgung (Feuchte J2 + Licht J7). Vorher speiste GPIO3 die Sensoren direkt — für frei anschließbare Module zu wenig belastbar (Review). Source an +3V3, Drain an SENSOR_PWR, Gate an IO3 mit Pull-up ⇒ ohne Freigabe sicher aus |
+| **R_SENS_GATE** | **47 kΩ** | Gate-Pull-up des Sensor-Lastschalters | C17713 (Basic) — hält den Schalter im Reset und bei hochohmigem GPIO aus |
 | **D1** | 1N5819WS | 40 V / 1 A, SOD-323 | `C191023` | Freilauf Dosierpumpe an **+5V** |
 | **D_FLY2** | 1N5819WS | 40 V / 1 A, SOD-323 | `C191023` | Freilauf Sauerstoffpumpe an **+5V** |
-| **D3** | 1N5819WS | SOD-323 | `C191023` | Klemmzweig Dosierpumpe (**Kathode an RESET_UV**) |
-| **D8** | 1N5819WS | SOD-323 | `C191023` | Klemmzweig Sauerstoffpumpe |
 | **D2** | LED grün 525 nm | 0805 | `C2297` | Status-LED (IO14) |
 | **D5** | LED rot | 0805 | `C84256` | Tank-leer (IO7) |
 | **D_LEDCHG** | LED rot | 0805 | `C84256` | Ladestatus — **jetzt am LED-Pin des IP2326** (der Pin ist eine Senke; leuchtet beim Laden, aus bei Voll, **blinkt bei Fehler**) |
@@ -224,22 +226,21 @@ eingebautem BMS sitzt der Schutz jetzt auf unserer Platine (Wunsch des Nutzers: 
 | **R_PROT_VDD** | **330 Ω** | VDD-Vorwiderstand des Schutz-IC | HY2120-Datenblatt: 100 Ω…470 Ω, Typ 330 Ω |
 | **R_PROT_VC** | **330 Ω** | VC-Vorwiderstand zum Mittelabgriff | dito |
 | **R_PROT_CS** | **2 kΩ** | CS-Widerstand nach GND (Strommessung, Ladeerkennung) | HY2120-Datenblatt R3: 1 kΩ…4 kΩ, Typ 2 kΩ |
-| **R_CB** | **100 Ω** | Balancing-Widerstand des IP2326 (Pin 23 → Mittelabgriff) | IP2326-Applikation: BATM → R_CB → Pin 23 |
+| **R_CB** | **100 Ω, 1206 / 0,25 W** | Balancing-Widerstand des IP2326 (Pin 23 → Mittelabgriff) | IP2326-Applikation: BATM → R_CB (dort ebenfalls 100 Ω, 1206) → Pin 23. **Bauform 16.09.2026 von 0805 auf 1206 geändert:** im Fehlerfall (Zelle bei 4,2 V gegen den Mittelabgriff) fallen **176 mW** über dem Widerstand ab, ein 0805 mit 125 mW wäre überlastet. Datenblatt begrenzt den Balancing-Strom auf < 40 mA (I_CB = V_CB/R_CB) |
 | **R_ISET** | **100 kΩ 1 %** | Ladestrom des IP2326 | Datenblatt: ICHG = 90000/R_ISET ⇒ **0,90 A**; 1 %-Genauigkeit gefordert. ISET darf **nicht** offen bleiben |
-| **R_NTC** | **51 kΩ** | NTC-Funktion stilllegen | Datenblatt: „nicht benötigt ⇒ 51 kΩ nach GND" (20 µA × 51 k = 1,02 V = Normalbereich) |
+| **R_NTC_PAR** | **82 kΩ, 0805, 1 %** | Parallelwiderstand zum Akku-NTC | `C17840` (expand, aber **Preferred** ⇒ kein Feeder-Aufschlag bei Economic-PCBA). Datenblatt-Beispiel: 100 kΩ (B 4100) ∥ 82 kΩ ⇒ 0 / 45 / 55 °C. **Der Wert ist nicht beliebig:** 75 kΩ (vorhandener Basic-Wert) würde die Kalt-Schwelle auf **−9,2 °C** schieben und Laden unter 0 °C erlauben |
+| **F1** | **5 A, träge, 2410** | Sicherung in der Pack-Plus-Leitung | `C66503` (Littelfuse 0452005.MRL, 125 V AC/DC, I²t 53,7 A²s; **extended**, +3 USD). Dauerlast 2,8–3,6 A = 56–72 % Nennstrom; Kurzschluss (~56 A) ⇒ Auslösung nach ~17 ms. **Neu 16.09.2026:** die elektronische Schwelle des HY2120 (~17 A) schützt den Schaltkreis, aber nicht Akkukabel, Crimpkontakte und Leiterbahnen |
+| **J18** | JST-XH 2,5 mm, 2-pol, aufrecht | `C158012` | **neu:** Akku-Temperatursensor — 1 = NTC-Signal, 2 = GND. Gleicher Steckertyp wie J4/J16/J17 (eine Crimpzange, eine BOM-Zeile mit Menge 4). **Der NTC selbst wird nicht bestückt:** er wird am Kabel verlötet und thermisch an die Zellen geklebt (lose bei LCSC bestellen) |
 | **R_UVSET** | **68 kΩ** | Eingangs-Unterspannungsschwelle | Datenblatt-Tabelle: 68 k ⇒ **4,35 V** (Standard 4,65 V). Ziel: die Eingangsregelschleife soll bei einem dünnen Kabel erst spät den Ladestrom senken |
 | **R_EN_CHG** | **100 kΩ** | Pull-up des Lader-EN nach VBUS | Datenblatt: EN ≥ 1,4 V = an. Damit lädt das Gerät **ohne** Firmware (kein GPIO nötig) |
 | **R_VIN_CHG** | **0,5 Ω** | Filter zum VIN-Pin | Datenblatt-Applikationsbild (R1). **Kein** Shunt — der Ladestrom wird im IC gemessen (0,5 Ω bei 1,8 A wären 1,6 W in 0805) |
 | **R_LEDCHG** | 1 kΩ | Vorwiderstand der Lade-LED | ~2,7 mA an 5 V, LED-Pin kann max. 5 mA. Gleicher Basic-Typ wie R_TANK |
-| **R3a** | **200 kΩ** | Wächter-Teiler (oberer Zweig, von VBAT) | C17539 (Basic) — bewusst **getrennte Zeilen** für R3a/R3b, damit eine Wertänderung an genau einem der beiden den Teiler verschiebt (Mutationstest der Verhältnis-Prüfung) |
-| **R3b** | **200 kΩ** | Wächter-Teiler (unterer Zweig, nach GND) | Schwelle 3,08 V ⇒ Auslösung bei **6,16 V** Pack (= 3,08 V/Zelle). Teilerstrom 21 µA. Offset durch Iq 150 nA: +30 mV |
+| **R3a** | **51 kΩ** | Wächter-Teiler (oberer Zweig, von VBAT) | C17737 (Basic) — bewusst **getrennte Zeilen** für R3a/R3b, damit eine Wertänderung an genau einem der beiden den Teiler verschiebt (Mutationstest der Verhältnis-Prüfung). **16.09.2026 von 200 k auf 51 k verkleinert** (siehe §13.5) |
+| **R3b** | **51 kΩ** | Wächter-Teiler (unterer Zweig, nach GND) | Schwelle 3,08 V ⇒ Auslösung bei **6,16 V** Pack (= 3,08 V/Zelle). Teilerstrom 82 µA (2 mAh/Tag). Offset durch Iq (150 nA typ./500 nA max.): **+15…+50 mV** |
 | **R_SENSE_TOP** | **200 kΩ** | Packspannungsmessung (oberer Zweig) | **neu:** 8,4 V → **2,13 V**, 6,16 V → 1,56 V — passt in den 12-dB-Bereich (0–3300 mV) mit Reserve. Teilerstrom 31,5 µA. **Verhältnis 1 : 3,94** statt exakt 1:4, dafür bleiben **beide Widerstände Basic-Positionen** |
 | **R_SENSE_BOT** | **68 kΩ** | Packspannungsmessung (unterer Zweig) | gleicher Basic-Typ wie R_UVSET |
 | **R_FB5_TOP** | **75 kΩ** | Feedback 5-V-Buck (oben) | V_out = 0,6 V × (1 + 75/10) = **5,10 V** — derselbe Basic-Wert wie beim alten Boost (C17819) |
 | **R_FB5_BOT** | **10 kΩ** | Feedback 5-V-Buck (unten) | C17414 (Basic) |
-| **R_FB3_TOP** | **47 kΩ** | Feedback 3,3-V-Buck (oben) | C17713 (Basic) |
-| **R_FB3_BOT** | **15 kΩ** | Feedback 3,3-V-Buck (unten) | V_out = 0,8 V × (1 + 47/15) = **3,31 V** (0,3 % unter 3,3 V — weit innerhalb 3,0–3,6 V des Moduls) |
-| **R_CLAMP1, R_CLAMP2** | 2 × **10 kΩ** | Serienwiderstand **im** Klemmzweig | begrenzt den Sinkstrom in U7 auf **0,29 mA** (Ausgang darf 2 mA). **Korrigiert:** liegt in Reihe mit D3/D8, vorher parallel (§13.4) |
 | **R1, R_GATE2** | 2 × 1 kΩ | Gate-Serie beider Pumpen | schnelle PWM-Flanken; identisch für beide Kanäle |
 | **R2, R_GATE2_PD** | 2 × 47 kΩ | Gate-Pulldown | hält die Pumpen bei totem MCU aus; Ansteuerpegel 3,3 V × 47/48 = 3,23 V |
 | R4 | 220 Ω | Status-LED grün (Vf 2,85 V) | 3,3 V − 2,85 V = 0,45 V ⇒ 1,4–2,7 mA |
@@ -263,7 +264,7 @@ eingebautem BMS sitzt der Schutz jetzt auf unserer Platine (Wunsch des Nutzers: 
 | J2 | JST-XH 2,5 mm, 3-pol, aufrecht | `C5258884` | Feuchtesensor: 1 = GND · 2 = SENSOR_PWR · 3 = SENSOR_RAW |
 | J4 | JST-XH 2,5 mm, 2-pol, aufrecht | `C158012` | Dosierpumpe: 1 = **+5V** · 2 = PUMP_N |
 | J16 | JST-XH 2,5 mm, 2-pol, aufrecht | `C158012` | Sauerstoffpumpe: 1 = **+5V** · 2 = PUMP2_N |
-| **J17** | JST-XH 2,5 mm, 2-pol, aufrecht | `C158012` | **neu: 5-V-Ausgang für Sensorik** — 1 = **+5V** · 2 = GND. Gleicher Steckertyp wie J4/J16 (eine Crimpzange, eine BOM-Zeile mit Menge 3) |
+| **J17** | JST-XH 2,5 mm, 2-pol, aufrecht | `C158012` | **neu: 5-V-Ausgang für Sensorik** — 1 = **+5V** · 2 = GND. Gleicher Steckertyp wie J4/J16/J18 (eine Crimpzange, eine BOM-Zeile mit Menge 4) |
 | J5 | USB-C 16-pol | `C165948` | Laden **und** Programmieren (USB-Serial-JTAG auf IO12/13) |
 | J6 | 2 Lötpads Ø 1,0 mm, Raster 2,54 mm | — | externer Taster (keine Bestückung) |
 | J7, J9–J13, J15 | Stiftleiste 1×3, 2,54 mm | `C2937625` | GND–VCC_EXT–SIG (VCC in der Mitte) |
@@ -397,8 +398,10 @@ Platine → Einbauort in `docs/02`/`cad/params.py` nachziehen.
 ### 6.4 Was der Wächter jetzt wirklich abschaltet
 
 Unter 6,16 V Pack: RESET_UV low ⇒ (a) **U_BUCK5 Pin 4 (EN)** sperrt — der Buck-Ausgang ist dann
-**wirklich 0 V** (kein Diodenpfad wie beim alten Boost über L1/D6) und (b) D3/D8 klemmen beide
-Pumpengates über je 10 kΩ auf ~0,3 V. Die **3,3-V-Schiene bleibt an**, damit der MCU melden und
+**wirklich 0 V** (kein Diodenpfad wie beim alten Boost über L1/D6) und (b) die **Pumpenversorgung**
+ist damit abgeschaltet. Die Gate-Klemmzweige über Dioden gibt es nicht mehr (sie waren wirkungslos,
+§13.5): solange die MCU im Reset liegt, sind ihre GPIOs hochohmig und die 47-kΩ-Pulldowns halten
+beide Gates auf 0 V. Ein hängender MCU kann die Pumpe nicht weiterlaufen lassen, weil die 5-V-Schiene aus ist. Die **3,3-V-Schiene bleibt an**, damit der MCU melden und
 loggen kann (bewusste Entscheidung, wie in §12.3 dokumentiert). Der Pack entlädt sich im
 Wächterzustand weiter mit ~182 µA (beide Buck-Iq + Teiler) — das PCM der Zellen ist die letzte Ebene.
 
@@ -964,3 +967,54 @@ Extended-Aufpreis.
 
 **Noch offen:** die Prüfungen der Design-Suite für die Schutzbeschaltung (Serienkette, Schwellen,
 Überstrom-Reserve) und der EasyEDA-Neuaufbau (§13.5).
+
+### 13.5 Nachbesserungen aus dem externen Review (16.09.2026, lokal, ohne EasyEDA)
+
+Ein externes Sprachmodell hat die maschinell erzeugte Schaltungsbeschreibung
+(`hardware/schaltplan_v1_komplett.md`) und die Netzliste geprüft. Sechs Punkte waren stichhaltig und
+sind hier korrigiert; zwei davon waren echte Fehler:
+
+| Nr. | Befund | Bewertung | Korrektur |
+|---|---|---|---|
+| 1 | **AP63203 ist die Festspannungsversion** (VFB = 3,30 V), wurde aber mit 47k/15k-Teiler betrieben | **Fehler bestätigt** (Datenblatt: „AP63203 and AP63205 have fixed output voltages of 3.3V and 5V"; Fig. 21 führt FB direkt auf den Ausgang). Der Regler hätte auf ~13,6 V hochgeregelt und die 3,3-V-Elektronik gefährdet | FB (Pin 1) liegt **direkt auf +3V3**; R_FB3_TOP und R_FB3_BOT entfallen |
+| 2 | Gate-Klemmzweig (10 kΩ) kann gegen den 1-kΩ-GPIO-Zweig nicht abschalten | **Fehler bestätigt** (Rechnung: Gate bleibt bei ~2,97 V) | D3, D8, R_CLAMP1, R_CLAMP2 **entfallen**. Wirksame Ebenen bleiben: 5-V-Abschaltung durch U7 und 47-kΩ-Pulldowns bei hochohmiger MCU |
+| 3 | Prüfprotokoll enthielt einen Fehler (`mb (Drain)` fehlt) | **bestätigt, Fehler im eigenen Werkzeug:** `checks.py` suchte den alten Pin-Namen, dadurch lief die Suite nach dieser Prüfung nicht weiter | Pin-Name auf den **gemessenen Symbol-Pin `5 D`** gezogen (EasyEDA-Messung: PSMN4R2 = 1–3 = S, 4 = G, 5 = D); Suite läuft wieder vollständig |
+| 4 | 17 A Überstromschwelle schützt Kabel/Stecker nicht | berechtigt | offen: Sicherung/PPTC nahe am Pack + Dokumentation der Pack-eigenen Schutzeinrichtung |
+| 5 | Massepins des IP2326 (BAT_GND/PGND/EP) bei externem Low-Side-Schutz | berechtigt, sicherheitsrelevant | offen: Klärung am Datenblatt (interner Messpfad zwischen den Massepins?) — Recherche läuft, Ergebnis in `research/ip2326-schutz-massen.md` |
+| 6 | Kein Akku-NTC (R_NTC 51 kΩ legt die Temperaturüberwachung still) | berechtigt | offen: NTC + Stecker auf der Platine, Beschaltung nach Datenblatt |
+| 7 | USB-Stromaufnahme (Rd allein erlaubt keinen Rückschluss auf 1,5/3 A) | berechtigt | Dokumentation/Ladestrombegrenzung; DM/DP des Laders bleiben **unbestückt**, weil diese Leitungen im Projekt die **MCU-USB-Daten** führen (U1 IO12/IO13) — eine DCP-Erkennung würde die Programmierschnittstelle belegen |
+| 8 | UV-Teiler hochohmig (200 k/200 k) | berechtigt | **51 k/51 k** (Offset durch den Wächterstrom von bis zu ~0,2 V auf +15…+50 mV reduziert) |
+| 9 | Sensorversorgung direkt aus GPIO3 | berechtigt | **Q_SENS** (AO3401A) + R_SENS_GATE als Lastschalter |
+| 10 | div. Einzelpunkte (R_CB-Verlustleistung, MLCC-DC-Bias, I²C-Pegel, Bootstrap/Strapping, 5-V-Sensor am 3,3-V-ADC) | teilweise berechtigt | siehe Maßnahmenliste in `docs/12_review-nachbesserungen.md` |
+
+### 13.6 Datenblattklärung zum Akku-Schutz (16.09.2026)
+
+**Frage aus dem Review:** Sind die Massepins des IP2326 (Pin 24 „VBAT_GND", Pin 18 PGND, EPAD)
+intern niederohmig verbunden? Falls ja, würde dieser interne Pfad die externen Schutz-MOSFETs in der
+Minusleitung überbrücken und der Schutz wäre wirkungslos.
+
+**Antwort (aus dem Herstellerdatenblatt, Fassungen V1.11 und V1.6, Pin-Tabelle S. 2 und die
+Applikationsschaltung S. 14 — vollständig in `research/ip2326-schutz-massen.md`): NEIN.**
+
+| Teilfrage | Antwort | Beleg |
+|---|---|---|
+| Interner niederohmiger Pfad Pin 24 ↔ Pin 18/EPAD? | **Nein.** Pin 24 ist ein **Detektions-Pin** der Balancing-Funktion („电池地检测 PIN") und soll bei Nichtnutzung **offen bleiben**. Der einzige dokumentierte interne Pfad ist der Balancing-MOS, extern über **R_CB ≥ 100 Ω** auf **< 40 mA** begrenzt — gegen einen 17-A-Schutzpfad liegen dazwischen fünf Größenordnungen | Datenblatt V1.11 S. 2, 3, 6, 10 |
+| Zulässige Differenzspannung der Massepins / Verhalten bei unterbrochener Minusverbindung | **im Datenblatt nicht gefunden** — die Massepins fehlen in den Absolutmaxima, es gibt keine Open-GND-Erkennung und **keine Referenzschaltung mit externem Low-Side-Schutz** | Datenblatt V1.11 S. 3, 9, 10 |
+| Referenzdesign | Dort ist **BAT− = GND = PGND ein und derselbe Knoten** (Massesymbol am Pack-Minus). Unsere Trennung von Pack-Minus und Board-Masse ist also eine **Abweichung von der Herstellerapplikation** | Datenblatt V1.11 S. 14 (Netzrekonstruktion aus den PDF-Vektordaten) |
+| Ladestrommessung | Wird **IC-intern und batterieseitig** gemessen (Genauigkeit ±10 %), kein externer Shunt. Ein Widerstand in der Minusleitung verfälscht die Regelung daher **nicht**, er verschiebt nur den Massebezug (Schutz-FET-Abfall ≈ 10 mV bei 1,2 A) | Datenblatt V1.11 S. 10, 15 |
+| DM/DP | **Keine BC1.2-/DCP-Erkennung.** DP/DM dienen nur einer Spannungsanforderung (5,4 / 6 / 7 V), ohne sie bleibt es bei 5 V. Eine einstellbare **Eingangsstrom**begrenzung existiert nicht; belegt ist nur „max. 15 W Eingang" und die VIN-Unterspannungs-Regelschleife über `R_UVSET` | Datenblatt V1.11 S. 9, 10, 11 |
+| NTC-Beschaltung | 100 kΩ **B 4100** ∥ **82 kΩ**, Speisung 20 µA, Schwellen 1,32 V / 0,56 V / 0,43 V ≈ 0 / 45 / 55 °C. Die bisherige **51-kΩ-Stilllegung war datenblattkonform**, aber für ein unbeaufsichtigtes Gerät ungeeignet | Datenblatt V1.11 S. 12, 13, 15 |
+
+**Konsequenz für den Aufbau:** Die Topologie bleibt, weil der Hersteller keine niederohmige
+Verbindung dokumentiert. Zwei Punkte sind aber Pflicht:
+
+1. **Messung am unbestromten IC**, bevor der Schutz in Betrieb geht: Widerstand **Pin 24 ↔ Pin 18**
+   muss hochohmig sein (Kriterium und Messaufbau in `research/ip2326-schutz-massen.md`). Ein
+   Durchgang würde die Schutzfunktion aushebeln.
+2. **BAT_MINUS nie mit Board-GND verbinden** (kein Messgerät, kein Adapter, keine Prüfspitze über
+   beide Punkte) — jede solche Verbindung überbrückt das Schutz-MOSFET-Paar.
+
+**Ebenfalls in dieser Runde umgesetzt:** Sicherung **F1** (5 A träge, 2410) in der Pack-Plus-Leitung,
+echter **Akku-NTC** an **J18** mit 82-kΩ-Parallelwiderstand, **R_CB** von 0805 auf **1206 / 0,25 W**
+(176 mW im Fehlerfall), Sensorversorgung über **Q_SENS** statt direkt aus GPIO3, UV-Teiler auf
+**51 k/51 k**, sowie der Wegfall der wirkungslosen Gate-Klemmung und des 3,3-V-Feedbackteilers (§13.5).
