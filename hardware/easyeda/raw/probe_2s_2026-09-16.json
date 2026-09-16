@@ -1,0 +1,542 @@
+{
+ "result": {
+  "components": [
+   {
+    "designator": "X1",
+    "device": {
+     "libraryUuid": "999da512c3de428995c5ecb7dea134be",
+     "uuid": "999da512c3de428995c5ecb7dea134be",
+     "name": "PRS6045-4R7MT"
+    },
+    "pins": [
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     },
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     }
+    ]
+   },
+   {
+    "designator": "X2",
+    "device": {
+     "libraryUuid": "e627d2593705469b8aa9fe4e1dccd218",
+     "uuid": "e627d2593705469b8aa9fe4e1dccd218",
+     "name": "HY2120-CB"
+    },
+    "pins": [
+     {
+      "pinNumber": "1",
+      "pinName": "OD"
+     },
+     {
+      "pinNumber": "2",
+      "pinName": "OC"
+     },
+     {
+      "pinNumber": "3",
+      "pinName": "CS"
+     },
+     {
+      "pinNumber": "4",
+      "pinName": "VC"
+     },
+     {
+      "pinNumber": "5",
+      "pinName": "VDD"
+     },
+     {
+      "pinNumber": "6",
+      "pinName": "VSS"
+     }
+    ]
+   },
+   {
+    "designator": "X3",
+    "device": {
+     "libraryUuid": "7db05f193aa04dd4b44edc2956a653fa",
+     "uuid": "7db05f193aa04dd4b44edc2956a653fa",
+     "name": "MHCI04020-2R2M-R8"
+    },
+    "pins": [
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     },
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     }
+    ]
+   },
+   {
+    "designator": "X4",
+    "device": {
+     "libraryUuid": "f58385f66b144586baef3753ba84f65d",
+     "uuid": "f58385f66b144586baef3753ba84f65d",
+     "name": "AO3401A"
+    },
+    "pins": [
+     {
+      "pinNumber": "3",
+      "pinName": "D"
+     },
+     {
+      "pinNumber": "1",
+      "pinName": "G"
+     },
+     {
+      "pinNumber": "2",
+      "pinName": "S"
+     }
+    ]
+   },
+   {
+    "designator": "X5",
+    "device": {
+     "libraryUuid": "afd77d34f2a246849525f9f885e83a2d",
+     "uuid": "afd77d34f2a246849525f9f885e83a2d",
+     "name": "0805W8F1000T5E"
+    },
+    "pins": [
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     },
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     }
+    ]
+   },
+   {
+    "designator": "X6",
+    "device": {
+     "libraryUuid": "f2eb4f1842fd4e72b87b6d14987cbe7e",
+     "uuid": "f2eb4f1842fd4e72b87b6d14987cbe7e",
+     "name": "0805W8F1502T5E"
+    },
+    "pins": [
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     },
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     }
+    ]
+   },
+   {
+    "designator": "X7",
+    "device": {
+     "libraryUuid": "15b9a8201054436f85d87765d20bd327",
+     "uuid": "15b9a8201054436f85d87765d20bd327",
+     "name": "0805W8F2001T5E"
+    },
+    "pins": [
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     },
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     }
+    ]
+   },
+   {
+    "designator": "X8",
+    "device": {
+     "libraryUuid": "cc8e2fef08d046fd91f03a0e9f004399",
+     "uuid": "cc8e2fef08d046fd91f03a0e9f004399",
+     "name": "0805W8F3300T5E"
+    },
+    "pins": [
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     },
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     }
+    ]
+   },
+   {
+    "designator": "X9",
+    "device": {
+     "libraryUuid": "16f8cd5e045948df9472a9b12f125ca3",
+     "uuid": "16f8cd5e045948df9472a9b12f125ca3",
+     "name": "0805W8F5102T5E"
+    },
+    "pins": [
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     },
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     }
+    ]
+   },
+   {
+    "designator": "X10",
+    "device": {
+     "libraryUuid": "600fa66974404db08806854e7b4a38bc",
+     "uuid": "600fa66974404db08806854e7b4a38bc",
+     "name": "0805W8F6802T5E"
+    },
+    "pins": [
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     },
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     }
+    ]
+   },
+   {
+    "designator": "X11",
+    "device": {
+     "libraryUuid": "72ea8cee53ab4b96a48bf929040eac95",
+     "uuid": "72ea8cee53ab4b96a48bf929040eac95",
+     "name": "PSMN4R2-30MLDX"
+    },
+    "pins": [
+     {
+      "pinNumber": "5",
+      "pinName": "D"
+     },
+     {
+      "pinNumber": "4",
+      "pinName": "G"
+     },
+     {
+      "pinNumber": "3",
+      "pinName": "S"
+     },
+     {
+      "pinNumber": "2",
+      "pinName": "S"
+     },
+     {
+      "pinNumber": "1",
+      "pinName": "S"
+     }
+    ]
+   },
+   {
+    "designator": "X12",
+    "device": {
+     "libraryUuid": "f70eda5267b34d9799800488a27be0c6",
+     "uuid": "f70eda5267b34d9799800488a27be0c6",
+     "name": "PZ254V-11-04P"
+    },
+    "pins": [
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     },
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     },
+     {
+      "pinNumber": "3",
+      "pinName": "3"
+     },
+     {
+      "pinNumber": "4",
+      "pinName": "4"
+     }
+    ]
+   },
+   {
+    "designator": "X13",
+    "device": {
+     "libraryUuid": "d23027ed376f49fc93c43406c37c98fe",
+     "uuid": "d23027ed376f49fc93c43406c37c98fe",
+     "name": "0805W8F500LT5E"
+    },
+    "pins": [
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     },
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     }
+    ]
+   },
+   {
+    "designator": "X14",
+    "device": {
+     "libraryUuid": "c4518c8223b64b9dbaf64e3d55a9b3e1",
+     "uuid": "c4518c8223b64b9dbaf64e3d55a9b3e1",
+     "name": "IP2326"
+    },
+    "pins": [
+     {
+      "pinNumber": "1",
+      "pinName": "DM"
+     },
+     {
+      "pinNumber": "2",
+      "pinName": "DP"
+     },
+     {
+      "pinNumber": "3",
+      "pinName": "VSET"
+     },
+     {
+      "pinNumber": "4",
+      "pinName": "NTC"
+     },
+     {
+      "pinNumber": "5",
+      "pinName": "BAT_STAT"
+     },
+     {
+      "pinNumber": "6",
+      "pinName": "LED"
+     },
+     {
+      "pinNumber": "7",
+      "pinName": "TIME_SET"
+     },
+     {
+      "pinNumber": "8",
+      "pinName": "VIN_UVSET"
+     },
+     {
+      "pinNumber": "9",
+      "pinName": "VIN_OVSET"
+     },
+     {
+      "pinNumber": "10",
+      "pinName": "CON_SEL"
+     },
+     {
+      "pinNumber": "11",
+      "pinName": "ISET"
+     },
+     {
+      "pinNumber": "12",
+      "pinName": "EN"
+     },
+     {
+      "pinNumber": "13",
+      "pinName": "VIN"
+     },
+     {
+      "pinNumber": "14",
+      "pinName": "BST"
+     },
+     {
+      "pinNumber": "15",
+      "pinName": "LX"
+     },
+     {
+      "pinNumber": "16",
+      "pinName": "LX"
+     },
+     {
+      "pinNumber": "17",
+      "pinName": "LX"
+     },
+     {
+      "pinNumber": "18",
+      "pinName": "PGND"
+     },
+     {
+      "pinNumber": "19",
+      "pinName": "VSYS"
+     },
+     {
+      "pinNumber": "20",
+      "pinName": "VSYS"
+     },
+     {
+      "pinNumber": "21",
+      "pinName": "VOUT"
+     },
+     {
+      "pinNumber": "22",
+      "pinName": "VOUT"
+     },
+     {
+      "pinNumber": "23",
+      "pinName": "VBATM"
+     },
+     {
+      "pinNumber": "24",
+      "pinName": "VBAT_GND"
+     },
+     {
+      "pinNumber": "25",
+      "pinName": "EP"
+     }
+    ]
+   },
+   {
+    "designator": "X15",
+    "device": {
+     "libraryUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
+     "uuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
+     "name": "PZ254V-11-03P"
+    },
+    "pins": [
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     },
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     },
+     {
+      "pinNumber": "3",
+      "pinName": "3"
+     }
+    ]
+   },
+   {
+    "designator": "X16",
+    "device": {
+     "libraryUuid": "e24296b9a9a54804892f31e4355436d9",
+     "uuid": "e24296b9a9a54804892f31e4355436d9",
+     "name": "TPS3839G33DBZR"
+    },
+    "pins": [
+     {
+      "pinNumber": "1",
+      "pinName": "GND"
+     },
+     {
+      "pinNumber": "2",
+      "pinName": "RESET#"
+     },
+     {
+      "pinNumber": "3",
+      "pinName": "VDD"
+     }
+    ]
+   },
+   {
+    "designator": "X17",
+    "device": {
+     "libraryUuid": "6a10ae8bb76743fa83467ccf43066224",
+     "uuid": "6a10ae8bb76743fa83467ccf43066224",
+     "name": "XH-3PA"
+    },
+    "pins": [
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     },
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     },
+     {
+      "pinNumber": "3",
+      "pinName": "3"
+     }
+    ]
+   },
+   {
+    "designator": "X18",
+    "device": {
+     "libraryUuid": "7a70948fba984342a66462848ff0f10c",
+     "uuid": "7a70948fba984342a66462848ff0f10c",
+     "name": "AP63203WU-7"
+    },
+    "pins": [
+     {
+      "pinNumber": "1",
+      "pinName": "FB"
+     },
+     {
+      "pinNumber": "2",
+      "pinName": "EN"
+     },
+     {
+      "pinNumber": "3",
+      "pinName": "VIN"
+     },
+     {
+      "pinNumber": "4",
+      "pinName": "GND"
+     },
+     {
+      "pinNumber": "5",
+      "pinName": "SW"
+     },
+     {
+      "pinNumber": "6",
+      "pinName": "BST"
+     }
+    ]
+   },
+   {
+    "designator": "X19",
+    "device": {
+     "libraryUuid": "3c6fe03f718e49caa716724cb9bb4ff0",
+     "uuid": "3c6fe03f718e49caa716724cb9bb4ff0",
+     "name": "SY8113BADC"
+    },
+    "pins": [
+     {
+      "pinNumber": "1",
+      "pinName": "BS"
+     },
+     {
+      "pinNumber": "2",
+      "pinName": "GND"
+     },
+     {
+      "pinNumber": "3",
+      "pinName": "FB"
+     },
+     {
+      "pinNumber": "4",
+      "pinName": "EN"
+     },
+     {
+      "pinNumber": "6",
+      "pinName": "LX"
+     },
+     {
+      "pinNumber": "5",
+      "pinName": "IN"
+     }
+    ]
+   },
+   {
+    "designator": "X20",
+    "device": {
+     "libraryUuid": "79f5b61c4f364bb6ac6f2d2396b00a91",
+     "uuid": "79f5b61c4f364bb6ac6f2d2396b00a91",
+     "name": "RC0805FR-07100KL"
+    },
+    "pins": [
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     },
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     }
+    ]
+   }
+  ]
+ }
+}

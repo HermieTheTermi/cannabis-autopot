@@ -1,5 +1,5 @@
-Bauteile: 96  Netze: 56  Verbindungen: 268
-NC-Pins: 17
+Bauteile: 124  Netze: 77  Verbindungen: 351
+NC-Pins: 20
 keine Probleme
 HINWEISE:
   +3V3: U1 'VDD33 (alle)' — das offizielle Symbol fuehrt keine separaten VDD33-Pins (nur Pin 3 = 3V3); laut Datenblatt sind sie modulintern verbunden, im Schaltplan daher nicht separat anschliessbar

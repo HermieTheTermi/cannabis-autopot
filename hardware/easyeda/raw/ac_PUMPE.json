@@ -6,7 +6,7 @@
    "net": "GND"
   },
   {
-   "pin": "Q3:2",
+   "pin": "Q5:2",
    "kind": "ground",
    "net": "GND"
   },
@@ -16,7 +16,7 @@
    "net": "GND"
   },
   {
-   "pin": "R34:2",
+   "pin": "R32:2",
    "kind": "ground",
    "net": "GND"
   },
@@ -31,12 +31,12 @@
    "net": "+5V"
   },
   {
-   "pin": "C20:1",
+   "pin": "C24:1",
    "kind": "netport",
    "net": "PUMP2_N"
   },
   {
-   "pin": "C20:2",
+   "pin": "C24:2",
    "kind": "netport",
    "net": "+5V"
   },
@@ -61,12 +61,12 @@
    "net": "KLAMP1"
   },
   {
-   "pin": "D7:1",
+   "pin": "D4:1",
    "kind": "netport",
    "net": "+5V"
   },
   {
-   "pin": "D7:2",
+   "pin": "D4:2",
    "kind": "netport",
    "net": "PUMP2_N"
   },
@@ -111,12 +111,12 @@
    "net": "PUMP_N"
   },
   {
-   "pin": "Q3:1",
+   "pin": "Q5:1",
    "kind": "netport",
    "net": "GATE2"
   },
   {
-   "pin": "Q3:3",
+   "pin": "Q5:3",
    "kind": "netport",
    "net": "PUMP2_N"
   },
@@ -131,44 +131,44 @@
    "net": "GATE"
   },
   {
+   "pin": "R29:1",
+   "kind": "netport",
+   "net": "GATE"
+  },
+  {
+   "pin": "R29:2",
+   "kind": "netport",
+   "net": "KLAMP1"
+  },
+  {
    "pin": "R2:1",
    "kind": "netport",
    "net": "GATE"
   },
   {
-   "pin": "R33:1",
-   "kind": "netport",
-   "net": "PUMP2_EN"
-  },
-  {
-   "pin": "R33:2",
+   "pin": "R30:1",
    "kind": "netport",
    "net": "GATE2"
   },
   {
-   "pin": "R34:1",
-   "kind": "netport",
-   "net": "GATE2"
-  },
-  {
-   "pin": "R35:1",
-   "kind": "netport",
-   "net": "KLAMP1"
-  },
-  {
-   "pin": "R35:2",
-   "kind": "netport",
-   "net": "RESET_UV"
-  },
-  {
-   "pin": "R36:1",
+   "pin": "R30:2",
    "kind": "netport",
    "net": "KLAMP2"
   },
   {
-   "pin": "R36:2",
+   "pin": "R31:1",
    "kind": "netport",
-   "net": "RESET_UV"
+   "net": "PUMP2_EN"
+  },
+  {
+   "pin": "R31:2",
+   "kind": "netport",
+   "net": "GATE2"
+  },
+  {
+   "pin": "R32:1",
+   "kind": "netport",
+   "net": "GATE2"
   }
  ],
  "rules": {

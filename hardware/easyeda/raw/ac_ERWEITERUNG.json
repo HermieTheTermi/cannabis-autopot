@@ -1,7 +1,7 @@
 {
  "connections": [
   {
-   "pin": "C16:2",
+   "pin": "C31:2",
    "kind": "ground",
    "net": "GND"
   },
@@ -46,12 +46,12 @@
    "net": "+3V3"
   },
   {
-   "pin": "R23:1",
+   "pin": "R25:1",
    "kind": "power",
    "net": "+3V3"
   },
   {
-   "pin": "C16:1",
+   "pin": "C31:1",
    "kind": "netport",
    "net": "SPARE_AIN"
   },
@@ -141,107 +141,107 @@
    "net": "VCC_EXT"
   },
   {
-   "pin": "R19:1",
-   "kind": "netport",
-   "net": "SDA"
-  },
-  {
-   "pin": "R19:2",
-   "kind": "netport",
-   "net": "VCC_EXT"
-  },
-  {
-   "pin": "R20:1",
-   "kind": "netport",
-   "net": "SCL"
-  },
-  {
-   "pin": "R20:2",
-   "kind": "netport",
-   "net": "VCC_EXT"
-  },
-  {
-   "pin": "R21:1",
-   "kind": "netport",
-   "net": "SDA_MCU"
-  },
-  {
-   "pin": "R21:2",
-   "kind": "netport",
-   "net": "SDA"
-  },
-  {
-   "pin": "R22:1",
-   "kind": "netport",
-   "net": "SCL_MCU"
-  },
-  {
-   "pin": "R22:2",
-   "kind": "netport",
-   "net": "SCL"
-  },
-  {
-   "pin": "R23:2",
+   "pin": "R25:2",
    "kind": "netport",
    "net": "EXT_EN"
   },
   {
-   "pin": "R24:1",
+   "pin": "R36:1",
+   "kind": "netport",
+   "net": "SDA_MCU"
+  },
+  {
+   "pin": "R36:2",
+   "kind": "netport",
+   "net": "SDA"
+  },
+  {
+   "pin": "R37:1",
+   "kind": "netport",
+   "net": "SDA"
+  },
+  {
+   "pin": "R37:2",
+   "kind": "netport",
+   "net": "VCC_EXT"
+  },
+  {
+   "pin": "R38:1",
+   "kind": "netport",
+   "net": "SCL_MCU"
+  },
+  {
+   "pin": "R38:2",
+   "kind": "netport",
+   "net": "SCL"
+  },
+  {
+   "pin": "R39:1",
+   "kind": "netport",
+   "net": "SCL"
+  },
+  {
+   "pin": "R39:2",
+   "kind": "netport",
+   "net": "VCC_EXT"
+  },
+  {
+   "pin": "R40:1",
    "kind": "netport",
    "net": "SPARE_AIN_RAW"
   },
   {
-   "pin": "R24:2",
+   "pin": "R40:2",
    "kind": "netport",
    "net": "SPARE_AIN"
   },
   {
-   "pin": "R25:1",
+   "pin": "R41:1",
    "kind": "netport",
    "net": "SPARE_IO15_RAW"
   },
   {
-   "pin": "R25:2",
+   "pin": "R41:2",
    "kind": "netport",
    "net": "SPARE_IO15"
   },
   {
-   "pin": "R26:1",
+   "pin": "R42:1",
    "kind": "netport",
    "net": "UART_TX"
   },
   {
-   "pin": "R26:2",
+   "pin": "R42:2",
    "kind": "netport",
    "net": "SPARE_IO16"
   },
   {
-   "pin": "R27:1",
+   "pin": "R43:1",
    "kind": "netport",
    "net": "UART_RX"
   },
   {
-   "pin": "R27:2",
+   "pin": "R43:2",
    "kind": "netport",
    "net": "SPARE_IO17"
   },
   {
-   "pin": "R28:1",
+   "pin": "R44:1",
    "kind": "netport",
    "net": "SPARE_IO21_RAW"
   },
   {
-   "pin": "R28:2",
+   "pin": "R44:2",
    "kind": "netport",
    "net": "SPARE_IO21"
   },
   {
-   "pin": "R30:1",
+   "pin": "R45:1",
    "kind": "netport",
    "net": "SPARE_IO23_RAW"
   },
   {
-   "pin": "R30:2",
+   "pin": "R45:2",
    "kind": "netport",
    "net": "SPARE_IO23"
   }

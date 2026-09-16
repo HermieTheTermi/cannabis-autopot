@@ -1,0 +1,213 @@
+{
+  "id": "req_26018",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-16T09:19:31.855892Z",
+  "ok": true,
+  "result": {
+    "components": [
+      {
+        "footprintName": "IND-SMD_L6.0-W6.0_PRS6045",
+        "lcsc": "C105660",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "FH(风华)",
+        "manufacturerId": "PRS6045-4R7MT",
+        "uuid": "999da512c3de428995c5ecb7dea134be",
+        "value": "4.7uH"
+      },
+      {
+        "footprintName": "SOT-23-6_L2.9-W1.6-P0.95-LS2.8-BR",
+        "lcsc": "C116509",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "HYCON(宏康)",
+        "manufacturerId": "HY2120-CB",
+        "uuid": "e627d2593705469b8aa9fe4e1dccd218"
+      },
+      {
+        "footprintName": "IND-SMD_L4.6-W4.1",
+        "lcsc": "C142096",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "Chilisin(奇力新)",
+        "manufacturerId": "MHCI04020-2R2M-R8",
+        "uuid": "7db05f193aa04dd4b44edc2956a653fa",
+        "value": "2.2uH"
+      },
+      {
+        "footprintName": "SOT-23_L2.9-W1.3-P1.90-LS2.4-BR",
+        "lcsc": "C15127",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "AOS",
+        "manufacturerId": "AO3401A",
+        "uuid": "f58385f66b144586baef3753ba84f65d"
+      },
+      {
+        "footprintName": "R0805",
+        "lcsc": "C17408",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "UNI-ROYAL(厚声)",
+        "manufacturerId": "0805W8F1000T5E",
+        "uuid": "afd77d34f2a246849525f9f885e83a2d",
+        "value": "100Ω"
+      },
+      {
+        "footprintName": "R0805",
+        "lcsc": "C17475",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "UNI-ROYAL(厚声)",
+        "manufacturerId": "0805W8F1502T5E",
+        "uuid": "f2eb4f1842fd4e72b87b6d14987cbe7e",
+        "value": "15kΩ"
+      },
+      {
+        "footprintName": "R0805",
+        "lcsc": "C17604",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "UNI-ROYAL(厚声)",
+        "manufacturerId": "0805W8F2001T5E",
+        "uuid": "15b9a8201054436f85d87765d20bd327",
+        "value": "2kΩ"
+      },
+      {
+        "footprintName": "R0805",
+        "lcsc": "C17630",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "UNI-ROYAL(厚声)",
+        "manufacturerId": "0805W8F3300T5E",
+        "uuid": "cc8e2fef08d046fd91f03a0e9f004399",
+        "value": "330Ω"
+      },
+      {
+        "footprintName": "R0805",
+        "lcsc": "C17737",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "UNI-ROYAL(厚声)",
+        "manufacturerId": "0805W8F5102T5E",
+        "uuid": "16f8cd5e045948df9472a9b12f125ca3",
+        "value": "51kΩ"
+      },
+      {
+        "footprintName": "R0805",
+        "lcsc": "C17801",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "UNI-ROYAL(厚声)",
+        "manufacturerId": "0805W8F6802T5E",
+        "uuid": "600fa66974404db08806854e7b4a38bc",
+        "value": "68kΩ"
+      },
+      {
+        "footprintName": "LFPAK33-8_L3.3-W2.6-P0.65-LS3.3-BL-1",
+        "lcsc": "C179452",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "Nexperia(安世)",
+        "manufacturerId": "PSMN4R2-30MLDX",
+        "uuid": "72ea8cee53ab4b96a48bf929040eac95"
+      },
+      {
+        "footprintName": "HDR-TH_4P-P2.54-V-M",
+        "lcsc": "C2691448",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "XFCN(兴飞)",
+        "manufacturerId": "PZ254V-11-04P",
+        "uuid": "f70eda5267b34d9799800488a27be0c6"
+      },
+      {
+        "footprintName": "R0805",
+        "lcsc": "C28319",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "UNI-ROYAL(厚声)",
+        "manufacturerId": "0805W8F500LT5E",
+        "uuid": "d23027ed376f49fc93c43406c37c98fe",
+        "value": "500mΩ"
+      },
+      {
+        "footprintName": "VQFN-24_L4.0-W4.0-P0.50-BL-EP2.5",
+        "lcsc": "C2832094",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "INJOINIC(英集芯)",
+        "manufacturerId": "IP2326",
+        "uuid": "c4518c8223b64b9dbaf64e3d55a9b3e1"
+      },
+      {
+        "footprintName": "HDR-TH_3P-P2.54-V-M_PZ254V-11-03P",
+        "lcsc": "C2937625",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "XFCN(兴飞)",
+        "manufacturerId": "PZ254V-11-03P",
+        "uuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9"
+      },
+      {
+        "footprintName": "SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR",
+        "lcsc": "C485802",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "TI(德州仪器)",
+        "manufacturerId": "TPS3839G33DBZR",
+        "uuid": "e24296b9a9a54804892f31e4355436d9"
+      },
+      {
+        "footprintName": "CONN-TH_3P-P2.50_ZHOURI_XH-3PA",
+        "lcsc": "C5258884",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "ZHOURI(洲日)",
+        "manufacturerId": "XH-3PA",
+        "uuid": "6a10ae8bb76743fa83467ccf43066224"
+      },
+      {
+        "footprintName": "TSOT-26_L2.9-W1.6-P0.95-LS2.8-BL",
+        "lcsc": "C780769",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "DIODES(美台)",
+        "manufacturerId": "AP63203WU-7",
+        "uuid": "7a70948fba984342a66462848ff0f10c"
+      },
+      {
+        "footprintName": "TSOT-23-6_L2.9-W1.6-P0.95-LS2.8-BR",
+        "lcsc": "C78989",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "Silergy(矽力杰)",
+        "manufacturerId": "SY8113BADC",
+        "uuid": "3c6fe03f718e49caa716724cb9bb4ff0"
+      },
+      {
+        "footprintName": "R0805_NEW",
+        "lcsc": "C96346",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "YAGEO(国巨)",
+        "manufacturerId": "RC0805FR-07100KL",
+        "uuid": "79f5b61c4f364bb6ac6f2d2396b00a91",
+        "value": "100kΩ"
+      }
+    ],
+    "count": 20,
+    "requested": [
+      "C105660",
+      "C116509",
+      "C142096",
+      "C15127",
+      "C17408",
+      "C17475",
+      "C17604",
+      "C17630",
+      "C17737",
+      "C17801",
+      "C179452",
+      "C2691448",
+      "C28319",
+      "C2832094",
+      "C2937625",
+      "C485802",
+      "C5258884",
+      "C780769",
+      "C78989",
+      "C96346"
+    ]
+  },
+  "context": {
+    "projectUuid": "51deea9fc24745be915d72e65813fa8b",
+    "projectName": "SmartGrowTopf_V1",
+    "documentUuid": "4f6771a27edec75b",
+    "documentType": "schematic",
+    "tabId": "4f6771a27edec75b@51deea9fc24745be915d72e65813fa8b"
+  },
+  "seq": 10,
+  "seqAbandoned": 0
+}

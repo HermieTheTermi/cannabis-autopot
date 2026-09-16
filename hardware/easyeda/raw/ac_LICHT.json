@@ -1,7 +1,7 @@
 {
  "connections": [
   {
-   "pin": "C15:2",
+   "pin": "C30:2",
    "kind": "ground",
    "net": "GND"
   },
@@ -11,12 +11,12 @@
    "net": "GND"
   },
   {
-   "pin": "R17:2",
+   "pin": "R34:2",
    "kind": "ground",
    "net": "GND"
   },
   {
-   "pin": "C15:1",
+   "pin": "C30:1",
    "kind": "netport",
    "net": "LIGHT_AOUT"
   },
@@ -31,17 +31,17 @@
    "net": "LIGHT_RAW"
   },
   {
-   "pin": "R17:1",
+   "pin": "R34:1",
    "kind": "netport",
    "net": "LIGHT_RAW"
   },
   {
-   "pin": "R18:1",
+   "pin": "R35:1",
    "kind": "netport",
    "net": "LIGHT_RAW"
   },
   {
-   "pin": "R18:2",
+   "pin": "R35:2",
    "kind": "netport",
    "net": "LIGHT_AOUT"
   }

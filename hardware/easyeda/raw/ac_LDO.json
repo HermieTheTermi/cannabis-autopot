@@ -1,22 +1,57 @@
 {
  "connections": [
   {
-   "pin": "C5:1",
+   "pin": "C15:1",
    "kind": "power",
    "net": "VBAT"
   },
   {
-   "pin": "C5:2",
+   "pin": "C15:2",
    "kind": "ground",
    "net": "GND"
   },
   {
-   "pin": "C6:1",
+   "pin": "C16:1",
+   "kind": "power",
+   "net": "VBAT"
+  },
+  {
+   "pin": "C16:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "C26:1",
    "kind": "power",
    "net": "+3V3"
   },
   {
-   "pin": "C6:2",
+   "pin": "C26:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "C27:1",
+   "kind": "power",
+   "net": "+3V3"
+  },
+  {
+   "pin": "C27:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "L3:2",
+   "kind": "power",
+   "net": "+3V3"
+  },
+  {
+   "pin": "R26:1",
+   "kind": "power",
+   "net": "+3V3"
+  },
+  {
+   "pin": "R27:2",
    "kind": "ground",
    "net": "GND"
   },
@@ -26,14 +61,9 @@
    "net": "+3V3"
   },
   {
-   "pin": "U4:1",
+   "pin": "U4:2",
    "kind": "power",
    "net": "VBAT"
-  },
-  {
-   "pin": "U4:2",
-   "kind": "ground",
-   "net": "GND"
   },
   {
    "pin": "U4:3",
@@ -41,9 +71,49 @@
    "net": "VBAT"
   },
   {
+   "pin": "U4:4",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "C25:1",
+   "kind": "netport",
+   "net": "BST_3V3"
+  },
+  {
+   "pin": "C25:2",
+   "kind": "netport",
+   "net": "LX_3V3"
+  },
+  {
+   "pin": "L3:1",
+   "kind": "netport",
+   "net": "LX_3V3"
+  },
+  {
+   "pin": "R26:2",
+   "kind": "netport",
+   "net": "FB_3V3"
+  },
+  {
+   "pin": "R27:1",
+   "kind": "netport",
+   "net": "FB_3V3"
+  },
+  {
+   "pin": "U4:1",
+   "kind": "netport",
+   "net": "FB_3V3"
+  },
+  {
    "pin": "U4:5",
-   "kind": "power",
-   "net": "+3V3"
+   "kind": "netport",
+   "net": "LX_3V3"
+  },
+  {
+   "pin": "U4:6",
+   "kind": "netport",
+   "net": "BST_3V3"
   }
  ],
  "rules": {

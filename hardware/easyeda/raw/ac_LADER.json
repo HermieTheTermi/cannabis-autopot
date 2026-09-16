@@ -1,9 +1,34 @@
 {
  "connections": [
   {
-   "pin": "C7:1",
+   "pin": "C19:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "C1:1",
    "kind": "power",
    "net": "VBUS"
+  },
+  {
+   "pin": "C1:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "C20:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "C5:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "C7:1",
+   "kind": "power",
+   "net": "VBAT"
   },
   {
    "pin": "C7:2",
@@ -11,39 +36,89 @@
    "net": "GND"
   },
   {
-   "pin": "C8:1",
-   "kind": "power",
-   "net": "VBAT"
-  },
-  {
-   "pin": "C8:2",
-   "kind": "ground",
-   "net": "GND"
-  },
-  {
-   "pin": "R13:2",
-   "kind": "ground",
-   "net": "GND"
-  },
-  {
-   "pin": "R14:1",
+   "pin": "L1:1",
    "kind": "power",
    "net": "VBUS"
   },
   {
-   "pin": "U3:2",
+   "pin": "R10:2",
    "kind": "ground",
    "net": "GND"
   },
   {
-   "pin": "U3:3",
+   "pin": "R11:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "R12:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "R3:1",
+   "kind": "power",
+   "net": "VBUS"
+  },
+  {
+   "pin": "R5:1",
+   "kind": "power",
+   "net": "VBUS"
+  },
+  {
+   "pin": "R7:1",
+   "kind": "power",
+   "net": "VBUS"
+  },
+  {
+   "pin": "U2:18",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U2:21",
    "kind": "power",
    "net": "VBAT"
   },
   {
-   "pin": "U3:4",
+   "pin": "U2:22",
    "kind": "power",
-   "net": "VBUS"
+   "net": "VBAT"
+  },
+  {
+   "pin": "U2:25",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "C19:1",
+   "kind": "netport",
+   "net": "VSYS_CHG"
+  },
+  {
+   "pin": "C20:1",
+   "kind": "netport",
+   "net": "VSYS_CHG"
+  },
+  {
+   "pin": "C5:1",
+   "kind": "netport",
+   "net": "VBUS_CHG"
+  },
+  {
+   "pin": "C6:1",
+   "kind": "netport",
+   "net": "BST_CHG"
+  },
+  {
+   "pin": "C6:2",
+   "kind": "netport",
+   "net": "LX_CHG"
+  },
+  {
+   "pin": "L1:2",
+   "kind": "netport",
+   "net": "LX_CHG"
   },
   {
    "pin": "LED1:1",
@@ -56,24 +131,104 @@
    "net": "LED_CHG"
   },
   {
-   "pin": "R13:1",
+   "pin": "R10:1",
    "kind": "netport",
-   "net": "PROG"
+   "net": "ISET_CHG"
   },
   {
-   "pin": "R14:2",
+   "pin": "R11:1",
+   "kind": "netport",
+   "net": "NTC_DIS"
+  },
+  {
+   "pin": "R12:1",
+   "kind": "netport",
+   "net": "UVSET_CHG"
+  },
+  {
+   "pin": "R3:2",
+   "kind": "netport",
+   "net": "VBUS_CHG"
+  },
+  {
+   "pin": "R5:2",
    "kind": "netport",
    "net": "LED_CHG"
   },
   {
-   "pin": "U3:1",
+   "pin": "R7:2",
+   "kind": "netport",
+   "net": "EN_CHG"
+  },
+  {
+   "pin": "U2:11",
+   "kind": "netport",
+   "net": "ISET_CHG"
+  },
+  {
+   "pin": "U2:12",
+   "kind": "netport",
+   "net": "EN_CHG"
+  },
+  {
+   "pin": "U2:13",
+   "kind": "netport",
+   "net": "VBUS_CHG"
+  },
+  {
+   "pin": "U2:14",
+   "kind": "netport",
+   "net": "BST_CHG"
+  },
+  {
+   "pin": "U2:15",
+   "kind": "netport",
+   "net": "LX_CHG"
+  },
+  {
+   "pin": "U2:16",
+   "kind": "netport",
+   "net": "LX_CHG"
+  },
+  {
+   "pin": "U2:17",
+   "kind": "netport",
+   "net": "LX_CHG"
+  },
+  {
+   "pin": "U2:19",
+   "kind": "netport",
+   "net": "VSYS_CHG"
+  },
+  {
+   "pin": "U2:20",
+   "kind": "netport",
+   "net": "VSYS_CHG"
+  },
+  {
+   "pin": "U2:23",
+   "kind": "netport",
+   "net": "VBATM_CHG"
+  },
+  {
+   "pin": "U2:24",
+   "kind": "netport",
+   "net": "BAT_MINUS"
+  },
+  {
+   "pin": "U2:4",
+   "kind": "netport",
+   "net": "NTC_DIS"
+  },
+  {
+   "pin": "U2:6",
    "kind": "netport",
    "net": "STAT_CHG"
   },
   {
-   "pin": "U3:5",
+   "pin": "U2:8",
    "kind": "netport",
-   "net": "PROG"
+   "net": "UVSET_CHG"
   }
  ],
  "rules": {

@@ -1,109 +1,114 @@
 {
  "connections": [
   {
-   "pin": "C17:1",
+   "pin": "C14:1",
    "kind": "power",
    "net": "VBAT"
   },
   {
-   "pin": "C17:2",
+   "pin": "C14:2",
    "kind": "ground",
    "net": "GND"
   },
   {
-   "pin": "C18:2",
+   "pin": "C22:2",
    "kind": "ground",
    "net": "GND"
   },
   {
-   "pin": "C19:2",
+   "pin": "C23:2",
    "kind": "ground",
    "net": "GND"
   },
   {
-   "pin": "L1:1",
+   "pin": "C8:1",
    "kind": "power",
    "net": "VBAT"
   },
   {
-   "pin": "R32:2",
+   "pin": "C8:2",
    "kind": "ground",
    "net": "GND"
   },
   {
-   "pin": "R37:2",
-   "kind": "power",
-   "net": "VBAT"
-  },
-  {
-   "pin": "U8:2",
+   "pin": "R20:2",
    "kind": "ground",
    "net": "GND"
   },
   {
-   "pin": "U8:5",
+   "pin": "U3:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "U3:5",
    "kind": "power",
    "net": "VBAT"
   },
   {
-   "pin": "C18:1",
+   "pin": "C21:1",
+   "kind": "netport",
+   "net": "BST_5V"
+  },
+  {
+   "pin": "C21:2",
+   "kind": "netport",
+   "net": "LX_5V"
+  },
+  {
+   "pin": "C22:1",
    "kind": "netport",
    "net": "+5V"
   },
   {
-   "pin": "C19:1",
+   "pin": "C23:1",
    "kind": "netport",
    "net": "+5V"
   },
   {
-   "pin": "D6:1",
+   "pin": "L2:1",
+   "kind": "netport",
+   "net": "LX_5V"
+  },
+  {
+   "pin": "L2:2",
    "kind": "netport",
    "net": "+5V"
   },
   {
-   "pin": "D6:2",
-   "kind": "netport",
-   "net": "SW_BOOST"
-  },
-  {
-   "pin": "L1:2",
-   "kind": "netport",
-   "net": "SW_BOOST"
-  },
-  {
-   "pin": "R31:1",
+   "pin": "R19:1",
    "kind": "netport",
    "net": "+5V"
   },
   {
-   "pin": "R31:2",
+   "pin": "R19:2",
    "kind": "netport",
    "net": "FB_5V"
   },
   {
-   "pin": "R32:1",
+   "pin": "R20:1",
    "kind": "netport",
    "net": "FB_5V"
   },
   {
-   "pin": "R37:1",
+   "pin": "U3:1",
+   "kind": "netport",
+   "net": "BST_5V"
+  },
+  {
+   "pin": "U3:3",
+   "kind": "netport",
+   "net": "FB_5V"
+  },
+  {
+   "pin": "U3:4",
    "kind": "netport",
    "net": "RESET_UV"
   },
   {
-   "pin": "U8:1",
+   "pin": "U3:6",
    "kind": "netport",
-   "net": "SW_BOOST"
-  },
-  {
-   "pin": "U8:3",
-   "kind": "netport",
-   "net": "FB_5V"
-  },
-  {
-   "pin": "U8:4",
-   "kind": "netport",
-   "net": "RESET_UV"
+   "net": "LX_5V"
   }
  ],
  "rules": {

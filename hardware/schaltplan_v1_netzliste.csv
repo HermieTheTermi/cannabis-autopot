@@ -87,8 +87,8 @@ PROT_GATE_C,U_PROT,2 OC,Lade-Steuerung (Datenblatt Pin 2)
 PROT_GATE_C,Q_PROT2,4 G,Gate des Lade-MOSFET
 PROT_CS,U_PROT,3 CS,Strommessung + Ladeerkennung (Datenblatt Pin 3)
 PROT_CS,R_PROT_CS,1,2 k zum Board-GND (Datenblatt R3 typ 2 k)
-PROT_COMMON,Q_PROT1,mb (Drain),"Gemeinsamer Drain beider Schalter (Montagebasis ist laut Pinning Drain)"
-PROT_COMMON,Q_PROT2,mb (Drain),
+PROT_COMMON,Q_PROT1,5 D,"Gemeinsamer Drain beider Schalter (Symbol-Pin 5 = D, Datenblatt: Montagebasis ist Drain)"
+PROT_COMMON,Q_PROT2,5 D,
 GND,R_PROT_CS,2,
 GND,Q_PROT2,1 S,Source des Lade-MOSFET = Board-GND - traegt den gesamten Systemstrom
 GND,Q_PROT2,2 S,

@@ -214,3 +214,41 @@ PCB-Phase: `easyeda pcb import-changes` (Layout-Import aus dieser Seite), Stacku
 `docs/10_pcb-leiterbahnbreiten.md`): VBAT / PUMP_N / VBUS 0,5 mm, +3V3 0,4 mm, Signale
 0,25 mm, Masse als Fläche. `PUMP_N` muss dabei explizit mit `pcb track --width 20`
 gelegt werden — die Namensheuristik des Tools hält es für ein Signal.
+
+---
+
+## Stand 16.09.2026: Seite neu aufgebaut (2S + Akku-Schutz) — Ergebnis
+
+Der komplette Neuaufbau über die Projektkette ist gelaufen und **pin-für-pin verifiziert**:
+
+| Schritt | Werkzeug | Ergebnis |
+|---|---|---|
+| IR aus Netzliste | `build_ir.py` + `check_ir_netlist.py` | **124 Bauteile, 77 Netze, 351 Verbindungen, 0 Abweichungen** |
+| Designator-Allokation | `easyeda sch designators allocate` | 79 Namen → Zahlen; **0 funktionale Designatoren** mehr; `prefixes.json` auf 53 Einträge (gemessene Präfixe: Stecker `CN?`, Stiftleisten `H?`) |
+| Platzierung (offline) | `plan_layout.py` + `check_plan_fit.py` | 124 Bauteile, 14 Blöcke == 14 Module, Blattnutzung 91,0 %, **Fallback 0**, Fit OK |
+| Platzierung (live) | `raw/place_all.sh` | **124 platziert, 0 FAIL** (66 s) |
+| Rahmen/Gruppen | `sch frame apply` (je Rahmen eigene Datei) + `sch group create` | **14 Rahmen, 14 Gruppen** (Im Bild sichtbar; die Rücklese-Prüfung meldet weiter den bekannten Vorzeichenfehler) |
+| Verdrahtung | `sch autoconnect --spec raw/ac_<MODUL>.json` | **351 von 351 Verbindungen**, 77 von 77 Netzen |
+| NC-Marker | `sch no-connect` | 20 freie Pins markiert (J5 A8/B8, SW1/SW2 3/4, U1 4/7/21/32–35, U2 1/2/3/5/7/9/10) |
+| Live-Abgleich | Pin-für-Pin gegen `raw/ir_numbered.json` | **0 fehlend, 0 falsches Netz, 0 überzählig** |
+| Gate | `sch gate --json` | `layout-lint` pass, `check` pass, `bridge-check` pass (0 Waisen), `drc` pass; **`clusters` fail: 2 Überlappungen** (R40↔R41, U2↔L1) = reine Lesbarkeit, laut Projektregel Sache des Nutzers |
+| Blattbild | `sch export-image` | `out/schaltplan_2026-09-16_2s_schutz.png` |
+
+**Nebenbefunde, die Zeit gekostet haben (für den nächsten Lauf wichtig):**
+1. **`pcb import-changes` überträgt nichts** — laut eigener CLI-Hilfe ist es ein **No-op für Bauteile, die
+   über die API in den Schaltplan gekommen sind** (Issue #20). Unser Plan ist komplett so entstanden.
+   Zusätzlich verweist das PCB-Dokument auf eine **veraltete Seiten-UUID** (`6118d8e393808567`) statt auf
+   die aktuelle Seite `4f6771a27edec75b`.
+2. **`pcb new-board` scheitert in diesem EasyEDA-Build** („createPcb returned nothing — SDK no-op").
+3. Der dokumentierte Arbeitsweg ist daher **`pcb add-component` je Bauteil** (Fußabdruck + Verknüpfung
+   zur Schaltplan-Zwilling + Pad-Netze). Die Daten dafür liegen bereit: `sch read` liefert je Ref
+   `uniqueId`, Position und Pad→Netz, `raw/ir_numbered.json` die Device-Identität.
+4. `--include-device-identity` in Kombination mit `--include-pins`/`--include-bbox` schlägt reproduzierbar
+   fehl („connector did not respond") — die Pin-Tabellen wurden daher mit `--include-pins --include-bbox`
+   gemessen und die Device-Identität über die Platzierungsliste zugeordnet
+   (`raw/probe_2s_2026-09-16.json`).
+5. In `plan_layout.py` stand `--doc P1` (Seitenname statt UUID) und `>/dev/null 2>&1` — die Platzierung
+   schlug dadurch komplett still fehl, sichtbar nur als `FAIL <Ref>`. Behoben.
+
+**Offen / nächster Schritt:** das PCB mit den 124 Bauteilen versorgen (siehe 1.–3.) — danach **stoppt**
+die Arbeit hier, Platzieren und Routen macht der Nutzer selbst.

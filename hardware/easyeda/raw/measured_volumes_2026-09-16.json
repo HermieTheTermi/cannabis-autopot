@@ -1,0 +1,1057 @@
+{
+ "stand": "2026-09-16",
+ "quelle": "sch clusters --json live an den Probe-Exemplaren X1..X20 (Körper); Bestandsmaße aus 2026-09-15 übernommen",
+ "einheiten": "raw (0.01 inch)",
+ "nutzbar": {
+  "minX": 12,
+  "minY": 12,
+  "maxX": 3292,
+  "maxY": 2326
+ },
+ "parts": {
+  "J5": {
+   "module": "USB",
+   "vol_w": 289.0,
+   "vol_h": 243.0,
+   "body_w": 51.0,
+   "body_h": 131.0,
+   "markers": 14,
+   "wires": 12
+  },
+  "J12": {
+   "module": "ERWEITERUNG",
+   "vol_w": 254.0,
+   "vol_h": 42.5,
+   "body_w": 21.0,
+   "body_h": 41.0,
+   "markers": 3,
+   "wires": 3
+  },
+  "U1": {
+   "module": "MCU",
+   "vol_w": 612.0,
+   "vol_h": 317.0,
+   "body_w": 71.0,
+   "body_h": 281.0,
+   "markers": 46,
+   "wires": 46
+  },
+  "J7": {
+   "module": "LICHT",
+   "vol_w": 263.0,
+   "vol_h": 42.5,
+   "body_w": 21.0,
+   "body_h": 41.0,
+   "markers": 3,
+   "wires": 3
+  },
+  "J8": {
+   "module": "ERWEITERUNG",
+   "vol_w": 212.0,
+   "vol_h": 52.5,
+   "body_w": 21.0,
+   "body_h": 51.0,
+   "markers": 4,
+   "wires": 4
+  },
+  "R24": {
+   "module": "ERWEITERUNG",
+   "vol_w": 309.0,
+   "vol_h": 11.0,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R19": {
+   "module": "ERWEITERUNG",
+   "vol_w": 237.0,
+   "vol_h": 11.0,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "U6": {
+   "module": "USB",
+   "vol_w": 294.0,
+   "vol_h": 299.0,
+   "body_w": 91.0,
+   "body_h": 101.0,
+   "markers": 6,
+   "wires": 6
+  },
+  "Q2": {
+   "module": "ERWEITERUNG",
+   "vol_w": 148.0,
+   "vol_h": 223.0,
+   "body_w": 34.0,
+   "body_h": 21.0,
+   "markers": 3,
+   "wires": 3
+  },
+  "J13": {
+   "module": "ERWEITERUNG",
+   "vol_w": 278.0,
+   "vol_h": 42.5,
+   "body_w": 21.0,
+   "body_h": 41.0,
+   "markers": 3,
+   "wires": 3
+  },
+  "J9": {
+   "module": "ERWEITERUNG",
+   "vol_w": 272.0,
+   "vol_h": 42.5,
+   "body_w": 21.0,
+   "body_h": 41.0,
+   "markers": 3,
+   "wires": 3
+  },
+  "C2": {
+   "module": "MCU",
+   "vol_w": 110.0,
+   "vol_h": 22.5,
+   "body_w": 21.0,
+   "body_h": 17.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "C15": {
+   "module": "LICHT",
+   "vol_w": 85.0,
+   "vol_h": 140.5,
+   "body_w": 21.0,
+   "body_h": 17.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "C4": {
+   "module": "MCU",
+   "vol_w": 85.0,
+   "vol_h": 92.5,
+   "body_w": 21.0,
+   "body_h": 17.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R7": {
+   "module": "USB",
+   "vol_w": 85.0,
+   "vol_h": 98.5,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R20": {
+   "module": "ERWEITERUNG",
+   "vol_w": 237.0,
+   "vol_h": 11.0,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "SW1": {
+   "module": "MCU",
+   "vol_w": 85.0,
+   "vol_h": 111.0,
+   "body_w": 21.0,
+   "body_h": 31.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R17": {
+   "module": "LICHT",
+   "vol_w": 85.0,
+   "vol_h": 134.5,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "C9": {
+   "module": "MCU",
+   "vol_w": 85.0,
+   "vol_h": 146.5,
+   "body_w": 21.0,
+   "body_h": 17.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R23": {
+   "module": "ERWEITERUNG",
+   "vol_w": 156.5,
+   "vol_h": 58.0,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R25": {
+   "module": "ERWEITERUNG",
+   "vol_w": 174.0,
+   "vol_h": 158.0,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R8": {
+   "module": "USB",
+   "vol_w": 85.0,
+   "vol_h": 98.5,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "SW2": {
+   "module": "MCU",
+   "vol_w": 56.0,
+   "vol_h": 123.0,
+   "body_w": 21.0,
+   "body_h": 31.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "J10": {
+   "module": "ERWEITERUNG",
+   "vol_w": 278.0,
+   "vol_h": 42.5,
+   "body_w": 21.0,
+   "body_h": 41.0,
+   "markers": 3,
+   "wires": 3
+  },
+  "J14": {
+   "module": "ERWEITERUNG",
+   "vol_w": 278.0,
+   "vol_h": 42.5,
+   "body_w": 21.0,
+   "body_h": 41.0,
+   "markers": 3,
+   "wires": 3
+  },
+  "R18": {
+   "module": "LICHT",
+   "vol_w": 174.0,
+   "vol_h": 128.0,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R10": {
+   "module": "MCU",
+   "vol_w": 57.5,
+   "vol_h": 135.0,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "D2": {
+   "module": "MCU",
+   "vol_w": 85.0,
+   "vol_h": 146.0,
+   "body_w": 22.0,
+   "body_h": 26.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R11": {
+   "module": "MCU",
+   "vol_w": 76.0,
+   "vol_h": 146.5,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "U3": {
+   "module": "LADER",
+   "vol_w": 344.0,
+   "vol_h": 41.0,
+   "body_w": 71.0,
+   "body_h": 41.0,
+   "markers": 5,
+   "wires": 5
+  },
+  "C16": {
+   "module": "ERWEITERUNG",
+   "vol_w": 202.0,
+   "vol_h": 22.5,
+   "body_w": 21.0,
+   "body_h": 17.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R21": {
+   "module": "ERWEITERUNG",
+   "vol_w": 237.0,
+   "vol_h": 11.0,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R26": {
+   "module": "ERWEITERUNG",
+   "vol_w": 279.0,
+   "vol_h": 11.0,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "D5": {
+   "module": "MCU",
+   "vol_w": 85.0,
+   "vol_h": 146.0,
+   "body_w": 21.0,
+   "body_h": 26.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R15": {
+   "module": "MCU",
+   "vol_w": 51.0,
+   "vol_h": 133.0,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "TP2": {
+   "module": "MCU",
+   "vol_w": 36.0,
+   "vol_h": 121.0,
+   "body_w": 21.0,
+   "body_h": 21.0,
+   "markers": 1,
+   "wires": 1
+  },
+  "J11": {
+   "module": "ERWEITERUNG",
+   "vol_w": 254.0,
+   "vol_h": 42.5,
+   "body_w": 21.0,
+   "body_h": 41.0,
+   "markers": 3,
+   "wires": 3
+  },
+  "R4": {
+   "module": "MCU",
+   "vol_w": 51.0,
+   "vol_h": 133.0,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "C1": {
+   "module": "MCU",
+   "vol_w": 110.0,
+   "vol_h": 22.5,
+   "body_w": 21.0,
+   "body_h": 17.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R9": {
+   "module": "MCU",
+   "vol_w": 151.0,
+   "vol_h": 17.5,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "LED1": {
+   "module": "LADER",
+   "vol_w": 421.0,
+   "vol_h": 134.0,
+   "body_w": 21.0,
+   "body_h": 26.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "J15": {
+   "module": "ERWEITERUNG",
+   "vol_w": 151.0,
+   "vol_h": 184.5,
+   "body_w": 21.0,
+   "body_h": 41.0,
+   "markers": 3,
+   "wires": 3
+  },
+  "R22": {
+   "module": "ERWEITERUNG",
+   "vol_w": 237.0,
+   "vol_h": 11.0,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R27": {
+   "module": "ERWEITERUNG",
+   "vol_w": 279.0,
+   "vol_h": 11.0,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "C10": {
+   "module": "MCU",
+   "vol_w": 85.0,
+   "vol_h": 140.5,
+   "body_w": 21.0,
+   "body_h": 17.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "C7": {
+   "module": "LADER",
+   "vol_w": 100.0,
+   "vol_h": 22.5,
+   "body_w": 11.0,
+   "body_h": 17.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "C13": {
+   "module": "MCU",
+   "vol_w": 62.5,
+   "vol_h": 94.0,
+   "body_w": 21.0,
+   "body_h": 17.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "C8": {
+   "module": "LADER",
+   "vol_w": 81.5,
+   "vol_h": 53.0,
+   "body_w": 11.0,
+   "body_h": 17.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "U7": {
+   "module": "WAEChTER",
+   "vol_w": 220.0,
+   "vol_h": 44.5,
+   "body_w": 44.0,
+   "body_h": 43.0,
+   "markers": 3,
+   "wires": 3
+  },
+  "R1": {
+   "module": "PUMPE",
+   "vol_w": 156.0,
+   "vol_h": 98.0,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "J4": {
+   "module": "PUMPE",
+   "vol_w": 150.0,
+   "vol_h": 32.5,
+   "body_w": 31.0,
+   "body_h": 31.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R13": {
+   "module": "LADER",
+   "vol_w": 85.0,
+   "vol_h": 103.0,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R28": {
+   "module": "ERWEITERUNG",
+   "vol_w": 321.0,
+   "vol_h": 11.0,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "J1": {
+   "module": "AKKU",
+   "vol_w": 100.0,
+   "vol_h": 32.5,
+   "body_w": 21.0,
+   "body_h": 31.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R14": {
+   "module": "LADER",
+   "vol_w": 162.5,
+   "vol_h": 48.0,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R2": {
+   "module": "PUMPE",
+   "vol_w": 85.0,
+   "vol_h": 104.5,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "Q1": {
+   "module": "PUMPE",
+   "vol_w": 140.0,
+   "vol_h": 224.0,
+   "body_w": 35.0,
+   "body_h": 21.0,
+   "markers": 3,
+   "wires": 3
+  },
+  "TP3": {
+   "module": "AKKU",
+   "vol_w": 70.0,
+   "vol_h": 22.5,
+   "body_w": 21.0,
+   "body_h": 21.0,
+   "markers": 1,
+   "wires": 1
+  },
+  "C12": {
+   "module": "WAEChTER",
+   "vol_w": 110.0,
+   "vol_h": 22.5,
+   "body_w": 21.0,
+   "body_h": 17.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "C11": {
+   "module": "PUMPE",
+   "vol_w": 76.0,
+   "vol_h": 116.5,
+   "body_w": 21.0,
+   "body_h": 17.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "TP4": {
+   "module": "AKKU",
+   "vol_w": 61.0,
+   "vol_h": 22.5,
+   "body_w": 21.0,
+   "body_h": 21.0,
+   "markers": 1,
+   "wires": 1
+  },
+  "R3": {
+   "module": "WAEChTER",
+   "vol_w": 57.5,
+   "vol_h": 171.0,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "TP1": {
+   "module": "DEBUG",
+   "vol_w": 141.0,
+   "vol_h": 21.0,
+   "body_w": 21.0,
+   "body_h": 21.0,
+   "markers": 1,
+   "wires": 1
+  },
+  "D1": {
+   "module": "PUMPE",
+   "vol_w": 57.5,
+   "vol_h": 147.0,
+   "body_w": 13.0,
+   "body_h": 17.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "C3": {
+   "module": "AKKU",
+   "vol_w": 110.0,
+   "vol_h": 22.5,
+   "body_w": 21.0,
+   "body_h": 15.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "J2": {
+   "module": "SENSOR",
+   "vol_w": 289.0,
+   "vol_h": 42.5,
+   "body_w": 41.0,
+   "body_h": 41.0,
+   "markers": 3,
+   "wires": 3
+  },
+  "R5": {
+   "module": "WAEChTER",
+   "vol_w": 85.0,
+   "vol_h": 140.5,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "D3": {
+   "module": "PUMPE",
+   "vol_w": 138.0,
+   "vol_h": 125.0,
+   "body_w": 13.0,
+   "body_h": 17.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R29": {
+   "module": "ERWEITERUNG",
+   "vol_w": 51.0,
+   "vol_h": 157.0,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R16": {
+   "module": "DEBUG",
+   "vol_w": 156.0,
+   "vol_h": 116.0,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "U4": {
+   "module": "LDO",
+   "vol_w": 181.5,
+   "vol_h": 75.0,
+   "body_w": 81.0,
+   "body_h": 45.0,
+   "markers": 4,
+   "wires": 4
+  },
+  "C6": {
+   "module": "LDO",
+   "vol_w": 110.0,
+   "vol_h": 22.5,
+   "body_w": 21.0,
+   "body_h": 17.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "J6": {
+   "module": "TASTER",
+   "vol_w": 127.0,
+   "vol_h": 31.0,
+   "body_w": 21.0,
+   "body_h": 31.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R12": {
+   "module": "TASTER",
+   "vol_w": 157.0,
+   "vol_h": 17.5,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "TP6": {
+   "module": "SENSOR",
+   "vol_w": 36.0,
+   "vol_h": 145.0,
+   "body_w": 21.0,
+   "body_h": 21.0,
+   "markers": 1,
+   "wires": 1
+  },
+  "TP5": {
+   "module": "LDO",
+   "vol_w": 61.0,
+   "vol_h": 22.5,
+   "body_w": 21.0,
+   "body_h": 21.0,
+   "markers": 1,
+   "wires": 1
+  },
+  "C14": {
+   "module": "TASTER",
+   "vol_w": 85.0,
+   "vol_h": 98.5,
+   "body_w": 21.0,
+   "body_h": 17.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R30": {
+   "module": "ERWEITERUNG",
+   "vol_w": 384.0,
+   "vol_h": 158.0,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R6": {
+   "module": "SENSOR",
+   "vol_w": 180.0,
+   "vol_h": 134.0,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "C5": {
+   "module": "LDO",
+   "vol_w": 110.0,
+   "vol_h": 22.5,
+   "body_w": 21.0,
+   "body_h": 17.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "C17": {
+   "module": "?",
+   "vol_w": 110.0,
+   "vol_h": 22.5,
+   "body_w": 21.0,
+   "body_h": 17.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "C18": {
+   "module": "?",
+   "vol_w": 110.0,
+   "vol_h": 22.5,
+   "body_w": 21.0,
+   "body_h": 17.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "C19": {
+   "module": "?",
+   "vol_w": 110.0,
+   "vol_h": 22.5,
+   "body_w": 21.0,
+   "body_h": 17.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "C20": {
+   "module": "?",
+   "vol_w": 190.0,
+   "vol_h": 22.5,
+   "body_w": 21.0,
+   "body_h": 17.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R31": {
+   "module": "?",
+   "vol_w": 169.0,
+   "vol_h": 17.5,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R32": {
+   "module": "?",
+   "vol_w": 178.0,
+   "vol_h": 22.5,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R33": {
+   "module": "?",
+   "vol_w": 162.0,
+   "vol_h": 104.0,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R34": {
+   "module": "?",
+   "vol_w": 346.0,
+   "vol_h": 36.0,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 4,
+   "wires": 2
+  },
+  "U8": {
+   "module": "?",
+   "vol_w": 272.0,
+   "vol_h": 45.0,
+   "body_w": 61.0,
+   "body_h": 45.0,
+   "markers": 5,
+   "wires": 5
+  },
+  "L1": {
+   "module": "?",
+   "vol_w": 81.0,
+   "vol_h": 128.5,
+   "body_w": 34.5,
+   "body_h": 5.3,
+   "markers": 2,
+   "wires": 2
+  },
+  "D6": {
+   "module": "?",
+   "vol_w": 187.0,
+   "vol_h": 20.5,
+   "body_w": 13.0,
+   "body_h": 17.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "D7": {
+   "module": "?",
+   "vol_w": 181.0,
+   "vol_h": 20.5,
+   "body_w": 13.0,
+   "body_h": 17.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "D8": {
+   "module": "?",
+   "vol_w": 255.0,
+   "vol_h": 17.0,
+   "body_w": 13.0,
+   "body_h": 17.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "Q3": {
+   "module": "?",
+   "vol_w": 146.0,
+   "vol_h": 124.0,
+   "body_w": 35.0,
+   "body_h": 21.0,
+   "markers": 3,
+   "wires": 3
+  },
+  "J16": {
+   "module": "?",
+   "vol_w": 81.0,
+   "vol_h": 132.5,
+   "body_w": 41.0,
+   "body_h": 31.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R35": {
+   "module": "PUMPE",
+   "vol_w": 169.0,
+   "vol_h": 17.5,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R36": {
+   "module": "PUMPE",
+   "vol_w": 169.0,
+   "vol_h": 17.5,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  },
+  "R37": {
+   "module": "BOOST",
+   "vol_w": 169.0,
+   "vol_h": 17.5,
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "markers": 2,
+   "wires": 2
+  }
+ },
+ "by_device": {
+  "999da512c3de428995c5ecb7dea134be": {
+   "name": "PRS6045-4R7MT",
+   "lcsc": "C105660",
+   "body_w": 34.5,
+   "body_h": 5.3,
+   "vol_w": 34.5,
+   "vol_h": 5.3
+  },
+  "e627d2593705469b8aa9fe4e1dccd218": {
+   "name": "HY2120-CB",
+   "lcsc": "C116509",
+   "body_w": 61.0,
+   "body_h": 41.0,
+   "vol_w": 61.0,
+   "vol_h": 41.0
+  },
+  "7db05f193aa04dd4b44edc2956a653fa": {
+   "name": "MHCI04020-2R2M-R8",
+   "lcsc": "C142096",
+   "body_w": 34.5,
+   "body_h": 5.3,
+   "vol_w": 34.5,
+   "vol_h": 5.3
+  },
+  "f58385f66b144586baef3753ba84f65d": {
+   "name": "AO3401A",
+   "lcsc": "C15127",
+   "body_w": 34.0,
+   "body_h": 21.0,
+   "vol_w": 34.0,
+   "vol_h": 21.0
+  },
+  "afd77d34f2a246849525f9f885e83a2d": {
+   "name": "0805W8F1000T5E",
+   "lcsc": "C17408",
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "vol_w": 21.0,
+   "vol_h": 9.0
+  },
+  "f2eb4f1842fd4e72b87b6d14987cbe7e": {
+   "name": "0805W8F1502T5E",
+   "lcsc": "C17475",
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "vol_w": 21.0,
+   "vol_h": 9.0
+  },
+  "15b9a8201054436f85d87765d20bd327": {
+   "name": "0805W8F2001T5E",
+   "lcsc": "C17604",
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "vol_w": 21.0,
+   "vol_h": 9.0
+  },
+  "cc8e2fef08d046fd91f03a0e9f004399": {
+   "name": "0805W8F3300T5E",
+   "lcsc": "C17630",
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "vol_w": 21.0,
+   "vol_h": 9.0
+  },
+  "16f8cd5e045948df9472a9b12f125ca3": {
+   "name": "0805W8F5102T5E",
+   "lcsc": "C17737",
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "vol_w": 21.0,
+   "vol_h": 9.0
+  },
+  "600fa66974404db08806854e7b4a38bc": {
+   "name": "0805W8F6802T5E",
+   "lcsc": "C17801",
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "vol_w": 21.0,
+   "vol_h": 9.0
+  },
+  "72ea8cee53ab4b96a48bf929040eac95": {
+   "name": "PSMN4R2-30MLDX",
+   "lcsc": "C179452",
+   "body_w": 31.0,
+   "body_h": 51.0,
+   "vol_w": 31.0,
+   "vol_h": 51.0
+  },
+  "f70eda5267b34d9799800488a27be0c6": {
+   "name": "PZ254V-11-04P",
+   "lcsc": "C2691448",
+   "body_w": 21.0,
+   "body_h": 51.0,
+   "vol_w": 21.0,
+   "vol_h": 51.0
+  },
+  "d23027ed376f49fc93c43406c37c98fe": {
+   "name": "0805W8F500LT5E",
+   "lcsc": "C28319",
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "vol_w": 21.0,
+   "vol_h": 9.0
+  },
+  "c4518c8223b64b9dbaf64e3d55a9b3e1": {
+   "name": "IP2326",
+   "lcsc": "C2832094",
+   "body_w": 131.0,
+   "body_h": 131.0,
+   "vol_w": 131.0,
+   "vol_h": 131.0
+  },
+  "3c2517dd0d3741b3a6071ea8b3f9b7e9": {
+   "name": "PZ254V-11-03P",
+   "lcsc": "C2937625",
+   "body_w": 21.0,
+   "body_h": 41.0,
+   "vol_w": 21.0,
+   "vol_h": 41.0
+  },
+  "e24296b9a9a54804892f31e4355436d9": {
+   "name": "TPS3839G33DBZR",
+   "lcsc": "C485802",
+   "body_w": 51.0,
+   "body_h": 41.0,
+   "vol_w": 51.0,
+   "vol_h": 41.0
+  },
+  "6a10ae8bb76743fa83467ccf43066224": {
+   "name": "XH-3PA",
+   "lcsc": "C5258884",
+   "body_w": 21.0,
+   "body_h": 41.0,
+   "vol_w": 21.0,
+   "vol_h": 41.0
+  },
+  "7a70948fba984342a66462848ff0f10c": {
+   "name": "AP63203WU-7",
+   "lcsc": "C780769",
+   "body_w": 51.0,
+   "body_h": 41.0,
+   "vol_w": 51.0,
+   "vol_h": 41.0
+  },
+  "3c6fe03f718e49caa716724cb9bb4ff0": {
+   "name": "SY8113BADC",
+   "lcsc": "C78989",
+   "body_w": 61.0,
+   "body_h": 50.0,
+   "vol_w": 61.0,
+   "vol_h": 50.0
+  },
+  "79f5b61c4f364bb6ac6f2d2396b00a91": {
+   "name": "RC0805FR-07100KL",
+   "lcsc": "C96346",
+   "body_w": 21.0,
+   "body_h": 9.0,
+   "vol_w": 21.0,
+   "vol_h": 9.0
+  }
+ }
+}

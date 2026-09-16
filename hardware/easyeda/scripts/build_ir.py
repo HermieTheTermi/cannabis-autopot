@@ -8,12 +8,17 @@ für den easyeda CLI-Designflow S0-S6.
 Quellen (unveraendert gelesen):
   - hardware/schaltplan_v1_netzliste.csv   (Netz, Bauteil, Pin, Bemerkung)
   - hardware/pcba_bom_jlc.csv              (Werte, LCSC-Codes)
-  - raw/lib_by_lcsc.json                   (Device-Identitaet, per easyeda lib by-lcsc)
+  - raw/lcsc_map.json                      (LCSC -> Device-Identitaet)
   - raw/probe*.json                        (echte Pin-Tabellen aus easyeda sch list --include-pins)
 
 Aufruf:
   python3 scripts/build_ir.py            -> raw/ir_draft.json, raw/ir_numbered.json,
                                             raw/no_place.json, raw/ir_report.txt
+
+Die Bauteilliste (COMPS: funktionaler Name, LCSC, Modul, Rolle) wird **aus der Netzliste
+abgeleitet** — maßgeblich ist ausschliesslich hardware/schaltplan_v1_netzliste.csv. Jeder
+Designator der Netzliste mit LCSC-Code muss vorkommen; fehlt einer oder ist die Zuordnung
+unvollstaendig, bricht das Skript laut ab (kein stilles Weglassen).
 
 Die Designator-Nummerierung (S2, `sch designators allocate`) ist hier als reine
 Datei-Transformation nachgebildet: `raw/designator_changes.json` bildet funktionale
@@ -32,114 +37,166 @@ ROOT = os.path.dirname(HERE)          # hardware/easyeda
 REPO = os.path.dirname(os.path.dirname(ROOT))  # repo root
 RAW = os.path.join(ROOT, 'raw')
 
-# --- Bauteile: Originalbezeichnung -> (LCSC, Modul, Rolle/Beschreibung) -------
-# Die Originalbezeichnungen sind die funktionalen Namen aus dem Projekt (R_EN, C_BTN, ...).
-# Nicht-nummerierte Namen sind laut Design-Flow S2 ungueltige Refdes -> sie werden per
-# `sch designators allocate` auf offizielle Library-Praefixe umbenannt; der funktionale
-# Name wandert in `role`.
-COMPS = [
-    # --- Stromversorgung / Lader ---
-    ("U3", "C424093", "LADER", "1S-LiPo-Lader 4,20 V"),
-    ("U4", "C82942", "LDO", "LDO 3,3 V / 500 mA"),
-    ("U7", "C16711", "WAEChTER", "Unterspannungswaechter 3,08 V"),
-    ("U1", "C5736265", "MCU", "ESP32-C6-MINI-1 WLAN-Modul"),
-    ("U6", "C7519", "USB", "USB-ESD-Schutz USBLC6-2SC6"),
-    ("Q1", "C20917", "PUMPE", "N-MOSFET Pumpentreiber"),
-    ("D1", "C191023", "PUMPE", "Freilaufdiode Pumpe"),
-    ("D3", "C191023", "PUMPE", "Klemmzweig Gate"),
-    ("D2", "C2297", "MCU", "Status-LED gruen 525 nm"),
-    ("D5", "C84256", "MCU", "Tank-leer-LED rot"),
-    ("D_LEDCHG", "C84256", "LADER", "Ladestatus-LED rot"),
-    ("C1a", "C49678", "MCU", "Decoupling Modul 100 nF"),
-    ("C1b", "C49678", "MCU", "Decoupling Modul 100 nF"),
-    ("C2", "C45783", "MCU", "Bulk 22 uF am Modul-3V3"),
-    ("C3", "C970684", "AKKU", "Elko 100 uF Pumpenpuffer"),
-    ("C4", "C15849", "MCU", "EN-RC 1 uF"),
-    ("C5", "C15850", "LDO", "LDO-Eingang 10 uF"),
-    ("C6", "C15849", "LDO", "LDO-Ausgang 1 uF"),
-    ("C7", "C1779", "LADER", "Lader-Eingang 4,7 uF"),
-    ("C8", "C1779", "LADER", "Lader-Ausgang 4,7 uF"),
-    ("C9", "C49678", "MCU", "ADC-Filter Sensor 100 nF"),
-    ("C10", "C49678", "MCU", "ADC-Filter VBAT 100 nF"),
-    ("C11", "C49678", "PUMPE", "EMI an Pumpenklemmen 100 nF"),
-    ("C12", "C49678", "WAEChTER", "Decoupling MAX809 100 nF"),
-    ("C_BTN", "C49678", "TASTER", "Taster-Entprellung 100 nF"),
-    ("R1", "C17673", "PUMPE", "Gate-Serie 4,7 k"),
-    ("R2", "C17713", "PUMPE", "Gate-Pulldown 47 k"),
-    ("R3a", "C17539", "WAEChTER", "VBAT-Teiler oben 200 k"),
-    ("R3b", "C17539", "WAEChTER", "VBAT-Teiler unten 200 k"),
-    ("R4", "C17557", "MCU", "Status-LED 220 R"),
-    ("R5a", "C27834", "USB", "CC1-Pulldown 5,1 k"),
-    ("R5b", "C27834", "USB", "CC2-Pulldown 5,1 k"),
-    ("R6", "C17513", "SENSOR", "Sensor-AOUT Serie 1 k"),
-    ("R_EN", "C17414", "MCU", "EN-Pull-up 10 k"),
-    ("R_BOOT", "C17414", "MCU", "GPIO9-Pull-up 10 k"),
-    ("R_GPIO8", "C17414", "MCU", "GPIO8-Strap-Pull-up 10 k"),
-    ("R_BTN", "C17414", "TASTER", "Taster-Pull-up 10 k"),
-    ("R_PROG", "C17614", "LADER", "Ladestrom 3,9 k -> 256 mA"),
-    ("R_LEDCHG", "C17513", "LADER", "Lade-LED 1 k"),
-    ("R_TANK", "C17513", "MCU", "Tank-LED 1 k"),
-    ("R_UART", "C17722", "DEBUG", "TXD0-Serie 499 R (DNP)"),
-    ("J1", "C160352", "AKKU", "Akku JST-PH 2P aufrecht (Top-Entry)"),
-    ("J2", "C493416", "SENSOR", "Sensor JST-XH 3P aufrecht (Top-Entry)"),
-    ("J4", "C158012", "PUMPE", "Dosierpumpe JST-XH 2P aufrecht (Top-Entry)"),
-    ("J_PUMP2", "C158012", "PUMPE", "Sauerstoffpumpe JST-XH 2P aufrecht"),
-    # --- Boost 5 V (15.09.2026): VBAT -> +5 V fuer BEIDE Pumpen ---
-    ("U_BOOST", "C84817", "BOOST", "MT3608 Aufwaertsregler 5 V"),
-    ("L_BOOST", "C341068", "BOOST", "Boost-Induktivitaet 22 uH YNR6045"),
-    ("D_BOOST", "C8678", "BOOST", "Boost-Diode SS34 3A/40V"),
-    ("C_BST_IN", "C45783", "BOOST", "Boost-Eingang 22 uF"),
-    ("C_BST_OUT", "C45783", "BOOST", "Boost-Ausgang 22 uF"),
-    ("C_BST_HF", "C49678", "BOOST", "Boost-Ausgang HF 100 nF"),
-    ("R_FB_TOP", "C17819", "BOOST", "Feedback oben 75 k -> 5,10 V"),
-    ("R_FB_BOT", "C17414", "BOOST", "Feedback unten 10 k"),
-    # --- zweiter Pumpenpfad: Sauerstoffpumpe (15.09.2026) ---
-    ("Q_PUMP2", "C20917", "PUMPE", "N-MOSFET Sauerstoffpumpe"),
-    ("R_GATE2", "C17673", "PUMPE", "Gate-Serie 4,7 k"),
-    ("R_CLAMP1", "C17414", "PUMPE", "Serienwiderstand im Klemmzweig Dosierpumpe (10 k)"),
-    ("R_CLAMP2", "C17414", "PUMPE", "Serienwiderstand im Klemmzweig Sauerstoffpumpe (10 k)"),
-    ("R_EN_PU", "C17713", "BOOST", "Pull-up des Boost-EN an VBAT (47 k), Waechter zieht ihn auf Low"),
-    ("R_GATE2_PD", "C17713", "PUMPE", "Gate-Pulldown 47 k"),
-    ("D_FLY2", "C191023", "PUMPE", "Freilaufdiode Sauerstoffpumpe"),
-    ("D_CLAMP2", "C191023", "PUMPE", "Klemmzweig Gate Sauerstoffpumpe"),
-    ("C_PUMP2_EMI", "C49678", "PUMPE", "EMI an den Klemmen Sauerstoffpumpe 100 nF"),
-    ("J5", "C165948", "USB", "USB-C 16P Buchse"),
-    ("SW1", "C318884", "MCU", "Reset-Taster"),
-    ("SW2", "C318884", "MCU", "Boot-Taster"),
-    ("J6", "NO_LCSC_J6", "TASTER", "2 Loetpads externer Taster"),
-    ("TP1", "NO_LCSC_TP", "DEBUG", "Testpad TXD0"),
-    ("TP2", "NO_LCSC_TP", "MCU", "Testpad RXD0"),
-    ("TP3", "NO_LCSC_TP", "AKKU", "Testpad GND"),
-    ("TP4", "NO_LCSC_TP", "AKKU", "Testpad VBAT"),
-    ("TP5", "NO_LCSC_TP", "LDO", "Testpad +3V3"),
-    ("TP6", "NO_LCSC_TP", "SENSOR", "Testpad SENSOR_AOUT"),
-    # --- Lichtsensor (13.09.2026); J7 seit 14.09.2026 Stiftleiste statt JST-XH ---
-    ("J7", "C2937625", "LICHT", "Lichtsensor Stiftleiste 1x3 2.54 mm (extern)"),
-    ("R_LIGHT", "C17414", "LICHT", "Licht-Lastwiderstand 10 k nach GND"),
-    ("R_LIGHT_S", "C17513", "LICHT", "Licht-Serienschutz 1 k zum ADC"),
-    ("C_LIGHT", "C49678", "LICHT", "ADC-Filter Licht 100 nF"),
-    # --- Erweiterung (14.09.2026): freie GPIOs + I2C auf 2,54-mm-Stiftleisten ---
-    ("J8", "C2691448", "ERWEITERUNG", "I2C Stiftleiste 1x4 (GND-VCC-SDA-SCL)"),
-    ("J9", "C2937625", "ERWEITERUNG", "Reserve-Analog Stiftleiste 1x3 (IO5)"),
-    ("J10", "C2937625", "ERWEITERUNG", "Reserve IO15 Stiftleiste 1x3"),
-    ("J11", "C2937625", "ERWEITERUNG", "Reserve IO16 (TXD0) Stiftleiste 1x3"),
-    ("J12", "C2937625", "ERWEITERUNG", "Reserve IO17 (RXD0) Stiftleiste 1x3"),
-    ("J13", "C2937625", "ERWEITERUNG", "Reserve IO21 Stiftleiste 1x3"),
-    ("J15", "C2937625", "ERWEITERUNG", "Reserve IO23 Stiftleiste 1x3"),
-    ("Q2", "C15127", "ERWEITERUNG", "P-Kanal-Load-Switch VCC_EXT"),
-    ("R_GATE", "C17713", "ERWEITERUNG", "Gate-Pull-up Load-Switch 47 k"),
-    ("R_SDA_PU", "C17414", "ERWEITERUNG", "I2C SDA Pull-up 10 k an VCC_EXT"),
-    ("R_SCL_PU", "C17414", "ERWEITERUNG", "I2C SCL Pull-up 10 k an VCC_EXT"),
-    ("R_SDA_S", "C17513", "ERWEITERUNG", "I2C SDA Serienschutz 1 k"),
-    ("R_SCL_S", "C17513", "ERWEITERUNG", "I2C SCL Serienschutz 1 k"),
-    ("R_SPARE_AIN", "C17513", "ERWEITERUNG", "Reserve-AIN Serienschutz 1 k"),
-    ("R_SPARE_IO15", "C17513", "ERWEITERUNG", "Reserve IO15 Serienschutz 1 k"),
-    ("R_SPARE_IO16", "C17513", "ERWEITERUNG", "Reserve IO16 Serienschutz 1 k"),
-    ("R_SPARE_IO17", "C17513", "ERWEITERUNG", "Reserve IO17 Serienschutz 1 k"),
-    ("R_SPARE_IO21", "C17513", "ERWEITERUNG", "Reserve IO21 Serienschutz 1 k"),
-    ("R_SPARE_IO23", "C17513", "ERWEITERUNG", "Reserve IO23 Serienschutz 1 k"),
-    ("C_SPARE", "C49678", "ERWEITERUNG", "ADC-Filter Reserve-Analog 100 nF"),
-]
+NETLIST = os.path.join(REPO, 'hardware', 'schaltplan_v1_netzliste.csv')
+BOM = os.path.join(REPO, 'hardware', 'pcba_bom_jlc.csv')
+
+# --- Bauteile: funktionaler Name -> (Modul, Rolle/Beschreibung) ----------------
+# Die funktionalen Namen sind die Designatoren der Handnetzliste. Sie werden per
+# `sch designators allocate` (raw/designator_changes.json) auf offizielle
+# Library-Praefixe umbenannt; der funktionale Name wandert in `role`.
+#
+# Stand 16.09.2026 (2S + Schutzbeschaltung): abgeleitet aus
+# hardware/schaltplan_v1_netzliste.csv. Die Schutzbeschaltung hat ein eigenes
+# Modul SCHUTZ (U_PROT, Q_PROT1/Q_PROT2, R_PROT_*, C_PROT_*, R_CB).
+COMP_META = {
+    # --- USB-C Eingang ---
+    ('J5', 'USB'): 'USB-C 16P Buchse (Laden + Programmieren)',
+    ('U6', 'USB'): 'USB-ESD-Schutz USBLC6-2SC6',
+    ('R5a', 'USB'): 'CC1-Pulldown 5,1 k',
+    ('R5b', 'USB'): 'CC2-Pulldown 5,1 k',
+    # --- Stromversorgung / Lader (2S-Boost-Lader IP2326) ---
+    ('U_CHG', 'LADER'): '2S-Boost-Lader IP2326, Ladeschluss 8,4 V',
+    ('C_CHG_IN', 'LADER'): 'Lader-Eingang 10 uF (Datenblatt C1)',
+    ('C_CHG_VIN', 'LADER'): '10 uF direkt am VIN-Pin (Datenblatt C3)',
+    ('C_CHG_OUT', 'LADER'): '10 uF am Boost-Ausgang (Datenblatt C6/C7)',
+    ('R_VIN_CHG', 'LADER'): 'VIN-Filterwiderstand 0,5 Ohm (kein Shunt)',
+    ('L_CHG', 'LADER'): 'Boost-Induktivitaet 2,2 uH',
+    ('C_BST_CHG', 'LADER'): 'Bootstrap 100 nF (Datenblatt C2)',
+    ('R_ISET', 'LADER'): 'Ladestrom 100 k -> 0,90 A',
+    ('R_NTC', 'LADER'): 'NTC-Funktion stillgelegt 51 k',
+    ('R_UVSET', 'LADER'): 'Eingangs-Unterspannungsschwelle 68 k (4,35 V)',
+    ('R_EN_CHG', 'LADER'): 'Lader-EN-Pull-up 100 k',
+    ('R_LEDCHG', 'LADER'): 'Lade-LED-Vorwiderstand 1 k',
+    ('D_LEDCHG', 'LADER'): 'Ladestatus-LED rot',
+    ('C_VSYS_A', 'LADER'): '22 uF direkt am VSYS-Pin (Datenblatt C4)',
+    ('C_VSYS_B', 'LADER'): '22 uF direkt am VSYS-Pin (Datenblatt C5)',
+    # --- 5-V-Buck (SY8113B) ---
+    ('U_BUCK5', 'BOOST'): '5-V-Buck SY8113B, 5,10 V / 3 A',
+    ('L_BUCK5', 'BOOST'): 'Buck-Induktivitaet 4,7 uH',
+    ('C_B5_BST', 'BOOST'): 'Bootstrap 100 nF',
+    ('C_B5_IN', 'BOOST'): '22 uF Buck-Eingang',
+    ('C_B5_IN_HF', 'BOOST'): '100 nF HF Buck-Eingang',
+    ('C_B5_OUT', 'BOOST'): '22 uF Buck-Ausgang',
+    ('C_B5_OUT_HF', 'BOOST'): '100 nF HF Buck-Ausgang',
+    ('R_FB5_TOP', 'BOOST'): 'Feedback oben 75 k -> 5,10 V',
+    ('R_FB5_BOT', 'BOOST'): 'Feedback unten 10 k',
+    # --- 3,3-V-Buck (AP63203) ---
+    ('U_BUCK3', 'LDO'): '3,3-V-Buck AP63203, 3,31 V / 2 A',
+    ('L_BUCK3', 'LDO'): 'Buck-Induktivitaet 4,7 uH',
+    ('C_B3_BST', 'LDO'): 'Bootstrap 100 nF',
+    ('C_B3_IN', 'LDO'): '22 uF Buck-Eingang',
+    ('C_B3_IN_HF', 'LDO'): '100 nF HF Buck-Eingang',
+    ('C_B3_OUT', 'LDO'): '22 uF Buck-Ausgang',
+    ('C_B3_OUT_HF', 'LDO'): '100 nF HF Buck-Ausgang',
+    ('R_FB3_TOP', 'LDO'): 'Feedback oben 47 k -> 3,31 V',
+    ('R_FB3_BOT', 'LDO'): 'Feedback unten 15 k',
+    ('TP5', 'LDO'): 'Testpad +3V3',
+    # --- Unterspannungswaechter (TPS3839) ---
+    ('U7', 'WAEChTER'): 'Unterspannungswaechter TPS3839G33 (3,08 V)',
+    ('R3a', 'WAEChTER'): 'UVLO-Teiler oben 200 k',
+    ('R3b', 'WAEChTER'): 'UVLO-Teiler unten 200 k',
+    ('C12', 'WAEChTER'): 'Decoupling Waechter 100 nF',
+    # --- Akku-Schutz auf der Platine (HY2120-CB + 2x PSMN4R2-30MLDX) ---
+    ('U_PROT', 'SCHUTZ'): '2-Zellen-Schutz-IC HY2120-CB',
+    ('Q_PROT1', 'SCHUTZ'): 'Entlade-MOSFET PSMN4R2-30MLDX',
+    ('Q_PROT2', 'SCHUTZ'): 'Lade-MOSFET PSMN4R2-30MLDX',
+    ('R_PROT_VDD', 'SCHUTZ'): '330 R zum VDD-Pin des Schutz-IC',
+    ('R_PROT_VC', 'SCHUTZ'): '330 R zum VC-Pin des Schutz-IC',
+    ('R_PROT_CS', 'SCHUTZ'): 'CS-Widerstand 2 k zum Board-GND',
+    ('C_PROT_VDD', 'SCHUTZ'): 'VDD-Filter 100 nF nach Pack-Minus',
+    ('C_PROT_VC', 'SCHUTZ'): 'VC-Filter 100 nF nach Pack-Minus',
+    ('R_CB', 'SCHUTZ'): 'Balancing-Widerstand 100 R zum Mittelabgriff',
+    # --- Akku / Puffer ---
+    ('J1', 'AKKU'): 'Akku JST-XH 3P (B-/MID/B+), aufrecht',
+    ('C3', 'AKKU'): 'Elko 100 uF Pumpenpuffer auf +5V',
+    ('TP3', 'AKKU'): 'Testpad GND',
+    ('TP4', 'AKKU'): 'Testpad VBAT',
+    # --- MCU + Beschaltung ---
+    ('U1', 'MCU'): 'ESP32-C6-MINI-1 WLAN-Modul',
+    ('C2', 'MCU'): 'Bulk 22 uF am Modul-3V3',
+    ('C1a', 'MCU'): 'Decoupling Modul 100 nF',
+    ('C1b', 'MCU'): 'Decoupling Modul 100 nF',
+    ('C13', 'MCU'): 'Decoupling Modul 100 nF',
+    ('C4', 'MCU'): 'EN-RC 1 uF',
+    ('C9', 'MCU'): 'ADC-Filter Sensor 100 nF',
+    ('C10', 'MCU'): 'ADC-Filter VBAT 100 nF',
+    ('R_EN', 'MCU'): 'EN-Pull-up 10 k',
+    ('R_BOOT', 'MCU'): 'GPIO9-Pull-up 10 k',
+    ('R_GPIO8', 'MCU'): 'GPIO8-Strap-Pull-up 10 k',
+    ('R4', 'MCU'): 'Status-LED 220 R',
+    ('R_TANK', 'MCU'): 'Tank-LED 1 k',
+    ('R_SENSE_TOP', 'MCU'): 'ADC-Teiler oben 200 k (1:3,94)',
+    ('R_SENSE_BOT', 'MCU'): 'ADC-Teiler unten 68 k',
+    ('D2', 'MCU'): 'Status-LED gruen 525 nm',
+    ('D5', 'MCU'): 'Tank-leer-LED rot',
+    ('SW1', 'MCU'): 'Reset-Taster',
+    ('SW2', 'MCU'): 'Boot-Taster',
+    ('TP2', 'MCU'): 'Testpad RXD0',
+    # --- Taster ---
+    ('R_BTN', 'TASTER'): 'Taster-Pull-up 10 k',
+    ('C_BTN', 'TASTER'): 'Taster-Entprellung 100 nF',
+    ('J6', 'TASTER'): '2 Loetpads externer Taster',
+    # --- Sensor-Eingang ---
+    ('J2', 'SENSOR'): 'Feuchtesensor JST-XH 3P, aufrecht',
+    ('J17', 'SENSOR'): '5-V-Ausgang fuer Sensorik JST-XH 2P',
+    ('R6', 'SENSOR'): 'Sensor-AOUT Serie 1 k',
+    ('TP6', 'SENSOR'): 'Testpad SENSOR_AOUT',
+    # --- Pumpen ---
+    ('Q1', 'PUMPE'): 'N-MOSFET Pumpentreiber Dosierpumpe',
+    ('D1', 'PUMPE'): 'Freilaufdiode Dosierpumpe',
+    ('D3', 'PUMPE'): 'Klemmzweig-Diode Dosierpumpe',
+    ('R1', 'PUMPE'): 'Gate-Serie 1 k',
+    ('R2', 'PUMPE'): 'Gate-Pulldown 47 k',
+    ('R_CLAMP1', 'PUMPE'): 'Klemmzweig-Serie 10 k Dosierpumpe',
+    ('C11', 'PUMPE'): 'EMI an den Pumpenklemmen 100 nF',
+    ('J4', 'PUMPE'): 'Dosierpumpe JST-XH 2P, aufrecht',
+    ('Q_PUMP2', 'PUMPE'): 'N-MOSFET Sauerstoffpumpe',
+    ('R_GATE2', 'PUMPE'): 'Gate-Serie 1 k Kanal 2',
+    ('R_GATE2_PD', 'PUMPE'): 'Gate-Pulldown 47 k Kanal 2',
+    ('D_FLY2', 'PUMPE'): 'Freilaufdiode Sauerstoffpumpe',
+    ('D8', 'PUMPE'): 'Klemmzweig-Diode Sauerstoffpumpe',
+    ('R_CLAMP2', 'PUMPE'): 'Klemmzweig-Serie 10 k Sauerstoffpumpe',
+    ('C_PUMP2_EMI', 'PUMPE'): 'EMI an den Klemmen Sauerstoffpumpe 100 nF',
+    ('J16', 'PUMPE'): 'Sauerstoffpumpe JST-XH 2P, aufrecht',
+    # --- Debug ---
+    ('R_UART', 'DEBUG'): 'UART-Serie 499 R (DNP)',
+    ('TP1', 'DEBUG'): 'Testpad TXD0',
+    # --- Lichtsensor ---
+    ('J7', 'LICHT'): 'Lichtsensor-Stiftleiste 1x3 2,54 mm',
+    ('R_LIGHT', 'LICHT'): 'Licht-Lastwiderstand 10 k nach GND',
+    ('R_LIGHT_S', 'LICHT'): 'Licht-Serienschutz 1 k zum ADC',
+    ('C_LIGHT', 'LICHT'): 'ADC-Filter Licht 100 nF',
+    # --- Erweiterung ---
+    ('J8', 'ERWEITERUNG'): 'I2C-Stiftleiste 1x4 (GND-VCC-SDA-SCL)',
+    ('J9', 'ERWEITERUNG'): 'Reserve-Analog Stiftleiste 1x3 (IO5)',
+    ('J10', 'ERWEITERUNG'): 'Reserve IO15 Stiftleiste 1x3',
+    ('J11', 'ERWEITERUNG'): 'Reserve IO16 (TXD0) Stiftleiste 1x3',
+    ('J12', 'ERWEITERUNG'): 'Reserve IO17 (RXD0) Stiftleiste 1x3',
+    ('J13', 'ERWEITERUNG'): 'Reserve IO21 Stiftleiste 1x3',
+    ('J15', 'ERWEITERUNG'): 'Reserve IO23 Stiftleiste 1x3',
+    ('Q2', 'ERWEITERUNG'): 'P-Kanal-Load-Switch VCC_EXT',
+    ('R_GATE', 'ERWEITERUNG'): 'Gate-Pull-up Load-Switch 47 k',
+    ('R_SDA_PU', 'ERWEITERUNG'): 'I2C-SDA-Pull-up 4,7 k an VCC_EXT',
+    ('R_SCL_PU', 'ERWEITERUNG'): 'I2C-SCL-Pull-up 4,7 k an VCC_EXT',
+    ('R_SDA_S', 'ERWEITERUNG'): 'I2C-SDA-Serienschutz 1 k',
+    ('R_SCL_S', 'ERWEITERUNG'): 'I2C-SCL-Serienschutz 1 k',
+    ('R_SPARE_AIN', 'ERWEITERUNG'): 'Reserve-AIN-Serienschutz 1 k',
+    ('R_SPARE_IO15', 'ERWEITERUNG'): 'Reserve-IO15-Serienschutz 1 k',
+    ('R_SPARE_IO16', 'ERWEITERUNG'): 'Reserve-IO16-Serienschutz 1 k',
+    ('R_SPARE_IO17', 'ERWEITERUNG'): 'Reserve-IO17-Serienschutz 1 k',
+    ('R_SPARE_IO21', 'ERWEITERUNG'): 'Reserve-IO21-Serienschutz 1 k',
+    ('R_SPARE_IO23', 'ERWEITERUNG'): 'Reserve-IO23-Serienschutz 1 k',
+    ('C_SPARE', 'ERWEITERUNG'): 'ADC-Filter Reserve-Analog 100 nF',
+}
+
+# Bauteile ohne LCSC-Code in der JLC-BOM: auf ein eigenes Geraet abgebildet
+# (Loetpads, Testpunkte, DNP-Bauteile). Der Modulschluessel bleibt der funktionale Name.
+NO_LCSC = {
+    'J6': 'NO_LCSC_J6',
+    'TP1': 'NO_LCSC_TP', 'TP2': 'NO_LCSC_TP', 'TP3': 'NO_LCSC_TP',
+    'TP4': 'NO_LCSC_TP', 'TP5': 'NO_LCSC_TP', 'TP6': 'NO_LCSC_TP',
+    'R_UART': 'NO_LCSC_R_UART',
+}
 
 # Loetpads/Bohrungen ohne Bestueckungsplatz (Sonderfall): sie stehen in der IR und
 # werden geprueft, aber weder platziert noch verdrahtet. TP1-TP6 und J6 liegen als
@@ -153,6 +210,10 @@ EXTRA_DEVICES = {
     "NO_LCSC_J6": ("0819f05c4eef4c71ace90d822a990e87", "72b9be21f4ad4d53a42178e79731ea2a", "HDR-TH 2P, 2,54 mm"),
     # 5010-Testpad TH (Messspitze)
     "NO_LCSC_TP": ("0819f05c4eef4c71ace90d822a990e87", "1d9ad61565194f66a2bb1c832c938c3d", "5010-Testpoint"),
+    # R_UART (499 R) ist DNP und hat in der BOM bewusst keinen LCSC-Code; das
+    # gemessene Widerstands-Symbol wird ueber die Device-UUID des 499-Ohm-Geraets
+    # eingebunden (keine eigene Bestellposition).
+    "NO_LCSC_R_UART": ("0819f05c4eef4c71ace90d822a990e87", "68e77fee64a84125bdea1b394c2e5985", "0805W8F4990T5E"),
 }
 
 # Neue Bibliotheksteile der Erweiterung (14.09.2026). Die Device-Identitaeten wurden live mit
@@ -194,6 +255,16 @@ NET_META = {
     "+3V3": ("global", "power"),
     "+5V": ("global", "power"),
     "VBUS": ("global", "power"),
+    # --- 2S + Schutzbeschaltung (16.09.2026) ---
+    "BAT_MINUS": ("global", "ground"),   # Pack-Minus hinter dem Schutz, masseartig
+    "MID": ("local", "signal"),          # Mittelabgriff (Zelle 1 + / Zelle 2 -)
+    "PROT_VDD": ("local", "signal"),
+    "PROT_VC": ("local", "signal"),
+    "PROT_GATE_D": ("local", "signal"),
+    "PROT_GATE_C": ("local", "signal"),
+    "PROT_CS": ("local", "signal"),
+    "PROT_COMMON": ("local", "signal"),
+    "VBATM_CHG": ("local", "signal"),
 }
 
 # --- Pin-Spezifikationen aus der Netzliste aufloesen --------------------------
@@ -203,13 +274,24 @@ NAME_SPECS = {
     # (Bauteil, Text) -> Liste von Pin-Namen (Praefix-Wildcard moeglich)
     ("J5", "VBUS (A4/A9/B4/B9)"): ["VBUS"],
     ("U1", "VDD33 (alle)"): [],
+    # IP2326: das Symbol fuehrt das Thermo-Pad als Pin 25 mit Namen "EP";
+    # die Netzliste schreibt dafuer "EPAD" (Datenblatt-Sprechweise).
+    ("U_CHG", "EPAD"): ["EP"],
 }
 
 RANGE_RE = re.compile(r'^(\d+)\s*-\s*(\d+)$')
 
 
 def load_pin_tables():
-    """Echte Pin-Tabellen je Device-UUID aus den Live-Messungen (probe*.json)."""
+    """Echte Pin-Tabellen je Device-UUID aus den Live-Messungen (probe*.json).
+
+    Der Device-Schluessel steckt je nach Dateigeneration in einem anderen Feld:
+      * Systembibliothek (device.libraryUuid == 0819f05c...) + 32-stellige device.uuid
+        -> der Schluessel ist device.uuid (die 32-stellige Device-UUID).
+      * sonst (alte probe*.json) -> der Schluessel ist device.libraryUuid.
+    Beide Generationen muessen ladbar bleiben.
+    """
+    SYS_LIB = "0819f05c4eef4c71ace90d822a990e87"
     tables = {}
     for name in sorted(os.listdir(RAW)):
         if not name.startswith('probe') or not name.endswith('.json'):
@@ -217,16 +299,72 @@ def load_pin_tables():
         data = json.load(open(os.path.join(RAW, name)))
         for c in data['result']['components']:
             dev = c.get('device') or {}
-            # --include-device-identity liefert die 32-stellige Device-Library-UUID in
-            # device.libraryUuid; device.uuid bleibt die 16-stellige Instanz-ID.
-            uuid = dev.get('libraryUuid')
-            if not uuid or len(uuid) != 32 or not c.get('pins'):
+            lu = dev.get('libraryUuid')
+            uu = dev.get('uuid')
+            if lu == SYS_LIB and isinstance(uu, str) and len(uu) == 32:
+                key = uu
+            else:
+                key = lu
+            if not key or not isinstance(key, str) or len(key) != 32 or not c.get('pins'):
                 continue
-            tables.setdefault(uuid, [
+            tables.setdefault(key, [
                 {"number": p["pinNumber"], "name": p["pinName"]}
                 for p in c["pins"]
             ])
     return tables
+
+
+def _read_csv(path):
+    with open(path, newline='', encoding='utf-8') as fh:
+        return list(csv.DictReader(fh))
+
+
+def _bom_lcsc():
+    """Designator -> LCSC-Code aus der JLC-BOM (Quelle der Wahrheit)."""
+    out = {}
+    for r in _read_csv(BOM):
+        for d in r['Designator'].split():
+            out[d] = r['LCSC Part #'].strip()
+    return out
+
+
+def derive_comps():
+    """COMPS ausschliesslich aus der Netzliste ableiten (maßgeblich).
+
+    Reihenfolge = Reihenfolge des ersten Auftretens in der Netzliste.
+    Bricht laut ab, wenn ein Designator kein Modul/Rolle oder keinen LCSC-Code
+    (auch keinen NO_LCSC-Ersatz) hat.
+    """
+    bom = _bom_lcsc()
+    order = []
+    for r in _read_csv(NETLIST):
+        if r['Netz'].strip().startswith('#'):
+            continue
+        c = r['Bauteil'].strip()
+        if c and c not in order:
+            order.append(c)
+    meta_by_name = {nm: (mod, desc) for (nm, mod), desc in COMP_META.items()}
+    comps, problems = [], []
+    for name in order:
+        meta = meta_by_name.get(name)
+        if meta is None:
+            problems.append(f"{name}: kein Modul/Rolle in COMP_META")
+            continue
+        module, desc = meta
+        lcsc = bom.get(name, '')
+        if not lcsc:
+            lcsc = NO_LCSC.get(name)
+            if lcsc is None:
+                problems.append(f"{name}: kein LCSC-Code in der BOM und kein NO_LCSC-Ersatz")
+                continue
+        comps.append((name, lcsc, module, desc))
+    if problems:
+        raise SystemExit("COMPS-Ableitung unvollstaendig (Netzliste ist maßgeblich):\n  "
+                         + "\n  ".join(problems))
+    return comps
+
+
+COMPS = derive_comps()
 
 
 def resolve(spec, comp, pins):
@@ -355,7 +493,7 @@ def main():
         by_name[name] = comp
 
     nets = {}
-    with open(os.path.join(REPO, 'hardware', 'schaltplan_v1_netzliste.csv'), newline='', encoding='utf-8') as fh:
+    with open(NETLIST, newline='', encoding='utf-8') as fh:
         for row in csv.DictReader(fh):
             net, comp_ref, spec = row['Netz'].strip(), row['Bauteil'].strip(), row['Pin'].strip()
             # Kommentarzeilen (Netzname beginnt mit '#') sind reine Doku und werden nicht
@@ -409,8 +547,9 @@ def main():
         "connections": sorted(conns, key=lambda c: (c['componentId'], c['pinNumber'])),
     }
     json.dump(doc, open(os.path.join(RAW, 'ir_draft.json'), 'w'), ensure_ascii=False, indent=1)
-    numbered, num_problems = number_designators(doc)
+    numbered, num_problems, num_notes = number_designators(doc)
     problems += num_problems
+    notes += num_notes
     json.dump(numbered, open(os.path.join(RAW, 'ir_numbered.json'), 'w'), ensure_ascii=False, indent=1)
 
     # Bericht
@@ -436,22 +575,32 @@ def main():
 
 
 def number_designators(doc):
-    """S2: funktionale Namen -> numerische Refdes (Ersatz fuer `sch designators allocate`)."""
+    """S2: funktionale Namen -> numerische Refdes (Ersatz fuer `sch designators allocate`).
+
+    Die Allokation kommt ausschliesslich aus raw/designator_changes.json. Bauteile ohne
+    Allokation behalten vorlaeufig ihren funktionalen Namen (der Koordinator vergibt sie
+    live per `sch designators allocate`). Eine Kollision (zwei Bauteile mit demselben
+    Designator) wird laut gemeldet.
+    """
     changes = json.load(open(os.path.join(RAW, 'designator_changes.json')))
     after = {c['componentId']: c['after'] for c in changes}
     numbered = json.loads(json.dumps(doc))       # tiefe Kopie ohne import copy
     for c in numbered['components']:
         if c['id'] in after:
             c['ref'] = after[c['id']]
-    problems = []
-    for c in numbered['components']:
-        if not re.match(r'^[A-Z]+[0-9]+$', c['ref']):
-            problems.append(f"{c['id']}: kein numerischer Designator ({c['ref']})")
+    problems, notes = [], []
     refs = [c['ref'] for c in numbered['components']]
     dups = sorted({r for r in refs if refs.count(r) > 1})
     if dups:
         problems.append("Designator-Kollision: " + ", ".join(dups))
-    return numbered, problems
+    # Funktionale Namen ohne Allokation sind kein Fehler: laut Arbeitsweise fuehrt COMPS
+    # bewusst funktionale Namen, die endgueltige Nummer vergibt `sch designators allocate`.
+    unallocated = sorted(c['ref'] for c in numbered['components']
+                         if not re.match(r'^[A-Z]+[0-9]+$', c['ref']))
+    if unallocated:
+        notes.append(f"{len(unallocated)} Bauteil(e) warten auf die Designator-Allokation "
+                     f"(funktionaler Name bleibt vorlaeufig): " + ", ".join(unallocated))
+    return numbered, problems, notes
 
 
 def net_id(name):

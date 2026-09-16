@@ -1,12 +1,12 @@
 {
  "connections": [
   {
-   "pin": "R16:1",
+   "pin": "R47:1",
    "kind": "netport",
    "net": "UART_TX"
   },
   {
-   "pin": "R16:2",
+   "pin": "R47:2",
    "kind": "netport",
    "net": "UART_TP"
   },

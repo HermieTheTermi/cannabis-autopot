@@ -2,7 +2,7 @@
 """S3-Planung: Modulbloecke auf A1 anhand GEMESSENER Bauteil-Volumen.
 
 Liest die kanonische IR (raw/ir_numbered.json) und die live gemessenen Volumen
-(raw/measured_volumes_2026-09-15.json; je Bauteil vol_w/vol_h = Koerper PLUS
+(raw/measured_volumes_2026-09-16.json; je Bauteil vol_w/vol_h = Koerper PLUS
 eigene Marker/Stiche) und rechnet daraus
 
   * raw/placement.json  — Modulbloecke, Bauteilpositionen (Ganzzahl)
@@ -10,26 +10,34 @@ eigene Marker/Stiche) und rechnet daraus
   * raw/frames.json (+ frames_<docId>.json, frames_P1.json) — Rahmen je Modul
 
 Verfahren: Jedes Bauteil reserviert ein Volumen (vol_w x vol_h). Innerhalb eines
-Moduls packt ein Regal-Packer (Shelf) die Volumen mit >= GAP Abstand; die
-Modulbloecke verteilt ein Skyline-Bottom-Left-Packer auf dem A1-Blatt. Ein Block
-umschliesst seinen Inhalt mit >= MARGIN; Bloecke ueberlappen nicht, Nutzbereich
-und Titelblock-Freihaltezone bleiben frei.
+Moduls packt ein Regal-Packer (Shelf) die Volumen mit >= GAP Abstand so, dass der
+Block-Umriss inkl. MARGIN minimal wird; die Modulbloecke verteilt ein
+MaxRects-Packer (Best-Short-Side-Fit) auf dem A1-Blatt. Ein Block umschliesst
+seinen Inhalt mit >= MARGIN; Bloecke ueberlappen nicht, Nutzbereich und
+Titelblock-Freihaltezone bleiben frei.
 
-Fehlt ein Bauteil in der Messdatei, wird aus der Koerper-Box eine Fallback-
-Schaetzung gebildet (und im Bericht ausgewiesen).
+Volumen-Aufloesung je Bauteil (in dieser Reihenfolge):
+  1. `parts[ref]` — instanzgenauer Messwert (numerischer Designator bzw. funktionaler
+     Name aus der Allokation).
+  2. `by_device[deviceUuid]` — neuer Geraete-Messwert aus raw/measured_volumes_2026-09-16.json
+     (Schluessel = Device-UUID aus raw/lcsc_map.json), fuer Bauteile ohne instanzgenauen Wert.
+  3. Geraete-Repraesentant aus dem 1S-Bestand (gleiche Device-UUID, anderer Designator).
+  4. Fallback-Schaetzung (wird im Bericht ausgewiesen; Ziel ist "keine").
 
 Loetpads aus raw/no_place.json werden nicht platziert.
 """
 import json
 import math
 import os
+import random
 
 import build_ir
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 RAW = os.path.join(ROOT, 'raw')
-MEASURED = os.path.join(RAW, 'measured_volumes_2026-09-15.json')
+MEASURED = os.path.join(RAW, 'measured_volumes_2026-09-16.json')
+OLD_LIVE = os.path.join(RAW, 'backup_1s_live_2026-09-16.json')
 
 SHEET = (0, 0, 3304, 2338)          # A1 quer (3304 x 2338 raw)
 USABLE = (12, 12, 3292, 2326)       # Nutzbereich aus measured_volumes (Fallback)
@@ -42,20 +50,21 @@ GRID = 5
 
 TITLES = {
     'USB':         'USB-C Eingang & ESD',
-    'LADER':       'Laden (MCP73831)',
+    'LADER':       'Laden (IP2326, 2S)',
     'DEBUG':       'UART-Debug-Pads (DNP)',
     'MCU':         'ESP32-C6-MCU + Beschaltung',
-    'WAEChTER':    'Unterspannungswaechter (MAX809)',
-    'LDO':         '3V3-LDO (ME6211)',
+    'WAEChTER':    'Unterspannungswaechter (TPS3839)',
+    'LDO':         '3V3-Buck (AP63203)',
     'AKKU':        'Akku & Puffer',
     'SENSOR':      'Sensor-Eingang',
     'PUMPE':       'Pumpentreiber Dosier- + Sauerstoffpumpe',
     'TASTER':      'Taster & LEDs',
     'ERWEITERUNG': 'Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch',
-    'BOOST':       '5-V-Boost (MT3608)',
+    'BOOST':       '5-V-Buck (SY8113B)',
     'LICHT':       'Lichtsensor-Eingang',
+    'SCHUTZ':      'Akku-Schutz (HY2120-CB + PSMN4R2)',
 }
-MODULE_ORDER = ['USB', 'LADER', 'DEBUG', 'MCU', 'WAEChTER', 'LDO',
+MODULE_ORDER = ['USB', 'LADER', 'DEBUG', 'MCU', 'WAEChTER', 'SCHUTZ', 'LDO',
                 'AKKU', 'SENSOR', 'PUMPE', 'BOOST', 'TASTER', 'ERWEITERUNG', 'LICHT']
 
 # Gemessene Bounding-Boxen fehlen fuer die neuen Bibliotheksteile der Erweiterung.
@@ -127,8 +136,13 @@ def pack_module(module, parts, usable):
     width = wmin
     while width <= min(wsum, max_target):
         cw, ch = shelf_pack(items, width)
-        if best_area is None or cw * ch < best_area:
-            best_area, best_w = cw * ch, width
+        # Der Block traegt den Rand MARGIN an allen vier Seiten. Deshalb den
+        # Blockflaechen-Umriss (cw+2M)(ch+2M) minimieren, nicht die reine
+        # Inhaltsflaeche: breite Flachbloecke (z. B. LADER) verschwendeten
+        # sonst Rand und liessen sich nicht dicht kacheln.
+        block_area = (cw + 2 * MARGIN) * (ch + 2 * MARGIN)
+        if best_area is None or block_area < best_area:
+            best_area, best_w = block_area, width
         width += GRID
     shelf_pack(items, best_w)
 
@@ -153,64 +167,109 @@ def pack_module(module, parts, usable):
             'content': (cmn_x, cmn_y, cmx_x, cmx_y), 'items': items}
 
 
-def skyline_init(usable, keepout):
-    segs = [(usable[0], keepout[0], usable[1]),
-            (keepout[0], keepout[2], keepout[3])]
-    if keepout[2] < usable[2]:
-        segs.append((keepout[2], usable[2], usable[1]))
-    return [list(s) for s in segs]
+def rects_intersect(a, b):
+    return (a[0] < b[2] - 1e-9 and b[0] < a[2] - 1e-9
+            and a[1] < b[3] - 1e-9 and b[1] < a[3] - 1e-9)
 
 
-def skyline_place(sky, usable, w, h):
-    """Bottom-Left-Platzierung; gibt (x, y) der linken unteren Ecke oder None."""
+def rect_contains(a, b):
+    return (a[0] <= b[0] + 1e-9 and a[1] <= b[1] + 1e-9
+            and a[2] >= b[2] - 1e-9 and a[3] >= b[3] - 1e-9)
+
+
+def free_rects(usable, keepout):
+    """Nutzbereich minus Titelblock-Keepout als disjunkte Rechtecke."""
     x0, y0, x1, y1 = usable
-    best = None
-    for sx, ex, _sy in sky:
-        x = sx
-        if x + w > x1 + 1e-9:
+    kx0, ky0, kx1, ky1 = keepout
+    cand = [(x0, y0, kx0, y1), (kx1, y0, x1, y1),
+            (kx0, y0, kx1, ky0), (kx0, ky1, kx1, y1)]
+    return [r for r in cand if r[2] - r[0] > 1e-9 and r[3] - r[1] > 1e-9]
+
+
+def mr_prune(free):
+    """Von zwei freien Rechtecken das enthaltene verwerfen."""
+    out = []
+    for i, f in enumerate(free):
+        if any(i != j and rect_contains(g, f) for j, g in enumerate(free)):
             continue
-        y = y0
-        cx = x
-        ok = True
-        while cx < x + w - 1e-9:
-            seg = None
-            for s in sky:
-                if s[0] - 1e-9 <= cx < s[1] - 1e-9:
-                    seg = s
-                    break
-            if seg is None:
-                ok = False
-                break
-            y = max(y, seg[2])
-            cx = min(seg[1], x + w)
-        if ok and y + h <= y1 + 1e-9:
-            cand = (y, x)
-            if best is None or cand < best:
-                best = cand
-    if best is None:
-        return None
-    return best[1], best[0]
+        out.append(f)
+    return out
 
 
-def skyline_update(sky, x, y, w, h):
+def mr_split(free, used):
+    """Freie Rechtecke am belegten Rechteck aufteilen, enthaltene entfernen."""
+    ux0, uy0, ux1, uy1 = used
     new = []
-    for sx, ex, sy in sky:
-        if ex <= x or sx >= x + w:
-            new.append([sx, ex, sy])
+    for fx0, fy0, fx1, fy1 in free:
+        if not rects_intersect((fx0, fy0, fx1, fy1), used):
+            new.append((fx0, fy0, fx1, fy1))
+            continue
+        if ux0 > fx0:
+            new.append((fx0, fy0, ux0, fy1))
+        if ux1 < fx1:
+            new.append((ux1, fy0, fx1, fy1))
+        if uy0 > fy0:
+            new.append((fx0, fy0, fx1, uy0))
+        if uy1 < fy1:
+            new.append((fx0, uy1, fx1, fy1))
+    return mr_prune(new)
+
+
+def _try_order(blocks, usable, keepout, rng):
+    """Eine Blockreihenfolge per Best-Short-Side-Fit setzen; sonst None.
+
+    `rng=None` waehlt unter gleich guten freien Rechtecken deterministisch das
+    erste, sonst zufaellig (fuer die Random-Restarts in `distribute`).
+    """
+    free = free_rects(usable, keepout)
+    pos = {}
+    for b in blocks:
+        cands = []
+        for f in free:
+            fw, fh = f[2] - f[0], f[3] - f[1]
+            if b['w'] <= fw + 1e-9 and b['h'] <= fh + 1e-9:
+                cands.append((min(fw - b['w'], fh - b['h']),
+                              max(fw - b['w'], fh - b['h']), f))
+        if not cands:
+            return None
+        cands.sort(key=lambda c: (c[0], c[1]))
+        if rng is None:
+            f = cands[0][2]
         else:
-            if sx < x:
-                new.append([sx, x, sy])
-            if ex > x + w:
-                new.append([x + w, ex, sy])
-    new.append([x, x + w, y + h])
-    new.sort()
-    merged = []
-    for s in new:
-        if merged and abs(merged[-1][1] - s[0]) < 1e-9 and abs(merged[-1][2] - s[2]) < 1e-9:
-            merged[-1][1] = s[1]
-        else:
-            merged.append(s)
-    return merged
+            best_ss = cands[0][0]
+            f = rng.choice([c for c in cands if c[0] == best_ss])[2]
+        pos[b['module']] = (f[0], f[1])
+        free = mr_split(free, (f[0], f[1], f[0] + b['w'], f[1] + b['h']))
+    return pos
+
+
+def distribute(blocks, usable, keepout):
+    """Bloecke mit MaxRects aufs Blatt verteilen; gibt {module: (x0, y0)} oder None.
+
+    Der Skyline-Packer liess bei ~92 % Fuellung Luecken, die breite Bloecke
+    ausschlossen. MaxRects (Best-Short-Side-Fit) schliesst diese Luecken.
+    Erst werden mehrere feste Sortierungen probiert; scheitert die gierige
+    Wahl, suchen deterministische Random-Restarts (fester Seed) die dichte
+    Packung reproduzierbar.
+    """
+    keys = [lambda b: (-b['w'] * b['h'], b['module']),
+            lambda b: (-b['h'], -b['w'], b['module']),
+            lambda b: (-b['w'], -b['h'], b['module']),
+            lambda b: (-max(b['w'], b['h']), -min(b['w'], b['h']), b['module']),
+            lambda b: (-(b['w'] + b['h']), b['module'])]
+    for key in keys:
+        pos = _try_order(sorted(blocks, key=key), usable, keepout, None)
+        if pos is not None:
+            return pos
+    for seed in range(16):
+        rng = random.Random(seed)
+        for _ in range(20000):
+            order = list(blocks)
+            rng.shuffle(order)
+            pos = _try_order(order, usable, keepout, rng)
+            if pos is not None:
+                return pos
+    return None
 
 
 def main():
@@ -219,11 +278,25 @@ def main():
     no_place = set(json.load(open(os.path.join(RAW, 'no_place.json'))))
     measured = json.load(open(MEASURED))
     volumes = measured['parts']
+    by_device = measured.get('by_device', {})
     usable = tuple(measured.get('nutzbar', {}).get(k, USABLE[i])
                    for i, k in enumerate(('minX', 'minY', 'maxX', 'maxY')))
     rel = rel_bboxes()
 
-    fallbacks = []
+    # Geraete-Repraesentanten aus dem 1S-Bestand: gleiche Device-UUID -> gemessenes
+    # Instanzvolumen. Das deckt die neuen Bauteile ab, deren Geraet im Bestand schon
+    # einmal gemessen wurde (z. B. 100-nF-Kondensator, 10-k-Widerstand). Die neuen
+    # Geraete aus `by_device` haben Vorrang.
+    device_vol = {}
+    old_live = json.load(open(OLD_LIVE))
+    for c in old_live['components']:
+        p = volumes.get(c['ref'])
+        if p:
+            device_vol.setdefault(c['device']['deviceUuid'], (p['vol_w'], p['vol_h']))
+    for uuid, rec in by_device.items():
+        device_vol[uuid] = (rec['vol_w'], rec['vol_h'])
+
+    fallbacks, from_device = [], []
     comps = []
     for c in ir['components']:
         orig = c['id'][4:]
@@ -232,19 +305,25 @@ def main():
         mod = modules.get(orig)
         if mod is None:
             raise SystemExit(f"kein Modul fuer {orig}")
-        rb = rel.get(c['device']['deviceUuid'])
-        if rb is None:
-            raise SystemExit(f"keine gemessene bbox fuer {orig} ({c['device']['deviceUuid']})")
+        uuid = c['device']['deviceUuid']
         vol = volumes.get(c['ref'])
-        if vol is None:
-            # Fallback: Koerper-Box + zweimal GAP (grob, wird im Bericht genannt)
-            vw = (rb[2] - rb[0]) + 2 * GAP
-            vh = (rb[3] - rb[1]) + 2 * GAP
-            fallbacks.append(c['ref'])
-        else:
+        if vol is not None:
             vw, vh = vol['vol_w'], vol['vol_h']
+        elif uuid in by_device:
+            vw, vh = by_device[uuid]['vol_w'], by_device[uuid]['vol_h']
+            from_device.append(f"{c['ref']} (by_device)")
+        elif uuid in device_vol:
+            vw, vh = device_vol[uuid]
+            from_device.append(f"{c['ref']} (Bestand gleiche Device-UUID)")
+        else:
+            # Letzter Ausweg: Koerper-Box + zweimal GAP (grob, wird im Bericht genannt)
+            vw = (rel[uuid][2] - rel[uuid][0]) + 2 * GAP if uuid in rel else 40
+            vh = (rel[uuid][3] - rel[uuid][1]) + 2 * GAP if uuid in rel else 20
+            fallbacks.append(c['ref'])
+        # Info-Box: gemessene relative bbox, sonst aus dem Volumen zentriert abgeleitet.
+        rb = rel.get(uuid) or (-vw / 2.0, -vh / 2.0, vw / 2.0, vh / 2.0)
         comps.append({'ref': c['ref'], 'role': orig, 'module': mod, 'id': c['id'],
-                      'deviceUuid': c['device']['deviceUuid'], 'vol_w': vw, 'vol_h': vh,
+                      'deviceUuid': uuid, 'vol_w': vw, 'vol_h': vh,
                       'rel': rb})
 
     by_mod = {}
@@ -258,16 +337,17 @@ def main():
             raise SystemExit(f"Modul {mod} ohne Bauteile")
         blocks.append(pack_module(mod, parts, usable))
 
-    # Bloecke per Skyline-Bottom-Left auf dem Blatt verteilen.
-    sky = skyline_init(usable, KEEPOUT)
-    placements, problems = [], []
-    for b in sorted(blocks, key=lambda b: (-b['h'], -b['w'], b['module'])):
-        pos = skyline_place(sky, usable, b['w'], b['h'])
-        if pos is None:
-            raise SystemExit(f"Block {b['module']} ({b['w']}x{b['h']}) passt nicht aufs Blatt")
-        b['x0'], b['y0'] = pos
-        b['x1'], b['y1'] = pos[0] + b['w'], pos[1] + b['h']
-        sky = skyline_update(sky, b['x0'], b['y0'], b['w'], b['h'])
+    # Bloecke per MaxRects auf dem Blatt verteilen.
+    problems = []
+    pos = distribute(blocks, usable, KEEPOUT)
+    if pos is None:
+        widest = max(blocks, key=lambda b: b['w'] * b['h'])
+        raise SystemExit(f"Block {widest['module']} ({widest['w']}x{widest['h']}) "
+                         f"passt nicht aufs Blatt "
+                         f"({usable[2] - usable[0]}x{usable[3] - usable[1]})")
+    for b in blocks:
+        b['x0'], b['y0'] = pos[b['module']]
+        b['x1'], b['y1'] = b['x0'] + b['w'], b['y0'] + b['h']
         b['content_bottom'] = b['y0'] + (b['content'][1] - b['local_y0'])
         if b['x0'] < usable[0] or b['x1'] > usable[2] or b['y0'] < usable[1] or b['y1'] > usable[3]:
             problems.append(f"Block {b['module']} verlaesst den Nutzbereich")
@@ -275,6 +355,7 @@ def main():
                 and b['y0'] < KEEPOUT[3] and KEEPOUT[1] < b['y1']):
             problems.append(f"Block {b['module']} in der Titelblock-Freihaltezone")
 
+    placements = []
     for b in blocks:
         for it in b['items']:
             p = it['p']
@@ -285,6 +366,14 @@ def main():
                                'x': gx, 'y': gy, 'rotation': 0, 'mirror': False,
                                'bbox': [snap(gx + p['rel'][0]), snap(gy + p['rel'][1]),
                                         snap(gx + p['rel'][2]), snap(gy + p['rel'][3])]})
+
+    # Kontrolle: der Plan enthaelt jedes IR-Bauteil (Refdes-Menge identisch).
+    ir_refs = {c['ref'] for c in ir['components']}
+    pl_refs = {p['ref'] for p in placements}
+    if ir_refs != pl_refs:
+        problems.append("Refdes-Menge placement != IR: fehlend="
+                        + str(sorted(ir_refs - pl_refs))
+                        + " ueberzaehlig=" + str(sorted(pl_refs - ir_refs)))
 
     # Kontrolle: Bloecke untereinander und Volumen im Nutzbereich.
     for i, a in enumerate(blocks):
@@ -304,12 +393,12 @@ def main():
              '# generiert von scripts/plan_layout.py — S3-Platzierung SmartGrowTopf_V1',
              'set -u',
              'export PATH="$HOME/.local/bin:$PATH"',
-             'G=(--project "SmartGrowTopf_V1" --doc P1)',
+             'G=(--project "SmartGrowTopf_V1" --doc 4f6771a27edec75b)',
              'LIB=0819f05c4eef4c71ace90d822a990e87',
              'FAIL=0']
     for p in placements:
         lines.append(f'easyeda "${{G[@]}}" sch place --lib $LIB --uuid {p["deviceUuid"]} '
-                     f'--x {p["x"]} --y {p["y"]} --designator {p["ref"]} >/dev/null 2>&1 || '
+                     f'--x {p["x"]} --y {p["y"]} --designator {p["ref"]} >/dev/null || '
                      f'{{ echo "FAIL {p["ref"]}"; FAIL=1; }}')
     lines.append('echo "place-done FAIL=$FAIL"')
     path = os.path.join(RAW, 'place_all.sh')
@@ -336,11 +425,14 @@ def main():
     print(f"Bauteile: {len(placements)}  Bloecke: {len(blocks)}  "
           f"Blattnutzung (Bloecke): {100.0 * block_area / u_area:.1f} %  "
           f"(Volumen: {100.0 * volume_area / u_area:.1f} %)")
+    if from_device:
+        print(f"Geraete-Messwert (by_device/Bestand) fuer {len(from_device)} Bauteil(e): "
+              + ", ".join(sorted(from_device)))
     if fallbacks:
-        print(f"Fallback-Schaetzung fuer {len(fallbacks)} Bauteil(e) ohne Messwert: "
+        print(f"Fallback-Schätzung fuer {len(fallbacks)} Bauteil(e) ohne Messwert: "
               + ", ".join(sorted(fallbacks)))
     else:
-        print("Fallback-Schaetzung: keine (alle Bauteile gemessen)")
+        print("Fallback-Schätzung: keine (alle Bauteile gemessen)")
     for b in sorted(blocks, key=lambda b: -b['y1']):
         print(f"  {b['module']:<11} x {b['x0']:>4}..{b['x1']:<4} y {b['y0']:>4}..{b['y1']:<4} "
               f"({b['w']}x{b['h']})")

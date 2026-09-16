@@ -41,12 +41,12 @@
    "net": "VBUS"
   },
   {
-   "pin": "R7:2",
+   "pin": "R8:2",
    "kind": "ground",
    "net": "GND"
   },
   {
-   "pin": "R8:2",
+   "pin": "R9:2",
    "kind": "ground",
    "net": "GND"
   },
@@ -91,12 +91,12 @@
    "net": "USB_DM"
   },
   {
-   "pin": "R7:1",
+   "pin": "R8:1",
    "kind": "netport",
    "net": "CC1"
   },
   {
-   "pin": "R8:1",
+   "pin": "R9:1",
    "kind": "netport",
    "net": "CC2"
   },

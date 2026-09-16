@@ -1,9 +1,19 @@
 {
  "connections": [
   {
+   "pin": "J17:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
    "pin": "J2:1",
    "kind": "ground",
    "net": "GND"
+  },
+  {
+   "pin": "J17:1",
+   "kind": "netport",
+   "net": "+5V"
   },
   {
    "pin": "J2:2",

@@ -1,252 +1,397 @@
 [
- {
-  "componentId": "cmp-D_LEDCHG",
-  "before": "D_LEDCHG",
-  "after": "LED1"
- },
- {
-  "componentId": "cmp-C1a",
-  "before": "C1a",
-  "after": "C1"
- },
- {
-  "componentId": "cmp-C1b",
-  "before": "C1b",
-  "after": "C13"
- },
- {
-  "componentId": "cmp-C_BTN",
-  "before": "C_BTN",
-  "after": "C14"
- },
- {
-  "componentId": "cmp-R3a",
-  "before": "R3a",
-  "after": "R3"
- },
- {
-  "componentId": "cmp-R3b",
-  "before": "R3b",
-  "after": "R5"
- },
- {
-  "componentId": "cmp-R5a",
-  "before": "R5a",
-  "after": "R7"
- },
- {
-  "componentId": "cmp-R5b",
-  "before": "R5b",
-  "after": "R8"
- },
- {
-  "componentId": "cmp-R_EN",
-  "before": "R_EN",
-  "after": "R9"
- },
- {
-  "componentId": "cmp-R_BOOT",
-  "before": "R_BOOT",
-  "after": "R10"
- },
- {
-  "componentId": "cmp-R_GPIO8",
-  "before": "R_GPIO8",
-  "after": "R11"
- },
- {
-  "componentId": "cmp-R_BTN",
-  "before": "R_BTN",
-  "after": "R12"
- },
- {
-  "componentId": "cmp-R_PROG",
-  "before": "R_PROG",
-  "after": "R13"
- },
- {
-  "componentId": "cmp-R_LEDCHG",
-  "before": "R_LEDCHG",
-  "after": "R14"
- },
- {
-  "componentId": "cmp-R_TANK",
-  "before": "R_TANK",
-  "after": "R15"
- },
- {
-  "componentId": "cmp-R_UART",
-  "before": "R_UART",
-  "after": "R16"
- },
- {
-  "componentId": "cmp-R_LIGHT",
-  "before": "R_LIGHT",
-  "after": "R17"
- },
- {
-  "componentId": "cmp-R_LIGHT_S",
-  "before": "R_LIGHT_S",
-  "after": "R18"
- },
- {
-  "componentId": "cmp-C_LIGHT",
-  "before": "C_LIGHT",
-  "after": "C15"
- },
- {
-  "componentId": "cmp-R_SDA_PU",
-  "before": "R_SDA_PU",
-  "after": "R19"
- },
- {
-  "componentId": "cmp-R_SCL_PU",
-  "before": "R_SCL_PU",
-  "after": "R20"
- },
- {
-  "componentId": "cmp-R_SDA_S",
-  "before": "R_SDA_S",
-  "after": "R21"
- },
- {
-  "componentId": "cmp-R_SCL_S",
-  "before": "R_SCL_S",
-  "after": "R22"
- },
- {
-  "componentId": "cmp-R_GATE",
-  "before": "R_GATE",
-  "after": "R23"
- },
- {
-  "componentId": "cmp-R_SPARE_AIN",
-  "before": "R_SPARE_AIN",
-  "after": "R24"
- },
- {
-  "componentId": "cmp-R_SPARE_IO15",
-  "before": "R_SPARE_IO15",
-  "after": "R25"
- },
- {
-  "componentId": "cmp-R_SPARE_IO16",
-  "before": "R_SPARE_IO16",
-  "after": "R26"
- },
- {
-  "componentId": "cmp-R_SPARE_IO17",
-  "before": "R_SPARE_IO17",
-  "after": "R27"
- },
- {
-  "componentId": "cmp-R_SPARE_IO21",
-  "before": "R_SPARE_IO21",
-  "after": "R28"
- },
- {
-  "componentId": "cmp-R_SPARE_IO22",
-  "before": "R_SPARE_IO22",
-  "after": "R29"
- },
- {
-  "componentId": "cmp-R_SPARE_IO23",
-  "before": "R_SPARE_IO23",
-  "after": "R30"
- },
- {
-  "componentId": "cmp-C_SPARE",
-  "before": "C_SPARE",
-  "after": "C16"
- },
- {
-  "componentId": "cmp-C_BST_IN",
-  "before": "C_BST_IN",
-  "after": "C17"
- },
- {
-  "componentId": "cmp-C_BST_OUT",
-  "before": "C_BST_OUT",
-  "after": "C18"
- },
- {
-  "componentId": "cmp-C_BST_HF",
-  "before": "C_BST_HF",
-  "after": "C19"
- },
- {
-  "componentId": "cmp-C_PUMP2_EMI",
-  "before": "C_PUMP2_EMI",
-  "after": "C20"
- },
- {
-  "componentId": "cmp-R_FB_TOP",
-  "before": "R_FB_TOP",
-  "after": "R31"
- },
- {
-  "componentId": "cmp-R_FB_BOT",
-  "before": "R_FB_BOT",
-  "after": "R32"
- },
- {
-  "componentId": "cmp-R_GATE2",
-  "before": "R_GATE2",
-  "after": "R33"
- },
- {
-  "componentId": "cmp-R_GATE2_PD",
-  "before": "R_GATE2_PD",
-  "after": "R34"
- },
- {
-  "componentId": "cmp-U_BOOST",
-  "before": "U_BOOST",
-  "after": "U8"
- },
- {
-  "componentId": "cmp-L_BOOST",
-  "before": "L_BOOST",
-  "after": "L1"
- },
- {
-  "componentId": "cmp-D_BOOST",
-  "before": "D_BOOST",
-  "after": "D6"
- },
- {
-  "componentId": "cmp-Q_PUMP2",
-  "before": "Q_PUMP2",
-  "after": "Q3"
- },
- {
-  "componentId": "cmp-D_FLY2",
-  "before": "D_FLY2",
-  "after": "D7"
- },
- {
-  "componentId": "cmp-D_CLAMP2",
-  "before": "D_CLAMP2",
-  "after": "D8"
- },
- {
-  "componentId": "cmp-J_PUMP2",
-  "before": "J_PUMP2",
-  "after": "J16"
- },
- {
-  "componentId": "cmp-R_CLAMP1",
-  "before": "R_CLAMP1",
-  "after": "R35"
- },
- {
-  "componentId": "cmp-R_CLAMP2",
-  "before": "R_CLAMP2",
-  "after": "R36"
- },
- {
-  "componentId": "cmp-R_EN_PU",
-  "before": "R_EN_PU",
-  "after": "R37"
- }
+  {
+    "componentId": "cmp-C_CHG_IN",
+    "before": "C_CHG_IN",
+    "after": "C1"
+  },
+  {
+    "componentId": "cmp-R_VIN_CHG",
+    "before": "R_VIN_CHG",
+    "after": "R3"
+  },
+  {
+    "componentId": "cmp-L_CHG",
+    "before": "L_CHG",
+    "after": "L1"
+  },
+  {
+    "componentId": "cmp-R_LEDCHG",
+    "before": "R_LEDCHG",
+    "after": "R5"
+  },
+  {
+    "componentId": "cmp-R_EN_CHG",
+    "before": "R_EN_CHG",
+    "after": "R7"
+  },
+  {
+    "componentId": "cmp-R5a",
+    "before": "R5a",
+    "after": "R8"
+  },
+  {
+    "componentId": "cmp-R5b",
+    "before": "R5b",
+    "after": "R9"
+  },
+  {
+    "componentId": "cmp-U_CHG",
+    "before": "U_CHG",
+    "after": "U2"
+  },
+  {
+    "componentId": "cmp-C_CHG_VIN",
+    "before": "C_CHG_VIN",
+    "after": "C5"
+  },
+  {
+    "componentId": "cmp-R_ISET",
+    "before": "R_ISET",
+    "after": "R10"
+  },
+  {
+    "componentId": "cmp-R_NTC",
+    "before": "R_NTC",
+    "after": "R11"
+  },
+  {
+    "componentId": "cmp-R_UVSET",
+    "before": "R_UVSET",
+    "after": "R12"
+  },
+  {
+    "componentId": "cmp-D_LEDCHG",
+    "before": "D_LEDCHG",
+    "after": "LED1"
+  },
+  {
+    "componentId": "cmp-C_BST_CHG",
+    "before": "C_BST_CHG",
+    "after": "C6"
+  },
+  {
+    "componentId": "cmp-C_CHG_OUT",
+    "before": "C_CHG_OUT",
+    "after": "C7"
+  },
+  {
+    "componentId": "cmp-U_BUCK5",
+    "before": "U_BUCK5",
+    "after": "U3"
+  },
+  {
+    "componentId": "cmp-C_B5_IN",
+    "before": "C_B5_IN",
+    "after": "C8"
+  },
+  {
+    "componentId": "cmp-C_B5_IN_HF",
+    "before": "C_B5_IN_HF",
+    "after": "C14"
+  },
+  {
+    "componentId": "cmp-U_BUCK3",
+    "before": "U_BUCK3",
+    "after": "U4"
+  },
+  {
+    "componentId": "cmp-C_B3_IN",
+    "before": "C_B3_IN",
+    "after": "C15"
+  },
+  {
+    "componentId": "cmp-C_B3_IN_HF",
+    "before": "C_B3_IN_HF",
+    "after": "C16"
+  },
+  {
+    "componentId": "cmp-R3a",
+    "before": "R3a",
+    "after": "R13"
+  },
+  {
+    "componentId": "cmp-R_SENSE_TOP",
+    "before": "R_SENSE_TOP",
+    "after": "R14"
+  },
+  {
+    "componentId": "cmp-U_PROT",
+    "before": "U_PROT",
+    "after": "U5"
+  },
+  {
+    "componentId": "cmp-Q_PROT1",
+    "before": "Q_PROT1",
+    "after": "Q3"
+  },
+  {
+    "componentId": "cmp-C_PROT_VDD",
+    "before": "C_PROT_VDD",
+    "after": "C17"
+  },
+  {
+    "componentId": "cmp-C_PROT_VC",
+    "before": "C_PROT_VC",
+    "after": "C18"
+  },
+  {
+    "componentId": "cmp-R_PROT_VC",
+    "before": "R_PROT_VC",
+    "after": "R15"
+  },
+  {
+    "componentId": "cmp-R_CB",
+    "before": "R_CB",
+    "after": "R16"
+  },
+  {
+    "componentId": "cmp-R_PROT_VDD",
+    "before": "R_PROT_VDD",
+    "after": "R17"
+  },
+  {
+    "componentId": "cmp-Q_PROT2",
+    "before": "Q_PROT2",
+    "after": "Q4"
+  },
+  {
+    "componentId": "cmp-R_PROT_CS",
+    "before": "R_PROT_CS",
+    "after": "R18"
+  },
+  {
+    "componentId": "cmp-C_VSYS_A",
+    "before": "C_VSYS_A",
+    "after": "C19"
+  },
+  {
+    "componentId": "cmp-C_VSYS_B",
+    "before": "C_VSYS_B",
+    "after": "C20"
+  },
+  {
+    "componentId": "cmp-L_BUCK5",
+    "before": "L_BUCK5",
+    "after": "L2"
+  },
+  {
+    "componentId": "cmp-C_B5_BST",
+    "before": "C_B5_BST",
+    "after": "C21"
+  },
+  {
+    "componentId": "cmp-C_B5_OUT",
+    "before": "C_B5_OUT",
+    "after": "C22"
+  },
+  {
+    "componentId": "cmp-C_B5_OUT_HF",
+    "before": "C_B5_OUT_HF",
+    "after": "C23"
+  },
+  {
+    "componentId": "cmp-R_FB5_TOP",
+    "before": "R_FB5_TOP",
+    "after": "R19"
+  },
+  {
+    "componentId": "cmp-D_FLY2",
+    "before": "D_FLY2",
+    "after": "D4"
+  },
+  {
+    "componentId": "cmp-C_PUMP2_EMI",
+    "before": "C_PUMP2_EMI",
+    "after": "C24"
+  },
+  {
+    "componentId": "cmp-R_FB5_BOT",
+    "before": "R_FB5_BOT",
+    "after": "R20"
+  },
+  {
+    "componentId": "cmp-L_BUCK3",
+    "before": "L_BUCK3",
+    "after": "L3"
+  },
+  {
+    "componentId": "cmp-C_B3_BST",
+    "before": "C_B3_BST",
+    "after": "C25"
+  },
+  {
+    "componentId": "cmp-C_B3_OUT",
+    "before": "C_B3_OUT",
+    "after": "C26"
+  },
+  {
+    "componentId": "cmp-C_B3_OUT_HF",
+    "before": "C_B3_OUT_HF",
+    "after": "C27"
+  },
+  {
+    "componentId": "cmp-C1a",
+    "before": "C1a",
+    "after": "C28"
+  },
+  {
+    "componentId": "cmp-C1b",
+    "before": "C1b",
+    "after": "C29"
+  },
+  {
+    "componentId": "cmp-R_EN",
+    "before": "R_EN",
+    "after": "R21"
+  },
+  {
+    "componentId": "cmp-R_BOOT",
+    "before": "R_BOOT",
+    "after": "R22"
+  },
+  {
+    "componentId": "cmp-R_GPIO8",
+    "before": "R_GPIO8",
+    "after": "R23"
+  },
+  {
+    "componentId": "cmp-R_BTN",
+    "before": "R_BTN",
+    "after": "R24"
+  },
+  {
+    "componentId": "cmp-R_GATE",
+    "before": "R_GATE",
+    "after": "R25"
+  },
+  {
+    "componentId": "cmp-R_FB3_TOP",
+    "before": "R_FB3_TOP",
+    "after": "R26"
+  },
+  {
+    "componentId": "cmp-R_FB3_BOT",
+    "before": "R_FB3_BOT",
+    "after": "R27"
+  },
+  {
+    "componentId": "cmp-R3b",
+    "before": "R3b",
+    "after": "R28"
+  },
+  {
+    "componentId": "cmp-R_CLAMP1",
+    "before": "R_CLAMP1",
+    "after": "R29"
+  },
+  {
+    "componentId": "cmp-R_CLAMP2",
+    "before": "R_CLAMP2",
+    "after": "R30"
+  },
+  {
+    "componentId": "cmp-R_GATE2",
+    "before": "R_GATE2",
+    "after": "R31"
+  },
+  {
+    "componentId": "cmp-Q_PUMP2",
+    "before": "Q_PUMP2",
+    "after": "Q5"
+  },
+  {
+    "componentId": "cmp-R_GATE2_PD",
+    "before": "R_GATE2_PD",
+    "after": "R32"
+  },
+  {
+    "componentId": "cmp-R_SENSE_BOT",
+    "before": "R_SENSE_BOT",
+    "after": "R33"
+  },
+  {
+    "componentId": "cmp-R_LIGHT",
+    "before": "R_LIGHT",
+    "after": "R34"
+  },
+  {
+    "componentId": "cmp-R_LIGHT_S",
+    "before": "R_LIGHT_S",
+    "after": "R35"
+  },
+  {
+    "componentId": "cmp-C_LIGHT",
+    "before": "C_LIGHT",
+    "after": "C30"
+  },
+  {
+    "componentId": "cmp-R_SDA_S",
+    "before": "R_SDA_S",
+    "after": "R36"
+  },
+  {
+    "componentId": "cmp-R_SDA_PU",
+    "before": "R_SDA_PU",
+    "after": "R37"
+  },
+  {
+    "componentId": "cmp-R_SCL_S",
+    "before": "R_SCL_S",
+    "after": "R38"
+  },
+  {
+    "componentId": "cmp-R_SCL_PU",
+    "before": "R_SCL_PU",
+    "after": "R39"
+  },
+  {
+    "componentId": "cmp-R_SPARE_AIN",
+    "before": "R_SPARE_AIN",
+    "after": "R40"
+  },
+  {
+    "componentId": "cmp-C_SPARE",
+    "before": "C_SPARE",
+    "after": "C31"
+  },
+  {
+    "componentId": "cmp-R_SPARE_IO15",
+    "before": "R_SPARE_IO15",
+    "after": "R41"
+  },
+  {
+    "componentId": "cmp-R_SPARE_IO16",
+    "before": "R_SPARE_IO16",
+    "after": "R42"
+  },
+  {
+    "componentId": "cmp-R_SPARE_IO17",
+    "before": "R_SPARE_IO17",
+    "after": "R43"
+  },
+  {
+    "componentId": "cmp-R_SPARE_IO21",
+    "before": "R_SPARE_IO21",
+    "after": "R44"
+  },
+  {
+    "componentId": "cmp-R_SPARE_IO23",
+    "before": "R_SPARE_IO23",
+    "after": "R45"
+  },
+  {
+    "componentId": "cmp-R_TANK",
+    "before": "R_TANK",
+    "after": "R46"
+  },
+  {
+    "componentId": "cmp-C_BTN",
+    "before": "C_BTN",
+    "after": "C32"
+  },
+  {
+    "componentId": "cmp-R_UART",
+    "before": "R_UART",
+    "after": "R47"
+  }
 ]

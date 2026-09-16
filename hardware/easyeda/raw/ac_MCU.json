@@ -16,12 +16,22 @@
    "net": "GND"
   },
   {
-   "pin": "C1:1",
+   "pin": "C28:1",
    "kind": "power",
    "net": "+3V3"
   },
   {
-   "pin": "C1:2",
+   "pin": "C28:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "C29:1",
+   "kind": "power",
+   "net": "+3V3"
+  },
+  {
+   "pin": "C29:2",
    "kind": "ground",
    "net": "GND"
   },
@@ -56,19 +66,29 @@
    "net": "GND"
   },
   {
-   "pin": "R10:1",
+   "pin": "R14:1",
+   "kind": "power",
+   "net": "VBAT"
+  },
+  {
+   "pin": "R21:1",
    "kind": "power",
    "net": "+3V3"
   },
   {
-   "pin": "R11:1",
+   "pin": "R22:1",
    "kind": "power",
    "net": "+3V3"
   },
   {
-   "pin": "R9:1",
+   "pin": "R23:1",
    "kind": "power",
    "net": "+3V3"
+  },
+  {
+   "pin": "R33:2",
+   "kind": "ground",
+   "net": "GND"
   },
   {
    "pin": "SW1:2",
@@ -221,22 +241,37 @@
    "net": "LED_TANK_A"
   },
   {
-   "pin": "R10:2",
+   "pin": "R14:2",
+   "kind": "netport",
+   "net": "VBAT_SENSE"
+  },
+  {
+   "pin": "R21:2",
+   "kind": "netport",
+   "net": "EN"
+  },
+  {
+   "pin": "R22:2",
    "kind": "netport",
    "net": "BOOT"
   },
   {
-   "pin": "R11:2",
+   "pin": "R23:2",
    "kind": "netport",
    "net": "GPIO8_STRAP"
   },
   {
-   "pin": "R15:1",
+   "pin": "R33:1",
+   "kind": "netport",
+   "net": "VBAT_SENSE"
+  },
+  {
+   "pin": "R46:1",
    "kind": "netport",
    "net": "LED_TANK"
   },
   {
-   "pin": "R15:2",
+   "pin": "R46:2",
    "kind": "netport",
    "net": "LED_TANK_A"
   },
@@ -249,11 +284,6 @@
    "pin": "R4:2",
    "kind": "netport",
    "net": "LED_STAT_A"
-  },
-  {
-   "pin": "R9:2",
-   "kind": "netport",
-   "net": "EN"
   },
   {
    "pin": "SW1:1",

@@ -1,22 +1,17 @@
 {
  "connections": [
   {
-   "pin": "C12:1",
-   "kind": "power",
-   "net": "VBAT"
-  },
-  {
    "pin": "C12:2",
    "kind": "ground",
    "net": "GND"
   },
   {
-   "pin": "R3:1",
+   "pin": "R13:1",
    "kind": "power",
    "net": "VBAT"
   },
   {
-   "pin": "R5:2",
+   "pin": "R28:2",
    "kind": "ground",
    "net": "GND"
   },
@@ -26,24 +21,29 @@
    "net": "GND"
   },
   {
-   "pin": "U7:3",
-   "kind": "power",
-   "net": "VBAT"
+   "pin": "C12:1",
+   "kind": "netport",
+   "net": "UV_REF"
   },
   {
-   "pin": "R3:2",
+   "pin": "R13:2",
    "kind": "netport",
-   "net": "VBAT_SENSE"
+   "net": "UV_REF"
   },
   {
-   "pin": "R5:1",
+   "pin": "R28:1",
    "kind": "netport",
-   "net": "VBAT_SENSE"
+   "net": "UV_REF"
   },
   {
    "pin": "U7:2",
    "kind": "netport",
    "net": "RESET_UV"
+  },
+  {
+   "pin": "U7:3",
+   "kind": "netport",
+   "net": "UV_REF"
   }
  ],
  "rules": {

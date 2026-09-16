@@ -4,93 +4,1422 @@
  "documentId": "4f6771a27edec75b",
  "components": [
   {
-   "id": "cmp-U3",
-   "ref": "U3",
-   "role": "U3 — 1S-LiPo-Lader 4,20 V",
+   "id": "cmp-J5",
+   "ref": "J5",
+   "role": "J5 — USB-C 16P Buchse (Laden + Programmieren)",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "78f39a8c3fa54027bfc13d0a0eefd7c2",
-    "name": "MCP73831T-2ACI/OT"
+    "deviceUuid": "730e76758f9742ca9ca85c73f4ec0ecd",
+    "name": "TYPE-C-31-M-12"
    },
    "pins": [
     {
-     "number": "1",
-     "name": "STAT"
-    },
-    {
-     "number": "2",
-     "name": "VSS"
-    },
-    {
-     "number": "3",
-     "name": "VBAT"
-    },
-    {
-     "number": "4",
-     "name": "VDD"
-    },
-    {
-     "number": "5",
-     "name": "PROG"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-U4",
-   "ref": "U4",
-   "role": "U4 — LDO 3,3 V / 500 mA",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "0c60a448115c435b947647a7222a5ab0",
-    "name": "ME6211C33M5G-N"
-   },
-   "pins": [
-    {
-     "number": "1",
-     "name": "VIN"
-    },
-    {
-     "number": "2",
-     "name": "VSS"
-    },
-    {
-     "number": "3",
-     "name": "CE"
-    },
-    {
-     "number": "4",
-     "name": "NC",
-     "noConnected": true
-    },
-    {
-     "number": "5",
-     "name": "VOUT"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-U7",
-   "ref": "U7",
-   "role": "U7 — Unterspannungswaechter 3,08 V",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "d7cdf9114eff4110bc187d388e4df2e5",
-    "name": "MAX809TEUR+T"
-   },
-   "pins": [
-    {
-     "number": "1",
+     "number": "A1B12",
      "name": "GND"
     },
     {
-     "number": "2",
-     "name": "RESET"
+     "number": "A4B9",
+     "name": "VBUS"
+    },
+    {
+     "number": "B8",
+     "name": "SBU2",
+     "noConnected": true
+    },
+    {
+     "number": "A5",
+     "name": "CC1"
+    },
+    {
+     "number": "B7",
+     "name": "DN2"
+    },
+    {
+     "number": "A6",
+     "name": "DP1"
+    },
+    {
+     "number": "A7",
+     "name": "DN1"
+    },
+    {
+     "number": "B6",
+     "name": "DP2"
+    },
+    {
+     "number": "A8",
+     "name": "SBU1",
+     "noConnected": true
+    },
+    {
+     "number": "B5",
+     "name": "CC2"
+    },
+    {
+     "number": "B4A9",
+     "name": "VBUS"
+    },
+    {
+     "number": "B1A12",
+     "name": "GND"
+    },
+    {
+     "number": "4",
+     "name": "EH"
     },
     {
      "number": "3",
-     "name": "VCC"
+     "name": "EH"
+    },
+    {
+     "number": "2",
+     "name": "EH"
+    },
+    {
+     "number": "1",
+     "name": "EH"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-U6",
+   "ref": "U6",
+   "role": "U6 — USB-ESD-Schutz USBLC6-2SC6",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "5f9a995bc73746278024add8c7b330e3",
+    "name": "USBLC6-2SC6"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    },
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "3",
+     "name": "3"
+    },
+    {
+     "number": "4",
+     "name": "4"
+    },
+    {
+     "number": "5",
+     "name": "5"
+    },
+    {
+     "number": "6",
+     "name": "6"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C_CHG_IN",
+   "ref": "C1",
+   "role": "C_CHG_IN — Lader-Eingang 10 uF (Datenblatt C1)",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "e10bc30d72324129a5b7daae4e75f56f",
+    "name": "CL21A106KAYNNNE"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_VIN_CHG",
+   "ref": "R3",
+   "role": "R_VIN_CHG — VIN-Filterwiderstand 0,5 Ohm (kein Shunt)",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "d23027ed376f49fc93c43406c37c98fe",
+    "name": "0805W8F500LT5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-L_CHG",
+   "ref": "L1",
+   "role": "L_CHG — Boost-Induktivitaet 2,2 uH",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "7db05f193aa04dd4b44edc2956a653fa",
+    "name": "MHCI04020-2R2M-R8"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_LEDCHG",
+   "ref": "R5",
+   "role": "R_LEDCHG — Lade-LED-Vorwiderstand 1 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "name": "0805W8F1001T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_EN_CHG",
+   "ref": "R7",
+   "role": "R_EN_CHG — Lader-EN-Pull-up 100 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "79f5b61c4f364bb6ac6f2d2396b00a91",
+    "name": "RC0805FR-07100KL"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R5a",
+   "ref": "R8",
+   "role": "R5a — CC1-Pulldown 5,1 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "228f8e23038b4563bc5cde7c8409a6b9",
+    "name": "0805W8F5101T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R5b",
+   "ref": "R9",
+   "role": "R5b — CC2-Pulldown 5,1 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "228f8e23038b4563bc5cde7c8409a6b9",
+    "name": "0805W8F5101T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-U_CHG",
+   "ref": "U2",
+   "role": "U_CHG — 2S-Boost-Lader IP2326, Ladeschluss 8,4 V",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "c4518c8223b64b9dbaf64e3d55a9b3e1",
+    "name": "IP2326"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "DM",
+     "noConnected": true
+    },
+    {
+     "number": "2",
+     "name": "DP",
+     "noConnected": true
+    },
+    {
+     "number": "3",
+     "name": "VSET",
+     "noConnected": true
+    },
+    {
+     "number": "4",
+     "name": "NTC"
+    },
+    {
+     "number": "5",
+     "name": "BAT_STAT",
+     "noConnected": true
+    },
+    {
+     "number": "6",
+     "name": "LED"
+    },
+    {
+     "number": "7",
+     "name": "TIME_SET",
+     "noConnected": true
+    },
+    {
+     "number": "8",
+     "name": "VIN_UVSET"
+    },
+    {
+     "number": "9",
+     "name": "VIN_OVSET",
+     "noConnected": true
+    },
+    {
+     "number": "10",
+     "name": "CON_SEL",
+     "noConnected": true
+    },
+    {
+     "number": "11",
+     "name": "ISET"
+    },
+    {
+     "number": "12",
+     "name": "EN"
+    },
+    {
+     "number": "13",
+     "name": "VIN"
+    },
+    {
+     "number": "14",
+     "name": "BST"
+    },
+    {
+     "number": "15",
+     "name": "LX"
+    },
+    {
+     "number": "16",
+     "name": "LX"
+    },
+    {
+     "number": "17",
+     "name": "LX"
+    },
+    {
+     "number": "18",
+     "name": "PGND"
+    },
+    {
+     "number": "19",
+     "name": "VSYS"
+    },
+    {
+     "number": "20",
+     "name": "VSYS"
+    },
+    {
+     "number": "21",
+     "name": "VOUT"
+    },
+    {
+     "number": "22",
+     "name": "VOUT"
+    },
+    {
+     "number": "23",
+     "name": "VBATM"
+    },
+    {
+     "number": "24",
+     "name": "VBAT_GND"
+    },
+    {
+     "number": "25",
+     "name": "EP"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C_CHG_VIN",
+   "ref": "C5",
+   "role": "C_CHG_VIN — 10 uF direkt am VIN-Pin (Datenblatt C3)",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "e10bc30d72324129a5b7daae4e75f56f",
+    "name": "CL21A106KAYNNNE"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_ISET",
+   "ref": "R10",
+   "role": "R_ISET — Ladestrom 100 k -> 0,90 A",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "79f5b61c4f364bb6ac6f2d2396b00a91",
+    "name": "RC0805FR-07100KL"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_NTC",
+   "ref": "R11",
+   "role": "R_NTC — NTC-Funktion stillgelegt 51 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "16f8cd5e045948df9472a9b12f125ca3",
+    "name": "0805W8F5102T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_UVSET",
+   "ref": "R12",
+   "role": "R_UVSET — Eingangs-Unterspannungsschwelle 68 k (4,35 V)",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "600fa66974404db08806854e7b4a38bc",
+    "name": "0805W8F6802T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-D_LEDCHG",
+   "ref": "LED1",
+   "role": "D_LEDCHG — Ladestatus-LED rot",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "6073168119a941bda41c330f8b8e9152",
+    "name": "NCD0805R1"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "+"
+    },
+    {
+     "number": "1",
+     "name": "-"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C_BST_CHG",
+   "ref": "C6",
+   "role": "C_BST_CHG — Bootstrap 100 nF (Datenblatt C2)",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+    "name": "CC0805KRX7R9BB104"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C_CHG_OUT",
+   "ref": "C7",
+   "role": "C_CHG_OUT — 10 uF am Boost-Ausgang (Datenblatt C6/C7)",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "e10bc30d72324129a5b7daae4e75f56f",
+    "name": "CL21A106KAYNNNE"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-J1",
+   "ref": "J1",
+   "role": "J1 — Akku JST-XH 3P (B-/MID/B+), aufrecht",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "6a10ae8bb76743fa83467ccf43066224",
+    "name": "XH-3PA"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    },
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "3",
+     "name": "3"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-TP4",
+   "ref": "TP4",
+   "role": "TP4 — Testpad VBAT",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
+    "name": "5010-Testpoint"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-U_BUCK5",
+   "ref": "U3",
+   "role": "U_BUCK5 — 5-V-Buck SY8113B, 5,10 V / 3 A",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3c6fe03f718e49caa716724cb9bb4ff0",
+    "name": "SY8113BADC"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "BS"
+    },
+    {
+     "number": "2",
+     "name": "GND"
+    },
+    {
+     "number": "3",
+     "name": "FB"
+    },
+    {
+     "number": "4",
+     "name": "EN"
+    },
+    {
+     "number": "6",
+     "name": "LX"
+    },
+    {
+     "number": "5",
+     "name": "IN"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C_B5_IN",
+   "ref": "C8",
+   "role": "C_B5_IN — 22 uF Buck-Eingang",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "9583d53cf848486a9d523fcaf153a729",
+    "name": "CL21A226MAQNNNE"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    },
+    {
+     "number": "2",
+     "name": "2"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C_B5_IN_HF",
+   "ref": "C14",
+   "role": "C_B5_IN_HF — 100 nF HF Buck-Eingang",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+    "name": "CC0805KRX7R9BB104"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-U_BUCK3",
+   "ref": "U4",
+   "role": "U_BUCK3 — 3,3-V-Buck AP63203, 3,31 V / 2 A",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "7a70948fba984342a66462848ff0f10c",
+    "name": "AP63203WU-7"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "FB"
+    },
+    {
+     "number": "2",
+     "name": "EN"
+    },
+    {
+     "number": "3",
+     "name": "VIN"
+    },
+    {
+     "number": "4",
+     "name": "GND"
+    },
+    {
+     "number": "5",
+     "name": "SW"
+    },
+    {
+     "number": "6",
+     "name": "BST"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C_B3_IN",
+   "ref": "C15",
+   "role": "C_B3_IN — 22 uF Buck-Eingang",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "9583d53cf848486a9d523fcaf153a729",
+    "name": "CL21A226MAQNNNE"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    },
+    {
+     "number": "2",
+     "name": "2"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C_B3_IN_HF",
+   "ref": "C16",
+   "role": "C_B3_IN_HF — 100 nF HF Buck-Eingang",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+    "name": "CC0805KRX7R9BB104"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R3a",
+   "ref": "R13",
+   "role": "R3a — UVLO-Teiler oben 200 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "d437a4e518b341d7a6ddadaf8d14b1f6",
+    "name": "0805W8F2003T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_SENSE_TOP",
+   "ref": "R14",
+   "role": "R_SENSE_TOP — ADC-Teiler oben 200 k (1:3,94)",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "d437a4e518b341d7a6ddadaf8d14b1f6",
+    "name": "0805W8F2003T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-U_PROT",
+   "ref": "U5",
+   "role": "U_PROT — 2-Zellen-Schutz-IC HY2120-CB",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "e627d2593705469b8aa9fe4e1dccd218",
+    "name": "HY2120-CB"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "OD"
+    },
+    {
+     "number": "2",
+     "name": "OC"
+    },
+    {
+     "number": "3",
+     "name": "CS"
+    },
+    {
+     "number": "4",
+     "name": "VC"
+    },
+    {
+     "number": "5",
+     "name": "VDD"
+    },
+    {
+     "number": "6",
+     "name": "VSS"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-Q_PROT1",
+   "ref": "Q3",
+   "role": "Q_PROT1 — Entlade-MOSFET PSMN4R2-30MLDX",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "72ea8cee53ab4b96a48bf929040eac95",
+    "name": "PSMN4R2-30MLDX"
+   },
+   "pins": [
+    {
+     "number": "5",
+     "name": "D"
+    },
+    {
+     "number": "4",
+     "name": "G"
+    },
+    {
+     "number": "3",
+     "name": "S"
+    },
+    {
+     "number": "2",
+     "name": "S"
+    },
+    {
+     "number": "1",
+     "name": "S"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C_PROT_VDD",
+   "ref": "C17",
+   "role": "C_PROT_VDD — VDD-Filter 100 nF nach Pack-Minus",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+    "name": "CC0805KRX7R9BB104"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C_PROT_VC",
+   "ref": "C18",
+   "role": "C_PROT_VC — VC-Filter 100 nF nach Pack-Minus",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+    "name": "CC0805KRX7R9BB104"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_PROT_VC",
+   "ref": "R15",
+   "role": "R_PROT_VC — 330 R zum VC-Pin des Schutz-IC",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "cc8e2fef08d046fd91f03a0e9f004399",
+    "name": "0805W8F3300T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_CB",
+   "ref": "R16",
+   "role": "R_CB — Balancing-Widerstand 100 R zum Mittelabgriff",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "afd77d34f2a246849525f9f885e83a2d",
+    "name": "0805W8F1000T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_PROT_VDD",
+   "ref": "R17",
+   "role": "R_PROT_VDD — 330 R zum VDD-Pin des Schutz-IC",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "cc8e2fef08d046fd91f03a0e9f004399",
+    "name": "0805W8F3300T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-Q_PROT2",
+   "ref": "Q4",
+   "role": "Q_PROT2 — Lade-MOSFET PSMN4R2-30MLDX",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "72ea8cee53ab4b96a48bf929040eac95",
+    "name": "PSMN4R2-30MLDX"
+   },
+   "pins": [
+    {
+     "number": "5",
+     "name": "D"
+    },
+    {
+     "number": "4",
+     "name": "G"
+    },
+    {
+     "number": "3",
+     "name": "S"
+    },
+    {
+     "number": "2",
+     "name": "S"
+    },
+    {
+     "number": "1",
+     "name": "S"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_PROT_CS",
+   "ref": "R18",
+   "role": "R_PROT_CS — CS-Widerstand 2 k zum Board-GND",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "15b9a8201054436f85d87765d20bd327",
+    "name": "0805W8F2001T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C_VSYS_A",
+   "ref": "C19",
+   "role": "C_VSYS_A — 22 uF direkt am VSYS-Pin (Datenblatt C4)",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "9583d53cf848486a9d523fcaf153a729",
+    "name": "CL21A226MAQNNNE"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    },
+    {
+     "number": "2",
+     "name": "2"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C_VSYS_B",
+   "ref": "C20",
+   "role": "C_VSYS_B — 22 uF direkt am VSYS-Pin (Datenblatt C5)",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "9583d53cf848486a9d523fcaf153a729",
+    "name": "CL21A226MAQNNNE"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    },
+    {
+     "number": "2",
+     "name": "2"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-L_BUCK5",
+   "ref": "L2",
+   "role": "L_BUCK5 — Buck-Induktivitaet 4,7 uH",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "999da512c3de428995c5ecb7dea134be",
+    "name": "PRS6045-4R7MT"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C_B5_BST",
+   "ref": "C21",
+   "role": "C_B5_BST — Bootstrap 100 nF",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+    "name": "CC0805KRX7R9BB104"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C_B5_OUT",
+   "ref": "C22",
+   "role": "C_B5_OUT — 22 uF Buck-Ausgang",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "9583d53cf848486a9d523fcaf153a729",
+    "name": "CL21A226MAQNNNE"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    },
+    {
+     "number": "2",
+     "name": "2"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C_B5_OUT_HF",
+   "ref": "C23",
+   "role": "C_B5_OUT_HF — 100 nF HF Buck-Ausgang",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+    "name": "CC0805KRX7R9BB104"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C3",
+   "ref": "C3",
+   "role": "C3 — Elko 100 uF Pumpenpuffer auf +5V",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "fd9b819453c943d9b25639f63ee16ae3",
+    "name": "RVT1C101M0605 100UF 16V"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    },
+    {
+     "number": "2",
+     "name": "2"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_FB5_TOP",
+   "ref": "R19",
+   "role": "R_FB5_TOP — Feedback oben 75 k -> 5,10 V",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "c464d818a3cc4b9ba1e2b92f982ed62e",
+    "name": "0805W8F7502T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-J4",
+   "ref": "J4",
+   "role": "J4 — Dosierpumpe JST-XH 2P, aufrecht",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "4d018698282b47d4893c87aca1c32f67",
+    "name": "B2B-XH-A(LF)(SN)"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    },
+    {
+     "number": "2",
+     "name": "2"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-J16",
+   "ref": "J16",
+   "role": "J16 — Sauerstoffpumpe JST-XH 2P, aufrecht",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "4d018698282b47d4893c87aca1c32f67",
+    "name": "B2B-XH-A(LF)(SN)"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    },
+    {
+     "number": "2",
+     "name": "2"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-J17",
+   "ref": "J17",
+   "role": "J17 — 5-V-Ausgang fuer Sensorik JST-XH 2P",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "4d018698282b47d4893c87aca1c32f67",
+    "name": "B2B-XH-A(LF)(SN)"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    },
+    {
+     "number": "2",
+     "name": "2"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-D1",
+   "ref": "D1",
+   "role": "D1 — Freilaufdiode Dosierpumpe",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
+    "name": "1N5819WS"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "K"
+    },
+    {
+     "number": "2",
+     "name": "A"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-D_FLY2",
+   "ref": "D4",
+   "role": "D_FLY2 — Freilaufdiode Sauerstoffpumpe",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
+    "name": "1N5819WS"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "K"
+    },
+    {
+     "number": "2",
+     "name": "A"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C11",
+   "ref": "C11",
+   "role": "C11 — EMI an den Pumpenklemmen 100 nF",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+    "name": "CC0805KRX7R9BB104"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C_PUMP2_EMI",
+   "ref": "C24",
+   "role": "C_PUMP2_EMI — EMI an den Klemmen Sauerstoffpumpe 100 nF",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+    "name": "CC0805KRX7R9BB104"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_FB5_BOT",
+   "ref": "R20",
+   "role": "R_FB5_BOT — Feedback unten 10 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
+    "name": "0805W8F1002T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-L_BUCK3",
+   "ref": "L3",
+   "role": "L_BUCK3 — Buck-Induktivitaet 4,7 uH",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "999da512c3de428995c5ecb7dea134be",
+    "name": "PRS6045-4R7MT"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C_B3_BST",
+   "ref": "C25",
+   "role": "C_B3_BST — Bootstrap 100 nF",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+    "name": "CC0805KRX7R9BB104"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C_B3_OUT",
+   "ref": "C26",
+   "role": "C_B3_OUT — 22 uF Buck-Ausgang",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "9583d53cf848486a9d523fcaf153a729",
+    "name": "CL21A226MAQNNNE"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    },
+    {
+     "number": "2",
+     "name": "2"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C_B3_OUT_HF",
+   "ref": "C27",
+   "role": "C_B3_OUT_HF — 100 nF HF Buck-Ausgang",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+    "name": "CC0805KRX7R9BB104"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
     }
    ],
    "pageId": "4f6771a27edec75b"
@@ -328,215 +1657,6 @@
    "pageId": "4f6771a27edec75b"
   },
   {
-   "id": "cmp-U6",
-   "ref": "U6",
-   "role": "U6 — USB-ESD-Schutz USBLC6-2SC6",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "5f9a995bc73746278024add8c7b330e3",
-    "name": "USBLC6-2SC6"
-   },
-   "pins": [
-    {
-     "number": "1",
-     "name": "1"
-    },
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "3",
-     "name": "3"
-    },
-    {
-     "number": "4",
-     "name": "4"
-    },
-    {
-     "number": "5",
-     "name": "5"
-    },
-    {
-     "number": "6",
-     "name": "6"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-Q1",
-   "ref": "Q1",
-   "role": "Q1 — N-MOSFET Pumpentreiber",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "1c95a10b7c4a4095b426799cbca7b1b2",
-    "name": "AO3400A"
-   },
-   "pins": [
-    {
-     "number": "3",
-     "name": "D"
-    },
-    {
-     "number": "1",
-     "name": "G"
-    },
-    {
-     "number": "2",
-     "name": "S"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-D1",
-   "ref": "D1",
-   "role": "D1 — Freilaufdiode Pumpe",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
-    "name": "1N5819WS"
-   },
-   "pins": [
-    {
-     "number": "1",
-     "name": "K"
-    },
-    {
-     "number": "2",
-     "name": "A"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-D3",
-   "ref": "D3",
-   "role": "D3 — Klemmzweig Gate",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
-    "name": "1N5819WS"
-   },
-   "pins": [
-    {
-     "number": "1",
-     "name": "K"
-    },
-    {
-     "number": "2",
-     "name": "A"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-D2",
-   "ref": "D2",
-   "role": "D2 — Status-LED gruen 525 nm",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "cabe1100a18642cca4b0bdb071599cef",
-    "name": "KT-0805G"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "K"
-    },
-    {
-     "number": "1",
-     "name": "A"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-D5",
-   "ref": "D5",
-   "role": "D5 — Tank-leer-LED rot",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "6073168119a941bda41c330f8b8e9152",
-    "name": "NCD0805R1"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "+"
-    },
-    {
-     "number": "1",
-     "name": "-"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-D_LEDCHG",
-   "ref": "LED1",
-   "role": "D_LEDCHG — Ladestatus-LED rot",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "6073168119a941bda41c330f8b8e9152",
-    "name": "NCD0805R1"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "+"
-    },
-    {
-     "number": "1",
-     "name": "-"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-C1a",
-   "ref": "C1",
-   "role": "C1a — Decoupling Modul 100 nF",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-    "name": "CC0805KRX7R9BB104"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-C1b",
-   "ref": "C13",
-   "role": "C1b — Decoupling Modul 100 nF",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-    "name": "CC0805KRX7R9BB104"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
    "id": "cmp-C2",
    "ref": "C2",
    "role": "C2 — Bulk 22 uF am Modul-3V3",
@@ -558,135 +1678,9 @@
    "pageId": "4f6771a27edec75b"
   },
   {
-   "id": "cmp-C3",
-   "ref": "C3",
-   "role": "C3 — Elko 100 uF Pumpenpuffer",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "fd9b819453c943d9b25639f63ee16ae3",
-    "name": "RVT1C101M0605 100UF 16V"
-   },
-   "pins": [
-    {
-     "number": "1",
-     "name": "1"
-    },
-    {
-     "number": "2",
-     "name": "2"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-C4",
-   "ref": "C4",
-   "role": "C4 — EN-RC 1 uF",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "af2e25dc8e174a11bab66129be592f4d",
-    "name": "CL10A105KB8NNNC"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-C5",
-   "ref": "C5",
-   "role": "C5 — LDO-Eingang 10 uF",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "e10bc30d72324129a5b7daae4e75f56f",
-    "name": "CL21A106KAYNNNE"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-C6",
-   "ref": "C6",
-   "role": "C6 — LDO-Ausgang 1 uF",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "af2e25dc8e174a11bab66129be592f4d",
-    "name": "CL10A105KB8NNNC"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-C7",
-   "ref": "C7",
-   "role": "C7 — Lader-Eingang 4,7 uF",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "cffcb18c2c544b879332d01f596fbfaf",
-    "name": "CL21A475KAQNNNE"
-   },
-   "pins": [
-    {
-     "number": "1",
-     "name": "1"
-    },
-    {
-     "number": "2",
-     "name": "2"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-C8",
-   "ref": "C8",
-   "role": "C8 — Lader-Ausgang 4,7 uF",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "cffcb18c2c544b879332d01f596fbfaf",
-    "name": "CL21A475KAQNNNE"
-   },
-   "pins": [
-    {
-     "number": "1",
-     "name": "1"
-    },
-    {
-     "number": "2",
-     "name": "2"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-C9",
-   "ref": "C9",
-   "role": "C9 — ADC-Filter Sensor 100 nF",
+   "id": "cmp-C1a",
+   "ref": "C28",
+   "role": "C1a — Decoupling Modul 100 nF",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
     "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
@@ -705,9 +1699,9 @@
    "pageId": "4f6771a27edec75b"
   },
   {
-   "id": "cmp-C10",
-   "ref": "C10",
-   "role": "C10 — ADC-Filter VBAT 100 nF",
+   "id": "cmp-C1b",
+   "ref": "C29",
+   "role": "C1b — Decoupling Modul 100 nF",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
     "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
@@ -726,13 +1720,223 @@
    "pageId": "4f6771a27edec75b"
   },
   {
-   "id": "cmp-C11",
-   "ref": "C11",
-   "role": "C11 — EMI an Pumpenklemmen 100 nF",
+   "id": "cmp-C13",
+   "ref": "C13",
+   "role": "C13 — Decoupling Modul 100 nF",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
     "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
     "name": "CC0805KRX7R9BB104"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_EN",
+   "ref": "R21",
+   "role": "R_EN — EN-Pull-up 10 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
+    "name": "0805W8F1002T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_BOOT",
+   "ref": "R22",
+   "role": "R_BOOT — GPIO9-Pull-up 10 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
+    "name": "0805W8F1002T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_GPIO8",
+   "ref": "R23",
+   "role": "R_GPIO8 — GPIO8-Strap-Pull-up 10 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
+    "name": "0805W8F1002T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_BTN",
+   "ref": "R24",
+   "role": "R_BTN — Taster-Pull-up 10 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
+    "name": "0805W8F1002T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_GATE",
+   "ref": "R25",
+   "role": "R_GATE — Gate-Pull-up Load-Switch 47 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "91f8acf5ccc04a77aed714589966c8f5",
+    "name": "0805W8F4702T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-Q2",
+   "ref": "Q2",
+   "role": "Q2 — P-Kanal-Load-Switch VCC_EXT",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "f58385f66b144586baef3753ba84f65d",
+    "name": "AO3401A"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "G"
+    },
+    {
+     "number": "2",
+     "name": "S"
+    },
+    {
+     "number": "3",
+     "name": "D"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-TP5",
+   "ref": "TP5",
+   "role": "TP5 — Testpad +3V3",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
+    "name": "5010-Testpoint"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_FB3_TOP",
+   "ref": "R26",
+   "role": "R_FB3_TOP — Feedback oben 47 k -> 3,31 V",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "91f8acf5ccc04a77aed714589966c8f5",
+    "name": "0805W8F4702T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_FB3_BOT",
+   "ref": "R27",
+   "role": "R_FB3_BOT — Feedback unten 15 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "f2eb4f1842fd4e72b87b6d14987cbe7e",
+    "name": "0805W8F1502T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R3b",
+   "ref": "R28",
+   "role": "R3b — UVLO-Teiler unten 200 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "d437a4e518b341d7a6ddadaf8d14b1f6",
+    "name": "0805W8F2003T5E"
    },
    "pins": [
     {
@@ -749,7 +1953,7 @@
   {
    "id": "cmp-C12",
    "ref": "C12",
-   "role": "C12 — Decoupling MAX809 100 nF",
+   "role": "C12 — Decoupling Waechter 100 nF",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
     "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
@@ -768,13 +1972,38 @@
    "pageId": "4f6771a27edec75b"
   },
   {
-   "id": "cmp-C_BTN",
-   "ref": "C14",
-   "role": "C_BTN — Taster-Entprellung 100 nF",
+   "id": "cmp-U7",
+   "ref": "U7",
+   "role": "U7 — Unterspannungswaechter TPS3839G33 (3,08 V)",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-    "name": "CC0805KRX7R9BB104"
+    "deviceUuid": "e24296b9a9a54804892f31e4355436d9",
+    "name": "TPS3839G33DBZR"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "GND"
+    },
+    {
+     "number": "2",
+     "name": "RESET#"
+    },
+    {
+     "number": "3",
+     "name": "VDD"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_CLAMP1",
+   "ref": "R29",
+   "role": "R_CLAMP1 — Klemmzweig-Serie 10 k Dosierpumpe",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
+    "name": "0805W8F1002T5E"
    },
    "pins": [
     {
@@ -784,6 +2013,69 @@
     {
      "number": "1",
      "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-D3",
+   "ref": "D3",
+   "role": "D3 — Klemmzweig-Diode Dosierpumpe",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
+    "name": "1N5819WS"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "K"
+    },
+    {
+     "number": "2",
+     "name": "A"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_CLAMP2",
+   "ref": "R30",
+   "role": "R_CLAMP2 — Klemmzweig-Serie 10 k Sauerstoffpumpe",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
+    "name": "0805W8F1002T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-D8",
+   "ref": "D8",
+   "role": "D8 — Klemmzweig-Diode Sauerstoffpumpe",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
+    "name": "1N5819WS"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "K"
+    },
+    {
+     "number": "2",
+     "name": "A"
     }
    ],
    "pageId": "4f6771a27edec75b"
@@ -791,11 +2083,11 @@
   {
    "id": "cmp-R1",
    "ref": "R1",
-   "role": "R1 — Gate-Serie 4,7 k",
+   "role": "R1 — Gate-Serie 1 k",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "611ee85922f4491584738b3ecdf137f4",
-    "name": "0805W8F4701T5E"
+    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "name": "0805W8F1001T5E"
    },
    "pins": [
     {
@@ -831,586 +2123,9 @@
    "pageId": "4f6771a27edec75b"
   },
   {
-   "id": "cmp-R3a",
-   "ref": "R3",
-   "role": "R3a — VBAT-Teiler oben 200 k",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "d437a4e518b341d7a6ddadaf8d14b1f6",
-    "name": "0805W8F2003T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R3b",
-   "ref": "R5",
-   "role": "R3b — VBAT-Teiler unten 200 k",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "d437a4e518b341d7a6ddadaf8d14b1f6",
-    "name": "0805W8F2003T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R4",
-   "ref": "R4",
-   "role": "R4 — Status-LED 220 R",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "760339a7f6b44f119a4df4dbb5478cf2",
-    "name": "0805W8F2200T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R5a",
-   "ref": "R7",
-   "role": "R5a — CC1-Pulldown 5,1 k",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "228f8e23038b4563bc5cde7c8409a6b9",
-    "name": "0805W8F5101T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R5b",
-   "ref": "R8",
-   "role": "R5b — CC2-Pulldown 5,1 k",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "228f8e23038b4563bc5cde7c8409a6b9",
-    "name": "0805W8F5101T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R6",
-   "ref": "R6",
-   "role": "R6 — Sensor-AOUT Serie 1 k",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-    "name": "0805W8F1001T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R_EN",
-   "ref": "R9",
-   "role": "R_EN — EN-Pull-up 10 k",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-    "name": "0805W8F1002T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R_BOOT",
-   "ref": "R10",
-   "role": "R_BOOT — GPIO9-Pull-up 10 k",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-    "name": "0805W8F1002T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R_GPIO8",
-   "ref": "R11",
-   "role": "R_GPIO8 — GPIO8-Strap-Pull-up 10 k",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-    "name": "0805W8F1002T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R_BTN",
-   "ref": "R12",
-   "role": "R_BTN — Taster-Pull-up 10 k",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-    "name": "0805W8F1002T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R_PROG",
-   "ref": "R13",
-   "role": "R_PROG — Ladestrom 3,9 k -> 256 mA",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "eb3a002498064638b42a7b04b4029852",
-    "name": "0805W8F3901T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R_LEDCHG",
-   "ref": "R14",
-   "role": "R_LEDCHG — Lade-LED 1 k",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-    "name": "0805W8F1001T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R_TANK",
-   "ref": "R15",
-   "role": "R_TANK — Tank-LED 1 k",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-    "name": "0805W8F1001T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R_UART",
-   "ref": "R16",
-   "role": "R_UART — TXD0-Serie 499 R (DNP)",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "68e77fee64a84125bdea1b394c2e5985",
-    "name": "0805W8F4990T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-J1",
-   "ref": "J1",
-   "role": "J1 — Akku JST-PH 2P aufrecht (Top-Entry)",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "81214969fb224686b54499e2b4f4ad3f",
-    "name": "B2B-PH-SM4-TB(LF)(SN)"
-   },
-   "pins": [
-    {
-     "number": "1",
-     "name": "1"
-    },
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "3",
-     "name": "3",
-     "noConnected": true
-    },
-    {
-     "number": "4",
-     "name": "4",
-     "noConnected": true
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-J2",
-   "ref": "J2",
-   "role": "J2 — Sensor JST-XH 3P aufrecht (Top-Entry)",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "f76627383a2f4537b225d848b6249ec0",
-    "name": "B3B-XH-A-BK(LF)(SN)"
-   },
-   "pins": [
-    {
-     "number": "1",
-     "name": "1"
-    },
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "3",
-     "name": "3"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-J4",
-   "ref": "J4",
-   "role": "J4 — Dosierpumpe JST-XH 2P aufrecht (Top-Entry)",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "4d018698282b47d4893c87aca1c32f67",
-    "name": "B2B-XH-A(LF)(SN)"
-   },
-   "pins": [
-    {
-     "number": "1",
-     "name": "1"
-    },
-    {
-     "number": "2",
-     "name": "2"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-J_PUMP2",
-   "ref": "J16",
-   "role": "J_PUMP2 — Sauerstoffpumpe JST-XH 2P aufrecht",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "4d018698282b47d4893c87aca1c32f67",
-    "name": "B2B-XH-A(LF)(SN)"
-   },
-   "pins": [
-    {
-     "number": "1",
-     "name": "1"
-    },
-    {
-     "number": "2",
-     "name": "2"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-U_BOOST",
-   "ref": "U8",
-   "role": "U_BOOST — MT3608 Aufwaertsregler 5 V",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "f42b51ab2afc4d9db90725b5f9dacdaa",
-    "name": "MT3608"
-   },
-   "pins": [
-    {
-     "number": "1",
-     "name": "SW"
-    },
-    {
-     "number": "2",
-     "name": "GND"
-    },
-    {
-     "number": "3",
-     "name": "FB"
-    },
-    {
-     "number": "4",
-     "name": "EN"
-    },
-    {
-     "number": "5",
-     "name": "IN"
-    },
-    {
-     "number": "6",
-     "name": "NC",
-     "noConnected": true
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-L_BOOST",
-   "ref": "L1",
-   "role": "L_BOOST — Boost-Induktivitaet 22 uH YNR6045",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "41353bd188bd41e4b5cff1c3b04e8681",
-    "name": "YNR6045-220M"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-D_BOOST",
-   "ref": "D6",
-   "role": "D_BOOST — Boost-Diode SS34 3A/40V",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "804240ef97df427480be2a5281ccea31",
-    "name": "SS34"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "A"
-    },
-    {
-     "number": "1",
-     "name": "K"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-C_BST_IN",
-   "ref": "C17",
-   "role": "C_BST_IN — Boost-Eingang 22 uF",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "9583d53cf848486a9d523fcaf153a729",
-    "name": "CL21A226MAQNNNE"
-   },
-   "pins": [
-    {
-     "number": "1",
-     "name": "1"
-    },
-    {
-     "number": "2",
-     "name": "2"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-C_BST_OUT",
-   "ref": "C18",
-   "role": "C_BST_OUT — Boost-Ausgang 22 uF",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "9583d53cf848486a9d523fcaf153a729",
-    "name": "CL21A226MAQNNNE"
-   },
-   "pins": [
-    {
-     "number": "1",
-     "name": "1"
-    },
-    {
-     "number": "2",
-     "name": "2"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-C_BST_HF",
-   "ref": "C19",
-   "role": "C_BST_HF — Boost-Ausgang HF 100 nF",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-    "name": "CC0805KRX7R9BB104"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R_FB_TOP",
-   "ref": "R31",
-   "role": "R_FB_TOP — Feedback oben 75 k -> 5,10 V",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "c464d818a3cc4b9ba1e2b92f982ed62e",
-    "name": "0805W8F7502T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R_FB_BOT",
-   "ref": "R32",
-   "role": "R_FB_BOT — Feedback unten 10 k",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-    "name": "0805W8F1002T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-Q_PUMP2",
-   "ref": "Q3",
-   "role": "Q_PUMP2 — N-MOSFET Sauerstoffpumpe",
+   "id": "cmp-Q1",
+   "ref": "Q1",
+   "role": "Q1 — N-MOSFET Pumpentreiber Dosierpumpe",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
     "deviceUuid": "1c95a10b7c4a4095b426799cbca7b1b2",
@@ -1434,12 +2149,12 @@
   },
   {
    "id": "cmp-R_GATE2",
-   "ref": "R33",
-   "role": "R_GATE2 — Gate-Serie 4,7 k",
+   "ref": "R31",
+   "role": "R_GATE2 — Gate-Serie 1 k Kanal 2",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "611ee85922f4491584738b3ecdf137f4",
-    "name": "0805W8F4701T5E"
+    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "name": "0805W8F1001T5E"
    },
    "pins": [
     {
@@ -1454,72 +2169,34 @@
    "pageId": "4f6771a27edec75b"
   },
   {
-   "id": "cmp-R_CLAMP1",
-   "ref": "R35",
-   "role": "R_CLAMP1 — Serienwiderstand im Klemmzweig Dosierpumpe (10 k)",
+   "id": "cmp-Q_PUMP2",
+   "ref": "Q5",
+   "role": "Q_PUMP2 — N-MOSFET Sauerstoffpumpe",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-    "name": "0805W8F1002T5E"
+    "deviceUuid": "1c95a10b7c4a4095b426799cbca7b1b2",
+    "name": "AO3400A"
    },
    "pins": [
     {
-     "number": "2",
-     "name": "2"
+     "number": "3",
+     "name": "D"
     },
     {
      "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R_CLAMP2",
-   "ref": "R36",
-   "role": "R_CLAMP2 — Serienwiderstand im Klemmzweig Sauerstoffpumpe (10 k)",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-    "name": "0805W8F1002T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
+     "name": "G"
     },
     {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R_EN_PU",
-   "ref": "R37",
-   "role": "R_EN_PU — Pull-up des Boost-EN an VBAT (47 k), Waechter zieht ihn auf Low",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "91f8acf5ccc04a77aed714589966c8f5",
-    "name": "0805W8F4702T5E"
-   },
-   "pins": [
-    {
      "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
+     "name": "S"
     }
    ],
    "pageId": "4f6771a27edec75b"
   },
   {
    "id": "cmp-R_GATE2_PD",
-   "ref": "R34",
-   "role": "R_GATE2_PD — Gate-Pulldown 47 k",
+   "ref": "R32",
+   "role": "R_GATE2_PD — Gate-Pulldown 47 k Kanal 2",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
     "deviceUuid": "91f8acf5ccc04a77aed714589966c8f5",
@@ -1538,51 +2215,30 @@
    "pageId": "4f6771a27edec75b"
   },
   {
-   "id": "cmp-D_FLY2",
-   "ref": "D7",
-   "role": "D_FLY2 — Freilaufdiode Sauerstoffpumpe",
+   "id": "cmp-R_SENSE_BOT",
+   "ref": "R33",
+   "role": "R_SENSE_BOT — ADC-Teiler unten 68 k",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
-    "name": "1N5819WS"
+    "deviceUuid": "600fa66974404db08806854e7b4a38bc",
+    "name": "0805W8F6802T5E"
    },
    "pins": [
     {
-     "number": "1",
-     "name": "K"
+     "number": "2",
+     "name": "2"
     },
     {
-     "number": "2",
-     "name": "A"
+     "number": "1",
+     "name": "1"
     }
    ],
    "pageId": "4f6771a27edec75b"
   },
   {
-   "id": "cmp-D_CLAMP2",
-   "ref": "D8",
-   "role": "D_CLAMP2 — Klemmzweig Gate Sauerstoffpumpe",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
-    "name": "1N5819WS"
-   },
-   "pins": [
-    {
-     "number": "1",
-     "name": "K"
-    },
-    {
-     "number": "2",
-     "name": "A"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-C_PUMP2_EMI",
-   "ref": "C20",
-   "role": "C_PUMP2_EMI — EMI an den Klemmen Sauerstoffpumpe 100 nF",
+   "id": "cmp-C10",
+   "ref": "C10",
+   "role": "C10 — ADC-Filter VBAT 100 nF",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
     "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
@@ -1601,80 +2257,22 @@
    "pageId": "4f6771a27edec75b"
   },
   {
-   "id": "cmp-J5",
-   "ref": "J5",
-   "role": "J5 — USB-C 16P Buchse",
+   "id": "cmp-C4",
+   "ref": "C4",
+   "role": "C4 — EN-RC 1 uF",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "730e76758f9742ca9ca85c73f4ec0ecd",
-    "name": "TYPE-C-31-M-12"
+    "deviceUuid": "af2e25dc8e174a11bab66129be592f4d",
+    "name": "CL10A105KB8NNNC"
    },
    "pins": [
     {
-     "number": "A1B12",
-     "name": "GND"
-    },
-    {
-     "number": "A4B9",
-     "name": "VBUS"
-    },
-    {
-     "number": "B8",
-     "name": "SBU2",
-     "noConnected": true
-    },
-    {
-     "number": "A5",
-     "name": "CC1"
-    },
-    {
-     "number": "B7",
-     "name": "DN2"
-    },
-    {
-     "number": "A6",
-     "name": "DP1"
-    },
-    {
-     "number": "A7",
-     "name": "DN1"
-    },
-    {
-     "number": "B6",
-     "name": "DP2"
-    },
-    {
-     "number": "A8",
-     "name": "SBU1",
-     "noConnected": true
-    },
-    {
-     "number": "B5",
-     "name": "CC2"
-    },
-    {
-     "number": "B4A9",
-     "name": "VBUS"
-    },
-    {
-     "number": "B1A12",
-     "name": "GND"
-    },
-    {
-     "number": "4",
-     "name": "EH"
-    },
-    {
-     "number": "3",
-     "name": "EH"
-    },
-    {
      "number": "2",
-     "name": "EH"
+     "name": "2"
     },
     {
      "number": "1",
-     "name": "EH"
+     "name": "1"
     }
    ],
    "pageId": "4f6771a27edec75b"
@@ -1742,13 +2340,13 @@
    "pageId": "4f6771a27edec75b"
   },
   {
-   "id": "cmp-J6",
-   "ref": "J6",
-   "role": "J6 — 2 Loetpads externer Taster",
+   "id": "cmp-J2",
+   "ref": "J2",
+   "role": "J2 — Feuchtesensor JST-XH 3P, aufrecht",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "72b9be21f4ad4d53a42178e79731ea2a",
-    "name": "HDR-TH 2P, 2,54 mm"
+    "deviceUuid": "6a10ae8bb76743fa83467ccf43066224",
+    "name": "XH-3PA"
    },
    "pins": [
     {
@@ -1758,20 +2356,28 @@
     {
      "number": "2",
      "name": "2"
+    },
+    {
+     "number": "3",
+     "name": "3"
     }
    ],
    "pageId": "4f6771a27edec75b"
   },
   {
-   "id": "cmp-TP1",
-   "ref": "TP1",
-   "role": "TP1 — Testpad TXD0",
+   "id": "cmp-R6",
+   "ref": "R6",
+   "role": "R6 — Sensor-AOUT Serie 1 k",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
-    "name": "5010-Testpoint"
+    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "name": "0805W8F1001T5E"
    },
    "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
     {
      "number": "1",
      "name": "1"
@@ -1780,66 +2386,19 @@
    "pageId": "4f6771a27edec75b"
   },
   {
-   "id": "cmp-TP2",
-   "ref": "TP2",
-   "role": "TP2 — Testpad RXD0",
+   "id": "cmp-C9",
+   "ref": "C9",
+   "role": "C9 — ADC-Filter Sensor 100 nF",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
-    "name": "5010-Testpoint"
+    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+    "name": "CC0805KRX7R9BB104"
    },
    "pins": [
     {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-TP3",
-   "ref": "TP3",
-   "role": "TP3 — Testpad GND",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
-    "name": "5010-Testpoint"
-   },
-   "pins": [
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-TP4",
-   "ref": "TP4",
-   "role": "TP4 — Testpad VBAT",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
-    "name": "5010-Testpoint"
-   },
-   "pins": [
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-TP5",
-   "ref": "TP5",
-   "role": "TP5 — Testpad +3V3",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
-    "name": "5010-Testpoint"
-   },
-   "pins": [
+     "number": "2",
+     "name": "2"
+    },
     {
      "number": "1",
      "name": "1"
@@ -1867,7 +2426,7 @@
   {
    "id": "cmp-J7",
    "ref": "J7",
-   "role": "J7 — Lichtsensor Stiftleiste 1x3 2.54 mm (extern)",
+   "role": "J7 — Lichtsensor-Stiftleiste 1x3 2,54 mm",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
     "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
@@ -1891,7 +2450,7 @@
   },
   {
    "id": "cmp-R_LIGHT",
-   "ref": "R17",
+   "ref": "R34",
    "role": "R_LIGHT — Licht-Lastwiderstand 10 k nach GND",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
@@ -1912,7 +2471,7 @@
   },
   {
    "id": "cmp-R_LIGHT_S",
-   "ref": "R18",
+   "ref": "R35",
    "role": "R_LIGHT_S — Licht-Serienschutz 1 k zum ADC",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
@@ -1933,7 +2492,7 @@
   },
   {
    "id": "cmp-C_LIGHT",
-   "ref": "C15",
+   "ref": "C30",
    "role": "C_LIGHT — ADC-Filter Licht 100 nF",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
@@ -1955,7 +2514,7 @@
   {
    "id": "cmp-J8",
    "ref": "J8",
-   "role": "J8 — I2C Stiftleiste 1x4 (GND-VCC-SDA-SCL)",
+   "role": "J8 — I2C-Stiftleiste 1x4 (GND-VCC-SDA-SCL)",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
     "deviceUuid": "f70eda5267b34d9799800488a27be0c6",
@@ -1977,6 +2536,90 @@
     {
      "number": "4",
      "name": "4"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_SDA_S",
+   "ref": "R36",
+   "role": "R_SDA_S — I2C-SDA-Serienschutz 1 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "name": "0805W8F1001T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_SDA_PU",
+   "ref": "R37",
+   "role": "R_SDA_PU — I2C-SDA-Pull-up 4,7 k an VCC_EXT",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "611ee85922f4491584738b3ecdf137f4",
+    "name": "0805W8F4701T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_SCL_S",
+   "ref": "R38",
+   "role": "R_SCL_S — I2C-SCL-Serienschutz 1 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "name": "0805W8F1001T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_SCL_PU",
+   "ref": "R39",
+   "role": "R_SCL_PU — I2C-SCL-Pull-up 4,7 k an VCC_EXT",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "611ee85922f4491584738b3ecdf137f4",
+    "name": "0805W8F4701T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
     }
    ],
    "pageId": "4f6771a27edec75b"
@@ -2132,244 +2775,9 @@
    "pageId": "4f6771a27edec75b"
   },
   {
-   "id": "cmp-Q2",
-   "ref": "Q2",
-   "role": "Q2 — P-Kanal-Load-Switch VCC_EXT",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "f58385f66b144586baef3753ba84f65d",
-    "name": "AO3401A"
-   },
-   "pins": [
-    {
-     "number": "1",
-     "name": "G"
-    },
-    {
-     "number": "2",
-     "name": "S"
-    },
-    {
-     "number": "3",
-     "name": "D"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R_GATE",
-   "ref": "R23",
-   "role": "R_GATE — Gate-Pull-up Load-Switch 47 k",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "91f8acf5ccc04a77aed714589966c8f5",
-    "name": "0805W8F4702T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R_SDA_PU",
-   "ref": "R19",
-   "role": "R_SDA_PU — I2C SDA Pull-up 10 k an VCC_EXT",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-    "name": "0805W8F1002T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R_SCL_PU",
-   "ref": "R20",
-   "role": "R_SCL_PU — I2C SCL Pull-up 10 k an VCC_EXT",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-    "name": "0805W8F1002T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R_SDA_S",
-   "ref": "R21",
-   "role": "R_SDA_S — I2C SDA Serienschutz 1 k",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-    "name": "0805W8F1001T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R_SCL_S",
-   "ref": "R22",
-   "role": "R_SCL_S — I2C SCL Serienschutz 1 k",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-    "name": "0805W8F1001T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
    "id": "cmp-R_SPARE_AIN",
-   "ref": "R24",
-   "role": "R_SPARE_AIN — Reserve-AIN Serienschutz 1 k",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-    "name": "0805W8F1001T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R_SPARE_IO15",
-   "ref": "R25",
-   "role": "R_SPARE_IO15 — Reserve IO15 Serienschutz 1 k",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-    "name": "0805W8F1001T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R_SPARE_IO16",
-   "ref": "R26",
-   "role": "R_SPARE_IO16 — Reserve IO16 Serienschutz 1 k",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-    "name": "0805W8F1001T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R_SPARE_IO17",
-   "ref": "R27",
-   "role": "R_SPARE_IO17 — Reserve IO17 Serienschutz 1 k",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-    "name": "0805W8F1001T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R_SPARE_IO21",
-   "ref": "R28",
-   "role": "R_SPARE_IO21 — Reserve IO21 Serienschutz 1 k",
-   "device": {
-    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
-    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-    "name": "0805W8F1001T5E"
-   },
-   "pins": [
-    {
-     "number": "2",
-     "name": "2"
-    },
-    {
-     "number": "1",
-     "name": "1"
-    }
-   ],
-   "pageId": "4f6771a27edec75b"
-  },
-  {
-   "id": "cmp-R_SPARE_IO23",
-   "ref": "R30",
-   "role": "R_SPARE_IO23 — Reserve IO23 Serienschutz 1 k",
+   "ref": "R40",
+   "role": "R_SPARE_AIN — Reserve-AIN-Serienschutz 1 k",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
     "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
@@ -2389,7 +2797,7 @@
   },
   {
    "id": "cmp-C_SPARE",
-   "ref": "C16",
+   "ref": "C31",
    "role": "C_SPARE — ADC-Filter Reserve-Analog 100 nF",
    "device": {
     "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
@@ -2401,6 +2809,309 @@
      "number": "2",
      "name": "2"
     },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_SPARE_IO15",
+   "ref": "R41",
+   "role": "R_SPARE_IO15 — Reserve-IO15-Serienschutz 1 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "name": "0805W8F1001T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_SPARE_IO16",
+   "ref": "R42",
+   "role": "R_SPARE_IO16 — Reserve-IO16-Serienschutz 1 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "name": "0805W8F1001T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_SPARE_IO17",
+   "ref": "R43",
+   "role": "R_SPARE_IO17 — Reserve-IO17-Serienschutz 1 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "name": "0805W8F1001T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_SPARE_IO21",
+   "ref": "R44",
+   "role": "R_SPARE_IO21 — Reserve-IO21-Serienschutz 1 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "name": "0805W8F1001T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_SPARE_IO23",
+   "ref": "R45",
+   "role": "R_SPARE_IO23 — Reserve-IO23-Serienschutz 1 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "name": "0805W8F1001T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R4",
+   "ref": "R4",
+   "role": "R4 — Status-LED 220 R",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "760339a7f6b44f119a4df4dbb5478cf2",
+    "name": "0805W8F2200T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-D2",
+   "ref": "D2",
+   "role": "D2 — Status-LED gruen 525 nm",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "cabe1100a18642cca4b0bdb071599cef",
+    "name": "KT-0805G"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "K"
+    },
+    {
+     "number": "1",
+     "name": "A"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_TANK",
+   "ref": "R46",
+   "role": "R_TANK — Tank-LED 1 k",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+    "name": "0805W8F1001T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-D5",
+   "ref": "D5",
+   "role": "D5 — Tank-leer-LED rot",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "6073168119a941bda41c330f8b8e9152",
+    "name": "NCD0805R1"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "+"
+    },
+    {
+     "number": "1",
+     "name": "-"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-C_BTN",
+   "ref": "C32",
+   "role": "C_BTN — Taster-Entprellung 100 nF",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+    "name": "CC0805KRX7R9BB104"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-J6",
+   "ref": "J6",
+   "role": "J6 — 2 Loetpads externer Taster",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "72b9be21f4ad4d53a42178e79731ea2a",
+    "name": "HDR-TH 2P, 2,54 mm"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    },
+    {
+     "number": "2",
+     "name": "2"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-R_UART",
+   "ref": "R47",
+   "role": "R_UART — UART-Serie 499 R (DNP)",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "68e77fee64a84125bdea1b394c2e5985",
+    "name": "0805W8F4990T5E"
+   },
+   "pins": [
+    {
+     "number": "2",
+     "name": "2"
+    },
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-TP1",
+   "ref": "TP1",
+   "role": "TP1 — Testpad TXD0",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
+    "name": "5010-Testpoint"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-TP2",
+   "ref": "TP2",
+   "role": "TP2 — Testpad RXD0",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
+    "name": "5010-Testpoint"
+   },
+   "pins": [
+    {
+     "number": "1",
+     "name": "1"
+    }
+   ],
+   "pageId": "4f6771a27edec75b"
+  },
+  {
+   "id": "cmp-TP3",
+   "ref": "TP3",
+   "role": "TP3 — Testpad GND",
+   "device": {
+    "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
+    "name": "5010-Testpoint"
+   },
+   "pins": [
     {
      "number": "1",
      "name": "1"
@@ -2423,16 +3134,70 @@
    "role": "power"
   },
   {
+   "id": "net-a463c9924adb58fc0f5e153c695ccc6f3c645507",
+   "name": "BAT_MINUS",
+   "scope": "global",
+   "role": "ground"
+  },
+  {
    "id": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
    "name": "GND",
    "scope": "global",
    "role": "ground"
   },
   {
+   "id": "net-f1db3ae2903dfd092b0bf100be7a179bef92b06e",
+   "name": "MID",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-7723f983ad6d30911f17cb80c1842f4989c9e378",
+   "name": "PROT_COMMON",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-8e8aac81575fe147caaa76b4bb2a70e8231873a8",
+   "name": "PROT_CS",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-97b2409cd92b601af7ab1b24b57cb874949eeeaa",
+   "name": "PROT_GATE_C",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-8506153af9d6e764d8cebdc3feabcbf968296fb3",
+   "name": "PROT_GATE_D",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-25042edeb21e9177d65c3a22b5a13588bada2f86",
+   "name": "PROT_VC",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-5c0fe4be58a9b1ab89fe2c3809e5f8bd27192b85",
+   "name": "PROT_VDD",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
    "id": "net-72666456eeba3eea911dce0268c2568f337e45c5",
    "name": "VBAT",
    "scope": "global",
    "role": "power"
+  },
+  {
+   "id": "net-8dc72bff1dd7855116664fd43e2f7755e475a865",
+   "name": "VBATM_CHG",
+   "scope": "local",
+   "role": "signal"
   },
   {
    "id": "net-df7b60c0b852140c221327c4accf5db01bfa2b4a",
@@ -2443,6 +3208,24 @@
   {
    "id": "net-3bd9bc26b8b471fb6dbf33292d902e89b4f0bf82",
    "name": "BOOT",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-1572e773ca56c14df8b265a5fd03e78f4b1c286f",
+   "name": "BST_3V3",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-fa2efb1d508a686993f32eaf44114bb718db433e",
+   "name": "BST_5V",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-c686618aa385f376471553a171899eeedbd599fa",
+   "name": "BST_CHG",
    "scope": "local",
    "role": "signal"
   },
@@ -2471,8 +3254,20 @@
    "role": "signal"
   },
   {
+   "id": "net-28f2a511541a57855480709326bf13b698feb71b",
+   "name": "EN_CHG",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
    "id": "net-0d7c7a38af3c384a1fc8a70a9441f7527a8084f8",
    "name": "EXT_EN",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-2f9336ebcbfbed9407668824153d1b285c81c1b0",
+   "name": "FB_3V3",
    "scope": "local",
    "role": "signal"
   },
@@ -2497,6 +3292,12 @@
   {
    "id": "net-964fa29c913bd02275b9e343fe254aea292a1975",
    "name": "GPIO8_STRAP",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-e6afaf240f98bd5cc803bb879f5a69da9ca26e77",
+   "name": "ISET_CHG",
    "scope": "local",
    "role": "signal"
   },
@@ -2555,8 +3356,26 @@
    "role": "signal"
   },
   {
-   "id": "net-879e194824d2fb008fcb0aa124b9bfe5c1a64a59",
-   "name": "PROG",
+   "id": "net-97152cde280b0c5de60594ee512928816c2e76c0",
+   "name": "LX_3V3",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-52c4139d14e1202128f9f548aa98709e63ad7d09",
+   "name": "LX_5V",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-8dff4541fb8faea9a993bc99625d22037dd83b50",
+   "name": "LX_CHG",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-a153c921a69fcf40db7806db87680ff0c80b5c98",
+   "name": "NTC_DIS",
    "scope": "local",
    "role": "signal"
   },
@@ -2699,12 +3518,6 @@
    "role": "signal"
   },
   {
-   "id": "net-c4d938be1df2b195d7c3f938aee3757ee9a54146",
-   "name": "SW_BOOST",
-   "scope": "local",
-   "role": "signal"
-  },
-  {
    "id": "net-b941a1d102b964870ce0b7f4306006a5fa687d78",
    "name": "UART_RX",
    "scope": "local",
@@ -2735,14 +3548,38 @@
    "role": "signal"
   },
   {
+   "id": "net-2561d479bd80309bf779047e42c5c235c216b155",
+   "name": "UVSET_CHG",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-e59ecc0ff145ded430e6a0b8fd42f5c7535d7ff8",
+   "name": "UV_REF",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
    "id": "net-098e3c9f0ee4914c627f64873850a4cf254e9630",
    "name": "VBAT_SENSE",
    "scope": "local",
    "role": "signal"
   },
   {
+   "id": "net-6c6c82df8ac6f6cfcee0b9e7a995443f9dbfff44",
+   "name": "VBUS_CHG",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
    "id": "net-7e6cdfa0d3a3e3ae9dc05aa34d29eb53e8176196",
    "name": "VCC_EXT",
+   "scope": "local",
+   "role": "signal"
+  },
+  {
+   "id": "net-ab55665d6709c17e0be554b8b62bb86d05154371",
+   "name": "VSYS_CHG",
    "scope": "local",
    "role": "signal"
   }
@@ -2775,11 +3612,23 @@
   {
    "componentId": "cmp-C12",
    "pinNumber": "1",
-   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
+   "netId": "net-e59ecc0ff145ded430e6a0b8fd42f5c7535d7ff8",
    "kind": "netlist"
   },
   {
    "componentId": "cmp-C12",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C13",
+   "pinNumber": "1",
+   "netId": "net-2a0578345b7fcca9ed1b70565db42672e9260a31",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C13",
    "pinNumber": "2",
    "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
    "kind": "netlist"
@@ -2823,7 +3672,7 @@
   {
    "componentId": "cmp-C3",
    "pinNumber": "1",
-   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
+   "netId": "net-4ec13f0a2404126eac02d6aee3a0f7eb511c47fd",
    "kind": "netlist"
   },
   {
@@ -2845,54 +3694,6 @@
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-C5",
-   "pinNumber": "1",
-   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
-   "kind": "netlist"
-  },
-  {
-   "componentId": "cmp-C5",
-   "pinNumber": "2",
-   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
-   "kind": "netlist"
-  },
-  {
-   "componentId": "cmp-C6",
-   "pinNumber": "1",
-   "netId": "net-2a0578345b7fcca9ed1b70565db42672e9260a31",
-   "kind": "netlist"
-  },
-  {
-   "componentId": "cmp-C6",
-   "pinNumber": "2",
-   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
-   "kind": "netlist"
-  },
-  {
-   "componentId": "cmp-C7",
-   "pinNumber": "1",
-   "netId": "net-df7b60c0b852140c221327c4accf5db01bfa2b4a",
-   "kind": "netlist"
-  },
-  {
-   "componentId": "cmp-C7",
-   "pinNumber": "2",
-   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
-   "kind": "netlist"
-  },
-  {
-   "componentId": "cmp-C8",
-   "pinNumber": "1",
-   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
-   "kind": "netlist"
-  },
-  {
-   "componentId": "cmp-C8",
-   "pinNumber": "2",
-   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
-   "kind": "netlist"
-  },
-  {
    "componentId": "cmp-C9",
    "pinNumber": "1",
    "netId": "net-55c4ea69baf261b150364a4408a0b31bff47c5cb",
@@ -2905,39 +3706,135 @@
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-C_BST_HF",
+   "componentId": "cmp-C_B3_BST",
    "pinNumber": "1",
-   "netId": "net-4ec13f0a2404126eac02d6aee3a0f7eb511c47fd",
+   "netId": "net-1572e773ca56c14df8b265a5fd03e78f4b1c286f",
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-C_BST_HF",
+   "componentId": "cmp-C_B3_BST",
    "pinNumber": "2",
-   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "netId": "net-97152cde280b0c5de60594ee512928816c2e76c0",
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-C_BST_IN",
+   "componentId": "cmp-C_B3_IN",
    "pinNumber": "1",
    "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-C_BST_IN",
+   "componentId": "cmp-C_B3_IN",
    "pinNumber": "2",
    "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-C_BST_OUT",
+   "componentId": "cmp-C_B3_IN_HF",
+   "pinNumber": "1",
+   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_B3_IN_HF",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_B3_OUT",
+   "pinNumber": "1",
+   "netId": "net-2a0578345b7fcca9ed1b70565db42672e9260a31",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_B3_OUT",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_B3_OUT_HF",
+   "pinNumber": "1",
+   "netId": "net-2a0578345b7fcca9ed1b70565db42672e9260a31",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_B3_OUT_HF",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_B5_BST",
+   "pinNumber": "1",
+   "netId": "net-fa2efb1d508a686993f32eaf44114bb718db433e",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_B5_BST",
+   "pinNumber": "2",
+   "netId": "net-52c4139d14e1202128f9f548aa98709e63ad7d09",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_B5_IN",
+   "pinNumber": "1",
+   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_B5_IN",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_B5_IN_HF",
+   "pinNumber": "1",
+   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_B5_IN_HF",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_B5_OUT",
    "pinNumber": "1",
    "netId": "net-4ec13f0a2404126eac02d6aee3a0f7eb511c47fd",
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-C_BST_OUT",
+   "componentId": "cmp-C_B5_OUT",
    "pinNumber": "2",
    "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_B5_OUT_HF",
+   "pinNumber": "1",
+   "netId": "net-4ec13f0a2404126eac02d6aee3a0f7eb511c47fd",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_B5_OUT_HF",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_BST_CHG",
+   "pinNumber": "1",
+   "netId": "net-c686618aa385f376471553a171899eeedbd599fa",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_BST_CHG",
+   "pinNumber": "2",
+   "netId": "net-8dff4541fb8faea9a993bc99625d22037dd83b50",
    "kind": "netlist"
   },
   {
@@ -2953,6 +3850,42 @@
    "kind": "netlist"
   },
   {
+   "componentId": "cmp-C_CHG_IN",
+   "pinNumber": "1",
+   "netId": "net-df7b60c0b852140c221327c4accf5db01bfa2b4a",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_CHG_IN",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_CHG_OUT",
+   "pinNumber": "1",
+   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_CHG_OUT",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_CHG_VIN",
+   "pinNumber": "1",
+   "netId": "net-6c6c82df8ac6f6cfcee0b9e7a995443f9dbfff44",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_CHG_VIN",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
    "componentId": "cmp-C_LIGHT",
    "pinNumber": "1",
    "netId": "net-fe76de9ede6ff0397c002561259fae41affa400a",
@@ -2962,6 +3895,30 @@
    "componentId": "cmp-C_LIGHT",
    "pinNumber": "2",
    "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_PROT_VC",
+   "pinNumber": "1",
+   "netId": "net-25042edeb21e9177d65c3a22b5a13588bada2f86",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_PROT_VC",
+   "pinNumber": "2",
+   "netId": "net-a463c9924adb58fc0f5e153c695ccc6f3c645507",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_PROT_VDD",
+   "pinNumber": "1",
+   "netId": "net-5c0fe4be58a9b1ab89fe2c3809e5f8bd27192b85",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_PROT_VDD",
+   "pinNumber": "2",
+   "netId": "net-a463c9924adb58fc0f5e153c695ccc6f3c645507",
    "kind": "netlist"
   },
   {
@@ -2984,6 +3941,30 @@
   },
   {
    "componentId": "cmp-C_SPARE",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_VSYS_A",
+   "pinNumber": "1",
+   "netId": "net-ab55665d6709c17e0be554b8b62bb86d05154371",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_VSYS_A",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_VSYS_B",
+   "pinNumber": "1",
+   "netId": "net-ab55665d6709c17e0be554b8b62bb86d05154371",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-C_VSYS_B",
    "pinNumber": "2",
    "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
    "kind": "netlist"
@@ -3037,25 +4018,13 @@
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-D_BOOST",
-   "pinNumber": "1",
-   "netId": "net-4ec13f0a2404126eac02d6aee3a0f7eb511c47fd",
-   "kind": "netlist"
-  },
-  {
-   "componentId": "cmp-D_BOOST",
-   "pinNumber": "2",
-   "netId": "net-c4d938be1df2b195d7c3f938aee3757ee9a54146",
-   "kind": "netlist"
-  },
-  {
-   "componentId": "cmp-D_CLAMP2",
+   "componentId": "cmp-D8",
    "pinNumber": "1",
    "netId": "net-1f9a8d738dc50ea222730c853a317f97b6fefa56",
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-D_CLAMP2",
+   "componentId": "cmp-D8",
    "pinNumber": "2",
    "netId": "net-a70ff26b9772ff4c8cdb0f30133ffb1b13862d67",
    "kind": "netlist"
@@ -3087,13 +4056,19 @@
   {
    "componentId": "cmp-J1",
    "pinNumber": "1",
-   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
+   "netId": "net-a463c9924adb58fc0f5e153c695ccc6f3c645507",
    "kind": "netlist"
   },
   {
    "componentId": "cmp-J1",
    "pinNumber": "2",
-   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "netId": "net-f1db3ae2903dfd092b0bf100be7a179bef92b06e",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J1",
+   "pinNumber": "3",
+   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
    "kind": "netlist"
   },
   {
@@ -3184,6 +4159,30 @@
    "componentId": "cmp-J15",
    "pinNumber": "3",
    "netId": "net-b43479e1d86c131016530252378447a374b47408",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J16",
+   "pinNumber": "1",
+   "netId": "net-4ec13f0a2404126eac02d6aee3a0f7eb511c47fd",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J16",
+   "pinNumber": "2",
+   "netId": "net-0a6feef8ee2686bdfa93fefeeb62fddb59a149da",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J17",
+   "pinNumber": "1",
+   "netId": "net-4ec13f0a2404126eac02d6aee3a0f7eb511c47fd",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-J17",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
    "kind": "netlist"
   },
   {
@@ -3373,27 +4372,39 @@
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-J_PUMP2",
+   "componentId": "cmp-L_BUCK3",
    "pinNumber": "1",
+   "netId": "net-97152cde280b0c5de60594ee512928816c2e76c0",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-L_BUCK3",
+   "pinNumber": "2",
+   "netId": "net-2a0578345b7fcca9ed1b70565db42672e9260a31",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-L_BUCK5",
+   "pinNumber": "1",
+   "netId": "net-52c4139d14e1202128f9f548aa98709e63ad7d09",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-L_BUCK5",
+   "pinNumber": "2",
    "netId": "net-4ec13f0a2404126eac02d6aee3a0f7eb511c47fd",
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-J_PUMP2",
-   "pinNumber": "2",
-   "netId": "net-0a6feef8ee2686bdfa93fefeeb62fddb59a149da",
-   "kind": "netlist"
-  },
-  {
-   "componentId": "cmp-L_BOOST",
+   "componentId": "cmp-L_CHG",
    "pinNumber": "1",
-   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
+   "netId": "net-df7b60c0b852140c221327c4accf5db01bfa2b4a",
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-L_BOOST",
+   "componentId": "cmp-L_CHG",
    "pinNumber": "2",
-   "netId": "net-c4d938be1df2b195d7c3f938aee3757ee9a54146",
+   "netId": "net-8dff4541fb8faea9a993bc99625d22037dd83b50",
    "kind": "netlist"
   },
   {
@@ -3430,6 +4441,66 @@
    "componentId": "cmp-Q2",
    "pinNumber": "3",
    "netId": "net-7e6cdfa0d3a3e3ae9dc05aa34d29eb53e8176196",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-Q_PROT1",
+   "pinNumber": "1",
+   "netId": "net-a463c9924adb58fc0f5e153c695ccc6f3c645507",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-Q_PROT1",
+   "pinNumber": "2",
+   "netId": "net-a463c9924adb58fc0f5e153c695ccc6f3c645507",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-Q_PROT1",
+   "pinNumber": "3",
+   "netId": "net-a463c9924adb58fc0f5e153c695ccc6f3c645507",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-Q_PROT1",
+   "pinNumber": "4",
+   "netId": "net-8506153af9d6e764d8cebdc3feabcbf968296fb3",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-Q_PROT1",
+   "pinNumber": "5",
+   "netId": "net-7723f983ad6d30911f17cb80c1842f4989c9e378",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-Q_PROT2",
+   "pinNumber": "1",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-Q_PROT2",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-Q_PROT2",
+   "pinNumber": "3",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-Q_PROT2",
+   "pinNumber": "4",
+   "netId": "net-97b2409cd92b601af7ab1b24b57cb874949eeeaa",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-Q_PROT2",
+   "pinNumber": "5",
+   "netId": "net-7723f983ad6d30911f17cb80c1842f4989c9e378",
    "kind": "netlist"
   },
   {
@@ -3483,13 +4554,13 @@
   {
    "componentId": "cmp-R3a",
    "pinNumber": "2",
-   "netId": "net-098e3c9f0ee4914c627f64873850a4cf254e9630",
+   "netId": "net-e59ecc0ff145ded430e6a0b8fd42f5c7535d7ff8",
    "kind": "netlist"
   },
   {
    "componentId": "cmp-R3b",
    "pinNumber": "1",
-   "netId": "net-098e3c9f0ee4914c627f64873850a4cf254e9630",
+   "netId": "net-e59ecc0ff145ded430e6a0b8fd42f5c7535d7ff8",
    "kind": "netlist"
   },
   {
@@ -3571,27 +4642,39 @@
    "kind": "netlist"
   },
   {
+   "componentId": "cmp-R_CB",
+   "pinNumber": "1",
+   "netId": "net-f1db3ae2903dfd092b0bf100be7a179bef92b06e",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_CB",
+   "pinNumber": "2",
+   "netId": "net-8dc72bff1dd7855116664fd43e2f7755e475a865",
+   "kind": "netlist"
+  },
+  {
    "componentId": "cmp-R_CLAMP1",
    "pinNumber": "1",
+   "netId": "net-389305e592258685a28b1ef92a1e030301e0a1eb",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_CLAMP1",
+   "pinNumber": "2",
    "netId": "net-ff7caee633a7dcb1afc8c78bebd67c8ee20073da",
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-R_CLAMP1",
-   "pinNumber": "2",
-   "netId": "net-1f9a8d738dc50ea222730c853a317f97b6fefa56",
-   "kind": "netlist"
-  },
-  {
    "componentId": "cmp-R_CLAMP2",
    "pinNumber": "1",
-   "netId": "net-a70ff26b9772ff4c8cdb0f30133ffb1b13862d67",
+   "netId": "net-e96fb72d4dc513b8feeddaab1dddb5cf62c546e9",
    "kind": "netlist"
   },
   {
    "componentId": "cmp-R_CLAMP2",
    "pinNumber": "2",
-   "netId": "net-1f9a8d738dc50ea222730c853a317f97b6fefa56",
+   "netId": "net-a70ff26b9772ff4c8cdb0f30133ffb1b13862d67",
    "kind": "netlist"
   },
   {
@@ -3607,37 +4690,61 @@
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-R_EN_PU",
+   "componentId": "cmp-R_EN_CHG",
    "pinNumber": "1",
-   "netId": "net-1f9a8d738dc50ea222730c853a317f97b6fefa56",
+   "netId": "net-df7b60c0b852140c221327c4accf5db01bfa2b4a",
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-R_EN_PU",
+   "componentId": "cmp-R_EN_CHG",
    "pinNumber": "2",
-   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
+   "netId": "net-28f2a511541a57855480709326bf13b698feb71b",
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-R_FB_BOT",
+   "componentId": "cmp-R_FB3_BOT",
    "pinNumber": "1",
-   "netId": "net-d61f7eeba89d9903efb1f3c1d5ef3789df046792",
+   "netId": "net-2f9336ebcbfbed9407668824153d1b285c81c1b0",
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-R_FB_BOT",
+   "componentId": "cmp-R_FB3_BOT",
    "pinNumber": "2",
    "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-R_FB_TOP",
+   "componentId": "cmp-R_FB3_TOP",
+   "pinNumber": "1",
+   "netId": "net-2a0578345b7fcca9ed1b70565db42672e9260a31",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_FB3_TOP",
+   "pinNumber": "2",
+   "netId": "net-2f9336ebcbfbed9407668824153d1b285c81c1b0",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_FB5_BOT",
+   "pinNumber": "1",
+   "netId": "net-d61f7eeba89d9903efb1f3c1d5ef3789df046792",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_FB5_BOT",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_FB5_TOP",
    "pinNumber": "1",
    "netId": "net-4ec13f0a2404126eac02d6aee3a0f7eb511c47fd",
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-R_FB_TOP",
+   "componentId": "cmp-R_FB5_TOP",
    "pinNumber": "2",
    "netId": "net-d61f7eeba89d9903efb1f3c1d5ef3789df046792",
    "kind": "netlist"
@@ -3691,6 +4798,18 @@
    "kind": "netlist"
   },
   {
+   "componentId": "cmp-R_ISET",
+   "pinNumber": "1",
+   "netId": "net-e6afaf240f98bd5cc803bb879f5a69da9ca26e77",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_ISET",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
    "componentId": "cmp-R_LEDCHG",
    "pinNumber": "1",
    "netId": "net-df7b60c0b852140c221327c4accf5db01bfa2b4a",
@@ -3727,15 +4846,51 @@
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-R_PROG",
+   "componentId": "cmp-R_NTC",
    "pinNumber": "1",
-   "netId": "net-879e194824d2fb008fcb0aa124b9bfe5c1a64a59",
+   "netId": "net-a153c921a69fcf40db7806db87680ff0c80b5c98",
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-R_PROG",
+   "componentId": "cmp-R_NTC",
    "pinNumber": "2",
    "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_PROT_CS",
+   "pinNumber": "1",
+   "netId": "net-8e8aac81575fe147caaa76b4bb2a70e8231873a8",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_PROT_CS",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_PROT_VC",
+   "pinNumber": "1",
+   "netId": "net-f1db3ae2903dfd092b0bf100be7a179bef92b06e",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_PROT_VC",
+   "pinNumber": "2",
+   "netId": "net-25042edeb21e9177d65c3a22b5a13588bada2f86",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_PROT_VDD",
+   "pinNumber": "1",
+   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_PROT_VDD",
+   "pinNumber": "2",
+   "netId": "net-5c0fe4be58a9b1ab89fe2c3809e5f8bd27192b85",
    "kind": "netlist"
   },
   {
@@ -3784,6 +4939,30 @@
    "componentId": "cmp-R_SDA_S",
    "pinNumber": "2",
    "netId": "net-fd0e6d0e645c42a605af0a9c874be499be463518",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SENSE_BOT",
+   "pinNumber": "1",
+   "netId": "net-098e3c9f0ee4914c627f64873850a4cf254e9630",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SENSE_BOT",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SENSE_TOP",
+   "pinNumber": "1",
+   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_SENSE_TOP",
+   "pinNumber": "2",
+   "netId": "net-098e3c9f0ee4914c627f64873850a4cf254e9630",
    "kind": "netlist"
   },
   {
@@ -3880,6 +5059,30 @@
    "componentId": "cmp-R_UART",
    "pinNumber": "2",
    "netId": "net-5acf5bf6ced6a31fb89bb71f5f3aaae95246d8cf",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_UVSET",
+   "pinNumber": "1",
+   "netId": "net-2561d479bd80309bf779047e42c5c235c216b155",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_UVSET",
+   "pinNumber": "2",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_VIN_CHG",
+   "pinNumber": "1",
+   "netId": "net-df7b60c0b852140c221327c4accf5db01bfa2b4a",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-R_VIN_CHG",
+   "pinNumber": "2",
+   "netId": "net-6c6c82df8ac6f6cfcee0b9e7a995443f9dbfff44",
    "kind": "netlist"
   },
   {
@@ -4219,60 +5422,6 @@
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-U3",
-   "pinNumber": "1",
-   "netId": "net-7ae1ee91aee1c94f2691a1667d6732c52eb165ee",
-   "kind": "netlist"
-  },
-  {
-   "componentId": "cmp-U3",
-   "pinNumber": "2",
-   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
-   "kind": "netlist"
-  },
-  {
-   "componentId": "cmp-U3",
-   "pinNumber": "3",
-   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
-   "kind": "netlist"
-  },
-  {
-   "componentId": "cmp-U3",
-   "pinNumber": "4",
-   "netId": "net-df7b60c0b852140c221327c4accf5db01bfa2b4a",
-   "kind": "netlist"
-  },
-  {
-   "componentId": "cmp-U3",
-   "pinNumber": "5",
-   "netId": "net-879e194824d2fb008fcb0aa124b9bfe5c1a64a59",
-   "kind": "netlist"
-  },
-  {
-   "componentId": "cmp-U4",
-   "pinNumber": "1",
-   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
-   "kind": "netlist"
-  },
-  {
-   "componentId": "cmp-U4",
-   "pinNumber": "2",
-   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
-   "kind": "netlist"
-  },
-  {
-   "componentId": "cmp-U4",
-   "pinNumber": "3",
-   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
-   "kind": "netlist"
-  },
-  {
-   "componentId": "cmp-U4",
-   "pinNumber": "5",
-   "netId": "net-2a0578345b7fcca9ed1b70565db42672e9260a31",
-   "kind": "netlist"
-  },
-  {
    "componentId": "cmp-U6",
    "pinNumber": "1",
    "netId": "net-8dd3c494cf513af22143d33a4a2409873b395544",
@@ -4323,37 +5472,223 @@
   {
    "componentId": "cmp-U7",
    "pinNumber": "3",
+   "netId": "net-e59ecc0ff145ded430e6a0b8fd42f5c7535d7ff8",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_BUCK3",
+   "pinNumber": "1",
+   "netId": "net-2f9336ebcbfbed9407668824153d1b285c81c1b0",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_BUCK3",
+   "pinNumber": "2",
    "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-U_BOOST",
-   "pinNumber": "1",
-   "netId": "net-c4d938be1df2b195d7c3f938aee3757ee9a54146",
+   "componentId": "cmp-U_BUCK3",
+   "pinNumber": "3",
+   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-U_BOOST",
+   "componentId": "cmp-U_BUCK3",
+   "pinNumber": "4",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_BUCK3",
+   "pinNumber": "5",
+   "netId": "net-97152cde280b0c5de60594ee512928816c2e76c0",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_BUCK3",
+   "pinNumber": "6",
+   "netId": "net-1572e773ca56c14df8b265a5fd03e78f4b1c286f",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_BUCK5",
+   "pinNumber": "1",
+   "netId": "net-fa2efb1d508a686993f32eaf44114bb718db433e",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_BUCK5",
    "pinNumber": "2",
    "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-U_BOOST",
+   "componentId": "cmp-U_BUCK5",
    "pinNumber": "3",
    "netId": "net-d61f7eeba89d9903efb1f3c1d5ef3789df046792",
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-U_BOOST",
+   "componentId": "cmp-U_BUCK5",
    "pinNumber": "4",
    "netId": "net-1f9a8d738dc50ea222730c853a317f97b6fefa56",
    "kind": "netlist"
   },
   {
-   "componentId": "cmp-U_BOOST",
+   "componentId": "cmp-U_BUCK5",
    "pinNumber": "5",
    "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_BUCK5",
+   "pinNumber": "6",
+   "netId": "net-52c4139d14e1202128f9f548aa98709e63ad7d09",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_CHG",
+   "pinNumber": "11",
+   "netId": "net-e6afaf240f98bd5cc803bb879f5a69da9ca26e77",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_CHG",
+   "pinNumber": "12",
+   "netId": "net-28f2a511541a57855480709326bf13b698feb71b",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_CHG",
+   "pinNumber": "13",
+   "netId": "net-6c6c82df8ac6f6cfcee0b9e7a995443f9dbfff44",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_CHG",
+   "pinNumber": "14",
+   "netId": "net-c686618aa385f376471553a171899eeedbd599fa",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_CHG",
+   "pinNumber": "15",
+   "netId": "net-8dff4541fb8faea9a993bc99625d22037dd83b50",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_CHG",
+   "pinNumber": "16",
+   "netId": "net-8dff4541fb8faea9a993bc99625d22037dd83b50",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_CHG",
+   "pinNumber": "17",
+   "netId": "net-8dff4541fb8faea9a993bc99625d22037dd83b50",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_CHG",
+   "pinNumber": "18",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_CHG",
+   "pinNumber": "19",
+   "netId": "net-ab55665d6709c17e0be554b8b62bb86d05154371",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_CHG",
+   "pinNumber": "20",
+   "netId": "net-ab55665d6709c17e0be554b8b62bb86d05154371",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_CHG",
+   "pinNumber": "21",
+   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_CHG",
+   "pinNumber": "22",
+   "netId": "net-72666456eeba3eea911dce0268c2568f337e45c5",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_CHG",
+   "pinNumber": "23",
+   "netId": "net-8dc72bff1dd7855116664fd43e2f7755e475a865",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_CHG",
+   "pinNumber": "24",
+   "netId": "net-a463c9924adb58fc0f5e153c695ccc6f3c645507",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_CHG",
+   "pinNumber": "25",
+   "netId": "net-e7a732246e4ea3c2b7de78f72231c12ba24e81d9",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_CHG",
+   "pinNumber": "4",
+   "netId": "net-a153c921a69fcf40db7806db87680ff0c80b5c98",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_CHG",
+   "pinNumber": "6",
+   "netId": "net-7ae1ee91aee1c94f2691a1667d6732c52eb165ee",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_CHG",
+   "pinNumber": "8",
+   "netId": "net-2561d479bd80309bf779047e42c5c235c216b155",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_PROT",
+   "pinNumber": "1",
+   "netId": "net-8506153af9d6e764d8cebdc3feabcbf968296fb3",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_PROT",
+   "pinNumber": "2",
+   "netId": "net-97b2409cd92b601af7ab1b24b57cb874949eeeaa",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_PROT",
+   "pinNumber": "3",
+   "netId": "net-8e8aac81575fe147caaa76b4bb2a70e8231873a8",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_PROT",
+   "pinNumber": "4",
+   "netId": "net-25042edeb21e9177d65c3a22b5a13588bada2f86",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_PROT",
+   "pinNumber": "5",
+   "netId": "net-5c0fe4be58a9b1ab89fe2c3809e5f8bd27192b85",
+   "kind": "netlist"
+  },
+  {
+   "componentId": "cmp-U_PROT",
+   "pinNumber": "6",
+   "netId": "net-a463c9924adb58fc0f5e153c695ccc6f3c645507",
    "kind": "netlist"
   }
  ]

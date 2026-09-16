@@ -50,7 +50,7 @@ def main():
         mod = modules[orig]   # modules.json ist auf Originalnamen geschluesselt
         buckets.setdefault(mod, []).append({'pin': f"{ref}:{pin}", 'kind': kind, 'net': net})
 
-    order = ['USB', 'LADER', 'AKKU', 'WAEChTER', 'LDO', 'MCU',
+    order = ['USB', 'LADER', 'AKKU', 'WAEChTER', 'SCHUTZ', 'LDO', 'MCU',
              'TASTER', 'PUMPE', 'BOOST', 'SENSOR', 'DEBUG', 'LICHT', 'ERWEITERUNG']
     total = 0
     lines = []

@@ -1,24 +1,14 @@
 {
  "connections": [
   {
-   "pin": "C3:1",
-   "kind": "power",
-   "net": "VBAT"
-  },
-  {
    "pin": "C3:2",
    "kind": "ground",
    "net": "GND"
   },
   {
-   "pin": "J1:1",
+   "pin": "J1:3",
    "kind": "power",
    "net": "VBAT"
-  },
-  {
-   "pin": "J1:2",
-   "kind": "ground",
-   "net": "GND"
   },
   {
    "pin": "TP3:1",
@@ -29,6 +19,21 @@
    "pin": "TP4:1",
    "kind": "power",
    "net": "VBAT"
+  },
+  {
+   "pin": "C3:1",
+   "kind": "netport",
+   "net": "+5V"
+  },
+  {
+   "pin": "J1:1",
+   "kind": "netport",
+   "net": "BAT_MINUS"
+  },
+  {
+   "pin": "J1:2",
+   "kind": "netport",
+   "net": "MID"
   }
  ],
  "rules": {

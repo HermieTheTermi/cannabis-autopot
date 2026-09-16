@@ -3,106 +3,16 @@
  "documentId": "4f6771a27edec75b",
  "frames": [
   {
-   "id": "frame-lader",
-   "title": "Laden (MCP73831)",
-   "rect": {
-    "minX": 2146,
-    "minY": 1703,
-    "maxX": 3106,
-    "maxY": 2212
-   },
-   "titleX": 2158,
-   "titleY": 2200,
-   "fontSize": 20,
-   "color": "#AA00AA",
-   "lineType": 1
-  },
-  {
-   "id": "frame-ldo",
-   "title": "3V3-LDO (ME6211)",
-   "rect": {
-    "minX": 470,
-    "minY": 1728,
-    "maxX": 967,
-    "maxY": 2202
-   },
-   "titleX": 482,
-   "titleY": 2190,
-   "fontSize": 20,
-   "color": "#AA00AA",
-   "lineType": 1
-  },
-  {
    "id": "frame-debug",
    "title": "UART-Debug-Pads (DNP)",
    "rect": {
-    "minX": 967,
-    "minY": 1728,
-    "maxX": 1424,
-    "maxY": 2191
-   },
-   "titleX": 979,
-   "titleY": 2179,
-   "fontSize": 20,
-   "color": "#AA00AA",
-   "lineType": 1
-  },
-  {
-   "id": "frame-taster",
-   "title": "Taster & LEDs",
-   "rect": {
     "minX": 12,
-    "minY": 1681,
-    "maxX": 470,
-    "maxY": 2181
+    "minY": 1863,
+    "maxX": 469,
+    "maxY": 2326
    },
    "titleX": 24,
-   "titleY": 2169,
-   "fontSize": 20,
-   "color": "#AA00AA",
-   "lineType": 1
-  },
-  {
-   "id": "frame-akku",
-   "title": "Akku & Puffer",
-   "rect": {
-    "minX": 1424,
-    "minY": 1750,
-    "maxX": 1960,
-    "maxY": 2133
-   },
-   "titleX": 1436,
-   "titleY": 2121,
-   "fontSize": 20,
-   "color": "#AA00AA",
-   "lineType": 1
-  },
-  {
-   "id": "frame-boost",
-   "title": "5-V-Boost (MT3608)",
-   "rect": {
-    "minX": 1573,
-    "minY": 1011,
-    "maxX": 2146,
-    "maxY": 1750
-   },
-   "titleX": 1585,
-   "titleY": 1738,
-   "fontSize": 20,
-   "color": "#AA00AA",
-   "lineType": 1
-  },
-  {
-   "id": "frame-waechter",
-   "title": "Unterspannungswaechter (MAX809)",
-   "rect": {
-    "minX": 688,
-    "minY": 1135,
-    "maxX": 1208,
-    "maxY": 1728
-   },
-   "titleX": 700,
-   "titleY": 1716,
+   "titleY": 2314,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
@@ -111,43 +21,73 @@
    "id": "frame-licht",
    "title": "Lichtsensor-Eingang",
    "rect": {
-    "minX": 2146,
-    "minY": 1192,
-    "maxX": 2843,
-    "maxY": 1703
+    "minX": 469,
+    "minY": 1863,
+    "maxX": 1115,
+    "maxY": 2317
    },
-   "titleX": 2158,
-   "titleY": 1691,
+   "titleX": 481,
+   "titleY": 2305,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
   },
   {
-   "id": "frame-sensor",
-   "title": "Sensor-Eingang",
+   "id": "frame-taster",
+   "title": "Taster & LEDs",
    "rect": {
-    "minX": 12,
-    "minY": 1166,
-    "maxX": 602,
-    "maxY": 1681
+    "minX": 1807,
+    "minY": 1943,
+    "maxX": 2417,
+    "maxY": 2311
    },
-   "titleX": 24,
-   "titleY": 1669,
+   "titleX": 1819,
+   "titleY": 2299,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
   },
   {
-   "id": "frame-usb",
-   "title": "USB-C Eingang & ESD",
+   "id": "frame-schutz",
+   "title": "Akku-Schutz (HY2120-CB + PSMN4R2)",
    "rect": {
-    "minX": 2486,
-    "minY": 198,
-    "maxX": 3081,
-    "maxY": 1192
+    "minX": 1120,
+    "minY": 1650,
+    "maxX": 1807,
+    "maxY": 2304
    },
-   "titleX": 2498,
-   "titleY": 1180,
+   "titleX": 1132,
+   "titleY": 2292,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-waechter",
+   "title": "Unterspannungswaechter (TPS3839)",
+   "rect": {
+    "minX": 2602,
+    "minY": 1809,
+    "maxX": 3234,
+    "maxY": 2300
+   },
+   "titleX": 2614,
+   "titleY": 2288,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-lader",
+   "title": "Laden (IP2326, 2S)",
+   "rect": {
+    "minX": 1855,
+    "minY": 1006,
+    "maxX": 2577,
+    "maxY": 1943
+   },
+   "titleX": 1867,
+   "titleY": 1931,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
@@ -157,27 +97,57 @@
    "title": "Pumpentreiber Dosier- + Sauerstoffpumpe",
    "rect": {
     "minX": 12,
-    "minY": 12,
-    "maxX": 688,
-    "maxY": 1166
+    "minY": 1063,
+    "maxX": 1120,
+    "maxY": 1863
    },
    "titleX": 24,
-   "titleY": 1154,
+   "titleY": 1851,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
   },
   {
-   "id": "frame-erweiterung",
-   "title": "Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch",
+   "id": "frame-akku",
+   "title": "Akku & Puffer",
    "rect": {
-    "minX": 688,
-    "minY": 12,
-    "maxX": 1573,
-    "maxY": 1135
+    "minX": 2602,
+    "minY": 1328,
+    "maxX": 3013,
+    "maxY": 1809
    },
-   "titleX": 700,
-   "titleY": 1123,
+   "titleX": 2614,
+   "titleY": 1797,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-boost",
+   "title": "5-V-Buck (SY8113B)",
+   "rect": {
+    "minX": 1120,
+    "minY": 1059,
+    "maxX": 1803,
+    "maxY": 1650
+   },
+   "titleX": 1132,
+   "titleY": 1638,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-ldo",
+   "title": "3V3-Buck (AP63203)",
+   "rect": {
+    "minX": 2602,
+    "minY": 713,
+    "maxX": 3243,
+    "maxY": 1328
+   },
+   "titleX": 2614,
+   "titleY": 1316,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
@@ -186,13 +156,58 @@
    "id": "frame-mcu",
    "title": "ESP32-C6-MCU + Beschaltung",
    "rect": {
-    "minX": 1573,
+    "minX": 12,
     "minY": 12,
-    "maxX": 2486,
-    "maxY": 1011
+    "maxX": 970,
+    "maxY": 1063
    },
-   "titleX": 1585,
-   "titleY": 999,
+   "titleX": 24,
+   "titleY": 1051,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-erweiterung",
+   "title": "Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch",
+   "rect": {
+    "minX": 970,
+    "minY": 12,
+    "maxX": 1855,
+    "maxY": 1059
+   },
+   "titleX": 982,
+   "titleY": 1047,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-usb",
+   "title": "USB-C Eingang & ESD",
+   "rect": {
+    "minX": 1855,
+    "minY": 12,
+    "maxX": 2450,
+    "maxY": 1006
+   },
+   "titleX": 1867,
+   "titleY": 994,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-sensor",
+   "title": "Sensor-Eingang",
+   "rect": {
+    "minX": 2602,
+    "minY": 198,
+    "maxX": 3252,
+    "maxY": 713
+   },
+   "titleX": 2614,
+   "titleY": 701,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Offline-Pruefer der Modulplatzierung gegen die gemessenen Bauteil-Volumen.
 
-Liest raw/placement.json, raw/measured_volumes_2026-09-14.json und raw/frames.json
+Liest raw/placement.json, raw/measured_volumes_2026-09-16.json und raw/frames.json
 und prueft ohne Live-Zugriff:
 
   (a) jedes Bauteil-Volumen liegt vollstaendig im nutzbaren Blattbereich (A1),
@@ -11,8 +11,10 @@ und prueft ohne Live-Zugriff:
   (d) die Blockrahmen ueberlappen einander nicht.
 
 Volumen eines Bauteils = vol_w x vol_h aus der Messdatei, zentriert auf (x, y)
-der Platzierung. Fehlt ein Messwert, wird die Info-Box der Platzierung plus
-20 Einheiten Rand je Seite als Fallback-Schaetzung genutzt (wird ausgewiesen).
+der Platzierung. Aufloesung wie in plan_layout.py: parts[ref], sonst
+by_device[deviceUuid], sonst Bestands-Repraesentant gleicher Device-UUID. Erst
+wenn all das fehlt, wird die Info-Box plus 20 Einheiten Rand als Fallback
+genutzt (wird ausgewiesen).
 
 Exit 0 bei Erfuellung, Exit 1 bei mindestens einem Verstoss. Rohzahlen auf stdout.
 """
@@ -55,22 +57,34 @@ def fmt_rect(r):
 
 def main():
     placement = json.load(open(os.path.join(RAW, 'placement.json')))
-    measured = json.load(open(os.path.join(RAW, 'measured_volumes_2026-09-14.json')))
+    measured = json.load(open(os.path.join(RAW, 'measured_volumes_2026-09-16.json')))
     frames = json.load(open(os.path.join(RAW, 'frames.json')))
+    old_live_path = os.path.join(RAW, 'backup_1s_live_2026-09-16.json')
 
     usable = measured['nutzbar']
     parts = measured['parts']
+    by_device = measured.get('by_device', {})
+    device_vol = {}
+    if os.path.exists(old_live_path):
+        for c in json.load(open(old_live_path))['components']:
+            m = parts.get(c['ref'])
+            if m:
+                device_vol.setdefault(c['device']['deviceUuid'], (m['vol_w'], m['vol_h']))
+    for uuid, rec in by_device.items():
+        device_vol[uuid] = (rec['vol_w'], rec['vol_h'])
 
     volumes, fallbacks = [], []
     for p in placement['placements']:
         m = parts.get(p['ref'])
-        if m is None:
+        if m is not None:
+            w, h = m['vol_w'], m['vol_h']
+        elif p.get('deviceUuid') in device_vol:
+            w, h = device_vol[p['deviceUuid']]
+        else:
             bb = p['bbox']
             w = (bb[2] - bb[0]) + 2 * MARGIN_MIN
             h = (bb[3] - bb[1]) + 2 * MARGIN_MIN
             fallbacks.append(p['ref'])
-        else:
-            w, h = m['vol_w'], m['vol_h']
         volumes.append({'ref': p['ref'], 'module': p['module'], 'x': p['x'], 'y': p['y'],
                         'rect': (p['x'] - w / 2.0, p['y'] - h / 2.0,
                                  p['x'] + w / 2.0, p['y'] + h / 2.0)})

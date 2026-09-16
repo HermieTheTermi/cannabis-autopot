@@ -1,0 +1,154 @@
+{
+ "connections": [
+  {
+   "pin": "Q4:1",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "Q4:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "Q4:3",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "R17:1",
+   "kind": "power",
+   "net": "VBAT"
+  },
+  {
+   "pin": "R18:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
+   "pin": "C17:1",
+   "kind": "netport",
+   "net": "PROT_VDD"
+  },
+  {
+   "pin": "C17:2",
+   "kind": "netport",
+   "net": "BAT_MINUS"
+  },
+  {
+   "pin": "C18:1",
+   "kind": "netport",
+   "net": "PROT_VC"
+  },
+  {
+   "pin": "C18:2",
+   "kind": "netport",
+   "net": "BAT_MINUS"
+  },
+  {
+   "pin": "Q3:1",
+   "kind": "netport",
+   "net": "BAT_MINUS"
+  },
+  {
+   "pin": "Q3:2",
+   "kind": "netport",
+   "net": "BAT_MINUS"
+  },
+  {
+   "pin": "Q3:3",
+   "kind": "netport",
+   "net": "BAT_MINUS"
+  },
+  {
+   "pin": "Q3:4",
+   "kind": "netport",
+   "net": "PROT_GATE_D"
+  },
+  {
+   "pin": "Q3:5",
+   "kind": "netport",
+   "net": "PROT_COMMON"
+  },
+  {
+   "pin": "Q4:4",
+   "kind": "netport",
+   "net": "PROT_GATE_C"
+  },
+  {
+   "pin": "Q4:5",
+   "kind": "netport",
+   "net": "PROT_COMMON"
+  },
+  {
+   "pin": "R15:1",
+   "kind": "netport",
+   "net": "MID"
+  },
+  {
+   "pin": "R15:2",
+   "kind": "netport",
+   "net": "PROT_VC"
+  },
+  {
+   "pin": "R16:1",
+   "kind": "netport",
+   "net": "MID"
+  },
+  {
+   "pin": "R16:2",
+   "kind": "netport",
+   "net": "VBATM_CHG"
+  },
+  {
+   "pin": "R17:2",
+   "kind": "netport",
+   "net": "PROT_VDD"
+  },
+  {
+   "pin": "R18:1",
+   "kind": "netport",
+   "net": "PROT_CS"
+  },
+  {
+   "pin": "U5:1",
+   "kind": "netport",
+   "net": "PROT_GATE_D"
+  },
+  {
+   "pin": "U5:2",
+   "kind": "netport",
+   "net": "PROT_GATE_C"
+  },
+  {
+   "pin": "U5:3",
+   "kind": "netport",
+   "net": "PROT_CS"
+  },
+  {
+   "pin": "U5:4",
+   "kind": "netport",
+   "net": "PROT_VC"
+  },
+  {
+   "pin": "U5:5",
+   "kind": "netport",
+   "net": "PROT_VDD"
+  },
+  {
+   "pin": "U5:6",
+   "kind": "netport",
+   "net": "BAT_MINUS"
+  }
+ ],
+ "rules": {
+  "avoidTitleBlock": true,
+  "avoidPinFanout": true,
+  "staggerLabels": true,
+  "offsetRange": [
+   18,
+   150
+  ],
+  "offsetStep": 6
+ }
+}

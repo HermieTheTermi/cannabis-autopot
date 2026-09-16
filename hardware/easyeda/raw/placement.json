@@ -21,205 +21,367 @@
   {
    "module": "USB",
    "title": "USB-C Eingang & ESD",
-   "x0": 2486,
-   "y1": 1192,
-   "x1": 3081,
-   "y0": 198,
-   "content_bottom": 348.5
+   "x0": 1855,
+   "y1": 1006,
+   "x1": 2450,
+   "y0": 12,
+   "content_bottom": 162.5
   },
   {
    "module": "LADER",
-   "title": "Laden (MCP73831)",
-   "x0": 2146,
-   "y1": 2212,
-   "x1": 3106,
-   "y0": 1703,
-   "content_bottom": 1853.5
+   "title": "Laden (IP2326, 2S)",
+   "x0": 1855,
+   "y1": 1943,
+   "x1": 2577,
+   "y0": 1006,
+   "content_bottom": 1156.75
   },
   {
    "module": "DEBUG",
    "title": "UART-Debug-Pads (DNP)",
-   "x0": 967,
-   "y1": 2191,
-   "x1": 1424,
-   "y0": 1728,
-   "content_bottom": 1878.0
+   "x0": 12,
+   "y1": 2326,
+   "x1": 469,
+   "y0": 1863,
+   "content_bottom": 2013.0
   },
   {
    "module": "MCU",
    "title": "ESP32-C6-MCU + Beschaltung",
-   "x0": 1573,
-   "y1": 1011,
-   "x1": 2486,
+   "x0": 12,
+   "y1": 1063,
+   "x1": 970,
    "y0": 12,
    "content_bottom": 162.5
   },
   {
    "module": "WAEChTER",
-   "title": "Unterspannungswaechter (MAX809)",
-   "x0": 688,
-   "y1": 1728,
-   "x1": 1208,
-   "y0": 1135,
-   "content_bottom": 1285.75
+   "title": "Unterspannungswaechter (TPS3839)",
+   "x0": 2602,
+   "y1": 2300,
+   "x1": 3234,
+   "y0": 1809,
+   "content_bottom": 1959.75
+  },
+  {
+   "module": "SCHUTZ",
+   "title": "Akku-Schutz (HY2120-CB + PSMN4R2)",
+   "x0": 1120,
+   "y1": 2304,
+   "x1": 1807,
+   "y0": 1650,
+   "content_bottom": 1800.5
   },
   {
    "module": "LDO",
-   "title": "3V3-LDO (ME6211)",
-   "x0": 470,
-   "y1": 2202,
-   "x1": 967,
-   "y0": 1728,
-   "content_bottom": 1878.5
+   "title": "3V3-Buck (AP63203)",
+   "x0": 2602,
+   "y1": 1328,
+   "x1": 3243,
+   "y0": 713,
+   "content_bottom": 863.75
   },
   {
    "module": "AKKU",
    "title": "Akku & Puffer",
-   "x0": 1424,
-   "y1": 2133,
-   "x1": 1960,
-   "y0": 1750,
-   "content_bottom": 1900.75
+   "x0": 2602,
+   "y1": 1809,
+   "x1": 3013,
+   "y0": 1328,
+   "content_bottom": 1478.75
   },
   {
    "module": "SENSOR",
    "title": "Sensor-Eingang",
-   "x0": 12,
-   "y1": 1681,
-   "x1": 602,
-   "y0": 1166,
-   "content_bottom": 1316.5
+   "x0": 2602,
+   "y1": 713,
+   "x1": 3252,
+   "y0": 198,
+   "content_bottom": 348.5
   },
   {
    "module": "PUMPE",
    "title": "Pumpentreiber Dosier- + Sauerstoffpumpe",
    "x0": 12,
-   "y1": 1166,
-   "x1": 688,
-   "y0": 12,
-   "content_bottom": 162.75
+   "y1": 1863,
+   "x1": 1120,
+   "y0": 1063,
+   "content_bottom": 1213.5
   },
   {
    "module": "BOOST",
-   "title": "5-V-Boost (MT3608)",
-   "x0": 1573,
-   "y1": 1750,
-   "x1": 2146,
-   "y0": 1011,
-   "content_bottom": 1161.75
+   "title": "5-V-Buck (SY8113B)",
+   "x0": 1120,
+   "y1": 1650,
+   "x1": 1803,
+   "y0": 1059,
+   "content_bottom": 1209.5
   },
   {
    "module": "TASTER",
    "title": "Taster & LEDs",
-   "x0": 12,
-   "y1": 2181,
-   "x1": 470,
-   "y0": 1681,
-   "content_bottom": 1831.75
+   "x0": 1807,
+   "y1": 2311,
+   "x1": 2417,
+   "y0": 1943,
+   "content_bottom": 2093.5
   },
   {
    "module": "ERWEITERUNG",
    "title": "Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch",
-   "x0": 688,
-   "y1": 1135,
-   "x1": 1573,
+   "x0": 970,
+   "y1": 1059,
+   "x1": 1855,
    "y0": 12,
    "content_bottom": 162.75
   },
   {
    "module": "LICHT",
    "title": "Lichtsensor-Eingang",
-   "x0": 2146,
-   "y1": 1703,
-   "x1": 2843,
-   "y0": 1192,
-   "content_bottom": 1342.75
+   "x0": 469,
+   "y1": 2317,
+   "x1": 1115,
+   "y0": 1863,
+   "content_bottom": 2013.75
   }
  ],
  "placements": [
-  {
-   "ref": "U6",
-   "role": "U6",
-   "module": "USB",
-   "id": "cmp-U6",
-   "deviceUuid": "5f9a995bc73746278024add8c7b330e3",
-   "x": 2784,
-   "y": 498,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    2740,
-    450,
-    2830,
-    550
-   ]
-  },
-  {
-   "ref": "R7",
-   "role": "R5a",
-   "module": "USB",
-   "id": "cmp-R5a",
-   "deviceUuid": "228f8e23038b4563bc5cde7c8409a6b9",
-   "x": 2679,
-   "y": 992,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    2670,
-    990,
-    2690,
-    995
-   ]
-  },
-  {
-   "ref": "R8",
-   "role": "R5b",
-   "module": "USB",
-   "id": "cmp-R5b",
-   "deviceUuid": "228f8e23038b4563bc5cde7c8409a6b9",
-   "x": 2791,
-   "y": 992,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    2780,
-    990,
-    2800,
-    995
-   ]
-  },
   {
    "ref": "J5",
    "role": "J5",
    "module": "USB",
    "id": "cmp-J5",
    "deviceUuid": "730e76758f9742ca9ca85c73f4ec0ecd",
-   "x": 2781,
-   "y": 794,
+   "x": 2150,
+   "y": 608,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2755,
-    730,
-    2805,
-    860
+    2125,
+    540,
+    2175,
+    675
    ]
   },
   {
-   "ref": "U3",
-   "role": "U3",
-   "module": "LADER",
-   "id": "cmp-U3",
-   "deviceUuid": "78f39a8c3fa54027bfc13d0a0eefd7c2",
-   "x": 2658,
-   "y": 2034,
+   "ref": "U6",
+   "role": "U6",
+   "module": "USB",
+   "id": "cmp-U6",
+   "deviceUuid": "5f9a995bc73746278024add8c7b330e3",
+   "x": 2153,
+   "y": 312,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2620,
-    2015,
-    2695,
-    2055
+    2110,
+    260,
+    2200,
+    360
+   ]
+  },
+  {
+   "ref": "R8",
+   "role": "R5a",
+   "module": "USB",
+   "id": "cmp-R5a",
+   "deviceUuid": "228f8e23038b4563bc5cde7c8409a6b9",
+   "x": 2048,
+   "y": 806,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2040,
+    800,
+    2060,
+    810
+   ]
+  },
+  {
+   "ref": "R9",
+   "role": "R5b",
+   "module": "USB",
+   "id": "cmp-R5b",
+   "deviceUuid": "228f8e23038b4563bc5cde7c8409a6b9",
+   "x": 2192,
+   "y": 765,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2180,
+    760,
+    2200,
+    770
+   ]
+  },
+  {
+   "ref": "C1",
+   "role": "C_CHG_IN",
+   "module": "LADER",
+   "id": "cmp-C_CHG_IN",
+   "deviceUuid": "e10bc30d72324129a5b7daae4e75f56f",
+   "x": 2061,
+   "y": 1683,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2050,
+    1675,
+    2070,
+    1690
+   ]
+  },
+  {
+   "ref": "R3",
+   "role": "R_VIN_CHG",
+   "module": "LADER",
+   "id": "cmp-R_VIN_CHG",
+   "deviceUuid": "d23027ed376f49fc93c43406c37c98fe",
+   "x": 2035,
+   "y": 1243,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2005,
+    1160,
+    2065,
+    1330
+   ]
+  },
+  {
+   "ref": "L1",
+   "role": "L_CHG",
+   "module": "LADER",
+   "id": "cmp-L_CHG",
+   "deviceUuid": "7db05f193aa04dd4b44edc2956a653fa",
+   "x": 2204,
+   "y": 1579,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2165,
+    1515,
+    2245,
+    1645
+   ]
+  },
+  {
+   "ref": "R5",
+   "role": "R_LEDCHG",
+   "module": "LADER",
+   "id": "cmp-R_LEDCHG",
+   "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+   "x": 2234,
+   "y": 1227,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2225,
+    1220,
+    2245,
+    1230
+   ]
+  },
+  {
+   "ref": "R7",
+   "role": "R_EN_CHG",
+   "module": "LADER",
+   "id": "cmp-R_EN_CHG",
+   "deviceUuid": "79f5b61c4f364bb6ac6f2d2396b00a91",
+   "x": 2312,
+   "y": 1563,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2270,
+    1515,
+    2355,
+    1610
+   ]
+  },
+  {
+   "ref": "U2",
+   "role": "U_CHG",
+   "module": "LADER",
+   "id": "cmp-U_CHG",
+   "deviceUuid": "c4518c8223b64b9dbaf64e3d55a9b3e1",
+   "x": 2072,
+   "y": 1579,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2005,
+    1515,
+    2140,
+    1645
+   ]
+  },
+  {
+   "ref": "C5",
+   "role": "C_CHG_VIN",
+   "module": "LADER",
+   "id": "cmp-C_CHG_VIN",
+   "deviceUuid": "e10bc30d72324129a5b7daae4e75f56f",
+   "x": 2277,
+   "y": 1731,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2265,
+    1720,
+    2290,
+    1740
+   ]
+  },
+  {
+   "ref": "R10",
+   "role": "R_ISET",
+   "module": "LADER",
+   "id": "cmp-R_ISET",
+   "deviceUuid": "79f5b61c4f364bb6ac6f2d2396b00a91",
+   "x": 2332,
+   "y": 1225,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2305,
+    1160,
+    2360,
+    1290
+   ]
+  },
+  {
+   "ref": "R11",
+   "role": "R_NTC",
+   "module": "LADER",
+   "id": "cmp-R_NTC",
+   "deviceUuid": "16f8cd5e045948df9472a9b12f125ca3",
+   "x": 2128,
+   "y": 1231,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2090,
+    1160,
+    2165,
+    1305
+   ]
+  },
+  {
+   "ref": "R12",
+   "role": "R_UVSET",
+   "module": "LADER",
+   "id": "cmp-R_UVSET",
+   "deviceUuid": "600fa66974404db08806854e7b4a38bc",
+   "x": 2346,
+   "y": 1778,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2270,
+    1770,
+    2425,
+    1785
    ]
   },
   {
@@ -228,100 +390,100 @@
    "module": "LADER",
    "id": "cmp-D_LEDCHG",
    "deviceUuid": "6073168119a941bda41c330f8b8e9152",
-   "x": 2507,
-   "y": 1921,
+   "x": 2216,
+   "y": 1421,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2490,
-    1910,
-    2510,
-    1940
+    2200,
+    1410,
+    2220,
+    1440
+   ]
+  },
+  {
+   "ref": "C6",
+   "role": "C_BST_CHG",
+   "module": "LADER",
+   "id": "cmp-C_BST_CHG",
+   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+   "x": 2061,
+   "y": 1781,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2050,
+    1770,
+    2070,
+    1790
    ]
   },
   {
    "ref": "C7",
-   "role": "C7",
+   "role": "C_CHG_OUT",
    "module": "LADER",
-   "id": "cmp-C7",
-   "deviceUuid": "cffcb18c2c544b879332d01f596fbfaf",
-   "x": 2906,
-   "y": 2026,
+   "id": "cmp-C_CHG_OUT",
+   "deviceUuid": "e10bc30d72324129a5b7daae4e75f56f",
+   "x": 2192,
+   "y": 1781,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2900,
-    2020,
-    2910,
-    2035
+    2180,
+    1770,
+    2200,
+    1790
    ]
   },
   {
-   "ref": "C8",
-   "role": "C8",
+   "ref": "C19",
+   "role": "C_VSYS_A",
    "module": "LADER",
-   "id": "cmp-C8",
-   "deviceUuid": "cffcb18c2c544b879332d01f596fbfaf",
-   "x": 2896,
-   "y": 1880,
+   "id": "cmp-C_VSYS_A",
+   "deviceUuid": "9583d53cf848486a9d523fcaf153a729",
+   "x": 2197,
+   "y": 1683,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2890,
-    1870,
-    2900,
-    1890
+    2185,
+    1675,
+    2210,
+    1690
    ]
   },
   {
-   "ref": "R13",
-   "role": "R_PROG",
+   "ref": "C20",
+   "role": "C_VSYS_B",
    "module": "LADER",
-   "id": "cmp-R_PROG",
-   "deviceUuid": "eb3a002498064638b42a7b04b4029852",
-   "x": 2787,
-   "y": 1906,
+   "id": "cmp-C_VSYS_B",
+   "deviceUuid": "9583d53cf848486a9d523fcaf153a729",
+   "x": 2101,
+   "y": 1731,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2775,
-    1900,
-    2800,
-    1910
+    2090,
+    1720,
+    2110,
+    1740
    ]
   },
   {
-   "ref": "R14",
-   "role": "R_LEDCHG",
-   "module": "LADER",
-   "id": "cmp-R_LEDCHG",
-   "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-   "x": 2379,
-   "y": 2038,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    2370,
-    2035,
-    2390,
-    2040
-   ]
-  },
-  {
-   "ref": "R16",
+   "ref": "R47",
    "role": "R_UART",
    "module": "DEBUG",
    "id": "cmp-R_UART",
    "deviceUuid": "68e77fee64a84125bdea1b394c2e5985",
-   "x": 1196,
-   "y": 1936,
+   "x": 241,
+   "y": 2071,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1185,
-    1930,
-    1205,
-    1940
+    230,
+    2065,
+    250,
+    2075
    ]
   },
   {
@@ -330,15 +492,32 @@
    "module": "DEBUG",
    "id": "cmp-TP1",
    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
-   "x": 1188,
-   "y": 2030,
+   "x": 233,
+   "y": 2165,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1190,
-    2020,
-    1210,
-    2040
+    230,
+    2155,
+    255,
+    2175
+   ]
+  },
+  {
+   "ref": "R14",
+   "role": "R_SENSE_TOP",
+   "module": "MCU",
+   "id": "cmp-R_SENSE_TOP",
+   "deviceUuid": "d437a4e518b341d7a6ddadaf8d14b1f6",
+   "x": 245,
+   "y": 840,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    235,
+    835,
+    255,
+    845
    ]
   },
   {
@@ -347,83 +526,15 @@
    "module": "MCU",
    "id": "cmp-U1",
    "deviceUuid": "6f51ffdaaf4d45a3acac6e54a529f9e1",
-   "x": 2030,
+   "x": 469,
    "y": 321,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1995,
+    435,
     180,
-    2065,
+    505,
     460
-   ]
-  },
-  {
-   "ref": "D2",
-   "role": "D2",
-   "module": "MCU",
-   "id": "cmp-D2",
-   "deviceUuid": "cabe1100a18642cca4b0bdb071599cef",
-   "x": 1980,
-   "y": 579,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    1965,
-    570,
-    1985,
-    595
-   ]
-  },
-  {
-   "ref": "D5",
-   "role": "D5",
-   "module": "MCU",
-   "id": "cmp-D5",
-   "deviceUuid": "6073168119a941bda41c330f8b8e9152",
-   "x": 2090,
-   "y": 579,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    2075,
-    570,
-    2095,
-    595
-   ]
-  },
-  {
-   "ref": "C1",
-   "role": "C1a",
-   "module": "MCU",
-   "id": "cmp-C1a",
-   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-   "x": 1779,
-   "y": 849,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    1770,
-    840,
-    1790,
-    860
-   ]
-  },
-  {
-   "ref": "C13",
-   "role": "C1b",
-   "module": "MCU",
-   "id": "cmp-C1b",
-   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-   "x": 2164,
-   "y": 726,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    2155,
-    720,
-    2175,
-    735
    ]
   },
   {
@@ -432,49 +543,134 @@
    "module": "MCU",
    "id": "cmp-C2",
    "deviceUuid": "9583d53cf848486a9d523fcaf153a729",
-   "x": 1915,
-   "y": 849,
+   "x": 596,
+   "y": 827,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1905,
-    840,
-    1925,
-    860
+    585,
+    820,
+    605,
+    835
    ]
   },
   {
-   "ref": "C4",
-   "role": "C4",
+   "ref": "C28",
+   "role": "C1a",
    "module": "MCU",
-   "id": "cmp-C4",
-   "deviceUuid": "af2e25dc8e174a11bab66129be592f4d",
-   "x": 2264,
-   "y": 725,
+   "id": "cmp-C1a",
+   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+   "x": 732,
+   "y": 827,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2255,
-    715,
-    2275,
+    720,
+    820,
+    740,
+    835
+   ]
+  },
+  {
+   "ref": "C29",
+   "role": "C1b",
+   "module": "MCU",
+   "id": "cmp-C1b",
+   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+   "x": 218,
+   "y": 901,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    210,
+    890,
+    230,
+    910
+   ]
+  },
+  {
+   "ref": "C13",
+   "role": "C13",
+   "module": "MCU",
+   "id": "cmp-C13",
+   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+   "x": 493,
+   "y": 726,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    480,
+    720,
+    505,
     735
    ]
   },
   {
-   "ref": "C9",
-   "role": "C9",
+   "ref": "R21",
+   "role": "R_EN",
    "module": "MCU",
-   "id": "cmp-C9",
-   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-   "x": 1766,
-   "y": 579,
+   "id": "cmp-R_EN",
+   "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
+   "x": 417,
+   "y": 895,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1755,
-    570,
-    1775,
-    590
+    405,
+    890,
+    430,
+    900
+   ]
+  },
+  {
+   "ref": "R22",
+   "role": "R_BOOT",
+   "module": "MCU",
+   "id": "cmp-R_BOOT",
+   "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
+   "x": 681,
+   "y": 895,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    670,
+    890,
+    690,
+    900
+   ]
+  },
+  {
+   "ref": "R23",
+   "role": "R_GPIO8",
+   "module": "MCU",
+   "id": "cmp-R_GPIO8",
+   "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
+   "x": 741,
+   "y": 708,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    730,
+    705,
+    750,
+    710
+   ]
+  },
+  {
+   "ref": "R33",
+   "role": "R_SENSE_BOT",
+   "module": "MCU",
+   "id": "cmp-R_SENSE_BOT",
+   "deviceUuid": "600fa66974404db08806854e7b4a38bc",
+   "x": 355,
+   "y": 731,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    275,
+    680,
+    435,
+    785
    ]
   },
   {
@@ -483,100 +679,32 @@
    "module": "MCU",
    "id": "cmp-C10",
    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-   "x": 2202,
+   "x": 539,
    "y": 577,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2190,
+    530,
     570,
-    2210,
+    550,
     585
    ]
   },
   {
-   "ref": "R4",
-   "role": "R4",
+   "ref": "C4",
+   "role": "C4",
    "module": "MCU",
-   "id": "cmp-R4",
-   "deviceUuid": "760339a7f6b44f119a4df4dbb5478cf2",
-   "x": 1826,
-   "y": 745,
+   "id": "cmp-C4",
+   "deviceUuid": "af2e25dc8e174a11bab66129be592f4d",
+   "x": 593,
+   "y": 725,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1815,
-    740,
-    1835,
-    750
-   ]
-  },
-  {
-   "ref": "R9",
-   "role": "R_EN",
-   "module": "MCU",
-   "id": "cmp-R_EN",
-   "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-   "x": 2072,
-   "y": 847,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    2060,
-    840,
-    2080,
-    850
-   ]
-  },
-  {
-   "ref": "R10",
-   "role": "R_BOOT",
-   "module": "MCU",
-   "id": "cmp-R_BOOT",
-   "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-   "x": 2299,
-   "y": 573,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    2290,
-    570,
-    2310,
-    580
-   ]
-  },
-  {
-   "ref": "R11",
-   "role": "R_GPIO8",
-   "module": "MCU",
-   "id": "cmp-R_GPIO8",
-   "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-   "x": 1873,
-   "y": 579,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    1860,
-    575,
-    1885,
-    585
-   ]
-  },
-  {
-   "ref": "R15",
-   "role": "R_TANK",
-   "module": "MCU",
-   "id": "cmp-R_TANK",
-   "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-   "x": 1750,
-   "y": 745,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    1740,
-    740,
-    1760,
-    750
+    580,
+    715,
+    605,
+    735
    ]
   },
   {
@@ -585,14 +713,14 @@
    "module": "MCU",
    "id": "cmp-SW1",
    "deviceUuid": "38630614a58f4650bd5eefe9a5f79d9a",
-   "x": 2064,
+   "x": 205,
    "y": 735,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2055,
+    195,
     715,
-    2075,
+    215,
     745
    ]
   },
@@ -602,15 +730,100 @@
    "module": "MCU",
    "id": "cmp-SW2",
    "deviceUuid": "38630614a58f4650bd5eefe9a5f79d9a",
-   "x": 1906,
-   "y": 741,
+   "x": 712,
+   "y": 567,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1895,
+    700,
+    545,
     720,
-    1915,
-    750
+    580
+   ]
+  },
+  {
+   "ref": "C9",
+   "role": "C9",
+   "module": "MCU",
+   "id": "cmp-C9",
+   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+   "x": 205,
+   "y": 579,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    195,
+    570,
+    215,
+    590
+   ]
+  },
+  {
+   "ref": "R4",
+   "role": "R4",
+   "module": "MCU",
+   "id": "cmp-R4",
+   "deviceUuid": "760339a7f6b44f119a4df4dbb5478cf2",
+   "x": 633,
+   "y": 573,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    620,
+    570,
+    645,
+    580
+   ]
+  },
+  {
+   "ref": "D2",
+   "role": "D2",
+   "module": "MCU",
+   "id": "cmp-D2",
+   "deviceUuid": "cabe1100a18642cca4b0bdb071599cef",
+   "x": 317,
+   "y": 579,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    300,
+    570,
+    320,
+    595
+   ]
+  },
+  {
+   "ref": "R46",
+   "role": "R_TANK",
+   "module": "MCU",
+   "id": "cmp-R_TANK",
+   "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+   "x": 433,
+   "y": 840,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    420,
+    835,
+    445,
+    845
+   ]
+  },
+  {
+   "ref": "D5",
+   "role": "D5",
+   "module": "MCU",
+   "id": "cmp-D5",
+   "deviceUuid": "6073168119a941bda41c330f8b8e9152",
+   "x": 427,
+   "y": 579,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    410,
+    570,
+    430,
+    595
    ]
   },
   {
@@ -619,32 +832,49 @@
    "module": "MCU",
    "id": "cmp-TP2",
    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
-   "x": 1978,
-   "y": 739,
+   "x": 784,
+   "y": 567,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1980,
-    730,
-    2000,
-    750
+    785,
+    555,
+    805,
+    580
    ]
   },
   {
-   "ref": "U7",
-   "role": "U7",
+   "ref": "R13",
+   "role": "R3a",
    "module": "WAEChTER",
-   "id": "cmp-U7",
-   "deviceUuid": "d7cdf9114eff4110bc187d388e4df2e5",
-   "x": 948,
-   "y": 1506,
+   "id": "cmp-R3a",
+   "deviceUuid": "d437a4e518b341d7a6ddadaf8d14b1f6",
+   "x": 2795,
+   "y": 2012,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    930,
-    1485,
-    975,
-    1525
+    2785,
+    2010,
+    2805,
+    2015
+   ]
+  },
+  {
+   "ref": "R28",
+   "role": "R3b",
+   "module": "WAEChTER",
+   "id": "cmp-R3b",
+   "deviceUuid": "d437a4e518b341d7a6ddadaf8d14b1f6",
+   "x": 2913,
+   "y": 2144,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2900,
+    2140,
+    2925,
+    2150
    ]
   },
   {
@@ -653,100 +883,304 @@
    "module": "WAEChTER",
    "id": "cmp-C12",
    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-   "x": 893,
-   "y": 1566,
+   "x": 2808,
+   "y": 2100,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    880,
+    2800,
+    2090,
+    2820,
+    2110
+   ]
+  },
+  {
+   "ref": "U7",
+   "role": "U7",
+   "module": "WAEChTER",
+   "id": "cmp-U7",
+   "deviceUuid": "e24296b9a9a54804892f31e4355436d9",
+   "x": 2974,
+   "y": 1982,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2865,
+    1960,
+    3085,
+    2005
+   ]
+  },
+  {
+   "ref": "U5",
+   "role": "U_PROT",
+   "module": "SCHUTZ",
+   "id": "cmp-U_PROT",
+   "deviceUuid": "e627d2593705469b8aa9fe4e1dccd218",
+   "x": 1301,
+   "y": 2133,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1270,
+    2110,
+    1330,
+    2155
+   ]
+  },
+  {
+   "ref": "Q3",
+   "role": "Q_PROT1",
+   "module": "SCHUTZ",
+   "id": "cmp-Q_PROT1",
+   "deviceUuid": "72ea8cee53ab4b96a48bf929040eac95",
+   "x": 1344,
+   "y": 2024,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1270,
+    1960,
+    1415,
+    2085
+   ]
+  },
+  {
+   "ref": "C17",
+   "role": "C_PROT_VDD",
+   "module": "SCHUTZ",
+   "id": "cmp-C_PROT_VDD",
+   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+   "x": 1413,
+   "y": 2123,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1400,
+    2115,
+    1425,
+    2130
+   ]
+  },
+  {
+   "ref": "C18",
+   "role": "C_PROT_VC",
+   "module": "SCHUTZ",
+   "id": "cmp-C_PROT_VC",
+   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+   "x": 1549,
+   "y": 2123,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1540,
+    2115,
     1560,
-    905,
-    1575
+    2130
    ]
   },
   {
-   "ref": "R3",
-   "role": "R3a",
-   "module": "WAEChTER",
-   "id": "cmp-R3a",
-   "deviceUuid": "d437a4e518b341d7a6ddadaf8d14b1f6",
-   "x": 867,
-   "y": 1372,
+   "ref": "R15",
+   "role": "R_PROT_VC",
+   "module": "SCHUTZ",
+   "id": "cmp-R_PROT_VC",
+   "deviceUuid": "cc8e2fef08d046fd91f03a0e9f004399",
+   "x": 1407,
+   "y": 1867,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    855,
-    1370,
-    880,
-    1375
+    1380,
+    1800,
+    1430,
+    1935
    ]
   },
   {
-   "ref": "R5",
-   "role": "R3b",
-   "module": "WAEChTER",
-   "id": "cmp-R3b",
-   "deviceUuid": "d437a4e518b341d7a6ddadaf8d14b1f6",
-   "x": 964,
-   "y": 1356,
+   "ref": "R16",
+   "role": "R_CB",
+   "module": "SCHUTZ",
+   "id": "cmp-R_CB",
+   "deviceUuid": "afd77d34f2a246849525f9f885e83a2d",
+   "x": 1521,
+   "y": 2020,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    955,
-    1350,
-    975,
-    1360
+    1445,
+    1960,
+    1600,
+    2080
+   ]
+  },
+  {
+   "ref": "R17",
+   "role": "R_PROT_VDD",
+   "module": "SCHUTZ",
+   "id": "cmp-R_PROT_VDD",
+   "deviceUuid": "cc8e2fef08d046fd91f03a0e9f004399",
+   "x": 1313,
+   "y": 1869,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1270,
+    1800,
+    1355,
+    1935
+   ]
+  },
+  {
+   "ref": "Q4",
+   "role": "Q_PROT2",
+   "module": "SCHUTZ",
+   "id": "cmp-Q_PROT2",
+   "deviceUuid": "72ea8cee53ab4b96a48bf929040eac95",
+   "x": 1641,
+   "y": 1987,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1625,
+    1960,
+    1655,
+    2010
+   ]
+  },
+  {
+   "ref": "R18",
+   "role": "R_PROT_CS",
+   "module": "SCHUTZ",
+   "id": "cmp-R_PROT_CS",
+   "deviceUuid": "15b9a8201054436f85d87765d20bd327",
+   "x": 1546,
+   "y": 1865,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1460,
+    1800,
+    1635,
+    1930
    ]
   },
   {
    "ref": "U4",
-   "role": "U4",
+   "role": "U_BUCK3",
    "module": "LDO",
-   "id": "cmp-U4",
-   "deviceUuid": "0c60a448115c435b947647a7222a5ab0",
-   "x": 711,
-   "y": 1916,
+   "id": "cmp-U_BUCK3",
+   "deviceUuid": "7a70948fba984342a66462848ff0f10c",
+   "x": 2955,
+   "y": 902,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    670,
-    1895,
-    750,
-    1940
+    2865,
+    865,
+    3045,
+    940
    ]
   },
   {
-   "ref": "C5",
-   "role": "C5",
+   "ref": "C15",
+   "role": "C_B3_IN",
    "module": "LDO",
-   "id": "cmp-C5",
-   "deviceUuid": "e10bc30d72324129a5b7daae4e75f56f",
-   "x": 675,
-   "y": 1990,
+   "id": "cmp-C_B3_IN",
+   "deviceUuid": "9583d53cf848486a9d523fcaf153a729",
+   "x": 2795,
+   "y": 934,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    665,
-    1980,
-    685,
-    2000
+    2785,
+    925,
+    2805,
+    940
    ]
   },
   {
-   "ref": "C6",
-   "role": "C6",
+   "ref": "C16",
+   "role": "C_B3_IN_HF",
    "module": "LDO",
-   "id": "cmp-C6",
-   "deviceUuid": "af2e25dc8e174a11bab66129be592f4d",
-   "x": 675,
-   "y": 2040,
+   "id": "cmp-C_B3_IN_HF",
+   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+   "x": 2854,
+   "y": 1042,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    665,
-    2030,
-    685,
-    2050
+    2845,
+    1035,
+    2865,
+    1050
+   ]
+  },
+  {
+   "ref": "L3",
+   "role": "L_BUCK3",
+   "module": "LDO",
+   "id": "cmp-L_BUCK3",
+   "deviceUuid": "999da512c3de428995c5ecb7dea134be",
+   "x": 3075,
+   "y": 1169,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    3060,
+    1165,
+    3090,
+    1170
+   ]
+  },
+  {
+   "ref": "C25",
+   "role": "C_B3_BST",
+   "module": "LDO",
+   "id": "cmp-C_B3_BST",
+   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+   "x": 3036,
+   "y": 1042,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    3025,
+    1035,
+    3045,
+    1050
+   ]
+  },
+  {
+   "ref": "C26",
+   "role": "C_B3_OUT",
+   "module": "LDO",
+   "id": "cmp-C_B3_OUT",
+   "deviceUuid": "9583d53cf848486a9d523fcaf153a729",
+   "x": 2808,
+   "y": 1092,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2800,
+    1085,
+    2820,
+    1100
+   ]
+  },
+  {
+   "ref": "C27",
+   "role": "C_B3_OUT_HF",
+   "module": "LDO",
+   "id": "cmp-C_B3_OUT_HF",
+   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+   "x": 2944,
+   "y": 1092,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2935,
+    1085,
+    2955,
+    1100
    ]
   },
   {
@@ -755,32 +1189,49 @@
    "module": "LDO",
    "id": "cmp-TP5",
    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
-   "x": 786,
-   "y": 2040,
+   "x": 3055,
+   "y": 1092,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    785,
-    2030,
-    805,
-    2050
+    3055,
+    1080,
+    3075,
+    1100
    ]
   },
   {
-   "ref": "C3",
-   "role": "C3",
-   "module": "AKKU",
-   "id": "cmp-C3",
-   "deviceUuid": "fd9b819453c943d9b25639f63ee16ae3",
-   "x": 1755,
-   "y": 1913,
+   "ref": "R26",
+   "role": "R_FB3_TOP",
+   "module": "LDO",
+   "id": "cmp-R_FB3_TOP",
+   "deviceUuid": "91f8acf5ccc04a77aed714589966c8f5",
+   "x": 2893,
+   "y": 1134,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1745,
-    1905,
-    1765,
-    1920
+    2880,
+    1130,
+    2905,
+    1140
+   ]
+  },
+  {
+   "ref": "R27",
+   "role": "R_FB3_BOT",
+   "module": "LDO",
+   "id": "cmp-R_FB3_BOT",
+   "deviceUuid": "f2eb4f1842fd4e72b87b6d14987cbe7e",
+   "x": 2893,
+   "y": 1172,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2755,
+    1165,
+    3030,
+    1180
    ]
   },
   {
@@ -788,33 +1239,16 @@
    "role": "J1",
    "module": "AKKU",
    "id": "cmp-J1",
-   "deviceUuid": "81214969fb224686b54499e2b4f4ad3f",
-   "x": 1624,
-   "y": 1917,
+   "deviceUuid": "6a10ae8bb76743fa83467ccf43066224",
+   "x": 2803,
+   "y": 1495,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1610,
-    1900,
-    1650,
-    1930
-   ]
-  },
-  {
-   "ref": "TP3",
-   "role": "TP3",
-   "module": "AKKU",
-   "id": "cmp-TP3",
-   "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
-   "x": 1609,
-   "y": 1971,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    1610,
-    1960,
-    1630,
-    1980
+    2755,
+    1480,
+    2855,
+    1510
    ]
   },
   {
@@ -823,15 +1257,83 @@
    "module": "AKKU",
    "id": "cmp-TP4",
    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
-   "x": 1700,
-   "y": 1971,
+   "x": 2783,
+   "y": 1647,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1700,
-    1960,
-    1720,
-    1980
+    2780,
+    1635,
+    2805,
+    1660
+   ]
+  },
+  {
+   "ref": "C3",
+   "role": "C3",
+   "module": "AKKU",
+   "id": "cmp-C3",
+   "deviceUuid": "fd9b819453c943d9b25639f63ee16ae3",
+   "x": 2808,
+   "y": 1549,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2800,
+    1540,
+    2820,
+    1555
+   ]
+  },
+  {
+   "ref": "TP3",
+   "role": "TP3",
+   "module": "AKKU",
+   "id": "cmp-TP3",
+   "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
+   "x": 2788,
+   "y": 1599,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2790,
+    1590,
+    2810,
+    1610
+   ]
+  },
+  {
+   "ref": "J17",
+   "role": "J17",
+   "module": "SENSOR",
+   "id": "cmp-J17",
+   "deviceUuid": "4d018698282b47d4893c87aca1c32f67",
+   "x": 3061,
+   "y": 415,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    3045,
+    400,
+    3085,
+    430
+   ]
+  },
+  {
+   "ref": "J2",
+   "role": "J2",
+   "module": "SENSOR",
+   "id": "cmp-J2",
+   "deviceUuid": "6a10ae8bb76743fa83467ccf43066224",
+   "x": 2897,
+   "y": 541,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2750,
+    520,
+    3040,
+    560
    ]
   },
   {
@@ -840,32 +1342,15 @@
    "module": "SENSOR",
    "id": "cmp-R6",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-   "x": 315,
-   "y": 1384,
+   "x": 2905,
+   "y": 416,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    305,
-    1380,
-    325,
-    1390
-   ]
-  },
-  {
-   "ref": "J2",
-   "role": "J2",
-   "module": "SENSOR",
-   "id": "cmp-J2",
-   "deviceUuid": "f76627383a2f4537b225d848b6249ec0",
-   "x": 307,
-   "y": 1509,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    295,
-    1490,
-    320,
-    1530
+    2895,
+    410,
+    2915,
+    420
    ]
   },
   {
@@ -874,117 +1359,15 @@
    "module": "SENSOR",
    "id": "cmp-TP6",
    "deviceUuid": "1d9ad61565194f66a2bb1c832c938c3d",
-   "x": 181,
-   "y": 1389,
+   "x": 2771,
+   "y": 421,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    180,
-    1380,
-    200,
-    1400
-   ]
-  },
-  {
-   "ref": "Q1",
-   "role": "Q1",
-   "module": "PUMPE",
-   "id": "cmp-Q1",
-   "deviceUuid": "1c95a10b7c4a4095b426799cbca7b1b2",
-   "x": 233,
-   "y": 275,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    220,
-    265,
-    260,
-    285
-   ]
-  },
-  {
-   "ref": "D1",
-   "role": "D1",
-   "module": "PUMPE",
-   "id": "cmp-D1",
-   "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
-   "x": 358,
-   "y": 237,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    350,
-    230,
-    365,
-    245
-   ]
-  },
-  {
-   "ref": "D3",
-   "role": "D3",
-   "module": "PUMPE",
-   "id": "cmp-D3",
-   "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
-   "x": 232,
-   "y": 475,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    225,
-    465,
-    240,
-    485
-   ]
-  },
-  {
-   "ref": "C11",
-   "role": "C11",
-   "module": "PUMPE",
-   "id": "cmp-C11",
-   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-   "x": 201,
-   "y": 623,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    190,
-    615,
-    210,
-    630
-   ]
-  },
-  {
-   "ref": "R1",
-   "role": "R1",
-   "module": "PUMPE",
-   "id": "cmp-R1",
-   "deviceUuid": "611ee85922f4491584738b3ecdf137f4",
-   "x": 241,
-   "y": 756,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    230,
-    750,
-    250,
-    760
-   ]
-  },
-  {
-   "ref": "R2",
-   "role": "R2",
-   "module": "PUMPE",
-   "id": "cmp-R2",
-   "deviceUuid": "91f8acf5ccc04a77aed714589966c8f5",
-   "x": 307,
-   "y": 617,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    295,
-    610,
-    320,
-    620
+    2770,
+    410,
+    2790,
+    430
    ]
   },
   {
@@ -993,355 +1376,457 @@
    "module": "PUMPE",
    "id": "cmp-J4",
    "deviceUuid": "4d018698282b47d4893c87aca1c32f67",
-   "x": 238,
-   "y": 909,
+   "x": 237,
+   "y": 1654,
    "rotation": 0,
    "mirror": false,
    "bbox": [
     220,
-    895,
-    265,
-    925
+    1640,
+    260,
+    1670
    ]
   },
   {
    "ref": "J16",
-   "role": "J_PUMP2",
+   "role": "J16",
    "module": "PUMPE",
-   "id": "cmp-J_PUMP2",
+   "id": "cmp-J16",
    "deviceUuid": "4d018698282b47d4893c87aca1c32f67",
-   "x": 453,
-   "y": 229,
+   "x": 370,
+   "y": 1530,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    440,
-    215,
-    480,
-    245
+    355,
+    1515,
+    395,
+    1545
    ]
   },
   {
-   "ref": "Q3",
-   "role": "Q_PUMP2",
+   "ref": "D1",
+   "role": "D1",
    "module": "PUMPE",
-   "id": "cmp-Q_PUMP2",
-   "deviceUuid": "1c95a10b7c4a4095b426799cbca7b1b2",
-   "x": 400,
-   "y": 475,
+   "id": "cmp-D1",
+   "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
+   "x": 191,
+   "y": 1538,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    390,
-    465,
-    425,
-    485
+    185,
+    1530,
+    195,
+    1545
    ]
   },
   {
-   "ref": "R33",
-   "role": "R_GATE2",
-   "module": "PUMPE",
-   "id": "cmp-R_GATE2",
-   "deviceUuid": "611ee85922f4491584738b3ecdf137f4",
-   "x": 457,
-   "y": 616,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    445,
-    610,
-    470,
-    620
-   ]
-  },
-  {
-   "ref": "R35",
-   "role": "R_CLAMP1",
-   "module": "PUMPE",
-   "id": "cmp-R_CLAMP1",
-   "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-   "x": 381,
-   "y": 737,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    370,
-    730,
-    390,
-    740
-   ]
-  },
-  {
-   "ref": "R36",
-   "role": "R_CLAMP2",
-   "module": "PUMPE",
-   "id": "cmp-R_CLAMP2",
-   "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-   "x": 477,
-   "y": 737,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    465,
-    730,
-    490,
-    740
-   ]
-  },
-  {
-   "ref": "R34",
-   "role": "R_GATE2_PD",
-   "module": "PUMPE",
-   "id": "cmp-R_GATE2_PD",
-   "deviceUuid": "91f8acf5ccc04a77aed714589966c8f5",
-   "x": 336,
-   "y": 849,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    325,
-    845,
-    345,
-    855
-   ]
-  },
-  {
-   "ref": "D7",
+   "ref": "D4",
    "role": "D_FLY2",
    "module": "PUMPE",
    "id": "cmp-D_FLY2",
    "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
-   "x": 253,
-   "y": 963,
+   "x": 275,
+   "y": 1538,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    245,
-    955,
-    260,
-    970
+    270,
+    1530,
+    280,
+    1545
    ]
   },
   {
-   "ref": "D8",
-   "role": "D_CLAMP2",
+   "ref": "C11",
+   "role": "C11",
    "module": "PUMPE",
-   "id": "cmp-D_CLAMP2",
-   "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
-   "x": 291,
-   "y": 1007,
+   "id": "cmp-C11",
+   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+   "x": 639,
+   "y": 1522,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    285,
-    1000,
-    295,
-    1015
+    630,
+    1515,
+    650,
+    1530
    ]
   },
   {
-   "ref": "C20",
+   "ref": "C24",
    "role": "C_PUMP2_EMI",
    "module": "PUMPE",
    "id": "cmp-C_PUMP2_EMI",
    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-   "x": 434,
-   "y": 905,
+   "x": 393,
+   "y": 1648,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    425,
-    895,
-    445,
-    915
+    380,
+    1640,
+    405,
+    1655
    ]
   },
   {
-   "ref": "U8",
-   "role": "U_BOOST",
-   "module": "BOOST",
-   "id": "cmp-U_BOOST",
-   "deviceUuid": "f42b51ab2afc4d9db90725b5f9dacdaa",
-   "x": 1860,
-   "y": 1340,
+   "ref": "R29",
+   "role": "R_CLAMP1",
+   "module": "PUMPE",
+   "id": "cmp-R_CLAMP1",
+   "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
+   "x": 930,
+   "y": 1292,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1830,
-    1320,
-    1890,
-    1360
+    920,
+    1290,
+    940,
+    1295
    ]
   },
   {
-   "ref": "L1",
-   "role": "L_BOOST",
-   "module": "BOOST",
-   "id": "cmp-L_BOOST",
-   "deviceUuid": "41353bd188bd41e4b5cff1c3b04e8681",
-   "x": 1764,
-   "y": 1226,
+   "ref": "D3",
+   "role": "D3",
+   "module": "PUMPE",
+   "id": "cmp-D3",
+   "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
+   "x": 506,
+   "y": 1526,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1745,
-    1225,
-    1780,
-    1230
+    500,
+    1520,
+    510,
+    1535
    ]
   },
   {
-   "ref": "D6",
-   "role": "D_BOOST",
-   "module": "BOOST",
-   "id": "cmp-D_BOOST",
-   "deviceUuid": "804240ef97df427480be2a5281ccea31",
-   "x": 1818,
-   "y": 1546,
+   "ref": "R30",
+   "role": "R_CLAMP2",
+   "module": "PUMPE",
+   "id": "cmp-R_CLAMP2",
+   "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
+   "x": 686,
+   "y": 1293,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1810,
-    1540,
-    1825,
-    1555
+    675,
+    1290,
+    695,
+    1300
    ]
   },
   {
-   "ref": "C17",
-   "role": "C_BST_IN",
-   "module": "BOOST",
-   "id": "cmp-C_BST_IN",
-   "deviceUuid": "9583d53cf848486a9d523fcaf153a729",
-   "x": 1779,
-   "y": 1400,
+   "ref": "D8",
+   "role": "D8",
+   "module": "PUMPE",
+   "id": "cmp-D8",
+   "deviceUuid": "9a107e95a08b43bdbb34d4a2cf04c92c",
+   "x": 290,
+   "y": 1704,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1770,
-    1390,
-    1790,
-    1410
+    280,
+    1695,
+    295,
+    1710
    ]
   },
   {
-   "ref": "C18",
-   "role": "C_BST_OUT",
-   "module": "BOOST",
-   "id": "cmp-C_BST_OUT",
-   "deviceUuid": "9583d53cf848486a9d523fcaf153a729",
-   "x": 1915,
-   "y": 1400,
+   "ref": "R1",
+   "role": "R1",
+   "module": "PUMPE",
+   "id": "cmp-R1",
+   "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+   "x": 892,
+   "y": 1513,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1905,
-    1390,
-    1925,
-    1410
+    880,
+    1510,
+    900,
+    1520
    ]
   },
   {
-   "ref": "C19",
-   "role": "C_BST_HF",
-   "module": "BOOST",
-   "id": "cmp-C_BST_HF",
-   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-   "x": 1779,
-   "y": 1448,
+   "ref": "R2",
+   "role": "R2",
+   "module": "PUMPE",
+   "id": "cmp-R2",
+   "deviceUuid": "91f8acf5ccc04a77aed714589966c8f5",
+   "x": 746,
+   "y": 1516,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1770,
-    1440,
-    1790,
-    1455
+    735,
+    1510,
+    755,
+    1520
+   ]
+  },
+  {
+   "ref": "Q1",
+   "role": "Q1",
+   "module": "PUMPE",
+   "id": "cmp-Q1",
+   "deviceUuid": "1c95a10b7c4a4095b426799cbca7b1b2",
+   "x": 232,
+   "y": 1326,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    220,
+    1315,
+    255,
+    1335
    ]
   },
   {
    "ref": "R31",
-   "role": "R_FB_TOP",
-   "module": "BOOST",
-   "id": "cmp-R_FB_TOP",
-   "deviceUuid": "c464d818a3cc4b9ba1e2b92f982ed62e",
-   "x": 1808,
-   "y": 1591,
+   "role": "R_GATE2",
+   "module": "PUMPE",
+   "id": "cmp-R_GATE2",
+   "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+   "x": 762,
+   "y": 1646,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1790,
-    1585,
-    1825,
-    1595
+    750,
+    1640,
+    770,
+    1650
+   ]
+  },
+  {
+   "ref": "Q5",
+   "role": "Q_PUMP2",
+   "module": "PUMPE",
+   "id": "cmp-Q_PUMP2",
+   "deviceUuid": "1c95a10b7c4a4095b426799cbca7b1b2",
+   "x": 398,
+   "y": 1326,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    390,
+    1315,
+    420,
+    1335
    ]
   },
   {
    "ref": "R32",
-   "role": "R_FB_BOT",
-   "module": "BOOST",
-   "id": "cmp-R_FB_BOT",
-   "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-   "x": 1813,
-   "y": 1498,
+   "role": "R_GATE2_PD",
+   "module": "PUMPE",
+   "id": "cmp-R_GATE2_PD",
+   "deviceUuid": "91f8acf5ccc04a77aed714589966c8f5",
+   "x": 563,
+   "y": 1648,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1800,
-    1495,
-    1825,
-    1500
+    550,
+    1645,
+    575,
+    1650
    ]
   },
   {
-   "ref": "R37",
-   "role": "R_EN_PU",
+   "ref": "U3",
+   "role": "U_BUCK5",
    "module": "BOOST",
-   "id": "cmp-R_EN_PU",
-   "deviceUuid": "91f8acf5ccc04a77aed714589966c8f5",
-   "x": 1866,
-   "y": 1192,
+   "id": "cmp-U_BUCK5",
+   "deviceUuid": "3c6fe03f718e49caa716724cb9bb4ff0",
+   "x": 1443,
+   "y": 1356,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1855,
-    1190,
-    1875,
-    1195
+    1270,
+    1335,
+    1615,
+    1375
+   ]
+  },
+  {
+   "ref": "C8",
+   "role": "C_B5_IN",
+   "module": "BOOST",
+   "id": "cmp-C_B5_IN",
+   "deviceUuid": "9583d53cf848486a9d523fcaf153a729",
+   "x": 1423,
+   "y": 1236,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1410,
+    1230,
+    1435,
+    1245
    ]
   },
   {
    "ref": "C14",
-   "role": "C_BTN",
-   "module": "TASTER",
-   "id": "cmp-C_BTN",
+   "role": "C_B5_IN_HF",
+   "module": "BOOST",
+   "id": "cmp-C_B5_IN_HF",
    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-   "x": 205,
-   "y": 1881,
+   "x": 1313,
+   "y": 1260,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    195,
-    1870,
-    215,
-    1890
+    1300,
+    1250,
+    1325,
+    1270
    ]
   },
   {
-   "ref": "R12",
+   "ref": "L2",
+   "role": "L_BUCK5",
+   "module": "BOOST",
+   "id": "cmp-L_BUCK5",
+   "deviceUuid": "999da512c3de428995c5ecb7dea134be",
+   "x": 1551,
+   "y": 1491,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1535,
+    1490,
+    1570,
+    1495
+   ]
+  },
+  {
+   "ref": "C21",
+   "role": "C_B5_BST",
+   "module": "BOOST",
+   "id": "cmp-C_B5_BST",
+   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+   "x": 1326,
+   "y": 1414,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1315,
+    1405,
+    1335,
+    1420
+   ]
+  },
+  {
+   "ref": "C22",
+   "role": "C_B5_OUT",
+   "module": "BOOST",
+   "id": "cmp-C_B5_OUT",
+   "deviceUuid": "9583d53cf848486a9d523fcaf153a729",
+   "x": 1462,
+   "y": 1414,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1450,
+    1405,
+    1470,
+    1420
+   ]
+  },
+  {
+   "ref": "C23",
+   "role": "C_B5_OUT_HF",
+   "module": "BOOST",
+   "id": "cmp-C_B5_OUT_HF",
+   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+   "x": 1598,
+   "y": 1414,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1590,
+    1405,
+    1610,
+    1420
+   ]
+  },
+  {
+   "ref": "R19",
+   "role": "R_FB5_TOP",
+   "module": "BOOST",
+   "id": "cmp-R_FB5_TOP",
+   "deviceUuid": "c464d818a3cc4b9ba1e2b92f982ed62e",
+   "x": 1389,
+   "y": 1456,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1375,
+    1450,
+    1405,
+    1460
+   ]
+  },
+  {
+   "ref": "R20",
+   "role": "R_FB5_BOT",
+   "module": "BOOST",
+   "id": "cmp-R_FB5_BOT",
+   "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
+   "x": 1389,
+   "y": 1494,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1380,
+    1490,
+    1400,
+    1500
+   ]
+  },
+  {
+   "ref": "R24",
    "role": "R_BTN",
    "module": "TASTER",
    "id": "cmp-R_BTN",
    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-   "x": 241,
-   "y": 2022,
+   "x": 2112,
+   "y": 2155,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    230,
-    2020,
-    250,
-    2025
+    2100,
+    2150,
+    2120,
+    2160
+   ]
+  },
+  {
+   "ref": "C32",
+   "role": "C_BTN",
+   "module": "TASTER",
+   "id": "cmp-C_BTN",
+   "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
+   "x": 2166,
+   "y": 2105,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    2155,
+    2095,
+    2175,
+    2115
    ]
   },
   {
@@ -1350,134 +1835,32 @@
    "module": "TASTER",
    "id": "cmp-J6",
    "deviceUuid": "72b9be21f4ad4d53a42178e79731ea2a",
-   "x": 227,
-   "y": 1971,
+   "x": 2022,
+   "y": 2109,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    215,
-    1955,
+    2010,
+    2095,
+    2030,
+    2125
+   ]
+  },
+  {
+   "ref": "R25",
+   "role": "R_GATE",
+   "module": "ERWEITERUNG",
+   "id": "cmp-R_GATE",
+   "deviceUuid": "91f8acf5ccc04a77aed714589966c8f5",
+   "x": 1559,
+   "y": 242,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1550,
     240,
-    1985
-   ]
-  },
-  {
-   "ref": "J8",
-   "role": "J8",
-   "module": "ERWEITERUNG",
-   "id": "cmp-J8",
-   "deviceUuid": "f70eda5267b34d9799800488a27be0c6",
-   "x": 945,
-   "y": 623,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    930,
-    600,
-    980,
-    645
-   ]
-  },
-  {
-   "ref": "J9",
-   "role": "J9",
-   "module": "ERWEITERUNG",
-   "id": "cmp-J9",
-   "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
-   "x": 1279,
-   "y": 765,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    1265,
-    745,
-    1305,
-    785
-   ]
-  },
-  {
-   "ref": "J10",
-   "role": "J10",
-   "module": "ERWEITERUNG",
-   "id": "cmp-J10",
-   "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
-   "x": 1216,
-   "y": 617,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    1200,
-    595,
-    1240,
-    640
-   ]
-  },
-  {
-   "ref": "J11",
-   "role": "J11",
-   "module": "ERWEITERUNG",
-   "id": "cmp-J11",
-   "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
-   "x": 966,
-   "y": 697,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    950,
-    675,
-    990,
-    720
-   ]
-  },
-  {
-   "ref": "J12",
-   "role": "J12",
-   "module": "ERWEITERUNG",
-   "id": "cmp-J12",
-   "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
-   "x": 1246,
-   "y": 697,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    1230,
-    675,
-    1270,
-    720
-   ]
-  },
-  {
-   "ref": "J13",
-   "role": "J13",
-   "module": "ERWEITERUNG",
-   "id": "cmp-J13",
-   "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
-   "x": 978,
-   "y": 765,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    960,
-    745,
-    1005,
-    785
-   ]
-  },
-  {
-   "ref": "J15",
-   "role": "J15",
-   "module": "ERWEITERUNG",
-   "id": "cmp-J15",
-   "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
-   "x": 1089,
-   "y": 255,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    1075,
-    235,
-    1115,
-    275
+    1570,
+    245
    ]
   },
   {
@@ -1486,219 +1869,321 @@
    "module": "ERWEITERUNG",
    "id": "cmp-Q2",
    "deviceUuid": "f58385f66b144586baef3753ba84f65d",
-   "x": 913,
+   "x": 1195,
    "y": 275,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    900,
+    1185,
     265,
-    940,
+    1220,
     285
    ]
   },
   {
-   "ref": "R23",
-   "role": "R_GATE",
+   "ref": "J8",
+   "role": "J8",
    "module": "ERWEITERUNG",
-   "id": "cmp-R_GATE",
-   "deviceUuid": "91f8acf5ccc04a77aed714589966c8f5",
-   "x": 1327,
-   "y": 441,
+   "id": "cmp-J8",
+   "deviceUuid": "f70eda5267b34d9799800488a27be0c6",
+   "x": 1409,
+   "y": 439,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1315,
-    435,
-    1340,
-    445
+    1395,
+    420,
+    1445,
+    460
    ]
   },
   {
-   "ref": "R19",
-   "role": "R_SDA_PU",
-   "module": "ERWEITERUNG",
-   "id": "cmp-R_SDA_PU",
-   "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-   "x": 1185,
-   "y": 819,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    1175,
-    815,
-    1195,
-    825
-   ]
-  },
-  {
-   "ref": "R20",
-   "role": "R_SCL_PU",
-   "module": "ERWEITERUNG",
-   "id": "cmp-R_SCL_PU",
-   "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-   "x": 957,
-   "y": 867,
-   "rotation": 0,
-   "mirror": false,
-   "bbox": [
-    945,
-    860,
-    970,
-    870
-   ]
-  },
-  {
-   "ref": "R21",
+   "ref": "R36",
    "role": "R_SDA_S",
    "module": "ERWEITERUNG",
    "id": "cmp-R_SDA_S",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-   "x": 1221,
-   "y": 867,
+   "x": 1205,
+   "y": 900,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1210,
-    860,
-    1230,
-    870
+    1195,
+    895,
+    1215,
+    905
    ]
   },
   {
-   "ref": "R22",
+   "ref": "R37",
+   "role": "R_SDA_PU",
+   "module": "ERWEITERUNG",
+   "id": "cmp-R_SDA_PU",
+   "deviceUuid": "611ee85922f4491584738b3ecdf137f4",
+   "x": 1401,
+   "y": 900,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1390,
+    895,
+    1410,
+    905
+   ]
+  },
+  {
+   "ref": "R38",
    "role": "R_SCL_S",
    "module": "ERWEITERUNG",
    "id": "cmp-R_SCL_S",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-   "x": 957,
-   "y": 905,
+   "x": 1623,
+   "y": 436,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    945,
-    900,
-    970,
-    910
+    1610,
+    430,
+    1635,
+    440
    ]
   },
   {
-   "ref": "R24",
-   "role": "R_SPARE_AIN",
+   "ref": "R39",
+   "role": "R_SCL_PU",
    "module": "ERWEITERUNG",
-   "id": "cmp-R_SPARE_AIN",
-   "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+   "id": "cmp-R_SCL_PU",
+   "deviceUuid": "611ee85922f4491584738b3ecdf137f4",
+   "x": 1199,
+   "y": 461,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1190,
+    455,
+    1210,
+    465
+   ]
+  },
+  {
+   "ref": "J9",
+   "role": "J9",
+   "module": "ERWEITERUNG",
+   "id": "cmp-J9",
+   "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
    "x": 1257,
-   "y": 905,
+   "y": 843,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1240,
+    820,
+    1280,
+    865
+   ]
+  },
+  {
+   "ref": "J10",
+   "role": "J10",
+   "module": "ERWEITERUNG",
+   "id": "cmp-J10",
+   "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
+   "x": 1260,
+   "y": 705,
    "rotation": 0,
    "mirror": false,
    "bbox": [
     1245,
-    900,
-    1270,
-    910
+    685,
+    1285,
+    725
    ]
   },
   {
-   "ref": "R25",
-   "role": "R_SPARE_IO15",
+   "ref": "J11",
+   "role": "J11",
    "module": "ERWEITERUNG",
-   "id": "cmp-R_SPARE_IO15",
-   "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-   "x": 1277,
-   "y": 242,
+   "id": "cmp-J11",
+   "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
+   "x": 1552,
+   "y": 705,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1265,
-    240,
-    1290,
-    245
+    1535,
+    685,
+    1580,
+    725
    ]
   },
   {
-   "ref": "R26",
-   "role": "R_SPARE_IO16",
+   "ref": "J12",
+   "role": "J12",
    "module": "ERWEITERUNG",
-   "id": "cmp-R_SPARE_IO16",
-   "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-   "x": 979,
-   "y": 941,
+   "id": "cmp-J12",
+   "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
+   "x": 1248,
+   "y": 775,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    970,
-    935,
-    990,
-    945
+    1230,
+    755,
+    1275,
+    795
    ]
   },
   {
-   "ref": "R27",
-   "role": "R_SPARE_IO17",
+   "ref": "J13",
+   "role": "J13",
    "module": "ERWEITERUNG",
-   "id": "cmp-R_SPARE_IO17",
-   "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-   "x": 1283,
-   "y": 941,
+   "id": "cmp-J13",
+   "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
+   "x": 1540,
+   "y": 775,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1270,
-    935,
-    1295,
-    945
+    1525,
+    755,
+    1565,
+    795
    ]
   },
   {
-   "ref": "R28",
-   "role": "R_SPARE_IO21",
+   "ref": "J15",
+   "role": "J15",
    "module": "ERWEITERUNG",
-   "id": "cmp-R_SPARE_IO21",
-   "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-   "x": 999,
-   "y": 979,
+   "id": "cmp-J15",
+   "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
+   "x": 1371,
+   "y": 255,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    990,
-    975,
-    1010,
-    985
+    1355,
+    235,
+    1395,
+    275
    ]
   },
   {
-   "ref": "R30",
-   "role": "R_SPARE_IO23",
+   "ref": "R40",
+   "role": "R_SPARE_AIN",
    "module": "ERWEITERUNG",
-   "id": "cmp-R_SPARE_IO23",
+   "id": "cmp-R_SPARE_AIN",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-   "x": 1031,
-   "y": 491,
+   "x": 1203,
+   "y": 560,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    1020,
-    485,
-    1040,
-    495
+    1190,
+    555,
+    1215,
+    565
    ]
   },
   {
-   "ref": "C16",
+   "ref": "C31",
    "role": "C_SPARE",
    "module": "ERWEITERUNG",
    "id": "cmp-C_SPARE",
    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-   "x": 940,
-   "y": 825,
+   "x": 1474,
+   "y": 833,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    930,
-    815,
-    950,
-    835
+    1465,
+    825,
+    1485,
+    840
+   ]
+  },
+  {
+   "ref": "R41",
+   "role": "R_SPARE_IO15",
+   "module": "ERWEITERUNG",
+   "id": "cmp-R_SPARE_IO15",
+   "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+   "x": 1391,
+   "y": 560,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1380,
+    555,
+    1400,
+    565
+   ]
+  },
+  {
+   "ref": "R42",
+   "role": "R_SPARE_IO16",
+   "module": "ERWEITERUNG",
+   "id": "cmp-R_SPARE_IO16",
+   "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+   "x": 1581,
+   "y": 560,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1570,
+    555,
+    1590,
+    565
+   ]
+  },
+  {
+   "ref": "R43",
+   "role": "R_SPARE_IO17",
+   "module": "ERWEITERUNG",
+   "id": "cmp-R_SPARE_IO17",
+   "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+   "x": 1203,
+   "y": 634,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1190,
+    630,
+    1215,
+    640
+   ]
+  },
+  {
+   "ref": "R44",
+   "role": "R_SPARE_IO21",
+   "module": "ERWEITERUNG",
+   "id": "cmp-R_SPARE_IO21",
+   "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+   "x": 1391,
+   "y": 634,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1380,
+    630,
+    1400,
+    640
+   ]
+  },
+  {
+   "ref": "R45",
+   "role": "R_SPARE_IO23",
+   "module": "ERWEITERUNG",
+   "id": "cmp-R_SPARE_IO23",
+   "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
+   "x": 1581,
+   "y": 634,
+   "rotation": 0,
+   "mirror": false,
+   "bbox": [
+    1570,
+    630,
+    1590,
+    640
    ]
   },
   {
@@ -1707,66 +2192,66 @@
    "module": "LICHT",
    "id": "cmp-J7",
    "deviceUuid": "3c2517dd0d3741b3a6071ea8b3f9b7e9",
-   "x": 2429,
-   "y": 1531,
+   "x": 751,
+   "y": 2035,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2415,
-    1510,
-    2455,
-    1550
+    735,
+    2015,
+    775,
+    2055
    ]
   },
   {
-   "ref": "R17",
+   "ref": "R34",
    "role": "R_LIGHT",
    "module": "LICHT",
    "id": "cmp-R_LIGHT",
    "deviceUuid": "3ab167b4ae354ce18482658b15d1ec96",
-   "x": 2451,
-   "y": 1411,
+   "x": 792,
+   "y": 2100,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2440,
-    1405,
-    2460,
-    1415
+    780,
+    2095,
+    800,
+    2105
    ]
   },
   {
-   "ref": "R18",
+   "ref": "R35",
    "role": "R_LIGHT_S",
    "module": "LICHT",
    "id": "cmp-R_LIGHT_S",
    "deviceUuid": "3f72534f5a354c46ae62d24e08dc3f0c",
-   "x": 2606,
-   "y": 1407,
+   "x": 839,
+   "y": 2153,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2595,
-    1400,
-    2615,
-    1410
+    830,
+    2150,
+    850,
+    2160
    ]
   },
   {
-   "ref": "C15",
+   "ref": "C30",
    "role": "C_LIGHT",
    "module": "LICHT",
    "id": "cmp-C_LIGHT",
    "deviceUuid": "1fcffeacebec4bcab600894243e1bb8c",
-   "x": 2339,
-   "y": 1413,
+   "x": 674,
+   "y": 2155,
    "rotation": 0,
    "mirror": false,
    "bbox": [
-    2330,
-    1405,
-    2350,
-    1420
+    665,
+    2145,
+    685,
+    2165
    ]
   }
  ],
