@@ -6,12 +6,12 @@
    "net": "GND"
   },
   {
-   "pin": "R13:1",
+   "pin": "R12:1",
    "kind": "power",
    "net": "VBAT"
   },
   {
-   "pin": "R28:2",
+   "pin": "R25:2",
    "kind": "ground",
    "net": "GND"
   },
@@ -26,12 +26,12 @@
    "net": "UV_REF"
   },
   {
-   "pin": "R13:2",
+   "pin": "R12:2",
    "kind": "netport",
    "net": "UV_REF"
   },
   {
-   "pin": "R28:1",
+   "pin": "R25:1",
    "kind": "netport",
    "net": "UV_REF"
   },

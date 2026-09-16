@@ -11,12 +11,12 @@
    "net": "GND"
   },
   {
-   "pin": "R2:2",
+   "pin": "R27:2",
    "kind": "ground",
    "net": "GND"
   },
   {
-   "pin": "R32:2",
+   "pin": "R2:2",
    "kind": "ground",
    "net": "GND"
   },
@@ -53,32 +53,12 @@
   {
    "pin": "D3:1",
    "kind": "netport",
-   "net": "RESET_UV"
+   "net": "+5V"
   },
   {
    "pin": "D3:2",
    "kind": "netport",
-   "net": "KLAMP1"
-  },
-  {
-   "pin": "D4:1",
-   "kind": "netport",
-   "net": "+5V"
-  },
-  {
-   "pin": "D4:2",
-   "kind": "netport",
    "net": "PUMP2_N"
-  },
-  {
-   "pin": "D8:1",
-   "kind": "netport",
-   "net": "RESET_UV"
-  },
-  {
-   "pin": "D8:2",
-   "kind": "netport",
-   "net": "KLAMP2"
   },
   {
    "pin": "J16:1",
@@ -131,44 +111,24 @@
    "net": "GATE"
   },
   {
-   "pin": "R29:1",
+   "pin": "R26:1",
    "kind": "netport",
-   "net": "GATE"
+   "net": "PUMP2_EN"
   },
   {
-   "pin": "R29:2",
+   "pin": "R26:2",
    "kind": "netport",
-   "net": "KLAMP1"
+   "net": "GATE2"
+  },
+  {
+   "pin": "R27:1",
+   "kind": "netport",
+   "net": "GATE2"
   },
   {
    "pin": "R2:1",
    "kind": "netport",
    "net": "GATE"
-  },
-  {
-   "pin": "R30:1",
-   "kind": "netport",
-   "net": "GATE2"
-  },
-  {
-   "pin": "R30:2",
-   "kind": "netport",
-   "net": "KLAMP2"
-  },
-  {
-   "pin": "R31:1",
-   "kind": "netport",
-   "net": "PUMP2_EN"
-  },
-  {
-   "pin": "R31:2",
-   "kind": "netport",
-   "net": "GATE2"
-  },
-  {
-   "pin": "R32:1",
-   "kind": "netport",
-   "net": "GATE2"
   }
  ],
  "rules": {

@@ -50,14 +50,9 @@
     "after": "R10"
   },
   {
-    "componentId": "cmp-R_NTC",
-    "before": "R_NTC",
-    "after": "R11"
-  },
-  {
     "componentId": "cmp-R_UVSET",
     "before": "R_UVSET",
-    "after": "R12"
+    "after": "R11"
   },
   {
     "componentId": "cmp-D_LEDCHG",
@@ -107,12 +102,12 @@
   {
     "componentId": "cmp-R3a",
     "before": "R3a",
-    "after": "R13"
+    "after": "R12"
   },
   {
     "componentId": "cmp-R_SENSE_TOP",
     "before": "R_SENSE_TOP",
-    "after": "R14"
+    "after": "R13"
   },
   {
     "componentId": "cmp-U_PROT",
@@ -137,17 +132,17 @@
   {
     "componentId": "cmp-R_PROT_VC",
     "before": "R_PROT_VC",
-    "after": "R15"
+    "after": "R14"
   },
   {
     "componentId": "cmp-R_CB",
     "before": "R_CB",
-    "after": "R16"
+    "after": "R15"
   },
   {
     "componentId": "cmp-R_PROT_VDD",
     "before": "R_PROT_VDD",
-    "after": "R17"
+    "after": "R16"
   },
   {
     "componentId": "cmp-Q_PROT2",
@@ -157,7 +152,7 @@
   {
     "componentId": "cmp-R_PROT_CS",
     "before": "R_PROT_CS",
-    "after": "R18"
+    "after": "R17"
   },
   {
     "componentId": "cmp-C_VSYS_A",
@@ -192,12 +187,12 @@
   {
     "componentId": "cmp-R_FB5_TOP",
     "before": "R_FB5_TOP",
-    "after": "R19"
+    "after": "R18"
   },
   {
     "componentId": "cmp-D_FLY2",
     "before": "D_FLY2",
-    "after": "D4"
+    "after": "D3"
   },
   {
     "componentId": "cmp-C_PUMP2_EMI",
@@ -207,7 +202,7 @@
   {
     "componentId": "cmp-R_FB5_BOT",
     "before": "R_FB5_BOT",
-    "after": "R20"
+    "after": "R19"
   },
   {
     "componentId": "cmp-L_BUCK3",
@@ -242,57 +237,37 @@
   {
     "componentId": "cmp-R_EN",
     "before": "R_EN",
-    "after": "R21"
+    "after": "R20"
   },
   {
     "componentId": "cmp-R_BOOT",
     "before": "R_BOOT",
-    "after": "R22"
+    "after": "R21"
   },
   {
     "componentId": "cmp-R_GPIO8",
     "before": "R_GPIO8",
-    "after": "R23"
+    "after": "R22"
   },
   {
     "componentId": "cmp-R_BTN",
     "before": "R_BTN",
-    "after": "R24"
+    "after": "R23"
   },
   {
     "componentId": "cmp-R_GATE",
     "before": "R_GATE",
-    "after": "R25"
-  },
-  {
-    "componentId": "cmp-R_FB3_TOP",
-    "before": "R_FB3_TOP",
-    "after": "R26"
-  },
-  {
-    "componentId": "cmp-R_FB3_BOT",
-    "before": "R_FB3_BOT",
-    "after": "R27"
+    "after": "R24"
   },
   {
     "componentId": "cmp-R3b",
     "before": "R3b",
-    "after": "R28"
-  },
-  {
-    "componentId": "cmp-R_CLAMP1",
-    "before": "R_CLAMP1",
-    "after": "R29"
-  },
-  {
-    "componentId": "cmp-R_CLAMP2",
-    "before": "R_CLAMP2",
-    "after": "R30"
+    "after": "R25"
   },
   {
     "componentId": "cmp-R_GATE2",
     "before": "R_GATE2",
-    "after": "R31"
+    "after": "R26"
   },
   {
     "componentId": "cmp-Q_PUMP2",
@@ -302,22 +277,22 @@
   {
     "componentId": "cmp-R_GATE2_PD",
     "before": "R_GATE2_PD",
-    "after": "R32"
+    "after": "R27"
   },
   {
     "componentId": "cmp-R_SENSE_BOT",
     "before": "R_SENSE_BOT",
-    "after": "R33"
+    "after": "R28"
   },
   {
     "componentId": "cmp-R_LIGHT",
     "before": "R_LIGHT",
-    "after": "R34"
+    "after": "R29"
   },
   {
     "componentId": "cmp-R_LIGHT_S",
     "before": "R_LIGHT_S",
-    "after": "R35"
+    "after": "R30"
   },
   {
     "componentId": "cmp-C_LIGHT",
@@ -327,27 +302,27 @@
   {
     "componentId": "cmp-R_SDA_S",
     "before": "R_SDA_S",
-    "after": "R36"
+    "after": "R31"
   },
   {
     "componentId": "cmp-R_SDA_PU",
     "before": "R_SDA_PU",
-    "after": "R37"
+    "after": "R32"
   },
   {
     "componentId": "cmp-R_SCL_S",
     "before": "R_SCL_S",
-    "after": "R38"
+    "after": "R33"
   },
   {
     "componentId": "cmp-R_SCL_PU",
     "before": "R_SCL_PU",
-    "after": "R39"
+    "after": "R34"
   },
   {
     "componentId": "cmp-R_SPARE_AIN",
     "before": "R_SPARE_AIN",
-    "after": "R40"
+    "after": "R35"
   },
   {
     "componentId": "cmp-C_SPARE",
@@ -357,32 +332,32 @@
   {
     "componentId": "cmp-R_SPARE_IO15",
     "before": "R_SPARE_IO15",
-    "after": "R41"
+    "after": "R36"
   },
   {
     "componentId": "cmp-R_SPARE_IO16",
     "before": "R_SPARE_IO16",
-    "after": "R42"
+    "after": "R37"
   },
   {
     "componentId": "cmp-R_SPARE_IO17",
     "before": "R_SPARE_IO17",
-    "after": "R43"
+    "after": "R38"
   },
   {
     "componentId": "cmp-R_SPARE_IO21",
     "before": "R_SPARE_IO21",
-    "after": "R44"
+    "after": "R39"
   },
   {
     "componentId": "cmp-R_SPARE_IO23",
     "before": "R_SPARE_IO23",
-    "after": "R45"
+    "after": "R40"
   },
   {
     "componentId": "cmp-R_TANK",
     "before": "R_TANK",
-    "after": "R46"
+    "after": "R41"
   },
   {
     "componentId": "cmp-C_BTN",
@@ -392,6 +367,21 @@
   {
     "componentId": "cmp-R_UART",
     "before": "R_UART",
-    "after": "R47"
+    "after": "R42"
+  },
+  {
+    "componentId": "cmp-Q_SENS",
+    "before": "Q_SENS",
+    "after": "Q6"
+  },
+  {
+    "componentId": "cmp-R_SENS_GATE",
+    "before": "R_SENS_GATE",
+    "after": "R43"
+  },
+  {
+    "componentId": "cmp-R_NTC_PAR",
+    "before": "R_NTC_PAR",
+    "after": "R44"
   }
 ]

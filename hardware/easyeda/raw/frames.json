@@ -6,103 +6,13 @@
    "id": "frame-debug",
    "title": "UART-Debug-Pads (DNP)",
    "rect": {
-    "minX": 12,
-    "minY": 1863,
-    "maxX": 469,
-    "maxY": 2326
-   },
-   "titleX": 24,
-   "titleY": 2314,
-   "fontSize": 20,
-   "color": "#AA00AA",
-   "lineType": 1
-  },
-  {
-   "id": "frame-licht",
-   "title": "Lichtsensor-Eingang",
-   "rect": {
-    "minX": 469,
-    "minY": 1863,
-    "maxX": 1115,
-    "maxY": 2317
-   },
-   "titleX": 481,
-   "titleY": 2305,
-   "fontSize": 20,
-   "color": "#AA00AA",
-   "lineType": 1
-  },
-  {
-   "id": "frame-taster",
-   "title": "Taster & LEDs",
-   "rect": {
-    "minX": 1807,
-    "minY": 1943,
-    "maxX": 2417,
-    "maxY": 2311
-   },
-   "titleX": 1819,
-   "titleY": 2299,
-   "fontSize": 20,
-   "color": "#AA00AA",
-   "lineType": 1
-  },
-  {
-   "id": "frame-schutz",
-   "title": "Akku-Schutz (HY2120-CB + PSMN4R2)",
-   "rect": {
-    "minX": 1120,
-    "minY": 1650,
-    "maxX": 1807,
-    "maxY": 2304
-   },
-   "titleX": 1132,
-   "titleY": 2292,
-   "fontSize": 20,
-   "color": "#AA00AA",
-   "lineType": 1
-  },
-  {
-   "id": "frame-waechter",
-   "title": "Unterspannungswaechter (TPS3839)",
-   "rect": {
     "minX": 2602,
-    "minY": 1809,
-    "maxX": 3234,
-    "maxY": 2300
+    "minY": 1846,
+    "maxX": 3059,
+    "maxY": 2309
    },
    "titleX": 2614,
-   "titleY": 2288,
-   "fontSize": 20,
-   "color": "#AA00AA",
-   "lineType": 1
-  },
-  {
-   "id": "frame-lader",
-   "title": "Laden (IP2326, 2S)",
-   "rect": {
-    "minX": 1855,
-    "minY": 1006,
-    "maxX": 2577,
-    "maxY": 1943
-   },
-   "titleX": 1867,
-   "titleY": 1931,
-   "fontSize": 20,
-   "color": "#AA00AA",
-   "lineType": 1
-  },
-  {
-   "id": "frame-pumpe",
-   "title": "Pumpentreiber Dosier- + Sauerstoffpumpe",
-   "rect": {
-    "minX": 12,
-    "minY": 1063,
-    "maxX": 1120,
-    "maxY": 1863
-   },
-   "titleX": 24,
-   "titleY": 1851,
+   "titleY": 2297,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
@@ -111,28 +21,58 @@
    "id": "frame-akku",
    "title": "Akku & Puffer",
    "rect": {
-    "minX": 2602,
-    "minY": 1328,
-    "maxX": 3013,
-    "maxY": 1809
+    "minX": 935,
+    "minY": 1860,
+    "maxX": 1425,
+    "maxY": 2296
    },
-   "titleX": 2614,
-   "titleY": 1797,
+   "titleX": 947,
+   "titleY": 2284,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
   },
   {
-   "id": "frame-boost",
-   "title": "5-V-Buck (SY8113B)",
+   "id": "frame-waechter",
+   "title": "Unterspannungswaechter (TPS3839)",
    "rect": {
-    "minX": 1120,
-    "minY": 1059,
-    "maxX": 1803,
-    "maxY": 1650
+    "minX": 1910,
+    "minY": 1673,
+    "maxX": 2321,
+    "maxY": 2099
    },
-   "titleX": 1132,
-   "titleY": 1638,
+   "titleX": 1922,
+   "titleY": 2087,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-erweiterung",
+   "title": "Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch",
+   "rect": {
+    "minX": 12,
+    "minY": 1063,
+    "maxX": 935,
+    "maxY": 2070
+   },
+   "titleX": 24,
+   "titleY": 2058,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-taster",
+   "title": "Taster & LEDs",
+   "rect": {
+    "minX": 1482,
+    "minY": 1372,
+    "maxX": 1910,
+    "maxY": 1914
+   },
+   "titleX": 1494,
+   "titleY": 1902,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
@@ -141,13 +81,88 @@
    "id": "frame-ldo",
    "title": "3V3-Buck (AP63203)",
    "rect": {
+    "minX": 935,
+    "minY": 1372,
+    "maxX": 1482,
+    "maxY": 1860
+   },
+   "titleX": 947,
+   "titleY": 1848,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-lader",
+   "title": "Laden (IP2326, 2S)",
+   "rect": {
     "minX": 2602,
-    "minY": 713,
-    "maxX": 3243,
-    "maxY": 1328
+    "minY": 1192,
+    "maxX": 3285,
+    "maxY": 1846
    },
    "titleX": 2614,
-   "titleY": 1316,
+   "titleY": 1834,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-schutz",
+   "title": "Akku-Schutz (HY2120-CB + PSMN4R2)",
+   "rect": {
+    "minX": 1910,
+    "minY": 1187,
+    "maxX": 2386,
+    "maxY": 1673
+   },
+   "titleX": 1922,
+   "titleY": 1661,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-licht",
+   "title": "Lichtsensor-Eingang",
+   "rect": {
+    "minX": 935,
+    "minY": 818,
+    "maxX": 1513,
+    "maxY": 1372
+   },
+   "titleX": 947,
+   "titleY": 1360,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-usb",
+   "title": "USB-C Eingang & ESD",
+   "rect": {
+    "minX": 2602,
+    "minY": 198,
+    "maxX": 3197,
+    "maxY": 1192
+   },
+   "titleX": 2614,
+   "titleY": 1180,
+   "fontSize": 20,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "frame-boost",
+   "title": "5-V-Buck (SY8113B)",
+   "rect": {
+    "minX": 1700,
+    "minY": 610,
+    "maxX": 2282,
+    "maxY": 1187
+   },
+   "titleX": 1712,
+   "titleY": 1175,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
@@ -158,7 +173,7 @@
    "rect": {
     "minX": 12,
     "minY": 12,
-    "maxX": 970,
+    "maxX": 925,
     "maxY": 1063
    },
    "titleX": 24,
@@ -168,31 +183,16 @@
    "lineType": 1
   },
   {
-   "id": "frame-erweiterung",
-   "title": "Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch",
+   "id": "frame-pumpe",
+   "title": "Pumpentreiber Dosier- + Sauerstoffpumpe",
    "rect": {
-    "minX": 970,
+    "minX": 925,
     "minY": 12,
-    "maxX": 1855,
-    "maxY": 1059
+    "maxX": 1700,
+    "maxY": 818
    },
-   "titleX": 982,
-   "titleY": 1047,
-   "fontSize": 20,
-   "color": "#AA00AA",
-   "lineType": 1
-  },
-  {
-   "id": "frame-usb",
-   "title": "USB-C Eingang & ESD",
-   "rect": {
-    "minX": 1855,
-    "minY": 12,
-    "maxX": 2450,
-    "maxY": 1006
-   },
-   "titleX": 1867,
-   "titleY": 994,
+   "titleX": 937,
+   "titleY": 806,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1
@@ -201,13 +201,13 @@
    "id": "frame-sensor",
    "title": "Sensor-Eingang",
    "rect": {
-    "minX": 2602,
-    "minY": 198,
-    "maxX": 3252,
-    "maxY": 713
+    "minX": 1700,
+    "minY": 12,
+    "maxX": 2377,
+    "maxY": 610
    },
-   "titleX": 2614,
-   "titleY": 701,
+   "titleX": 1712,
+   "titleY": 598,
    "fontSize": 20,
    "color": "#AA00AA",
    "lineType": 1

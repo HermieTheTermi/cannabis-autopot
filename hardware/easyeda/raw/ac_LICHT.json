@@ -11,7 +11,7 @@
    "net": "GND"
   },
   {
-   "pin": "R34:2",
+   "pin": "R29:2",
    "kind": "ground",
    "net": "GND"
   },
@@ -31,17 +31,17 @@
    "net": "LIGHT_RAW"
   },
   {
-   "pin": "R34:1",
+   "pin": "R29:1",
    "kind": "netport",
    "net": "LIGHT_RAW"
   },
   {
-   "pin": "R35:1",
+   "pin": "R30:1",
    "kind": "netport",
    "net": "LIGHT_RAW"
   },
   {
-   "pin": "R35:2",
+   "pin": "R30:2",
    "kind": "netport",
    "net": "LIGHT_AOUT"
   }

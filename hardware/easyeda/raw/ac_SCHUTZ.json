@@ -16,12 +16,12 @@
    "net": "GND"
   },
   {
-   "pin": "R17:1",
+   "pin": "R16:1",
    "kind": "power",
    "net": "VBAT"
   },
   {
-   "pin": "R18:2",
+   "pin": "R17:2",
    "kind": "ground",
    "net": "GND"
   },
@@ -81,6 +81,16 @@
    "net": "PROT_COMMON"
   },
   {
+   "pin": "R14:1",
+   "kind": "netport",
+   "net": "MID"
+  },
+  {
+   "pin": "R14:2",
+   "kind": "netport",
+   "net": "PROT_VC"
+  },
+  {
    "pin": "R15:1",
    "kind": "netport",
    "net": "MID"
@@ -88,25 +98,15 @@
   {
    "pin": "R15:2",
    "kind": "netport",
-   "net": "PROT_VC"
-  },
-  {
-   "pin": "R16:1",
-   "kind": "netport",
-   "net": "MID"
+   "net": "VBATM_CHG"
   },
   {
    "pin": "R16:2",
    "kind": "netport",
-   "net": "VBATM_CHG"
-  },
-  {
-   "pin": "R17:2",
-   "kind": "netport",
    "net": "PROT_VDD"
   },
   {
-   "pin": "R18:1",
+   "pin": "R17:1",
    "kind": "netport",
    "net": "PROT_CS"
   },

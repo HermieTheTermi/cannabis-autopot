@@ -46,7 +46,7 @@
    "net": "+3V3"
   },
   {
-   "pin": "R25:1",
+   "pin": "R24:1",
    "kind": "power",
    "net": "+3V3"
   },
@@ -141,107 +141,107 @@
    "net": "VCC_EXT"
   },
   {
-   "pin": "R25:2",
+   "pin": "R24:2",
    "kind": "netport",
    "net": "EXT_EN"
   },
   {
-   "pin": "R36:1",
+   "pin": "R31:1",
    "kind": "netport",
    "net": "SDA_MCU"
   },
   {
-   "pin": "R36:2",
+   "pin": "R31:2",
    "kind": "netport",
    "net": "SDA"
   },
   {
-   "pin": "R37:1",
+   "pin": "R32:1",
    "kind": "netport",
    "net": "SDA"
   },
   {
-   "pin": "R37:2",
+   "pin": "R32:2",
    "kind": "netport",
    "net": "VCC_EXT"
   },
   {
-   "pin": "R38:1",
+   "pin": "R33:1",
    "kind": "netport",
    "net": "SCL_MCU"
   },
   {
-   "pin": "R38:2",
+   "pin": "R33:2",
    "kind": "netport",
    "net": "SCL"
   },
   {
-   "pin": "R39:1",
+   "pin": "R34:1",
    "kind": "netport",
    "net": "SCL"
   },
   {
-   "pin": "R39:2",
+   "pin": "R34:2",
    "kind": "netport",
    "net": "VCC_EXT"
   },
   {
-   "pin": "R40:1",
+   "pin": "R35:1",
    "kind": "netport",
    "net": "SPARE_AIN_RAW"
   },
   {
-   "pin": "R40:2",
+   "pin": "R35:2",
    "kind": "netport",
    "net": "SPARE_AIN"
   },
   {
-   "pin": "R41:1",
+   "pin": "R36:1",
    "kind": "netport",
    "net": "SPARE_IO15_RAW"
   },
   {
-   "pin": "R41:2",
+   "pin": "R36:2",
    "kind": "netport",
    "net": "SPARE_IO15"
   },
   {
-   "pin": "R42:1",
+   "pin": "R37:1",
    "kind": "netport",
    "net": "UART_TX"
   },
   {
-   "pin": "R42:2",
+   "pin": "R37:2",
    "kind": "netport",
    "net": "SPARE_IO16"
   },
   {
-   "pin": "R43:1",
+   "pin": "R38:1",
    "kind": "netport",
    "net": "UART_RX"
   },
   {
-   "pin": "R43:2",
+   "pin": "R38:2",
    "kind": "netport",
    "net": "SPARE_IO17"
   },
   {
-   "pin": "R44:1",
+   "pin": "R39:1",
    "kind": "netport",
    "net": "SPARE_IO21_RAW"
   },
   {
-   "pin": "R44:2",
+   "pin": "R39:2",
    "kind": "netport",
    "net": "SPARE_IO21"
   },
   {
-   "pin": "R45:1",
+   "pin": "R40:1",
    "kind": "netport",
    "net": "SPARE_IO23_RAW"
   },
   {
-   "pin": "R45:2",
+   "pin": "R40:2",
    "kind": "netport",
    "net": "SPARE_IO23"
   }

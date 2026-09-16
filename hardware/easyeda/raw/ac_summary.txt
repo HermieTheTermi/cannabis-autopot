@@ -1,15 +1,15 @@
-Verbindungen gesamt: 351 (uebersprungen: 0 = 0 Loetpads ohne Bestueckungsplatz)
+Verbindungen gesamt: 348 (uebersprungen: 0 = 0 Loetpads ohne Bestueckungsplatz)
 USB        24 Verbindungen  {'ground': 9, 'power': 3, 'netport': 12}
-LADER      46 Verbindungen  {'ground': 10, 'power': 8, 'netport': 28}
-AKKU        7 Verbindungen  {'ground': 2, 'power': 2, 'netport': 3}
+LADER      48 Verbindungen  {'ground': 11, 'power': 8, 'netport': 29}
+AKKU        9 Verbindungen  {'ground': 2, 'power': 2, 'netport': 5}
 WAEChTER    9 Verbindungen  {'ground': 3, 'power': 1, 'netport': 5}
 SCHUTZ     28 Verbindungen  {'ground': 4, 'power': 1, 'netport': 23}
-LDO        23 Verbindungen  {'power': 9, 'ground': 6, 'netport': 8}
+LDO        19 Verbindungen  {'power': 9, 'ground': 5, 'netport': 5}
 MCU        83 Verbindungen  {'ground': 34, 'power': 9, 'netport': 40}
 TASTER      6 Verbindungen  {'ground': 2, 'power': 1, 'netport': 3}
-PUMPE      34 Verbindungen  {'ground': 4, 'netport': 30}
+PUMPE      26 Verbindungen  {'ground': 4, 'netport': 22}
 BOOST      22 Verbindungen  {'power': 3, 'ground': 6, 'netport': 13}
-SENSOR      8 Verbindungen  {'ground': 2, 'netport': 6}
+SENSOR     13 Verbindungen  {'ground': 2, 'power': 2, 'netport': 9}
 DEBUG       3 Verbindungen  {'netport': 3}
 LICHT       9 Verbindungen  {'ground': 3, 'netport': 6}
 ERWEITERUNG  49 Verbindungen  {'ground': 8, 'power': 2, 'netport': 39}

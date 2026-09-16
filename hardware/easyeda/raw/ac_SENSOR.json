@@ -11,6 +11,16 @@
    "net": "GND"
   },
   {
+   "pin": "Q6:2",
+   "kind": "power",
+   "net": "+3V3"
+  },
+  {
+   "pin": "R43:2",
+   "kind": "power",
+   "net": "+3V3"
+  },
+  {
    "pin": "J17:1",
    "kind": "netport",
    "net": "+5V"
@@ -24,6 +34,21 @@
    "pin": "J2:3",
    "kind": "netport",
    "net": "SENSOR_RAW"
+  },
+  {
+   "pin": "Q6:1",
+   "kind": "netport",
+   "net": "EXT_SENS_EN"
+  },
+  {
+   "pin": "Q6:3",
+   "kind": "netport",
+   "net": "SENSOR_PWR"
+  },
+  {
+   "pin": "R43:1",
+   "kind": "netport",
+   "net": "EXT_SENS_EN"
   },
   {
    "pin": "R6:1",

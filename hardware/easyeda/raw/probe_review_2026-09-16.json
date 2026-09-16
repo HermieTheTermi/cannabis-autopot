@@ -1,0 +1,80 @@
+{
+ "stand": "2026-09-16",
+ "quelle": "sch list --include-pins --include-bbox (Probe-Platzierung)",
+ "result": {
+  "components": [
+   {
+    "designator": "X1",
+    "supplierId": "C66503",
+    "device": {
+     "libraryUuid": "d262e8022e074620918c67a5e445d247",
+     "uuid": "303b372c40fcbe9f"
+    },
+    "pins": [
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     },
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     }
+    ],
+    "bbox": {
+     "maxX": 3060.5,
+     "maxY": 2304.5,
+     "minX": 3039.5,
+     "minY": 2295.5
+    }
+   },
+   {
+    "designator": "X2",
+    "supplierId": "C17840",
+    "device": {
+     "libraryUuid": "ac8f85262a25459e9477d309c601e85b",
+     "uuid": "1645c8002f73f1e2"
+    },
+    "pins": [
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     },
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     }
+    ],
+    "bbox": {
+     "maxX": 2810.5,
+     "maxY": 2304.5,
+     "minX": 2789.5,
+     "minY": 2295.5
+    }
+   },
+   {
+    "designator": "X3",
+    "supplierId": "C17901",
+    "device": {
+     "libraryUuid": "bc6d89831a2b48a1a8d39536f8cb7d7a",
+     "uuid": "6e2f1a7c93d04b58"
+    },
+    "pins": [
+     {
+      "pinNumber": "1",
+      "pinName": "1"
+     },
+     {
+      "pinNumber": "2",
+      "pinName": "2"
+     }
+    ],
+    "bbox": {
+     "maxX": 2560.5,
+     "maxY": 2304.5,
+     "minX": 2539.5,
+     "minY": 2295.5
+    }
+   }
+  ]
+ }
+}

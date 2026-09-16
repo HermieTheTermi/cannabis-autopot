@@ -11,7 +11,7 @@
    "net": "GND"
   },
   {
-   "pin": "R24:1",
+   "pin": "R23:1",
    "kind": "power",
    "net": "+3V3"
   },
@@ -26,7 +26,7 @@
    "net": "BTN"
   },
   {
-   "pin": "R24:2",
+   "pin": "R23:2",
    "kind": "netport",
    "net": "BTN"
   }

@@ -31,7 +31,7 @@
    "net": "GND"
   },
   {
-   "pin": "R20:2",
+   "pin": "R19:2",
    "kind": "ground",
    "net": "GND"
   },
@@ -76,17 +76,17 @@
    "net": "+5V"
   },
   {
-   "pin": "R19:1",
+   "pin": "R18:1",
    "kind": "netport",
    "net": "+5V"
   },
   {
-   "pin": "R19:2",
+   "pin": "R18:2",
    "kind": "netport",
    "net": "FB_5V"
   },
   {
-   "pin": "R20:1",
+   "pin": "R19:1",
    "kind": "netport",
    "net": "FB_5V"
   },

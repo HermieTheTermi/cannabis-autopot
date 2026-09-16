@@ -6,7 +6,7 @@
    "net": "GND"
   },
   {
-   "pin": "J1:3",
+   "pin": "F1:2",
    "kind": "power",
    "net": "VBAT"
   },
@@ -26,6 +26,11 @@
    "net": "+5V"
   },
   {
+   "pin": "F1:1",
+   "kind": "netport",
+   "net": "PACK_PLUS"
+  },
+  {
    "pin": "J1:1",
    "kind": "netport",
    "net": "BAT_MINUS"
@@ -34,6 +39,11 @@
    "pin": "J1:2",
    "kind": "netport",
    "net": "MID"
+  },
+  {
+   "pin": "J1:3",
+   "kind": "netport",
+   "net": "PACK_PLUS"
   }
  ],
  "rules": {

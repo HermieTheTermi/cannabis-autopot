@@ -276,4 +276,22 @@ mehr deckungsgleich** und muss nachgezogen werden:
 Pin-Tabellen per Probe-Platzierung messen, `raw/lcsc_map.json`/`prefixes.json` ergänzen, dann
 `build_ir.py` → `plan_layout.py` → `build_autoconnect.py` und die Seite neu aufbauen
 (bekannte Fallen stehen oben im Abschnitt „Stand 16.09.2026“).
-Aktueller lokaler Stand: **122 Bauteile, 76 Netze, 342 Verbindungen**.
+Aktueller Stand: **122 Bauteile, 76 Netze, 348 live verdrahtete Pins** (die Netzliste hat 342 Zeilen;
+die IR löst Sammel-Pins wie USB-C `VBUS`/`D+`/`D-` (je 2) und `GND` (6 Pads) einzeln auf ⇒ 348).
+
+**Erledigt am 16.09.2026 (zweiter Neuaufbau, Review-Stand):** Geräte-UUIDs für `F1` (`C66503`,
+Gehäuse `FUSE-SMD_L6.1-W2.7`) und `R_NTC_PAR` (`C17840`, `R0805`) aufgelöst, Pin-Tabellen per
+Probe-Platzierung gemessen (beide 2-polig) → `raw/probe_review_2026-09-16.json`, `lcsc_map.json`
+und `prefixes.json` ergänzt. Kette gelaufen: `build_ir` → `check_ir_netlist` (0 Abweichungen) →
+`designators allocate` (0 funktionale Designatoren) → `plan_layout` (Fallback 0) →
+`build_autoconnect` (14 Dateien). Seite geleert und neu aufgebaut: **122 Bauteile, 76 Netze**,
+**348 Verbindungen** live, pin-für-pin gegen die Ziel-IR abgeglichen: **0 Abweichungen**;
+20 NC-Marker auf den dokumentierten offenen Pins; Gate: `layout-lint`, `check`, `bridge-check`,
+`drc` **grün**, `clusters` meldet 6 Beschriftungs-Überlappungen (rein optisch, so belassen).
+Blattbild: `out/schaltplan_2026-09-16_2s_review.png`.
+
+**Zwei Fallen, die Zeit gekostet haben:** (1) `measured_volumes_*.json` ist auf die jeweilige
+Designator-Allokation geschlüsselt — nach einer Neuzuteilung per Device-UUID umschlüsseln, sonst
+scheitert `plan_layout.py` (MCU-Block passt nicht). (2) `raw/place_all.sh`, `raw/frames.json` und
+Gruppenlisten immer frisch erzeugen, nie aus einem älteren Lauf wiederverwenden (alte Designatoren).
+Außerdem: `sch read` nennt das Pin-Feld `number`, `sch list --include-pins` dagegen `pinNumber`.

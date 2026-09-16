@@ -36,6 +36,11 @@
    "net": "GND"
   },
   {
+   "pin": "J18:2",
+   "kind": "ground",
+   "net": "GND"
+  },
+  {
    "pin": "L1:1",
    "kind": "power",
    "net": "VBUS"
@@ -51,14 +56,14 @@
    "net": "GND"
   },
   {
-   "pin": "R12:2",
-   "kind": "ground",
-   "net": "GND"
-  },
-  {
    "pin": "R3:1",
    "kind": "power",
    "net": "VBUS"
+  },
+  {
+   "pin": "R44:2",
+   "kind": "ground",
+   "net": "GND"
   },
   {
    "pin": "R5:1",
@@ -116,6 +121,11 @@
    "net": "LX_CHG"
   },
   {
+   "pin": "J18:1",
+   "kind": "netport",
+   "net": "NTC_CHG"
+  },
+  {
    "pin": "L1:2",
    "kind": "netport",
    "net": "LX_CHG"
@@ -138,17 +148,17 @@
   {
    "pin": "R11:1",
    "kind": "netport",
-   "net": "NTC_DIS"
-  },
-  {
-   "pin": "R12:1",
-   "kind": "netport",
    "net": "UVSET_CHG"
   },
   {
    "pin": "R3:2",
    "kind": "netport",
    "net": "VBUS_CHG"
+  },
+  {
+   "pin": "R44:1",
+   "kind": "netport",
+   "net": "NTC_CHG"
   },
   {
    "pin": "R5:2",
@@ -218,7 +228,7 @@
   {
    "pin": "U2:4",
    "kind": "netport",
-   "net": "NTC_DIS"
+   "net": "NTC_CHG"
   },
   {
    "pin": "U2:6",
