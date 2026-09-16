@@ -1,9 +1,10 @@
-"""Design-Regelpruefungen fuer den Schaltplan V1.
+"""Design-Regelpruefungen fuer den Schaltplan V1 (2S-Umbau, 16.09.2026).
 
 Jede Pruefung liest die echten Dateien ueber :mod:`design.circuit` und liefert
 ein :class:`CheckResult` mit (name, bestanden, ist_wert, soll_kriterium,
 begruendung).  Hart verdrahtet sind nur Datenblatt-Grenzwerte; die Quelle steht
-jeweils in der Begruendung.
+jeweils in der Begruendung.  Systemgroessen kommen aus ``circuit.SYSTEM`` und
+werden von :func:`check_system_quellen` gegen die Dokumente belegt.
 """
 from __future__ import annotations
 
@@ -14,23 +15,76 @@ from . import circuit
 
 CheckResult = namedtuple("CheckResult", "name bestanden ist soll begruendung")
 
+# ===========================================================================
+# Datenblattgrenzen (jede mit Quelle)
+# ===========================================================================
+
+# --- IP2326 (Injoinic, LCSC C2832094), Datenblatt V1.11 --------------------
+IP2326_ICHG_K = 90000.0          # ICHG = 90000/R_ISET[Ohm], §"充电电流设置" S. 11
+IP2326_ICHG_MAX_A = 1.5          # §7 Elektrische Eigenschaften S. 4
+IP2326_VSET_OPEN_V = 8.4         # VSET offen ⇒ 8,4 V (8,3-8,5), §7/S. 4
+IP2326_VSET_TOL_V = 0.1          # Toleranz 8,3-8,5 V
+IP2326_EFF = 0.94                # Wirkungsgrad 94 % (5 V→8 V/1 A), §1 S. 1
+IP2326_VIN_MIN_V = 4.5           # Eingang 4,5-9,5 V, S. 3
+IP2326_VIN_MAX_V = 9.5
+IP2326_CELL_MAX_V = 4.2          # Li-Ion-Ladeschluss 4,2 V/Zelle
+IP2326_CHARGE_PHASES = (         # §9, S. 9: Phasen-Stroeme
+    (3.7, 0.050),                # < 3,7 V -> 50 mA
+    (6.0, 0.100),                # 3,7-6 V -> 100 mA
+)
+
+# --- SY8113B (Silergy, C78989), Datenblatt AN_SY8113B ----------------------
+BUCK5_VIN_MIN_V, BUCK5_VIN_MAX_V = 4.5, 18.0
+BUCK5_IOUT_MAX_A = 3.0          # 3 A Ausgang, S. 1
+BUCK5_FSW_HZ = 500e3            # 500 kHz
+BUCK5_EN_HIGH_V = 1.5           # EN High-Schwelle, "Do not float"
+BUCK5_EN_LOW_V = 0.4
+BUCK5_UVLO_V = 4.5              # Input-UVLO
+BUCK5_VALLEY_MIN_A, BUCK5_VALLEY_MAX_A = 3.0, 4.25   # Stromgrenzen (EC)
+BUCK5_PEAK_A = 6.0              # Top-FET-Peak
+L_BUCK_ISAT_A = 4.0             # PRS6045-Datenblatt: Isat 4,0 A (L_BUCK5/3)
+
+# --- AP63203 (Diodes, C780769), Datenblatt DS41326 -------------------------
+BUCK3_VIN_MIN_V, BUCK3_VIN_MAX_V = 3.8, 32.0
+BUCK3_IOUT_MAX_A = 2.0          # 2 A
+BUCK3_FSW_HZ = 1.1e6            # 1,1 MHz
+MODULE_VDD33_MIN_V = 3.0        # Espressif ESP32-C6-MINI-1: V_DD33 3,0-3,6 V
+MODULE_VDD33_MAX_V = 3.6
+
+# --- TPS3839G33 (TI, C485802), Datenblatt SBVS193D -------------------------
+TPS3839_VIT_MIN_V, TPS3839_VIT_MAX_V = 3.003, 3.126   # negativ, S. 7
+TPS3839_VIT_NOM_V = 3.08        # im Projekt verwendeter Wert
+TPS3839_HYST_V = 0.031          # Hysterese 31 mV
+TPS3839_IQ_TYP_UA, TPS3839_IQ_MAX_UA = 0.15, 0.5      # Iq 150 nA typ / 500 nA max
+TPS3839_VDD_MIN_V, TPS3839_VDD_MAX_V = 0.9, 6.5       # V_DD-Bereich
+TPS3839_VOL_V = 0.4             # V_OL <= 0,4 V bei I_OL = 2 mA (2,8-6,5 V)
+TPS3839_IOL_A = 2e-3            # Ausgangsstrom 2 mA
+TPS3839_VOH_DROP_V = 0.4        # V_OH >= V_DD - 0,4 V
+TPS3839_RESET_DELAY_MS = 200.0  # Reset-Delay 200 ms
+WATCHDOG_TRIP_MIN_V, WATCHDOG_TRIP_MAX_V = 6.0, 6.6   # Ziel: 2 x 3,0 .. 2 x 3,3 V
+
+# --- 1N5819WS (C191023) -----------------------------------------------------
+DIODE_VF_SCHOTTKY_V = 0.3       # Flussspannung bei kleinem Strom (Auslegung)
+
+# --- ADC (Espressif ESP32-C6) ----------------------------------------------
+ADC_MIN_USEFUL_MV = 1000.0      # Aufloesungsreserve am unteren Ende
+
+# ===========================================================================
+# Annahmen des Modells (keine Datenblattwerte), zentral in circuit.ASSUMPTIONS
+# ===========================================================================
+EN_INPUT_LEAK_UA = circuit.ASSUMPTIONS.get("en_input_leak_ua", 0.0)
+
 # Datenblatt-Fakten zum ESP32-C6 (als Konstanten mit Quelle hart verdrahtet).
 # Espressif ESP32-C6-Datenblatt: LP-/RTC-GPIOs sind GPIO0 bis GPIO7.
 LP_GPIO_MIN, LP_GPIO_MAX = 0, 7
-# Espressif-Modul-Datenblatt: "Strapping pin: GPIO8 and GPIO9 · MTMS and MTDI",
-# "GPIO15". MTMS = GPIO4, MTDI = GPIO5, dazu GPIO8, GPIO9 und GPIO15.
-# Achtung: "Strapping" != "boot-kritisch". IO4/IO5 sind nur SDIO-Strap
-# (Flankenneigung) und beeinflussen den Boot NICHT.
+# Strapping-Pins: GPIO8/GPIO9 (Boot-Modus) und GPIO15 (JTAG-Quelle), dazu
+# IO4/IO5 (nur SDIO-Strap, nicht boot-kritisch).
 STRAPPING_GPIOS = frozenset({4, 5, 8, 9, 15})
-
-# Boot-kritische Strapping-Pins des ESP32-C6. Nur diese duerfen NICHT fuer
-# Sensor oder Pumpe verwendet werden: GPIO8/GPIO9 bestimmen den Boot-Modus
-# (nur 8=0 UND 9=0 ist ungueltig), GPIO15 waehlt die JTAG-Quelle (mit den
-# Default-eFuses wirkungslos).
 BOOT_CRITICAL_STRAPPING_GPIOS = frozenset({8, 9, 15})
 
 # Modulpin der ESP32-C6-MINI-1 fuer die Erweiterungspins (aus dem Modulsymbol
-# bzw. dem Espressif-Datenblatt, Pin-Tabelle).
+# bzw. dem Espressif-Datenblatt, Pin-Tabelle).  IO22 ist seit 15.09.2026 keine
+# Reserve mehr, sondern PUMP2_EN (Sauerstoffpumpe) -> kein Eintrag.
 EXT_IO_PIN = {
     0: 12,   # ADC1_CH0, J2 Feuchtesensor
     4: 9,    # ADC1_CH4, J7 Lichtsensor
@@ -42,14 +96,13 @@ EXT_IO_PIN = {
     19: 25,  # I2C SCL
     20: 26,  # Load-Switch-Eingang (WPU beim Reset)
     21: 27,  # J13 Reserve-Digital
-    22: 28,  # J14 Reserve-Digital
     23: 29,  # J15 Reserve-Digital
     16: 31,  # TXD0
     17: 30,  # RXD0
 }
 
-# 3-polige Sensor-/Reserve-Stecker mit der Ordnung GND-VCC-SIG:
-# Stecker -> (Signalnetz an Pin 3, erwartetes Versorgungsnetz an Pin 2).
+# 3-polige Sensor-/Reserve-Stecker mit der Ordnung GND-VCC-SIG.
+# J14 ist seit 15.09.2026 entfernt (IO22 = PUMP2_EN/J16).
 DREIPOL_STECKER = {
     "J2": ("SENSOR_RAW", "SENSOR_PWR"),
     "J7": ("LIGHT_RAW", "SENSOR_PWR"),
@@ -58,7 +111,6 @@ DREIPOL_STECKER = {
     "J11": ("SPARE_IO16", "VCC_EXT"),
     "J12": ("SPARE_IO17", "VCC_EXT"),
     "J13": ("SPARE_IO21_RAW", "VCC_EXT"),
-    "J14": ("SPARE_IO22_RAW", "VCC_EXT"),
     "J15": ("SPARE_IO23_RAW", "VCC_EXT"),
 }
 
@@ -66,8 +118,7 @@ DREIPOL_STECKER = {
 I2C_STECKER = "J8"
 
 # Signaleingang am Stecker -> (Stecker, Signalpin, Serien-R, Steckernetz,
-# MCU-Netz, erwartete IO-Nummer). Der Serienwiderstand muss zwischen Stecker
-# und MCU liegen.
+# MCU-Netz, erwartete IO-Nummer).  J14 entfaellt (15.09.2026).
 SERIEN_EINGAENGE = (
     ("J2", "3", "R6", "SENSOR_RAW", "SENSOR_AOUT", 0),
     ("J7", "3", "R_LIGHT_S", "LIGHT_RAW", "LIGHT_AOUT", 4),
@@ -76,23 +127,40 @@ SERIEN_EINGAENGE = (
     ("J11", "3", "R_SPARE_IO16", "SPARE_IO16", "UART_TX", 16),
     ("J12", "3", "R_SPARE_IO17", "SPARE_IO17", "UART_RX", 17),
     ("J13", "3", "R_SPARE_IO21", "SPARE_IO21_RAW", "SPARE_IO21", 21),
-    ("J14", "3", "R_SPARE_IO22", "SPARE_IO22_RAW", "SPARE_IO22", 22),
     ("J15", "3", "R_SPARE_IO23", "SPARE_IO23_RAW", "SPARE_IO23", 23),
     ("J8", "3", "R_SDA_S", "SDA", "SDA_MCU", 18),
     ("J8", "4", "R_SCL_S", "SCL", "SCL_MCU", 19),
 )
 
 # IO20 soll beim Reset einen internen Weak-Pull-up haben (Espressif
-# ESP32-C6-Datenblatt, Abschnitt Strapping/Reset). Der Wert steht als Konstante
-# hier, damit die Aussage an einer Stelle dokumentiert und pruefbar ist.
+# ESP32-C6-Datenblatt, Abschnitt Strapping/Reset).
 IO20_WPU_AT_RESET = True
 
 # Typische Flussspannung der 0805-LEDs je LCSC-Code (Datenblattwerte).
-# C84256: NATIONSTAR NCD0805R1, rot, 615-630 nm -> Vf ca. 2,0 V
-# C2297:  KENTO KT-0805G, gruen, 525 nm (InGaN) -> Vf ca. 2,85 V
 LED_VF_BY_LCSC = {
-    "C84256": 2.0,
-    "C2297": 2.85,
+    "C84256": 2.0,    # NATIONSTAR NCD0805R1, rot, 615-630 nm
+    "C2297": 2.85,    # KENTO KT-0805G, gruen, 525 nm (InGaN)
+}
+
+# Aktive Bauteile auf dem VBAT-Netz mit ihrer Datenblatt-Eingangsspannung
+# (V_IN,max).  Fehlt ein Bauteil hier und ist es kein zugelassenes Passiv, ist
+# es ein harter Fehler -- genau die ME6211-Lektion (V_IN,max 6,0 V, Review §5
+# Befund 4).
+VBAT_IC_VIN_MAX = {
+    "U_CHG": (IP2326_VIN_MAX_V, "IP2326 S. 3: Eingang 4,5-9,5 V (VOUT erzeugt 8,4 V)"),
+    "U_BUCK5": (BUCK5_VIN_MAX_V, "SY8113B S. 1: Eingang 4,5-18 V"),
+    "U_BUCK3": (BUCK3_VIN_MAX_V, "AP63203 DS41326: Eingang 3,8-32 V"),
+}
+# Passive/steckbare VBAT-Teilnehmer (Widerstaende, Kondensatoren, Stecker, TP).
+VBAT_PASSIV = frozenset({
+    "C_CHG_OUT", "J1", "TP4", "C_B5_IN", "C_B5_IN_HF",
+    "C_B3_IN", "C_B3_IN_HF", "R3a", "R_SENSE_TOP",
+})
+
+# Woertliche Belegstellen der SYSTEM-Zahlen (Datei -> Pfad).
+_SYSTEM_FILES = {
+    "schaltplan_v1.md": circuit.SCHEMATIC_PATH,
+    "bom_entscheidung.md": circuit.BOM_DECISION_PATH,
 }
 
 
@@ -137,6 +205,7 @@ def _pins_of(designator):
 
     Pin-Nummern werden auf die fuehrende Ziffer reduziert ("3 Drain" -> "3",
     "24 IO18" -> "24"), damit Stecker- und Halbleiterpins vergleichbar sind.
+    Nicht-numerische Pins (z. B. "Anode") bleiben als Name erhalten.
     """
     result = {}
     for net, nodes in circuit.load_netlist().items():
@@ -150,11 +219,7 @@ def _pins_of(designator):
 
 
 def _u1_pin_on_net(net):
-    """Modulpin-Nummer des U1-Pins auf einem Netz, sonst Fehler.
-
-    Robuster als :func:`_u1_io_on_net`, weil auch TXD0/RXD0 (IO16/IO17) keine
-    IO-Nummer im Pin-Namen tragen.
-    """
+    """Modulpin-Nummer des U1-Pins auf einem Netz, sonst Fehler."""
     for comp, pin in circuit.load_netlist().get(net, []):
         if comp == "U1":
             m = re.match(r"\s*([0-9]+)\b", pin.strip())
@@ -198,210 +263,452 @@ def _light_counts_at(lux, r_load):
     return min(i * r_load, vref) / vref * circuit.ADC_COUNTS_12BIT
 
 
-def check_ladestrom():
-    """MCP73831: I = 1000 / R_PROG[kΩ], Ziel 180-350 mA."""
-    r_prog = circuit.parse_ohm(circuit.part("R_PROG")["value"])
-    i_ma = 1000.0 / (r_prog / 1000.0)
-    led = ("MCP73831-Datenblatt: RPROG 10 kΩ → 100 mA, 2 kΩ → 500 mA; "
-           "I = 1000/RPROG[kΩ]")
+def _uvlo_trip(sys=None):
+    """Ausloesespannung des TPS3839 am 1:2-Teiler (Packspannung)."""
+    sys = sys or circuit.load_system()
+    r3a = circuit.parse_ohm(circuit.part("R3a")["value"])
+    r3b = circuit.parse_ohm(circuit.part("R3b")["value"])
+    iq = sys["iq_watchdog_ua"] * 1e-6
+    return TPS3839_VIT_NOM_V * (1.0 + r3a / r3b) + iq * r3a
+
+
+# ===========================================================================
+# Neue Pruefungen (2S)
+# ===========================================================================
+
+def check_ladestrom_ip2326():
+    """IP2326: ICHG = 90000/R_ISET, Grenze 1,5 A und 1 C des Packs."""
+    r_iset = circuit.parse_ohm(circuit.part("R_ISET")["value"])
+    sys = circuit.load_system()
+    i_chg = IP2326_ICHG_K / r_iset
+    c_rate = sys["pack_capacity_mah"] / 1000.0
+    ok = i_chg <= IP2326_ICHG_MAX_A and i_chg <= c_rate
     return CheckResult(
-        "Ladestrom", 180.0 <= i_ma <= 350.0,
-        "%s (R_PROG %s)" % (_f(i_ma, 1, "mA"), _f(r_prog / 1000.0, 1, "kΩ")),
-        "180-350 mA", led)
+        "Ladestrom IP2326", ok,
+        "%s (R_ISET %s)" % (_f(i_chg, 2, "A"), _f(r_iset / 1000.0, 0, "kΩ")),
+        "<= 1,5 A und <= 1 C = %s" % _f(c_rate, 2, "A"),
+        "IP2326-Datenblatt V1.11: ICHG = 90000/R_ISET[Ohm] (S. 11); "
+        "Grenze 1,5 A (§7, S. 4); ISET darf nicht offen bleiben (§4); "
+        "Li-Ion erlaubt 1 C (Review §4.1)")
 
 
-def check_laderkondensatoren():
-    """MCP73831: Ein-/Ausgang mindestens 4,7 uF."""
-    c7 = circuit.parse_farad(circuit.part("C7")["value"])
-    c8 = circuit.parse_farad(circuit.part("C8")["value"])
-    limit = 4.7e-6
+def check_ladeschluss_2s():
+    """Ladeschluss = 2 x 4,2 V, VSET/CON_SEL offen, keine 8V8-Variante im BOM."""
+    v_target = 2.0 * IP2326_CELL_MAX_V
+    within = abs(v_target - IP2326_VSET_OPEN_V) <= IP2326_VSET_TOL_V
+    bom = circuit.BOM_PATH.read_text(encoding="utf-8") if circuit.BOM_PATH.exists() else ""
+    no_8v8 = "8V8" not in bom and "8v8" not in bom
+    # Pin 3 = VSET (offen ⇒ 8,4 V), Pin 10 = CON_SEL (offen ⇒ 2S).
+    offen = {}
+    for pin_no in ("3", "10"):
+        offen[pin_no] = all(
+            not (comp == "U_CHG" and re.match(r"\s*%s\b" % pin_no, pin))
+            for _net, nodes in circuit.load_netlist().items()
+            for comp, pin in nodes)
+    ok = within and no_8v8 and all(offen.values())
     return CheckResult(
-        "Laderkondensatoren", c7 >= limit and c8 >= limit,
-        "C7 %s, C8 %s" % (_f(c7 * 1e6, 1, "µF"), _f(c8 * 1e6, 1, "µF")),
-        "C7 >= 4,7 µF und C8 >= 4,7 µF",
-        "MCP73831-Datenblatt: Bypass mit mindestens 4,7 µF")
+        "Ladeschluss 2S", ok,
+        "%s (2 x %s), VSET %s, CON_SEL %s, 8V8 im BOM %s"
+        % (_f(v_target, 2, "V"), _f(IP2326_CELL_MAX_V, 1, "V"),
+           "offen" if offen["3"] else "VERDRAHTET",
+           "offen" if offen["10"] else "VERDRAHTET",
+           "nein" if no_8v8 else "JA -> FEHLER"),
+        "8,4 V +-0,1 V, VSET/CON_SEL offen, kein IP2326_8V8",
+        "IP2326 S. 4/S. 5: VSET offen ⇒ 8,4 V (8,3-8,5 V) = 4,2 V/Zelle, "
+        "CON_SEL offen ⇒ 2S (S. 8); IP2326_8V8 waere 8,8 V (4,4 V/Zelle) "
+        "und fuer Li-Ion unzulaessig")
 
 
-def check_max809_klemmstrom():
-    """MAX809-Ausgang nur bis ISINK = 1,2 mA belasten."""
-    r1 = circuit.parse_ohm(circuit.part("R1")["value"])
-    i_ma = (3.0 - 0.3) / r1 * 1000.0
+def check_ladeeingang_strom():
+    """Eingangsstrom aus 5 V: Ladeleistung/eta plus Systemlast."""
+    sys = circuit.load_system()
+    r_iset = circuit.parse_ohm(circuit.part("R_ISET")["value"])
+    i_chg = IP2326_ICHG_K / r_iset
+    i_sys = sys["pump_i_nom_a"] + sys["o2_pump_i_a"]
+    i_in = sys["pack_v_max"] * i_chg / (IP2326_EFF * sys["supply_v"]) + i_sys
+    ok = i_in <= sys["supply_i_a"]
     return CheckResult(
-        "MAX809-Klemmstrom", i_ma <= 1.2,
-        "%s (R1 %s)" % (_f(i_ma, 3, "mA"), _f(r1 / 1000.0, 1, "kΩ")),
-        "<= 1,2 mA",
-        "MAX809-Datenblatt: ISINK = 1,2 mA bei VOL <= 0,3 V; "
-        "I = (3,0 V - 0,3 V)/R1")
+        "Ladeeingangsstrom", ok,
+        "%s (Ladung %s + System %s)"
+        % (_f(i_in, 2, "A"),
+           _f(sys["pack_v_max"] * i_chg / (IP2326_EFF * sys["supply_v"]), 2, "A"),
+           _f(i_sys, 2, "A")),
+        "<= %s (Netzteilannahme)" % _f(sys["supply_i_a"], 1, "A"),
+        "IP2326 S. 1: eta 94 % (5 V->8 V/1 A); I_in = V_out*I_CHG/(eta*V_USB) "
+        "+ Systemlast (beide Pumpen, schaltplan §6.1)")
 
+
+def check_buck5_ausgang():
+    """5-V-Buck SY8113B: V_out = 0,6 V x (1 + R_FB5_TOP/R_FB5_BOT)."""
+    v = circuit.rail_5v()
+    sys = circuit.load_system()
+    nominal = sys["pump_v"]
+    ok = abs(v - nominal) <= 0.05 * nominal
+    return CheckResult(
+        "5-V-Buck-Ausgang", ok,
+        "%s (+-5 %% von %s)" % (_f(v, 3, "V"), _f(nominal, 1, "V")),
+        "5,0 V +-5 %",
+        "SY8113B-Datenblatt S. 1/S. 2: V_REF 0,6 V +-1,5 %, "
+        "V_out = 0,6 x (1 + R_FB5_TOP/R_FB5_BOT); Pumpennennspannung 5 V")
+
+
+def check_buck3_ausgang():
+    """3,3-V-Buck AP63203: V_out = 0,8 V x (1 + R_FB3_TOP/R_FB3_BOT)."""
+    v = circuit.rail_3v3()
+    ok = MODULE_VDD33_MIN_V <= v <= MODULE_VDD33_MAX_V
+    return CheckResult(
+        "3,3-V-Buck-Ausgang", ok,
+        "%s" % _f(v, 3, "V"),
+        "3,0 V bis 3,6 V (Modul)",
+        "AP63203-Datenblatt DS41326: V_REF 0,8 V +-1 %, "
+        "V_out = 0,8 x (1 + R_FB3_TOP/R_FB3_BOT); Espressif ESP32-C6-MINI-1: "
+        "V_DD33 3,0-3,6 V")
+
+
+def check_buck5_induktivitaet():
+    """Rippelstrom und Spitzenstrom des 5-V-Bucks bei Last bis 3 A."""
+    l = circuit.parse_henry(circuit.part("L_BUCK5")["desc"])
+    isat = circuit.parse_ampere(circuit.part("L_BUCK5")["value"])
+    sys = circuit.load_system()
+    v_out = circuit.rail_5v()
+    i_last = sys["pump_i_inrush_a"]
+    ok = i_last <= BUCK5_IOUT_MAX_A
+    teile = []
+    for v_in in (sys["pack_v_max"], _uvlo_trip(sys)):
+        d = v_out / v_in
+        di = (v_in - v_out) * d / (l * BUCK5_FSW_HZ)
+        i_peak = i_last + di / 2.0
+        teile.append("Vin %s: dI %s, I_peak %s"
+                     % (_f(v_in, 2, "V"), _f(di, 2, "A"), _f(i_peak, 2, "A")))
+        ok = ok and i_peak < isat
+    return CheckResult(
+        "5-V-Buck-Induktivitaet", ok,
+        "%s (I_Last %s, Isat %s); %s"
+        % (_f(l * 1e6, 1, "µH"), _f(i_last, 1, "A"), _f(isat, 1, "A"),
+           "; ".join(teile)),
+        "I_peak < Isat 4,0 A und I_Last <= 3 A",
+        "PRS6045-Datenblatt: L_BUCK5 4,7 µH, Isat 4,0 A; SY8113B S. 1: 3 A, "
+        "500 kHz; dI = (Vin-Vout)*D/(L*f) mit D = Vout/Vin; "
+        "I_Last = Pumpenanlauf 3 A (bom §4c)")
+
+
+def check_buck3_induktivitaet():
+    """Rippelstrom und Spitzenstrom des 3,3-V-Bucks bei 1,1 MHz."""
+    l = circuit.parse_henry(circuit.part("L_BUCK3")["desc"])
+    isat = circuit.parse_ampere(circuit.part("L_BUCK3")["value"])
+    sys = circuit.load_system()
+    v_out = circuit.rail_3v3()
+    i_last = sys["module_tx_peak_ma"] / 1000.0
+    ok = True
+    teile = []
+    for v_in in (sys["pack_v_max"], _uvlo_trip(sys)):
+        d = v_out / v_in
+        di = (v_in - v_out) * d / (l * BUCK3_FSW_HZ)
+        i_peak = i_last + di / 2.0
+        teile.append("Vin %s: dI %s, I_peak %s"
+                     % (_f(v_in, 2, "V"), _f(di, 2, "A"), _f(i_peak, 2, "A")))
+        ok = ok and i_peak < isat
+    return CheckResult(
+        "3,3-V-Buck-Induktivitaet", ok,
+        "%s (I_Last TX-Peak %s, Isat %s); %s"
+        % (_f(l * 1e6, 1, "µH"), _f(i_last, 3, "A"), _f(isat, 1, "A"),
+           "; ".join(teile)),
+        "I_peak < Isat 4,0 A",
+        "PRS6045-Datenblatt: L_BUCK3 4,7 µH, Isat 4,0 A; AP63203 DS41326: "
+        "2 A, 1,1 MHz; I_Last = Modul-TX-Peak 382 mA (Espressif Tab. 6-4)")
+
+
+def check_uvlo_schwelle():
+    """TPS3839-Ausloesung: V_trip = V_IT x (1 + R3a/R3b) + Iq x R3a."""
+    sys = circuit.load_system()
+    r3a = circuit.parse_ohm(circuit.part("R3a")["value"])
+    v_trip = _uvlo_trip(sys)
+    ok = WATCHDOG_TRIP_MIN_V <= v_trip <= WATCHDOG_TRIP_MAX_V
+    return CheckResult(
+        "UVLO-Schwelle", ok,
+        "%s (V_IT %s, R3a %s, Iq %s)"
+        % (_f(v_trip, 3, "V"), _f(TPS3839_VIT_NOM_V, 2, "V"),
+           _f(r3a / 1000.0, 0, "kΩ"), _f(sys["iq_watchdog_ua"], 2, "µA")),
+        "6,0 V bis 6,6 V Pack (2 x 3,0..3,3 V)",
+        "TPS3839 S. 7: V_IT 3,003-3,126 V, Hysterese 31 mV; "
+        "V_trip = V_IT x (1 + R3a/R3b) + Iq x R3a (Teiler 200 k/200 k)")
+
+
+def check_waechter_sinkstrom():
+    """Sinkstrom der beiden Klemmzweige am TPS3839-Ausgang."""
+    sys = circuit.load_system()
+    rail = circuit.rail_3v3()
+    rc1 = circuit.parse_ohm(circuit.part("R_CLAMP1")["value"])
+    rc2 = circuit.parse_ohm(circuit.part("R_CLAMP2")["value"])
+    i1 = (rail - DIODE_VF_SCHOTTKY_V) / rc1
+    i2 = (rail - DIODE_VF_SCHOTTKY_V) / rc2
+    total = i1 + i2 + EN_INPUT_LEAK_UA * 1e-6
+    ok = total <= TPS3839_IOL_A
+    return CheckResult(
+        "Waechter-Sinkstrom", ok,
+        "%s (2 x %s + EN-Leck %s)"
+        % (_f(total * 1000.0, 3, "mA"), _f(i1 * 1000.0, 3, "mA"),
+           _f(EN_INPUT_LEAK_UA, 1, "µA")),
+        "<= 2 mA (I_OL bei V_OL <= 0,4 V)",
+        "TPS3839 Datenblatt SBVS193D, Pin Functions/EC: V_OL <= 0,4 V bei "
+        "I_OL = 2 mA; I = (V_rail - V_F)/R_CLAMP je Zweig; "
+        "EN-Leckstrom ist Annahme (siehe circuit.ASSUMPTIONS)")
+
+
+def check_adc_teiler_max():
+    """ADC-Teiler R_SENSE_TOP/BOT: Spannung an IO1 im ganzen Packbereich."""
+    sys = circuit.load_system()
+    r_top = circuit.parse_ohm(circuit.part("R_SENSE_TOP")["value"])
+    r_bot = circuit.parse_ohm(circuit.part("R_SENSE_BOT")["value"])
+    v_ref = sys["adc_vref_mv"] / 1000.0
+    v_max = sys["pack_v_max"] * r_bot / (r_top + r_bot)
+    v_min = sys["pack_v_min"] * r_bot / (r_top + r_bot)
+    ok = v_max <= v_ref and (v_min * 1000.0) >= ADC_MIN_USEFUL_MV
+    return CheckResult(
+        "ADC-Teiler Packspannung", ok,
+        "8,4 V -> %s, 6,0 V -> %s (V_ref %s)"
+        % (_f(v_max, 3, "V"), _f(v_min, 3, "V"), _f(v_ref, 2, "V")),
+        "<= 3,3 V und >= 1,0 V",
+        "Espressif ESP32-C6 ADC1: 12 Bit, ADC_ATTEN_DB_12 = 0..3300 mV; "
+        "V_ADC = VBAT x R_bot/(R_top+R_bot), Teiler 200 k/68 k")
+
+
+def check_buck_en_pegel():
+    """High-Pegel des Waechter-Ausgangs gegen die EN-Schwelle des 5-V-Bucks."""
+    sys = circuit.load_system()
+    v_dd = _uvlo_trip(sys) / 2.0   # UV_REF = VBAT/2 am Freigabepunkt
+    v_oh = v_dd - TPS3839_VOH_DROP_V
+    ok = v_oh > BUCK5_EN_HIGH_V
+    return CheckResult(
+        "Buck-EN-Pegel", ok,
+        "V_OH %s (V_DD %s - 0,4 V)" % (_f(v_oh, 2, "V"), _f(v_dd, 2, "V")),
+        "> 1,5 V (EN High)",
+        "TPS3839 SBVS193D: V_OH >= V_DD - 0,4 V (Push-Pull); "
+        "SY8113B: EN-High-Schwelle 1,5 V, 'Do not float'")
+
+
+def check_klemmzweig_serie():
+    """Klemmzweig muss Serie sein: GATE -> R_CLAMP -> D -> RESET_UV."""
+    sys = circuit.load_system()
+    teile = []
+    ok = True
+    for r_des, d_des, gate, knot in (
+            ("R_CLAMP1", "D3", "GATE", "KLAMP1"),
+            ("R_CLAMP2", "D8", "GATE2", "KLAMP2")):
+        r_nets = set(_nets_of(r_des))
+        d_nets = set(_nets_of(d_des))
+        d_pins = _pins_of(d_des)
+        serie = r_nets == {gate, knot} and d_nets == {knot, "RESET_UV"}
+        richtung = (d_pins.get("Anode") == knot
+                    and d_pins.get("Kathode") == "RESET_UV")
+        good = serie and richtung
+        ok = ok and good
+        teile.append("%s: %s (%s->%s, %s); %s: Anode %s, Kathode %s (%s)"
+                     % (gate, "OK" if r_nets == {gate, knot} else "FEHLER",
+                        gate, knot, "/".join(sorted(r_nets)),
+                        d_des, d_pins.get("Anode"), d_pins.get("Kathode"),
+                        "OK" if richtung else "FEHLER"))
+    return CheckResult(
+        "Klemmzweig-Serie", ok, "; ".join(teile),
+        "GATE->R_CLAMP1->D3->RESET_UV und GATE2->R_CLAMP2->D8->RESET_UV (Serie)",
+        "Review 2S-Umbau §5 Befund 1: im Altstand lagen R_CLAMPx PARALLEL zu "
+        "Dx, der Knoten hing an keinem Gate -> Klemmung wirkungslos. "
+        "Prueft die Netze und die Diodenrichtung (Anode am Knoten, "
+        "Kathode an RESET_UV)")
+
+
+def check_kein_low_vin_am_vbat():
+    """Kein Bauteil mit zu kleiner Eingangsspannung auf dem VBAT-Netz."""
+    sys = circuit.load_system()
+    v_max = sys["pack_v_max"]
+    comps = sorted({comp for comp, _pin in circuit.parts_on("VBAT")})
+    findings = []
+    for comp in comps:
+        if comp in VBAT_IC_VIN_MAX:
+            limit = VBAT_IC_VIN_MAX[comp][0]
+            if limit < v_max:
+                findings.append("%s V_IN,max %s V < %s V"
+                                % (comp, _f(limit, 1, "V"), _f(v_max, 1, "V")))
+        elif comp in VBAT_PASSIV or comp.startswith(circuit.ONE_PIN_OK_PREFIX):
+            continue
+        else:
+            findings.append("%s nicht als VBAT-tauglich gelistet" % comp)
+    ok = not findings
+    return CheckResult(
+        "VBAT-Spannungsfestigkeit", ok,
+        "%d Teilnehmer: %s%s"
+        % (len(comps), ", ".join(comps),
+           "" if ok else " -> " + "; ".join(findings)),
+        "nur zugelassene Teilnehmer, V_IN,max >= 8,4 V",
+        "ME6211-Lektion (V_IN,max 6,0 V) aus Review §5 Befund 4: passive "
+        "VBAT-Teilnehmer sind gelistet, aktive werden gegen ihre "
+        "Datenblatt-Eingangsspannung geprueft (IP2326 9,5 V, SY8113B 18 V, "
+        "AP63203 32 V)")
+
+
+def check_standby_budget():
+    """Ruhestrom im Deep-Sleep und Tagesverbrauch; Lichtsensor geschaltet."""
+    sys = circuit.load_system()
+    r3a = circuit.parse_ohm(circuit.part("R3a")["value"])
+    r3b = circuit.parse_ohm(circuit.part("R3b")["value"])
+    r_top = circuit.parse_ohm(circuit.part("R_SENSE_TOP")["value"])
+    r_bot = circuit.parse_ohm(circuit.part("R_SENSE_BOT")["value"])
+    uvlo_ua = sys["pack_v_max"] / (r3a + r3b) * 1e6
+    adc_ua = sys["pack_v_max"] / (r_top + r_bot) * 1e6
+    total_ua = (sys["module_sleep_ua"] + sys["iq_buck5_ua"] + sys["iq_buck3_ua"]
+                + sys["iq_watchdog_ua"] + uvlo_ua + adc_ua)
+    mah_day = total_ua / 1000.0 * 24.0
+    # Lichtsensor haengt an SENSOR_PWR (IO3, im Deep-Sleep aus) -> 0 µA.
+    j7_net = circuit.net_of("J7", "2")
+    switched = j7_net == "SENSOR_PWR"
+    ok = total_ua <= 250.0 and switched
+    return CheckResult(
+        "Standby-Budget", ok,
+        "%s, %s/Tag; Lichtsensor an %s %s"
+        % (_f(total_ua, 1, "µA"), _f(mah_day, 2, "mAh"),
+           j7_net, "geschaltet" if switched else "DAUERHAFT -> FEHLER"),
+        "<= 250 µA; Sensor an SENSOR_PWR",
+        "Datenblaetter: SY8113B Iq 100 µA, AP63203 22 µA, TPS3839 0,15 µA "
+        "(schaltplan §6.2) + Teiler 21/31,4 µA + Modul 7 µA; "
+        "Lichtsensor an geschaltetem SENSOR_PWR")
+
+
+def check_system_quellen():
+    """Jede Zahl des SYSTEM-Blocks steht woertlich in ihrer Quelldatei."""
+    missing = []
+    for entry in circuit.system_quellen():
+        path = _SYSTEM_FILES.get(entry.datei)
+        if path is None or not path.exists():
+            missing.append("%s: Datei %s fehlt" % (entry.key, entry.datei))
+            continue
+        text = path.read_text(encoding="utf-8")
+        if entry.beleg not in text:
+            missing.append("%s: %r nicht in %s"
+                           % (entry.key, entry.beleg, entry.datei))
+    ok = not missing
+    return CheckResult(
+        "Systemquellen", ok,
+        "%d Systemwerte belegt" % len(circuit.system_quellen()) if ok
+        else "; ".join(missing),
+        "jeder SYSTEM-Wert hat sein woertliches Belegfragment in der Datei",
+        "Regel: Systemgroessen stammen ausschliesslich aus den Dokumenten. "
+        "Prueft fuer jeden Eintrag den Belegtext in schaltplan_v1.md bzw. "
+        "bom_entscheidung.md")
+
+
+# ===========================================================================
+# Bestehende Pruefungen, auf die 2S-Rails gezogen
+# ===========================================================================
 
 def check_gate_spannung():
     """Gate-Spannung aus dem Teiler R1/R2 im Betrieb."""
     r1 = circuit.parse_ohm(circuit.part("R1")["value"])
     r2 = circuit.parse_ohm(circuit.part("R2")["value"])
-    rail = circuit.load_system()["rail_3v3"]
+    rail = circuit.rail_3v3()
     v = rail * r2 / (r1 + r2)
     return CheckResult(
         "Gate-Spannung", v >= 2.5 and v > 1.45,
         "%s (%.0f %% von %s)" % (_f(v, 2, "V"), r2 / (r1 + r2) * 100.0,
-                                 _f(rail, 1, "V")),
+                                 _f(rail, 2, "V")),
         ">= 2,5 V und > 1,45 V",
         "AO3400A-Datenblatt: RDS(on) bei VGS = 2,5 V spezifiziert, "
-        "VGS(th) max = 1,45 V")
+        "VGS(th) max = 1,45 V; Rail aus dem AP63203-Feedback")
 
 
 def check_mosfet_verlust():
-    """Leitverluste des Pumpen-MOSFET Q1."""
-    i_pump = circuit.load_system()["pump_current_a"]
+    """Leitverluste des Pumpen-MOSFET Q1 im Nennbetrieb."""
+    i_pump = circuit.load_system()["pump_i_nom_a"]
     rds_on = 0.048  # AO3400A-Datenblatt: < 48 mΩ bei VGS = 2,5 V
     p = i_pump * i_pump * rds_on
     return CheckResult(
         "MOSFET-Verlustleistung", p <= 0.25,
-        "%s (I %s, RDS(on) 48 mΩ)" % (_f(p * 1000.0, 1, "mW"),
-                                      _f(i_pump * 1000.0, 0, "mA")),
-        "<= 0,25 W",
-        "AO3400A-Datenblatt: 48 mΩ bei VGS = 2,5 V; P = I_pump² · RDS(on)")
+        "%s (I %s, RDS(on) 48 mΩ)"
+        % (_f(p * 1000.0, 1, "mW"), _f(i_pump * 1000.0, 0, "mA")),
+        "<= 0,25 W (Nennbetrieb)",
+        "AO3400A-Datenblatt: 48 mΩ bei VGS = 2,5 V; P = I_pump² · RDS(on); "
+        "I_pump = 0,4 A (Pumpennennstrom); der 3-A-Anlauf ist transient "
+        "(~100 ms, Review §4.4)")
 
 
 def check_freilaufdiode():
     """Freilaufdiode D1: Stromreserve und Sperrspannung."""
     sys = circuit.load_system()
-    i_pump = sys["pump_current_a"]
-    if_a = sys["diode_if_a"]
-    vrrm = sys["diode_vrrm"]
-    vbat_max = sys["charge_voltage"]
+    d1 = circuit.part("D1")["value"]
+    i_pump = sys["pump_i_nom_a"]
+    if_a = circuit.parse_ampere(d1)
+    vrrm = circuit.parse_volt(d1)
+    vbat_max = sys["pack_v_max"]
     ok = i_pump <= 0.5 * if_a and vrrm >= 4.0 * vbat_max
     return CheckResult(
         "Freilaufdiode", ok,
         "I %s (<= 50 %% von %s), VRRM %s (>= 4 x %s)"
         % (_f(i_pump * 1000.0, 0, "mA"), _f(if_a, 1, "A"),
            _f(vrrm, 0, "V"), _f(vbat_max, 1, "V")),
-        "I_pump <= 0,5 A und VRRM >= 4 x VBAT_max",
+        "I_pump <= 0,5 A und VRRM >= 4 x VBAT_max (8,4 V)",
         "1N5819WS-Datenblatt: 1 A / 40 V; Stromreserve und Spannungsreserve "
-        "fuer die Induktivitaet der Pumpe")
-
-
-def check_vbat_teiler():
-    """ADC-Spannung am VBAT-Teiler R3a/R3b (11 dB-Bereich)."""
-    sys = circuit.load_system()
-    r3a = circuit.parse_ohm(circuit.part("R3a")["value"])
-    r3b = circuit.parse_ohm(circuit.part("R3b")["value"])
-    vbat_max = sys["charge_voltage"]
-    v = vbat_max * r3b / (r3a + r3b)
-    return CheckResult(
-        "VBAT-Teiler", 1.25 <= v <= 2.5,
-        "%s bei VBAT %s" % (_f(v, 2, "V"), _f(vbat_max, 2, "V")),
-        "1,25 V bis 2,5 V",
-        "Espressif-ADC (11 dB): Messbereich bis ca. 2,5 V; "
-        "Teiler 1:2 haelt VBAT_max darunter")
+        "fuer die Induktivitaet der Pumpe (Freilauf gegen +5V)")
 
 
 def check_teilerstrom():
-    """Ruhestrom des VBAT-Teilers."""
+    """Ruhestrom beider Spannungsteiler (Waechter 1:2 + ADC 1:3,94)."""
     sys = circuit.load_system()
     r3a = circuit.parse_ohm(circuit.part("R3a")["value"])
     r3b = circuit.parse_ohm(circuit.part("R3b")["value"])
-    i_ua = sys["charge_voltage"] / (r3a + r3b) * 1e6
+    r_top = circuit.parse_ohm(circuit.part("R_SENSE_TOP")["value"])
+    r_bot = circuit.parse_ohm(circuit.part("R_SENSE_BOT")["value"])
+    uvlo_ua = sys["pack_v_max"] / (r3a + r3b) * 1e6
+    adc_ua = sys["pack_v_max"] / (r_top + r_bot) * 1e6
+    total = uvlo_ua + adc_ua
     return CheckResult(
-        "Teilerstrom", i_ua <= 15.0,
-        "%s bei %s" % (_f(i_ua, 1, "µA"), _f(sys["charge_voltage"], 2, "V")),
-        "<= 15 µA",
-        "Standby-Budget: Teiler dominiert den Ruheverbrauch; "
-        "I = VBAT_max/(R3a+R3b)")
-
-
-def check_ldo_reserve():
-    """LDO-Ausgangsstrom gegen den WLAN-TX-Peak."""
-    sys = circuit.load_system()
-    ldo_ma = sys["ldo_current_a"] * 1000.0
-    tx_ma = sys["tx_peak_ma"]
-    return CheckResult(
-        "LDO-Stromreserve", ldo_ma >= 1.1 * tx_ma,
-        "%s (>= 1,1 x %s)" % (_f(ldo_ma, 0, "mA"), _f(tx_ma, 0, "mA")),
-        "ME6211 500 mA >= 1,1 x TX-Peak",
-        "Espressif-Datenblatt Tab. 6-4: 382 mA TX-Peak, "
-        "Espressif fordert >= 500 mA Regler")
-
-
-def check_ldo_headroom():
-    """LDO-Headroom bei niedriger Zellspannung."""
-    sys = circuit.load_system()
-    vbat_low = sys["firmware_stop_v"]
-    dropout = 0.3  # ME6211-Datenblatt: Dropout ca. 0,3 V bei hohem Strom
-    v_min_module = 3.0  # Espressif: Modul-Minimum 3,0 V
-    v = vbat_low - dropout
-    return CheckResult(
-        "LDO-Headroom", v >= v_min_module,
-        "%s bei VBAT %s (Dropout %s)"
-        % (_f(v, 2, "V"), _f(vbat_low, 1, "V"), _f(dropout, 1, "V")),
-        "VBAT - Dropout >= 3,0 V",
-        "Espressif: Modul-Minimum 3,0 V; ME6211-Dropout ca. 0,3 V")
+        "Teilerstrom", total <= 60.0,
+        "Waechter %s + ADC %s = %s bei %s"
+        % (_f(uvlo_ua, 1, "µA"), _f(adc_ua, 1, "µA"),
+           _f(total, 1, "µA"), _f(sys["pack_v_max"], 1, "V")),
+        "<= 60 µA (beide Teiler zusammen)",
+        "Teiler duerfen im Standby-Budget (250 µA) nur ein Teilbudget "
+        "verbrauchen; I = VBAT_max/(R_top+R_bot) je Teiler "
+        "(schaltplan §6.2: 21 + 31,4 µA)")
 
 
 def check_uv_staffelung():
-    """Die Unterspannungsschwellen muessen monoton fallen."""
+    """Die Unterspannungsschwellen muessen monoton fallen (Packspannung)."""
     sys = circuit.load_system()
-    fw = sys["firmware_stop_v"]
-    m809 = sys["max809_v"]
-    pcm = sys["pcm_v"]
+    fw = 2.0 * sys["cell_firmware_stop_v"]
+    trip = _uvlo_trip(sys)
+    pcm = 2.0 * sys["cell_pcm_v"]
     return CheckResult(
-        "Unterspannungsstaffelung", fw > m809 > pcm,
-        "Firmware %s > MAX809 %s > PCM %s"
-        % (_f(fw, 2, "V"), _f(m809, 2, "V"), _f(pcm, 1, "V")),
-        "Firmware > MAX809 > PCM",
-        "Firmware stoppt zuerst, dann Hardware, zuletzt die Zelle "
-        "(bom_entscheidung.md 4b)")
-
-
-def check_standby_budget():
-    """Ruhestrom und Monatsverbrauch im Deep-Sleep; Lichtsensor geschaltet."""
-    sys = circuit.load_system()
-    # Der Lichtsensor haengt an SENSOR_PWR (IO3, im Deep-Sleep aus) und traegt
-    # deshalb nichts zum Ruhestrom bei. An +3V3 wuerde er das Budget sprengen.
-    # Pinordnung seit 13.09.2026: GND-VCC-SIG, VCC liegt auf Pin 2.
-    j7_net = circuit.net_of("J7", "2")
-    switched = j7_net == "SENSOR_PWR"
-    light_ua = 0.0  # nur waehrend der Messung; SENSOR_PWR ist im Sleep aus
-    total_ua = (sys["module_sleep_ua"] + sys["ldo_quiescent_ua"]
-                + sys["max809_quiescent_ua"] + sys["divider_current_ua"]
-                + light_ua)
-    monthly_mah = total_ua / 1000.0 * 24.0 * 30.0
-    ok = (total_ua <= 100.0 and monthly_mah <= 0.05 * sys["battery_mah"]
-          and switched)
-    return CheckResult(
-        "Standby-Budget", ok,
-        "%s, %s/Monat (%s der Zelle); Lichtsensor an %s %s (+%s)"
-        % (_f(total_ua, 1, "µA"), _f(monthly_mah, 1, "mAh"),
-           _f(monthly_mah / sys["battery_mah"] * 100.0, 2, "%"),
-           j7_net, "geschaltet" if switched else "DAUERHAFT -> FEHLER",
-           _f(light_ua, 1, "µA")),
-        "<= 100 µA und <= 5 %/Monat von 1500 mAh, Sensor an SENSOR_PWR",
-        "Summe Modul 7 µA + LDO 40 µA + MAX809 12 µA + Teiler 10,5 µA "
-        "(schaltplan_v1.md 6.3); Lichtsensor an geschaltetem SENSOR_PWR "
-        "=> 0 µA im Deep-Sleep")
+        "Unterspannungsstaffelung", fw > trip > pcm,
+        "Firmware %s > Waechter %s > PCM %s"
+        % (_f(fw, 2, "V"), _f(trip, 2, "V"), _f(pcm, 1, "V")),
+        "Firmware > TPS3839 (6,16 V) > PCM",
+        "Firmware stoppt zuerst, dann Hardware, zuletzt die Zelle. "
+        "1S-Schwellen aus bom §4b (3,4 V / 2,5 V) auf 2S = x2 gerechnet "
+        "(Auftrag in schaltplan §4)")
 
 
 def check_adc_filter():
-    """RC-Zeitkonstanten der ADC-Kanaele (Feuchte, VBAT, Reserve-Analog)."""
+    """RC-Zeitkonstanten der ADC-Kanaele (Feuchte, Pack, Reserve-Analog)."""
     r6 = circuit.parse_ohm(circuit.part("R6")["value"])
     c9 = circuit.parse_farad(circuit.part("C9")["value"])
-    r3a = circuit.parse_ohm(circuit.part("R3a")["value"])
-    r3b = circuit.parse_ohm(circuit.part("R3b")["value"])
+    r_top = circuit.parse_ohm(circuit.part("R_SENSE_TOP")["value"])
+    r_bot = circuit.parse_ohm(circuit.part("R_SENSE_BOT")["value"])
     c10 = circuit.parse_farad(circuit.part("C10")["value"])
     r_spare = circuit.parse_ohm(circuit.part("R_SPARE_AIN")["value"])
     c_spare = circuit.parse_farad(circuit.part("C_SPARE")["value"])
     t_sensor = r6 * c9
-    r_par = 1.0 / (1.0 / r3a + 1.0 / r3b)
+    r_par = 1.0 / (1.0 / r_top + 1.0 / r_bot)
     t_vbat = r_par * c10
     t_spare = r_spare * c_spare
     ok = t_sensor <= 5e-3 and t_vbat <= 50e-3 and t_spare <= 5e-3
     return CheckResult(
         "ADC-Filter", ok,
-        "R6·C9 %s, (R3a||R3b)·C10 %s, R_SPARE_AIN·C_SPARE %s"
+        "R6·C9 %s, (R_SENSE_TOP||BOT)·C10 %s, R_SPARE_AIN·C_SPARE %s"
         % (_f(t_sensor * 1000.0, 2, "ms"), _f(t_vbat * 1000.0, 1, "ms"),
            _f(t_spare * 1000.0, 2, "ms")),
-        "R6·C9 <= 5 ms, (R3a||R3b)·C10 <= 50 ms und R_SPARE_AIN·C_SPARE <= 5 ms",
+        "R6·C9 <= 5 ms, (R_SENSE_TOP||BOT)·C10 <= 50 ms und "
+        "R_SPARE_AIN·C_SPARE <= 5 ms",
         "Espressif-ADC: 0,1 µF Filter; Zeitkonstante begrenzt das Einschwingen "
-        "(Reserve-Analog J9 im Muster von SENSOR_AOUT)")
+        "(Packteiler jetzt R_SENSE_TOP/BOT statt R3a/R3b)")
 
 
 def check_light_adc_filter():
@@ -454,7 +761,6 @@ def check_light_open_connector():
                  and r_series.get("LIGHT_RAW") == "1"
                  and r_series.get("LIGHT_AOUT") == "2")
     c_ok = set(c_light) == {"LIGHT_AOUT", "GND"}
-    # Pinordnung seit 13.09.2026: GND-VCC-SIG, das Signal liegt auf Pin 3.
     j7_ok = j7.get("LIGHT_RAW") == "3"
     io, _pin = _u1_io_on_net("LIGHT_AOUT")
     adc_ok = io == 4
@@ -483,8 +789,8 @@ def check_led_stroeme():
     r_chg = circuit.parse_ohm(circuit.part("R_LEDCHG")["value"])
     vf_stat = led_vf("D2")            # gruene Status-LED, C2297
     vf_chg = led_vf("D_LEDCHG")       # rote Lade-LED, C84256
-    vbus = 5.0                        # USB-C-VBUS
-    i_stat = (sys["rail_3v3"] - vf_stat) / r4
+    vbus = sys["supply_v"]
+    i_stat = (circuit.rail_3v3() - vf_stat) / r4
     i_chg = (vbus - vf_chg) / r_chg
     ok = i_stat <= 5e-3 and i_chg <= 5e-3
     return CheckResult(
@@ -495,31 +801,29 @@ def check_led_stroeme():
            _f(vf_chg, 2, "V"), _f(r_chg / 1000.0, 1, "kΩ"),
            _f(i_chg * 1000.0, 2, "mA")),
         "Status- und Lade-LED <= 5 mA",
-        "I = (U - Vf)/R; D2 gruen Vf 2,85 V ueber R4, "
-        "D_LEDCHG rot Vf 2,0 V ueber R_LEDCHG")
+        "I = (U - Vf)/R; D2 gruen Vf 2,85 V ueber R4 an +3V3, "
+        "D_LEDCHG rot Vf 2,0 V ueber R_LEDCHG an VBUS 5 V")
 
 
 def check_tank_led():
     """Tank-LED D5 mit Vorwiderstand R_TANK."""
-    sys = circuit.load_system()
     r_tank = circuit.parse_ohm(circuit.part("R_TANK")["value"])
     vf = led_vf("D5")                 # rote Tank-LED, C84256
-    i = (sys["rail_3v3"] - vf) / r_tank
+    i = (circuit.rail_3v3() - vf) / r_tank
     return CheckResult(
         "Tank-LED", i <= 5e-3,
         "%s bei Vf %s (R_TANK %s)"
         % (_f(i * 1000.0, 2, "mA"), _f(vf, 1, "V"),
            _f(r_tank / 1000.0, 1, "kΩ")),
         "I <= 5 mA, Vf rot ca. 2,0 V",
-        "LED-Vorwiderstand R_TANK; D5 und D_LEDCHG sind die roten "
+        "LED-Vorwiderstand R_TANK an +3V3; D5 und D_LEDCHG sind die roten "
         "0805-LEDs (Vf 2,0 V), D2 ist die gruene")
 
 
 def check_led_headroom():
     """Headroom am 3,3-V-Rail und nutzbares Stromfenster je LED."""
-    sys = circuit.load_system()
-    rail = sys["rail_3v3"]
-    vbus = 5.0                        # USB-C-VBUS an D_LEDCHG
+    rail = circuit.rail_3v3()
+    vbus = circuit.load_system()["supply_v"]
     specs = (
         ("D2", "R4", rail),
         ("D_LEDCHG", "R_LEDCHG", vbus),
@@ -546,8 +850,8 @@ def check_led_headroom():
         "LED-Headroom", ok,
         "; ".join(teile),
         "je LED 3,3 V - Vf >= 0,3 V und 0,5-5 mA",
-        "3,3-V-Rail-Headroom und Stromfenster je LED; Headroom gegen "
-        "die 3,3-V-Schiene, Strom aus der jeweiligen Versorgung "
+        "3,3-V-Rail-Headroom (aus dem AP63203-Feedback) und Stromfenster je "
+        "LED; Strom aus der jeweiligen Versorgung "
         "(D_LEDCHG an 5 V VBUS)")
 
 
@@ -617,8 +921,6 @@ def check_pin_disziplin():
     light_io, light_pin = _u1_io_on_net("LIGHT_AOUT")
     pump_io, pump_pin = _u1_io_on_net("PUMP_EN")
 
-    # Doppelbelegung: dieselbe U1-Pin-Nummer auf zwei Netzen. Aggregat-Zeilen
-    # (GND-Bereiche, VDD33, EPAD) tragen keine einzelne Pin-Nummer.
     pin_nets = defaultdict(set)
     for net, nodes in circuit.load_netlist().items():
         for comp, pin in nodes:
@@ -672,7 +974,7 @@ def check_stecker_pinordnung():
     return CheckResult(
         "Stecker-Pinordnung", ok, "; ".join(teile),
         "Pin 1 = GND, Pin 2 = Versorgung (SENSOR_PWR/VCC_EXT), Pin 3 = Signal "
-        "(J2/J7/J9-J15); J8 = GND-VCC_EXT-SDA-SCL",
+        "(J2/J7/J9-J13/J15); J8 = GND-VCC_EXT-SDA-SCL",
         "3-poliger Stecker: nur der mittlere Pin ist gegen Umdrehen invariant. "
         "VCC auf Pin 2 kann nie 3,3 V auf einen MCU-Pin legen und nie die "
         "Sensorversorgung ueber unsere Masse kurzschliessen. Fehlerfall bei "
@@ -714,7 +1016,7 @@ def check_erweiterung_serienwiderstand():
         "Steckerkabel koennen Fehlerstroeme in die Pins treiben; der Serien-R "
         "begrenzt sie. Gilt fuer Sensor/Licht, I2C (SDA/SCL) und alle "
         "Reserve-Eingaenge (R6, R_LIGHT_S, R_SDA_S, R_SCL_S, R_SPARE_AIN, "
-        "R_SPARE_IO15/16/17/21/22/23)")
+        "R_SPARE_IO15/16/17/21/23); J14 entfaellt")
 
 
 def check_load_switch_failsafe():
@@ -736,8 +1038,6 @@ def check_load_switch_failsafe():
     except circuit.CircuitError:
         io = None
     io_ok = io == 20
-    # Fail-safe: der Pull-up haelt das Gate ohne aktiven GPIO auf dem
-    # Quellpotential (+3V3) -> VGS = 0 -> Q2 sperrt -> VCC_EXT aus.
     failsafe = src_ok and gate_ok and r_ok and val_ok and IO20_WPU_AT_RESET
     ok = src_ok and drain_ok and gate_ok and r_ok and val_ok and io_ok and failsafe
     return CheckResult(
@@ -773,10 +1073,9 @@ def check_erweiterung_pins():
 
     expected = {5: "SPARE_AIN", 15: "SPARE_IO15", 16: "UART_TX", 17: "UART_RX",
                 18: "SDA_MCU", 19: "SCL_MCU", 20: "EXT_EN", 21: "SPARE_IO21",
-                22: "SPARE_IO22", 23: "SPARE_IO23"}
+                23: "SPARE_IO23"}
     zuord_ok = all(pin_net.get(EXT_IO_PIN[io], set()) == {net}
                    for io, net in expected.items())
-    # GPIO8/GPIO9 bleiben auf ihren bestehenden Strapping-Netzen.
     strap_ok = (pin_net.get(22) == {"GPIO8_STRAP"} and pin_net.get(23) == {"BOOT"})
     ok = not dupes and zuord_ok and strap_ok
     return CheckResult(
@@ -784,23 +1083,23 @@ def check_erweiterung_pins():
         "Doppelbelegung %s; Zuordnung %s; GPIO8/9 %s"
         % (", ".join("Pin %d" % p for p in dupes) or "keine",
            "OK" if zuord_ok else "FEHLER", "OK" if strap_ok else "FEHLER"),
-        "kein U1-Pin doppelt, Erweiterungspins wie geplant, GPIO8/GPIO9 "
-        "unveraendert auf ihren Strapping-Netzen",
-        "Mengenpruefung der Netzliste gegen Pin-Doppelbelegung. IO15 waehlt nur "
+        "kein U1-Pin doppelt, Erweiterungspins wie geplant (ohne J14/IO22), "
+        "GPIO8/GPIO9 unveraendert auf ihren Strapping-Netzen",
+        "Mengenpruefung der Netzliste gegen Pin-Doppelbelegung. IO22 ist seit "
+        "15.09.2026 PUMP2_EN (J16), kein Reserve-Stecker mehr; IO15 waehlt nur "
         "die JTAG-Quelle (Default-eFuses = wirkungslos) und ist ueber einen "
-        "1-kOhm-Serienwiderstand an J10 gefuehrt; IO16/IO17 bleiben UART0 und "
-        "sind ebenfalls nur ueber Serienwiderstaende erreichbar")
+        "1-kOhm-Serienwiderstand an J10 gefuehrt; IO16/IO17 bleiben UART0")
 
 
 def check_i2c_pullups():
-    """I2C-Pull-ups 10k an VCC_EXT (nicht +3V3); VCC_EXT ist geschaltet."""
+    """I2C-Pull-ups 4,7 kOhm an VCC_EXT (nicht +3V3); VCC_EXT ist geschaltet."""
     sda = _nets_of("R_SDA_PU")
     scl = _nets_of("R_SCL_PU")
     r_sda = circuit.parse_ohm(circuit.part("R_SDA_PU")["value"])
     r_scl = circuit.parse_ohm(circuit.part("R_SCL_PU")["value"])
     sda_ok = sda.get("SDA") == "1" and sda.get("VCC_EXT") == "2"
     scl_ok = scl.get("SCL") == "1" and scl.get("VCC_EXT") == "2"
-    val_ok = abs(r_sda - 10000.0) < 1.0 and abs(r_scl - 10000.0) < 1.0
+    val_ok = abs(r_sda - 4700.0) < 1.0 and abs(r_scl - 4700.0) < 1.0
     q2 = _pins_of("Q2")
     switched = q2.get("3") == "VCC_EXT" and q2.get("2") == "+3V3"
     auf_rail = "+3V3" in (set(sda.values()) | set(scl.values()))
@@ -812,11 +1111,11 @@ def check_i2c_pullups():
         % (_f(r_sda / 1000.0, 1, "kΩ"), sda.get("VCC_EXT"),
            _f(r_scl / 1000.0, 1, "kΩ"), scl.get("VCC_EXT"),
            "OK" if switched else "FEHLER"),
-        "beide 10 kOhm, Pull-up-Seite VCC_EXT (nicht +3V3), VCC_EXT geschaltet",
+        "beide 4,7 kOhm, Pull-up-Seite VCC_EXT (nicht +3V3), VCC_EXT geschaltet",
         "Im ausgeschalteten Zustand zieht der Bus keinen Strom, weil die "
-        "Pull-ups am geschalteten VCC_EXT haengen. 10 kOhm sind fuer kurze "
-        "Kabel (wenige cm bis ca. 30 cm) und die ueblichen 100-kHz/400-kHz-"
-        "I2C-Module plausibel")
+        "Pull-ups am geschalteten VCC_EXT haengen (schaltplan §9.5, "
+        "Revision 15.09.2026: 4,7 kOhm). 4,7 kOhm sind fuer kurze Kabel und "
+        "die ueblichen 100-kHz/400-kHz-I2C-Module plausibel")
 
 
 def check_en_rc():
@@ -862,18 +1161,28 @@ def check_netzstruktur():
 def run_all():
     """Fuehrt alle Pruefungen in fester Reihenfolge aus."""
     checks = [
-        check_ladestrom,
-        check_laderkondensatoren,
-        check_max809_klemmstrom,
+        # 2S-Neu
+        check_ladestrom_ip2326,
+        check_ladeschluss_2s,
+        check_ladeeingang_strom,
+        check_buck5_ausgang,
+        check_buck3_ausgang,
+        check_buck5_induktivitaet,
+        check_buck3_induktivitaet,
+        check_uvlo_schwelle,
+        check_waechter_sinkstrom,
+        check_adc_teiler_max,
+        check_buck_en_pegel,
+        check_klemmzweig_serie,
+        check_kein_low_vin_am_vbat,
+        check_standby_budget,
+        check_system_quellen,
+        # Bestand, auf 2S gezogen
         check_gate_spannung,
         check_mosfet_verlust,
         check_freilaufdiode,
-        check_vbat_teiler,
         check_teilerstrom,
-        check_ldo_reserve,
-        check_ldo_headroom,
         check_uv_staffelung,
-        check_standby_budget,
         check_adc_filter,
         check_light_adc_filter,
         check_light_contrast,

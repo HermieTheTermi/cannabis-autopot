@@ -1,12 +1,17 @@
-"""Kleine Simulationen in reinem Python (Euler, feste Schrittweite).
+"""Kleine Simulationen / Rechenproben in reinem Python (Stand 2S-Umbau).
 
 Keine externen Solver.  Alle Eingangswerte kommen aus :mod:`design.circuit`.
+Getroffene Modellannahmen stehen in ``circuit.ASSUMPTIONS`` und werden in der
+Ausgabe als Annahme genannt.
 """
 from __future__ import annotations
 
 import re
 
 from . import circuit
+
+# IP2326-Datenblatt V1.11 §"充电电流设置" S. 11: ICHG = 90000/R_ISET[Ohm].
+IP2326_ICHG_K = 90000.0
 
 
 def gate_driver(r1, r2, ciss, vgpio, vtarget, pwm_hz):
@@ -39,50 +44,73 @@ def gate_driver(r1, r2, ciss, vgpio, vtarget, pwm_hz):
     }
 
 
-def pump_inrush(c_buffer, vbat, i_load, duration_s, r_bat):
-    """Spannungseinbruch auf VBAT bei einem Lastsprung.
-
-    Modell: Zelle als Quellenspannung mit Innenwiderstand R_BAT, parallel der
-    Pufferelko C3.  C·dV/dt = (VBAT - V)/R_BAT - I_load.
-    """
-    steps = 1000
-    dt = duration_s / steps
-    v = vbat
-    for _ in range(steps):
-        i_cap = (vbat - v) / r_bat - i_load
-        v += i_cap / c_buffer * dt
+def charge_time(capacity_mah, i_charge_a, cc_frac, cv_i_frac):
+    """Grobe Ladezeit: CC-Phase (cc_frac) + CV-Phase (Rest bei gemitteltem I)."""
+    q = capacity_mah / 1000.0
+    t_cc = cc_frac * q / i_charge_a
+    t_cv = (1.0 - cc_frac) * q / (i_charge_a * cv_i_frac)
     return {
-        "v_start": vbat,
-        "v_ende": v,
-        "einbruch_mv": (vbat - v) * 1000.0,
-        "r_bat": r_bat,
-        "kapazitaet_ideal_mv": i_load * duration_s / c_buffer * 1000.0,
+        "i_charge_a": i_charge_a,
+        "capacity_mah": capacity_mah,
+        "t_cc_h": t_cc,
+        "t_cv_h": t_cv,
+        "t_total_h": t_cc + t_cv,
     }
 
 
-def battery_runtime(power_w, flow_ml_min, dose_ml, usable_wh):
-    """Energie pro Dosis und Anzahl der Dosiervorgaenge pro Ladung."""
+def pump_runtime(v_rail, i_pump, dose_ml, flow_ml_min, usable_wh):
+    """Energie pro Dosis und Anzahl der Dosiervorgaenge pro Ladung (5-V-Schiene)."""
+    p_w = v_rail * i_pump
     t_min = dose_ml / flow_ml_min
-    wh_dose = power_w * t_min / 60.0
+    wh_dose = p_w * t_min / 60.0
     doses = usable_wh / wh_dose
     return {
-        "zeit_min": t_min,
+        "p_w": p_w,
+        "t_min": t_min,
         "wh_dosis": wh_dose,
         "dosen": doses,
     }
 
 
+def pump_inrush(v_bat, v_rail, i_pump, eff, r_bat):
+    """Einbruch der Packspannung beim Pumpenanlauf ueber den Innenwiderstand."""
+    i_bat = v_rail * i_pump / (eff * v_bat)
+    sag = i_bat * r_bat
+    return {
+        "i_bat": i_bat,
+        "r_bat": r_bat,
+        "einbruch_v": sag,
+        "v_min": v_bat - sag,
+    }
+
+
+def buck_ripple(v_in, v_out, inductance_h, f_sw_hz, i_load):
+    """Rippelstrom und Spitzenstrom eines Abwaertswandlers.
+
+    D = Vout/Vin; dI = (Vin-Vout)*D/(L*f); I_peak = I_load + dI/2.
+    """
+    d = v_out / v_in
+    di = (v_in - v_out) * d / (inductance_h * f_sw_hz)
+    return {"d": d, "di": di, "i_peak": i_load + di / 2.0}
+
+
+def divider_currents(v_bat, r_top, r_bot):
+    """Strom durch einen Spannungsteiler."""
+    return v_bat / (r_top + r_bot)
+
+
+def standby_mah_per_day(total_ua):
+    """Tagesverbrauch eines Ruhestroms in mAh."""
+    return total_ua / 1000.0 * 24.0
+
+
 def ldo_heat(vbat, vout, current_a):
-    """Verlustleistung des LDO im Burst: P = (VBAT - VOUT) · I."""
+    """Verlustleistung, falls (rechnerisch) ein LDO an dieser Stelle saesse."""
     return (vbat - vout) * current_a
 
 
 def tank_led_blink(i_continuous, pulses, on_time_s, period_s):
-    """Mittlerer Strom der Tank-LED im Blinkbetrieb und Tagesverbrauch.
-
-    Tastverhaeltnis = pulses · on_time_s / period_s; der Mittelwert wird dem
-    Dauerbetrieb gegenuebergestellt.
-    """
+    """Mittlerer Strom der Tank-LED im Blinkbetrieb und Tagesverbrauch."""
     duty = pulses * on_time_s / period_s
     i_mean = i_continuous * duty
     return {
@@ -98,11 +126,7 @@ def tank_led_blink(i_continuous, pulses, on_time_s, period_s):
 
 
 def light_adc(r_load, vref_v, lux_values):
-    """ADC-Counts des ALS-PT19 am Lastwiderstand R_LIGHT (12 Bit, ATTEN3).
-
-    I(lux) = 15 µA · lux/100 lx; U = I · R_LIGHT, auf den ADC-Vollausschlag
-    begrenzt.  Zeigt, dass Dunkel nahe 0 liegt und Growlicht saettigt.
-    """
+    """ADC-Counts des ALS-PT19 am Lastwiderstand R_LIGHT (12 Bit, ATTEN3)."""
     rows = []
     for lux in lux_values:
         i = circuit.LIGHT_SENS_UA_REF * 1e-6 * (lux / circuit.LIGHT_SENS_LUX_REF)
@@ -126,28 +150,52 @@ def _blinkmuster():
 def run_all():
     """Fuehrt alle Simulationen mit den echten Schaltplandaten aus."""
     sys = circuit.load_system()
+    ann = circuit.ASSUMPTIONS
 
     r1 = circuit.parse_ohm(circuit.part("R1")["value"])
     r2 = circuit.parse_ohm(circuit.part("R2")["value"])
     ciss = 630e-12  # AO3400A-Datenblatt: Ciss ca. 630 pF
-    gate = gate_driver(r1, r2, ciss, sys["rail_3v3"], 2.5, sys["pwm_hz"])
+    gate = gate_driver(r1, r2, ciss, circuit.rail_3v3(), 2.5, sys["pwm_hz"])
 
-    c3 = circuit.parse_farad(circuit.part("C3")["value"])
-    # Annahme: Innenwiderstand einer 1S-1500-mAh-Zelle, kein Datenblattwert.
-    r_bat = 0.1
-    inrush = pump_inrush(c3, sys["battery_voltage"], 1.0, 1e-3, r_bat)
+    # Ladestrom aus R_ISET; Ladezeit mit CC/CV-Annahmen (circuit.ASSUMPTIONS).
+    r_iset = circuit.parse_ohm(circuit.part("R_ISET")["value"])
+    i_charge = IP2326_ICHG_K / r_iset
+    charge = charge_time(sys["pack_capacity_mah"], i_charge,
+                         ann["cc_frac"], ann["cv_i_frac"])
 
-    runtime = battery_runtime(sys["pump_power_w"], sys["pump_flow_ml_min"],
-                              sys["dose_ml"], sys["battery_usable_wh"])
+    # Nutzbare Energie des 2S-Packs (nominale Zellspannung x2 x Nutzanteil).
+    pack_v_nom = 2.0 * sys["cell_v_nom"]
+    usable_wh = (sys["pack_capacity_mah"] / 1000.0 * pack_v_nom
+                 * ann["usable_frac"])
+    runtime = pump_runtime(circuit.rail_5v(), sys["pump_i_nom_a"],
+                           sys["dose_ml"], sys["pump_flow_ml_min"], usable_wh)
 
-    heat_max = ldo_heat(sys["charge_voltage"], sys["rail_3v3"],
-                        sys["tx_peak_ma"] / 1000.0)
-    heat_nom = ldo_heat(sys["battery_voltage"], sys["rail_3v3"],
-                        sys["tx_peak_ma"] / 1000.0)
+    inrush = pump_inrush(sys["pack_v_min"], circuit.rail_5v(),
+                         sys["pump_i_inrush_a"], 0.90, ann["r_bat_ohm"])
+
+    l5 = circuit.parse_henry(circuit.part("L_BUCK5")["desc"])
+    l3 = circuit.parse_henry(circuit.part("L_BUCK3")["desc"])
+    ripple5 = buck_ripple(sys["pack_v_max"], circuit.rail_5v(), l5,
+                          500e3, sys["pump_i_inrush_a"])
+    ripple3 = buck_ripple(sys["pack_v_max"], circuit.rail_3v3(), l3,
+                          1.1e6, sys["module_tx_peak_ma"] / 1000.0)
+
+    r3a = circuit.parse_ohm(circuit.part("R3a")["value"])
+    r3b = circuit.parse_ohm(circuit.part("R3b")["value"])
+    r_top = circuit.parse_ohm(circuit.part("R_SENSE_TOP")["value"])
+    r_bot = circuit.parse_ohm(circuit.part("R_SENSE_BOT")["value"])
+    div_uvlo = divider_currents(sys["pack_v_max"], r3a, r3b)
+    div_adc = divider_currents(sys["pack_v_max"], r_top, r_bot)
+    total_ua = (sys["module_sleep_ua"] + sys["iq_buck5_ua"] + sys["iq_buck3_ua"]
+                + sys["iq_watchdog_ua"]) + (div_uvlo + div_adc) * 1e6
+    standby = {
+        "total_ua": total_ua,
+        "mah_day": standby_mah_per_day(total_ua),
+    }
 
     vf_led = 2.0  # rote 0805-LED, typische Flussspannung (Datenblatt)
     r_tank = circuit.parse_ohm(circuit.part("R_TANK")["value"])
-    i_tank = (sys["rail_3v3"] - vf_led) / r_tank
+    i_tank = (circuit.rail_3v3() - vf_led) / r_tank
     pulses, on_time_s, period_s = _blinkmuster()
     tank = tank_led_blink(i_tank, pulses, on_time_s, period_s)
 
@@ -155,16 +203,32 @@ def run_all():
     light = light_adc(r_light, circuit.ADC_VREF_MV_ATTEN12 / 1000.0,
                       [0.0, 100.0, 1000.0, circuit.LIGHT_GROW_LUX])
 
+    assumptions = [
+        "Innenwiderstand des 2S-Packs R_BAT = %s (Annahme)"
+        % ("%.2f Ω" % ann["r_bat_ohm"]).replace(".", ","),
+        "Ladezeit: CC-Anteil %s %%, mittlerer CV-Strom %s %% von ICHG (Annahme)"
+        % ("%.0f" % (ann["cc_frac"] * 100.0),
+           "%.0f" % (ann["cv_i_frac"] * 100.0)),
+        "nutzbarer Anteil der Packkapazitaet %s %% (Annahme)"
+        % ("%.0f" % (ann["usable_frac"] * 100.0)),
+        "Buck-Wirkungsgrad beim Anlauf 90 % (Annahme)",
+    ]
+
     return {
         "gate": gate,
-        "inrush": inrush,
+        "charge": charge,
         "runtime": runtime,
-        "heat_max_w": heat_max,
-        "heat_nom_w": heat_nom,
+        "inrush": inrush,
+        "ripple5": ripple5,
+        "ripple3": ripple3,
+        "divider": {"uvlo_a": div_uvlo, "adc_a": div_adc},
+        "standby": standby,
         "tank": tank,
         "light": light,
-        "rb": {"R1": r1, "R2": r2, "C3": c3, "Ciss": ciss, "R_TANK": r_tank,
-               "R_LIGHT": r_light},
+        "assumptions": assumptions,
+        "rb": {"R1": r1, "R2": r2, "ciss": ciss, "pack_v_nom": pack_v_nom,
+               "usable_wh": usable_wh, "R_TANK": r_tank, "R_LIGHT": r_light,
+               "L_BUCK5": l5, "L_BUCK3": l3},
     }
 
 

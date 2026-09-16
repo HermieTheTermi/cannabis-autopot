@@ -31,10 +31,10 @@ Maschinenlesbare Fassung derselben Verbindungen: **`schaltplan_v1_netzliste.csv`
          │                                                   LEDs, I2C/VCC_EXT über Q2
          ├── R3a/R3b 200 k/200 k ──► U7 TPS3839G33 (3,08 V) ──► RESET_UV ──┬── U_BUCK5 EN  (5-V-Schiene AUS)
          │                                                                 └── D3/D8 über R35/R36 (Gate-Klemmen)
-         └── R_SENSE_TOP/BOT 200 k/68 k ──► VBAT_SENSE (U1 IO1, ADC 1:4 → 2,10 V bei 8,4 V)
+         └── R_SENSE_TOP/BOT 200 k/68 k ──► VBAT_SENSE (U1 IO1, ADC 1:3,94 → 2,13 V bei 8,4 V)
 ```
 
-**Logik-Ein-/Ausgänge (unverändert):** IO0 Feuchte-ADC · IO1 **Packspannung (neu 1:4)** · IO2 Pumpe ·
+**Logik-Ein-/Ausgänge (unverändert):** IO0 Feuchte-ADC · IO1 **Packspannung (neu 1:3,94)** · IO2 Pumpe ·
 IO3 Sensor-Versorgung · IO4 Lichtsensor-ADC · IO5 Reserve-ADC (J9) · IO6 externer Taster (LP_GPIO6) ·
 IO7 Tank-LED (LP_GPIO7) · IO14 Status-LED · IO9 Boot · IO12/13 USB · IO15–IO17, IO21–IO23 Reserve ·
 IO18/IO19 I²C (J8) · IO20 Load-Switch VCC_EXT · IO22 Sauerstoffpumpe.
@@ -84,7 +84,7 @@ Es gibt **keinen** Aufwärtswandler und **keinen** LDO mehr.
 | **RESET_UV** | **U7 Pin 2 (RESET)** ↔ **U_BUCK5 Pin 4 (EN)** ↔ D3 Kathode ↔ D8 Kathode ↔ R_CLAMP1/R_CLAMP2 | aktiv-low; **schaltet die 5-V-Schiene wirklich ab** (Buck: EN low ⇒ Ausgang 0 V, kein Diodenpfad wie beim alten Boost) **und** klemmt beide Pumpengates |
 | **GATE / GATE2** | IO2 → R1 1 kΩ → Q1 Gate ↔ R2 47 kΩ → GND · IO22 → R_GATE2 1 kΩ → Q3 Gate ↔ R_GATE2_PD 47 kΩ → GND | Pumpensteuerung (PWM-fähig) |
 | **KLAMP1 / KLAMP2** | **R_CLAMP1 10 kΩ** (vom Gate-Knoten) ↔ **D3 Anode → Kathode RESET_UV** · **R_CLAMP2 10 kΩ** ↔ **D8 Anode → Kathode RESET_UV** | **korrigiert 16.09.2026:** Serienkette Gate → 10 kΩ → Diode → RESET (vorher war R_CLAMPx **parallel** zur Diode und der Knoten lag nicht am Gate ⇒ Klemmung wirkungslos, §13.4) |
-| **VBAT_SENSE** | **R_SENSE_TOP 300 kΩ** (von VBAT) ↔ Knoten ↔ **R_SENSE_BOT 100 kΩ** → GND · Knoten ↔ U1 **Pin 13 (IO1, ADC1_CH1)** ↔ C10 100 nF → GND | **neu 1:4** (vorher 1:2): 8,4 V → **2,13 V**, 6,16 V → 1,54 V am ADC. Teilerstrom 21 µA |
+| **VBAT_SENSE** | **R_SENSE_TOP 200 kΩ** (von VBAT) ↔ Knoten ↔ **R_SENSE_BOT 68 kΩ** → GND · Knoten ↔ U1 **Pin 13 (IO1, ADC1_CH1)** ↔ C10 100 nF → GND | **neu 1 : 3,94** (vorher 1:2): 8,4 V → **2,13 V**, 6,16 V → **1,56 V** am ADC. Teilerstrom 31,5 µA. Verhältnis bewusst nicht exakt 1:4, damit beide Widerstände Basic-Positionen bleiben (§3.3) |
 
 ### 2.3 5-V-Schiene und Pumpen (Wandler gewechselt)
 
@@ -196,7 +196,8 @@ wird jetzt vom Buck-Feedback benutzt.
 | **R_EN_CHG** | **100 kΩ** | Pull-up des Lader-EN nach VBUS | Datenblatt: EN ≥ 1,4 V = an. Damit lädt das Gerät **ohne** Firmware (kein GPIO nötig) |
 | **R_VIN_CHG** | **0,5 Ω** | Filter zum VIN-Pin | Datenblatt-Applikationsbild (R1). **Kein** Shunt — der Ladestrom wird im IC gemessen (0,5 Ω bei 1,8 A wären 1,6 W in 0805) |
 | **R_LEDCHG** | 1 kΩ | Vorwiderstand der Lade-LED | ~2,7 mA an 5 V, LED-Pin kann max. 5 mA. Gleicher Basic-Typ wie R_TANK |
-| **R3a, R3b** | 2 × **200 kΩ** | Wächter-Teiler **1:2** | Schwelle 3,08 V ⇒ Auslösung bei **6,16 V** Pack (= 3,08 V/Zelle). Teilerstrom 21 µA. Offset durch Iq 150 nA: +30 mV |
+| **R3a** | **200 kΩ** | Wächter-Teiler (oberer Zweig, von VBAT) | C17539 (Basic) — bewusst **getrennte Zeilen** für R3a/R3b, damit eine Wertänderung an genau einem der beiden den Teiler verschiebt (Mutationstest der Verhältnis-Prüfung) |
+| **R3b** | **200 kΩ** | Wächter-Teiler (unterer Zweig, nach GND) | Schwelle 3,08 V ⇒ Auslösung bei **6,16 V** Pack (= 3,08 V/Zelle). Teilerstrom 21 µA. Offset durch Iq 150 nA: +30 mV |
 | **R_SENSE_TOP** | **200 kΩ** | Packspannungsmessung (oberer Zweig) | **neu:** 8,4 V → **2,13 V**, 6,16 V → 1,56 V — passt in den 12-dB-Bereich (0–3300 mV) mit Reserve. Teilerstrom 31,5 µA. **Verhältnis 1 : 3,94** statt exakt 1:4, dafür bleiben **beide Widerstände Basic-Positionen** |
 | **R_SENSE_BOT** | **68 kΩ** | Packspannungsmessung (unterer Zweig) | gleicher Basic-Typ wie R_UVSET |
 | **R_FB5_TOP** | **75 kΩ** | Feedback 5-V-Buck (oben) | V_out = 0,6 V × (1 + 75/10) = **5,10 V** — derselbe Basic-Wert wie beim alten Boost (C17819) |
@@ -246,7 +247,7 @@ wird jetzt vom Buck-Feedback benutzt.
 | 8 | EN | Reset-RC + SW1 |
 | 9 | IO4 | LIGHT_AOUT (ADC1_CH4) |
 | 12 | IO0 | SENSOR_AOUT (ADC1_CH0) |
-| 13 | IO1 | **VBAT_SENSE (jetzt 1:4)** |
+| 13 | IO1 | **VBAT_SENSE (jetzt 1:3,94)** |
 | 15 | IO6 | BTN (LP_GPIO6, weckt) |
 | 16 | IO7 | LED_TANK (LP_GPIO7) |
 | 17 / 18 | IO12 / IO13 | USB_D− / USB_D+ |
@@ -832,7 +833,7 @@ Die Step-Ups für 5 V können raus, aber ein Step-Down rein für den ESP32 und g
 | 4 | **3,3-V-LDO (ME6211) → 3,3-V-Buck (AP63203)** | Auftrag („Step-Down für den ESP32"). 88 % statt 66 % Wirkungsgrad; der LDO hätte aus 8,4 V 0,65 W in SOT-23-5 verheizt und darf laut Datenblatt ohnehin nur 6,0 V Eingang |
 | 5 | **U7 = TPS3839G33** statt MAX809T (beide 3,08 V) | ⚠️ Der MAX809 verträgt nur **5,5 V** Versorgung und 12 µA Eigenstrom — an einem 2S-Teiler wäre der Iq-Fehler 2,4 V. Der TPS3839 zieht **150 nA** (Offset 30 mV) und hat einen Push-Pull-Ausgang |
 | 6 | **Wächter-Teiler bleibt 200 k/200 k**, Versorgung = VBAT/2 | gleiche Schwellenlogik wie vorher: **6,16 V Pack = 3,08 V/Zelle** |
-| 7 | **ADC-Teiler 1:2 → 1:4** (300 k/100 k) | vorher „max. 2,1 V" aus 4,2 V; 8,4 V hätten am 1:2-Teiler **4,2 V** ergeben und den ADC (max. 3,3 V) überfahren |
+| 7 | **ADC-Teiler 1:2 → 1:3,94** (200 k/68 k) | vorher „max. 2,1 V" aus 4,2 V; 8,4 V hätten am 1:2-Teiler **4,2 V** ergeben und den ADC (max. 3,3 V) überfahren |
 | 8 | **C3 (100 µF) von VBAT nach +5V** | der Puffer gehört an die Schiene, die die Pumpen wirklich speist |
 | 9 | **J17 (JST-XH 2P) = 5-V-Sensorausgang** | „ggf. ein 5 V für Sensoren" — die Sensorik selbst bleibt an SENSOR_PWR (3,3 V, per IO3 geschaltet), J17 ist der zusätzliche 5-V-Abgriff |
 | 10 | **EN-Pull-up R37 entfällt**, EN direkt am Wächter | Push-Pull-Ausgang darf direkt treiben (2 mA bei V_OL ≤ 0,4 V — nötig für die Klemmzweige) |

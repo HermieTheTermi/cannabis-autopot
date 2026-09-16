@@ -1,0 +1,145 @@
+{
+ "workdir": "hardware",
+ "command": [
+  "python3",
+  "design/report.py"
+ ],
+ "summary_regex": "^\\s+- ([^:]+):",
+ "cases": [
+  {
+   "name": "R_ISET 100k -> 30k (Ladestrom zu hoch)",
+   "edits": [
+    [
+     "hardware/schaltplan_v1.md",
+     "| **R_ISET** | **100 kΩ 1 %**",
+     "| **R_ISET** | **30 kΩ 1 %**"
+    ]
+   ],
+   "expect": [
+    "Ladestrom IP2326"
+   ]
+  },
+  {
+   "name": "R_FB5_TOP 75k -> 100k (5V aus dem Band)",
+   "edits": [
+    [
+     "hardware/schaltplan_v1.md",
+     "| **R_FB5_TOP** | **75 kΩ**",
+     "| **R_FB5_TOP** | **100 kΩ**"
+    ]
+   ],
+   "expect": [
+    "5-V-Buck-Ausgang"
+   ]
+  },
+  {
+   "name": "R_FB3_TOP 47k -> 100k (3V3 zu hoch)",
+   "edits": [
+    [
+     "hardware/schaltplan_v1.md",
+     "| **R_FB3_TOP** | **47 kΩ**",
+     "| **R_FB3_TOP** | **100 kΩ**"
+    ]
+   ],
+   "expect": [
+    "3,3-V-Buck-Ausgang"
+   ]
+  },
+  {
+   "name": "R3b 200k -> 100k (UVLO verschoben)",
+   "edits": [
+    [
+     "hardware/schaltplan_v1.md",
+     "| **R3b** | **200 kΩ**",
+     "| **R3b** | **100 kΩ**"
+    ]
+   ],
+   "expect": [
+    "UVLO-Schwelle"
+   ]
+  },
+  {
+   "name": "R_SENSE_BOT 68k -> 200k (ADC ueberfahren)",
+   "edits": [
+    [
+     "hardware/schaltplan_v1.md",
+     "| **R_SENSE_BOT** | **68 kΩ**",
+     "| **R_SENSE_BOT** | **200 kΩ**"
+    ]
+   ],
+   "expect": [
+    "ADC-Teiler Packspannung"
+   ]
+  },
+  {
+   "name": "U6 (5,5V ESD) auf VBAT gelegt",
+   "edits": [
+    [
+     "hardware/schaltplan_v1_netzliste.csv",
+     "VBUS,U6,5 VBUS,ESD-Referenz",
+     "VBAT,U6,5 VBUS,ESD-Referenz"
+    ]
+   ],
+   "expect": [
+    "VBAT-Spannungsfestigkeit"
+   ]
+  },
+  {
+   "name": "R_CLAMP1 zurueck auf Parallelfehler",
+   "edits": [
+    [
+     "hardware/schaltplan_v1_netzliste.csv",
+     "GATE,R_CLAMP1,1,",
+     "KLAMP1,R_CLAMP1,1,"
+    ]
+   ],
+   "expect": [
+    "Klemmzweig-Serie"
+   ]
+  },
+  {
+   "name": "IP2326_8V8 im BOM (8,8 V Ladeschluss)",
+   "edits": [
+    [
+     "hardware/pcba_bom_jlc.csv",
+     "IP2326,U_CHG,VQFN-24-EP(4x4)",
+     "IP2326_8V8,U_CHG,VQFN-24-EP(4x4)"
+    ]
+   ],
+   "expect": [
+    "Ladeschluss 2S"
+   ]
+  },
+  {
+   "name": "Belegtext '3,4 V Pumpstopp' entfernt",
+   "edits": [
+    [
+     "hardware/bom_entscheidung.md",
+     "3,4 V Pumpstopp",
+     "3,6 V Pumpstopp"
+    ]
+   ],
+   "expect": [
+    "Systemquellen"
+   ]
+  },
+  {
+   "name": "beide Teiler niederohmig (Ruhestrom)",
+   "edits": [
+    [
+     "hardware/schaltplan_v1.md",
+     "| **R_SENSE_TOP** | **200 kΩ**",
+     "| **R_SENSE_TOP** | **20 kΩ**"
+    ],
+    [
+     "hardware/schaltplan_v1.md",
+     "| **R3a** | **200 kΩ**",
+     "| **R3a** | **20 kΩ**"
+    ]
+   ],
+   "expect": [
+    "Standby-Budget"
+   ]
+  }
+ ]
+}

@@ -162,3 +162,40 @@ python3 design/report.py            # 29 Prüfungen, Exit 0 = alles im Rahmen
 python3 ../scripts/check_netlist.py         # Netzlisten-Struktur
 python3 ../scripts/check_bom_consistency.py # Schaltplan ↔ JLCPCB-BOM
 ```
+
+## Mutationstest 2S-Umbau (16.09.2026)
+
+Harness: `~/.hermes/skills/maker/schematic-netlist-authoring/scripts/mutation_suite.py`
+(Repo-Kopie nach /tmp ohne `.git`, je Fall genau eine Mutation, Bewertung = `exit != 0` **und**
+erwarteter Prüfname in der Fehlschlag-Liste). Falldatei: **`mutation_cases_2s.json`**.
+
+Aufruf:
+
+    python3 <skill>/scripts/mutation_suite.py hardware/design/mutation_cases_2s.json --root .
+
+| # | Mutation (Sabotage) | erwartete Prüfung | beobachtet | Exit |
+|---|---|---|---|---|
+| 1 | `R_ISET` 100 kΩ → 30 kΩ (Ladestrom 2,7 A) | Ladestrom IP2326 | Ladestrom IP2326 **+** Ladeeingangsstrom | 1 |
+| 2 | `R_FB5_TOP` 75 kΩ → 100 kΩ (5 V ⇒ 6,6 V) | 5-V-Buck-Ausgang | 5-V-Buck-Ausgang | 1 |
+| 3 | `R_FB3_TOP` 47 kΩ → 100 kΩ (3,3 V ⇒ 6,1 V) | 3,3-V-Buck-Ausgang | 3,3-V-Buck-Ausgang **+** LED-Ströme, LED-Headroom | 1 |
+| 4 | `R3b` 200 kΩ → 100 kΩ (Abschaltung 6,19 V ⇒ 9,2 V) | UVLO-Schwelle | UVLO-Schwelle **+** Unterspannungsstaffelung | 1 |
+| 5 | `R_SENSE_BOT` 68 kΩ → 200 kΩ (ADC 2,13 V ⇒ 4,2 V) | ADC-Teiler Packspannung | ADC-Teiler Packspannung | 1 |
+| 6 | Netzliste: `U6` (USBLC6, 5,5 V max) von VBUS auf **VBAT** (8,4 V) | VBAT-Spannungsfestigkeit | VBAT-Spannungsfestigkeit | 1 |
+| 7 | Netzliste: `R_CLAMP1` zurück auf die alte **Parallelschaltung** (Knoten an keinem Gate) | Klemmzweig-Serie | Klemmzweig-Serie **+** Netzstruktur | 1 |
+| 8 | BOM: `IP2326` → **`IP2326_8V8`** (8,8 V Ladeschluss) | Ladeschluss 2S | Ladeschluss 2S | 1 |
+| 9 | Belegtext `3,4 V Pumpstopp` aus `bom_entscheidung.md` entfernt | Systemquellen | Systemquellen | 1 |
+| 10 | beide Teiler niederohmig (`R_SENSE_TOP`, `R3a` 200 kΩ → 20 kΩ) | Standby-Budget | Standby-Budget **+** 5 weitere | 1 |
+
+**Ergebnis: 10 von 10 Mutationen werden gefangen — jede geprüfte Regel beißt nachweislich.**
+Der grüne Lauf allein (`37 von 37 Prüfungen bestanden`, Exit 0) beweist nichts; erst diese Tabelle tut es.
+
+### Eigene Harness-Fehler in diesem Durchgang (nicht dem Prüf-Code anzulasten)
+
+1. Mutation 8 griff zuerst **nicht**: das Suchmuster nahm an, der Designator stehe direkt hinter dem
+   Comment — die Spalte `Designator` liegt aber dazwischen (`IP2326,U_CHG,VQFN-24-EP(4x4)`).
+   Der Harness meldet „Mutation greift nicht" (HARNESS) statt eines falschen „bestanden" ✓.
+2. Mutation 9 blieb zuerst **grün**: der Belegtext `Anlaufstrom 3 A` kommt **zweimal** in
+   `bom_entscheidung.md` vor, der Harness ersetzt nur das erste Vorkommen — die Prüfung hatte also
+   weiterhin ihren Beleg. Ersetzt durch den eindeutigen Beleg `3,4 V Pumpstopp`.
+   **Lehre:** vor jeder Mutation die Trefferzahl des Musters zählen (`grep -c`), sonst testet man
+   eine andere Größe als die gelesene.

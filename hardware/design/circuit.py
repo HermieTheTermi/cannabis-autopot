@@ -1,9 +1,11 @@
-"""Schaltplan-Modell fuer den Smart Grow Topf V1.
+"""Schaltplan-Modell fuer den Smart Grow Topf V1 (Stand 2S-Umbau, 16.09.2026).
 
 Liest die Verbindungen aus ``schaltplan_v1_netzliste.csv`` und die Bauteilwerte
-aus ``schaltplan_v1.md``. Zusaetzlich werden die Systemkenngroessen (Pumpe,
-Akku, Modul, Lader) aus ``bom_entscheidung.md`` und ``schaltplan_v1.md``
-gelesen, damit in den Pruefungen nichts hart verdrahtet werden muss.
+aus ``schaltplan_v1.md``.  Bauteilwerte kommen ausschliesslich ueber
+:func:`part` aus den Tabellen §3.1-§3.4.  Systemkenngroessen (Pumpe, Pack,
+Modul, ADC) stehen in dem klar markierten :data:`SYSTEM`-Block; jede Zahl
+traegt eine woertliche Belegstelle, die :func:`check_system_quellen` in
+``checks.py`` gegen die Dokumente prueft.
 
 Nur Standardbibliothek, Python 3.9-kompatibel.
 """
@@ -11,6 +13,7 @@ from __future__ import annotations
 
 import csv
 import re
+from collections import namedtuple
 from functools import lru_cache
 from pathlib import Path
 
@@ -18,10 +21,70 @@ BASE_DIR = Path(__file__).resolve().parent
 HARDWARE_DIR = BASE_DIR.parent
 NETLIST_PATH = HARDWARE_DIR / "schaltplan_v1_netzliste.csv"
 SCHEMATIC_PATH = HARDWARE_DIR / "schaltplan_v1.md"
+BOM_PATH = HARDWARE_DIR / "pcba_bom_jlc.csv"
 BOM_DECISION_PATH = HARDWARE_DIR / "bom_entscheidung.md"
 
 # Einpolige Elemente (Testpunkte), die nur auf einem Netz liegen duerfen.
 ONE_PIN_OK_PREFIX = ("TP",)
+
+# ---------------------------------------------------------------------------
+# DATENBLATTGRENZEN, die das Modell selbst braucht (jede mit Quelle).
+# ---------------------------------------------------------------------------
+VREF_BUCK5 = 0.6   # SY8113B (Silergy) Datenblatt AN_SY8113B S.1/S.2: V_REF 0,6 V
+VREF_BUCK3 = 0.8   # AP63203 (Diodes) Datenblatt DS41326: V_REF 0,8 V
+
+# ---------------------------------------------------------------------------
+# SYSTEM - Systemkenngroessen aus den Projektdokumenten.
+#
+# Jeder Eintrag traegt seinen Wert, die Einheit, die Datei und ein woertliches
+# Textfragment (Beleg).  check_system_quellen() weist nach, dass der Beleg
+# wirklich in der Datei steht.  Das Dokument ist die einzige Quelle dieser
+# Zahlen; im uebrigen Code sind sie ausschliesslich an dieser Stelle erlaubt.
+# ---------------------------------------------------------------------------
+SystemEntry = namedtuple("SystemEntry", "key wert einheit datei beleg")
+
+SYSTEM = (
+    # Pack (2S)
+    SystemEntry("pack_v_min", 6.0, "V", "schaltplan_v1.md", "6,0\u20138,4 V"),
+    SystemEntry("pack_v_max", 8.4, "V", "schaltplan_v1.md", "8,4 V"),
+    SystemEntry("pack_capacity_mah", 2000.0, "mAh", "bom_entscheidung.md", "2000 mAh"),
+    SystemEntry("cell_v_nom", 3.7, "V", "bom_entscheidung.md", "3,7 V"),
+    SystemEntry("cell_firmware_stop_v", 3.4, "V", "bom_entscheidung.md", "3,4 V Pumpstopp"),
+    SystemEntry("cell_pcm_v", 2.5, "V", "bom_entscheidung.md", "2,5 V"),
+    # Pumpen
+    SystemEntry("pump_v", 5.0, "V", "bom_entscheidung.md", "DC 5 V"),
+    SystemEntry("pump_i_nom_a", 0.4, "A", "bom_entscheidung.md", "0,4 A"),
+    SystemEntry("pump_i_inrush_a", 3.0, "A", "bom_entscheidung.md", "Anlaufstrom 3 A"),
+    SystemEntry("o2_pump_i_a", 0.2, "A", "bom_entscheidung.md", "0,20 A"),
+    SystemEntry("pump_flow_ml_min", 150.0, "ml/min", "bom_entscheidung.md", "150 ml/min"),
+    SystemEntry("dose_ml", 300.0, "ml", "bom_entscheidung.md", "300 ml"),
+    SystemEntry("pwm_hz", 20000.0, "Hz", "bom_entscheidung.md", "20 kHz"),
+    # Modul (ESP32-C6-MINI-1)
+    SystemEntry("module_tx_peak_ma", 382.0, "mA", "schaltplan_v1.md", "382 mA"),
+    SystemEntry("module_sleep_ua", 7.0, "\u00b5A", "schaltplan_v1.md", "7 \u00b5A"),
+    # Ruhestrom der Bausteine (aus den Datenblaettern, im Dokument belegt)
+    SystemEntry("iq_buck5_ua", 100.0, "\u00b5A", "schaltplan_v1.md", "100 \u00b5A"),
+    SystemEntry("iq_buck3_ua", 22.0, "\u00b5A", "schaltplan_v1.md", "22 \u00b5A"),
+    SystemEntry("iq_watchdog_ua", 0.15, "\u00b5A", "schaltplan_v1.md", "0,15 \u00b5A"),
+    # Netzteilannahme
+    SystemEntry("supply_v", 5.0, "V", "schaltplan_v1.md", "USB-C 5 V"),
+    SystemEntry("supply_i_a", 2.5, "A", "schaltplan_v1.md", "\u2265 2,5 A"),
+    # ADC (Espressif ESP32-C6, ADC_ATTEN_DB_12)
+    SystemEntry("adc_vref_mv", 3300.0, "mV", "schaltplan_v1.md", "3300 mV"),
+    SystemEntry("adc_bits", 12.0, "", "schaltplan_v1.md", "12 Bit"),
+)
+
+# ---------------------------------------------------------------------------
+# ANNAHMEN - bewusst keine Datenblattwerte, sondern Modellannahmen.  Sie sind
+# hier zentral dokumentiert und werden in der Ausgabe als Annahme genannt.
+# ---------------------------------------------------------------------------
+ASSUMPTIONS = {
+    "r_bat_ohm": 0.15,        # Innenwiderstand eines 2S-Rundzellenpacks, typ. 2 x 60-100 mOhm
+    "cc_frac": 0.8,           # Anteil der Ladung in der CC-Phase (Rest CV)
+    "cv_i_frac": 0.4,         # mittlerer Ladestrom in der CV-Phase, bezogen auf ICHG
+    "usable_frac": 0.8,       # nutzbarer Anteil der Packkapazitaet
+    "en_input_leak_ua": 1.0,  # EN-Eingangsleckstrom des SY8113B, konservativ (Datenblatt nennt keinen Einzelwert)
+}
 
 # Datenblatt-Fakten zum Lichtsensor ALS-PT19-315C/L177/TR8 (LCSC C146233).
 # Der Sensor haengt extern an J7 und ist KEINE BOM-/PCBA-Position.
@@ -102,6 +165,11 @@ def parse_farad(text):
     return _parse_unit(text, r"F\b|Farad|farad", fallback=True)
 
 
+def parse_henry(text):
+    """Induktivitaet in Henry. Beispiele: '4,7 µH' -> 4.7e-06, '2,2 µH'."""
+    return _parse_unit(text, r"H\b|Henry|henry")
+
+
 def parse_ampere(text):
     """Strom in Ampere. Beispiele: '500 mA', '40 µA'."""
     return _parse_unit(text, r"A\b")
@@ -171,7 +239,12 @@ def load_netlist(path=None):
 
 @lru_cache(maxsize=None)
 def load_values(path=None):
-    """Designator -> {'designator', 'value', 'lcsc'} aus schaltplan_v1.md."""
+    """Designator -> {'designator', 'value', 'desc', 'lcsc'} aus schaltplan_v1.md.
+
+    Die Tabellen §3.1-§3.4 haben unterschiedliche Spaltenkoepfe.  Gelesen wird
+    die Spalte "Wert", sofern vorhanden, zusaetzlich die Spalte "Bauteil" als
+    Beschreibung (dort steht z. B. bei Induktivitaeten der Wert '4,7 µH').
+    """
     p = Path(path) if path else SCHEMATIC_PATH
     if not p.exists():
         raise CircuitError("Bauteildatei fehlt: %s" % p)
@@ -183,6 +256,7 @@ def load_values(path=None):
             continue
         pos_i = idx["pos"]
         val_i = idx.get("wert")
+        desc_i = idx.get("bauteil")
         lcsc_i = idx.get("lcsc")
         for row in rows:
             if pos_i >= len(row):
@@ -191,6 +265,7 @@ def load_values(path=None):
             if not pos_raw:
                 continue
             value = _clean(row[val_i]) if val_i is not None and val_i < len(row) else None
+            desc = _clean(row[desc_i]) if desc_i is not None and desc_i < len(row) else None
             lcsc = None
             if lcsc_i is not None and lcsc_i < len(row):
                 lcsc = _clean(row[lcsc_i]) or None
@@ -198,9 +273,12 @@ def load_values(path=None):
                 des = des.strip()
                 if not des:
                     continue
-                entry = parts.setdefault(des, {"designator": des, "value": None, "lcsc": None})
+                entry = parts.setdefault(
+                    des, {"designator": des, "value": None, "desc": None, "lcsc": None})
                 if value:
                     entry["value"] = value
+                if desc:
+                    entry["desc"] = desc
                 if lcsc:
                     entry["lcsc"] = lcsc
     if not parts:
@@ -235,87 +313,54 @@ def net_of(designator, pin):
     raise CircuitError("Pin nicht gefunden: %s Pin %s" % (designator, pin))
 
 
-def _grab(pattern, text, label):
-    m = re.search(pattern, text)
-    if not m:
-        raise CircuitError("Kennwert '%s' nicht gefunden (Muster: %s)" % (label, pattern))
-    return m.groups()
+def parts_on(net):
+    """Liste aller (Bauteil, Pin) auf einem Netz, sonst CircuitError."""
+    netlist = load_netlist()
+    if net not in netlist:
+        raise CircuitError("Netz nicht in der Netzliste: %s" % net)
+    return list(netlist[net])
+
+
+def ratio(designator):
+    """R_top/R_bot eines Teilerpaares, z. B. ratio('R_FB5_TOP').
+
+    Der Designator muss auf 'TOP' enden; der Partner ergibt sich durch 'BOT'.
+    Fehlt einer der beiden Werte, bricht die Funktion mit CircuitError ab.
+    """
+    if not designator.endswith("TOP"):
+        raise CircuitError("ratio erwartet einen Designator auf '...TOP': %s" % designator)
+    bot = designator[:-3] + "BOT"
+    r_top = parse_ohm(part(designator)["value"])
+    r_bot = parse_ohm(part(bot)["value"])
+    if r_bot == 0:
+        raise CircuitError("R_bot ist 0 Ohm: %s" % bot)
+    return r_top / r_bot
+
+
+def rail_5v():
+    """5-V-Schiene aus dem SY8113B-Feedbackteiler (V_REF 0,6 V)."""
+    return VREF_BUCK5 * (1.0 + ratio("R_FB5_TOP"))
+
+
+def rail_3v3():
+    """3,3-V-Schiene aus dem AP63203-Feedbackteiler (V_REF 0,8 V)."""
+    return VREF_BUCK3 * (1.0 + ratio("R_FB3_TOP"))
+
+
+def system_quellen():
+    """Liefert die SYSTEM-Eintraege fuer check_system_quellen."""
+    return tuple(SYSTEM)
 
 
 @lru_cache(maxsize=None)
 def load_system():
-    """Systemkenngroessen aus den Dokumenten (Pumpe, Akku, Modul, Lader)."""
-    if not BOM_DECISION_PATH.exists():
-        raise CircuitError("Datei fehlt: %s" % BOM_DECISION_PATH)
-    bom = BOM_DECISION_PATH.read_text(encoding="utf-8")
-    sch = SCHEMATIC_PATH.read_text(encoding="utf-8")
-    vals = load_values()
-
-    sys = {}
-
-    (power,) = _grab(r"([0-9]+,[0-9]+)\s*W\s*\|\s*~[0-9]+\s*ml/min", bom, "Pumpenleistung")
-    (flow,) = _grab(r"[0-9]+,[0-9]+\s*W\s*\|\s*~([0-9]+)\s*ml/min", bom, "Foerderrate")
-    sys["pump_power_w"] = _to_float(power)
-    sys["pump_flow_ml_min"] = _to_float(flow)
-
-    (pump_v,) = _grab(r"@\s*([0-9]+[,.][0-9]+)\s*V", bom, "Pumpenspannung")
-    sys["pump_voltage"] = _to_float(pump_v)
-
-    (i3,) = _grab(r"3V\s*[\u2013-]\s*([0-9]+)\s*mA", bom, "Pumpenstrom 3 V")
-    (i6,) = _grab(r"6V\s*[\u2013-]\s*([0-9]+)\s*mA", bom, "Pumpenstrom 6 V")
-    sys["pump_current_3v_a"] = _to_float(i3) / 1000.0
-    sys["pump_current_6v_a"] = _to_float(i6) / 1000.0
-    # Betriebsstrom bei 3,7 V aus Leistung/Spannung (Datenblatt: 1,67 W @ 3,7 V)
-    sys["pump_current_a"] = sys["pump_power_w"] / sys["pump_voltage"]
-
-    (mah,) = _grab(r"~([0-9]+)\s*mAh", bom, "Zellkapazitaet")
-    (batt_v,) = _grab(r"([0-9]+,[0-9]+)\s*V\s*~[0-9]+\s*mAh", bom, "Zellspannung")
-    (wh,) = _grab(r"([0-9]+,[0-9]+)\s*Wh\s*nutzbar", bom, "nutzbare Energie")
-    sys["battery_mah"] = _to_float(mah)
-    sys["battery_voltage"] = _to_float(batt_v)
-    sys["battery_usable_wh"] = _to_float(wh)
-
-    (dose,) = _grab(r"Dosiervorgang von\s*([0-9]+)\s*ml", bom, "Dosismenge")
-    (tx,) = _grab(r"([0-9]+)\s*mA\s*Peak", bom, "TX-Peak")
-    (pwm,) = _grab(r"([0-9]+)\s*kHz\s*PWM", bom, "PWM-Frequenz")
-    (fw,) = _grab(r"([0-9]+,[0-9]+)\s*V\s*Pumpstopp", bom, "Firmware-Pumpstopp")
-    (pcm,) = _grab(r"Zelle\s*\|\s*~?\s*([0-9]+,[0-9]+)\s*V", bom, "PCM-Schwelle")
-    sys["dose_ml"] = _to_float(dose)
-    sys["tx_peak_ma"] = _to_float(tx)
-    sys["pwm_hz"] = _to_float(pwm) * 1000.0
-    sys["firmware_stop_v"] = _to_float(fw)
-    sys["pcm_v"] = _to_float(pcm)
-
-    (sleep,) = _grab(r"Modul-Deep-Sleep\s*([0-9]+)\s*\u00b5A", sch, "Modul-Schlafstrom")
-    sys["module_sleep_ua"] = _to_float(sleep)
-    (ldo_q,) = _grab(r"LDO\s*([0-9]+)\s*\u00b5A", sch, "LDO-Ruhestrom")
-    sys["ldo_quiescent_ua"] = _to_float(ldo_q)
-    (m809_q,) = _grab(r"MAX809\s*([0-9]+)\s*\u00b5A", sch, "MAX809-Ruhestrom")
-    sys["max809_quiescent_ua"] = _to_float(m809_q)
-    (div,) = _grab(r"Spannungsteiler\s*([0-9]+,[0-9]+)\s*\u00b5A", sch, "Teilerstrom")
-    sys["divider_current_ua"] = _to_float(div)
-
-    u4 = vals.get("U4", {}).get("value") or ""
-    u3 = vals.get("U3", {}).get("value") or ""
-    u7 = vals.get("U7", {}).get("value") or ""
-    if not u4 or not u3 or not u7:
-        raise CircuitError("U3/U4/U7 fehlen in schaltplan_v1.md")
-    sys["ldo_current_a"] = parse_ampere(u4)
-    sys["rail_3v3"] = parse_volt(u4)
-    sys["charge_voltage"] = parse_volt(u3)
-    sys["max809_v"] = parse_volt(u7)
-
-    d1 = vals.get("D1", {}).get("value") or ""
-    if not d1:
-        raise CircuitError("D1 fehlt in schaltplan_v1.md")
-    sys["diode_vrrm"] = parse_volt(d1)
-    sys["diode_if_a"] = parse_ampere(d1)
-
-    return sys
+    """Systemkenngroessen als dict {key: wert} aus dem SYSTEM-Block."""
+    return {entry.key: entry.wert for entry in SYSTEM}
 
 
 if __name__ == "__main__":
     print("Netze:     %d" % len(load_netlist()))
     print("Bauteile:  %d" % len(load_values()))
+    print("Rails:     +5V %.3f V, +3V3 %.3f V" % (rail_5v(), rail_3v3()))
     for key, value in sorted(load_system().items()):
         print("  %-24s %s" % (key, value))
