@@ -160,7 +160,7 @@ bei 0,15 A **0,26 W** in SOT-23-5 abgeführt und durfte laut Datenblatt nur **6,
 | 5 | **Alte Boost-Induktivität L1 22 µH hatte nur 2,05 A Sättigungsstrom**, der MT3608 zieht bis 2 A Schalterstrom | mittel | entfällt mit dem Boost ersetzt (jetzt 4,0 A Isat) |
 | 6 | **Prüfwerkzeug-Lücke:** Beide Prüfer kannten den Designator-Präfix **`L`** nicht — Induktivitäten wurden **nie** gegen BOM/Dokument geprüft | mittel | behoben (beide Skripte geeicht, 16.09.2026) |
 | 7 | **Netzname `SW_5V` wurde als Bauteil fehlinterpretiert** (Designator-Muster `SW…`) | niedrig | behoben: Netze heißen jetzt `LX_5V`/`LX_3V3` |
-| 8 | **Design-Prüfsuite (`hardware/design/`) ist derzeit nicht lauffähig** (`circuit.py` findet einen Kennwert in `bom_entscheidung.md` nicht) und rechnet noch auf 1S | mittel | **offen** — Auftrag §8.6 |
+| 8 | **Design-Prüfsuite (`hardware/design/`) war nicht lauffähig** (`circuit.py` fand einen Kennwert in `bom_entscheidung.md` nicht) und rechnete auf 1S | mittel | **behoben (16.09.2026):** Suite auf 2S umgestellt (**37 Prüfungen, Exit 0**), fünf 1S-Prüfungen ersetzt, 14 neue; **Mutationstest 10/10** (`hardware/design/MUTATIONSTEST.md`) |
 | 9 | Dokumentationsreste (J14-Tabelle in §9.1) | niedrig | behoben |
 
 ## 6. Bewusst **nicht** geändert (Entscheidungen mit Grund)
@@ -211,9 +211,17 @@ bei 0,15 A **0,26 W** in SOT-23-5 abgeführt und durfte laut Datenblatt nur **6,
 5. **5-V-Schiene nach Kaltstart** messen (200 ms Wächter-Delay + 800 µs Buck-Softstart) → gehört als
    Wartezeit in die Firmware; außerdem ADC-Faktor **4** statt 2 und neue Schwellen (Warnung ~7,0 V,
    Pumpstopp ~6,8 V Pack).
-6. **Design-Prüfsuite auf 2S umstellen** (`hardware/design/circuit.py` + `checks.py`): LDO- und
-   Boost-Prüfungen ersetzen durch Buck-Feedback-, Wächter-/Teiler- und Ladepfad-Prüfungen; die Suite
-   läuft derzeit gar nicht (Befund 8).
+6. ✅ **Design-Prüfsuite auf 2S umgestellt (16.09.2026, erledigt):** 37 Prüfungen, `exit 0`;
+   neu u. a. `check_ladestrom_ip2326`, `check_ladeschluss_2s`, `check_buck5/3_ausgang`,
+   `check_buck*_induktivitaet`, `check_uvlo_schwelle`, `check_waechter_sinkstrom`,
+   `check_adc_teiler_max`, `check_buck_en_pegel`, **`check_klemmzweig_serie`** (Regressionsschutz
+   für Befund 1), **`check_kein_low_vin_am_vbat`** (ME6211-Lektion als Test), `check_standby_budget`,
+   `check_system_quellen`. Nachweis: **10 von 10 Mutationen werden gefangen**
+   (`hardware/design/mutation_cases_2s.json` + `MUTATIONSTEST.md`).
+
+   *Restpunkt:* die Firmware-Schwellen in `bom_entscheidung.md` §4b sind weiterhin **pro Zelle**
+   angegeben (3,5/3,4 V) — die Suite verdoppelt sie korrekt auf 7,0/6,8 V Pack; sobald die echten
+   PCM-Werte des neuen Packs bekannt sind, dort nachtragen.
 7. **EasyEDA-Neuaufbau** (eigener Schritt): Geräte-Identitäten der 4 neuen ICs auflösen, IR bauen,
    Netzklassen/Layout-Input neu erzeugen, `pcb import-changes` — erst danach Layout.
 
