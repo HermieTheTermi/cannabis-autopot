@@ -1,6 +1,6 @@
 # Smart Grow Topf
 
-Automatisch bewässernder Topf für eine Cannabis-Pflanze, gesteuert über ein **ESP32-C6-Modul direkt auf der eigenen PCB** (eigener 1S-Lader, eigener 3,3-V-Regler), Akkubetrieb. **Eigenes Projekt** (unabhängig vom GrowTower).
+Automatisch bewässernder Topf für eine Cannabis-Pflanze, gesteuert über ein **ESP32-C6-Modul direkt auf der eigenen PCB** (eigener 2S-Lader, eigene 5-V-/3,3-V-Wandler), Akkubetrieb. **Eigenes Projekt** (unabhängig vom GrowTower).
 
 ![Smart Grow Topf – KI-Konzeptbild im Stand V1](docs/img/konzeptbild-v1-ki.jpg)
 
@@ -79,9 +79,8 @@ cannabis-autopot/
 - [x] **Entscheidungen 11.09.2026:** Topf Ø140×150 (Erde) + 1 L Tank darunter · ESP32-C6-MINI-1 auf eigener PCB · Wulst mit Kanal · Top-Drip-Ring · Sensor von oben · Telegram final · nur Wasser
 - [x] **Höhen-/Volumenberechnung** → Gesamthöhe 278 mm, Tank 1,0 L, Erdvolumen 1,9 L (`docs/02_...`)
 - [x] **BOM-Entscheidung** (11.09.2026, Pumpentausch 14.09.2026): ESP32-C6-MINI-1 ≈ 3,60 € · Peristaltikpumpe **CONQUERALL DC 5 V** (Amazon `B0DHVMZ27Y`, ≤150 ml/min, 3 × 5 mm Schlauch) **11,99 €** statt 31,94 € OEM · Sensor v1.2 4,99 € · EFASO-Akku 14,90 € → **≈ 47–49 €** gesamt inkl. Schlauch und Passiven (+ ~28 € JLCPCB-Handling) (`hardware/bom_entscheidung.md`)
-- [x] **Versorgung festgelegt:** 1S direkt für die Logik (LDO 3,3 V), eigener Lader **MCP73831T-2** + **ME6211** auf der Platine · **seit 15.09.2026 zusätzlich U8 MT3608 als 5-V-Boost für beide Pumpen** (5,10 V). ⚠️ **Offen:** der Anlaufstrom der CONQUERALL (2,2–2,5 A gemessen erwartet, 3 A laut Datenblatt) liegt **über** dem, was der Boost liefern kann → **PWM-Softstart Pflicht**, Messauftrag in `hardware/bom_entscheidung.md` §4c/§7 und `hardware/schaltplan_v1.md` §10
-- [x] **MCU festgelegt:** **ESP32-C6-MINI-1** auf eigener PCB (kein Dev-Board) — Pflichtbeschaltung und Antennenregeln aus den Espressif-Docs übernommen
-- [x] **PCBA geprüft:** alle Bauteile bei JLCPCB verfügbar (LCSC-Codes in `hardware/pcba_bom_jlc.csv`)
+- [x] **Versorgung festgelegt (Revision „2S-Umbau\", 16.09.2026):** **2S-Pack 6,0–8,4 V** an J1 (**BMS mit Balancing Pflicht**) · Lader **IP2326** (2S-Boost-Lader aus 5 V USB, 8,4 V / 0,90 A) · **U_BUCK5 SY8113B** → **+5V (5,10 V)** für beide Pumpen und den neuen 5-V-Ausgang J17 · **U_BUCK3 AP63203** → **+3V3 (3,31 V)** für die Logik · Wächter **TPS3839G33** (Auslösung bei 6,16 V Pack). Ersetzt 1S-Akku, MCP73831, ME6211, MAX809 und den MT3608-Boost. ⚠️ **Offen:** der 3-A-Pumpenanlauf liegt zwar am Nennstrom des 5-V-Bucks, aber nur **0,57 A unter dem Isat (4,0 A)** der 4,7-µH-Induktivität → **PWM-Softstart weiter empfohlen**, Messauftrag in `docs/11_review-2s-umbau.md` §8 und `hardware/schaltplan_v1.md` §6.7
+- [x] **PCBA geprüft (16.09.2026):** alle Bauteile bei JLCPCB verfügbar (LCSC-Codes in `hardware/pcba_bom_jlc.csv`; **109 bestückte Refs**, davon **17 Extended-Positionen ≈ 51 USD Handling** — `hardware/pcba_verfuegbarkeit_jlc.md` §1b)
 - [x] **Sauerstoffpumpe + 5-V-Boost** (15.09.2026): **zweiter** Pumpenpfad — **Q3** (AO3400A) mit
       **R33/R34**, Freilauf **D7**, UV-Klemmzweig **D8**, Stecker **J16** (JST-XH 2P aufrecht, gleicher
       Typ wie J4) an **IO22** (vorher Reserve **J14** ⛔ entfällt). Damit **beide** Pumpen 5 V bekommen,
@@ -103,7 +102,7 @@ cannabis-autopot/
       `C158012` (Pumpe XH-2P); vorher `C54582899`/`C157928`/`C157931`. Die aufrechten Typen haben
       deutlich mehr Lager (u. a. J4: 203.889 statt 2). Elektrik unverändert (**Pin-Diff = 0, 50 Netze**),
       PCB per `import-changes` als **„Modify Footprint"** aktualisiert (80 Bauteile, **Platzierung erhalten**)
-- [x] **Schaltplan V1 + Netzliste** (`hardware/schaltplan_v1.md`, `..._netzliste.csv`, **50 Netze / 80 Bauteile / 72 bestückte Positionen**)
+- [x] **Schaltplan V1 + Netzliste** (`hardware/schaltplan_v1.md`, `..._netzliste.csv`, **68 Netze / 115 Bauteile / 314 Verbindungen / 109 bestückte Positionen**)
 - [x] **Design als Python-Modell + Prüfungen** (`hardware/design/`): **29** Design-Regelprüfungen gegen die
       Datenblattgrenzen, 6 Simulationsgruppen, Mutationsabdeckung vollständig (`hardware/design/MUTATIONSTEST.md`)
 - [x] **Taster + 3 LEDs** (11.09.2026): externer Nachfüll-Taster an IO6 (weckt aus dem Deep-Sleep), nur
@@ -134,5 +133,5 @@ cannabis-autopot/
 ## Nächste Schritte
 1. BOM finalisieren (Preise, Links, Verfügbarkeit) → `research/bom-check/`
 2. Gehäuse-CAD (build123d, `cad/`) aus `docs/02_architektur-und-geometrie.md` — fertig, Teile drucken
-3. PCB: ESP32-C6-Modul, MCP73831-Lader, ME6211-LDO, MOSFET-Treiber, Sensor-ADC, USB-C, Taster-Lötpads, 3 LEDs — Netzliste `hardware/schaltplan_v1_netzliste.csv`
+3. PCB: ESP32-C6-Modul, IP2326-2S-Lader, SY8113B-Buck (5 V), AP63203-Buck (3,3 V), TPS3839-Wächter, MOSFET-Treiber, Sensor-ADC, USB-C, Taster-Lötpads, 3 LEDs — Netzliste `hardware/schaltplan_v1_netzliste.csv`
 4. Firmware: State-Machine, Kalibrierroutine, Telegram-Alarm

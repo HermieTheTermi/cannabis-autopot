@@ -7,6 +7,13 @@ Dieses Dokument ist die Recherche-/Ideenebene (inkl. Alternativen und Ausschluss
 > ⚠️ **Historisch, Stand 10.09.2026.** Genannt werden hier noch der **XIAO ESP32-C6** (verworfen,
 > jetzt ESP32-C6-MINI-1), die **Adafruit-Pumpe** und der **Gate-Widerstand 220 Ω** (beide verworfen).
 > Verbindlich sind ausschließlich `bom_entscheidung.md` und `schaltplan_v1.md`.
+>
+> ⚠️ **Versorgungskette (Stand 16.09.2026, Revision „2S-Umbau"):** **2S-Pack 6,0–8,4 V**
+> (BMS mit Balancing Pflicht) → Lader **IP2326** (8,4 V / 0,90 A aus 5 V USB) → **Buck SY8113B**
+> (U_BUCK5) → **+5 V (5,10 V)** für beide Pumpen und J17 · **Buck AP63203** (U_BUCK3) → **+3,3 V**
+> (3,31 V) für die Logik · Wächter **TPS3839G33**. **Kein LDO, kein Boost.** Alle Angaben unten zu
+> **1S-Zelle, MCP73831, ME6211, MT3608 und „Pumpe direkt an der Zelle"** sind damit überholt —
+> maßgeblich ist `schaltplan_v1.md` (§1–§6).
 
 ---
 
@@ -34,8 +41,9 @@ Dieses Dokument ist die Recherche-/Ideenebene (inkl. Alternativen und Ausschluss
 - Silikonschlauch **3 × 5 mm** (passt zum bestellten Schlauch), Bauhöhe 42 mm, Ansaugbereich 0,5 m
 - Schlauch quetschen, selbstansaugend, Richtung per Umpolung umkehrbar
 - Amazon: https://www.amazon.de/dp/B0DHVMZ27Y · 2er-Pack `B0DJ78W43W` 16,61 €
-- ⚠️ Ø nicht dokumentiert, Betrieb an 1S (3,0–4,2 V) unterhalb der Nennspannung, Anlaufstrom 3 A
-  → **PWM-Softstart Pflicht** und Messauftrag: `bom_entscheidung.md` §4c/§7
+- ⚠️ Ø nicht dokumentiert; sie läuft seit dem 2S-Umbau an der **geregelten 5-V-Schiene (5,10 V)**,
+  also an ihrer Nennspannung; Anlaufstrom 3 A
+  → **PWM-Softstart empfohlen** und Messauftrag: `bom_entscheidung.md` §4c/§7, `docs/11_review-2s-umbau.md` §4.4
 
 **Geprüft und verworfen (14.09.2026):**
 
@@ -44,11 +52,11 @@ Dieses Dokument ist die Recherche-/Ideenebene (inkl. Alternativen und Ausschluss
 | „6V-Mini-Peristaltik" `B0HC8WF98P` / `B0H7R9XYJ5` | 5,99 / 6,69 € | Produkttext wörtlich: **„Spannungen unter 6 V betreiben den Motor nicht"** → an 1S unbrauchbar |
 | Funduino „0–90 ml/min, 3–12 V" `B0DT1JCFNV` | 11,39 € | Titel nennt 3–12 V, Produktdetails **keine Spannung/kein Strom** → Akku-Auslegung nicht belegbar |
 | Whadda WPM447 `B09L4SR2MY` | 14,18 € | 39 ml/min bei 5 W → fünffache Energie pro Liter |
-| 12-V-Klasse (G528/G928, Kamoer NKP) | ab 16 € | bräuchte Boost, den die Platine bewusst nicht hat |
+| 12-V-Klasse (G528/G928, Kamoer NKP) | ab 16 € | bräuchte einen Boost, den die Platine nicht hat (die 5-V-Schiene ist ein **Buck**) |
 | Schrittmotor-Mikropumpen 3–5 V `B0GGRLZ23B` | 18,88 € | 0,5 ml/min → 10 h für eine Dosis |
 | „Peristaltikpumpe 3,7/6/12 V … **Membran** Luftpumpe" | 18–19 € | sind **keine** Peristaltikpumpen (Titel-Fehler), Medium hätte Kontakt |
 
-> **Warum 3–6V statt 12V:** Für Akkubetrieb ist eine 3–6V-Pumpe direkt an einer 3,7V-LiPo-Zelle (oder per Buck auf 3,3V) einfacher und effizienter. 12V bräuchte einen Step-Up und mehr Zellen. Bei einem kleinen Topf ist der Durchfluss eh klein — die Funduino (0–90 ml/min) reicht.
+> **Warum 3–6V statt 12V:** Für Akkubetrieb ist eine 3–6V-Pumpe über eine geregelte 5-V-Schiene einfacher und effizienter. 12V bräuchte einen Step-Up und mehr Zellen. Bei einem kleinen Topf ist der Durchfluss eh klein — die Funduino (0–90 ml/min) reicht. *(Stand 14.09.2026: die 5-V-Schiene entsteht aus dem 2S-Pack per **Buck** — die frühere Begründung „direkt an der Zelle" gilt nicht mehr.)*
 
 > **Durchfluss-Timing (kleiner Topf ~3–6 L):** 0,3–0,6 L pro Gießvorgang. Bei 60 ml/min → **5–10 min** Dauerlauf; kann in 2–3 Portionen mit Pausen erfolgen. Genau kalibrieren (30 s in Messbecher pumpen → nachmessen), Mini-Pumpen streuen ±30 %.
 
@@ -80,9 +88,9 @@ Dieses Dokument ist die Recherche-/Ideenebene (inkl. Alternativen und Ausschluss
 
 | Komponente | Wert | Begründung |
 |---|---|---|
-| Zelle | **LiPo 3,7 V, 1000–2000 mAh** | Pumpe läuft nur minutenweise pro Zyklus |
-| Lade-IC | **MCP73831** (oder XIAO-onboard-Lader) | ~1 € |
-| Versorgung | Buck 5V→3,3V? Nein — Sensor+ESP 3,3V, Pumpe 3–6V direkt von Zelle | Sehr niedriges Strombudget |
+| Pack | ~~LiPo 3,7 V, 1000–2000 mAh~~ **→ 2S-Pack 6,0–8,4 V (1500–2500 mAh), BMS mit Balancing** | Pumpe läuft nur minutenweise pro Zyklus; Reihenzellen brauchen Balancing |
+| Lade-IC | ~~**MCP73831**~~ **→ IP2326** (2S-Boost-Lader, 8,4 V / 0,90 A) | ~0,62 $, LCSC `C2832094` |
+| Versorgung | ~~Pumpe direkt von der Zelle~~ **→ Buck SY8113B (+5 V) und Buck AP63203 (+3,3 V)** | Sensor+ESP 3,3 V, beide Pumpen 5 V |
 | Tiefentladeschutz | Zellen-Schutz-PCB / BMS | LiPo-Pack mit Schutz wählen |
 
 **Strombudget-Berechnung (Basis):**

@@ -122,9 +122,14 @@ drip_z = wulst_z0 + wulst_taper - 1.0
 # ---- Bauteil-Footprints (Elektronik) ---------------------------------------
 xiao_w = 21.0
 xiao_l = 17.5
+# xiao_* = verworfene MCU-Variante (XIAO ESP32-C6). Bestueckt ist das Modul
+# ESP32-C6-MINI-1 (13,2 x 16,6 mm, U1 der Netzliste) - Werte nur noch Historie.
 pcb_l = 52.0
 pcb_w = 42.0
 pcb_t = 1.6
+# batt_* = Masse der abgeloesten 1S-Zelle (EFASO, 59 x 37 x 5 mm). Verbindlich ist
+# jetzt ein 2S-Pack (6,0-8,4 V, BMS mit Balancing) - Auswahl offen, Einbaumasse
+# gegen die Wulst pruefen (docs/11_review-2s-umbau.md 8.1).
 batt_l = 59.0
 batt_w = 37.0
 batt_t = 5.0

@@ -61,7 +61,7 @@ Stand: 11.09.2026 (Projektstart) · Geometrie-Details: [`02_architektur-und-geom
 
 ## Technische Eckpunkte
 
-- **MCU:** ESP32-C6-MINI-1 (WiFi 6, Deep-Sleep 7 µA, ADC1 auf IO0–IO6), 13,2 × 16,6 mm — Lader, LDO und USB sind eigene Bauteile (siehe `hardware/schaltplan_v1.md`).
+- **MCU:** ESP32-C6-MINI-1 (WiFi 6, Deep-Sleep 7 µA, ADC1 auf IO0–IO6), 13,2 × 16,6 mm — Lader, beide Wandler (5 V/3,3 V) und USB sind eigene Bauteile (siehe `hardware/schaltplan_v1.md`).
 - **Pumpen-Ansteuerung:** Logic-Level-N-MOSFET (Low-Side) + Freilaufdiode 1N5819, **Gate 4,7 kΩ, Pulldown 47 kΩ** (Werte aus Review 1 korrigiert — maßgeblich ist `hardware/schaltplan_v1.md`).
 - **Sensor:** analoger Ausgang direkt an ADC1, VCC per GPIO schalten (nur während der Messung an); invertierte Kennlinie (trocken ≈ 2100–2600, nass ≈ 1200–1500).
 - **Lichtsensor (extern):** analoger Fototransistor (z. B. ALS-PT19, LCSC `C146233`) an **J7**
@@ -92,7 +92,7 @@ Stand: 11.09.2026 (Projektstart) · Geometrie-Details: [`02_architektur-und-geom
   Strom auf ≈ 3 mA → **keine Funktion, kein Schaden**. Aderfarben-Empfehlung: schwarz = GND,
   rot = VCC, gelb = SIG (J8 4-pol: schwarz/rot/weiß/grün). J2 bleibt **gerastetes JST-XH**; J7 und
   J8–J15 sind **2,54-mm-Stiftleisten** für Dupont-Buchsen — Stecker-Typen nicht mischen.
-- **Akku:** Zelle mit Schutz-PCB, Laden über **MCP73831T-2 auf unserer Platine** (USB-C-Durchbruch in der Wulst).
+- **Akku:** **2S-Pack (6,0–8,4 V) mit BMS inkl. Balancing — Pflicht** (Reihenzellen driften sonst auseinander, siehe `hardware/schaltplan_v1.md` §6.3); Laden über den **IP2326** (2S-Boost-Lader aus 5 V USB, 8,4 V / 0,90 A) auf unserer Platine (USB-C-Durchbruch in der Wulst). Aus dem Pack entstehen **+5 V (SY8113B-Buck, 3 A)** für beide Pumpen und **+3,3 V (AP63203-Buck, 2 A)** für die Logik — **kein LDO, kein Boost**.
 - **Bedienung:** **externer Taster** am Gehäuse (Nachfüllen quittieren). Auf der Platine nur zwei Lötpads/Bohrungen (J6) + Pull-up 10 kΩ + 100 nF — der Taster sitzt **nicht** auf der Platine. Der Taster hängt an **IO6 (LP_GPIO6)** und **weckt das Gerät aus dem Deep-Sleep** (EXT1).
 - **Anzeige:** **rote LED D5 „Tank leer"** an IO7 auf der Platine (1 kΩ, 1,3 mA — Firmware soll blinken statt dauerleuchten, siehe `hardware/schaltplan_v1.md` §7.4); **grüne Status-LED D2** an IO14 (R4 220 Ω, Vf 2,85 V — grün = Betrieb, **rot bleibt der Warnung vorbehalten**); Ladestatus zeigt der Lader selbst.
 - **Strombudget:** Deep-Sleep µA-Bereich, Pumpe nur Minuten pro Zyklus → Versorgung für Wochen.

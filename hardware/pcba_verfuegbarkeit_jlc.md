@@ -4,6 +4,10 @@ Stand: 15.09.2026 · Methode: JLCPCB-Parts-API (`selectSmtComponentList/v2`, Ski
 jede Zeile ein echter API-Treffer. Preise = 1-Stück-Staffel in USD. `base` = Basic (keine
 Handling-Gebühr) · `expand` = Extended (**+3 USD pro Position**).
 
+> ⚠️ **Historisch (1S-Stand, 15.09.2026):** §1 prüft die Versorgungskette des **1S-Designs**
+> (MCP73831, ME6211, MAX809, MT3608). Für den seit 16.09.2026 verbindlichen **2S-Umbau** gilt
+> **§1b** — dort sind IP2326, TPS3839G33 und beide Bucks live geprüft.
+
 ## 1. Ergebnis: die Platine ist vollständig bestückbar
 
 Seit der Umstellung auf das nackte **ESP32-C6-MINI-1** gibt es **keine Lücke mehr** — der XIAO
@@ -67,6 +71,7 @@ Stiftleisten wurden in diesem Durchgang **nicht** erneut abgefragt (⏳); Q2 `C1
 Basic (inkl. Q2 `C15127`). Das ist der Preis dafür, dass Lader, LDO und USB auf unserer Platine
 sitzen statt im XIAO-Modul. Sparoptionen: RT9013-33 statt ME6211 ändert nichts (beide Extended),
 ein Basic-Äquivalent für den 100-µF-Puffer wäre noch zu suchen.
+*(1S-Stand — nach dem 2S-Umbau sind es **17 Extended-Positionen ≈ 51 USD**, siehe §1b.)*
 
 
 ## 1b. Nachtrag 16.09.2026 — Bauteile des 2S-Umbaus (live geprüft)
@@ -120,24 +125,22 @@ die eine Gehäuseöffnung und Randabstand erzwungen hätte. Damit lässt sich di
 | AO3400A | `aosmd.com/pdfs/datasheet/AO3400A.pdf` | VDS 30 V · ID 5,7 A · RDS(on) < 48 mΩ @ VGS 2,5 V · VGS(th) 0,65–1,45 V |
 | AO3401A | LCSC-Produktdaten `C15127` | P-Kanal · RDS(on) 47 mΩ @ VGS −10 V · 60 mΩ @ −4,5 V · **85 mΩ @ −2,5 V** |
 | 1N5819WS | LCSC-Datenblatt (Heketai) | VRRM 40 V · IF 1,0 A · IFSM 25 A · VF ≤ 0,60 V @ 1 A |
-| MAX809T | LCSC-Datenblatt | VTH 3,04/3,08/3,11 V · ICC 12 µA · push-pull aktiv-low |
-| MCP73831T-2 | LCSC-Datenblatt | **4,20 V** Ladeschluss (die -2-Variante) · 15–500 mA · UVLO 3,45/3,38 V |
-| ME6211C33 | LCSC-Datenblatt | 500 mA · Dropout 100 mV @ 100 mA · Iq 40 µA |
+| ~~MAX809T~~ (1S, entfallen) | LCSC-Datenblatt | VTH 3,04/3,08/3,11 V · ICC 12 µA · push-pull aktiv-low — ⚠️ V_DD,max 5,5 V ⇒ an 2S nicht betreibbar |
+| ~~MCP73831T-2~~ (1S, entfallen) | LCSC-Datenblatt | **4,20 V** Ladeschluss (die -2-Variante) · 15–500 mA · UVLO 3,45/3,38 V |
+| ~~ME6211C33~~ (1S, entfallen) | LCSC-Datenblatt | 500 mA · Dropout 100 mV @ 100 mA · Iq 40 µA — ⚠️ V_IN,max 6,0 V |
 | ESP32-C6-MINI-1 | Espressif-Datasheet v1.5 (HTML) | TX-Peak **382 mA** @ 20,5 dBm · Deep-Sleep 7 µA · USB_D− GPIO12 / USB_D+ GPIO13 |
 
-| **U8** | **MT3608** (5-V-Boost für beide Pumpen) | `C84817` | SOT-23-6 | expand | 281.143 | ⏳ |
-| **L1** | Induktivität **22 µH** (YNR6045, 2,05 A) | `C341068` | SMD 6 × 6 mm | expand | 4.120 | ⏳ |
-| **D6** | **SS34** Boost-Diode 3 A / 40 V | `C8678` | SMA | expand | 3.557.042 | ⏳ |
-| **R31** | Widerstand **75 kΩ** (Boost-Feedback) | `C17819` | 0805 | **base** | 49.785 | ⏳ |
-
-⚠️ **Neu am 15.09.2026 (Sauerstoffpumpe + Boost):** `C84817`, `C341068`, `C8678`, `C17819` sind noch
-**nicht** über die JLCPCB-Parts-API gegengeprüft (Bestände stammen aus der LCSC-Suche). Vor der
-Bestellung mit dem Skill `jlcpcb-parts-check` nachziehen — insbesondere **L1** (kleinster Bestand).
+**Entfallen mit dem 2S-Umbau (16.09.2026) — nicht mehr zu prüfen:** ~~U8 MT3608~~ (`C84817`),
+~~L1 22 µH~~ (`C341068`), ~~D6 SS34~~ (`C8678`), ~~R31 75 kΩ als Boost-Feedback~~ (`C17819`).
+Der 5-V-Boost wird durch den **Buck SY8113B** (`C78989`) ersetzt; der 75-kΩ-Wert lebt als
+**R_FB5_TOP des Bucks** weiter (§1b, live geprüft). Die alten Bestände stammten aus der
+LCSC-Suche und sind mit dem Boost hinfällig.
 
 ## 4. Nicht geprüft / offen
 
 - **Stückpreise in EUR** inkl. Zoll/USt und **Versandkosten** der JLC-Bestellung nicht geprüft;
   USD→EUR hier grob mit ~0,92 gerechnet.
 - **MOQ / Mindestbestückungsmenge** je Position nicht ausgewertet.
-- **Basic-Alternativen** für die 10 Extended-Positionen nicht gesucht (Sparpotenzial ~30 USD).
+- **Basic-Alternativen** für die **17** Extended-Positionen des 2S-Stands nicht gesucht
+  (Sparpotenzial ~51 USD; die vier neuen ICs sind bei JLCPCB alle Extended, §1b).
 - Pumpe, Sensor, Akku, Schlauch kommen nicht von JLC (siehe `bom_entscheidung.md`).

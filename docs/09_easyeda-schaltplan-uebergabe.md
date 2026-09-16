@@ -36,17 +36,21 @@ Immer mit `--project SmartGrowTopf_V1` arbeiten, Mutationen mit `--doc P1`.
 
 Alle im Repo `~/Projekte/cannabis-autopot`:
 
-- `hardware/schaltplan_v1.md` (Stand 14.09.2026) — **Wahrheit**: Blockbild, Netztabelle,
-  Bauteilwerte, Pinbelegungen, Auslegung. **50 Netze, 80 Bauteile, 72 bestückte Positionen,
-  6 Testpunkte (TP1–TP6)**. Die GPIO-/I²C-Erweiterung (J7–J15, Q2) ist als 2,54-mm-Stiftleisten
-  wieder eingebaut; der **Live-Bau in EasyEDA muss dafür noch nachgezogen werden** (Offline-Stand
-  der Generatoren: 80 Bauteile, 50 Netze, 233 Verbindungen, `check_ir_netlist.py` 0 Abweichungen).
+- `hardware/schaltplan_v1.md` (**Stand 16.09.2026, Revision „2S-Umbau"**; §7–§12 sind Historie) — **Wahrheit**:
+  Blockbild, Netztabelle, Bauteilwerte, Pinbelegungen, Auslegung. **68 Netze, 115 Bauteile, 314 Verbindungen,
+  109 bestückte Positionen, 6 Testpunkte (TP1–TP6)**. Neu im 2S-Umbau: **IP2326**-Lader (8,4 V / 0,90 A),
+  5-V-Buck **SY8113B** (U_BUCK5), 3,3-V-Buck **AP63203** (U_BUCK3), Wächter **TPS3839G33** (6,16 V Pack),
+  **J17** (5-V-Ausgang für Sensorik). Der **Live-Bau in EasyEDA steht noch auf dem 1S-Stand** (er trägt
+  u. a. den wirkungslosen Klemmzweig und den 1:2-ADC-Teiler, `docs/11_review-2s-umbau.md` §5) und muss
+  vor dem Layout neu aufgebaut werden.
 - `hardware/schaltplan_v1_netzliste.csv` — maschinenlesbare Netzliste (Bauteil, Pin, Netz).
 - `hardware/pcba_bom_jlc.csv` + `hardware/pcba_verfuegbarkeit_jlc.md` — LCSC-Codes,
   basic/extended, Lagerbestand.
 - `hardware/design/` — Python-Designmodell mit **29 mutationsgeprüften** Prüfungen
   (`python3 hardware/design/report.py` → 29/29) und die Netzlisten-/BOM-Linter unter
-  `scripts/`. Diese dienen der Gegenprüfung der EasyEDA-Ausgabe.
+  `scripts/`. Diese dienen der Gegenprüfung der EasyEDA-Ausgabe. ⚠️ **Noch auf 1S-Stand** — die
+  Design-Prüfsuite ist nicht lauffähig und prüft LDO/Boost statt Buck/Wächter (Befund 8 in
+  `docs/11_review-2s-umbau.md`); verbindlich ist vorerst die Netzliste + die Dokument-Lints.
 - `docs/02_architektur-und-geometrie.md` — mechanische Wahrheit (Platine ≤ 38 mm breit,
   Antennen-Freistellung, Kammermaße).
 
