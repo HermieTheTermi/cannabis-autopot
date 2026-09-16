@@ -1,0 +1,49 @@
+# 2S-Akkupacks (7,4 V) mit integriertem BMS/Schutz — Rechercheergebnisse
+
+Stand: 2026-09-16. Anforderungen: 2S (7,4 V nominal, 8,4 V Ladeschluss), 1500–3000 mAh, 2-poliger Stecker (JST-PH 2,0 bevorzugt / XH / offene Litzen), Einbauraum ~60×40 mm Wulst mit ~160 mm Höhe, flache Pouch-Zelle bevorzugt; Lader im Gerät: Injoinic IP2326 (5 V USB-C → 8,4 V, ~1 A) mit eigenem 2S-Balancing, Pack soll aber zusätzlich **eigenes Schutz-/BMS-IC** haben.
+
+## Empfehlung
+
+**Keeppower 2S1P 2×18500, 2000 mAh, 7,4 V mit BMS — akkuteile.de, 10,90 €, auf Lager** (https://www.akkuteile.de/2s1p-18500-2000mah-7-4v-li-ion-akku-mit-bms-schutz_12056_1060)
+
+Begründung:
+- **Passt am besten in den Einbauraum**: Stabform 18,5 mm Ø × 103 mm — die 18,5 mm passen quer in die ~40 mm breite Wulst, 103 mm bleiben deutlich unter den ~160 mm Höhe. Damit ist sie deutlich schlanker als jeder 2×18650-Halter (69×37×19 mm) und als der 66,5 mm lange Marshall-Ersatzpack.
+- **Kapazität im Zielfenster**: 2000 mAh / ~14,8 Wh bei 7,4 V (Nennspannung laut Shop 7,2–7,4 V), 70 g.
+- **Schutz dokumentiert**: Seiko-Protection-BMS (Made in Japan) mit Kurzschluss-, Überladungs- und Tiefentladungsschutz, Entladeschluss 5,5 V, PCB 6 A — echte Schutzschaltung, im Shop-Datenblatt ausgewiesen.
+- **Stecker**: 50 mm offene Kabel (Plus/Minus) — kann direkt mit dem bevorzugten JST-PH-2,0-Stecker (oder JST-XH) konfektioniert werden; kein 3-poliger Balancer-Stecker nötig.
+- Balancing selbst ist bei diesem Pack **nicht** dokumentiert — abgedeckt durch das Balancing des IP2326 im Gerät (siehe Abschnitt unten).
+
+Zweitwahl, wenn mehr Kapazität/Laufzeit gewünscht ist und die Stabform nicht stört: **Keeppower 2S1P 18650 3400 mAh mit BMS (NCR18650B), akkuteile.de, 14,90 €, auf Lager** — 18,7 mm Ø × 134 mm, 100 g, 25,16 Wh, ebenfalls Seiko-BMS. Höhe 134 mm passt in die ~160 mm; nur 18,7 mm dick.
+
+Wenn zwingend eine **flache Pouch-Bauform** gefordert ist: Der Marshall-Emberton-Ersatzpack (Zeile 4) ist mit 66,5 × 37 mm bauformmäßig passend und hat dokumentierten Überladungs-/Kurzschlussschutz, ist bei akkushop.de aber erst „Versandfertig in 75 Tagen" (Nachbestellung) und etwas länger als die 60-mm-Wulst. Für flache Pouch-2S-Packs **mit Schutzplatine ab Lager in DE** gibt es aktuell praktisch kein Serienprodukt — alle geprüften RC-Packs mit Pouch-Form sind ungeschützt (nur XH-Balance-Leitung).
+
+## Kandidaten-Tabelle
+
+| # | Kandidat | Kapazität | Nennspannung | Energie | Maße (mm) | Gewicht | Stecker/Buchse | Zelltyp | BMS/Balancing — belegt woraus | Preis | Shop + Direktlink | Lagerstatus |
+|---|----------|-----------|--------------|--------|-----------|---------|----------------|---------|-------------------------------|-------|-------------------|-------------|
+| 1 | Keeppower 2S1P 2×18500 mit BMS | 2000 mAh (min. 1900) | 7,2–7,4 V (8,4 V Ladeschluss) | ~14,8 Wh | 18,5 Ø × 103 | 70 g | 50 mm offene Kabel (Litzen), +/− | 2× Panasonic NCR18500 (Rundzelle 18500) | **Schutz: ja** — „Schutzschaltung BMS von Seiko (Made in Japan) … Kurzschluss-, Überladungs- und Tiefentladungsschutz", „Schutzschaltung PCB integriert 6A" (Shop-Datentabelle). **Balancing: nicht dokumentiert** | 10,90 € | akkuteile.de — https://www.akkuteile.de/2s1p-18500-2000mah-7-4v-li-ion-akku-mit-bms-schutz_12056_1060 | Auf Lager (schema.org/InStock, „Lieferzeit etwa 1 bis 3 Werktage") |
+| 2 | Keeppower 2S1P 18650 3400 mAh mit BMS (NCR18650B), Kabelanschluss | 3400 mAh (min. 3250) | 7,2–7,4 V (8,4 V) | 25,16 Wh (Herstellerangabe) | 18,7 Ø × 134 | 100 g | offene Kabel +,− (50 mm Kabellänge) | 2× Panasonic NCR18650B (18650) | **Schutz: ja** — Seiko-Protection/PCB „Kurzschluss-, Überladungs- und Tiefentladungsschutz", PCB 4–7 A. **Balancing: nicht dokumentiert** | 14,90 € | akkuteile.de — https://www.akkuteile.de/power-bank-mobile-energie/akkupack/2s1p-18650-3400mah-7-2v-7-4v-li-ion-akku-mit-bms-schutz-ncr18650b-mit-kabelanschluss_12051_1055 | Auf Lager (InStock) |
+| 3 | XCell Li-Ion Akkupack 7,4 V 3500 mAh 2S1P + offene Kabellitzen (H151093) | 3500 mAh | 7,4 V | ~25,9 Wh (berechnet 7,4 V × 3,5 Ah) | nicht angegeben (Konfiguration F1x2 = 2 Zellen in Reihe/Reihe; real ~69 × 37 × 19) | 100 g (Brutto) | offene Kabellitzen | 2× 18650 (Zellengröße „18650" im Datenblatt) | **Schutz: ja, aber unspezifisch** — Shop-Datenfeld „Schutzschaltung: Ja" (Art des Schutzes/Balancing nicht benannt). **Balancing: nicht dokumentiert** | 27,95 € | akkushop.de — https://www.akkushop.de/xcell-li-ion-akku-7-4v-3500-mah-2s1p-offene-kabellitzen/ | „Verfügbar" |
+| 4 | Ersatzakku passend für Marshall Emberton (EG-31365) | 2600 mAh | 7,4 V | 19,2 Wh (Herstellerangabe) | 66,5 × 37 (Höhe im Shop nicht angegeben) | nicht angegeben | keine Angabe (Ersatzpack, Kabelstecker) | Li-Ion, Bauform nicht angegeben (vermutl. prismatisch/Pouch) | **Schutz: ja** — „Schutz gegen Kurzschluss und Überladung" (Produktbeschreibung akkushop-austria, identischer Artikel). **Balancing: nicht dokumentiert** | 19,25 € | akkushop.de — https://www.akkushop.de/akku-passend-fuer-marshall-emberton-li-ion-7-4v-2600mah-19-2wh/ (Spec-Detail: https://www.akkushop-austria.at/akku-passend-fuer-marshall-emberton-li-ion-7-4v-2600mah-19-2wh/) | „Versandfertig in 75 Tagen" (Nachbestellung) |
+| 5 | Ersatzakku passend für Marshall Stockwell II (ACN-C406A3, C406A3) | 3350 mAh | 7,4 V | ~24,8 Wh (berechnet) | nicht angegeben | 105 g | keine Angabe | Li-Ion, Bauform nicht angegeben | **Schutz: nicht explizit dokumentiert** (Shop nennt nur Kapazität/Spannung/Gewicht) — daher nur Reserve. **Balancing: nicht dokumentiert** | 29,85 € | akkushop.de — https://www.akkushop.de/akku-passend-fuer-marshall-stockwell-ii-bluetooth-lautsprecher-marshall-c406a3-7-4v-3350mah/ | „Versandfertig in 14 Tagen, Lieferzeit 1-3 Tage" |
+
+### Geprüft und verworfen (wichtig, um Fehlkäufe zu vermeiden)
+
+- **RC-Packs 2S mit XT30/Deans/JST-BEC + 3-poliger XH-Balance-Leitung** (z. B. Amazon.de „7.4V 3000 mAh 2S Li-Ion JST-Stecker", ASIN B0DKFW1C3L, 17,89 €, 67 × 37 × 19 mm, 100 g; ebenso „7.4V 1600 mAh 2S 14500", B0H2MW85C4, 50 × 28,5 × 15 mm; „7.4V 1100 mAh 2S LiPo", B0DP58FVX1, 59 × 31 × 19 mm, 13,99 €): **keine Schutzschaltung dokumentiert** — die XH-Buchse ist nur ein Balancer-Ladeanschluss, der Pack selbst hat kein BMS. Ungeeignet laut Projektentscheidung.
+- **Enerprof / ENERpower 2S-Packs** (z. B. MuPiBox 2S2P 10 Ah, 48,99 €): haben eine Schutzschaltung, sind aber 2S2P/2S3P-Rundzellen-Blöcke mit 2-stelliger Wh-Zahl und deutlich größer als der Einbauraum.
+- **LiTech Power 2S2P 7,4 V (LP-30067, 5 Ah, 69 × 45 × 38 mm, 250 g)**: BMS integriert laut Datenblatt, aber nur „Verfügbar bei Nachbestellung", Abmessungen überschreiten den Einbauraum.
+- **XCell 2S 900 mAh (2×18350) mit BMS, akkuteile.de, 9,90 €, auf Lager**: schön kompakt, aber Kapazität liegt unter der Zielfenster-Untergrenze (1500 mAh).
+- Botland und nkon.nl: in der Recherche kein passender fertiger 2S-Pack mit Schutz + 2-poligem Stecker in dieser Größenklasse gefunden (nkon führt primär Einzelzellen).
+- Hinweis zur Datenqualität: akkuteile.de rendert Preise per JavaScript; Preise 10,90 €/14,90 €/9,90 € wurden aus den JSON-LD-`offers` der Produktseiten gelesen, Lagerstatus aus `schema.org/InStock`. akkushop.de-Spezifikationen (Maße bei Pack 3) sind im Shop nicht vollständig hinterlegt — fehlende Werte sind oben als „nicht angegeben" gekennzeichnet, nicht geschätzt.
+
+## Woran erkennt man, ob ein 2S-Pack wirklich ein BMS mit Balancing hat — und ist ein Pack ohne Balancer ein Risiko?
+
+**Erkennungsmerkmale (in dieser Reihenfolge prüfen):**
+1. **Drei Anschlussleitungen am Pack** sind der wichtigste Hinweis: Ein BMS, das die Zellen einzeln überwacht/balanciert, muss den **Mittelabgriff** kennen (B+/BM/B−). Packs mit nur zwei Leitungen (nur +/−) können nur die Gesamtspannung überwachen — dort findet kein Balancing statt. Achtung Verwechslung: Ein **3-poliger XH-Stecker am RC-Pack ist nur eine Balance-Ladebuchse** für ein externes Ladegerät — der Pack selbst hat dann trotzdem kein BMS.
+2. **Produktbeschreibung/Datenblatt auf konkrete Schutzfunktionen prüfen**: „Schutzschaltung/PCM/BMS", „Überladungsschutz (4,20–4,25 V/Zelle)", „Tiefentladungsschutz (2,5–3,0 V/Zelle)", „Kurzschluss-/Überstromschutz" und idealerweise eine **Balancing-Stromangabe (typ. 30–60 mA)**. Fehlt die Balancing-Angabe, ist der Pack in der Regel ein reiner Schutz-Pack.
+3. **Sichtprüfung**: Eine kleine Platine unter dem Schrumpfschlauch mit MOSFETs/Schutz-IC (z. B. Seiko S-8254, Ricoh R54xx, BQ29209) = PCM; nur Zellen + Kabel = kein Schutz. Reine „geschützt"-Einzelzellen-Angaben sagen nichts über Balancing.
+4. **Shop-Datenfeld** „Schutzschaltung: Ja/Nein" (z. B. akkushop.de) ist belegt, aber unspezifisch — es sagt nichts über Balancing.
+
+**Risiko ohne Balancer:** Ohne Balancing driften die beiden Zellen im Serienbetrieb auseinander (Fertigungsstreuung, Temperaturgefälle im Gerät). Folge: Eine Zelle lädt über 4,25 V → Überhitzung/Brandgefahr; beim Entladen fällt eine Zelle unter ~2,5 V → Tiefentladung, bleibende Kapazitätsverluste, und bei der nächsten Ladung wird die geschädigte Zelle noch stärker überladen. Genau deshalb ist ein **Pack mit Schutzschaltung Pflicht** (schützt gegen Über-/Tiefentladung und Kurzschluss des gesamten Packs).
+
+**Für dieses Gerät (IP2326-Boostlader):** Der Lader bringt ein eigenes 2S-Balancing mit und hält die Zellen beim Laden auf gleichem Niveau. Die Keeppower- und XCell-Packs oben haben dokumentierten PCM-Schutz, aber kein dokumentiertes Balancing-IC — zusammen mit dem Lader im Gerät ist das ein sicherer Betrieb. Ein 2S-Pack **ohne jede Schutzschaltung** (typische RC-Packs mit XT30/Deans + XH-Buchse) wäre dagegen ein echtes Risiko: Bei Tiefentladung oder Kurzschluss im Gerät schützt nichts die Zellen, und ein Zellendrift würde nur über die Schutzlogik des IP2326 (falls vorhanden) begrenzt — daher für dieses Projekt ungeeignet.

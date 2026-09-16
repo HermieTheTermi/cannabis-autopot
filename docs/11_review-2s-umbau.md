@@ -71,8 +71,11 @@ Sparpotenzial: U_BUCK3 (1,18 $) ist das teuerste neue Teil — Alternativen in �
   nicht mit 0,9 A „geschockt" ✓.
 - **Terminierung:** Stopp bei I < 200–300 mA; danach Wiedereinschaltung erst unter 8,0 V ✓
   (kein „Nachladen im Sekundentakt").
-- **Balancing:** der Lader könnte (Pins 23/24, V_CBON 4,1 V), ist aber **unbeschaltet** — der Pack
-  muss selbst balancieren (§6.3 im Schaltplan). Das ist die einzige sicherheitsrelevante Auflage.
+- **Balancing:** der Lader könnte (Pins 23/24, V_CBON 4,1 V, I_CB < 40 mA), ist aber **unbeschaltet**.
+  **Präzisiert am 16.09.2026:** Pflicht ist ein Pack mit **Zellschutz-PCM** (schützt *pro Zelle*
+  gegen Überladung); fehlendes Balancing kostet dann **Kapazität und Lebensdauer**, ist aber kein
+  Brandrisiko — die schärfere Aussage des ersten Entwurfs ist damit korrigiert. Die drei
+  Balancing-Wege (a/b/c) samt Verdrahtung stehen in `hardware/schaltplan_v1.md` §6.3.
 
 ### 4.2 Lader ↔ USB-Eingang
 - Ausgang 7,56 W; bei 94 % → **1,61 A** Eingangsstrom. Mit beiden Pumpen (0,6 A @ 5 V) sind es
@@ -193,8 +196,12 @@ bei 0,15 A **0,26 W** in SOT-23-5 abgeführt und durfte laut Datenblatt nur **6,
 
 ## 8. Offene Punkte und Messaufträge
 
-1. **Akku-Pack** (2S, 1500–2500 mAh, **mit BMS/Balancing**, 2-polig) — Quellenrecherche liegt vor,
-   Auswahl offen. Einbau-Maße gegen die Wulst prüfen.
+1. **Akku-Pack**: konkrete Kandidaten gefunden (**Keeppower 2S1P 2×18500 2000 mAh, 10,90 €** bzw.
+   **2×18650 3400 mAh, 14,90 €**, akkuteile.de — Schutz dokumentiert, **Balancing nicht**;
+   `research/bom-check/10_2s-akku-quellen.md`). Zu entscheiden: (a) Pack mit Schutz nehmen und das
+   Balancing dem Pack überlassen, oder (b) 2 Zellen + 2S-BMS-Board mit Balancer und den Mittelabgriff
+   über die in §6.3 beschriebene Ergänzung nutzen (J1 dann 3-polig). **Mechanik:** Rundzellenpack
+   18,5 × 103 mm statt flachem 5-mm-Pouch → Einbauort/Wulst in `docs/02` + `cad/params.py` nachziehen.
 2. **Pumpenanlauf ohne Softstart messen** (Stromzange): entscheidet, ob 3 A sicher innerhalb
    Isat/Stromgrenze bleiben oder ob der Softstart Pflicht zurückkommt.
 3. **Eingangsstrom bei 5 V messen** (Laden + Pumpen): bestätigt die ≥2,5-A-Netzteilanforderung und

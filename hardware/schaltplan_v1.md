@@ -312,27 +312,48 @@ die Verdopplung des Ruhestroms kostet also **nichts** an Laufzeit, weil der Pack
 erfordert dann aber eine Einschaltverzögerung in der Firmware, weil der Buck nach dem EN 800 µs
 Sanftanlauf braucht, plus die 200 ms des Wächters beim Kaltstart).
 
-### 6.3 ⚠️ Der Akku-Pack **muss** ein BMS mit Balancing haben
+### 6.3 ⚠️ Der Akku-Pack **muss** eine Schutzplatine (PCM/BMS) haben — Balancing ist die zweite Ebene
 
-Reihengeschaltete Zellen driften auseinander; ohne Balancing lädt der Lader die Reihenschaltung auf
-8,4 V, während eine Zelle über 4,25 V kommen kann (Brandrisiko). Deshalb:
+**Pflicht (Sicherheit):** Der Pack braucht ein **PCM/BMS mit Zellschutz** (Überladung **pro Zelle**,
+Tiefentladung, Überstrom, Kurzschluss). Das ist bei 2S kein Luxus: der Lader lädt nur die
+**Reihenschaltung** auf 8,4 V und kann eine einzelne Zelle nicht sehen.
 
-- **Gefordert:** fertiger 2S-Pack mit integriertem Schutz- **und Balancier-IC** (BMS/PCM) und
-  2-poligem Ausgang (JST-PH 2,0 mm bevorzugt).
-- Der IP2326 **hätte** ein eigenes 2S-Balancing (Pins 23/24, V_CBON = 4,1 V, I_CB = V_CB/R_CB < 40 mA) —
-  es bleibt hier **unbeschaltet**, weil unser Stecker 2-polig ist. Will man es nutzen, braucht es
-  einen 3-poligen Akku-Stecker (Mittelabgriff!) **plus** R_CB (100 Ω, 1206) und 2 × 100 nF.
-  Die genaue Verdrahtung ist im Datenblatt nur als Bild vorhanden — vor einer Nutzung am Bild
-  gegenprüfen (im Bild: BAT+ → VOUT, **Mittelabgriff → R_CB → Pin 23**, BAT− → Pin 24).
-- Die Firmware-Schwellen (Warnung ~7,0 V, Pumpstopp ~6,8 V) sind **Packspannungs**-Werte; sie ersetzen
-  die früheren 3,5/3,4 V und sind gegen den Hardware-Wächter bei 6,16 V zu staffeln.
+**Was ohne Balancing wirklich passiert (präzisiert 16.09.2026):** Solange der Pack ein PCM hat, ist
+die Folge von Zell-Drift **kein Brandrisiko**, sondern **Kapazitätsverlust und schnelleres Altern**:
+die schwächere Zelle erreicht ihre Ladeschlussspannung nicht mehr, die stärkere läuft in die
+PCM-Abschaltung (typisch 4,25–4,3 V/Zelle) und beendet die Ladung früher. Gefährlich wird es **erst
+ohne jede Zellschutzschaltung** (dann kann eine Zelle über 4,3 V kommen).
+→ Die frühere Formulierung „ohne Balancing besteht ein Brandrisiko" war zu scharf und ist hiermit ersetzt.
+
+**Balancing — drei Wege, bewertet:**
+
+| Weg | Aufwand | Bewertung |
+|---|---|---|
+| **a) Der Pack balanciert selbst** (BMS mit Balancer-Funktion) | keiner | Wunschfall. ⚠️ Alle am 16.09.2026 geprüften 2S-Packs aus dem deutschen Handel (Keeppower 2×18500 2000 mAh 10,90 € / 2×18650 3400 mAh 14,90 €, akkuteile.de, Seiko-PCM) **dokumentieren kein Balancing** — nur Schutz. Vor dem Kauf beim Händler erfragen (`research/bom-check/10_2s-akku-quellen.md`) |
+| **b) 2 Einzelzellen + 2S-BMS-Board mit Balancer** | 1 Steckverbinder + 1 Widerstand + 2 Kondensatoren, Mittelabgriff herausführen | technisch die beste Lösung: unser IP2326 kann dann mitbalancieren (Pins 23/24). Der Mittelabgriff ist bei einem BMS-Board zugänglich, bei einem verschweißten Fertigpack nicht |
+| **c) Nichts tun** | keiner | zulässig, **weil** der PCM die Zellen schützt — kostet aber nutzbare Kapazität und Lebensdauer |
+
+**Wenn Balancing gewünscht wird (Weg b), ändert sich in dieser Schaltung:**
+- **VBATM (Pin 23)** ← **R_CB 100 Ω 1206** ← **Mittelabgriff des Packs** (Datenblatt: I_CB = V_CB/R_CB, < 40 mA)
+- **VBAT_GND (Pin 24)** ← **BAT−** des Packs; **2 × 100 nF** als Filter an beiden Pins
+- J1 wird **3-polig** (BAT− / MID / BAT+, z. B. JST-XH-3P `C493416`, dasselbe Teil wie J2)
+- Aktivierung ab `V_CBON = 4,1 V` (Standardtyp); Balancing endet, wenn beide Zellen darüber liegen
+- ⚠️ Diese Verdrahtung liegt im Datenblatt **nur als Bild** vor (图5): BAT+ → VOUT, Mittelabgriff →
+  R_CB → Pin 23, BAT− → Pin 24. **Vor dem Layout am Bild gegenprüfen** (Belegstatus wie in §5)
+
+**Pack-Kandidaten (geprüft 16.09.2026, Links in `../research/bom-check/10_2s-akku-quellen.md`):**
+Keeppower 2S1P 2×18500 **2000 mAh** (10,90 €, akkuteile.de, 18,5 × 103 mm, 70 g, Seiko-Schutz) oder
+2×18650 **3400 mAh** (14,90 €, 18,7 × 134 mm, 100 g). ⚠️ **Mechanik-Folge:** der bisherige 1S-Pouch
+war 59 × 37 × 5 mm flach — ein Rundzellenpack ist 18,5 mm dick und ~103 mm lang. Das passt in die
+160 mm hohe Wulst, aber **nicht** mehr hinter die Platine → Einbauort in `docs/02`/`cad/params.py`
+nachziehen (Auftrag, nicht Teil dieses Schaltplan-Schritts).
 
 ### 6.4 Was der Wächter jetzt wirklich abschaltet
 
 Unter 6,16 V Pack: RESET_UV low ⇒ (a) **U_BUCK5 Pin 4 (EN)** sperrt — der Buck-Ausgang ist dann
 **wirklich 0 V** (kein Diodenpfad wie beim alten Boost über L1/D6) und (b) D3/D8 klemmen beide
 Pumpengates über je 10 kΩ auf ~0,3 V. Die **3,3-V-Schiene bleibt an**, damit der MCU melden und
-loggen kann (bewusste Entscheidung, wie in §12.3 dokumentiert). Der Pack entläuft sich im
+loggen kann (bewusste Entscheidung, wie in §12.3 dokumentiert). Der Pack entlädt sich im
 Wächterzustand weiter mit ~182 µA (beide Buck-Iq + Teiler) — das PCM der Zellen ist die letzte Ebene.
 
 ### 6.5 Verpol-, Kurzschluss- und Steckerschutz (unverändert)
