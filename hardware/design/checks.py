@@ -187,9 +187,12 @@ VBAT_IC_VIN_MAX = {
 # Yageo RC0805: V_working 150 V) und liegt damit weit ueber den 8,4 V des
 # 2S-Packs -- zugelassen (schaltplan §3.3: R_PROT_VDD 330 Ohm, HY2120-Datenblatt
 # 100..470 Ohm Typ 330; JLC-Basic C17630).
+# F1 sitzt in der Pack-Plus-Leitung (PACK_PLUS -> F1 -> VBAT): Littelfuse
+# 0452005.MRL (452-Serie, 2410) ist mit 125 V AC/DC weit ueber den 8,4 V des
+# 2S-Packs zugelassen (Datenblatt Littelfuse 452-Serie; LCSC C66503).
 VBAT_PASSIV = frozenset({
     "C_CHG_OUT", "J1", "TP4", "C_B5_IN", "C_B5_IN_HF",
-    "C_B3_IN", "C_B3_IN_HF", "R3a", "R_SENSE_TOP", "R_PROT_VDD",
+    "C_B3_IN", "C_B3_IN_HF", "R3a", "R_SENSE_TOP", "R_PROT_VDD", "F1",
 })
 
 # Woertliche Belegstellen der SYSTEM-Zahlen (Datei -> Pfad).

@@ -252,3 +252,28 @@ Der komplette Neuaufbau über die Projektkette ist gelaufen und **pin-für-pin v
 
 **Offen / nächster Schritt:** das PCB mit den 124 Bauteilen versorgen (siehe 1.–3.) — danach **stoppt**
 die Arbeit hier, Platzieren und Routen macht der Nutzer selbst.
+
+---
+
+## Offen für den nächsten EasyEDA-Durchgang (Stand 16.09.2026)
+
+Nach der Übernahme ins PCB hat ein externes Review mehrere Korrekturen ausgelöst, die **bisher nur
+lokal** (Netzliste, Dokument, Stückliste) umgesetzt sind. Der Live-Bau in EasyEDA ist damit **nicht
+mehr deckungsgleich** und muss nachgezogen werden:
+
+| Änderung | Wirkung auf die Kette |
+|---|---|
+| `U_BUCK3` Pin 1 (FB) liegt **direkt auf `+3V3`** | Netz `FB_3V3` entfällt, `R_FB3_TOP`/`R_FB3_BOT` entfallen |
+| Dioden-Klemmzweig entfernt | `D3`, `D8`, `R_CLAMP1`, `R_CLAMP2` und `KLAMP1`/`KLAMP2` entfallen |
+| UV-Teiler | `R3a`/`R3b`: 200 kΩ → **51 kΩ** (gleiche Bauteile, neue Werte) |
+| Sensor-Lastschalter | **neu `Q_SENS`** (AO3401A, `C15127`) + **`R_SENS_GATE`** 47 kΩ + Netz `EXT_SENS_EN` |
+| Sicherung | **neu `F1`** (5 A träge, 2410, `C66503`) + Netz `PACK_PLUS` |
+| Akku-NTC | **neu `J18`** (JST-XH-2P, `C158012`) + **`R_NTC_PAR`** 82 kΩ (`C17840`), Netz `NTC_CHG` |
+| `R_CB` | Bauform 0805 → **1206** (0,25 W, `C17901`) |
+
+**Arbeitsschritte beim nächsten Mal:** für die vier neuen bzw. geänderten Geräte
+(`F1` Sicherung, `J18` XH-2P, `R_NTC_PAR` 82 kΩ, `Q_SENS` AO3401A) Geräte-UUIDs auflösen,
+Pin-Tabellen per Probe-Platzierung messen, `raw/lcsc_map.json`/`prefixes.json` ergänzen, dann
+`build_ir.py` → `plan_layout.py` → `build_autoconnect.py` und die Seite neu aufbauen
+(bekannte Fallen stehen oben im Abschnitt „Stand 16.09.2026“).
+Aktueller lokaler Stand: **122 Bauteile, 76 Netze, 342 Verbindungen**.
