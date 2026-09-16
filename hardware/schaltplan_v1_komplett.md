@@ -1,852 +1,1162 @@
-# SmartGrowTopf V1 — kompletter Schaltplan in Textform
+# SmartGrowTopf_V1 - vollstaendige Schaltungsbeschreibung (Maschinenfassung)
 
-> **Zweck dieser Datei:** vollständige, maschinenlesbare Beschreibung der Schaltung für ein Sprachmodell:
-> **was** verbaut ist, **wo** es auf dem Blatt sitzt und **wie** alles verkabelt ist. Erzeugt direkt aus der
-> Projekt-IR (`hardware/easyeda/raw/ir_numbered.json`) — die Zahlen sind nicht geschätzt, sondern ausgelesen.
+Generiert am 16.09.2026 **maschinell aus der Projekt-IR** (`hardware/easyeda/raw/ir_numbered.json`,
+`placement.json`, `modules.json`, `pcba_bom_jlc.csv`) plus dem Protokoll der Design-Pruefsuite
+(`hardware/design/report.py`). Revision **2S-Umbau + Akku-Schutz**. Keine Zahl ist abgetippt - alle
+Werte sind gezaehlt oder gerechnet. Quellen im Repo: `hardware/schaltplan_v1.md` (Wahrheit),
+`hardware/schaltplan_v1_netzliste.csv` (Netzliste), `hardware/pcba_bom_jlc.csv` (Stueckliste).
+
+## 1. Kennzahlen und Versorgungskette
 
 | Kennzahl | Wert |
 |---|---|
-| Bauteile | **96** |
-| Netze | **56** |
-| Verbindungen (Pin→Netz) | **268** |
-| Pins insgesamt / davon verbunden | 285 / 268 |
-| Funktionsblöcke (mit Rahmen) | **13** |
-| MCU | **ESP32-C6-MINI-1** (U1, 53 Pins) |
-| Versorgung | USB-C → MCP73831 Lader → 1S-LiPo (VBAT 3,0–4,2 V) → {ME6211 LDO → **+3V3** Logik · MT3608 Boost → **+5V** Pumpen} |
+| Bauteile mit Bezeichner | **124** |
+| Netze | **77** |
+| Verbindungen (Pin -> Netz) | **351** |
+| Module / Bloecke auf dem Blatt | **14** |
+| Steckverbinder (J*) | **15** |
+| Testpunkte (TP*) | **6** |
 
-## 1. Versorgungskette (wie der Strom läuft)
+**Versorgungskette (2S):**
 
 ```
-USB-C (J5) ──► VBUS ──► MCP73831 Lader (U3) ──► VBAT (1S-LiPo, J1)
-  U6 (USBLC6) haengt PARALLEL an VBUS/D+/D- als ESD-Schutz, nicht in Serie im Lastpfad
-                                                   │
-                                                   ├──► ME6211 LDO (U4) ──► +3V3 ──► ESP32-C6 (U1), Sensor, LEDs   [Wächter U7 haengt an VBAT, nicht an +3V3]
-                                                   └──► MT3608 Boost (U8) ──► +5V ──┬──► Q1 ──► J4  Dosierpumpe
-                                                        (Vout = 5,10 V)            └──► Q3 ──► J16 Sauerstoffpumpe (optional)
+USB-C 5 V --> IP2326 (Boost-Lader, 8,4 V / 0,90 A) --> VBAT = 2S-Pack (6,0 - 8,4 V)
+                                                            |
+2S-Pack an J1 (3-polig: B- / Mittelabgriff / B+) --> HY2120-Schutz
+      Pack-Minus (BAT_MINUS) und Board-Masse (GND) sind getrennt;
+      dazwischen liegt das MOSFET-Paar Q3/Q4 (gemeinsamer Drain)
+                                                            |
+                       +------------------------------------+------------------------------------+
+                       |                                                                         |
+          SY8113B-Buck 3 A --> +5 V                                  AP63203-Buck 2 A --> +3,3 V
+          (Dosierpumpe J4, Sauerstoffpumpe J16,                        (ESP32-C6, Sensorik,
+           Sensor-5-V-Ausgang J17)                                     LEDs, Erweiterungs-Rails)
 ```
 
-- **VBAT** = Zellspannung, ungeregelt. **+5V** gibt es nur, weil der Boost **U8** sie erzeugt — deshalb liegen
-  **beide** Pumpen an +5V (früher hing die Dosierpumpe direkt an VBAT).
-- **MAX809 (U7)** wacht über VBAT: unter ≈ **3,08 V** zieht er RESET_UV auf Low und sperrt über D3/D8 die
-  Pumpentreiber → Pumpe kann die Zelle nicht tiefentladen.
+In Worten: 5 V kommen ueber USB-C; der **IP2326** laedt daraus den 2S-Pack auf 8,4 V.
+Der Pack geht ueber den **3-poligen Stecker J1** (Minus / Mittelabgriff / Plus) auf die Platine.
+Der **HY2120** trennt mit zwei MOSFETs Pack-Minus und Board-Masse und ueberwacht jede Zelle;
+der **IP2326** nutzt den Mittelabgriff zusaetzlich zum **Balancieren** (R_CB). Aus VBAT erzeugen
+zwei Abwaertswandler **+5 V** und **+3,3 V**. Es gibt **keinen LDO und keinen Aufwaertswandler**.
 
-## 2. Was ist verbaut (alle 93 Bauteile)
+## 2. Was ist verbaut
 
-Spalte **Modul** = Funktionsblock auf dem Blatt (= der Rahmen, in dem das Teil sitzt).
-
-| Ref | Modul | Typ / Wert | Gehäuse | LCSC | Funktion |
+| Ref | Modul | Typ / Wert | Gehaeuse | LCSC | Funktion |
 |---|---|---|---|---|---|
-| **C1** | MCU | CC0805KRX7R9BB104 | — | `—` | Decoupling Modul 100 nF |
-| **C2** | MCU | 22uF | 0805 | `C45783` | Bulk 22 uF am Modul-3V3 |
-| **C3** | AKKU | 100uF | SMD D6.3x5.4 | `C970684` | Elko 100 uF Pumpenpuffer |
-| **C4** | MCU | 1uF | 0603 | `C15849` | EN-RC 1 uF |
-| **C5** | LDO | 10uF | 0805 | `C15850` | LDO-Eingang 10 uF |
-| **C6** | LDO | 1uF | 0603 | `C15849` | LDO-Ausgang 1 uF |
-| **C7** | LADER | 4.7uF | 0805 | `C1779` | Lader-Eingang 4,7 uF |
-| **C8** | LADER | 4.7uF | 0805 | `C1779` | Lader-Ausgang 4,7 uF |
-| **C9** | MCU | 100nF | 0805 | `C49678` | ADC-Filter Sensor 100 nF |
-| **C10** | MCU | 100nF | 0805 | `C49678` | ADC-Filter VBAT 100 nF |
-| **C11** | PUMPE | 100nF | 0805 | `C49678` | EMI an Pumpenklemmen 100 nF |
-| **C12** | WAEChTER | 100nF | 0805 | `C49678` | Decoupling MAX809 100 nF |
-| **C13** | MCU | CC0805KRX7R9BB104 | — | `—` | Decoupling Modul 100 nF |
-| **C14** | TASTER | CC0805KRX7R9BB104 | — | `—` | Taster-Entprellung 100 nF |
-| **C15** | LICHT | 100nF | 0805 | `C49678` | ADC-Filter Licht 100 nF |
-| **C16** | ERWEITERUNG | 100nF | 0805 | `C49678` | ADC-Filter Reserve-Analog 100 nF |
-| **C17** | BOOST | 22uF | 0805 | `C45783` | Boost-Eingang 22 uF |
-| **C18** | BOOST | 22uF | 0805 | `C45783` | Boost-Ausgang 22 uF |
-| **C19** | BOOST | CC0805KRX7R9BB104 | — | `—` | Boost-Ausgang HF 100 nF |
-| **C20** | PUMPE | CC0805KRX7R9BB104 | — | `—` | EMI an den Klemmen Sauerstoffpumpe 100 nF |
-| **D1** | PUMPE | 1N5819WS | SOD-323 | `C191023` | Freilaufdiode Pumpe |
-| **D2** | MCU | LED-GREEN | 0805 | `C2297` | Status-LED gruen 525 nm |
-| **D3** | PUMPE | 1N5819WS | SOD-323 | `C191023` | Klemmzweig Gate |
-| **D5** | MCU | LED-RED | 0805 | `C84256` | Tank-leer-LED rot |
-| **D6** | BOOST | SS34 | SMA(DO-214AC) | `C8678` | Boost-Diode SS34 3A/40V |
-| **D7** | PUMPE | 1N5819WS | SOD-323 | `C191023` | Freilaufdiode Sauerstoffpumpe |
-| **D8** | PUMPE | 1N5819WS | SOD-323 | `C191023` | Klemmzweig Gate Sauerstoffpumpe |
-| **J1** | AKKU | JST-PH-2P | SMD P2.0 aufrecht (Top-Entry) | `C160352` | Akku JST-PH 2P aufrecht (Top-Entry) |
-| **J2** | SENSOR | JST-XH-3P | THT P2.5 aufrecht (Top-Entry) | `C493416` | Sensor JST-XH 3P aufrecht (Top-Entry) |
-| **J4** | PUMPE | JST-XH-2P | THT P2.5 aufrecht (Top-Entry) | `C158012` | Dosierpumpe JST-XH 2P aufrecht (Top-Entry) |
-| **J5** | USB | USB-C-16P | SMD | `C165948` | USB-C 16P Buchse |
-| **J6** | TASTER | HDR-TH 2P, 2,54 mm | 2x Loch 1.0mm Raster 2.54mm | `—` | 2 Loetpads externer Taster |
-| **J7** | LICHT | Stiftleiste-1x3-2.54mm | THT P2.54 gerade | `C2937625` | Lichtsensor Stiftleiste 1x3 2.54 mm (extern) |
-| **J8** | ERWEITERUNG | Stiftleiste-1x4-2.54mm | THT P2.54 gerade | `C2691448` | I2C Stiftleiste 1x4 (GND-VCC-SDA-SCL) |
-| **J9** | ERWEITERUNG | Stiftleiste-1x3-2.54mm | THT P2.54 gerade | `C2937625` | Reserve-Analog Stiftleiste 1x3 (IO5) |
-| **J10** | ERWEITERUNG | Stiftleiste-1x3-2.54mm | THT P2.54 gerade | `C2937625` | Reserve IO15 Stiftleiste 1x3 |
-| **J11** | ERWEITERUNG | Stiftleiste-1x3-2.54mm | THT P2.54 gerade | `C2937625` | Reserve IO16 (TXD0) Stiftleiste 1x3 |
-| **J12** | ERWEITERUNG | Stiftleiste-1x3-2.54mm | THT P2.54 gerade | `C2937625` | Reserve IO17 (RXD0) Stiftleiste 1x3 |
-| **J13** | ERWEITERUNG | Stiftleiste-1x3-2.54mm | THT P2.54 gerade | `C2937625` | Reserve IO21 Stiftleiste 1x3 |
-| **J15** | ERWEITERUNG | Stiftleiste-1x3-2.54mm | THT P2.54 gerade | `C2937625` | Reserve IO23 Stiftleiste 1x3 |
-| **J16** | PUMPE | JST-XH-2P | THT P2.5 aufrecht (Top-Entry) | `C158012` | Sauerstoffpumpe JST-XH 2P aufrecht |
-| **L1** | BOOST | 22uH | SMD 6x6mm | `C341068` | Boost-Induktivitaet 22 uH YNR6045 |
-| **LED1** | LADER | NCD0805R1 | — | `—` | Ladestatus-LED rot |
-| **Q1** | PUMPE | AO3400A | SOT-23 | `C20917` | N-MOSFET Pumpentreiber |
-| **Q2** | ERWEITERUNG | AO3401A | SOT-23 | `C15127` | P-Kanal-Load-Switch VCC_EXT |
-| **Q3** | PUMPE | AO3400A | SOT-23 | `C20917` | N-MOSFET Sauerstoffpumpe |
-| **R1** | PUMPE | 4.7k | 0805 | `C17673` | Gate-Serie 4,7 k |
-| **R2** | PUMPE | 47k | 0805 | `C17713` | Gate-Pulldown 47 k |
-| **R3** | WAEChTER | 0805W8F2003T5E | — | `—` | VBAT-Teiler oben 200 k |
-| **R4** | MCU | 220R | 0805 | `C17557` | Status-LED 220 R |
-| **R5** | WAEChTER | 0805W8F2003T5E | — | `—` | VBAT-Teiler unten 200 k |
-| **R6** | SENSOR | 1k | 0805 | `C17513` | Sensor-AOUT Serie 1 k |
-| **R7** | USB | 0805W8F5101T5E | — | `—` | CC1-Pulldown 5,1 k |
-| **R8** | USB | 0805W8F5101T5E | — | `—` | CC2-Pulldown 5,1 k |
-| **R9** | MCU | 0805W8F1002T5E | — | `—` | EN-Pull-up 10 k |
-| **R10** | MCU | 0805W8F1002T5E | — | `—` | GPIO9-Pull-up 10 k |
-| **R11** | MCU | 0805W8F1002T5E | — | `—` | GPIO8-Strap-Pull-up 10 k |
-| **R12** | TASTER | 0805W8F1002T5E | — | `—` | Taster-Pull-up 10 k |
-| **R13** | LADER | 0805W8F3901T5E | — | `—` | Ladestrom 3,9 k -> 256 mA |
-| **R14** | LADER | 0805W8F1001T5E | — | `—` | Lade-LED 1 k |
-| **R15** | MCU | 0805W8F1001T5E | — | `—` | Tank-LED 1 k |
-| **R16** | DEBUG | 0805W8F4990T5E | — | `—` | TXD0-Serie 499 R (DNP) |
-| **R17** | LICHT | 0805W8F1002T5E | — | `—` | Licht-Lastwiderstand 10 k nach GND |
-| **R18** | LICHT | 0805W8F1001T5E | — | `—` | Licht-Serienschutz 1 k zum ADC |
-| **R19** | ERWEITERUNG | 0805W8F1002T5E | — | `—` | I2C SDA Pull-up 10 k an VCC_EXT |
-| **R20** | ERWEITERUNG | 4.7k | 0805 | `C17673` | I2C SCL Pull-up 10 k an VCC_EXT |
-| **R21** | ERWEITERUNG | 47k | 0805 | `C17713` | I2C SDA Serienschutz 1 k |
-| **R22** | ERWEITERUNG | 0805W8F1001T5E | — | `—` | I2C SCL Serienschutz 1 k |
-| **R23** | ERWEITERUNG | 0805W8F4702T5E | — | `—` | Gate-Pull-up Load-Switch 47 k |
-| **R24** | ERWEITERUNG | 0805W8F1001T5E | — | `—` | Reserve-AIN Serienschutz 1 k |
-| **R25** | ERWEITERUNG | 0805W8F1001T5E | — | `—` | Reserve IO15 Serienschutz 1 k |
-| **R26** | ERWEITERUNG | 0805W8F1001T5E | — | `—` | Reserve IO16 Serienschutz 1 k |
-| **R27** | ERWEITERUNG | 0805W8F1001T5E | — | `—` | Reserve IO17 Serienschutz 1 k |
-| **R28** | ERWEITERUNG | 0805W8F1001T5E | — | `—` | Reserve IO21 Serienschutz 1 k |
-| **R30** | ERWEITERUNG | 0805W8F1001T5E | — | `—` | Reserve IO23 Serienschutz 1 k |
-| **R31** | BOOST | 75k | 0805 | `C17819` | Feedback oben 75 k -> 5,10 V |
-| **R32** | BOOST | 0805W8F1002T5E | — | `—` | Feedback unten 10 k |
-| **R33** | PUMPE | 0805W8F4701T5E | — | `—` | Gate-Serie 4,7 k |
-| **R34** | PUMPE | 0805W8F4702T5E | — | `—` | Gate-Pulldown 47 k |
-| **SW1** | MCU | SW-SMD | SMD-4P 5.1x5.1 | `C318884` | Reset-Taster |
-| **SW2** | MCU | SW-SMD | SMD-4P 5.1x5.1 | `C318884` | Boot-Taster |
-| **TP1** | DEBUG | 5010-Testpoint | — | `—` | Testpad TXD0 |
-| **TP2** | MCU | 5010-Testpoint | — | `—` | Testpad RXD0 |
-| **TP3** | AKKU | 5010-Testpoint | — | `—` | Testpad GND |
-| **TP4** | AKKU | 5010-Testpoint | — | `—` | Testpad VBAT |
-| **TP5** | LDO | 5010-Testpoint | — | `—` | Testpad +3V3 |
-| **TP6** | SENSOR | 5010-Testpoint | — | `—` | Testpad SENSOR_AOUT |
-| **U1** | MCU | ESP32-C6-MINI-1 | SMD-53P | `C5736265` | ESP32-C6-MINI-1 WLAN-Modul |
-| **U3** | LADER | MCP73831T-2ACI/OT | SOT-23-5 | `C424093` | 1S-LiPo-Lader 4,20 V |
-| **U4** | LDO | ME6211C33M5G | SOT-23-5 | `C82942` | LDO 3,3 V / 500 mA |
-| **U6** | USB | USBLC6-2SC6 | SOT-23-6L | `C7519` | USB-ESD-Schutz USBLC6-2SC6 |
-| **U7** | WAEChTER | MAX809TEUR+T | SOT-23 | `C16711` | Unterspannungswaechter 3,08 V |
-| **U8** | BOOST | MT3608 | SOT-23-6 | `C84817` | MT3608 Aufwaertsregler 5 V |
-
-## 3. Wie ist verkabelt (Netz für Netz — das ist die eigentliche Verkabelung)
-
-Jedes Netz listet **alle** Pins, die daran hängen. `Ref:Pin (Pinname)` — der Pinname ist der Name am Symbol.
-
-### Netz `+3V3`  (power, 13 Pins)
-
-- `C1:1`  — MCU
-- `C2:1`  — MCU
-- `C6:1`  — LDO
-- `C13:1`  — MCU
-- `Q2:2` (S)  — ERWEITERUNG
-- `R9:1`  — MCU
-- `R10:1`  — MCU
-- `R11:1`  — MCU
-- `R12:1`  — TASTER
-- `R23:1`  — ERWEITERUNG
-- `TP5:1`  — LDO
-- `U1:3` (3V3)  — MCU
-- `U4:5` (VOUT)  — LDO
-
-### Netz `+5V`  (power, 10 Pins)
-
-- `C11:2`  — PUMPE
-- `C18:1`  — BOOST
-- `C19:1`  — BOOST
-- `C20:2`  — PUMPE
-- `D1:1` (K)  — PUMPE
-- `D6:1` (K)  — BOOST
-- `D7:1` (K)  — PUMPE
-- `J4:1`  — PUMPE
-- `J16:1`  — PUMPE
-- `R31:1`  — BOOST
-
-### Netz `VBAT`  (power, 15 Pins)
-
-- `C3:1`  — AKKU
-- `C5:1`  — LDO
-- `C8:1`  — LADER
-- `C12:1`  — WAEChTER
-- `C17:1`  — BOOST
-- `J1:1`  — AKKU
-- `L1:1`  — BOOST
-- `R3:1`  — WAEChTER
-- `R37:2`  — BOOST
-- `TP4:1`  — AKKU
-- `U3:3` (VBAT)  — LADER
-- `U4:1` (VIN)  — LDO
-- `U4:3` (CE)  — LDO
-- `U7:3` (VCC)  — WAEChTER
-- `U8:5` (IN)  — BOOST
-
-### Netz `VBUS`  (power, 6 Pins)
-
-- `C7:1`  — LADER
-- `J5:A4B9` (VBUS)  — USB
-- `J5:B4A9` (VBUS)  — USB
-- `R14:1`  — LADER
-- `U3:4` (VDD)  — LADER
-- `U6:5`  — USB
-
-### Netz `GND`  (ground, 77 Pins)
-
-- `C1:2`  — MCU
-- `C2:2`  — MCU
-- `C3:2`  — AKKU
-- `C4:2`  — MCU
-- `C5:2`  — LDO
-- `C6:2`  — LDO
-- `C7:2`  — LADER
-- `C8:2`  — LADER
-- `C9:2`  — MCU
-- `C10:2`  — MCU
-- `C12:2`  — WAEChTER
-- `C13:2`  — MCU
-- `C14:2`  — TASTER
-- `C15:2`  — LICHT
-- `C16:2`  — ERWEITERUNG
-- `C17:2`  — BOOST
-- `C18:2`  — BOOST
-- `C19:2`  — BOOST
-- `D2:2` (K)  — MCU
-- `D5:1` (-)  — MCU
-- `J1:2`  — AKKU
-- `J2:1`  — SENSOR
-- `J5:1` (EH)  — USB
-- `J5:2` (EH)  — USB
-- `J5:3` (EH)  — USB
-- `J5:4` (EH)  — USB
-- `J5:A1B12` (GND)  — USB
-- `J5:B1A12` (GND)  — USB
-- `J6:2`  — TASTER
-- `J7:1`  — LICHT
-- `J8:1`  — ERWEITERUNG
-- `J9:1`  — ERWEITERUNG
-- `J10:1`  — ERWEITERUNG
-- `J11:1`  — ERWEITERUNG
-- `J12:1`  — ERWEITERUNG
-- `J13:1`  — ERWEITERUNG
-- `J15:1`  — ERWEITERUNG
-- `Q1:2` (S)  — PUMPE
-- `Q3:2` (S)  — PUMPE
-- `R2:2`  — PUMPE
-- `R5:2`  — WAEChTER
-- `R7:2`  — USB
-- `R8:2`  — USB
-- `R13:2`  — LADER
-- `R17:2`  — LICHT
-- `R32:2`  — BOOST
-- `R34:2`  — PUMPE
-- `SW1:2` (B)  — MCU
-- `SW2:2` (B)  — MCU
-- `TP3:1`  — AKKU
-- `U1:1` (GND)  — MCU
-- `U1:11` (GND)  — MCU
-- `U1:14` (GND)  — MCU
-- `U1:2` (GND)  — MCU
-- `U1:36` (GND)  — MCU
-- `U1:37` (GND)  — MCU
-- `U1:38` (GND)  — MCU
-- `U1:39` (GND)  — MCU
-- `U1:40` (GND)  — MCU
-- `U1:41` (GND)  — MCU
-- `U1:42` (GND)  — MCU
-- `U1:43` (GND)  — MCU
-- `U1:44` (GND)  — MCU
-- `U1:45` (GND)  — MCU
-- `U1:46` (GND)  — MCU
-- `U1:47` (GND)  — MCU
-- `U1:48` (GND)  — MCU
-- `U1:49` (GND)  — MCU
-- `U1:50` (GND)  — MCU
-- `U1:51` (GND)  — MCU
-- `U1:52` (GND)  — MCU
-- `U1:53` (GND)  — MCU
-- `U3:2` (VSS)  — LADER
-- `U4:2` (VSS)  — LDO
-- `U6:2`  — USB
-- `U7:1` (GND)  — WAEChTER
-- `U8:2` (GND)  — BOOST
-
-### Netz `BOOT`  (signal, 3 Pins)
-
-- `R10:2`  — MCU
-- `SW2:1` (A)  — MCU
-- `U1:23` (IO9)  — MCU
-
-### Netz `BTN`  (signal, 4 Pins)
-
-- `C14:1`  — TASTER
-- `J6:1`  — TASTER
-- `R12:2`  — TASTER
-- `U1:15` (IO6)  — MCU
-
-### Netz `CC1`  (signal, 2 Pins)
-
-- `J5:A5` (CC1)  — USB
-- `R7:1`  — USB
-
-### Netz `CC2`  (signal, 2 Pins)
-
-- `J5:B5` (CC2)  — USB
-- `R8:1`  — USB
-
-### Netz `EN`  (signal, 4 Pins)
-
-- `C4:1`  — MCU
-- `R9:2`  — MCU
-- `SW1:1` (A)  — MCU
-- `U1:8` (EN)  — MCU
-
-### Netz `EXT_EN`  (signal, 3 Pins)
-
-- `Q2:1` (G)  — ERWEITERUNG
-- `R23:2`  — ERWEITERUNG
-- `U1:26` (IO20)  — MCU
-
-### Netz `FB_5V`  (signal, 3 Pins)
-
-- `R31:2`  — BOOST
-- `R32:1`  — BOOST
-- `U8:3` (FB)  — BOOST
-
-### Netz `GATE`  (signal, 3 Pins)
-
-- `Q1:1` (G)  — PUMPE
-- `R1:2`  — PUMPE
-- `R2:1`  — PUMPE
-
-### Netz `GATE2`  (signal, 3 Pins)
-
-- `Q3:1` (G)  — PUMPE
-- `R33:2`  — PUMPE
-- `R34:1`  — PUMPE
-
-### Netz `GPIO8_STRAP`  (signal, 2 Pins)
-
-- `R11:2`  — MCU
-- `U1:22` (IO8)  — MCU
-
-### Netz `KLAMP1`  (signal, 2 Pins)
-
-- `D3:2` (A)  — PUMPE
-- `R35:1`  — PUMPE
-
-### Netz `KLAMP2`  (signal, 2 Pins)
-
-- `D8:2` (A)  — PUMPE
-- `R36:1`  — PUMPE
-
-### Netz `LED_CHG`  (signal, 2 Pins)
-
-- `LED1:2` (+)  — LADER
-- `R14:2`  — LADER
-
-### Netz `LED_STAT`  (signal, 2 Pins)
-
-- `R4:1`  — MCU
-- `U1:19` (IO14)  — MCU
-
-### Netz `LED_STAT_A`  (signal, 2 Pins)
-
-- `D2:1` (A)  — MCU
-- `R4:2`  — MCU
-
-### Netz `LED_TANK`  (signal, 2 Pins)
-
-- `R15:1`  — MCU
-- `U1:16` (IO7)  — MCU
-
-### Netz `LED_TANK_A`  (signal, 2 Pins)
-
-- `D5:2` (+)  — MCU
-- `R15:2`  — MCU
-
-### Netz `LIGHT_AOUT`  (signal, 3 Pins)
-
-- `C15:1`  — LICHT
-- `R18:2`  — LICHT
-- `U1:9` (IO4)  — MCU
-
-### Netz `LIGHT_RAW`  (signal, 3 Pins)
-
-- `J7:3`  — LICHT
-- `R17:1`  — LICHT
-- `R18:1`  — LICHT
-
-### Netz `PROG`  (signal, 2 Pins)
-
-- `R13:1`  — LADER
-- `U3:5` (PROG)  — LADER
-
-### Netz `PUMP2_EN`  (signal, 2 Pins)
-
-- `R33:1`  — PUMPE
-- `U1:28` (IO22)  — MCU
-
-### Netz `PUMP2_N`  (signal, 4 Pins)
-
-- `C20:1`  — PUMPE
-- `D7:2` (A)  — PUMPE
-- `J16:2`  — PUMPE
-- `Q3:3` (D)  — PUMPE
-
-### Netz `PUMP_EN`  (signal, 2 Pins)
-
-- `R1:1`  — PUMPE
-- `U1:5` (IO2)  — MCU
-
-### Netz `PUMP_N`  (signal, 4 Pins)
-
-- `C11:1`  — PUMPE
-- `D1:2` (A)  — PUMPE
-- `J4:2`  — PUMPE
-- `Q1:3` (D)  — PUMPE
+| **C3** | Akku & Puffer | 100uF 16V | SMD D6.3x5.4 | `C970684` | Elko 100 uF Pumpenpuffer auf +5V |
+| **J1** | Akku & Puffer | JST-XH-3P | THT P2.5 aufrecht (Top-Entry) | `C5258884` | Akku JST-XH 3P (B-/MID/B+), aufrecht |
+| **TP3** | Akku & Puffer | 5010-Testpoint | - | - | Testpad GND |
+| **TP4** | Akku & Puffer | 5010-Testpoint | - | - | Testpad VBAT |
+| **C14** | 5-V-Buck (SY8113B) | 100nF | 0805 | `C49678` | 100 nF HF Buck-Eingang |
+| **C21** | 5-V-Buck (SY8113B) | 100nF | 0805 | `C49678` | Bootstrap 100 nF |
+| **C22** | 5-V-Buck (SY8113B) | 22uF 25V | 0805 | `C45783` | 22 uF Buck-Ausgang |
+| **C23** | 5-V-Buck (SY8113B) | 100nF | 0805 | `C49678` | 100 nF HF Buck-Ausgang |
+| **C8** | 5-V-Buck (SY8113B) | 22uF 25V | 0805 | `C45783` | 22 uF Buck-Eingang |
+| **L2** | 5-V-Buck (SY8113B) | 4.7uH Isat 4,0A DCR 31mR | SMD 6x6mm | `C105660` | Buck-Induktivitaet 4,7 uH |
+| **R19** | 5-V-Buck (SY8113B) | 75k | 0805 | `C17819` | Feedback oben 75 k -> 5,10 V |
+| **R20** | 5-V-Buck (SY8113B) | 10k | 0805 | `C17414` | Feedback unten 10 k |
+| **U3** | 5-V-Buck (SY8113B) | SY8113B ADC | TSOT-23-6 | `C78989` | 5-V-Buck SY8113B, 5,10 V / 3 A |
+| **R47** | UART-Debug-Pads (DNP) | 499R | 0805 | - | UART-Serie 499 R (DNP) |
+| **TP1** | UART-Debug-Pads (DNP) | 5010-Testpoint | - | - | Testpad TXD0 |
+| **C31** | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch | 100nF | 0805 | `C49678` | ADC-Filter Reserve-Analog 100 nF |
+| **J10** | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch | Stiftleiste-1x3-2.54mm | THT P2.54 gerade | `C2937625` | Reserve IO15 Stiftleiste 1x3 |
+| **J11** | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch | Stiftleiste-1x3-2.54mm | THT P2.54 gerade | `C2937625` | Reserve IO16 (TXD0) Stiftleiste 1x3 |
+| **J12** | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch | Stiftleiste-1x3-2.54mm | THT P2.54 gerade | `C2937625` | Reserve IO17 (RXD0) Stiftleiste 1x3 |
+| **J13** | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch | Stiftleiste-1x3-2.54mm | THT P2.54 gerade | `C2937625` | Reserve IO21 Stiftleiste 1x3 |
+| **J15** | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch | Stiftleiste-1x3-2.54mm | THT P2.54 gerade | `C2937625` | Reserve IO23 Stiftleiste 1x3 |
+| **J8** | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch | Stiftleiste-1x4-2.54mm | THT P2.54 gerade | `C2691448` | I2C-Stiftleiste 1x4 (GND-VCC-SDA-SCL) |
+| **J9** | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch | Stiftleiste-1x3-2.54mm | THT P2.54 gerade | `C2937625` | Reserve-Analog Stiftleiste 1x3 (IO5) |
+| **Q2** | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch | AO3401A | SOT-23 | `C15127` | P-Kanal-Load-Switch VCC_EXT |
+| **R25** | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch | 47k | 0805 | `C17713` | Gate-Pull-up Load-Switch 47 k |
+| **R36** | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch | 1k | 0805 | `C17513` | I2C-SDA-Serienschutz 1 k |
+| **R37** | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch | 4.7k | 0805 | `C17673` | I2C-SDA-Pull-up 4,7 k an VCC_EXT |
+| **R38** | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch | 1k | 0805 | `C17513` | I2C-SCL-Serienschutz 1 k |
+| **R39** | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch | 4.7k | 0805 | `C17673` | I2C-SCL-Pull-up 4,7 k an VCC_EXT |
+| **R40** | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch | 1k | 0805 | `C17513` | Reserve-AIN-Serienschutz 1 k |
+| **R41** | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch | 1k | 0805 | `C17513` | Reserve-IO15-Serienschutz 1 k |
+| **R42** | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch | 1k | 0805 | `C17513` | Reserve-IO16-Serienschutz 1 k |
+| **R43** | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch | 1k | 0805 | `C17513` | Reserve-IO17-Serienschutz 1 k |
+| **R44** | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch | 1k | 0805 | `C17513` | Reserve-IO21-Serienschutz 1 k |
+| **R45** | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch | 1k | 0805 | `C17513` | Reserve-IO23-Serienschutz 1 k |
+| **C1** | Laden (IP2326, 2S) | 10uF 25V | 0805 | `C15850` | Lader-Eingang 10 uF (Datenblatt C1) |
+| **C19** | Laden (IP2326, 2S) | 22uF 25V | 0805 | `C45783` | 22 uF direkt am VSYS-Pin (Datenblatt C4) |
+| **C20** | Laden (IP2326, 2S) | 22uF 25V | 0805 | `C45783` | 22 uF direkt am VSYS-Pin (Datenblatt C5) |
+| **C5** | Laden (IP2326, 2S) | 10uF 25V | 0805 | `C15850` | 10 uF direkt am VIN-Pin (Datenblatt C3) |
+| **C6** | Laden (IP2326, 2S) | 100nF | 0805 | `C49678` | Bootstrap 100 nF (Datenblatt C2) |
+| **C7** | Laden (IP2326, 2S) | 10uF 25V | 0805 | `C15850` | 10 uF am Boost-Ausgang (Datenblatt C6/C7) |
+| **L1** | Laden (IP2326, 2S) | 2.2uH Isat 5,0A DCR 58mR | SMD 4.6x4.1mm | `C142096` | Boost-Induktivitaet 2,2 uH |
+| **LED1** | Laden (IP2326, 2S) | LED-RED | 0805 | `C84256` | Ladestatus-LED rot |
+| **R10** | Laden (IP2326, 2S) | 100k 1% | 0805 | `C96346` | Ladestrom 100 k -> 0,90 A |
+| **R11** | Laden (IP2326, 2S) | 51k | 0805 | `C17737` | NTC-Funktion stillgelegt 51 k |
+| **R12** | Laden (IP2326, 2S) | 68k | 0805 | `C17801` | Eingangs-Unterspannungsschwelle 68 k (4,35 V) |
+| **R3** | Laden (IP2326, 2S) | 0.5R | 0805 | `C28319` | VIN-Filterwiderstand 0,5 Ohm (kein Shunt) |
+| **R5** | Laden (IP2326, 2S) | 1k | 0805 | `C17513` | Lade-LED-Vorwiderstand 1 k |
+| **R7** | Laden (IP2326, 2S) | 100k 1% | 0805 | `C96346` | Lader-EN-Pull-up 100 k |
+| **U2** | Laden (IP2326, 2S) | IP2326 | VQFN-24-EP(4x4) | `C2832094` | 2S-Boost-Lader IP2326, Ladeschluss 8,4 V |
+| **C15** | 3V3-Buck (AP63203) | 22uF 25V | 0805 | `C45783` | 22 uF Buck-Eingang |
+| **C16** | 3V3-Buck (AP63203) | 100nF | 0805 | `C49678` | 100 nF HF Buck-Eingang |
+| **C25** | 3V3-Buck (AP63203) | 100nF | 0805 | `C49678` | Bootstrap 100 nF |
+| **C26** | 3V3-Buck (AP63203) | 22uF 25V | 0805 | `C45783` | 22 uF Buck-Ausgang |
+| **C27** | 3V3-Buck (AP63203) | 100nF | 0805 | `C49678` | 100 nF HF Buck-Ausgang |
+| **L3** | 3V3-Buck (AP63203) | 4.7uH Isat 4,0A DCR 31mR | SMD 6x6mm | `C105660` | Buck-Induktivitaet 4,7 uH |
+| **R26** | 3V3-Buck (AP63203) | 47k | 0805 | `C17713` | Feedback oben 47 k -> 3,31 V |
+| **R27** | 3V3-Buck (AP63203) | 15k | 0805 | `C17475` | Feedback unten 15 k |
+| **TP5** | 3V3-Buck (AP63203) | 5010-Testpoint | - | - | Testpad +3V3 |
+| **U4** | 3V3-Buck (AP63203) | AP63203WU-7 | TSOT-23-6 | `C780769` | 3,3-V-Buck AP63203, 3,31 V / 2 A |
+| **C30** | Lichtsensor-Eingang | 100nF | 0805 | `C49678` | ADC-Filter Licht 100 nF |
+| **J7** | Lichtsensor-Eingang | Stiftleiste-1x3-2.54mm | THT P2.54 gerade | `C2937625` | Lichtsensor-Stiftleiste 1x3 2,54 mm |
+| **R34** | Lichtsensor-Eingang | 10k | 0805 | `C17414` | Licht-Lastwiderstand 10 k nach GND |
+| **R35** | Lichtsensor-Eingang | 1k | 0805 | `C17513` | Licht-Serienschutz 1 k zum ADC |
+| **C10** | ESP32-C6-MCU + Beschaltung | 100nF | 0805 | `C49678` | ADC-Filter VBAT 100 nF |
+| **C13** | ESP32-C6-MCU + Beschaltung | 100nF | 0805 | `C49678` | Decoupling Modul 100 nF |
+| **C2** | ESP32-C6-MCU + Beschaltung | 22uF 25V | 0805 | `C45783` | Bulk 22 uF am Modul-3V3 |
+| **C28** | ESP32-C6-MCU + Beschaltung | 100nF | 0805 | `C49678` | Decoupling Modul 100 nF |
+| **C29** | ESP32-C6-MCU + Beschaltung | 100nF | 0805 | `C49678` | Decoupling Modul 100 nF |
+| **C4** | ESP32-C6-MCU + Beschaltung | 1uF | 0603 | `C15849` | EN-RC 1 uF |
+| **C9** | ESP32-C6-MCU + Beschaltung | 100nF | 0805 | `C49678` | ADC-Filter Sensor 100 nF |
+| **D2** | ESP32-C6-MCU + Beschaltung | LED-GREEN | 0805 | `C2297` | Status-LED gruen 525 nm |
+| **D5** | ESP32-C6-MCU + Beschaltung | LED-RED | 0805 | `C84256` | Tank-leer-LED rot |
+| **R14** | ESP32-C6-MCU + Beschaltung | 200k | 0805 | `C17539` | ADC-Teiler oben 200 k (1:3,94) |
+| **R21** | ESP32-C6-MCU + Beschaltung | 10k | 0805 | `C17414` | EN-Pull-up 10 k |
+| **R22** | ESP32-C6-MCU + Beschaltung | 10k | 0805 | `C17414` | GPIO9-Pull-up 10 k |
+| **R23** | ESP32-C6-MCU + Beschaltung | 10k | 0805 | `C17414` | GPIO8-Strap-Pull-up 10 k |
+| **R33** | ESP32-C6-MCU + Beschaltung | 68k | 0805 | `C17801` | ADC-Teiler unten 68 k |
+| **R4** | ESP32-C6-MCU + Beschaltung | 220R | 0805 | `C17557` | Status-LED 220 R |
+| **R46** | ESP32-C6-MCU + Beschaltung | 1k | 0805 | `C17513` | Tank-LED 1 k |
+| **SW1** | ESP32-C6-MCU + Beschaltung | SW-SMD | SMD-4P 5.1x5.1 | `C318884` | Reset-Taster |
+| **SW2** | ESP32-C6-MCU + Beschaltung | SW-SMD | SMD-4P 5.1x5.1 | `C318884` | Boot-Taster |
+| **TP2** | ESP32-C6-MCU + Beschaltung | 5010-Testpoint | - | - | Testpad RXD0 |
+| **U1** | ESP32-C6-MCU + Beschaltung | ESP32-C6-MINI-1 | SMD-53P | `C5736265` | ESP32-C6-MINI-1 WLAN-Modul |
+| **C11** | Pumpentreiber Dosier- + Sauerstoffpumpe | 100nF | 0805 | `C49678` | EMI an den Pumpenklemmen 100 nF |
+| **C24** | Pumpentreiber Dosier- + Sauerstoffpumpe | 100nF | 0805 | `C49678` | EMI an den Klemmen Sauerstoffpumpe 100 nF |
+| **D1** | Pumpentreiber Dosier- + Sauerstoffpumpe | 1N5819WS | SOD-323 | `C191023` | Freilaufdiode Dosierpumpe |
+| **D3** | Pumpentreiber Dosier- + Sauerstoffpumpe | 1N5819WS | SOD-323 | `C191023` | Klemmzweig-Diode Dosierpumpe |
+| **D4** | Pumpentreiber Dosier- + Sauerstoffpumpe | 1N5819WS | SOD-323 | `C191023` | Freilaufdiode Sauerstoffpumpe |
+| **D8** | Pumpentreiber Dosier- + Sauerstoffpumpe | 1N5819WS | SOD-323 | `C191023` | Klemmzweig-Diode Sauerstoffpumpe |
+| **J16** | Pumpentreiber Dosier- + Sauerstoffpumpe | JST-XH-2P | THT P2.5 aufrecht (Top-Entry) | `C158012` | Sauerstoffpumpe JST-XH 2P, aufrecht |
+| **J4** | Pumpentreiber Dosier- + Sauerstoffpumpe | JST-XH-2P | THT P2.5 aufrecht (Top-Entry) | `C158012` | Dosierpumpe JST-XH 2P, aufrecht |
+| **Q1** | Pumpentreiber Dosier- + Sauerstoffpumpe | AO3400A | SOT-23 | `C20917` | N-MOSFET Pumpentreiber Dosierpumpe |
+| **Q5** | Pumpentreiber Dosier- + Sauerstoffpumpe | AO3400A | SOT-23 | `C20917` | N-MOSFET Sauerstoffpumpe |
+| **R1** | Pumpentreiber Dosier- + Sauerstoffpumpe | 1k | 0805 | `C17513` | Gate-Serie 1 k |
+| **R2** | Pumpentreiber Dosier- + Sauerstoffpumpe | 47k | 0805 | `C17713` | Gate-Pulldown 47 k |
+| **R29** | Pumpentreiber Dosier- + Sauerstoffpumpe | 10k | 0805 | `C17414` | Klemmzweig-Serie 10 k Dosierpumpe |
+| **R30** | Pumpentreiber Dosier- + Sauerstoffpumpe | 10k | 0805 | `C17414` | Klemmzweig-Serie 10 k Sauerstoffpumpe |
+| **R31** | Pumpentreiber Dosier- + Sauerstoffpumpe | 1k | 0805 | `C17513` | Gate-Serie 1 k Kanal 2 |
+| **R32** | Pumpentreiber Dosier- + Sauerstoffpumpe | 47k | 0805 | `C17713` | Gate-Pulldown 47 k Kanal 2 |
+| **C17** | Akku-Schutz (HY2120-CB + PSMN4R2) | 100nF | 0805 | `C49678` | VDD-Filter 100 nF nach Pack-Minus |
+| **C18** | Akku-Schutz (HY2120-CB + PSMN4R2) | 100nF | 0805 | `C49678` | VC-Filter 100 nF nach Pack-Minus |
+| **Q3** | Akku-Schutz (HY2120-CB + PSMN4R2) | PSMN4R2-30MLDX | LFPAK33-8 | `C179452` | Entlade-MOSFET PSMN4R2-30MLDX |
+| **Q4** | Akku-Schutz (HY2120-CB + PSMN4R2) | PSMN4R2-30MLDX | LFPAK33-8 | `C179452` | Lade-MOSFET PSMN4R2-30MLDX |
+| **R15** | Akku-Schutz (HY2120-CB + PSMN4R2) | 330R | 0805 | `C17630` | 330 R zum VC-Pin des Schutz-IC |
+| **R16** | Akku-Schutz (HY2120-CB + PSMN4R2) | 100R | 0805 | `C17408` | Balancing-Widerstand 100 R zum Mittelabgriff |
+| **R17** | Akku-Schutz (HY2120-CB + PSMN4R2) | 330R | 0805 | `C17630` | 330 R zum VDD-Pin des Schutz-IC |
+| **R18** | Akku-Schutz (HY2120-CB + PSMN4R2) | 2k | 0805 | `C17604` | CS-Widerstand 2 k zum Board-GND |
+| **U5** | Akku-Schutz (HY2120-CB + PSMN4R2) | HY2120-CB | SOT-23-6 | `C116509` | 2-Zellen-Schutz-IC HY2120-CB |
+| **J17** | Sensor-Eingang | JST-XH-2P | THT P2.5 aufrecht (Top-Entry) | `C158012` | 5-V-Ausgang fuer Sensorik JST-XH 2P |
+| **J2** | Sensor-Eingang | JST-XH-3P | THT P2.5 aufrecht (Top-Entry) | `C5258884` | Feuchtesensor JST-XH 3P, aufrecht |
+| **R6** | Sensor-Eingang | 1k | 0805 | `C17513` | Sensor-AOUT Serie 1 k |
+| **TP6** | Sensor-Eingang | 5010-Testpoint | - | - | Testpad SENSOR_AOUT |
+| **C32** | Taster & LEDs | 100nF | 0805 | `C49678` | Taster-Entprellung 100 nF |
+| **J6** | Taster & LEDs | HDR-TH 2P, 2,54 mm | 2x Loch 1.0mm Raster 2.54mm | - | 2 Loetpads externer Taster |
+| **R24** | Taster & LEDs | 10k | 0805 | `C17414` | Taster-Pull-up 10 k |
+| **J5** | USB-C Eingang & ESD | USB-C-16P | SMD | `C165948` | USB-C 16P Buchse (Laden + Programmieren) |
+| **R8** | USB-C Eingang & ESD | 5.1k | 0805 | `C27834` | CC1-Pulldown 5,1 k |
+| **R9** | USB-C Eingang & ESD | 5.1k | 0805 | `C27834` | CC2-Pulldown 5,1 k |
+| **U6** | USB-C Eingang & ESD | USBLC6-2SC6 | SOT-23-6L | `C7519` | USB-ESD-Schutz USBLC6-2SC6 |
+| **C12** | Unterspannungswaechter (TPS3839) | 100nF | 0805 | `C49678` | Decoupling Waechter 100 nF |
+| **R13** | Unterspannungswaechter (TPS3839) | 200k | 0805 | `C17539` | UVLO-Teiler oben 200 k |
+| **R28** | Unterspannungswaechter (TPS3839) | 200k | 0805 | `C17539` | UVLO-Teiler unten 200 k |
+| **U7** | Unterspannungswaechter (TPS3839) | TPS3839G33DBZR | SOT-23-3 | `C485802` | Unterspannungswaechter TPS3839G33 (3,08 V) |
+
+## 3. Wie ist verkabelt (jedes Netz mit jedem Pin)
+
+### `+3V3`
+
+Rolle: power | Pins: 16
+
+- `C13:1` - ESP32-C6-MCU + Beschaltung
+- `C2:1` - ESP32-C6-MCU + Beschaltung
+- `C26:1` - 3V3-Buck (AP63203)
+- `C27:1` - 3V3-Buck (AP63203)
+- `C28:1` - ESP32-C6-MCU + Beschaltung
+- `C29:1` - ESP32-C6-MCU + Beschaltung
+- `L3:2` - 3V3-Buck (AP63203)
+- `Q2:2` (S) - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `R21:1` - ESP32-C6-MCU + Beschaltung
+- `R22:1` - ESP32-C6-MCU + Beschaltung
+- `R23:1` - ESP32-C6-MCU + Beschaltung
+- `R24:1` - Taster & LEDs
+- `R25:1` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `R26:1` - 3V3-Buck (AP63203)
+- `TP5:1` - 3V3-Buck (AP63203)
+- `U1:3` (3V3) - ESP32-C6-MCU + Beschaltung
+
+### `+5V`
+
+Rolle: power | Pins: 12
+
+- `C11:2` - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `C22:1` - 5-V-Buck (SY8113B)
+- `C23:1` - 5-V-Buck (SY8113B)
+- `C24:2` - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `C3:1` - Akku & Puffer
+- `D1:1` (K) - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `D4:1` (K) - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `J16:1` - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `J17:1` - Sensor-Eingang
+- `J4:1` - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `L2:2` - 5-V-Buck (SY8113B)
+- `R19:1` - 5-V-Buck (SY8113B)
+
+### `VBAT`
+
+Rolle: power | Pins: 15
+
+- `C14:1` - 5-V-Buck (SY8113B)
+- `C15:1` - 3V3-Buck (AP63203)
+- `C16:1` - 3V3-Buck (AP63203)
+- `C7:1` - Laden (IP2326, 2S)
+- `C8:1` - 5-V-Buck (SY8113B)
+- `J1:3` - Akku & Puffer
+- `R13:1` - Unterspannungswaechter (TPS3839)
+- `R14:1` - ESP32-C6-MCU + Beschaltung
+- `R17:1` - Akku-Schutz (HY2120-CB + PSMN4R2)
+- `TP4:1` - Akku & Puffer
+- `U2:21` (VOUT) - Laden (IP2326, 2S)
+- `U2:22` (VOUT) - Laden (IP2326, 2S)
+- `U3:5` (IN) - 5-V-Buck (SY8113B)
+- `U4:2` (EN) - 3V3-Buck (AP63203)
+- `U4:3` (VIN) - 3V3-Buck (AP63203)
+
+### `VBUS`
+
+Rolle: power | Pins: 8
+
+- `C1:1` - Laden (IP2326, 2S)
+- `J5:A4B9` (VBUS) - USB-C Eingang & ESD
+- `J5:B4A9` (VBUS) - USB-C Eingang & ESD
+- `L1:1` - Laden (IP2326, 2S)
+- `R3:1` - Laden (IP2326, 2S)
+- `R5:1` - Laden (IP2326, 2S)
+- `R7:1` - Laden (IP2326, 2S)
+- `U6:5` - USB-C Eingang & ESD
+
+### `VBUS_CHG`
+
+Rolle: signal | Pins: 3
+
+- `C5:1` - Laden (IP2326, 2S)
+- `R3:2` - Laden (IP2326, 2S)
+- `U2:13` (VIN) - Laden (IP2326, 2S)
+
+### `VSYS_CHG`
+
+Rolle: signal | Pins: 4
+
+- `C19:1` - Laden (IP2326, 2S)
+- `C20:1` - Laden (IP2326, 2S)
+- `U2:19` (VSYS) - Laden (IP2326, 2S)
+- `U2:20` (VSYS) - Laden (IP2326, 2S)
+
+### `BAT_MINUS`
+
+Rolle: ground | Pins: 8
+
+- `C17:2` - Akku-Schutz (HY2120-CB + PSMN4R2)
+- `C18:2` - Akku-Schutz (HY2120-CB + PSMN4R2)
+- `J1:1` - Akku & Puffer
+- `Q3:1` (S) - Akku-Schutz (HY2120-CB + PSMN4R2)
+- `Q3:2` (S) - Akku-Schutz (HY2120-CB + PSMN4R2)
+- `Q3:3` (S) - Akku-Schutz (HY2120-CB + PSMN4R2)
+- `U2:24` (VBAT_GND) - Laden (IP2326, 2S)
+- `U5:6` (VSS) - Akku-Schutz (HY2120-CB + PSMN4R2)
+
+### `VCC_EXT`
+
+Rolle: signal | Pins: 10
+
+- `J10:2` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `J11:2` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `J12:2` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `J13:2` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `J15:2` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `J8:2` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `J9:2` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `Q2:3` (D) - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `R37:2` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `R39:2` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+
+### `GND`
+
+Rolle: ground | Pins: 93
+
+- `C1:2` - Laden (IP2326, 2S)
+- `C10:2` - ESP32-C6-MCU + Beschaltung
+- `C12:2` - Unterspannungswaechter (TPS3839)
+- `C13:2` - ESP32-C6-MCU + Beschaltung
+- `C14:2` - 5-V-Buck (SY8113B)
+- `C15:2` - 3V3-Buck (AP63203)
+- `C16:2` - 3V3-Buck (AP63203)
+- `C19:2` - Laden (IP2326, 2S)
+- `C2:2` - ESP32-C6-MCU + Beschaltung
+- `C20:2` - Laden (IP2326, 2S)
+- `C22:2` - 5-V-Buck (SY8113B)
+- `C23:2` - 5-V-Buck (SY8113B)
+- `C26:2` - 3V3-Buck (AP63203)
+- `C27:2` - 3V3-Buck (AP63203)
+- `C28:2` - ESP32-C6-MCU + Beschaltung
+- `C29:2` - ESP32-C6-MCU + Beschaltung
+- `C3:2` - Akku & Puffer
+- `C30:2` - Lichtsensor-Eingang
+- `C31:2` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `C32:2` - Taster & LEDs
+- `C4:2` - ESP32-C6-MCU + Beschaltung
+- `C5:2` - Laden (IP2326, 2S)
+- `C7:2` - Laden (IP2326, 2S)
+- `C8:2` - 5-V-Buck (SY8113B)
+- `C9:2` - ESP32-C6-MCU + Beschaltung
+- `D2:2` (K) - ESP32-C6-MCU + Beschaltung
+- `D5:1` (-) - ESP32-C6-MCU + Beschaltung
+- `J10:1` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `J11:1` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `J12:1` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `J13:1` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `J15:1` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `J17:2` - Sensor-Eingang
+- `J2:1` - Sensor-Eingang
+- `J5:1` (EH) - USB-C Eingang & ESD
+- `J5:2` (EH) - USB-C Eingang & ESD
+- `J5:3` (EH) - USB-C Eingang & ESD
+- `J5:4` (EH) - USB-C Eingang & ESD
+- `J5:A1B12` (GND) - USB-C Eingang & ESD
+- `J5:B1A12` (GND) - USB-C Eingang & ESD
+- `J6:2` - Taster & LEDs
+- `J7:1` - Lichtsensor-Eingang
+- `J8:1` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `J9:1` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `Q1:2` (S) - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `Q4:1` (S) - Akku-Schutz (HY2120-CB + PSMN4R2)
+- `Q4:2` (S) - Akku-Schutz (HY2120-CB + PSMN4R2)
+- `Q4:3` (S) - Akku-Schutz (HY2120-CB + PSMN4R2)
+- `Q5:2` (S) - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `R10:2` - Laden (IP2326, 2S)
+- `R11:2` - Laden (IP2326, 2S)
+- `R12:2` - Laden (IP2326, 2S)
+- `R18:2` - Akku-Schutz (HY2120-CB + PSMN4R2)
+- `R2:2` - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `R20:2` - 5-V-Buck (SY8113B)
+- `R27:2` - 3V3-Buck (AP63203)
+- `R28:2` - Unterspannungswaechter (TPS3839)
+- `R32:2` - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `R33:2` - ESP32-C6-MCU + Beschaltung
+- `R34:2` - Lichtsensor-Eingang
+- `R8:2` - USB-C Eingang & ESD
+- `R9:2` - USB-C Eingang & ESD
+- `SW1:2` (B) - ESP32-C6-MCU + Beschaltung
+- `SW2:2` (B) - ESP32-C6-MCU + Beschaltung
+- `TP3:1` - Akku & Puffer
+- `U1:1` (GND) - ESP32-C6-MCU + Beschaltung
+- `U1:11` (GND) - ESP32-C6-MCU + Beschaltung
+- `U1:14` (GND) - ESP32-C6-MCU + Beschaltung
+- `U1:2` (GND) - ESP32-C6-MCU + Beschaltung
+- `U1:36` (GND) - ESP32-C6-MCU + Beschaltung
+- `U1:37` (GND) - ESP32-C6-MCU + Beschaltung
+- `U1:38` (GND) - ESP32-C6-MCU + Beschaltung
+- `U1:39` (GND) - ESP32-C6-MCU + Beschaltung
+- `U1:40` (GND) - ESP32-C6-MCU + Beschaltung
+- `U1:41` (GND) - ESP32-C6-MCU + Beschaltung
+- `U1:42` (GND) - ESP32-C6-MCU + Beschaltung
+- `U1:43` (GND) - ESP32-C6-MCU + Beschaltung
+- `U1:44` (GND) - ESP32-C6-MCU + Beschaltung
+- `U1:45` (GND) - ESP32-C6-MCU + Beschaltung
+- `U1:46` (GND) - ESP32-C6-MCU + Beschaltung
+- `U1:47` (GND) - ESP32-C6-MCU + Beschaltung
+- `U1:48` (GND) - ESP32-C6-MCU + Beschaltung
+- `U1:49` (GND) - ESP32-C6-MCU + Beschaltung
+- `U1:50` (GND) - ESP32-C6-MCU + Beschaltung
+- `U1:51` (GND) - ESP32-C6-MCU + Beschaltung
+- `U1:52` (GND) - ESP32-C6-MCU + Beschaltung
+- `U1:53` (GND) - ESP32-C6-MCU + Beschaltung
+- `U2:18` (PGND) - Laden (IP2326, 2S)
+- `U2:25` (EP) - Laden (IP2326, 2S)
+- `U3:2` (GND) - 5-V-Buck (SY8113B)
+- `U4:4` (GND) - 3V3-Buck (AP63203)
+- `U6:2` - USB-C Eingang & ESD
+- `U7:1` (GND) - Unterspannungswaechter (TPS3839)
+
+### `BOOT`
+
+Rolle: signal | Pins: 3
+
+- `R22:2` - ESP32-C6-MCU + Beschaltung
+- `SW2:1` (A) - ESP32-C6-MCU + Beschaltung
+- `U1:23` (IO9) - ESP32-C6-MCU + Beschaltung
+
+### `BST_3V3`
+
+Rolle: signal | Pins: 2
+
+- `C25:1` - 3V3-Buck (AP63203)
+- `U4:6` (BST) - 3V3-Buck (AP63203)
+
+### `BST_5V`
+
+Rolle: signal | Pins: 2
+
+- `C21:1` - 5-V-Buck (SY8113B)
+- `U3:1` (BS) - 5-V-Buck (SY8113B)
+
+### `BST_CHG`
+
+Rolle: signal | Pins: 2
+
+- `C6:1` - Laden (IP2326, 2S)
+- `U2:14` (BST) - Laden (IP2326, 2S)
+
+### `BTN`
+
+Rolle: signal | Pins: 4
+
+- `C32:1` - Taster & LEDs
+- `J6:1` - Taster & LEDs
+- `R24:2` - Taster & LEDs
+- `U1:15` (IO6) - ESP32-C6-MCU + Beschaltung
+
+### `CC1`
+
+Rolle: signal | Pins: 2
+
+- `J5:A5` (CC1) - USB-C Eingang & ESD
+- `R8:1` - USB-C Eingang & ESD
+
+### `CC2`
+
+Rolle: signal | Pins: 2
+
+- `J5:B5` (CC2) - USB-C Eingang & ESD
+- `R9:1` - USB-C Eingang & ESD
+
+### `EN`
+
+Rolle: signal | Pins: 4
+
+- `C4:1` - ESP32-C6-MCU + Beschaltung
+- `R21:2` - ESP32-C6-MCU + Beschaltung
+- `SW1:1` (A) - ESP32-C6-MCU + Beschaltung
+- `U1:8` (EN) - ESP32-C6-MCU + Beschaltung
+
+### `EN_CHG`
+
+Rolle: signal | Pins: 2
+
+- `R7:2` - Laden (IP2326, 2S)
+- `U2:12` (EN) - Laden (IP2326, 2S)
+
+### `EXT_EN`
+
+Rolle: signal | Pins: 3
+
+- `Q2:1` (G) - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `R25:2` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `U1:26` (IO20) - ESP32-C6-MCU + Beschaltung
+
+### `FB_3V3`
+
+Rolle: signal | Pins: 3
+
+- `R26:2` - 3V3-Buck (AP63203)
+- `R27:1` - 3V3-Buck (AP63203)
+- `U4:1` (FB) - 3V3-Buck (AP63203)
+
+### `FB_5V`
+
+Rolle: signal | Pins: 3
+
+- `R19:2` - 5-V-Buck (SY8113B)
+- `R20:1` - 5-V-Buck (SY8113B)
+- `U3:3` (FB) - 5-V-Buck (SY8113B)
+
+### `GATE`
+
+Rolle: signal | Pins: 4
+
+- `Q1:1` (G) - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `R1:2` - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `R2:1` - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `R29:1` - Pumpentreiber Dosier- + Sauerstoffpumpe
+
+### `GATE2`
+
+Rolle: signal | Pins: 4
+
+- `Q5:1` (G) - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `R30:1` - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `R31:2` - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `R32:1` - Pumpentreiber Dosier- + Sauerstoffpumpe
+
+### `GPIO8_STRAP`
+
+Rolle: signal | Pins: 2
+
+- `R23:2` - ESP32-C6-MCU + Beschaltung
+- `U1:22` (IO8) - ESP32-C6-MCU + Beschaltung
+
+### `ISET_CHG`
+
+Rolle: signal | Pins: 2
+
+- `R10:1` - Laden (IP2326, 2S)
+- `U2:11` (ISET) - Laden (IP2326, 2S)
 
-### Netz `RESET_UV`  (signal, 7 Pins)
+### `KLAMP1`
 
-- `D3:1` (K)  — PUMPE
-- `D8:1` (K)  — PUMPE
-- `R35:2`  — PUMPE
-- `R36:2`  — PUMPE
-- `R37:1`  — BOOST
-- `U7:2` (RESET)  — WAEChTER
-- `U8:4` (EN)  — BOOST
+Rolle: signal | Pins: 2
 
-### Netz `SCL`  (signal, 3 Pins)
+- `D3:2` (A) - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `R29:2` - Pumpentreiber Dosier- + Sauerstoffpumpe
 
-- `J8:4`  — ERWEITERUNG
-- `R20:1`  — ERWEITERUNG
-- `R22:2`  — ERWEITERUNG
+### `KLAMP2`
 
-### Netz `SCL_MCU`  (signal, 2 Pins)
+Rolle: signal | Pins: 2
 
-- `R22:1`  — ERWEITERUNG
-- `U1:25` (IO19)  — MCU
+- `D8:2` (A) - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `R30:2` - Pumpentreiber Dosier- + Sauerstoffpumpe
 
-### Netz `SDA`  (signal, 3 Pins)
+### `LED_CHG`
 
-- `J8:3`  — ERWEITERUNG
-- `R19:1`  — ERWEITERUNG
-- `R21:2`  — ERWEITERUNG
+Rolle: signal | Pins: 2
 
-### Netz `SDA_MCU`  (signal, 2 Pins)
+- `LED1:2` (+) - Laden (IP2326, 2S)
+- `R5:2` - Laden (IP2326, 2S)
 
-- `R21:1`  — ERWEITERUNG
-- `U1:24` (IO18)  — MCU
+### `LED_STAT`
 
-### Netz `SENSOR_AOUT`  (signal, 4 Pins)
+Rolle: signal | Pins: 2
 
-- `C9:1`  — MCU
-- `R6:2`  — SENSOR
-- `TP6:1`  — SENSOR
-- `U1:12` (IO0)  — MCU
+- `R4:1` - ESP32-C6-MCU + Beschaltung
+- `U1:19` (IO14) - ESP32-C6-MCU + Beschaltung
 
-### Netz `SENSOR_PWR`  (signal, 3 Pins)
+### `LED_STAT_A`
 
-- `J2:2`  — SENSOR
-- `J7:2`  — LICHT
-- `U1:6` (IO3)  — MCU
+Rolle: signal | Pins: 2
 
-### Netz `SENSOR_RAW`  (signal, 2 Pins)
+- `D2:1` (A) - ESP32-C6-MCU + Beschaltung
+- `R4:2` - ESP32-C6-MCU + Beschaltung
 
-- `J2:3`  — SENSOR
-- `R6:1`  — SENSOR
+### `LED_TANK`
 
-### Netz `SPARE_AIN`  (signal, 3 Pins)
+Rolle: signal | Pins: 2
 
-- `C16:1`  — ERWEITERUNG
-- `R24:2`  — ERWEITERUNG
-- `U1:10` (IO5)  — MCU
+- `R46:1` - ESP32-C6-MCU + Beschaltung
+- `U1:16` (IO7) - ESP32-C6-MCU + Beschaltung
 
-### Netz `SPARE_AIN_RAW`  (signal, 2 Pins)
+### `LED_TANK_A`
 
-- `J9:3`  — ERWEITERUNG
-- `R24:1`  — ERWEITERUNG
+Rolle: signal | Pins: 2
 
-### Netz `SPARE_IO15`  (signal, 2 Pins)
+- `D5:2` (+) - ESP32-C6-MCU + Beschaltung
+- `R46:2` - ESP32-C6-MCU + Beschaltung
 
-- `R25:2`  — ERWEITERUNG
-- `U1:20` (IO15)  — MCU
+### `LIGHT_AOUT`
 
-### Netz `SPARE_IO15_RAW`  (signal, 2 Pins)
+Rolle: signal | Pins: 3
 
-- `J10:3`  — ERWEITERUNG
-- `R25:1`  — ERWEITERUNG
+- `C30:1` - Lichtsensor-Eingang
+- `R35:2` - Lichtsensor-Eingang
+- `U1:9` (IO4) - ESP32-C6-MCU + Beschaltung
 
-### Netz `SPARE_IO16`  (signal, 2 Pins)
+### `LIGHT_RAW`
 
-- `J11:3`  — ERWEITERUNG
-- `R26:2`  — ERWEITERUNG
+Rolle: signal | Pins: 3
 
-### Netz `SPARE_IO17`  (signal, 2 Pins)
+- `J7:3` - Lichtsensor-Eingang
+- `R34:1` - Lichtsensor-Eingang
+- `R35:1` - Lichtsensor-Eingang
 
-- `J12:3`  — ERWEITERUNG
-- `R27:2`  — ERWEITERUNG
+### `LX_3V3`
 
-### Netz `SPARE_IO21`  (signal, 2 Pins)
+Rolle: signal | Pins: 3
 
-- `R28:2`  — ERWEITERUNG
-- `U1:27` (IO21)  — MCU
+- `C25:2` - 3V3-Buck (AP63203)
+- `L3:1` - 3V3-Buck (AP63203)
+- `U4:5` (SW) - 3V3-Buck (AP63203)
 
-### Netz `SPARE_IO21_RAW`  (signal, 2 Pins)
+### `LX_5V`
 
-- `J13:3`  — ERWEITERUNG
-- `R28:1`  — ERWEITERUNG
+Rolle: signal | Pins: 3
 
-### Netz `SPARE_IO23`  (signal, 2 Pins)
+- `C21:2` - 5-V-Buck (SY8113B)
+- `L2:1` - 5-V-Buck (SY8113B)
+- `U3:6` (LX) - 5-V-Buck (SY8113B)
 
-- `R30:2`  — ERWEITERUNG
-- `U1:29` (IO23)  — MCU
+### `LX_CHG`
 
-### Netz `SPARE_IO23_RAW`  (signal, 2 Pins)
+Rolle: signal | Pins: 5
 
-- `J15:3`  — ERWEITERUNG
-- `R30:1`  — ERWEITERUNG
+- `C6:2` - Laden (IP2326, 2S)
+- `L1:2` - Laden (IP2326, 2S)
+- `U2:15` (LX) - Laden (IP2326, 2S)
+- `U2:16` (LX) - Laden (IP2326, 2S)
+- `U2:17` (LX) - Laden (IP2326, 2S)
 
-### Netz `STAT_CHG`  (signal, 2 Pins)
+### `MID`
 
-- `LED1:1` (-)  — LADER
-- `U3:1` (STAT)  — LADER
+Rolle: signal | Pins: 3
 
-### Netz `SW_BOOST`  (signal, 3 Pins)
+- `J1:2` - Akku & Puffer
+- `R15:1` - Akku-Schutz (HY2120-CB + PSMN4R2)
+- `R16:1` - Akku-Schutz (HY2120-CB + PSMN4R2)
 
-- `D6:2` (A)  — BOOST
-- `L1:2`  — BOOST
-- `U8:1` (SW)  — BOOST
+### `NTC_DIS`
 
-### Netz `UART_RX`  (signal, 3 Pins)
+Rolle: signal | Pins: 2
 
-- `R27:1`  — ERWEITERUNG
-- `TP2:1`  — MCU
-- `U1:30` (RXD0)  — MCU
+- `R11:1` - Laden (IP2326, 2S)
+- `U2:4` (NTC) - Laden (IP2326, 2S)
 
-### Netz `UART_TP`  (signal, 2 Pins)
+### `PROT_COMMON`
 
-- `R16:2`  — DEBUG
-- `TP1:1`  — DEBUG
+Rolle: signal | Pins: 2
 
-### Netz `UART_TX`  (signal, 3 Pins)
+- `Q3:5` (D) - Akku-Schutz (HY2120-CB + PSMN4R2)
+- `Q4:5` (D) - Akku-Schutz (HY2120-CB + PSMN4R2)
 
-- `R16:1`  — DEBUG
-- `R26:1`  — ERWEITERUNG
-- `U1:31` (TXD0)  — MCU
+### `PROT_CS`
 
-### Netz `USB_DM`  (signal, 5 Pins)
+Rolle: signal | Pins: 2
 
-- `J5:A7` (DN1)  — USB
-- `J5:B7` (DN2)  — USB
-- `U1:17` (IO12)  — MCU
-- `U6:3`  — USB
-- `U6:4`  — USB
+- `R18:1` - Akku-Schutz (HY2120-CB + PSMN4R2)
+- `U5:3` (CS) - Akku-Schutz (HY2120-CB + PSMN4R2)
 
-### Netz `USB_DP`  (signal, 5 Pins)
+### `PROT_GATE_C`
 
-- `J5:A6` (DP1)  — USB
-- `J5:B6` (DP2)  — USB
-- `U1:18` (IO13)  — MCU
-- `U6:1`  — USB
-- `U6:6`  — USB
+Rolle: signal | Pins: 2
 
-### Netz `VBAT_SENSE`  (signal, 4 Pins)
+- `Q4:4` (G) - Akku-Schutz (HY2120-CB + PSMN4R2)
+- `U5:2` (OC) - Akku-Schutz (HY2120-CB + PSMN4R2)
 
-- `C10:1`  — MCU
-- `R3:2`  — WAEChTER
-- `R5:1`  — WAEChTER
-- `U1:13` (IO1)  — MCU
+### `PROT_GATE_D`
 
-### Netz `VCC_EXT`  (signal, 10 Pins)
+Rolle: signal | Pins: 2
 
-- `J8:2`  — ERWEITERUNG
-- `J9:2`  — ERWEITERUNG
-- `J10:2`  — ERWEITERUNG
-- `J11:2`  — ERWEITERUNG
-- `J12:2`  — ERWEITERUNG
-- `J13:2`  — ERWEITERUNG
-- `J15:2`  — ERWEITERUNG
-- `Q2:3` (D)  — ERWEITERUNG
-- `R19:2`  — ERWEITERUNG
-- `R20:2`  — ERWEITERUNG
+- `Q3:4` (G) - Akku-Schutz (HY2120-CB + PSMN4R2)
+- `U5:1` (OD) - Akku-Schutz (HY2120-CB + PSMN4R2)
 
-## 4. Wo ist was verbaut (Funktionsblöcke mit Rahmen auf dem Blatt)
+### `PROT_VC`
 
-Die Blattkoordinaten sind EasyEDA-Einheiten (1/100 inch). `x0..x1` / `y0..y1` ist der Rahmen des Blocks.
+Rolle: signal | Pins: 3
 
-| Block | Rahmen x0..x1 | y0..y1 | Bauteile | Zweck |
+- `C18:1` - Akku-Schutz (HY2120-CB + PSMN4R2)
+- `R15:2` - Akku-Schutz (HY2120-CB + PSMN4R2)
+- `U5:4` (VC) - Akku-Schutz (HY2120-CB + PSMN4R2)
+
+### `PROT_VDD`
+
+Rolle: signal | Pins: 3
+
+- `C17:1` - Akku-Schutz (HY2120-CB + PSMN4R2)
+- `R17:2` - Akku-Schutz (HY2120-CB + PSMN4R2)
+- `U5:5` (VDD) - Akku-Schutz (HY2120-CB + PSMN4R2)
+
+### `PUMP2_EN`
+
+Rolle: signal | Pins: 2
+
+- `R31:1` - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `U1:28` (IO22) - ESP32-C6-MCU + Beschaltung
+
+### `PUMP2_N`
+
+Rolle: signal | Pins: 4
+
+- `C24:1` - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `D4:2` (A) - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `J16:2` - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `Q5:3` (D) - Pumpentreiber Dosier- + Sauerstoffpumpe
+
+### `PUMP_EN`
+
+Rolle: signal | Pins: 2
+
+- `R1:1` - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `U1:5` (IO2) - ESP32-C6-MCU + Beschaltung
+
+### `PUMP_N`
+
+Rolle: signal | Pins: 4
+
+- `C11:1` - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `D1:2` (A) - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `J4:2` - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `Q1:3` (D) - Pumpentreiber Dosier- + Sauerstoffpumpe
+
+### `RESET_UV`
+
+Rolle: signal | Pins: 4
+
+- `D3:1` (K) - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `D8:1` (K) - Pumpentreiber Dosier- + Sauerstoffpumpe
+- `U3:4` (EN) - 5-V-Buck (SY8113B)
+- `U7:2` (RESET#) - Unterspannungswaechter (TPS3839)
+
+### `SCL`
+
+Rolle: signal | Pins: 3
+
+- `J8:4` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `R38:2` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `R39:1` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+
+### `SCL_MCU`
+
+Rolle: signal | Pins: 2
+
+- `R38:1` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `U1:25` (IO19) - ESP32-C6-MCU + Beschaltung
+
+### `SDA`
+
+Rolle: signal | Pins: 3
+
+- `J8:3` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `R36:2` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `R37:1` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+
+### `SDA_MCU`
+
+Rolle: signal | Pins: 2
+
+- `R36:1` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `U1:24` (IO18) - ESP32-C6-MCU + Beschaltung
+
+### `SENSOR_AOUT`
+
+Rolle: signal | Pins: 4
+
+- `C9:1` - ESP32-C6-MCU + Beschaltung
+- `R6:2` - Sensor-Eingang
+- `TP6:1` - Sensor-Eingang
+- `U1:12` (IO0) - ESP32-C6-MCU + Beschaltung
+
+### `SENSOR_PWR`
+
+Rolle: signal | Pins: 3
+
+- `J2:2` - Sensor-Eingang
+- `J7:2` - Lichtsensor-Eingang
+- `U1:6` (IO3) - ESP32-C6-MCU + Beschaltung
+
+### `SENSOR_RAW`
+
+Rolle: signal | Pins: 2
+
+- `J2:3` - Sensor-Eingang
+- `R6:1` - Sensor-Eingang
+
+### `SPARE_AIN`
+
+Rolle: signal | Pins: 3
+
+- `C31:1` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `R40:2` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `U1:10` (IO5) - ESP32-C6-MCU + Beschaltung
+
+### `SPARE_AIN_RAW`
+
+Rolle: signal | Pins: 2
+
+- `J9:3` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `R40:1` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+
+### `SPARE_IO15`
+
+Rolle: signal | Pins: 2
+
+- `R41:2` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `U1:20` (IO15) - ESP32-C6-MCU + Beschaltung
+
+### `SPARE_IO15_RAW`
+
+Rolle: signal | Pins: 2
+
+- `J10:3` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `R41:1` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+
+### `SPARE_IO16`
+
+Rolle: signal | Pins: 2
+
+- `J11:3` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `R42:2` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+
+### `SPARE_IO17`
+
+Rolle: signal | Pins: 2
+
+- `J12:3` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `R43:2` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+
+### `SPARE_IO21`
+
+Rolle: signal | Pins: 2
+
+- `R44:2` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `U1:27` (IO21) - ESP32-C6-MCU + Beschaltung
+
+### `SPARE_IO21_RAW`
+
+Rolle: signal | Pins: 2
+
+- `J13:3` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `R44:1` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+
+### `SPARE_IO23`
+
+Rolle: signal | Pins: 2
+
+- `R45:2` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `U1:29` (IO23) - ESP32-C6-MCU + Beschaltung
+
+### `SPARE_IO23_RAW`
+
+Rolle: signal | Pins: 2
+
+- `J15:3` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `R45:1` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+
+### `STAT_CHG`
+
+Rolle: signal | Pins: 2
+
+- `LED1:1` (-) - Laden (IP2326, 2S)
+- `U2:6` (LED) - Laden (IP2326, 2S)
+
+### `UART_RX`
+
+Rolle: signal | Pins: 3
+
+- `R43:1` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `TP2:1` - ESP32-C6-MCU + Beschaltung
+- `U1:30` (RXD0) - ESP32-C6-MCU + Beschaltung
+
+### `UART_TP`
+
+Rolle: signal | Pins: 2
+
+- `R47:2` - UART-Debug-Pads (DNP)
+- `TP1:1` - UART-Debug-Pads (DNP)
+
+### `UART_TX`
+
+Rolle: signal | Pins: 3
+
+- `R42:1` - Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch
+- `R47:1` - UART-Debug-Pads (DNP)
+- `U1:31` (TXD0) - ESP32-C6-MCU + Beschaltung
+
+### `USB_DM`
+
+Rolle: signal | Pins: 5
+
+- `J5:A7` (DN1) - USB-C Eingang & ESD
+- `J5:B7` (DN2) - USB-C Eingang & ESD
+- `U1:17` (IO12) - ESP32-C6-MCU + Beschaltung
+- `U6:3` - USB-C Eingang & ESD
+- `U6:4` - USB-C Eingang & ESD
+
+### `USB_DP`
+
+Rolle: signal | Pins: 5
+
+- `J5:A6` (DP1) - USB-C Eingang & ESD
+- `J5:B6` (DP2) - USB-C Eingang & ESD
+- `U1:18` (IO13) - ESP32-C6-MCU + Beschaltung
+- `U6:1` - USB-C Eingang & ESD
+- `U6:6` - USB-C Eingang & ESD
+
+### `UVSET_CHG`
+
+Rolle: signal | Pins: 2
+
+- `R12:1` - Laden (IP2326, 2S)
+- `U2:8` (VIN_UVSET) - Laden (IP2326, 2S)
+
+### `UV_REF`
+
+Rolle: signal | Pins: 4
+
+- `C12:1` - Unterspannungswaechter (TPS3839)
+- `R13:2` - Unterspannungswaechter (TPS3839)
+- `R28:1` - Unterspannungswaechter (TPS3839)
+- `U7:3` (VDD) - Unterspannungswaechter (TPS3839)
+
+### `VBATM_CHG`
+
+Rolle: signal | Pins: 2
+
+- `R16:2` - Akku-Schutz (HY2120-CB + PSMN4R2)
+- `U2:23` (VBATM) - Laden (IP2326, 2S)
+
+### `VBAT_SENSE`
+
+Rolle: signal | Pins: 4
+
+- `C10:1` - ESP32-C6-MCU + Beschaltung
+- `R14:2` - ESP32-C6-MCU + Beschaltung
+- `R33:1` - ESP32-C6-MCU + Beschaltung
+- `U1:13` (IO1) - ESP32-C6-MCU + Beschaltung
+
+## 4. Wo ist was (Bloecke auf dem Blatt, Koordinaten in 0,01 Zoll)
+
+| Block / Modul | Rahmen x0..x1 | y0..y1 | Titel | Mitglieder |
 |---|---|---|---|---|
-| **AKKU** | 2477..3013 | 1685..2068 | C3, J1, TP3, TP4 | Akku, Puffer, Ladezustands-LED |
-| **BOOST** | 897..1581 | 1011..1587 | C17, C18, C19, D6, L1, R31, R32, U8 | 5-V-Boost (MT3608) aus VBAT |
-| **DEBUG** | 2020..2477 | 1685..2148 | R16, TP1 | UART-Debug-Pads (unbestückt) |
-| **ERWEITERUNG** | 12..897 | 12..1135 | C16, J10, J11, J12, J13, J15, J8, J9, Q2, R19, R20, R21, R22, R23, R24, R25, R26, R27, R28, R30 | freie GPIOs auf Stiftleisten |
-| **LADER** | 602..1562 | 1587..2096 | C7, C8, LED1, R13, R14, U3 | 1S-Laderegler |
-| **LDO** | 12..509 | 1650..2124 | C5, C6, TP5, U4 | 3,3-V-Regler |
-| **LICHT** | 2330..3027 | 1174..1685 | C15, J7, R17, R18 | Lichtsensor-Eingang |
-| **MCU** | 897..1810 | 12..1011 | C1, C10, C13, C2, C4, C9, D2, D5, R10, R11, R15, R4, R9, SW1, SW2, TP2, U1 | ESP32-C6 + Beschaltung |
-| **PUMPE** | 2405..3168 | 198..1174 | C11, C20, D1, D3, D7, D8, J16, J4, Q1, Q3, R1, R2, R33, R34 | Pumpentreiber Dosier- **und** Sauerstoffpumpe |
-| **SENSOR** | 12..602 | 1135..1650 | J2, R6, TP6 | Bodenfeuchte-Sensor Eingang |
-| **TASTER** | 1562..2020 | 1599..2099 | C14, J6, R12 | Bedientaster |
-| **USB** | 1810..2405 | 12..1006 | J5, R7, R8, U6 | USB-C Eingang + ESD |
-| **WAEChTER** | 1810..2330 | 1006..1599 | C12, R3, R5, U7 | Unterspannungswächter |
-## 5. Anschlüsse nach außen (Stecker, Buchsen, Testpunkte) — Pin für Pin
+| **USB** | 1855..2450 | 12..1006 | USB-C Eingang & ESD | J5, R8, R9, U6 |
+| **LADER** | 1855..2577 | 1006..1943 | Laden (IP2326, 2S) | C1, C19, C20, C5, C6, C7, L1, LED1, R10, R11, R12, R3, R5, R7, U2 |
+| **DEBUG** | 12..469 | 1863..2326 | UART-Debug-Pads (DNP) | R47, TP1 |
+| **MCU** | 12..970 | 12..1063 | ESP32-C6-MCU + Beschaltung | C10, C13, C2, C28, C29, C4, C9, D2, D5, R14, R21, R22, R23, R33, R4, R46, SW1, SW2, TP2, U1 |
+| **WAEChTER** | 2602..3234 | 1809..2300 | Unterspannungswaechter (TPS3839) | C12, R13, R28, U7 |
+| **SCHUTZ** | 1120..1807 | 1650..2304 | Akku-Schutz (HY2120-CB + PSMN4R2) | C17, C18, Q3, Q4, R15, R16, R17, R18, U5 |
+| **LDO** | 2602..3243 | 713..1328 | 3V3-Buck (AP63203) | C15, C16, C25, C26, C27, L3, R26, R27, TP5, U4 |
+| **AKKU** | 2602..3013 | 1328..1809 | Akku & Puffer | C3, J1, TP3, TP4 |
+| **SENSOR** | 2602..3252 | 198..713 | Sensor-Eingang | J17, J2, R6, TP6 |
+| **PUMPE** | 12..1120 | 1063..1863 | Pumpentreiber Dosier- + Sauerstoffpumpe | C11, C24, D1, D3, D4, D8, J16, J4, Q1, Q5, R1, R2, R29, R30, R31, R32 |
+| **BOOST** | 1120..1803 | 1059..1650 | 5-V-Buck (SY8113B) | C14, C21, C22, C23, C8, L2, R19, R20, U3 |
+| **TASTER** | 1807..2417 | 1943..2311 | Taster & LEDs | C32, J6, R24 |
+| **ERWEITERUNG** | 970..1855 | 12..1059 | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch | C31, J10, J11, J12, J13, J15, J8, J9, Q2, R25, R36, R37, R38, R39, R40, R41, R42, R43, R44, R45 |
+| **LICHT** | 469..1115 | 1863..2317 | Lichtsensor-Eingang | C30, J7, R34, R35 |
 
-**Das ist die Liste für „was stecke ich wo an"** — jeder Außenanschluss mit seiner Belegung.
+## 5. Anschluesse
 
-### J1 — JST-PH-2P  (AKKU)
-*extended - Akku; Polung im Layout pruefen*
-
-| Pin | Netz | wozu |
-|---|---|---|
-| 1 | `VBAT` | Akku (1S LiPo) 1 |
-| 2 | `GND` | Akku (1S LiPo) 2 |
-| 3 | `— (unbelegt)` | Akku (1S LiPo) 3 |
-| 4 | `— (unbelegt)` | Akku (1S LiPo) 4 |
-
-### J2 — JST-XH-3P  (SENSOR)
-*extended - Feuchtesensor (gerastet*
+### J1 - Akku JST-XH 3P (B-/MID/B+), aufrecht
 
 | Pin | Netz | wozu |
 |---|---|---|
-| 1 | `GND` | Bodenfeuchte-Sensor 1 |
-| 2 | `SENSOR_PWR` | Bodenfeuchte-Sensor 2 |
-| 3 | `SENSOR_RAW` | Bodenfeuchte-Sensor 3 |
+| 1 | BAT_MINUS | Akku & Puffer |
+| 2 | MID | Akku & Puffer |
+| 3 | VBAT | Akku & Puffer |
 
-### J4 — JST-XH-2P, aufrecht  (PUMPE)
-*Kanal 1: Dosierpumpe (CONQUERALL DC 5 V, ≤150 ml/min)*
-
-| Pin | Netz | wozu |
-|---|---|---|
-| 1 | `+5V` | Dosierpumpe (+5 V geschaltet) |
-| 2 | `PUMP_N` | Dosierpumpe (+5 V geschaltet) |
-
-### J5 — USB-C-16P  (USB)
-*extended - Buchse*
+### J10 - Reserve IO15 Stiftleiste 1x3
 
 | Pin | Netz | wozu |
 |---|---|---|
-| 1 | `GND` | USB-C Eingang (Laden + Programmieren) EH |
-| 2 | `GND` | USB-C Eingang (Laden + Programmieren) EH |
-| 3 | `GND` | USB-C Eingang (Laden + Programmieren) EH |
-| 4 | `GND` | USB-C Eingang (Laden + Programmieren) EH |
-| A5 | `CC1` | USB-C Eingang (Laden + Programmieren) CC1 |
-| A6 | `USB_DP` | USB-C Eingang (Laden + Programmieren) DP1 |
-| A7 | `USB_DM` | USB-C Eingang (Laden + Programmieren) DN1 |
-| A8 | `— (unbelegt)` | USB-C Eingang (Laden + Programmieren) SBU1 |
-| B5 | `CC2` | USB-C Eingang (Laden + Programmieren) CC2 |
-| B6 | `USB_DP` | USB-C Eingang (Laden + Programmieren) DP2 |
-| B7 | `USB_DM` | USB-C Eingang (Laden + Programmieren) DN2 |
-| B8 | `— (unbelegt)` | USB-C Eingang (Laden + Programmieren) SBU2 |
-| A4B9 | `VBUS` | USB-C Eingang (Laden + Programmieren) VBUS |
-| B4A9 | `VBUS` | USB-C Eingang (Laden + Programmieren) VBUS |
-| A1B12 | `GND` | USB-C Eingang (Laden + Programmieren) GND |
-| B1A12 | `GND` | USB-C Eingang (Laden + Programmieren) GND |
+| 1 | GND | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch |
+| 2 | VCC_EXT | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch |
+| 3 | SPARE_IO15_RAW | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch |
 
-### J6 — HDR-TH 2P, 2,54 mm  (TASTER)
-*KEINE BESTUECKUNG - nur Lotpads fuer den externen Taster*
+### J11 - Reserve IO16 (TXD0) Stiftleiste 1x3
 
 | Pin | Netz | wozu |
 |---|---|---|
-| 1 | `BTN` | 1 |
-| 2 | `GND` | 2 |
+| 1 | GND | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch |
+| 2 | VCC_EXT | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch |
+| 3 | SPARE_IO16 | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch |
 
-### J7 — Stiftleiste-1x3-2.54mm  (LICHT)
-*extended - XFCN PZ254V-11-03P; GND-VCC-SIG (VCC immer Pin 2) fuer Lichtsensor + Reserve-IO*
-
-| Pin | Netz | wozu |
-|---|---|---|
-| 1 | `GND` | 1 |
-| 2 | `SENSOR_PWR` | 2 |
-| 3 | `LIGHT_RAW` | 3 |
-
-### J8 — Stiftleiste-1x4-2.54mm  (ERWEITERUNG)
-*extended - XFCN PZ254V-11-04P; I2C GND-VCC-SDA-SCL*
+### J12 - Reserve IO17 (RXD0) Stiftleiste 1x3
 
 | Pin | Netz | wozu |
 |---|---|---|
-| 1 | `GND` | 1 |
-| 2 | `VCC_EXT` | 2 |
-| 3 | `SDA` | 3 |
-| 4 | `SCL` | 4 |
+| 1 | GND | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch |
+| 2 | VCC_EXT | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch |
+| 3 | SPARE_IO17 | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch |
 
-### J9 — Stiftleiste-1x3-2.54mm  (ERWEITERUNG)
-*extended - XFCN PZ254V-11-03P; GND-VCC-SIG (VCC immer Pin 2) fuer Lichtsensor + Reserve-IO*
+### J13 - Reserve IO21 Stiftleiste 1x3
 
 | Pin | Netz | wozu |
 |---|---|---|
-| 1 | `GND` | 1 |
-| 2 | `VCC_EXT` | 2 |
-| 3 | `SPARE_AIN_RAW` | 3 |
+| 1 | GND | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch |
+| 2 | VCC_EXT | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch |
+| 3 | SPARE_IO21_RAW | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch |
 
-### J10 — Stiftleiste-1x3-2.54mm  (ERWEITERUNG)
-*extended - XFCN PZ254V-11-03P; GND-VCC-SIG (VCC immer Pin 2) fuer Lichtsensor + Reserve-IO*
-
-| Pin | Netz | wozu |
-|---|---|---|
-| 1 | `GND` | 1 |
-| 2 | `VCC_EXT` | 2 |
-| 3 | `SPARE_IO15_RAW` | 3 |
-
-### J11 — Stiftleiste-1x3-2.54mm  (ERWEITERUNG)
-*extended - XFCN PZ254V-11-03P; GND-VCC-SIG (VCC immer Pin 2) fuer Lichtsensor + Reserve-IO*
+### J15 - Reserve IO23 Stiftleiste 1x3
 
 | Pin | Netz | wozu |
 |---|---|---|
-| 1 | `GND` | 1 |
-| 2 | `VCC_EXT` | 2 |
-| 3 | `SPARE_IO16` | 3 |
+| 1 | GND | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch |
+| 2 | VCC_EXT | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch |
+| 3 | SPARE_IO23_RAW | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch |
 
-### J12 — Stiftleiste-1x3-2.54mm  (ERWEITERUNG)
-*extended - XFCN PZ254V-11-03P; GND-VCC-SIG (VCC immer Pin 2) fuer Lichtsensor + Reserve-IO*
-
-| Pin | Netz | wozu |
-|---|---|---|
-| 1 | `GND` | 1 |
-| 2 | `VCC_EXT` | 2 |
-| 3 | `SPARE_IO17` | 3 |
-
-### J13 — Stiftleiste-1x3-2.54mm  (ERWEITERUNG)
-*extended - XFCN PZ254V-11-03P; GND-VCC-SIG (VCC immer Pin 2) fuer Lichtsensor + Reserve-IO*
+### J16 - Sauerstoffpumpe JST-XH 2P, aufrecht
 
 | Pin | Netz | wozu |
 |---|---|---|
-| 1 | `GND` | 1 |
-| 2 | `VCC_EXT` | 2 |
-| 3 | `SPARE_IO21_RAW` | 3 |
+| 1 | +5V | Pumpentreiber Dosier- + Sauerstoffpumpe |
+| 2 | PUMP2_N | Pumpentreiber Dosier- + Sauerstoffpumpe |
 
-### J15 — Stiftleiste-1x3-2.54mm  (ERWEITERUNG)
-*extended - XFCN PZ254V-11-03P; GND-VCC-SIG (VCC immer Pin 2) fuer Lichtsensor + Reserve-IO*
+### J17 - 5-V-Ausgang fuer Sensorik JST-XH 2P
 
 | Pin | Netz | wozu |
 |---|---|---|
-| 1 | `GND` | 1 |
-| 2 | `VCC_EXT` | 2 |
-| 3 | `SPARE_IO23_RAW` | 3 |
+| 1 | +5V | Sensor-Eingang |
+| 2 | GND | Sensor-Eingang |
 
-### J16 — JST-XH-2P, aufrecht  (PUMPE)
-*Kanal 2: Sauerstoffpumpe (optional) — baugleicher Stecker wie J4, ein Crimp-Werkzeug für beide*
+### J2 - Feuchtesensor JST-XH 3P, aufrecht
 
 | Pin | Netz | wozu |
 |---|---|---|
-| 1 | `+5V` | Sauerstoffpumpe **+ dauerhaft an +5V** (geschaltet wird die Masse über Q3) |
-| 2 | `PUMP2_N` | Sauerstoffpumpe **− geschaltet** über Q3 (Low-Side) |
+| 1 | GND | Sensor-Eingang |
+| 2 | SENSOR_PWR | Sensor-Eingang |
+| 3 | SENSOR_RAW | Sensor-Eingang |
 
-### Testpunkte (nur Messpunkte, nicht bestückt)
+### J4 - Dosierpumpe JST-XH 2P, aufrecht
 
-| Ref | Netz | Zweck |
+| Pin | Netz | wozu |
 |---|---|---|
-| TP1 | `UART_TP` (UART-TX, nur bei bestücktem R16 verbunden) |
-| TP2 | `UART_RX` |
-| TP3 | `GND` |
-| TP4 | `VBAT` (Akku-Plus) |
-| TP5 | `+3V3` |
-| TP6 | `SENSOR_AOUT` (Sensor-ADC, auch an J7 Pin 3) |
+| 1 | +5V | Pumpentreiber Dosier- + Sauerstoffpumpe |
+| 2 | PUMP_N | Pumpentreiber Dosier- + Sauerstoffpumpe |
 
-## 6. Mikrocontroller U1 (ESP32-C6-MINI-1) — komplette Pinbelegung
+### J5 - USB-C 16P Buchse (Laden + Programmieren)
+
+| Pin | Netz | wozu |
+|---|---|---|
+| A1B12 | GND | USB-C Eingang & ESD |
+| A4B9 | VBUS | USB-C Eingang & ESD |
+| B8 | (frei / NC) | USB-C Eingang & ESD |
+| A5 | CC1 | USB-C Eingang & ESD |
+| B7 | USB_DM | USB-C Eingang & ESD |
+| A6 | USB_DP | USB-C Eingang & ESD |
+| A7 | USB_DM | USB-C Eingang & ESD |
+| B6 | USB_DP | USB-C Eingang & ESD |
+| A8 | (frei / NC) | USB-C Eingang & ESD |
+| B5 | CC2 | USB-C Eingang & ESD |
+| B4A9 | VBUS | USB-C Eingang & ESD |
+| B1A12 | GND | USB-C Eingang & ESD |
+| 4 | GND | USB-C Eingang & ESD |
+| 3 | GND | USB-C Eingang & ESD |
+| 2 | GND | USB-C Eingang & ESD |
+| 1 | GND | USB-C Eingang & ESD |
+
+### J6 - 2 Loetpads externer Taster
+
+| Pin | Netz | wozu |
+|---|---|---|
+| 1 | BTN | Taster & LEDs |
+| 2 | GND | Taster & LEDs |
+
+### J7 - Lichtsensor-Stiftleiste 1x3 2,54 mm
+
+| Pin | Netz | wozu |
+|---|---|---|
+| 1 | GND | Lichtsensor-Eingang |
+| 2 | SENSOR_PWR | Lichtsensor-Eingang |
+| 3 | LIGHT_RAW | Lichtsensor-Eingang |
+
+### J8 - I2C-Stiftleiste 1x4 (GND-VCC-SDA-SCL)
+
+| Pin | Netz | wozu |
+|---|---|---|
+| 1 | GND | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch |
+| 2 | VCC_EXT | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch |
+| 3 | SDA | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch |
+| 4 | SCL | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch |
+
+### J9 - Reserve-Analog Stiftleiste 1x3 (IO5)
+
+| Pin | Netz | wozu |
+|---|---|---|
+| 1 | GND | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch |
+| 2 | VCC_EXT | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch |
+| 3 | SPARE_AIN_RAW | Erweiterung: Stiftleisten (GND–VCC–SIG) + Load-Switch |
+
+### Testpunkte
+
+| Ref | Netz | Modul |
+|---|---|---|
+| TP1 | UART_TP | UART-Debug-Pads (DNP) |
+| TP2 | UART_RX | ESP32-C6-MCU + Beschaltung |
+| TP3 | GND | Akku & Puffer |
+| TP4 | VBAT | Akku & Puffer |
+| TP5 | +3V3 | 3V3-Buck (AP63203) |
+| TP6 | SENSOR_AOUT | Sensor-Eingang |
+
+## 6. MCU-Pinbelegung (U1, ESP32-C6-MINI-1)
 
 | Pin | Symbolname | Netz |
 |---|---|---|
-| 1 | GND | `GND` |
-| 2 | GND | `GND` |
-| 3 | 3V3 | `+3V3` |
-| 4 | NC | `—` |
-| 5 | IO2 | `PUMP_EN` |
-| 6 | IO3 | `SENSOR_PWR` |
-| 7 | NC | `—` |
-| 8 | EN | `EN` |
-| 9 | IO4 | `LIGHT_AOUT` |
-| 10 | IO5 | `SPARE_AIN` |
-| 11 | GND | `GND` |
-| 12 | IO0 | `SENSOR_AOUT` |
-| 13 | IO1 | `VBAT_SENSE` |
-| 14 | GND | `GND` |
-| 15 | IO6 | `BTN` |
-| 16 | IO7 | `LED_TANK` |
-| 17 | IO12 | `USB_DM` |
-| 18 | IO13 | `USB_DP` |
-| 19 | IO14 | `LED_STAT` |
-| 20 | IO15 | `SPARE_IO15` |
-| 21 | NC | `—` |
-| 22 | IO8 | `GPIO8_STRAP` |
-| 23 | IO9 | `BOOT` |
-| 24 | IO18 | `SDA_MCU` |
-| 25 | IO19 | `SCL_MCU` |
-| 26 | IO20 | `EXT_EN` |
-| 27 | IO21 | `SPARE_IO21` |
-| 28 | IO22 | `PUMP2_EN` |
-| 29 | IO23 | `SPARE_IO23` |
-| 30 | RXD0 | `UART_RX` |
-| 31 | TXD0 | `UART_TX` |
-| 32 | NC | `—` |
-| 33 | NC | `—` |
-| 34 | NC | `—` |
-| 35 | NC | `—` |
-| 36 | GND | `GND` |
-| 37 | GND | `GND` |
-| 38 | GND | `GND` |
-| 39 | GND | `GND` |
-| 40 | GND | `GND` |
-| 41 | GND | `GND` |
-| 42 | GND | `GND` |
-| 43 | GND | `GND` |
-| 44 | GND | `GND` |
-| 45 | GND | `GND` |
-| 46 | GND | `GND` |
-| 47 | GND | `GND` |
-| 48 | GND | `GND` |
-| 49 | GND | `GND` |
-| 50 | GND | `GND` |
-| 51 | GND | `GND` |
-| 52 | GND | `GND` |
-| 53 | GND | `GND` |
-## 7. Betriebs- und Randbedingungen (was ein Sprachmodell wissen muss)
+| 1 | GND | GND |
+| 2 | GND | GND |
+| 3 | 3V3 | +3V3 |
+| 4 | NC | (frei / NC) |
+| 5 | IO2 | PUMP_EN |
+| 6 | IO3 | SENSOR_PWR |
+| 7 | NC | (frei / NC) |
+| 8 | EN | EN |
+| 9 | IO4 | LIGHT_AOUT |
+| 10 | IO5 | SPARE_AIN |
+| 11 | GND | GND |
+| 12 | IO0 | SENSOR_AOUT |
+| 13 | IO1 | VBAT_SENSE |
+| 14 | GND | GND |
+| 15 | IO6 | BTN |
+| 16 | IO7 | LED_TANK |
+| 17 | IO12 | USB_DM |
+| 18 | IO13 | USB_DP |
+| 19 | IO14 | LED_STAT |
+| 20 | IO15 | SPARE_IO15 |
+| 21 | NC | (frei / NC) |
+| 22 | IO8 | GPIO8_STRAP |
+| 23 | IO9 | BOOT |
+| 24 | IO18 | SDA_MCU |
+| 25 | IO19 | SCL_MCU |
+| 26 | IO20 | EXT_EN |
+| 27 | IO21 | SPARE_IO21 |
+| 28 | IO22 | PUMP2_EN |
+| 29 | IO23 | SPARE_IO23 |
+| 30 | RXD0 | UART_RX |
+| 31 | TXD0 | UART_TX |
+| 32 | NC | (frei / NC) |
+| 33 | NC | (frei / NC) |
+| 34 | NC | (frei / NC) |
+| 35 | NC | (frei / NC) |
+| 36 | GND | GND |
+| 37 | GND | GND |
+| 38 | GND | GND |
+| 39 | GND | GND |
+| 40 | GND | GND |
+| 41 | GND | GND |
+| 42 | GND | GND |
+| 43 | GND | GND |
+| 44 | GND | GND |
+| 45 | GND | GND |
+| 46 | GND | GND |
+| 47 | GND | GND |
+| 48 | GND | GND |
+| 49 | GND | GND |
+| 50 | GND | GND |
+| 51 | GND | GND |
+| 52 | GND | GND |
+| 53 | GND | GND |
 
-### Spannungen und Ströme
+## 7. Betriebs- und Randbedingungen
 
-| Größe | Wert | Anmerkung |
-|---|---|---|
-| VBAT (Zelle) | 3,0 – 4,2 V | ungeregelt, direkt an Boost und Wächter |
-| +3V3 | 3,3 V (ME6211) | Logik: MCU, Sensor, LED, Wächter |
-| **+5V** | **5,10 V** (MT3608, V_out = 0,6 V × (1 + R31/R32)) | **beide** Pumpen; Boost-Schalterstrom-Grenze 2 A |
-| Wächter-Schwelle | ≈ 3,08 V (MAX809) | darunter: RESET_UV zieht die Pumptreiber über D3/D8 ab |
-| Dosierpumpe `B0DHVMZ27Y` | DC 5 V, Leerlauf 0,4 A, **Anlauf 3 A** | ≤ 150 ml/min, Schlauch 3 × 5 mm |
-| Sauerstoffpumpe `B0FXB5BMTT` | 5 V, ~1 W = **0,20 A** | optional, Amazon 8,48 € |
+### 7.1 Protokoll der Design-Pruefsuite (gerechnete Werte gegen Grenzwerte)
 
-### Steuerung / Firmware-Seite
+```
+FEHLER: Pin 'mb (Drain)' an Q_PROT1 fehlt in der Netzliste
+```
 
-- **Dosierpumpe:** GPIO **IO2** (`PUMP_EN`) → Q1 (AO3400A) über R1 4,7 kΩ, Pulldown R2 47 kΩ, Freilauf D1, EMI-C11, Stecker **J4**.
-- **Sauerstoffpumpe:** GPIO **IO22** (`PUMP2_EN`, U1 Pin 28) → Q3 über **R33** 4,7 kΩ, Pulldown **R34** 47 kΩ, Freilauf **D7**, EMI **C20**, Stecker **J16**. Der frühere Reserve-Stecker **J14 entfällt**.
-- ⚠️ **PWM-Softstart ist Pflicht** (nicht optional): Der Boost kann den **3-A-Anlauf** der Dosierpumpe nicht liefern;
-  die 22 µF am Ausgang puffern 3 A nur ~7 µs. Ohne Rampe (100–300 ms) bricht +5V ein und der Wächter kann auslösen.
-- ⚠️ **Sauerstoffpumpe nicht im Dauerbetrieb:** 1 W an 5 V ziehen aus der 1500-mAh-Zelle ≈ 0,32 A → **~4,7 h**;
-  für Intervall-Sauerstoffgabe ausgelegt, nicht für 24/7.
-- **Membranpumpe braucht Frischluft** → außerhalb des Topfs montieren, Luftschlauch in die Nährlösung,
-  **Rückschlagventil** einbauen (sonst läuft Wasser in die Pumpe, wenn sie steht).
+### 7.2 Bewusste Eigenheiten der Schaltung
 
-### Anschließen (Aufbau in Kurzform)
+- **Pack-Minus ist nicht Board-Masse.** Zwischen BAT_MINUS (J1 Pin 1) und GND liegt das
+  Schutz-MOSFET-Paar (Q3 = Entlader, Q4 = Lader, gemeinsamer Drain auf PROT_COMMON).
+  Der gesamte Systemstrom laeuft darueber.
+- **J1 ist 3-polig**: 1 = Pack-Minus, 2 = Mittelabgriff, 3 = Pack-Plus. Erst der Mittelabgriff
+  erlaubt Zellschutz (HY2120 VC-Pin) und Balancieren (IP2326 Pin 23 ueber R_CB).
+- **Kein Power-Path**: der IP2326 hat keinen; geladen wird ueber VOUT direkt in den Pack.
+- **Laden startet ohne Firmware**: EN des IP2326 haengt ueber R7 (100 k) an VBUS.
+- **Die 3,3-V-Schiene ist immer an** (U4 EN fest an VIN), damit die MCU auch im Waechterfall lebt.
+- **Die 5-V-Schiene schaltet der Waechter ab** (U7 RESET treibt U3 EN und klemmt ueber D3/D8
+  beide Pumpengates). Der 5-V-Buck braucht danach ~0,8 ms Sanftanlauf plus 200 ms Reset-Delay.
+- **Steckerordnung 3-polig immer GND - VCC - SIG** (VCC auf dem mittleren Pin); 4-polig I2C als
+  GND - VCC - SDA - SCL; in **jeder** Signalleitung liegt 1 k in Reihe.
+- **Freie Pins sind ausdruecklich als NC markiert** (J5 A8/B8, SW1/SW2 3/4, U1 4/7/21/32-35,
+  U2 1/2/3/5/7/9/10) - der IP2326 wird bewusst ohne DM/DP, VSET, BAT_STAT, TIME_SET, VIN_OVSET
+  und CON_SEL betrieben (VSET offen = 8,4 V, CON_SEL offen = 2S).
 
-| Anschluss | Was kommt dran | Wie |
-|---|---|---|
-| J1 | 1S-LiPo-Akku (1500 mAh, EFASO) | Steckverbinder PH 2,0 **aufrecht**, Pin 1 = +, Pin 2 = − |
-| J2 | kapazitiver Bodenfeuchte-Sensor | JST-XH 3P aufrecht — **Pin 1 = GND, Pin 2 = SENSOR_PWR (vom GPIO3), Pin 3 = SENSOR_RAW (ADC)** |
-| J4 | Dosierpumpe | JST-XH 2P aufrecht; Pumpe mit 5 V/0,4 A, Kabel auf JST-XH crimpen |
-| J16 | Sauerstoffpumpe (optional) | JST-XH 2P aufrecht (gleicher Typ wie J4 → ein Crimp-Werkzeug) |
-| J5 | USB-C-Kabel | Laden + Programmieren |
-| J7–J13, J15 | freie GPIOs / Erweiterung | 2,54-mm-Stiftleisten, Schaltplan-Block **ERWEITERUNG** |
-| J6 | Lötpads (unbestückt) | Reserve |
+### 7.3 Offene Punkte fuer einen externen Review
 
-### Bewusste Eigenheiten der Schaltung
+- Ueberstromschwelle des Schutzes (~17 A) gegen den Pumpenanlauf (~2,6 A aus dem Pack): Reserve
+  bewusst gross; im Aufbau nachmessen.
+- Ausloeseschwellen des HY2120 am Aufbau pruefen (4,28 V Ueberladung, 2,90 V Tiefentladung/Zelle).
+- Balancing-Strom ueber R_CB (100 R) messen.
+- Mechanik: der Pack ist jetzt 3-polig; Einbauort und Bauform in `docs/02` nachziehen.
 
-- Alle Stecker sind **aufrecht (Top-Entry)** ausgeführt (`B2B…`/`B3B…`-Bauform, erster Buchstabe **B**);
-  gewinkelte Bauformen heißen `S2B…`/`S3B…` (erster Buchstabe **S**) und sind hier absichtlich nicht verwendet.
-- **D8** klemmt das Gate von Q3 gegen den Wächter-Ausgang (Low = Pumpe aus), baugleich zu D3 auf dem ersten Kanal.
-- Der **+5V**-Knoten versorgt **beide** Pumpen; die Dosierpumpe lag früher direkt an VBAT (das ist seit dem
-  15.09.2026 geändert, weil die Sauerstoffpumpe zwingend 5 V braucht).
-- **EN des Boost (U8 Pin 4)** liegt fest an VBAT → der Boost läuft immer, auch wenn keine Pumpe aktiv ist.
-
----
-
-**Quellen im Repository:** `hardware/schaltplan_v1.md` (ausführliche Begründungen, §10 = Boost-Auslegung),
-`hardware/schaltplan_v1_netzliste.csv` (Handnetzliste, Quelle der Generatorkette),
-`hardware/bom_entscheidung.md` (Bauteilentscheidungen, §8 = Sauerstoffpumpe),
-`hardware/easyeda/` (Generatorkette, die diesen Plan erzeugt).
