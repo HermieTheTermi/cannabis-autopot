@@ -66,7 +66,8 @@ cannabis-autopot/
 │   ├── kapazitiver-bodenfeuchtesensor-esp32-recherche.md
 │   ├── smart-grow-topf_pumpe-bewaesserung.md
 │   ├── smart-grow-topf-esp32-firmware-konzept.md
-│   └── markt-konzept-recherche.md
+│   ├── markt-konzept-recherche.md
+│   └── markt-vergleich-2026-09.md        ← „Gibt es das schon zu kaufen?“ (17.09.2026)
 └── cad/                                 ← parametrisches Gehäuse-CAD (build123d/Python)
     ├── params.py · lib.py                 ← alle Maße + Helfer
     ├── parts/*.py                         ← ein Modul je Druckteil (build/check)
@@ -128,6 +129,10 @@ cannabis-autopot/
       100 nF am Reserve-ADC. Offline-Generatoren: 80 Bauteile / 50 Netze / 233 Verbindungen,
       `check_ir_netlist.py` 0 Abweichungen; Live-Neuaufbau des EasyEDA-Blatts steht aus.
 - [x] **Gehäuse-CAD parametrisch in build123d** (`cad/`, 14.09.2026): 8 Druckteile + Baugruppe, alle Teile gegen die OpenSCAD-Vorlage geprüft (±0,4 % Volumen, bbox ≤ 0,04 mm), Druckteile als STL + STEP exportierbar
+- [x] **Marktvergleich (17.09.2026):** kein Fertigprodukt deckt das Gesamtpaket ab — nächster Verwandter
+      **LazyLeaf** (60 € UVP, Akku+Pumpe+1,1 l Tank, aber kein Feuchte-Sensor, kein WLAN), dazu Ivy/Tuya,
+      Botanium, AutoPot/Blumat, AquaBloom, LetPot sowie die Grow-Kabinen (Vivosun 540 $, Hey Abby 700 $);
+      Einordnung + Quellen in `research/markt-vergleich-2026-09.md`
 - [ ] Firmware (State-Machine)
 
 ## Nächste Schritte
