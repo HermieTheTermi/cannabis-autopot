@@ -10,6 +10,11 @@ und die Negative-Zeile. Copy-Paste-Version ohne Doku: **`04_bildkonzepte-prompts
 Hinweis: KI-Bildmodelle können keine Beschriftung. Beschriftungen/Schnittmarken im Nachhinein
 setzen (Figma/Canva), nicht generieren lassen.
 
+**Fertiger Topf statt Konzept:** Für Bilder des gebauten Geräts in Vollausstattung (Sauerstoffpumpe
+sitzt im Turm, Luft geht von dort zum Sprudlerstein im Tank) → [`13_bildprompts-endstand.md`](13_bildprompts-endstand.md),
+drei Prompts für Gemini (ohne Negativ-Prompt): Außenansicht, aufgeschnittene Funktionsansicht,
+technische Zeichnung.
+
 ---
 
 ## 1 · Product-Hero (Studiofreisteller)

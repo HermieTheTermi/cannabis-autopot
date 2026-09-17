@@ -48,6 +48,7 @@ cannabis-autopot/
 │   ├── 01_anforderungen.md              ← Festlegungen des Users
 │   ├── 02_architektur-und-geometrie.md  ← verbindliche Maße (CAD/PCB-Grundlage)
 │   ├── 04_bildkonzepte-prompts.md       ← KI-Image-Prompts (+ generierte .txt)
+│   ├── 13_bildprompts-endstand.md       ← 3 deutsche Prompts für den fertigen Topf (inkl. Sprudler)
 │   └── img/                             ← KI-Konzeptbilder
 ├── scripts/
 │   ├── check_netlist.py                 ← Lint der Netzliste (exit 0 vor dem Layout nötig)
