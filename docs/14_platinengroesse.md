@@ -133,12 +133,53 @@ Nach Wirkung sortiert:
   (`docType 4`), abgerufen am 18.09.2026; Rohdaten in `hardware/pcb/footprint_bbox.json`.
 - Referenz-Board: `~/Projekte/optimistic-hubble/easyeda/pcb_dump.json` (live `pcb dump`).
 
-## 9. Offene Punkte
+## 9. Empfehlung (konkret, wenn Länge und Breite frei sind)
+
+> ### **54 × 80 mm, 4 Lagen, beidseitig bestückt (Passive auf der Unterseite),
+> ESP32-C6-MINI-1 an der Oberkante mit über die Kante hinausragender Antenne.**
+
+Begründung (jede Zahl aus §3–§6):
+
+| Kriterium | Wert bei 54 × 80 mm | Bewertung |
+|---|---|---|
+| Nutzbare Fläche (2,5 mm Rand je Kante) | 49 × 75 = 3.675 mm² | — |
+| Belegung Oberseite (Modul, Stecker, ICs, Taster, LEDs = 1.222 mm²) | **33,3 %** | = 33,8 % des Referenzboards auf dessen Oberseite → routbar ohne Verrenkungen |
+| Belegung Unterseite (79 Passive = 509 mm²) | 13,9 % | Referenzboard: 8,9 % |
+| Gesamtbelegung | 40,1 % | unter dem Limitwert 42,7 % |
+| Länge in der Kammer | 80 mm + ~6 mm Antennenüberstand = 86 mm von ~100 mm | 14 mm Reserve für Kabel/Akku |
+
+- **Warum 54 mm Breite:** die Wulst ist außen 60 mm breit → mit 3 mm Seitenwänden genau
+  54 mm innen. Schmaler geht nicht sinnvoll: bei den heutigen 40 mm Kammerbreite bräuchte
+  die Platine selbst zweiseitig **110 mm** und einseitig **121 mm** Länge — beides passt
+  **nicht** in die 100 mm über der Pumpe. Die Kammer *muss* also auf 54 mm verbreitert werden.
+- **Warum nicht das 66 × 66-Quadrat:** dafür müsste die Wulst auf ~72 mm Außenbreite
+  wachsen (mehr Gehäusevolumen, mehr Material, Antenne näher am feuchten Substrat) und der
+  Gewinn wäre 2 % Umfang — die Form ist der schwache Hebel (§5), die Fläche zählt.
+- **Warum 80 mm und nicht 88…95 mm (einseitig):** beidseitig sinkt die Oberseiten-Belegung
+  von ~42 % (am Limit) auf 33 % und die Länge von ~90 mm auf 80 mm. Preis: der JLCPCB-Aufpreis
+  für die zweite Bestückungsseite (Setup + Stencil, im einstelligen Dollar-Bereich).
+- **Warum 4 Lagen:** Espressif empfiehlt es für das C6-Modul ausdrücklich (L2 = durchgehende
+  GND-Ebene, L3 = Power). Mit Passiven auf der Unterseite ist die Bodenfläche nicht mehr
+  durchgehend Massfläche — die innere Lage wird dadurch zur Pflicht, nicht zum Luxus
+  (`s0_spec.json` steht noch auf 2 Lagen mit GND-Fläche unten und ist mitzuziehen).
+- **Auflage:** unter Modul, Antenne und Quarz bleibt die Unterseite **bauteilfrei**
+  (Espressif: „It is not recommended to place any components on this layer [BOTTOM]"),
+  die Antenne übersteht die Platinenkante, 15 mm Freistellung in der Kammer (`docs/02` §6.4).
+
+**Rückfalloption**, falls einseitige Bestückung zwingend ist: **54 × 92 mm**, 4 Lagen —
+dann bleiben nur ~8 mm Reserve in der Kammer, und USB-C-/Kabelauslässe müssen vorher stehen.
+
+**Nicht mehr sinnvoll:** die heutige 40-mm-Kammer mit ≤ 38 mm Platinenbreite — sie erzwingt
+111–121 mm Länge und damit eine Änderung an der Wulst in jedem Fall.
+
+
+
+## 10. Offene Punkte
 
 - [ ] Wulst-Seitenwände auf 3 mm abdünnen und Kammer auf 54 mm verbreitern — Zeichnung
       `cad/params.py` + `shell_upper.py` (`wc_x` von 20 auf 27) anpassen, Deckel mitziehen.
-- [ ] Entscheiden: einseitig 54 × 90…95 mm **oder** zweiseitig 54 × 55…60 mm
-      (JLC-Aufpreis für zweiseitige Bestückung gegen die Mechanik stellen).
+- [ ] Umsetzen: **54 × 80 mm**, 4 Lagen, Passive auf der Unterseite (§9) — oder bewusst
+      einseitig 54 × 92 mm. `s0_spec.json` (2 Lagen, Bestückungsseite top) mitziehen.
 - [ ] `pcb_l` / `pcb_w` in `params.py` auf den tatsächlichen Entwurf setzen (heute unbenutzt).
 - [ ] Antennenfreistellung (15 mm in alle Richtungen, `docs/02` §6.4) bei der endgültigen
       Platzierung gegen die Wulstwand prüfen; RF-Endtest bleibt vorgeschrieben.
