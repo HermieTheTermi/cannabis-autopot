@@ -49,9 +49,11 @@ cannabis-autopot/
 │   ├── 02_architektur-und-geometrie.md  ← verbindliche Maße (CAD/PCB-Grundlage)
 │   ├── 04_bildkonzepte-prompts.md       ← KI-Image-Prompts (+ generierte .txt)
 │   ├── 13_bildprompts-endstand.md       ← 3 deutsche Prompts für den fertigen Topf (inkl. Sprudler)
+│   ├── 14_platinengroesse.md            ← Bauteilfläche + Boardgrößen-Rechnung (54 mm / frei)
 │   └── img/                             ← KI-Konzeptbilder
 ├── scripts/
 │   ├── check_netlist.py                 ← Lint der Netzliste (exit 0 vor dem Layout nötig)
+│   ├── bauteilflaeche.py                ← Footprint-Flächen + Platinengröße (EasyEDA-API)
 │   └── check_bom_consistency.py         ← Querabgleich Schaltplan ↔ JLCPCB-BOM
 ├── hardware/
 │   ├── design/                          ← Schaltplan als Python-Modell: 29 Prüfungen + Simulationen
