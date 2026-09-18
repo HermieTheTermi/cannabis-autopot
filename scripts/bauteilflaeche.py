@@ -35,7 +35,6 @@ CACHE = os.path.join(ROOT, "hardware/pcb/footprint_bbox.json")
 
 MM_PER_UNIT = 0.254          # API-bbox-Einheit (0.01 inch)
 RAW_PER_MM = 40.0            # Einheiten des live-`pcb dump` je mm
-EDGE = 2.5                   # Randaufschlag je Platinenkante [mm]
 
 
 # ---------------------------------------------------------------- Footprints --
@@ -185,18 +184,17 @@ def main() -> None:
         print("  Fuge %.1f mm: %s" % (gap, " | ".join(row)))
 
     print("\n== Boardgroesse aus Belegungsdichte (Flaeche = Summe / Dichte) ==")
-    print("  Randaufschlag %.1f mm je Kante\n" % EDGE)
+    print("  Dichte ueber die VOLLE Boardflaeche (wie beim Referenzboard gemessen)\n")
     print("   Dichte | Boardflaeche | L bei W=54 | Quadrat (L=B)")
     for d in (0.25, 0.30, 0.35, 0.40, 0.427, 0.45):
         A = total / d
         print("   %5.1f%% | %8.0f mm² | %8.1f mm | %8.1f mm"
-              % (d * 100, A, A / (54 - 2 * EDGE) + 2 * EDGE, math.sqrt(A)))
+              % (d * 100, A, A / 54.0, math.sqrt(A)))
 
-    A40 = total / 0.40
-    print("\n   Formvergleich bei %.0f mm²:" % A40)
-    for W in (38.0, 54.0, math.sqrt(A40)):
-        print("     W = %5.1f mm -> L = %5.1f mm, Umfang %5.1f mm"
-              % (W, A40 / W, 2 * (W + A40 / W)))
+    print("\n== Vergleichsmasse fuer 54 mm Breite ==")
+    for L in (75.0, 80.0, 85.0, 90.0, 95.0):
+        print("   54 x %4.1f mm = %5.0f mm²  -> Belegung %4.1f %% von 1 Seite"
+              % (L, 54 * L, 100 * total / (54 * L)))
 
 
 if __name__ == "__main__":
