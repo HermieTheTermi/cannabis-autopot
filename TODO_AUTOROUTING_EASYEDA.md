@@ -1,7 +1,7 @@
-# To-Do-Liste: PCB-Autorouting, Neck-Down & Designregeln (EasyEDA – 4 Lagen)
+# To-Do-Liste: PCB-Autorouting mit Freerouting & EasyEDA (4 Lagen)
 
 Stand: **Oktober 2026** · Projekt: **SmartGrowTopf_V1 (2S-Architektur, 4-Layer-Board)**  
-Zugehörige Dokumente:
+Zugehörige Dokumente & Skripte:
 * [`docs/10_pcb-leiterbahnbreiten.md`](file:///c:/Users/mgasc/Documents/cannabis-autopot/docs/10_pcb-leiterbahnbreiten.md) (Berechnungsgrundlagen nach IPC-2221A)
 * [`docs/11_review-2s-umbau.md`](file:///c:/Users/mgasc/Documents/cannabis-autopot/docs/11_review-2s-umbau.md) (2S-Strom- und Leistungsanalyse)
 * [`hardware/schaltplan_v1.md`](file:///c:/Users/mgasc/Documents/cannabis-autopot/hardware/schaltplan_v1.md) (Schaltplan und Pin-Belegung)
@@ -9,34 +9,54 @@ Zugehörige Dokumente:
 
 ---
 
-## 1. Das 4-Lagen-Schichtenmodell (JLCPCB Standard-Stackup JLC04161H)
+## 1. Freerouting: Download & Installation
 
-Durch die Umstellung auf **4 Lagen** profitiert das Design von einer durchgehenden Massefläche, exzellenter Entwärmung und sauberer Signalintegrität:
+Freerouting ist ein fortschrittlicher, quelloffener Autorouter für Leiterplatten, der über das standardisierte Specctra-DSN/SES-Format nahtlos mit EasyEDA zusammenarbeitet.
 
-* **Layer 1 (TopLayer, 1 oz / 35 µm):**  
-  Bauteile, ESP32-C6-Antenne, HF-Leitungen, differentielle Signale (`USB_DP`/`USB_DM`), lokale Leistungsflächen (für direkte, niederohmige Verbindungen ohne Vias).
-* **Layer 2 (Inner1 – Solide GND Plane, 0.5 oz / 17.5 µm):**  
-  **100 % durchgehende Massefläche.** Keine Signalleiterbahnen hier durchrouten! Dient als niederinduktiver Rückstrompfad und direkte Wärmesenke für das EPAD des IP2326.  
-  *(⚠️ Ausnahme: Absolutes Keepout unter der ESP32-C6-Antenne!)*
-* **Layer 3 (Inner2 – Power Plane / Split Plane, 0.5 oz / 17.5 µm):**  
-  Stromversorgungen als Flächen/Polygone (`VBAT`, `+5V`, `+3V3`) und kreuzungsfreie Signalüberquerungen.
-* **Layer 4 (BottomLayer, 1 oz / 35 µm):**  
-  Zusätzliche Signale, Testpunkte, rückseitige Kühl- und GND-Flächen.
+* **Offizielle Releases (Downloads):**  
+  👉 [https://github.com/freerouting/freerouting/releases](https://github.com/freerouting/freerouting/releases)
+* **Offizielle Installationsanleitung & Dokumentation:**  
+  👉 [https://freerouting.org/](https://freerouting.org/) bzw. [Freerouting GitHub Installation Guide](https://github.com/freerouting/freerouting#installation)
+
+### Installations-Optionen:
+1. **Option A (Empfohlen für Windows): Standalone Installer**  
+   * Lade aus den [Releases](https://github.com/freerouting/freerouting/releases) die aktuelle Datei `Freerouting-X.X.X-windows-x64.msi` herunter.
+   * Der Windows-Installer bringt eine vorkonfigurierte Java-Laufzeitumgebung direkt mit. Nach der Installation kann Freerouting direkt per Startmenü geöffnet werden.
+2. **Option B: Plattformunabhängiges JAR**  
+   * Falls Java (Version 17 oder 21+) bereits installiert ist: Lade die Datei `freerouting-executable.jar` herunter.
+   * Start über das Terminal / die PowerShell:
+     ```powershell
+     java -jar freerouting-executable.jar
+     ```
 
 ---
 
-## 2. Übersicht der Designregeln & Leiterbahnbreiten
+## 2. Das 4-Lagen-Schichtenmodell (JLCPCB JLC04161H)
+
+* **Layer 1 (TopLayer, 1 oz / 35 µm):**  
+  Bauteile, ESP32-C6-Antenne, differenzielles USB-Paar (`USB_DP`/`USB_DM`), lokale Leistungsbahnen/-flächen.
+* **Layer 2 (Inner1 – Solide GND-Plane, 0.5 oz / 17.5 µm):**  
+  **100 % durchgehende Massefläche.** Keine Signalbahnen hier durchrouten! Direkte Wärmesenke und HF-Rückstrompfad für das EPAD des IP2326.  
+  *(⚠️ Ausnahme: Absolutes Keepout unter der ESP32-C6-Antenne!)*
+* **Layer 3 (Inner2 – Power Plane / Split Plane, 0.5 oz / 17.5 µm):**  
+  Versorgungsflächen (`VBAT`, `+5V`, `+3V3`) und kreuzungsfreie Signalüberquerungen.
+* **Layer 4 (BottomLayer, 1 oz / 35 µm):**  
+  Zusätzliche Signale, Testpunkte und rückseitige GND-Kühlflächen.
+
+---
+
+## 3. Übersicht der Designregeln & Leiterbahnbreiten
 
 > [!IMPORTANT]
 > **Thermische Besonderheit bei 4 Lagen (IPC-2221A):**  
-> Innenlagen (Inner1 / Inner2) kühlen im Epoxidharz schlechter ab als Außenlagen ($k = 0{,}024$ innen vs. $k = 0{,}048$ außen).  
-> **Leistungspfade (`VBAT`, `+5V`) mit 2,8–3 A daher bevorzugt auf Layer 1 (Top) führen ODER auf Layer 3 als breite Kupferfläche (Polygon Pour) anlegen!**
+> Innenlagen kühlen im Epoxidharz schlechter ab als Außenlagen ($k = 0{,}024$ innen vs. $k = 0{,}048$ außen).  
+> **Leistungspfade (`VBAT`, `+5V`) mit 2,8–3 A daher bevorzugt auf Layer 1 (Top, 1 oz) führen ODER auf Layer 3 als breite Kupferfläche (Polygon Pour) anlegen!**
 
 | Netz / Funktion | Sollbreite (Außenlage) | Min. (Neck-Down) | Max. Strom | Lage & Routing-Vorgabe |
 |---|---|---|---|---|
-| **VBAT / PACK_PLUS** | **≥ 1,00 mm** (40 mil) bzw. **Fläche** | 0,50 mm (nur am Pad) | **~2,8 A** | TopLayer (1 oz) oder Layer 3 als Fläche. Speist den 5V-Buck für 3-A-Pumpenanlauf. |
+| **VBAT / PACK_PLUS** | **≥ 1,00 mm** (40 mil) bzw. **Fläche** | 0,50 mm (nur am Pad) | **~2,8 A** | TopLayer (1 oz) oder Layer 3 als Fläche. Speist 5V-Buck für 3-A-Pumpenanlauf. |
 | **+5V** (Pumpenschiene) | **≥ 1,00 mm** (40 mil) bzw. **Fläche** | 0,50 mm | **3,0 A** | TopLayer direkt zu C3, Q1, Q3, J4, J16. Deckt den Motoranlauf ab. |
-| **PUMP_N / PUMP2_N** | **0,50 mm** (20 mil) | 0,40 mm | 3,0 A (Puls) / 0,6 A Dauer | TopLayer. Drain von Q1/Q3 → J4/J16. (Nicht als simples Signal routen!). |
+| **PUMP_N / PUMP2_N** | **0,50 mm** (20 mil) | 0,40 mm | 3,0 A (Puls) / 0,6 A Dauer | TopLayer. Drain von Q1/Q3 → J4/J16. (Nicht als simples Signal einstufen!). |
 | **VBUS** (USB 5 V) | **0,60 – 0,80 mm** | 0,50 mm | **~1,6 A** | Ladeeingangsstrom zu IP2326 Pin 13. |
 | **+3V3** (Logik-Rail) | **0,40 mm** (16 mil) | 0,25 mm | 0,50 A (382 mA TX-Peak) | Vom AP63203-Buck zum ESP32-C6-Modul (Layer 1 oder Layer 3). |
 | **VCC_EXT** | **0,50 mm** (20 mil) | 0,25 mm | ~0,10 A | Geschaltete Sensorversorgung (Q2 → J8/J9–J15). |
@@ -51,172 +71,122 @@ Durch die Umstellung auf **4 Lagen** profitiert das Design von einer durchgehend
 
 ---
 
-## 3. Das Neck-Down-Verfahren (Leiterbahnverjüngung)
+## 4. Das Neck-Down-Verfahren & der Freerouting „Stub“-Trick
 
-### Warum ist Neck-Down auch bei 4 Lagen zwingend?
-Feinpitch-Bauteile wie der **IP2326 im QFN-24 (4×4 mm)** haben einen Pin-Mittenabstand (Pitch) von nur **0,50 mm** und Padbreiten von **0,25 mm**. Eine 1,0-mm-Leiterbahn kann dort physikalisch nicht direkt an ein einzelnes Pad andocken, ohne benachbarte Pins kurzzuschließen.
+### Warum scheitert Freerouting ohne Vorbereitung?
+Freerouting hält sich strikt an die eingestellten Netzklassen. Wenn für `VBAT` eine Breite von 1,0 mm vorgegeben ist, versucht Freerouting mit dieser 1,0-mm-Bahn bis auf das 0,25 mm kleine Pad des IP2326 (QFN-24, Pinabstand 0,5 mm) zu fahren. Das verletzt sofort die Abstandsregeln (Clearance) zu den Nachbarpins, und Freerouting kann das Netz nicht fertigstellen.
 
-### Neck-Down-Regeln für kritische Bauteile:
-
-1. **U_CHG (IP2326 – VQFN-24 4×4 mm, Pitch 0,5 mm):**
-   * **VOUT (Pins 21 & 22) an VBAT:** Beide Nachbarpins gemeinsam mit einer ca. **0,6 – 0,7 mm** breiten Leiterbahn anfahren. Nach $\le 0,8\text{ mm}$ Abstand zum Chip sofort auf die volle 1,0 mm Breite bzw. Kupferfläche aufweiten.
-   * **LX (Pins 15, 16, 17) an L1:** Alle 3 Pins gemeinsam mit einer breiten Polygonbrücke direkt an das Pad der Speicherinduktivität L1 führen.
-   * **VSYS (Pins 19 & 20):** Als 2er-Block direkt auf die Pads von `C_VSYS_A` und `C_VSYS_B` (22 µF) legen.
-   * **EPAD (Thermal Pad in der Mitte):**
-     * Bildet die Hauptmasse und Wärmeabfuhr des Laders.
-     * **4 bis 6 Thermal Vias (0,3 mm Bohrung / 0,6 mm Pad)** direkt im EPAD platzieren, die unmittelbar in die **Layer 2 GND-Plane** eintauchen!
-
-2. **MOSFETs (AO3400A / AO3401A – SOT-23):**
-   * Drain- und Source-Pads haben ca. 0,6 mm Breite.
-   * 1,0-mm-Bahnen (+5V, VBAT) ca. 0,5–1,0 mm vor dem Pad auf **0,50 mm** verjüngen.
-
-3. **Buck-Wandler (SY8113B TSOT-23-6 & AP63203 TSOT-26):**
-   * Eingangs- und Ausgangspins auf kürzestem Weg mit kurzem 0,5-mm-Stutzen an die Kondensatoren (`C_B5_IN`, `C3`) führen, dort sofort zur vollen Breite / Fläche aufweiten.
+### Die Lösung: Manuelle Stubs vor dem DSN-Export
+1. **Kurze Ausfädelungen (Stubs) in EasyEDA zeichnen:**
+   * Am **IP2326 (`U_CHG`)**: Pins **21 & 22** (VOUT/VBAT) gemeinsam mit einer kurzen 0,5-mm-Bahn ca. 0,8 mm weit aus dem Gehäuse herausziehen.
+   * An den **MOSFETs (Q1/Q3, SOT-23)** und **Buck-Reglern (TSOT)**: Die Leistungspads ebenfalls mit 0,5 mm kurz (ca. 0,5–1 mm) herausführen.
+2. **Stubs sperren (`Lock: Yes`):**
+   * Alle gezeichneten Stummel markieren und im Eigenschaften-Panel auf **`Locked: Yes`** setzen.
+3. **USB-Paar & Thermal Vias sperren:**
+   * `USB_DP`/`USB_DM` manuell verlegen (0,23 mm Bahn, 0,20 mm Gap) und sperren.
+   * Die 4–6 Thermal Vias im EPAD des IP2326 setzen und sperren.
+4. **Ergebnis in Freerouting:**  
+   Freerouting übernimmt gesperrte Elemente aus der DSN-Datei als feste (`FIXED`) Hindernisse und dockt mit der vollen 1,0-mm-Leiterbahn nahtlos an den gesperrten 0,5-mm-Stubs an!
 
 ---
 
-## 4. Konfiguration des Auto-Routers in EasyEDA (4 Lagen)
+## 5. Der Datenaustausch-Workflow (EasyEDA ⇄ Freerouting)
 
-### 4.1 Lagen-Setup im PCB-Editor
-1. Im Menü **`Design` → `Layer Manager...`** (oder Lagen-Leiste) auf **4 Layers** umstellen.
-2. Lagen benennen und konfigurieren:
-   * **TopLayer:** Signal / Component
-   * **Inner1:** Plane / GND (Netz: `GND`)
-   * **Inner2:** Signal / Power (für `+5V`, `VBAT`, `+3V3` oder Routing)
-   * **BottomLayer:** Signal
+```
+[EasyEDA PCB] 
+     │  Export Specctra DSN
+     ▼
+[projekt.dsn]
+     │  In Freerouting laden & autorouten
+     ▼
+[Freerouting]
+     │  Export Specctra Session
+     ▼
+[projekt.ses]
+     │  In EasyEDA importieren
+     ▼
+[EasyEDA PCB] ──► Flächen fluten, Teardrops, DRC
+```
 
----
+### Schritt-für-Schritt-Anleitung:
 
-### 4.2 Design Rules (Netzklassen) anlegen
-Unter **`Design` → `Design Rule...`** (oder Rule Manager → *Net Class*):
+#### 1. In EasyEDA: DSN-Export
+1. Netzklassen und Breiten einstellen (`Design` → `Design Rule...`).
+2. Stubs, USB-Paar und Thermal Vias vorab zeichnen und auf **`Locked: Yes`** setzen.
+3. Datei exportieren: **`File` → `Export` → `Specctra DSN...`** (z. B. als `SmartGrowTopf_V1.dsn` speichern).
 
-* **Klasse `HIGH_CURRENT`:**
-  - Netze: `VBAT`, `PACK_PLUS`, `+5V`
-  - Track Width: `1.00 mm` (40 mil) | Min: `0.50 mm` | Max: `2.00 mm`
-  - Clearance: `0.25 mm`
-  - Via Hole: `0.35 mm` | Via Diameter: `0.70 mm`
-* **Klasse `POWER_MEDIUM`:**
-  - Netze: `VBUS`, `PUMP_N`, `PUMP2_N`, `VCC_EXT`, `+3V3`
-  - Track Width: `0.50 mm` (20 mil) | Min: `0.35 mm` | Max: `0.80 mm`
-  - Clearance: `0.20 mm`
-  - Via Hole: `0.30 mm` | Via Diameter: `0.60 mm`
-* **Klasse `DEFAULT` (Signale):**
-  - Netze: Alle restlichen Netze (I²C, ADC, EN, BOOT, LEDs, etc.)
-  - Track Width: `0.25 mm` (10 mil) | Min: `0.15 mm` | Max: `0.40 mm`
-  - Clearance: `0.20 mm`
-  - Via Hole: `0.30 mm` | Via Diameter: `0.60 mm`
+#### 2. In Freerouting: Laden & Routing
+1. Freerouting starten und auf **`Open Design`** klicken → `SmartGrowTopf_V1.dsn` auswählen.
+2. **Lagen konfigurieren (`Rules` → `Layers`):**
+   * `TopLayer` und `BottomLayer`: Routing **aktiviert**.
+   * `Inner1` (GND): **Deaktivieren / als Plane deklarieren** (damit Freerouting dort keine Signalbahnen hindurchlegt, sondern nur Vias anbindet).
+   * `Inner2`: Optional für Power/Signal freigeben.
+3. Auf **`Autoroute`** klicken. Freerouting beginnt mit Ripup-and-Retry.
+4. Nach Erreichen von 100 %: Auf **`Postroute`** klicken (entfernt überflüssige Vias und glättet Leiterbahnen).
+5. Sitzung exportieren: **`File` → `Export Specctra Session File`** → speichert `SmartGrowTopf_V1.ses`.
 
----
-
-### 4.3 Der „Fan-Out / Stub“-Trick: Vorarbeiten vor dem Router-Start
-> [!IMPORTANT]
-> **Warum scheitert der Auto-Router sonst?**  
-> Der Auto-Router versucht stur, mit 1,0 mm Breite an die 0,25 mm breiten Pins des IP2326 heranzufahren. Das verletzt sofort die Abstandsregeln zu den Nachbarpins. Der Router bricht ab.
-
-**5 Minuten Vorbereitung vor dem Router-Start:**
-1. **Stubs (kurze Ausfädelungen) manuell zeichnen:**
-   - Am **IP2326 (`U_CHG`)**: Von den Nachbarpins **21 & 22** (VOUT/VBAT) gemeinsam mit einer 0,5 mm breiten Bahn ca. 0,8 mm gerade vom Gehäuse wegziehen.
-   - An den **TSOT- und SOT-23-Leistungspins** (MOSFETs Q1/Q3, Buck-Regler): Jeweils mit 0,5 mm ein kurzes Stück (ca. 0,5–1 mm) aus dem Pad herausführen.
-2. **Stubs sperren (`Lock`):**
-   - Die gezeichneten kurzen Stummel markieren und im Eigenschaften-Panel auf **`Locked: Yes`** setzen.
-3. **USB-Paar und Thermal Vias sperren:**
-   - `USB_DP` / `USB_DM` manuell auf TopLayer verlegen (0,23 mm Breite, 0,20 mm Abstand, Referenz Layer 2) und sperren (`Locked: Yes`).
-   - Die 4–6 Thermal Vias im EPAD des IP2326 setzen und sperren.
+#### 3. Zurück in EasyEDA: SES-Import & Finish
+1. In EasyEDA: **`File` → `Import` → `Specctra Session...`** wählen und die `SmartGrowTopf_V1.ses` laden.
+2. Die fertig gerouteten Bahnen und Vias werden direkt in das Board geladen.
+3. **Flächen gießen:**
+   * Layer 2 als durchgehende `GND`-Plane fluten.
+   * Layer 1 & 4 Freiflächen mit `GND` füllen.
+4. **Teardrops hinzufügen:** `Tools` → `Teardrop` ausführen.
+5. **Prüfen:** DRC ausführen und Python-Prüfskript starten.
 
 ---
 
-### 4.4 Auto-Router-Dialog konfigurieren
-1. Menü öffnen: **`Route` → `Auto Router...`**
-2. **General Settings:**
-   * **Routing Layers:** Aktivieren: `TopLayer`, `BottomLayer` (und optional `Inner2`, falls Signale innen kreuzen sollen).  
-     *(⚠️ `Inner1` bleibt deaktiviert, da dies die reine GND-Plane ist!)*
-   * **General Track Width:** `0.25 mm`.
-   * **General Clearance:** `0.20 mm`.
-   * **Via Diameter:** `0.60 mm` | **Via Hole:** `0.30 mm`.
-3. **Wichtigste Optionen:**
-   * [x] **`Skip Pre-routed Tracks` / `Ignore Frozen Tracks`** aktivieren!  
-     *(Dadurch dockt der Auto-Router an die gesperrten Stubs und Vias an, ohne sie zu verändern).*
-   * [x] **`Remove Loops`** aktivieren.
-4. **Router starten:** Auf **`Run`** klicken und 100 % Complete abwarten.
+## 6. To-Do-Checkliste (Phase A bis E)
+
+### Phase A: Vorbereitung in EasyEDA (Vor dem DSN-Export)
+- [ ] **A.1 Freerouting installieren:**
+  - Standalone-Installer von [GitHub Releases](https://github.com/freerouting/freerouting/releases) oder JAR heruntergeladen und funktionsfähig.
+- [ ] **A.2 Netzliste & 4-Layer-Stackup:**
+  - 2S-Netzliste (68 Netze) aktiv.
+  - Lagen auf 4 Layers gestellt (`TopLayer`, `Inner1` GND, `Inner2` Power, `BottomLayer`).
+- [ ] **A.3 Antennen-Keepout auf ALLEN 4 LAGEN:**
+  - 15 mm Freiraum um die ESP32-C6-Antenne auf Layer 1, 2, 3 und 4 kupferfrei halten!
+- [ ] **A.4 Feste Bauteile platzieren & sperren:**
+  - USB-C `J5`, ESP32-C6 Modul, `U_CHG` (IP2326), `U_BUCK5`, `U_BUCK3`, Stecker `J1`, `J4`, `J16`, `J18`.
+- [ ] **A.5 Thermal Vias & USB-Paar manuell vor-routen & sperren:**
+  - 4–6 Thermal Vias im EPAD von `U_CHG` direkt zu Layer 2 platzieren → `Locked: Yes`.
+  - `USB_DP` / `USB_DM` manuell auf TopLayer verlegen (0,23 mm / 0,20 mm Gap) → `Locked: Yes`.
+- [ ] **A.6 Neck-Down-Stubs zeichnen & sperren:**
+  - Pins 21 & 22 am IP2326 mit 0,5 mm Stub herausführen → `Locked: Yes`.
+  - Leistungspins an Q1, Q3, U_BUCK5 mit 0,5 mm herausführen → `Locked: Yes`.
+- [ ] **A.7 Netzklassen in EasyEDA definieren:**
+  - `HIGH_CURRENT` (1,00 mm), `POWER_MEDIUM` (0,50 mm), `DEFAULT` (0,25 mm).
 
 ---
 
-## 5. To-Do-Liste für das PCB-Autorouting (Checkliste)
-
-### Phase A: Vorbereitung (Vor dem Autorouting)
-- [ ] **A.1 Netzliste aktualisieren:** Aktuelle 2S-Netzliste (68 Netze) in EasyEDA importieren.
-- [ ] **A.2 Lagen auf 4 Layers umstellen:** `TopLayer`, `Inner1` (GND), `Inner2` (Power/Signal), `BottomLayer`.
-- [ ] **A.3 Antennen-Keepout auf ALLEN 4 LAGEN setzen:**
-  - Unter und um die PCB-Antenne des ESP32-C6-MINI-1 muss **auf allen 4 Lagen absolutes Kupferverbot (Keepout)** herrschen!
-  - Keine GND-Fläche auf Layer 2 unter der Antenne! Mindestens 15 mm Freiraum in alle Richtungen.
-- [ ] **A.4 Manuelle Platzierung fixieren & sperren:**
-  - [ ] USB-C-Buchse `J5` an der Gehäusekante ausrichten.
-  - [ ] ESP32-C6-MINI-1 ganz oben positionieren (Antenne zeigt nach außen/oben).
-  - [ ] `U_CHG` (IP2326) samt Spule L1 und Kondensatoren kompakt zusammenhalten.
-  - [ ] `U_BUCK5` und `U_BUCK3` nahe an `VBAT` platzieren.
-  - [ ] Stecker `J1` (Akku), `J4`/`J16` (Pumpen), `J18` (NTC) am Platinenrand platzieren.
-  - [ ] Bauteile sperren (`Lock Component`).
-- [ ] **A.5 Masseverbindung & Thermal Vias manuell setzen:**
-  - [ ] 4–6 Vias im EPAD von `U_CHG` (IP2326) direkt zur Layer 2 GND-Plane platzieren und sperren.
-- [ ] **A.6 Differentielles USB-Paar manuell routen & sperren:**
-  - [ ] `USB_DP` und `USB_DM` auf TopLayer verlegen (0,23 mm Bahn, 0,20 mm Abstand, parallel, längengleich) und sperren (`Locked: Yes`).
-- [ ] **A.7 Neck-Down-Stubs vorab zeichnen & sperren:**
-  - [ ] Pins 21 & 22 am IP2326 mit 0,5 mm Stub herausziehen und sperren (`Locked: Yes`).
-  - [ ] Pins an Q1, Q3, U_BUCK5 mit 0,5 mm Stub herausführen und sperren.
+### Phase B: DSN-Export & Freerouting-Durchlauf
+- [ ] **B.1 DSN-Datei exportieren:** In EasyEDA `File` → `Export` → `Specctra DSN...`.
+- [ ] **B.2 In Freerouting öffnen:** DSN laden und Lagenregeln prüfen (`Inner1` GND nicht für Signale nutzen).
+- [ ] **B.3 Autoroute starten:** Warten bis 100 % Complete erreicht ist.
+- [ ] **B.4 Postroute / Optimierung ausführen:** Vias reduzieren und Ecken glätten lassen.
+- [ ] **B.5 SES-Datei exportieren:** `File` → `Export Specctra Session File (.ses)`.
 
 ---
 
-### Phase B: Netzklassen & Designregeln konfigurieren
-- [ ] **B.1 Netzklasse `HIGH_CURRENT` anlegen:**
-  - Netze: `VBAT`, `PACK_PLUS`, `+5V`.
-  - Default Track Width: **1,00 mm** (40 mil) | Clearance: `0,25 mm`.
-- [ ] **B.2 Netzklasse `POWER_MEDIUM` anlegen:**
-  - Netze: `VBUS`, `PUMP_N`, `PUMP2_N`, `VCC_EXT`, `+3V3`.
-  - Default Track Width: **0,50 mm** (20 mil) | Clearance: `0,20 mm`.
-- [ ] **B.3 Netzklasse `DEFAULT` / `SIGNAL` prüfen:**
-  - Default Track Width: **0,25 mm** (10 mil) | Clearance: `0,20 mm`.
-- [ ] **B.4 Spezielle Router-Ausnahme für PUMP_N prüfen:**
-  - Verifizieren, dass `PUMP_N` und `PUMP2_N` in `POWER_MEDIUM` (0,50 mm) liegen und nicht als 0,25-mm-Signal geroutet werden.
+### Phase C: SES-Import & Fertigstellung in EasyEDA
+- [ ] **C.1 SES-Datei importieren:** In EasyEDA `File` → `Import` → `Specctra Session...`.
+- [ ] **C.2 Sichtprüfung Neck-Down:** Saubere 45°-Übergänge von den gesperrten Stubs zu den 1,0-mm-Bahnen prüfen.
+- [ ] **C.3 Kupferflächen fluten:**
+  - Layer 2 als durchgehende `GND`-Plane fluten.
+  - Layer 3: Power-Flächen (`VBAT`, `+5V`, `+3V3`) gießen.
+  - Layer 1 & 4: Restflächen mit `GND` füllen.
+- [ ] **C.4 Teardrops generieren:** In EasyEDA `Tools` → `Teardrop` anwenden.
 
 ---
 
-### Phase C: Autorouting durchführen
-- [ ] **C.1 Routing Layers prüfen:**
-  - `TopLayer` und `BottomLayer` (optional `Inner2`) aktiv. `Inner1` (GND) inaktiv.
-- [ ] **C.2 Schutz-Optionen aktivieren:**
-  - `Skip Pre-routed / Frozen Tracks`: **AKTIVIERT**.
-- [ ] **C.3 Autorouter starten:** Lokalen oder Cloud-Router starten bis 100 % Complete.
-- [ ] **C.4 Routing-Erfolg kontrollieren:** Keine ungerouteten Netze (0 Unrouted Nets).
-
----
-
-### Phase D: Nachbereitung & Flächen fluten (Post-Routing)
-- [ ] **D.1 Neck-Down-Übergänge glätten:**
-  - Übergänge von den Stubs zu den 1,0-mm-Bahnen auf saubere 45°-Winkel prüfen.
-  - Pins 19 & 20 (VSYS) und Pins 15–17 (LX) am IP2326 vollflächig an L1 / Kondensatoren anbinden.
-- [ ] **D.2 Kupferflächen fluten (Copper Pour):**
-  - **Layer 2 (Inner1):** Als durchgehende `GND`-Plane fluten (Keepout an der Antenne beachten!).
-  - **Layer 3 (Inner2):** Falls für Power genutzt: Polygone für `VBAT` / `+5V` / `+3V3` gießen.
-  - **Layer 1 & Layer 4:** Restflächen mit `GND` füllen.
-  - Inseln ohne Verbindung (Dead Copper) entfernen oder via Via-Stitching an die GND-Plane tackern.
-- [ ] **D.3 Teardrops aktivieren:**
-  - In EasyEDA *Tools → Teardrop* auf alle Pads und Vias anwenden.
-- [ ] **D.4 45°-Winkel kontrollieren:**
-  - Keine spitzen Winkel (< 90°) im Leistungspfad belassen.
-
----
-
-### Phase E: Verifikation & Abnahme (Definition of Done)
-- [ ] **E.1 EasyEDA DRC (Design Rule Check):**
-  - `DRC Check` ausführen → **0 Fehler**, **0 Kurzschlüsse**, **0 Abstandsverletzungen**.
-- [ ] **E.2 Leiterbahnbreiten-Prüfung per Skript:**
-  - Skript im Terminal ausführen:
-    ```bash
-    python hardware/easyeda/scripts/pcb_widths.py --check
-    ```
-  - Muss Exit 0 liefern (keine unzulässig dünnen Leistungsbahnen).
-- [ ] **E.3 Sichtprüfung Antennenbereich (ALLE 4 LAGEN):**
-  - Antenne des ESP32-C6 ist auf Layer 1, 2, 3 und 4 **zu 100 % kupferfrei**.
-- [ ] **E.4 Polung & Stecker prüfen:**
+### Phase D: Verifikation & Abnahme (Definition of Done)
+- [ ] **D.1 EasyEDA DRC:** `Design Rule Check` liefert 0 Fehler / 0 Abstandsverletzungen.
+- [ ] **D.2 Skript-Prüfung:**
+  ```bash
+  python hardware/easyeda/scripts/pcb_widths.py --check
+  ```
+  Muss Exit 0 liefern.
+- [ ] **D.3 Antennen-Kontrolle:** Keepout auf allen 4 Lagen intakt.
+- [ ] **D.4 Stecker & Polung:**
   - J1 (Akku 2S: 1 = BAT-, 2 = MID, 3 = BAT+).
   - J4/J16 (Pumpen), J5 (USB-C), C3 (Elko-Polarität).
