@@ -70,7 +70,11 @@ cannabis-autopot/
 │   ├── smart-grow-topf_pumpe-bewaesserung.md
 │   ├── smart-grow-topf-esp32-firmware-konzept.md
 │   ├── markt-konzept-recherche.md
-│   └── markt-vergleich-2026-09.md        ← „Gibt es das schon zu kaufen?“ (17.09.2026)
+│   ├── markt-vergleich-2026-09.md        ← „Gibt es das schon zu kaufen?“ (17.09.2026)
+│   └── fertige-platinen/                 ← „Fertige Platine statt Eigenentwicklung?“ (09.10.2026)
+│       ├── 00_verdikt.md                 ← Ergebnis: kein Board deckt alles, Modulweg als Rückfall
+│       ├── 01_3d-drucker-mainboards.md   · 02_esp32-boards-akku.md
+│       └── 03_power-management-2s.md     · 04_bewaesserungs-controller.md
 └── cad/                                 ← parametrisches Gehäuse-CAD (build123d/Python)
     ├── params.py · lib.py                 ← alle Maße + Helfer
     ├── parts/*.py                         ← ein Modul je Druckteil (build/check)
@@ -136,6 +140,13 @@ cannabis-autopot/
       **LazyLeaf** (60 € UVP, Akku+Pumpe+1,1 l Tank, aber kein Feuchte-Sensor, kein WLAN), dazu Ivy/Tuya,
       Botanium, AutoPot/Blumat, AquaBloom, LetPot sowie die Grow-Kabinen (Vivosun 540 $, Hey Abby 700 $);
       Einordnung + Quellen in `research/markt-vergleich-2026-09.md`
+- [x] **Marktrecherche „Fertige Platine" (09.10.2026):** Kein käufliches Board erfüllt die Anforderungsliste —
+      3D-Drucker-Mainboards scheitern an Akkuladung/Deep-Sleep/Größe (bester: MKS TinyBee, 26,09 €), ESP32-Dev-Boards
+      am 2S-Laden **und** an 5 V aus dem Akku (bester: FireBeetle 2 ESP32-C6, 6,30–9,95 €), Power-Manager an 2S
+      (Waveshare SPM D: 5 V/3 A, aber nur 1S), Grow-Controller an Akku/Dosierpumpe/Lichtgate (DROPLET $87, z. Z.
+      ausverkauft). **Rückfallweg dokumentiert:** HX-2S-JH20 (2,22 € netto, IC HY2120-CB + Balancer, 4,28 V/2,9 V
+      je Zelle) + Type-C-2S-Boost-Lader + MINI560 — Eigenplatine bleibt günstiger und flacher. Wächter 6,16 V,
+      µA-Aus-Schalter und 3-A-Anlaufpufferung gibt es als Fertigmodul **nicht** (`research/fertige-platinen/`)
 - [ ] Firmware (State-Machine)
 
 ## Nächste Schritte
