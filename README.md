@@ -75,6 +75,10 @@ cannabis-autopot/
 │       ├── 00_verdikt.md                 ← Ergebnis: kein Board deckt alles, Modulweg als Rückfall
 │       ├── 01_3d-drucker-mainboards.md   · 02_esp32-boards-akku.md
 │       └── 03_power-management-2s.md     · 04_bewaesserungs-controller.md
+│   └── bench-board/                      ← Entwicklungs-Board für den Labortisch (09.10.2026)
+│       ├── 00_empfehlung.md              ← FireBeetle 2 ESP32-C6 (9,95 €) als Empfehlung + Einkaufsliste
+│       ├── 01_steckbaukasten-grove-gravity.md · 02_io-boards-schraubklemmen.md
+│       └── 03_mcu-dev-boards-zubehoer.md
 └── cad/                                 ← parametrisches Gehäuse-CAD (build123d/Python)
     ├── params.py · lib.py                 ← alle Maße + Helfer
     ├── parts/*.py                         ← ein Modul je Druckteil (build/check)
@@ -147,6 +151,14 @@ cannabis-autopot/
       ausverkauft). **Rückfallweg dokumentiert:** HX-2S-JH20 (2,22 € netto, IC HY2120-CB + Balancer, 4,28 V/2,9 V
       je Zelle) + Type-C-2S-Boost-Lader + MINI560 — Eigenplatine bleibt günstiger und flacher. Wächter 6,16 V,
       µA-Aus-Schalter und 3-A-Anlaufpufferung gibt es als Fertigmodul **nicht** (`research/fertige-platinen/`)
+- [x] **Entwicklungs-Board ausgewählt (09.10.2026):** Für den Labortisch (Größe/MCU egal) **FireBeetle 2 ESP32-C6**
+      (ESP32-C6 = MCU der Endplatine, 7× ADC, 1S-Lader, 15–16,5 µA Sleep) **9,95 € Eckstein** — oder
+      ESP32-C6-DevKitC-1 **11,95 € Reichelt** (mehr Pins, kein Lader). Alternativen: **KinCony KC868-A6**
+      ($50, Schraubklemmen, 4× Analog 0–5 V, 6 Relais, ESPHome-Support, aber nur ~2 freie GPIOs, Relais = kein
+      Softstart) · **MKS TinyBee** 29,99 € (MOSFET-Ausgänge, aber **nur Software-PWM** — Heiz-/Lüfterausgänge
+      hängen am I²C-Expander; freie ADC1-Pins IO32/33/34/35/36/39) · XIAO ESP32-C6 7,49 € + Grove-Shield
+      (BerryBase z. Zt. nicht lieferbar). Kein Board liefert 2S-Laden, 6,16-V-Wächter oder µA-Schlaf
+      (`research/bench-board/00_empfehlung.md`)
 - [ ] Firmware (State-Machine)
 
 ## Nächste Schritte
